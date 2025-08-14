@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quantum Grand Challenge Result",
+  "description": "Standardized schema for quantum algorithm results and resource estimates",
+  "type": "object",
+  "required": [
+    "problem_id",
+    "algorithm", 
+    "instance",
+    "estimator_target",
+    "metrics",
+    "build"
+  ],
+  "properties": {
+    "problem_id": {
+      "type": "string",
+      "pattern": "^[0-9]{2}_[a-z_]+$",
+      "description": "Problem identifier (e.g., '03_qae_risk')",
+      "examples": ["01_hubbard", "03_qae_risk", "06_shor_resources"]
+    },
+    "algorithm": {
+      "type": "string",
+      "description": "Primary quantum algorithm used",
+      "examples": ["QAE", "Shor", "QAOA", "VQE", "PEA", "HHL", "Grover"]
+    },
+    "instance": {
+      "type": "object",
+      "required": ["description"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Human-readable instance description"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Problem-specific parameters",
+          "additionalProperties": true
+        }
+      }
+    },
+    "estimator_target": {
+      "type": "string",
+      "description": "Azure Quantum Resource Estimator target profile",
+      "examples": [
+        "surface_code_generic_v1",
+        "qubit_gate_ns_e3",
+        "qubit_gate_ns_e4", 
+        "qubit_maj_ns_e4",
+        "qubit_maj_ns_e6"
+      ]
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["logical_qubits"],
+      "properties": {
+        "logical_qubits": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of logical qubits required"
+        },
+        "physical_qubits": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of physical qubits required"
+        },
+        "t_count": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total T gate count"
+        },
+        "t_depth": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "T gate depth"
+        },
+        "clifford_count": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total Clifford operation count"
+        },
+        "runtime_seconds": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Estimated runtime in seconds"
+        },
+        "runtime_days": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Estimated runtime in days"
+        },
+        "success_probability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Algorithm success probability"
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "required": ["commit", "date_utc"],
+      "properties": {
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$",
+          "description": "Git commit hash (40 character SHA-1)"
+        },
+        "qdk_version": {
+          "type": "string",
+          "description": "Azure Quantum Development Kit version"
+        },
+        "estimator_version": {
+          "type": "string", 
+          "description": "Resource Estimator version"
+        },
+        "date_utc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp in ISO 8601 format"
+        }
+      }
+    },
+    "classical_baseline": {
+      "type": "object",
+      "description": "Classical algorithm comparison",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "description": "Classical algorithm name"
+        },
+        "complexity": {
+          "type": "string",
+          "description": "Classical time/space complexity"
+        },
+        "runtime_estimate": {
+          "type": "number",
+          "description": "Classical runtime estimate in seconds"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional comparison notes"
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional methodology notes, assumptions, or observations"
+    }
+  }
+}

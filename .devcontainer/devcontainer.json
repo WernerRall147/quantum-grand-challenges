@@ -1,0 +1,52 @@
+{
+    "name": "Quantum Grand Challenges",
+    "image": "mcr.microsoft.com/quantum/devcontainers/quantum:latest",
+    
+    "features": {
+        "ghcr.io/devcontainers/features/azure-cli:latest": {},
+        "ghcr.io/devcontainers/features/python:latest": {
+            "version": "3.11"
+        },
+        "ghcr.io/devcontainers/features/node:latest": {
+            "version": "18"
+        },
+        "ghcr.io/devcontainers/features/git:latest": {},
+        "ghcr.io/devcontainers/features/github-cli:latest": {}
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-quantum.qsharp",
+                "ms-quantum.quantum-devkit-vscode",
+                "ms-python.python",
+                "ms-python.isort",
+                "ms-python.black-formatter",
+                "ms-toolsai.jupyter",
+                "ms-vscode.azure-account",
+                "bradlc.vscode-tailwindcss",
+                "esbenp.prettier-vscode",
+                "ms-vscode.vscode-json"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": true,
+                "python.formatting.provider": "black",
+                "files.associations": {
+                    "*.qs": "qsharp"
+                }
+            }
+        }
+    },
+
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    
+    "forwardPorts": [3000, 8000, 8080, 8888],
+    
+    "remoteUser": "vscode",
+    
+    "mounts": [
+        "source=${localWorkspaceFolder}/.azure,target=/home/vscode/.azure,type=bind,consistency=cached"
+    ]
+}

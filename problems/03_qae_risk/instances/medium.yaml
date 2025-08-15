@@ -1,0 +1,77 @@
+# Medium Instance - QAE Risk Analysis  
+# Realistic precision requirements showing quantum advantage
+
+problem_id: "03_qae_risk"
+instance_name: "medium"
+description: "Medium-scale risk analysis with higher precision requirements"
+
+# Risk Model Parameters
+distribution:
+  type: "log_normal_mixture"
+  parameters:
+    # Two-component mixture for fat tails
+    weights: [0.7, 0.3]
+    components:
+      - mean: 0.0       # Normal market conditions
+        std_dev: 0.8
+      - mean: 1.5       # Stress conditions  
+        std_dev: 1.2
+        
+loss_encoding:
+  num_qubits: 12       # 2^12 = 4096 discrete loss levels
+  max_loss: 20.0       # Wider loss range for fat tails
+  
+# Risk Analysis Configuration
+risk_threshold: 5.0    # Higher threshold (~99th percentile)
+target_precision: 0.01 # Higher precision requirement (1%)
+
+# QAE Algorithm Parameters  
+amplitude_estimation:
+  precision_qubits: 7   # log₂(1/0.01) ≈ 6.6 → 7 qubits
+  estimation_method: "canonical_qae"
+  repetitions: 3        # Multiple runs for error analysis
+  
+# Expected Results
+theoretical:
+  tail_probability: 0.015  # ~1.5% for this mixture model
+  classical_samples_needed: 98500  # n ≈ 0.015*0.985/0.0001 ≈ 148
+  quantum_queries_needed: 100      # O(1/ε) = 100 for ε=0.01
+  
+# Resource Estimates (Surface Code Generic)
+estimated_resources:
+  logical_qubits: 19     # 12 (loss) + 7 (precision) + overhead
+  physical_qubits: 200000  # ~10K per logical qubit
+  t_count_order: 8       # ~10^8 T gates
+  runtime_hours: 1       # ~1 hour runtime
+  
+# Hardware Requirements
+hardware_profile:
+  error_correction: "surface_code"
+  logical_error_rate: 1e-6
+  physical_gate_time: "100ns"
+  t_gate_time: "1μs"
+  
+# Classical Comparison
+classical_baseline:
+  monte_carlo_samples: 100000
+  expected_runtime: "1 second"
+  memory_requirement: "minimal"
+  
+# Notes  
+notes: |
+  This medium instance represents realistic financial risk analysis:
+  - Mixed distribution captures market stress scenarios
+  - 1% precision is typical for regulatory risk reporting
+  - Resource requirements approach fault-tolerant thresholds
+  - Demonstrates emerging quantum advantage for high precision
+  
+  Key considerations:
+  - Fat-tailed distributions are harder to sample classically
+  - Multiple risk thresholds could be analyzed simultaneously
+  - Quantum advantage becomes clear at this precision level
+  
+# Success Criteria
+validation:
+  max_error_vs_theoretical: 0.01    # 1% error tolerance
+  quantum_classical_agreement: 0.005 # Should agree within 0.5%
+  resource_efficiency: "acceptable"   # Within 2x of theoretical estimates

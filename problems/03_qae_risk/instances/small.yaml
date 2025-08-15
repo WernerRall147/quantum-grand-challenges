@@ -1,0 +1,50 @@
+# Small Instance - QAE Risk Analysis
+# Educational example with moderate resource requirements
+
+problem_id: "03_qae_risk"
+instance_name: "small"
+description: "Small-scale tail risk estimation for learning QAE concepts"
+
+# Risk Model Parameters
+distribution:
+  type: "log_normal"
+  parameters:
+    mean: 0.0          # Mean of underlying normal (log-space)
+    std_dev: 1.0       # Standard deviation of underlying normal
+  
+loss_encoding:
+  num_qubits: 8        # 2^8 = 256 discrete loss levels
+  max_loss: 10.0       # Maximum loss value to encode
+  
+# Risk Analysis Configuration  
+risk_threshold: 2.0    # Losses above this are "tail events" (~95th percentile)
+target_precision: 0.1  # Target precision ε for amplitude estimation
+
+# QAE Algorithm Parameters
+amplitude_estimation:
+  precision_qubits: 4   # log₂(1/ε) ≈ log₂(10) ≈ 3.3 → 4 qubits
+  estimation_method: "canonical_qae"  # or "iterative_qae"
+  
+# Expected Results (for validation)
+theoretical:
+  tail_probability: 0.159  # P(X > 2) for log-normal(0,1) ≈ 15.9%
+  classical_samples_needed: 3600  # For ε=0.1: n ≈ p(1-p)/ε² ≈ 0.16*0.84/0.01
+  
+# Resource Estimates (Surface Code)
+estimated_resources:
+  logical_qubits: 12     # 8 (loss) + 4 (precision) + overhead
+  t_count_order: 6       # ~10^6 T gates
+  runtime_order: 2       # ~100 seconds
+  
+# Notes
+notes: |
+  This small instance demonstrates QAE concepts with manageable resource requirements.
+  - Distribution is simple log-normal for clear interpretation
+  - Precision is moderate (10%) for educational purposes  
+  - Resource requirements are within simulation capabilities
+  - Suitable for classical simulation and validation
+  
+# Validation Criteria
+validation:
+  max_error_vs_theoretical: 0.05    # Allow 5% error vs theoretical probability
+  max_classical_difference: 0.02    # Should agree with Monte Carlo within 2%

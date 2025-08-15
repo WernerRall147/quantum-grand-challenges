@@ -1,6 +1,103 @@
-Get me a list of the top 20 most difficult math, science and technological problems that scientists and mathematicians are trying to solve. I would like to use AI to start working on them. 
+# 🌌 Quantum Grand Challenges
 
-The focus will be using Microsoft Q# Quantum Development kit to try and solve problems. 
+*Systematic exploration of 20 of the world's most challenging scientific problems using quantum computing and AI-assisted development.*
+
+[![CI/CD](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml)
+[![Website](https://img.shields.io/badge/website-live-blue)](https://wernerall147.github.io/quantum-grand-challenges/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## 🎯 Overview
+
+This repository systematically tackles 20 of the world's most challenging scientific problems using **Microsoft Q# quantum computing** and **AI-assisted development**. Each problem follows a standardized structure for reproducible research, automated resource estimation, and comparative analysis with classical methods.
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **.NET 6.0+** and **Microsoft Q# SDK**
+- **Python 3.9+** with scientific computing stack
+- **Azure CLI** for quantum resource estimation
+
+### Development Environment
+```bash
+# Option 1: GitHub Codespaces (Recommended)
+# Click "Open in Codespaces" for instant setup
+
+# Option 2: Local Development
+git clone https://github.com/WernerRall147/quantum-grand-challenges.git
+cd quantum-grand-challenges
+dotnet tool install -g Microsoft.Quantum.IQSharp
+```
+
+### Run a Problem
+```bash
+# Navigate to any problem directory
+cd problems/03_qae_risk
+
+# Run complete analysis
+make all
+
+# Or run individual components
+make compile           # Compile Q# code
+make estimate         # Resource estimation
+make classical        # Classical baseline
+make visualize        # Generate plots
+```
+
+## 📊 Problem Status
+
+| Problem | Q# Implementation | Resource Estimation | Classical Baseline | Status |
+|---------|------------------|--------------------|--------------------|---------|
+| [QAE Risk Analysis](problems/03_qae_risk/) | ✅ Complete | ✅ Complete | ✅ Complete | 🟢 **READY** |
+| [Hubbard Model](problems/01_hubbard/) | 🔄 In Progress | ⏳ Pending | ⏳ Pending | 🟡 Working |
+| [Catalysis Simulation](problems/02_catalysis/) | ⏳ Pending | ⏳ Pending | ⏳ Pending | 🔴 Planned |
+| [Linear Solvers](problems/04_linear_solvers/) | ⏳ Pending | ⏳ Pending | ⏳ Pending | 🔴 Planned |
+| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ⏳ Pending | ⏳ Pending | ⏳ Pending | 🔴 Planned |
+| *...15 more problems* | ⏳ Pending | ⏳ Pending | ⏳ Pending | 🔴 Planned |
+
+## 🏗️ Repository Structure
+
+```
+quantum-grand-challenges/
+├── 📁 problems/              # Individual quantum challenges
+│   ├── 01_hubbard/          # Strongly correlated systems
+│   ├── 02_catalysis/        # Chemical reaction catalysis
+│   ├── 03_qae_risk/         # ✅ Quantum amplitude estimation
+│   ├── 04_linear_solvers/   # HHL algorithm applications
+│   ├── 05_qaoa_maxcut/      # Quantum approximate optimization
+│   └── ...                  # 15 additional challenges
+├── 📁 libs/                 # Shared quantum algorithms
+│   └── common/Utils.qs      # QFT, Grover, state preparation
+├── 📁 tooling/              # Development infrastructure
+│   ├── estimator/           # Azure Quantum resource estimation
+│   ├── schema/              # Standardized result formats
+│   └── ci/                  # Continuous integration scripts
+├── 📁 website/              # Next.js visualization dashboard
+└── 📁 .devcontainer/        # Codespaces development environment
+```
+
+### Standard Problem Structure
+Each problem follows this consistent layout:
+```
+problems/XX_problem_name/
+├── 📄 README.md             # Problem description & results
+├── 📁 qsharp/               # Q# quantum implementation
+│   ├── Program.qs           # Main quantum algorithm
+│   ├── *.csproj             # Project configuration
+│   └── bin/                 # Compiled executables
+├── 📁 python/               # Classical analysis & visualization
+│   ├── analysis.py          # Performance comparison
+│   ├── baseline.py          # Classical algorithm baseline
+│   └── requirements.txt     # Python dependencies
+├── 📁 instances/            # Problem parameter sets
+│   ├── small.yaml           # Development/testing
+│   ├── medium.yaml          # Benchmark instances
+│   └── large.yaml           # Challenge instances
+├── 📁 estimates/            # Resource estimation results
+│   ├── logical_resources.json
+│   ├── physical_resources.json
+│   └── error_budget.json
+└── 📄 Makefile             # Automated build & analysis
+```
 ChatGPT said:
 Thought for 1m 25s
 

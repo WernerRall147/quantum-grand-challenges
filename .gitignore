@@ -1,0 +1,50 @@
+# Build outputs
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+venv/
+.pytest_cache/
+
+# Node.js
+node_modules/
+npm-debug.log*
+.next/
+out/
+package-lock.json
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Generated results and plots (optional - can be committed for sharing)
+estimates/*.json
+plots/*.png
+
+# Temporary files
+*.tmp
+*.temp
+packages-microsoft-prod.deb
+
+# Azure and cloud credentials
+*.publishsettings
+*.azurePubxml

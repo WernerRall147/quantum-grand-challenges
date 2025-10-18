@@ -147,7 +147,7 @@ problems/XX_problem_name/
 ```
 
 ### Current Implementation Status
-- **03_qae_risk**: ✅ Complete implementation (classical parts working, Q# requires .NET 6.0)
+- **03_qae_risk**: ✅ Classical analysis and plotting validated. ⚠️ Q# implementation currently contains placeholder amplitude estimation logic and does **not** build successfully.
 - **01_hubbard**: 🔄 In progress
 - **02_catalysis**: ⏳ Planned
 - **04_linear_solvers**: ⏳ Planned
@@ -233,6 +233,7 @@ az extension list | grep quantum
 
 ### Current Issues
 - **Q# compilation requires .NET 6.0**: Main blocker for quantum development
+- **03_qae_risk Q# project currently fails to build**: Placeholder amplitude estimation in `libs/common/Utils.qs` and `problems/03_qae_risk/qsharp/Program.qs` needs a real implementation.
 - **Azure Quantum extension**: May not install in restricted network environments
 - **Website incomplete**: Missing pages/app directory, build will fail
 - **Analysis formatting**: Minor string formatting issues in summary reports

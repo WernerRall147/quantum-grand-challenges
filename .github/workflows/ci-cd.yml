@@ -295,7 +295,7 @@ jobs:
       run: |
         if [ -d "website" ] && [ -f "website/package.json" ]; then
           cd website
-          npm ci
+          npm install
         else
           echo "Website not yet implemented, skipping..."
         fi

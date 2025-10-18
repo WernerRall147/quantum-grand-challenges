@@ -308,37 +308,8 @@ jobs:
           cd website
           npm run build
         else
-          echo "Creating placeholder website..."
-          mkdir -p website/dist
-          cat > website/dist/index.html << 'EOF'
-          <!DOCTYPE html>
-          <html>
-          <head>
-              <title>Quantum Grand Challenges</title>
-              <style>
-                  body { font-family: Arial, sans-serif; margin: 2rem; }
-                  .status { background: #f0f8ff; padding: 1rem; border-radius: 5px; }
-              </style>
-          </head>
-          <body>
-              <h1>🌌 Quantum Grand Challenges</h1>
-              <div class="status">
-                  <p><strong>Status:</strong> Development in progress</p>
-                  <p><strong>Last Updated:</strong> $(date)</p>
-                  <p><strong>Commit:</strong> $GITHUB_SHA</p>
-              </div>
-              <h2>Problems</h2>
-              <ul>
-                  <li>01_hubbard - Superconductivity (Hubbard model)</li>
-                  <li>02_catalysis - Industrial catalysis design</li>
-                  <li>03_qae_risk - Climate risk (QAE)</li>
-                  <li>04_linear_solvers - HHL algorithms</li>
-                  <li>05_qaoa_maxcut - Combinatorial optimization</li>
-                  <li>06_shor_resources - Cryptanalysis resource estimation</li>
-              </ul>
-          </body>
-          </html>
-          EOF
+          echo "Website directory not found, skipping build"
+          exit 1
         fi
     
     - name: Deploy to GitHub Pages
@@ -346,7 +317,7 @@ jobs:
       if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./website/dist
+        publish_dir: ./website/out
 
   # Collect and analyze results
   analyze-results:

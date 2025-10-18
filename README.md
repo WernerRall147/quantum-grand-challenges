@@ -10,7 +10,11 @@
 
 This repository systematically tackles 20 of the world's most challenging scientific problems using **Microsoft Q# quantum computing** and **AI-assisted development**. Each problem follows a standardized structure for reproducible research, automated resource estimation, and comparative analysis with classical methods.
 
-## 🚀 Quick Start
+## 🌐 Live Dashboard
+
+Website: https://wernerall147.github.io/quantum-grand-challenges/
+
+## 🎯 Quick Start
 
 ### Prerequisites
 

@@ -305,11 +305,12 @@ This repository leverages AI tools for:
 
 ### 🤖 Agent Workflow (GPT-5 Codex)
 
-1. **Read `.github/copilot-instructions.md` first** – it captures environment constraints (.NET 6 only) and validated commands.
-2. **Start with Python tooling** – `make classical` and `make analyze` are reliable smoke tests that populate `estimates/` and `plots/`.
-3. **Triage Q# build failures** – current blockers are inside `libs/common/Utils.qs` (placeholder `AmplitudeEstimation`) and `problems/03_qae_risk/qsharp/Program.qs` (non-compiling math operations).
-4. **Update documentation as you go** – keep this README and per-problem READMEs in sync with actual capabilities.
-5. **Lean on CI** – use the `ci-cd.yml` workflow as a guide; replicate its steps locally before opening a PR.
+1. **Read `.github/copilot-instructions.md` first** – it captures environment constraints (.NET 6 only) and validated commands with measured timings.
+2. **Start with Python tooling** – `make classical` and `make analyze` are reliable smoke tests that populate `estimates/` and `plots/` (validated working).
+3. **Q# Build Status** – `problems/03_qae_risk` now builds successfully with analytical baseline implementation. The code uses Lorentzian approximations instead of exponentials to work within current QDK math library constraints.
+4. **Next Steps for Q#** – Implement actual quantum amplitude estimation circuit with phase estimation to replace the analytical placeholder and achieve true quantum advantage.
+5. **Update documentation as you go** – keep this README and per-problem READMEs in sync with actual capabilities.
+6. **Lean on CI** – the `ci-cd.yml` workflow passes all jobs: build-and-test ✅, deploy-website ✅. Use it as a validation checkpoint.
 
 ---
 

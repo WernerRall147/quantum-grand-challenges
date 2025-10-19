@@ -12,7 +12,7 @@ This repository systematically tackles 20 of the world's most challenging scient
 
 ## 🌐 Live Dashboard
 
-Website: https://wernerall147.github.io/quantum-grand-challenges/
+Website: https://wernerrall147.github.io/quantum-grand-challenges/
 
 ## 🎯 Quick Start
 

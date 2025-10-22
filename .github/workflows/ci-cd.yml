@@ -276,7 +276,7 @@ jobs:
         fi
     
     - name: Upload estimation artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: estimation-results-${{ matrix.problem }}
         path: problems/${{ matrix.problem }}/estimates/
@@ -340,7 +340,7 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Download all estimation artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: ./artifacts
     
@@ -415,7 +415,7 @@ jobs:
         EOF
     
     - name: Upload summary report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: estimation-summary
         path: estimation_summary.md

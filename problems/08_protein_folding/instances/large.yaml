@@ -1,0 +1,30 @@
+name: fast_folding_trp_cage_variant
+description: 35-residue Trp-cage variant with hydrophobic core and salt-bridge network
+sequence: NLYIQWLKDGGPSSGRPPPSGPWMWGKPDDDDD
+temperature_kelvin: 310.0
+ph: 6.5
+contacts:
+  - residues: [3, 23]
+    distance: 6.4
+    weight: 1.3
+  - residues: [5, 18]
+    distance: 6.0
+    weight: 1.1
+  - residues: [7, 28]
+    distance: 6.8
+    weight: 0.9
+  - residues: [10, 30]
+    distance: 7.2
+    weight: 0.8
+  - residues: [12, 25]
+    distance: 6.3
+    weight: 1.0
+  - residues: [14, 33]
+    distance: 7.1
+    weight: 0.85
+  - residues: [21, 31]
+    distance: 5.7
+    weight: 1.2
+  - residues: [24, 34]
+    distance: 6.6
+    weight: 0.95

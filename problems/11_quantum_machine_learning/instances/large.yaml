@@ -1,0 +1,9 @@
+name: multi_cluster_hard
+description: Multi-class clusters projected to binary labels
+samples: 320
+features: 6
+classes: 2
+kernel_bandwidth: 0.7
+noise: 0.3
+train_split: 0.7
+seed: 31

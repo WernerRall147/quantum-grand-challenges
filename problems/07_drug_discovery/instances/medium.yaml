@@ -1,0 +1,50 @@
+description: "Drug-like ligand with 8 atoms docked against flexible pocket"
+ligand_atoms:
+  - element: C
+    charge: -0.05
+    position: [0.0, 0.0, 0.0]
+  - element: C
+    charge: -0.02
+    position: [1.4, 0.1, 0.0]
+  - element: N
+    charge: -0.3
+    position: [2.4, -0.2, 0.2]
+  - element: O
+    charge: -0.4
+    position: [0.6, 1.2, -0.2]
+  - element: H
+    charge: 0.1
+    position: [-0.7, -0.5, 0.1]
+  - element: H
+    charge: 0.09
+    position: [1.6, -0.9, 0.3]
+  - element: S
+    charge: -0.2
+    position: [3.4, 0.6, -0.3]
+  - element: O
+    charge: -0.35
+    position: [3.8, 1.6, -0.1]
+protein_atoms:
+  - element: C
+    charge: 0.12
+    position: [2.2, 2.0, -0.5]
+  - element: O
+    charge: -0.25
+    position: [1.8, 2.8, -0.2]
+  - element: N
+    charge: 0.15
+    position: [3.5, -1.2, 0.5]
+  - element: H
+    charge: 0.08
+    position: [4.2, -1.8, 0.1]
+  - element: C
+    charge: 0.1
+    position: [0.5, -2.0, -0.4]
+  - element: O
+    charge: -0.22
+    position: [0.2, -3.1, -0.8]
+options:
+  lennard_jones_epsilon: 0.16
+  lennard_jones_sigma: 3.2
+  dielectric: 50.0
+  cutoff: 10.0

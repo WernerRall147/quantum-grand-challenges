@@ -1,0 +1,11 @@
+description: "High-volatility multi-week session with elevated transaction costs"
+steps: 7800
+interval: 0.0025641026
+annual_trading_days: 252
+short_window: 12
+long_window: 60
+threshold: 0.0003
+transaction_cost: 0.0002
+volatility: 0.015
+drift: 0.00005
+seed: 9001

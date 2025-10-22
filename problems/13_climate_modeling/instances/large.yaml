@@ -1,0 +1,13 @@
+name: latitudinal-column-large
+description: High-resolution grid with semi-annual forcing and stronger diffusion.
+grid_points: 120
+time_steps: 1200
+time_step_hours: 1
+diffusion_coefficient: 0.26
+heat_capacity: 4.4
+forcing_amplitude: 2.4
+forcing_frequency_per_year: 2.5
+initial_peak:
+  location: 0.4
+  amplitude: 3.0
+  width: 0.07

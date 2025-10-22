@@ -1,0 +1,66 @@
+{
+  "problem_id": "09_factorization",
+  "model": "pollard_rho_baseline",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "rsa10403_challenge",
+      "description": "Challenge semiprime representing double-digit primes",
+      "modulus": 10403,
+      "bit_length": 14,
+      "algorithm": "pollard_rho",
+      "iterations": 6,
+      "attempts": 1,
+      "runtime_ms": 0.026399968191981316,
+      "factors": [
+        101,
+        103
+      ],
+      "expected_factors": [
+        101,
+        103
+      ],
+      "matches_expected": true
+    },
+    {
+      "instance_id": "medium",
+      "name": "rsa589_midscale",
+      "description": "Mid-scale semiprime with 10 bits of entropy",
+      "modulus": 589,
+      "bit_length": 10,
+      "algorithm": "pollard_rho",
+      "iterations": 3,
+      "attempts": 1,
+      "runtime_ms": 0.011299969628453255,
+      "factors": [
+        19,
+        31
+      ],
+      "expected_factors": [
+        19,
+        31
+      ],
+      "matches_expected": true
+    },
+    {
+      "instance_id": "small",
+      "name": "rsa15_demo",
+      "description": "Toy 4-bit semiprime used in Shor algorithm tutorials",
+      "modulus": 15,
+      "bit_length": 4,
+      "algorithm": "pollard_rho",
+      "iterations": 1,
+      "attempts": 2,
+      "runtime_ms": 0.013699987903237343,
+      "factors": [
+        3,
+        5
+      ],
+      "expected_factors": [
+        3,
+        5
+      ],
+      "matches_expected": true
+    }
+  ]
+}

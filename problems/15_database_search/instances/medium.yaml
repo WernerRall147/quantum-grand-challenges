@@ -1,0 +1,5 @@
+name: medium-database
+description: Medium unstructured database with sparse marked items.
+dataset_size: 1048576
+marked_fraction: 0.0009765625
+confidence: 0.95

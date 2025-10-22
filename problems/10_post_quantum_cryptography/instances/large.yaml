@@ -1,0 +1,10 @@
+name: kyber1024_high_security
+description: High-security lattice KEM target
+scheme: Kyber
+variant: 1024
+lattice_dimension: 1024
+modulus: 3329
+target_security_bits: 256
+classical_block_size: 410
+quantum_block_size: 360
+seed: 29

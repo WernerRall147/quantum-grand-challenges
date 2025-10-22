@@ -1,0 +1,9 @@
+name: triple-junction-high-concentration-large
+description: Triple-junction III-V stack operating under concentrated sunlight.
+bandgap_ev: [2.0, 1.4, 0.9]
+temperature_k: 315.0
+spectral_concentration: 5.0
+radiative_coeff: 6.8e-11
+nonradiative_ratio: 0.12
+series_resistance_ohm_cm2: 0.35
+shunt_resistance_ohm_cm2: 8000.0

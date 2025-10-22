@@ -1,0 +1,54 @@
+{
+  "problem_id": "11_quantum_machine_learning",
+  "model": "kernel_ridge_classification",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "multi_cluster_hard",
+      "description": "Multi-class clusters projected to binary labels",
+      "samples": 320,
+      "features": 6,
+      "kernel_bandwidth": 0.7,
+      "train_samples": 224,
+      "test_samples": 96,
+      "train_accuracy": 0.8660714285714286,
+      "test_accuracy": 0.5104166666666666,
+      "kernel_alignment": 0.0019065503818877906,
+      "solution_norm": 1859.007766421782,
+      "mean_margin": 0.040729730475919546,
+      "expected_overlap": 0.5026779985170443
+    },
+    {
+      "instance_id": "medium",
+      "name": "concentric_rings_moderate",
+      "description": "Nonlinear rings challenging for linear classifiers",
+      "samples": 200,
+      "features": 5,
+      "kernel_bandwidth": 0.9,
+      "train_samples": 140,
+      "test_samples": 60,
+      "train_accuracy": 0.75,
+      "test_accuracy": 0.5333333333333333,
+      "kernel_alignment": 0.0028956831647265623,
+      "solution_norm": 659.0291817947949,
+      "mean_margin": -0.0006097484578304464,
+      "expected_overlap": 0.5411997407150937
+    },
+    {
+      "instance_id": "small",
+      "name": "radial_blobs_easy",
+      "description": "Two Gaussian blobs with mild overlap",
+      "samples": 120,
+      "features": 4,
+      "kernel_bandwidth": 1.2,
+      "train_samples": 84,
+      "test_samples": 36,
+      "train_accuracy": 0.8214285714285714,
+      "test_accuracy": 0.3888888888888889,
+      "kernel_alignment": 0.004256001602718841,
+      "solution_norm": 384.179691899191,
+      "mean_margin": -0.2130967936904682,
+      "expected_overlap": 0.5491833643102142
+    }
+  ]
+}

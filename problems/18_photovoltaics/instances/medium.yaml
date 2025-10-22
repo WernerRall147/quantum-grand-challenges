@@ -1,0 +1,9 @@
+name: tandem-perovskite-silicon-medium
+description: Two-junction tandem with optimized bandgaps and mild concentration.
+bandgap_ev: [1.8, 1.1]
+temperature_k: 305.0
+spectral_concentration: 1.5
+radiative_coeff: 8.5e-11
+nonradiative_ratio: 0.07
+series_resistance_ohm_cm2: 0.45
+shunt_resistance_ohm_cm2: 5000.0

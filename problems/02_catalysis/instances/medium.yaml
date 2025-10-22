@@ -1,0 +1,8 @@
+# Medium instance for quantum catalysis
+reaction: "N2 + 3H2 -> 2NH3"
+temperature: 500 # Kelvin
+pressure: 10 # atm
+catalyst: Fe
+active_sites: 4
+pre_exponential: 5e+12 # s^-1
+activation_energy: 95000 # J/mol

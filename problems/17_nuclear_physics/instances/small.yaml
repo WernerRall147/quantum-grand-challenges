@@ -1,0 +1,14 @@
+name: pionless-eft-small
+description: Low cutoff pionless EFT with mild attractive coupling.
+cutoff: 200.0
+coupling_constants:
+  c0: -0.65
+  c2: 0.12
+  c4: -0.03
+channels:
+  - name: singlet
+    l: 0
+    spins: 0
+  - name: triplet
+    l: 0
+    spins: 1

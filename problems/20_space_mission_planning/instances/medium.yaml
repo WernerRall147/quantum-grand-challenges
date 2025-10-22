@@ -1,0 +1,24 @@
+name: mars-flyby-and-return-medium
+description: Three-leg Earth-Mars flyby with powered gravity assist and Earth return.
+legs:
+  - origin: Earth
+    destination: Mars
+    departure_window_days: 20
+    arrival_window_days: 15
+    required_delta_v_kms: 3.6
+    time_of_flight_days: 210.0
+  - origin: Mars
+    destination: Mars-Flyby
+    departure_window_days: 6
+    arrival_window_days: 3
+    required_delta_v_kms: 0.8
+    time_of_flight_days: 5.0
+  - origin: Mars-Flyby
+    destination: Earth
+    departure_window_days: 20
+    arrival_window_days: 18
+    required_delta_v_kms: 2.9
+    time_of_flight_days: 230.0
+launch_energy_c3: 12.5
+max_mission_duration_days: 520
+propellant_margin_percent: 20.0

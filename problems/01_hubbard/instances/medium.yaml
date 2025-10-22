@@ -1,0 +1,4 @@
+# Two-site Hubbard model with expanded parameter sweep
+hopping: [ 0.5, 1.0, 1.5 ]
+interaction: [ 0.0, 2.0, 4.0, 8.0 ]
+notes: "Medium instance exploring interaction-driven phase crossover"

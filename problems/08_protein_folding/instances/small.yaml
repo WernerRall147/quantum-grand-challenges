@@ -1,0 +1,18 @@
+name: beta_hairpin_microprotein
+description: Synthetic beta-hairpin with 12 residues and four stabilizing contacts
+sequence: NGIWETLWKTDS
+temperature_kelvin: 298.0
+ph: 7.0
+contacts:
+  - residues: [1, 10]
+    distance: 6.2
+    weight: 1.0
+  - residues: [2, 9]
+    distance: 5.8
+    weight: 0.8
+  - residues: [4, 11]
+    distance: 6.0
+    weight: 0.7
+  - residues: [5, 8]
+    distance: 5.6
+    weight: 1.1

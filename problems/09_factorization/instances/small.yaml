@@ -1,0 +1,5 @@
+name: rsa15_demo
+description: Toy 4-bit semiprime used in Shor algorithm tutorials
+modulus: 15
+expected_factors: [3, 5]
+seed: 42

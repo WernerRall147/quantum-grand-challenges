@@ -1,0 +1,9 @@
+name: concentric_rings_moderate
+description: Nonlinear rings challenging for linear classifiers
+samples: 200
+features: 5
+classes: 2
+kernel_bandwidth: 0.9
+noise: 0.2
+train_split: 0.7
+seed: 21

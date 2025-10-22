@@ -1,0 +1,15 @@
+graph: six_node_instance
+size: large
+description: "Six-node graph mixing strong and weak edges"
+nodes: [A, B, C, D, E, F]
+edges:
+  - [A, B, 1.0]
+  - [B, C, 0.7]
+  - [C, D, 1.1]
+  - [D, E, 0.9]
+  - [E, F, 1.3]
+  - [F, A, 0.8]
+  - [A, D, 0.6]
+  - [B, E, 0.4]
+  - [C, F, 0.5]
+target_precision: 0.02

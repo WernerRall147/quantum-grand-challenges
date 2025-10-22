@@ -1,0 +1,399 @@
+{
+  "problem_id": "12_quantum_optimization",
+  "model": "greedy_weighted_tardiness",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "four-machine-large",
+      "description": "Larger scheduling instance with four machines and tighter deadlines.",
+      "machines": 4,
+      "schedule": [
+        {
+          "job_id": "J4",
+          "machine": 0,
+          "start_time": 0,
+          "completion_time": 5,
+          "due_date": 18,
+          "tardiness": 0,
+          "weight": 2.2,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J2",
+          "machine": 1,
+          "start_time": 0,
+          "completion_time": 6,
+          "due_date": 22,
+          "tardiness": 0,
+          "weight": 2.5,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J7",
+          "machine": 2,
+          "start_time": 0,
+          "completion_time": 4,
+          "due_date": 15,
+          "tardiness": 0,
+          "weight": 1.6,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J5",
+          "machine": 3,
+          "start_time": 0,
+          "completion_time": 7,
+          "due_date": 24,
+          "tardiness": 0,
+          "weight": 2.8,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J10",
+          "machine": 2,
+          "start_time": 4,
+          "completion_time": 11,
+          "due_date": 26,
+          "tardiness": 0,
+          "weight": 2.7,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J15",
+          "machine": 0,
+          "start_time": 5,
+          "completion_time": 11,
+          "due_date": 23,
+          "tardiness": 0,
+          "weight": 2.3,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J9",
+          "machine": 1,
+          "start_time": 6,
+          "completion_time": 11,
+          "due_date": 19,
+          "tardiness": 0,
+          "weight": 1.9,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J1",
+          "machine": 3,
+          "start_time": 7,
+          "completion_time": 16,
+          "due_date": 28,
+          "tardiness": 0,
+          "weight": 3.4,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J17",
+          "machine": 0,
+          "start_time": 11,
+          "completion_time": 15,
+          "due_date": 14,
+          "tardiness": 1,
+          "weight": 1.5,
+          "weighted_tardiness": 1.5
+        },
+        {
+          "job_id": "J3",
+          "machine": 1,
+          "start_time": 11,
+          "completion_time": 19,
+          "due_date": 27,
+          "tardiness": 0,
+          "weight": 2.9,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J14",
+          "machine": 2,
+          "start_time": 11,
+          "completion_time": 16,
+          "due_date": 17,
+          "tardiness": 0,
+          "weight": 1.8,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J6",
+          "machine": 0,
+          "start_time": 15,
+          "completion_time": 25,
+          "due_date": 36,
+          "tardiness": 0,
+          "weight": 3.6,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J16",
+          "machine": 2,
+          "start_time": 16,
+          "completion_time": 23,
+          "due_date": 25,
+          "tardiness": 0,
+          "weight": 2.5,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J18",
+          "machine": 3,
+          "start_time": 16,
+          "completion_time": 25,
+          "due_date": 30,
+          "tardiness": 0,
+          "weight": 3.2,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J8",
+          "machine": 1,
+          "start_time": 19,
+          "completion_time": 25,
+          "due_date": 21,
+          "tardiness": 4,
+          "weight": 2.1,
+          "weighted_tardiness": 8.4
+        },
+        {
+          "job_id": "J11",
+          "machine": 2,
+          "start_time": 23,
+          "completion_time": 32,
+          "due_date": 33,
+          "tardiness": 0,
+          "weight": 3.1,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J12",
+          "machine": 0,
+          "start_time": 25,
+          "completion_time": 31,
+          "due_date": 20,
+          "tardiness": 11,
+          "weight": 2.0,
+          "weighted_tardiness": 22.0
+        },
+        {
+          "job_id": "J13",
+          "machine": 1,
+          "start_time": 25,
+          "completion_time": 33,
+          "due_date": 29,
+          "tardiness": 4,
+          "weight": 2.6,
+          "weighted_tardiness": 10.4
+        }
+      ],
+      "metrics": {
+        "job_count": 18,
+        "makespan": 33,
+        "total_tardiness": 20.0,
+        "average_tardiness": 1.1111111111111112,
+        "max_tardiness": 11,
+        "total_weighted_tardiness": 42.3,
+        "machine_utilization": [
+          0.9393939393939394,
+          1.0,
+          0.9696969696969697,
+          0.7575757575757576
+        ]
+      }
+    },
+    {
+      "instance_id": "medium",
+      "name": "three-machine-medium",
+      "description": "Medium instance with three machines and mixed urgency profiles.",
+      "machines": 3,
+      "schedule": [
+        {
+          "job_id": "J4",
+          "machine": 0,
+          "start_time": 0,
+          "completion_time": 4,
+          "due_date": 18,
+          "tardiness": 0,
+          "weight": 1.8,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J9",
+          "machine": 1,
+          "start_time": 0,
+          "completion_time": 4,
+          "due_date": 15,
+          "tardiness": 0,
+          "weight": 1.7,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J7",
+          "machine": 2,
+          "start_time": 0,
+          "completion_time": 3,
+          "due_date": 12,
+          "tardiness": 0,
+          "weight": 1.2,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J10",
+          "machine": 2,
+          "start_time": 3,
+          "completion_time": 9,
+          "due_date": 28,
+          "tardiness": 0,
+          "weight": 2.4,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J8",
+          "machine": 0,
+          "start_time": 4,
+          "completion_time": 9,
+          "due_date": 25,
+          "tardiness": 0,
+          "weight": 1.9,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J1",
+          "machine": 1,
+          "start_time": 4,
+          "completion_time": 11,
+          "due_date": 24,
+          "tardiness": 0,
+          "weight": 2.5,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J5",
+          "machine": 0,
+          "start_time": 9,
+          "completion_time": 15,
+          "due_date": 22,
+          "tardiness": 0,
+          "weight": 2.1,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J6",
+          "machine": 2,
+          "start_time": 9,
+          "completion_time": 17,
+          "due_date": 32,
+          "tardiness": 0,
+          "weight": 2.8,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J3",
+          "machine": 1,
+          "start_time": 11,
+          "completion_time": 20,
+          "due_date": 34,
+          "tardiness": 0,
+          "weight": 3.0,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J2",
+          "machine": 0,
+          "start_time": 15,
+          "completion_time": 20,
+          "due_date": 20,
+          "tardiness": 0,
+          "weight": 1.6,
+          "weighted_tardiness": 0.0
+        }
+      ],
+      "metrics": {
+        "job_count": 10,
+        "makespan": 20,
+        "total_tardiness": 0.0,
+        "average_tardiness": 0.0,
+        "max_tardiness": 0.0,
+        "total_weighted_tardiness": 0.0,
+        "machine_utilization": [
+          1.0,
+          1.0,
+          0.85
+        ]
+      }
+    },
+    {
+      "instance_id": "small",
+      "name": "two-machine-small",
+      "description": "Small weighted tardiness instance with two parallel machines.",
+      "machines": 2,
+      "schedule": [
+        {
+          "job_id": "J3",
+          "machine": 0,
+          "start_time": 0,
+          "completion_time": 3,
+          "due_date": 10,
+          "tardiness": 0,
+          "weight": 1.4,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J5",
+          "machine": 1,
+          "start_time": 0,
+          "completion_time": 2,
+          "due_date": 8,
+          "tardiness": 0,
+          "weight": 0.9,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J4",
+          "machine": 1,
+          "start_time": 2,
+          "completion_time": 7,
+          "due_date": 16,
+          "tardiness": 0,
+          "weight": 2.2,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J2",
+          "machine": 0,
+          "start_time": 3,
+          "completion_time": 9,
+          "due_date": 18,
+          "tardiness": 0,
+          "weight": 1.8,
+          "weighted_tardiness": 0.0
+        },
+        {
+          "job_id": "J1",
+          "machine": 1,
+          "start_time": 7,
+          "completion_time": 11,
+          "due_date": 12,
+          "tardiness": 0,
+          "weight": 1.0,
+          "weighted_tardiness": 0.0
+        }
+      ],
+      "metrics": {
+        "job_count": 5,
+        "makespan": 11,
+        "total_tardiness": 0.0,
+        "average_tardiness": 0.0,
+        "max_tardiness": 0.0,
+        "total_weighted_tardiness": 0.0,
+        "machine_utilization": [
+          0.8181818181818182,
+          1.0
+        ]
+      }
+    }
+  ]
+}

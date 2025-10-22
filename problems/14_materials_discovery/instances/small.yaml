@@ -1,0 +1,12 @@
+name: cathode-small-ternary
+description: Small ternary composition grid for layered oxides.
+composition_grid:
+  a_elements: [Li]
+  b_elements: [Ni, Mn]
+  c_elements: [O]
+  discretization: 5
+features:
+  redox_energy_base: -3.4
+  mixing_parameter: 0.15
+  strain_penalty: 0.08
+  entropy_bonus: 0.02

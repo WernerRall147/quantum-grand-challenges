@@ -147,8 +147,8 @@ problems/XX_problem_name/
 ```
 
 ### Current Implementation Status
-- **03_qae_risk**: ✅ Classical analysis and plotting validated. ⚠️ Q# implementation currently contains placeholder amplitude estimation logic and does **not** build successfully.
-- **01_hubbard**: 🔄 In progress
+- **03_qae_risk**: ✅ Classical analysis + analytical Q# baseline both build. Next milestone is implementing the genuine amplitude estimation circuit.
+- **01_hubbard**: ✅ Classical analytical baseline + matching Q# program scaffolded. Ready for variational/phase-estimation upgrades.
 - **02_catalysis**: ⏳ Planned
 - **04_linear_solvers**: ⏳ Planned
 - **05_qaoa_maxcut**: ⏳ Planned
@@ -167,8 +167,8 @@ az --version            # Azure CLI (optional)
 
 ### Problem Development Workflow
 ```bash
-# 1. Navigate to problem
-cd problems/03_qae_risk
+# 1. Navigate to problem (e.g., 01_hubbard or 03_qae_risk)
+cd problems/<problem_directory>
 
 # 2. Check available commands
 make help
@@ -176,7 +176,7 @@ make help
 # 3. Run quick validation
 make check-env
 
-# 4. Classical development (always works)
+# 4. Classical development (validated for 01_hubbard and 03_qae_risk)
 make classical
 make analyze
 

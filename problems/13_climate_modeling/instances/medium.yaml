@@ -1,0 +1,13 @@
+name: latitudinal-column-medium
+description: Medium grid with seasonal forcing and decadal trend.
+grid_points: 60
+time_steps: 600
+time_step_hours: 3
+diffusion_coefficient: 0.22
+heat_capacity: 4.1
+forcing_amplitude: 2.0
+forcing_frequency_per_year: 2.0
+initial_peak:
+  location: 0.45
+  amplitude: 2.5
+  width: 0.09

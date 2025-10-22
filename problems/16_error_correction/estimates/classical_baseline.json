@@ -1,0 +1,124 @@
+{
+  "problem_id": "16_error_correction",
+  "model": "repetition_code_analytical",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "repetition-code-large",
+      "description": "Distance-7 repetition code exploring low physical error regime.",
+      "code_distance": 7,
+      "measurement_rounds": 3,
+      "bias": 1.0,
+      "points": [
+        {
+          "physical_error": 0.0005,
+          "logical_error": 1.761979621094947e-10,
+          "suppression": 2837717.269903979
+        },
+        {
+          "physical_error": 0.001,
+          "logical_error": 2.803421270787068e-09,
+          "suppression": 356707.00312523753
+        },
+        {
+          "physical_error": 0.0015,
+          "logical_error": 1.4113040955907814e-08,
+          "suppression": 106284.67703638952
+        },
+        {
+          "physical_error": 0.002,
+          "logical_error": 4.4354986535473885e-08,
+          "suppression": 45090.758812438275
+        },
+        {
+          "physical_error": 0.0025,
+          "logical_error": 1.0768348697930265e-07,
+          "suppression": 23216.187273732263
+        },
+        {
+          "physical_error": 0.003,
+          "logical_error": 2.2204469681306357e-07,
+          "suppression": 13510.793290981677
+        }
+      ],
+      "pseudo_threshold": 0.0005
+    },
+    {
+      "instance_id": "medium",
+      "name": "repetition-code-medium",
+      "description": "Distance-5 repetition code with broader physical error sweep.",
+      "code_distance": 5,
+      "measurement_rounds": 2,
+      "bias": 1.0,
+      "points": [
+        {
+          "physical_error": 0.001,
+          "logical_error": 7.964073115059652e-08,
+          "suppression": 12556.38899282644
+        },
+        {
+          "physical_error": 0.003,
+          "logical_error": 2.131017257660495e-06,
+          "suppression": 1407.7783693284139
+        },
+        {
+          "physical_error": 0.005,
+          "logical_error": 9.77727426552538e-06,
+          "suppression": 511.38997068231737
+        },
+        {
+          "physical_error": 0.007,
+          "logical_error": 2.658784321500846e-05,
+          "suppression": 263.27821867283313
+        },
+        {
+          "physical_error": 0.009,
+          "logical_error": 5.6000815001977885e-05,
+          "suppression": 160.71194677581263
+        },
+        {
+          "physical_error": 0.011,
+          "logical_error": 0.00010132563514293215,
+          "suppression": 108.560878838639
+        }
+      ],
+      "pseudo_threshold": 0.001
+    },
+    {
+      "instance_id": "small",
+      "name": "repetition-code-small",
+      "description": "Distance-3 repetition code with modest physical error sweep.",
+      "code_distance": 3,
+      "measurement_rounds": 1,
+      "bias": 1.0,
+      "points": [
+        {
+          "physical_error": 0.002,
+          "logical_error": 1.1984000000000023e-05,
+          "suppression": 166.88918558077404
+        },
+        {
+          "physical_error": 0.004,
+          "logical_error": 4.7872000000000086e-05,
+          "suppression": 83.55614973262017
+        },
+        {
+          "physical_error": 0.006,
+          "logical_error": 0.00010756800000000019,
+          "suppression": 55.77867023650147
+        },
+        {
+          "physical_error": 0.008,
+          "logical_error": 0.00019097600000000036,
+          "suppression": 41.89008042895435
+        },
+        {
+          "physical_error": 0.01,
+          "logical_error": 0.0002980000000000006,
+          "suppression": 33.55704697986571
+        }
+      ],
+      "pseudo_threshold": 0.002
+    }
+  ]
+}

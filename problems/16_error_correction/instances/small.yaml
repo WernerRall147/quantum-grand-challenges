@@ -1,0 +1,6 @@
+name: repetition-code-small
+description: Distance-3 repetition code with modest physical error sweep.
+code_distance: 3
+measurement_rounds: 1
+physical_error_rates: [0.002, 0.004, 0.006, 0.008, 0.01]
+bias: 1.0

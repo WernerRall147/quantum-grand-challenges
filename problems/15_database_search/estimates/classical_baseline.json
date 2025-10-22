@@ -1,0 +1,45 @@
+{
+  "problem_id": "15_database_search",
+  "model": "classical_exhaustive_search",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "large-database",
+      "description": "Large unstructured database with one marked item.",
+      "dataset_size": 34359738368,
+      "marked_fraction": 2.9103830456733704e-11,
+      "confidence": 0.99,
+      "metrics": {
+        "classical_queries": 158232442728.36212,
+        "quantum_rounds": 145583,
+        "speedup_factor": 1086888.1856285564
+      }
+    },
+    {
+      "instance_id": "medium",
+      "name": "medium-database",
+      "description": "Medium unstructured database with sparse marked items.",
+      "dataset_size": 1048576,
+      "marked_fraction": 0.0009765625,
+      "confidence": 0.95,
+      "metrics": {
+        "classical_queries": 3066.131738070079,
+        "quantum_rounds": 24,
+        "speedup_factor": 127.75548908625329
+      }
+    },
+    {
+      "instance_id": "small",
+      "name": "small-database",
+      "description": "Small unstructured database with moderate marked density.",
+      "dataset_size": 4096,
+      "marked_fraction": 0.03125,
+      "confidence": 0.95,
+      "metrics": {
+        "classical_queries": 94.35764086675098,
+        "quantum_rounds": 4,
+        "speedup_factor": 23.589410216687746
+      }
+    }
+  ]
+}

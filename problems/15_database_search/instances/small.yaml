@@ -1,0 +1,5 @@
+name: small-database
+description: Small unstructured database with moderate marked density.
+dataset_size: 4096
+marked_fraction: 0.03125
+confidence: 0.95

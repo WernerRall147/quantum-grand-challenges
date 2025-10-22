@@ -1,0 +1,18 @@
+name: leo-gto-lunar-small
+description: Two-leg mission from LEO to lunar orbit with direct transfer.
+legs:
+  - origin: LEO
+    destination: GTO
+    departure_window_days: 5
+    arrival_window_days: 2
+    required_delta_v_kms: 2.5
+    time_of_flight_days: 1.5
+  - origin: GTO
+    destination: LLO
+    departure_window_days: 4
+    arrival_window_days: 3
+    required_delta_v_kms: 0.9
+    time_of_flight_days: 4.0
+launch_energy_c3: 10.0
+max_mission_duration_days: 12
+propellant_margin_percent: 15.0

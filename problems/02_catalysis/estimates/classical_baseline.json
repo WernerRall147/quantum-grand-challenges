@@ -1,0 +1,39 @@
+{
+  "problem_id": "02_catalysis",
+  "model": "arrhenius_activation_energy",
+  "results": [
+    {
+      "instance_id": "large",
+      "reaction": "CO2 + 2H2 -> CO + H2O",
+      "temperature": 700.0,
+      "pressure": 20.0,
+      "catalyst": "Cu",
+      "active_sites": 8,
+      "pre_exponential": 20000000000000.0,
+      "activation_energy": 105000.0,
+      "rate": 292113.0842158791
+    },
+    {
+      "instance_id": "medium",
+      "reaction": "N2 + 3H2 -> 2NH3",
+      "temperature": 500.0,
+      "pressure": 10.0,
+      "catalyst": "Fe",
+      "active_sites": 4,
+      "pre_exponential": 5000000000000.0,
+      "activation_energy": 95000.0,
+      "rate": 594.3331521081286
+    },
+    {
+      "instance_id": "small",
+      "reaction": "H2 + O2 -> H2O",
+      "temperature": 300.0,
+      "pressure": 1.0,
+      "catalyst": "Pt",
+      "active_sites": 2,
+      "pre_exponential": 10000000000000.0,
+      "activation_energy": 75000.0,
+      "rate": 0.8727067950862143
+    }
+  ]
+}

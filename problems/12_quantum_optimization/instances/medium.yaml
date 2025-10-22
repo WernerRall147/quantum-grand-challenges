@@ -1,0 +1,44 @@
+name: three-machine-medium
+description: Medium instance with three machines and mixed urgency profiles.
+machines: 3
+jobs:
+  - id: J1
+    processing_time: 7
+    due_date: 24
+    weight: 2.5
+  - id: J2
+    processing_time: 5
+    due_date: 20
+    weight: 1.6
+  - id: J3
+    processing_time: 9
+    due_date: 34
+    weight: 3.0
+  - id: J4
+    processing_time: 4
+    due_date: 18
+    weight: 1.8
+  - id: J5
+    processing_time: 6
+    due_date: 22
+    weight: 2.1
+  - id: J6
+    processing_time: 8
+    due_date: 32
+    weight: 2.8
+  - id: J7
+    processing_time: 3
+    due_date: 12
+    weight: 1.2
+  - id: J8
+    processing_time: 5
+    due_date: 25
+    weight: 1.9
+  - id: J9
+    processing_time: 4
+    due_date: 15
+    weight: 1.7
+  - id: J10
+    processing_time: 6
+    due_date: 28
+    weight: 2.4

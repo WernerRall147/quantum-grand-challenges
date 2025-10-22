@@ -1,0 +1,12 @@
+name: cathode-large-high-entropy
+description: High-entropy composition space with extended transition metal palette.
+composition_grid:
+  a_elements: [Li]
+  b_elements: [Ni, Mn, Co, Fe]
+  c_elements: [O]
+  discretization: 9
+features:
+  redox_energy_base: -3.8
+  mixing_parameter: 0.22
+  strain_penalty: 0.1
+  entropy_bonus: 0.03

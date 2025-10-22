@@ -1,0 +1,5 @@
+name: rsa589_midscale
+description: Mid-scale semiprime with 10 bits of entropy
+modulus: 589
+expected_factors: [19, 31]
+seed: 99

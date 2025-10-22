@@ -1,0 +1,135 @@
+{
+  "problem_id": "04_linear_solvers",
+  "model": "dense_direct_solve",
+  "results": [
+    {
+      "instance_id": "large",
+      "system": "poisson_1d",
+      "description": "5x5 Poisson stencil capturing a longer 1D diffusion grid",
+      "target_precision": 1e-06,
+      "dimension": 5,
+      "matrix": [
+        [
+          4.0,
+          -1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          -1.0,
+          4.0,
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -1.0,
+          4.0,
+          -1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -1.0,
+          4.0,
+          -1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          -1.0,
+          3.0
+        ]
+      ],
+      "rhs": [
+        20.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ],
+      "solution": [
+        6.339754816112084,
+        5.359019264448336,
+        5.096322241681261,
+        5.026269702276708,
+        5.00875656742557
+      ],
+      "residual_norm": 2.5121479338940403e-15,
+      "rhs_norm": 28.284271247461902,
+      "condition_number_2": 2.730643292915651,
+      "log2_condition_number": 1.4492408654935878
+    },
+    {
+      "instance_id": "medium",
+      "system": "poisson_1d",
+      "description": "3x3 Poisson stencil representing a short line segment",
+      "target_precision": 1e-05,
+      "dimension": 3,
+      "matrix": [
+        [
+          4.0,
+          -1.0,
+          0.0
+        ],
+        [
+          -1.0,
+          4.0,
+          -1.0
+        ],
+        [
+          0.0,
+          -1.0,
+          3.0
+        ]
+      ],
+      "rhs": [
+        15.0,
+        10.0,
+        10.0
+      ],
+      "solution": [
+        5.0,
+        5.0,
+        5.0
+      ],
+      "residual_norm": 0.0,
+      "rhs_norm": 20.615528128088304,
+      "condition_number_2": 2.3870932544482275,
+      "log2_condition_number": 1.2552549280041183
+    },
+    {
+      "instance_id": "small",
+      "system": "poisson_1d",
+      "description": "2x2 Poisson stencil with Dirichlet boundaries",
+      "target_precision": 0.0001,
+      "dimension": 2,
+      "matrix": [
+        [
+          4.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          3.0
+        ]
+      ],
+      "rhs": [
+        15.0,
+        10.0
+      ],
+      "solution": [
+        5.0,
+        5.0
+      ],
+      "residual_norm": 0.0,
+      "rhs_norm": 18.027756377319946,
+      "condition_number_2": 1.938748901931751,
+      "log2_condition_number": 0.9551259641482437
+    }
+  ]
+}

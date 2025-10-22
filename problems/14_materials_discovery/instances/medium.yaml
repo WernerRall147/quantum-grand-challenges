@@ -1,0 +1,12 @@
+name: cathode-medium-quaternary
+description: Medium quaternary grid exploring transition metal blends.
+composition_grid:
+  a_elements: [Li]
+  b_elements: [Ni, Mn, Co]
+  c_elements: [O]
+  discretization: 7
+features:
+  redox_energy_base: -3.6
+  mixing_parameter: 0.18
+  strain_penalty: 0.09
+  entropy_bonus: 0.025

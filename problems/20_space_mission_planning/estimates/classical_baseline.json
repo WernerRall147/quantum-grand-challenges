@@ -1,0 +1,126 @@
+{
+  "problem_id": "20_space_mission_planning",
+  "model": "patched_conic_budget",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "outer-planet-grand-tour-large",
+      "description": "Multi-leg grand tour with gravity assists at Venus, Earth, and Jupiter en route to Saturn.",
+      "launch_energy_c3": 18.0,
+      "max_mission_duration_days": 2400.0,
+      "legs": [
+        {
+          "origin": "Earth",
+          "destination": "Venus",
+          "departure_window_days": 30.0,
+          "arrival_window_days": 25.0,
+          "required_delta_v_kms": 3.5,
+          "time_of_flight_days": 150.0
+        },
+        {
+          "origin": "Venus",
+          "destination": "Earth",
+          "departure_window_days": 15.0,
+          "arrival_window_days": 10.0,
+          "required_delta_v_kms": 0.7,
+          "time_of_flight_days": 180.0
+        },
+        {
+          "origin": "Earth",
+          "destination": "Jupiter",
+          "departure_window_days": 25.0,
+          "arrival_window_days": 20.0,
+          "required_delta_v_kms": 5.2,
+          "time_of_flight_days": 750.0
+        },
+        {
+          "origin": "Jupiter",
+          "destination": "Saturn",
+          "departure_window_days": 18.0,
+          "arrival_window_days": 18.0,
+          "required_delta_v_kms": 1.8,
+          "time_of_flight_days": 900.0
+        }
+      ],
+      "base_delta_v_kms": 11.200000000000001,
+      "adjusted_delta_v_kms": 14.000000000000002,
+      "gravity_bonus_kms": 0.0,
+      "total_time_of_flight_days": 1980.0,
+      "duration_slack_days": 420.0,
+      "window_feasibility_score": 100.0,
+      "mission_score": 78.2
+    },
+    {
+      "instance_id": "medium",
+      "name": "mars-flyby-and-return-medium",
+      "description": "Three-leg Earth-Mars flyby with powered gravity assist and Earth return.",
+      "launch_energy_c3": 12.5,
+      "max_mission_duration_days": 520.0,
+      "legs": [
+        {
+          "origin": "Earth",
+          "destination": "Mars",
+          "departure_window_days": 20.0,
+          "arrival_window_days": 15.0,
+          "required_delta_v_kms": 3.6,
+          "time_of_flight_days": 210.0
+        },
+        {
+          "origin": "Mars",
+          "destination": "Mars-Flyby",
+          "departure_window_days": 6.0,
+          "arrival_window_days": 3.0,
+          "required_delta_v_kms": 0.8,
+          "time_of_flight_days": 5.0
+        },
+        {
+          "origin": "Mars-Flyby",
+          "destination": "Earth",
+          "departure_window_days": 20.0,
+          "arrival_window_days": 18.0,
+          "required_delta_v_kms": 2.9,
+          "time_of_flight_days": 230.0
+        }
+      ],
+      "base_delta_v_kms": 7.300000000000001,
+      "adjusted_delta_v_kms": 8.616,
+      "gravity_bonus_kms": 0.12000000000000002,
+      "total_time_of_flight_days": 445.0,
+      "duration_slack_days": 75.0,
+      "window_feasibility_score": 73.0,
+      "mission_score": 51.226800000000004
+    },
+    {
+      "instance_id": "small",
+      "name": "leo-gto-lunar-small",
+      "description": "Two-leg mission from LEO to lunar orbit with direct transfer.",
+      "launch_energy_c3": 10.0,
+      "max_mission_duration_days": 12.0,
+      "legs": [
+        {
+          "origin": "LEO",
+          "destination": "GTO",
+          "departure_window_days": 5.0,
+          "arrival_window_days": 2.0,
+          "required_delta_v_kms": 2.5,
+          "time_of_flight_days": 1.5
+        },
+        {
+          "origin": "GTO",
+          "destination": "LLO",
+          "departure_window_days": 4.0,
+          "arrival_window_days": 3.0,
+          "required_delta_v_kms": 0.9,
+          "time_of_flight_days": 4.0
+        }
+      ],
+      "base_delta_v_kms": 3.4,
+      "adjusted_delta_v_kms": 3.9099999999999997,
+      "gravity_bonus_kms": 0.0,
+      "total_time_of_flight_days": 5.5,
+      "duration_slack_days": 6.5,
+      "window_feasibility_score": 8.0,
+      "mission_score": 22.743000000000002
+    }
+  ]
+}

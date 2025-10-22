@@ -1,0 +1,8 @@
+# Small instance for quantum catalysis
+reaction: "H2 + O2 -> H2O"
+temperature: 300 # Kelvin
+pressure: 1 # atm
+catalyst: Pt
+active_sites: 2
+pre_exponential: 1e+13 # s^-1
+activation_energy: 75000 # J/mol

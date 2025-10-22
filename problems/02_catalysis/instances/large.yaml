@@ -1,0 +1,8 @@
+# Large instance for quantum catalysis
+reaction: "CO2 + 2H2 -> CO + H2O"
+temperature: 700 # Kelvin
+pressure: 20 # atm
+catalyst: Cu
+active_sites: 8
+pre_exponential: 2e+13 # s^-1
+activation_energy: 105000 # J/mol

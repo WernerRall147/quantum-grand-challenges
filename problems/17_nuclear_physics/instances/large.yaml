@@ -1,0 +1,17 @@
+name: pionless-eft-large
+description: High cutoff EFT exploring deeply bound deuteron channels.
+cutoff: 500.0
+coupling_constants:
+  c0: -0.92
+  c2: 0.25
+  c4: -0.08
+channels:
+  - name: singlet
+    l: 0
+    spins: 0
+  - name: triplet
+    l: 1
+    spins: 1
+  - name: d-wave
+    l: 2
+    spins: 1

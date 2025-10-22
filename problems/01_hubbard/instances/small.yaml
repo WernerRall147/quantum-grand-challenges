@@ -1,0 +1,4 @@
+# Two-site Hubbard model, half filling, lightweight grid for smoke tests
+hopping: [ 0.5 ]
+interaction: [ 0.0, 4.0 ]
+notes: "Small instance for validating classical and quantum pipelines"

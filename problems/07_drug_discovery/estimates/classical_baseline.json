@@ -1,0 +1,54 @@
+{
+  "problem_id": "07_drug_discovery",
+  "model": "lennard_jones_coulomb_scoring",
+  "results": [
+    {
+      "instance_id": "large",
+      "description": "Macrocyclic ligand with 14 atoms interacting with full binding groove",
+      "num_ligand_atoms": 14,
+      "num_protein_atoms": 11,
+      "lj_energy": 833333.4565648508,
+      "coulomb_energy": -0.6739478754202384,
+      "total_energy": 833332.7826169754,
+      "contact_pairs": 154,
+      "options": {
+        "lennard_jones_epsilon": 0.18,
+        "lennard_jones_sigma": 3.1,
+        "dielectric": 45.0,
+        "cutoff": 12.0
+      }
+    },
+    {
+      "instance_id": "medium",
+      "description": "Drug-like ligand with 8 atoms docked against flexible pocket",
+      "num_ligand_atoms": 8,
+      "num_protein_atoms": 6,
+      "lj_energy": 9477.83497251825,
+      "coulomb_energy": -0.20974282358372834,
+      "total_energy": 9477.625229694668,
+      "contact_pairs": 48,
+      "options": {
+        "lennard_jones_epsilon": 0.16,
+        "lennard_jones_sigma": 3.2,
+        "dielectric": 50.0,
+        "cutoff": 10.0
+      }
+    },
+    {
+      "instance_id": "small",
+      "description": "Minimal ligand (3 atoms) inside a single-pocket protein fragment",
+      "num_ligand_atoms": 3,
+      "num_protein_atoms": 3,
+      "lj_energy": 3541791.8275725,
+      "coulomb_energy": -0.20720110583895493,
+      "total_energy": 3541791.620371394,
+      "contact_pairs": 9,
+      "options": {
+        "lennard_jones_epsilon": 0.12,
+        "lennard_jones_sigma": 3.5,
+        "dielectric": 60.0,
+        "cutoff": 8.0
+      }
+    }
+  ]
+}

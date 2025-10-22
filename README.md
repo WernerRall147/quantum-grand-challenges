@@ -3,7 +3,7 @@
 *Systematic exploration of 20 of the world's most challenging scientific problems using quantum computing and AI-assisted development.*
 
 [![CI/CD](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml)
-[![Website](https://img.shields.io/badge/website-live-blue)](https://wernerall147.github.io/quantum-grand-challenges/)
+[![Website](https://img.shields.io/badge/website-live-blue)](https://wernerrall147.github.io/quantum-grand-challenges/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 🎯 Overview
@@ -12,7 +12,7 @@ This repository systematically tackles 20 of the world's most challenging scient
 
 ## 🌐 Live Dashboard
 
-Website: https://wernerrall147.github.io/quantum-grand-challenges/
+Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 
 ## 🎯 Quick Start
 
@@ -58,17 +58,31 @@ make estimate        # Resource estimator harness (requires successful build)
 ## 📊 Problem Status
 
 | Problem | Q# Implementation | Resource Estimation | Classical Baseline | Status |
-|---------|------------------|--------------------|--------------------|---------||
+|---------|------------------|--------------------|--------------------|---------|
 | [QAE Risk Analysis](problems/03_qae_risk/) | ✅ Building (analytical baseline) | ⏳ Pending (needs fault-tolerant QAE) | ✅ Complete | 🟢 **Ready for development** |
-| [Hubbard Model](problems/01_hubbard/) | 🔄 In Progress | ⏳ Pending | ⏳ Pending | 🟡 Working |
-| [Catalysis Simulation](problems/02_catalysis/) | ⏳ Pending | ⏳ Pending | ⏳ Pending | 🔴 Planned |
+| [Hubbard Model](problems/01_hubbard/) | ✅ Building (analytical baseline) | ⏳ Pending | ✅ Complete | 🟢 Ready for development |
+| [Catalysis Simulation](problems/02_catalysis/) | ✅ Building (analytical baseline) | ⏳ Pending | ✅ Complete | 🟢 Ready for development |
 | [Linear Solvers](problems/04_linear_solvers/) | ⏳ Pending | ⏳ Pending | ⏳ Pending | 🔴 Planned |
 | [QAOA MaxCut](problems/05_qaoa_maxcut/) | ⏳ Pending | ⏳ Pending | ⏳ Pending | 🔴 Planned |
-| *...15 more problems* | ⏳ Pending | ⏳ Pending | ⏳ Pending | 🔴 Planned |
+| [High-Frequency Trading](problems/06_high_frequency_trading/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Drug Discovery](problems/07_drug_discovery/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Protein Folding](problems/08_protein_folding/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Factorization](problems/09_factorization/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Quantum Optimization](problems/12_quantum_optimization/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Climate Modeling](problems/13_climate_modeling/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Materials Discovery](problems/14_materials_discovery/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Database Search](problems/15_database_search/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Error Correction](problems/16_error_correction/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Nuclear Physics](problems/17_nuclear_physics/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Photovoltaics](problems/18_photovoltaics/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Quantum Chromodynamics](problems/19_quantum_chromodynamics/) | ⏳ Pending | ⏳ Pending | ✅ Complete | 🟡 Scaffolded |
+| [Space Mission Planning](problems/20_space_mission_planning/) | ⏳ Pending | ⏳ Pending | ✅ Complete | � Scaffolded |
 
 ## 🏗️ Repository Structure
 
-```
+```text
 quantum-grand-challenges/
 ├── 📁 problems/              # Individual quantum challenges
 │   ├── 01_hubbard/          # Strongly correlated systems
@@ -76,6 +90,12 @@ quantum-grand-challenges/
 │   ├── 03_qae_risk/         # ✅ Quantum amplitude estimation
 │   ├── 04_linear_solvers/   # HHL algorithm applications
 │   ├── 05_qaoa_maxcut/      # Quantum approximate optimization
+│   ├── 06_high_frequency_trading/ # Quantum-enhanced market simulation
+│   ├── 07_drug_discovery/   # Quantum chemistry for docking refinement
+│   ├── 08_protein_folding/  # Quantum-assisted folding and conformational search
+│   ├── 09_factorization/    # Shor's algorithm scaffold for RSA-style moduli
+│   ├── 10_post_quantum_cryptography/ # PQC attack surface evaluation
+│   ├── 11_quantum_machine_learning/ # Quantum kernel and hybrid ML benchmarking
 │   └── ...                  # 15 additional challenges
 ├── 📁 libs/                 # Shared quantum algorithms
 │   └── common/Utils.qs      # QFT, Grover, state preparation
@@ -91,7 +111,7 @@ quantum-grand-challenges/
 
 Each problem follows this consistent layout:
 
-```
+```text
 problems/XX_problem_name/
 ├── 📄 README.md             # Problem description & results
 ├── 📁 qsharp/               # Q# quantum implementation
@@ -117,7 +137,7 @@ problems/XX_problem_name/
 
 ### 🔧 Development Infrastructure
 
-- **Automated CI/CD**: GitHub Actions smoke-tests Python tooling and attempts Q# builds (currently fails for `03_qae_risk` because amplitude estimation is a stub)
+- **Automated CI/CD**: GitHub Actions smoke-tests Python tooling and builds the analytical Q# baselines for `01_hubbard` and `03_qae_risk`
 - **Resource Estimation**: Scripts and CI harness prepared for Azure Quantum Resource Estimator once Q# builds succeed
 - **Standardized Schema**: JSON validation for cross-problem comparison
 - **Codespaces Ready**: Devcontainer supplies .NET 6, Python 3.11, Node 18 (website skeleton is still a placeholder)
@@ -169,7 +189,7 @@ Our **Quantum Amplitude Estimation (QAE) for Financial Risk** is the most advanc
 
 ## 🧮 The 20 Grand Challenges
 
-*Quantum computing applications to humanity's most complex scientific problems*
+### Quantum computing applications to humanity's most complex scientific problems
 
 ### 🔬 **Physics & Materials Science**
 
@@ -298,10 +318,10 @@ This repository leverages AI tools for:
 
 ### Continuous Integration
 
-- **Compilation Attempts**: GitHub Actions tries to build every Q# project (currently flags failures for `03_qae_risk` so we remember to fix it)
+- **Compilation Attempts**: GitHub Actions builds every Q# project (currently analytical baselines for `01_hubbard` and `03_qae_risk`)
 - **Python Tooling**: Pip installs and module byte-compilation run on each commit
 - **Resource Estimation**: Nightly workflow produces mock results until real estimates are available
-- **Website**: Placeholder static export keeps deployment pipeline warm for future Next.js work
+- **Website**: Next.js static export deployed via GitHub Pages with live status cards
 
 ### 🤖 Agent Workflow (GPT-5 Codex)
 
@@ -351,8 +371,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ### Learning Materials
 
-- [Microsoft Q# Documentation](https://docs.microsoft.com/en-us/quantum/)
-- [Azure Quantum Resource Estimator](https://docs.microsoft.com/en-us/azure/quantum/overview-resources-estimator)
+- [Microsoft Q# Documentation](https://learn.microsoft.com/quantum/)
+- [Azure Quantum Resource Estimator](https://learn.microsoft.com/azure/quantum/overview-resources-estimator)
 - [Quantum Algorithm Zoo](https://quantumalgorithmzoo.org/)
 
 ### Research Papers
@@ -377,4 +397,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-*Ready to tackle humanity's greatest challenges with quantum computing? Start exploring! 🚀*
+Ready to tackle humanity's greatest challenges with quantum computing? Start exploring! 🚀

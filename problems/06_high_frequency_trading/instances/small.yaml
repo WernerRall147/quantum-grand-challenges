@@ -1,0 +1,11 @@
+description: "Single trading day with gentle drift and modest volatility"
+steps: 390
+interval: 0.0025641026  # Equivalent to 1/390 of a trading year
+annual_trading_days: 252
+short_window: 5
+long_window: 20
+threshold: 0.0005
+transaction_cost: 0.0001
+volatility: 0.01
+drift: 0.0002
+seed: 42

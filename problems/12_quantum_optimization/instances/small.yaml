@@ -1,0 +1,24 @@
+name: two-machine-small
+description: Small weighted tardiness instance with two parallel machines.
+machines: 2
+jobs:
+  - id: J1
+    processing_time: 4
+    due_date: 12
+    weight: 1.0
+  - id: J2
+    processing_time: 6
+    due_date: 18
+    weight: 1.8
+  - id: J3
+    processing_time: 3
+    due_date: 10
+    weight: 1.4
+  - id: J4
+    processing_time: 5
+    due_date: 16
+    weight: 2.2
+  - id: J5
+    processing_time: 2
+    due_date: 8
+    weight: 0.9

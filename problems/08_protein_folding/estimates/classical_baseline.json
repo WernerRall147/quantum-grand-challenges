@@ -1,0 +1,57 @@
+{
+  "problem_id": "08_protein_folding",
+  "model": "knowledge_based_contact_scoring",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "fast_folding_trp_cage_variant",
+      "description": "35-residue Trp-cage variant with hydrophobic core and salt-bridge network",
+      "sequence_length": 33,
+      "temperature_kelvin": 310.0,
+      "ph": 6.5,
+      "contacts": 8,
+      "contact_order": 0.4772727272727273,
+      "compactness": 0.24242424242424243,
+      "hydrophobic_energy": 5.5920000000000005,
+      "hydrophobic_density": 0.6990000000000001,
+      "electrostatic_energy": 0.0,
+      "hydrogen_bond_bonus": 0.0,
+      "total_energy": 5.5920000000000005,
+      "stability_index": -5.338212121212122
+    },
+    {
+      "instance_id": "medium",
+      "name": "de_novo_mini_protein",
+      "description": "De novo designed 24-residue mini-protein with helix-turn-helix topology",
+      "sequence_length": 24,
+      "temperature_kelvin": 300.0,
+      "ph": 7.4,
+      "contacts": 6,
+      "contact_order": 0.5208333333333334,
+      "compactness": 0.25,
+      "hydrophobic_energy": 6.962999999999999,
+      "hydrophobic_density": 1.1604999999999999,
+      "electrostatic_energy": 0.8043032786885247,
+      "hydrogen_bond_bonus": 0.54,
+      "total_energy": 7.227303278688524,
+      "stability_index": -7.008553278688524
+    },
+    {
+      "instance_id": "small",
+      "name": "beta_hairpin_microprotein",
+      "description": "Synthetic beta-hairpin with 12 residues and four stabilizing contacts",
+      "sequence_length": 12,
+      "temperature_kelvin": 298.0,
+      "ph": 7.0,
+      "contacts": 4,
+      "contact_order": 0.5416666666666666,
+      "compactness": 0.3333333333333333,
+      "hydrophobic_energy": 4.668,
+      "hydrophobic_density": 1.167,
+      "electrostatic_energy": 0.0,
+      "hydrogen_bond_bonus": 0.45,
+      "total_energy": 4.218,
+      "stability_index": -3.697166666666667
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+description: "Minimal ligand (3 atoms) inside a single-pocket protein fragment"
+ligand_atoms:
+  - element: C
+    charge: -0.1
+    position: [0.0, 0.0, 0.0]
+  - element: N
+    charge: -0.2
+    position: [1.2, 0.0, 0.0]
+  - element: O
+    charge: -0.3
+    position: [0.4, 1.0, 0.0]
+protein_atoms:
+  - element: C
+    charge: 0.15
+    position: [2.0, 0.5, 0.0]
+  - element: O
+    charge: -0.2
+    position: [2.4, -0.5, 0.2]
+  - element: H
+    charge: 0.1
+    position: [1.8, -1.0, -0.2]
+options:
+  lennard_jones_epsilon: 0.12
+  lennard_jones_sigma: 3.5
+  dielectric: 60.0
+  cutoff: 8.0

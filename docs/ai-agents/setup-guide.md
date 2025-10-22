@@ -1,11 +1,11 @@
 # Quantum Grand Challenges: AI Agent Setup Guide
 
-*Last Updated: October 18, 2025*  
+*Last Updated: October 19, 2025*  
 *For: GPT-5 Codex (Preview), Claude Sonnet 4, and other AI coding agents*
 
 ## 🎯 Project Overview
 
-This repository systematically tackles 20 of the world's most challenging scientific problems using Q# quantum computing and AI-assisted development. Each problem has a standardized structure for reproducible research and automated tooling. **Today only `problems/03_qae_risk` has a working classical pipeline; the Q# amplitude estimation code is still a stub.**
+This repository systematically tackles 20 of the world's most challenging scientific problems using Q# quantum computing and AI-assisted development. Each problem has a standardized structure for reproducible research and automated tooling. **Today `problems/01_hubbard` and `problems/03_qae_risk` ship working classical pipelines with matching analytical Q# baselines in place.**
 
 ## 📁 Repository Structure
 

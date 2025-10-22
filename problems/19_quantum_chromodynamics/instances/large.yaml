@@ -1,0 +1,7 @@
+name: su3-fine-large
+description: Fine 8^3x16 lattice for challenging string tension estimates.
+lattice_shape: [8, 8, 8, 16]
+lattice_spacing_fm: 0.1
+beta: 6.0
+anisotropy: 1.2
+sea_quark_mass_mev: 20.0

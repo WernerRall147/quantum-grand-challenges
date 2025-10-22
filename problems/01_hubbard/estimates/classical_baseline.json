@@ -1,0 +1,78 @@
+{
+  "problem_id": "01_hubbard",
+  "model": "two_site_half_filled",
+  "grid": [
+    {
+      "hopping": 0.5,
+      "interaction": 0.0,
+      "ground_state_energy": -1.0,
+      "upper_singlet_energy": 1.0,
+      "triplet_energy": 0.0,
+      "charge_gap": 2.0,
+      "spin_gap": 1.0
+    },
+    {
+      "hopping": 0.5,
+      "interaction": 2.0,
+      "ground_state_energy": -0.41421356237309515,
+      "upper_singlet_energy": 2.414213562373095,
+      "triplet_energy": 0.0,
+      "charge_gap": 2.82842712474619,
+      "spin_gap": 0.41421356237309515
+    },
+    {
+      "hopping": 0.5,
+      "interaction": 4.0,
+      "ground_state_energy": -0.2360679774997898,
+      "upper_singlet_energy": 4.23606797749979,
+      "triplet_energy": 0.0,
+      "charge_gap": 4.47213595499958,
+      "spin_gap": 0.2360679774997898
+    },
+    {
+      "hopping": 0.5,
+      "interaction": 8.0,
+      "ground_state_energy": -0.12310562561766059,
+      "upper_singlet_energy": 8.123105625617661,
+      "triplet_energy": 0.0,
+      "charge_gap": 8.246211251235323,
+      "spin_gap": 0.12310562561766059
+    },
+    {
+      "hopping": 1.0,
+      "interaction": 0.0,
+      "ground_state_energy": -2.0,
+      "upper_singlet_energy": 2.0,
+      "triplet_energy": 0.0,
+      "charge_gap": 4.0,
+      "spin_gap": 2.0
+    },
+    {
+      "hopping": 1.0,
+      "interaction": 2.0,
+      "ground_state_energy": -1.2360679774997898,
+      "upper_singlet_energy": 3.23606797749979,
+      "triplet_energy": 0.0,
+      "charge_gap": 4.47213595499958,
+      "spin_gap": 1.2360679774997898
+    },
+    {
+      "hopping": 1.0,
+      "interaction": 4.0,
+      "ground_state_energy": -0.8284271247461903,
+      "upper_singlet_energy": 4.82842712474619,
+      "triplet_energy": 0.0,
+      "charge_gap": 5.65685424949238,
+      "spin_gap": 0.8284271247461903
+    },
+    {
+      "hopping": 1.0,
+      "interaction": 8.0,
+      "ground_state_energy": -0.4721359549995796,
+      "upper_singlet_energy": 8.47213595499958,
+      "triplet_energy": 0.0,
+      "charge_gap": 8.94427190999916,
+      "spin_gap": 0.4721359549995796
+    }
+  ]
+}

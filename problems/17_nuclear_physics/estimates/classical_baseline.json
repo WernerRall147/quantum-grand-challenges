@@ -1,0 +1,93 @@
+{
+  "problem_id": "17_nuclear_physics",
+  "model": "pionless_eft_contact",
+  "grid_size": 12,
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "pionless-eft-large",
+      "description": "High cutoff EFT exploring deeply bound deuteron channels.",
+      "cutoff_mev": 500.0,
+      "grid_size": 12,
+      "channels": [
+        {
+          "name": "singlet",
+          "l": 0,
+          "spins": 0,
+          "binding_energy_mev": -1.5334097309396348,
+          "scattering_length_fm": 2.400600097019005e-08,
+          "effective_range_fm": 0.004
+        },
+        {
+          "name": "triplet",
+          "l": 1,
+          "spins": 1,
+          "binding_energy_mev": -2.6163666510443333,
+          "scattering_length_fm": 1.739565287694931e-08,
+          "effective_range_fm": 0.004
+        },
+        {
+          "name": "d-wave",
+          "l": 2,
+          "spins": 1,
+          "binding_energy_mev": -3.1903668388207174,
+          "scattering_length_fm": 1.5388462160378238e-08,
+          "effective_range_fm": 0.004
+        }
+      ],
+      "lowest_channel_energy_mev": -3.1903668388207174
+    },
+    {
+      "instance_id": "medium",
+      "name": "pionless-eft-medium",
+      "description": "Intermediate cutoff with tuned c0 for deuteron-like binding.",
+      "cutoff_mev": 350.0,
+      "grid_size": 12,
+      "channels": [
+        {
+          "name": "singlet",
+          "l": 0,
+          "spins": 0,
+          "binding_energy_mev": -1.5210755264085336,
+          "scattering_length_fm": 1.6002739882437738e-07,
+          "effective_range_fm": 0.005714285714285714
+        },
+        {
+          "name": "triplet",
+          "l": 1,
+          "spins": 1,
+          "binding_energy_mev": -2.610557874900945,
+          "scattering_length_fm": 1.1596188320607057e-07,
+          "effective_range_fm": 0.005714285714285714
+        }
+      ],
+      "lowest_channel_energy_mev": -2.610557874900945
+    },
+    {
+      "instance_id": "small",
+      "name": "pionless-eft-small",
+      "description": "Low cutoff pionless EFT with mild attractive coupling.",
+      "cutoff_mev": 200.0,
+      "grid_size": 12,
+      "channels": [
+        {
+          "name": "singlet",
+          "l": 0,
+          "spins": 0,
+          "binding_energy_mev": -1.964335816764429,
+          "scattering_length_fm": 2.505005941247841e-06,
+          "effective_range_fm": 0.01
+        },
+        {
+          "name": "triplet",
+          "l": 0,
+          "spins": 1,
+          "binding_energy_mev": -2.6123900739057038,
+          "scattering_length_fm": 2.0875049510398675e-06,
+          "effective_range_fm": 0.01
+        }
+      ],
+      "lowest_channel_energy_mev": -2.6123900739057038
+    }
+  ]
+}

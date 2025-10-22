@@ -1,0 +1,11 @@
+description: "Volatile trading week with two regime shifts"
+steps: 1950
+interval: 0.0025641026
+annual_trading_days: 252
+short_window: 8
+long_window: 40
+threshold: 0.0004
+transaction_cost: 0.00015
+volatility: 0.012
+drift: 0.0001
+seed: 1337

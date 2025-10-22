@@ -1,6 +1,94 @@
 import Head from 'next/head';
 
 export default function Home() {
+  const problemHighlights: ProblemCardProps[] = [
+    {
+      title: 'QAE Risk Analysis',
+      status: '✅ Analytical baseline',
+      description: 'Quantum-inspired amplitude estimation for financial tail risk',
+    },
+    {
+      title: 'Hubbard Model',
+      status: '✅ Analytical baseline',
+      description: 'Two-site Hubbard benchmark with classical + Q# parity',
+    },
+    {
+      title: 'High-Frequency Trading',
+      status: '✅ Classical baseline',
+      description: 'Knowledge-driven moving-average strategy ready for quantum upgrades',
+    },
+    {
+      title: 'Drug Discovery',
+      status: '✅ Classical baseline',
+      description: 'Docking energy scaffold with Q# VQE placeholder',
+    },
+    {
+      title: 'Protein Folding',
+      status: '✅ Classical baseline',
+      description: 'Contact-map scoring with amplitude-encoding Q# stub',
+    },
+    {
+      title: 'Factorization',
+      status: '✅ Classical baseline',
+      description: 'Pollard Rho analytics paving the way for Shor order finding',
+    },
+    {
+      title: 'Post-Quantum Cryptography',
+      status: '✅ Classical baseline',
+      description: 'Attack-cost estimator preparing amplitude-amplified sieving studies',
+    },
+    {
+      title: 'Quantum Machine Learning',
+      status: '✅ Classical baseline',
+      description: 'Kernel ridge benchmark ready for quantum feature maps',
+    },
+    {
+      title: 'Quantum Optimization',
+      status: '✅ Classical baseline',
+      description: 'Weighted tardiness scheduler poised for QAOA upgrades',
+    },
+    {
+      title: 'Climate Modeling',
+      status: '✅ Classical baseline',
+      description: 'Diffusion energy balance ready for HHL-style solvers',
+    },
+    {
+      title: 'Materials Discovery',
+      status: '✅ Classical baseline',
+      description: 'Surrogate cluster expansion primed for quantum spectroscopy',
+    },
+    {
+      title: 'Database Search',
+      status: '✅ Classical baseline',
+      description: 'Query complexity model poised for amplitude amplification',
+    },
+    {
+      title: 'Error Correction',
+      status: '✅ Classical baseline',
+      description: 'Repetition-code analytics setting the stage for surface codes',
+    },
+    {
+      title: 'Nuclear Physics',
+      status: '✅ Classical baseline',
+      description: 'Pionless EFT diagonalization with adiabatic state-prep stub',
+    },
+    {
+      title: 'Photovoltaics',
+      status: '✅ Classical baseline',
+      description: 'Shockley-Queisser heuristic with exciton preview in Q#',
+    },
+    {
+      title: 'Quantum Chromodynamics',
+      status: '✅ Classical baseline',
+      description: 'Coarse lattice plaquette baseline with gauge-walk stub',
+    },
+    {
+      title: 'Space Mission Planning',
+      status: '✅ Classical baseline',
+      description: 'Patched-conic mission baseline with quantum annealing preview',
+    },
+  ];
+
   return (
     <>
       <Head>
@@ -16,30 +104,23 @@ export default function Home() {
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginTop: '3rem' }}>
-          <ProblemCard 
-            title="QAE Risk Analysis"
-            status="✅ Complete"
-            description="Quantum Amplitude Estimation for financial tail risk probability"
-          />
-          <ProblemCard 
-            title="Hubbard Model"
-            status="🔄 In Progress"
-            description="Strongly-correlated electron systems for superconductivity"
-          />
-          <ProblemCard 
-            title="15+ More Challenges"
-            status="⏳ Planned"
-            description="Catalysis, drug discovery, cryptography, climate modeling, and more"
-          />
+          {problemHighlights.map((problem) => (
+            <ProblemCard
+              key={problem.title}
+              title={problem.title}
+              status={problem.status}
+              description={problem.description}
+            />
+          ))}
         </div>
 
         <div style={{ marginTop: '4rem', padding: '2rem', background: '#f8f9fa', borderRadius: '8px' }}>
           <h2>📊 Current Status</h2>
           <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
-            <li><strong>Q# Implementation:</strong> Building and running</li>
-            <li><strong>Classical Baselines:</strong> Monte Carlo analysis complete</li>
-            <li><strong>Visualization:</strong> Interactive plots generated</li>
-            <li><strong>CI/CD:</strong> Automated testing and deployment</li>
+            <li><strong>Q# Prototypes:</strong> Placeholders in place for finance, chemistry, error correction, nuclear physics, photovoltaics, QCD, and mission planning</li>
+            <li><strong>Classical Baselines:</strong> All twenty challenges now have reproducible baselines with JSON outputs and plots</li>
+            <li><strong>Visualization:</strong> Dashboard cards and per-problem plots refreshed after each scaffold</li>
+            <li><strong>CI/CD:</strong> Automated testing and static export ready for GitHub Pages</li>
           </ul>
         </div>
 

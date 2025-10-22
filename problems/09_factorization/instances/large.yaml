@@ -1,0 +1,5 @@
+name: rsa10403_challenge
+description: Challenge semiprime representing double-digit primes
+modulus: 10403
+expected_factors: [101, 103]
+seed: 123

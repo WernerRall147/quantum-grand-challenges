@@ -1,0 +1,30 @@
+name: outer-planet-grand-tour-large
+description: Multi-leg grand tour with gravity assists at Venus, Earth, and Jupiter en route to Saturn.
+legs:
+  - origin: Earth
+    destination: Venus
+    departure_window_days: 30
+    arrival_window_days: 25
+    required_delta_v_kms: 3.5
+    time_of_flight_days: 150.0
+  - origin: Venus
+    destination: Earth
+    departure_window_days: 15
+    arrival_window_days: 10
+    required_delta_v_kms: 0.7
+    time_of_flight_days: 180.0
+  - origin: Earth
+    destination: Jupiter
+    departure_window_days: 25
+    arrival_window_days: 20
+    required_delta_v_kms: 5.2
+    time_of_flight_days: 750.0
+  - origin: Jupiter
+    destination: Saturn
+    departure_window_days: 18
+    arrival_window_days: 18
+    required_delta_v_kms: 1.8
+    time_of_flight_days: 900.0
+launch_energy_c3: 18.0
+max_mission_duration_days: 2400
+propellant_margin_percent: 25.0

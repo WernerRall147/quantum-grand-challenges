@@ -1,0 +1,9 @@
+system: poisson_1d
+size: medium
+description: "3x3 Poisson stencil representing a short line segment"
+matrix:
+  - [4.0, -1.0, 0.0]
+  - [-1.0, 4.0, -1.0]
+  - [0.0, -1.0, 3.0]
+rhs: [15.0, 10.0, 10.0]
+target_precision: 1.0e-5

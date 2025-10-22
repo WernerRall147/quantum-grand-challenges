@@ -1,0 +1,6 @@
+name: repetition-code-medium
+description: Distance-5 repetition code with broader physical error sweep.
+code_distance: 5
+measurement_rounds: 2
+physical_error_rates: [0.001, 0.003, 0.005, 0.007, 0.009, 0.011]
+bias: 1.0

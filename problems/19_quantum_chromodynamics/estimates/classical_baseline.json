@@ -1,0 +1,69 @@
+{
+  "problem_id": "19_quantum_chromodynamics",
+  "model": "coarse_lattice_plaquette",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "su3-fine-large",
+      "description": "Fine 8^3x16 lattice for challenging string tension estimates.",
+      "lattice_shape": [
+        8,
+        8,
+        8,
+        16
+      ],
+      "lattice_spacing_fm": 0.1,
+      "beta": 6.0,
+      "anisotropy": 1.2,
+      "sea_quark_mass_mev": 20.0,
+      "volume": 8192,
+      "plaquette": 0.8731283722520958,
+      "string_tension": 12.687162774790414,
+      "scalar_glueball_mass_mev": 16.02856968632903,
+      "energy_density": 10.149730219832334,
+      "plaquette_variance": 0.0033333333333333335
+    },
+    {
+      "instance_id": "medium",
+      "name": "su3-plaquette-medium",
+      "description": "Moderate 6^3x12 lattice with improved gauge coupling.",
+      "lattice_shape": [
+        6,
+        6,
+        6,
+        12
+      ],
+      "lattice_spacing_fm": 0.15,
+      "beta": 5.6,
+      "anisotropy": 1.1,
+      "sea_quark_mass_mev": 35.0,
+      "volume": 2592,
+      "plaquette": 0.8630367919251106,
+      "string_tension": 6.087253692217306,
+      "scalar_glueball_mass_mev": 11.10256219380916,
+      "energy_density": 7.304704430660767,
+      "plaquette_variance": 0.0035714285714285718
+    },
+    {
+      "instance_id": "small",
+      "name": "su2-plaquette-small",
+      "description": "Small 4^3x8 lattice with coarse spacing for rapid evaluation.",
+      "lattice_shape": [
+        4,
+        4,
+        4,
+        8
+      ],
+      "lattice_spacing_fm": 0.25,
+      "beta": 2.2,
+      "anisotropy": 1.0,
+      "sea_quark_mass_mev": 50.0,
+      "volume": 512,
+      "plaquette": 0.7150013855048749,
+      "string_tension": 4.5599778319220015,
+      "scalar_glueball_mass_mev": 9.609347069204054,
+      "energy_density": 9.119955663844003,
+      "plaquette_variance": 0.00909090909090909
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+name: latitudinal-column-small
+description: Small diffusion grid capturing annual forcing over a five-year horizon.
+grid_points: 25
+time_steps: 180
+time_step_hours: 24
+diffusion_coefficient: 0.18
+heat_capacity: 3.8
+forcing_amplitude: 1.5
+forcing_frequency_per_year: 1.0
+initial_peak:
+  location: 0.5
+  amplitude: 2.0
+  width: 0.12

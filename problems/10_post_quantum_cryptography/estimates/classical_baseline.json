@@ -1,0 +1,57 @@
+{
+  "problem_id": "10_post_quantum_cryptography",
+  "model": "bkz_cost_estimator",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "kyber1024_high_security",
+      "description": "High-security lattice KEM target",
+      "scheme": "Kyber",
+      "variant": "1024",
+      "lattice_dimension": 1024,
+      "modulus": 3329,
+      "target_security_bits": 256.0,
+      "classical_cost_bits": 249.48999999999995,
+      "quantum_cost_bits": 134.03999999999996,
+      "classical_margin_bits": 6.510000000000048,
+      "quantum_margin_bits": 121.96000000000004,
+      "gaussian_heuristic_norm": 25776.657341575305,
+      "sieving_attempts": 40,
+      "estimated_runtime_hours": 2.239033640951433e+28
+    },
+    {
+      "instance_id": "medium",
+      "name": "ntruhps4096821_reference",
+      "description": "Medium security lattice scheme",
+      "scheme": "NTRU-HPS",
+      "variant": "4096821",
+      "lattice_dimension": 821,
+      "modulus": 4096,
+      "target_security_bits": 192.0,
+      "classical_cost_bits": 198.76,
+      "quantum_cost_bits": 110.5993807941111,
+      "classical_margin_bits": -6.759999999999991,
+      "quantum_margin_bits": 81.4006192058889,
+      "gaussian_heuristic_norm": 28398.43134352457,
+      "sieving_attempts": 32,
+      "estimated_runtime_hours": 1.9666683148654102e+21
+    },
+    {
+      "instance_id": "small",
+      "name": "kyber512_reference",
+      "description": "NIST Level 1 lattice KEM baseline",
+      "scheme": "Kyber",
+      "variant": "512",
+      "lattice_dimension": 512,
+      "modulus": 3329,
+      "target_security_bits": 128.0,
+      "classical_cost_bits": 153.25,
+      "quantum_cost_bits": 89.25999999999999,
+      "classical_margin_bits": -25.25,
+      "quantum_margin_bits": 38.74000000000001,
+      "gaussian_heuristic_norm": 18226.849202549904,
+      "sieving_attempts": 20,
+      "estimated_runtime_hours": 741203417319676.5
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+system: poisson_1d
+size: small
+description: "2x2 Poisson stencil with Dirichlet boundaries"
+matrix:
+  - [4.0, -1.0]
+  - [-1.0, 3.0]
+rhs: [15.0, 10.0]
+target_precision: 1.0e-4

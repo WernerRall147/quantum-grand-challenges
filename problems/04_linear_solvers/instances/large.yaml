@@ -1,0 +1,11 @@
+system: poisson_1d
+size: large
+description: "5x5 Poisson stencil capturing a longer 1D diffusion grid"
+matrix:
+  - [4.0, -1.0, 0.0, 0.0, 0.0]
+  - [-1.0, 4.0, -1.0, 0.0, 0.0]
+  - [0.0, -1.0, 4.0, -1.0, 0.0]
+  - [0.0, 0.0, -1.0, 4.0, -1.0]
+  - [0.0, 0.0, 0.0, -1.0, 3.0]
+rhs: [20.0, 10.0, 10.0, 10.0, 10.0]
+target_precision: 1.0e-6

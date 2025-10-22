@@ -1,0 +1,7 @@
+name: su2-plaquette-small
+description: Small 4^3x8 lattice with coarse spacing for rapid evaluation.
+lattice_shape: [4, 4, 4, 8]
+lattice_spacing_fm: 0.25
+beta: 2.2
+anisotropy: 1.0
+sea_quark_mass_mev: 50.0

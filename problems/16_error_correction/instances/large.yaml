@@ -1,0 +1,6 @@
+name: repetition-code-large
+description: Distance-7 repetition code exploring low physical error regime.
+code_distance: 7
+measurement_rounds: 3
+physical_error_rates: [0.0005, 0.001, 0.0015, 0.002, 0.0025, 0.003]
+bias: 1.0

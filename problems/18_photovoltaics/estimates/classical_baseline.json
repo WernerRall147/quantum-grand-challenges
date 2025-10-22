@@ -1,0 +1,87 @@
+{
+  "problem_id": "18_photovoltaics",
+  "model": "shockley_queisser_heuristic",
+  "results": [
+    {
+      "instance_id": "large",
+      "name": "triple-junction-high-concentration-large",
+      "description": "Triple-junction III-V stack operating under concentrated sunlight.",
+      "junction_count": 3,
+      "temperature_k": 315.0,
+      "concentration": 5.0,
+      "series_resistance_ohm_cm2": 0.35,
+      "shunt_resistance_ohm_cm2": 8000.0,
+      "subcells": [
+        {
+          "bandgap_ev": 2.0,
+          "jsc_ma_cm2": 103.34566174696096,
+          "voc_v": 1.5410313479828923
+        },
+        {
+          "bandgap_ev": 1.4,
+          "jsc_ma_cm2": 188.30807320793585,
+          "voc_v": 0.9410313479828922
+        },
+        {
+          "bandgap_ev": 0.9,
+          "jsc_ma_cm2": 230.0,
+          "voc_v": 0.4410313479828924
+        }
+      ],
+      "current_limit_ma_cm2": 103.34566174696096,
+      "total_voltage_v": 2.923094043948677,
+      "fill_factor": 0.4975145975152166,
+      "max_power_density_mw_cm2": 150.29373118950045,
+      "efficiency": 0.3005874623790009
+    },
+    {
+      "instance_id": "medium",
+      "name": "tandem-perovskite-silicon-medium",
+      "description": "Two-junction tandem with optimized bandgaps and mild concentration.",
+      "junction_count": 2,
+      "temperature_k": 305.0,
+      "concentration": 1.5,
+      "series_resistance_ohm_cm2": 0.45,
+      "shunt_resistance_ohm_cm2": 5000.0,
+      "subcells": [
+        {
+          "bandgap_ev": 1.8,
+          "jsc_ma_cm2": 37.86800289048782,
+          "voc_v": 1.3713284619087605
+        },
+        {
+          "bandgap_ev": 1.1,
+          "jsc_ma_cm2": 69.0,
+          "voc_v": 0.6713284619087605
+        }
+      ],
+      "current_limit_ma_cm2": 37.86800289048782,
+      "total_voltage_v": 2.042656923817521,
+      "fill_factor": 0.4253492781746721,
+      "max_power_density_mw_cm2": 32.901335909791925,
+      "efficiency": 0.21934223939861283
+    },
+    {
+      "instance_id": "small",
+      "name": "perovskite-single-junction-small",
+      "description": "Single-junction perovskite baseline at moderate temperature.",
+      "junction_count": 1,
+      "temperature_k": 300.0,
+      "concentration": 1.0,
+      "series_resistance_ohm_cm2": 0.6,
+      "shunt_resistance_ohm_cm2": 4000.0,
+      "subcells": [
+        {
+          "bandgap_ev": 1.55,
+          "jsc_ma_cm2": 32.41565212706081,
+          "voc_v": 1.1278375980693707
+        }
+      ],
+      "current_limit_ma_cm2": 32.41565212706081,
+      "total_voltage_v": 1.1278375980693707,
+      "fill_factor": 0.3032950731737194,
+      "max_power_density_mw_cm2": 11.088343898771022,
+      "efficiency": 0.11088343898771022
+    }
+  ]
+}

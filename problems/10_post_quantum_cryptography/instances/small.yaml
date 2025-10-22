@@ -1,0 +1,10 @@
+name: kyber512_reference
+description: NIST Level 1 lattice KEM baseline
+scheme: Kyber
+variant: 512
+lattice_dimension: 512
+modulus: 3329
+target_security_bits: 128
+classical_block_size: 350
+quantum_block_size: 320
+seed: 7

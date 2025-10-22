@@ -1,0 +1,7 @@
+name: su3-plaquette-medium
+description: Moderate 6^3x12 lattice with improved gauge coupling.
+lattice_shape: [6, 6, 6, 12]
+lattice_spacing_fm: 0.15
+beta: 5.6
+anisotropy: 1.1
+sea_quark_mass_mev: 35.0

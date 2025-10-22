@@ -1,0 +1,14 @@
+name: pionless-eft-medium
+description: Intermediate cutoff with tuned c0 for deuteron-like binding.
+cutoff: 350.0
+coupling_constants:
+  c0: -0.75
+  c2: 0.18
+  c4: -0.05
+channels:
+  - name: singlet
+    l: 0
+    spins: 0
+  - name: triplet
+    l: 1
+    spins: 1

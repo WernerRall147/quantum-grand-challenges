@@ -1,0 +1,10 @@
+name: ntruhps4096821_reference
+description: Medium security lattice scheme
+scheme: NTRU-HPS
+variant: 4096_821
+lattice_dimension: 821
+modulus: 4096
+target_security_bits: 192
+classical_block_size: 380
+quantum_block_size: 340
+seed: 17

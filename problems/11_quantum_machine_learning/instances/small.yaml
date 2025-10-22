@@ -1,0 +1,9 @@
+name: radial_blobs_easy
+description: Two Gaussian blobs with mild overlap
+samples: 120
+features: 4
+classes: 2
+kernel_bandwidth: 1.2
+noise: 0.15
+train_split: 0.7
+seed: 11

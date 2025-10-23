@@ -16,10 +16,10 @@ This project aims to systematically explore 20 of the world's most challenging s
 
 ### Prerequisites
 
-1. **.NET 6.0+** and **Microsoft Q# SDK**
-2. **Python 3.9+** with scientific computing packages
-3. **Azure CLI** (optional, for resource estimation)
-4. **Git** for version control
+1. **.NET 6.0.x runtime/SDK** (strictly 6.0; the Microsoft.Quantum.Sdk version in this repo does *not* support .NET 7/8)
+2. **Python 3.11+** with the scientific computing stack (NumPy, SciPy, matplotlib, pandas, PyYAML, jsonschema)
+3. **Azure CLI** with the optional `quantum` extension for running the Resource Estimator or submitting Azure Quantum jobs
+4. **Git** for version control (and optionally GitHub CLI for Codespaces)
 
 ### Quick Setup
 
@@ -28,16 +28,20 @@ This project aims to systematically explore 20 of the world's most challenging s
 git clone https://github.com/WernerRall147/quantum-grand-challenges.git
 cd quantum-grand-challenges
 
-# Install Q# tools
+# Install Q# tools (optional for Jupyter integration)
 dotnet tool install -g Microsoft.Quantum.IQSharp
 
 # Create Python virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install Python dependencies (for any specific problem)
-cd problems/03_qae_risk/python
-pip install -r requirements.txt
+# Install baseline Python dependencies
+pip install numpy scipy matplotlib pandas seaborn plotly jsonschema pyyaml pytest
+
+# Validate the canonical workflow
+cd problems/03_qae_risk
+make classical
+make analyze
 ```
 
 ### Using GitHub Codespaces (Recommended)
@@ -49,21 +53,25 @@ Click the "Open in Codespaces" button for an instant development environment wit
 ### Types of Contributions
 
 #### 🔬 New Problem Implementations
+
 - Choose an unimplemented problem from the list of 20 grand challenges
 - Follow the standard problem structure (see below)
 - Include Q# quantum implementation, classical baseline, and analysis
 
 #### 🚀 Algorithm Improvements
+
 - Optimize existing Q# code for better performance
 - Implement additional quantum algorithms for existing problems
 - Add more sophisticated classical baselines
 
 #### 📊 Analysis & Visualization
+
 - Enhance performance comparison scripts
 - Create better visualizations and plots
 - Improve resource estimation analysis
 
 #### 📚 Documentation
+
 - Improve README files for individual problems
 - Add tutorials and educational content
 - Document quantum algorithms and their advantages
@@ -72,33 +80,32 @@ Click the "Open in Codespaces" button for an instant development environment wit
 
 When implementing a new problem, follow this structure:
 
-```
+```text
 problems/XX_problem_name/
-├── README.md                 # Problem description, algorithm explanation, results
-├── qsharp/
-│   ├── Program.qs           # Main Q# quantum algorithm
-│   ├── Tests.qs             # Unit tests for quantum operations
-│   ├── *.csproj             # Project configuration
-│   └── bin/                 # Compiled executables (gitignored)
-├── python/
-│   ├── analysis.py          # Performance comparison and plotting
-│   ├── baseline.py          # Classical algorithm implementation
-│   ├── visualization.py     # Plots and data visualization
-│   └── requirements.txt     # Python dependencies
+├── README.md                      # Problem description, acceptance criteria, current status
+├── Makefile                       # `make classical`, `make analyze`, `make build`, `make estimate`
 ├── instances/
-│   ├── small.yaml           # Small problem instances for testing
-│   ├── medium.yaml          # Medium-sized benchmark instances
-│   └── large.yaml           # Large challenge instances
+│   ├── small.yaml                 # Development-sized instance
+│   ├── medium.yaml                # Benchmark instance
+│   └── large.yaml                 # Stretch goal / challenge instance
 ├── estimates/
-│   ├── logical_resources.json    # Logical qubit requirements
-│   ├── physical_resources.json   # Physical resource estimates
-│   └── error_budget.json         # Error correction analysis
-└── Makefile                 # Build automation and analysis pipeline
+│   ├── classical_baseline.json    # Deterministic output from classical pipeline
+│   └── ci_latest.json             # (Optional) CI-generated mock or estimator results
+├── plots/                         # Generated figures from `make analyze`
+├── python/
+│   ├── classical_baseline.py      # Primary classical algorithm implementation
+│   ├── analyze.py                 # Visualization and report script
+│   └── __init__.py (optional)
+└── qsharp/
+	├── Program.qs                 # Entry-point operation / placeholder circuit
+	├── *.csproj                   # Q# project configuration
+	└── Tests.qs (optional)        # Quantum unit tests when available
 ```
 
 ### Code Quality Standards
 
 #### Q# Code
+
 - Use meaningful operation and variable names
 - Include comprehensive documentation comments
 - Follow Q# naming conventions (PascalCase for operations)
@@ -106,6 +113,7 @@ problems/XX_problem_name/
 - Use the shared utilities from `libs/common/Utils.qs` when appropriate
 
 #### Python Code
+
 - Follow PEP 8 style guidelines
 - Include type hints where appropriate
 - Use docstrings for functions and classes
@@ -113,6 +121,7 @@ problems/XX_problem_name/
 - Include error handling for edge cases
 
 #### General
+
 - Write clear commit messages
 - Include tests for new functionality
 - Update documentation for any changes
@@ -128,6 +137,7 @@ All quantum implementations should include:
 4. **Error Budget Analysis**: Understand error correction overhead
 
 Example resource estimation call:
+
 ```bash
 cd problems/XX_problem_name
 make estimate  # Runs resource estimation pipeline
@@ -156,17 +166,16 @@ Follow the guidelines above for code quality and structure.
 ### 4. Test Your Implementation
 
 ```bash
-# For Q# code
-cd problems/XX_problem_name/qsharp
-dotnet test
-
-# For Python code
-cd problems/XX_problem_name/python
-python -m pytest
-
-# Full pipeline test
+# Classical + analysis pipeline
 cd problems/XX_problem_name
-make all
+make classical
+make analyze
+
+# Q# build (requires local .NET 6.0 runtime)
+make build
+
+# (Optional) Run resource estimation wrappers
+make estimate
 ```
 
 ### 5. Submit a Pull Request
@@ -215,6 +224,7 @@ Brief description of the changes
 ## 🚨 Issue Templates
 
 ### Bug Report
+
 Use this template for reporting bugs:
 
 ```markdown
@@ -237,6 +247,7 @@ What should happen
 ```
 
 ### Feature Request
+
 Use this template for suggesting new features:
 
 ```markdown
@@ -285,16 +296,19 @@ We are committed to providing a welcoming and inspiring community for all. Pleas
 ## 📖 Resources for Contributors
 
 ### Learning Materials
+
 - [Microsoft Q# Documentation](https://docs.microsoft.com/quantum/)
 - [Azure Quantum Resource Estimator Guide](https://docs.microsoft.com/azure/quantum/)
 - [Quantum Computing: An Applied Approach](https://link.springer.com/book/10.1007/978-3-030-23922-0)
 
 ### Research References
+
 - [Quantum Algorithm Zoo](https://quantumalgorithmzoo.org/)
 - [arXiv Quantum Physics](https://arxiv.org/list/quant-ph/recent)
 - Problem-specific references in individual README files
 
 ### Tools and Libraries
+
 - [Q# Standard Library](https://docs.microsoft.com/qsharp/api/)
 - [NumPy](https://numpy.org/) for classical implementations
 - [Matplotlib](https://matplotlib.org/) for visualization

@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-10-25T21:40:26.015180Z",
+  "algorithm": "QPEAmplitudeEstimation",
+  "estimator_target": "TailRisk > 3.0",
+  "instance": {
+    "parameters": {
+      "shots": 64,
+      "phase_bits": 6,
+      "repetitions": 64,
+      "threshold": 3.0,
+      "loss_qubits": 8,
+      "mean": 0.0,
+      "std_dev": 1.0
+    }
+  },
+  "metrics": {
+    "logical_qubits": 7,
+    "physical_qubits": 7,
+    "t_count": 1536,
+    "runtime_days": 0,
+    "phase_bits": 6,
+    "repetitions": 64,
+    "quantum_estimate": 0.17656078788543272,
+    "quantum_std_error": 0.04722974386709199,
+    "analytic_probability": 0.1590256326509279,
+    "classical_estimate": 0.1590256326509279,
+    "classical_std_error": 0.0011564449005936255,
+    "difference": 0.01753515523450483
+  },
+  "raw_output": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\9.0.306\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\9.0.306\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\9.0.306\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nMost frequent phase outcome: 6/64 (effective phase~0.09375, amplitude~0.08426519384872735)\nQuantum amplitude estimation (phase bits=6, repeats=64): 0.17656078788543272 +/- 0.04722974386709199\nAnalytical probability: 0.1590256326509279\nClassical Monte Carlo estimate: 0.1590256326509279 \u00b1 0.0011564449005936255\nDifference between quantum and analytical: 0.01753515523450483\n(0.17656078788543272, 0.1590256326509279, 0.0011564449005936255)"
+}

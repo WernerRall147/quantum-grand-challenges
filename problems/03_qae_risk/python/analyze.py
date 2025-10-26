@@ -4,14 +4,17 @@ Analysis and visualization for QAE Risk Analysis results.
 Combines quantum and classical results for comparison.
 """
 
+import argparse
 import json
+import math
 import re
+import statistics
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from datetime import datetime
 import subprocess
 import sys
@@ -19,7 +22,7 @@ import sys
 class QAERiskAnalyzer:
     """Analyzer for quantum amplitude estimation risk analysis results."""
     
-    def __init__(self, problem_dir: str | None = None):
+    def __init__(self, problem_dir: str | None = None, show_plots: bool = False):
         script_dir = Path(__file__).resolve().parent
         if problem_dir is None:
             self.problem_dir = script_dir.parent
@@ -33,6 +36,8 @@ class QAERiskAnalyzer:
         self.plots_dir = self.problem_dir / "plots"
         self.estimates_dir.mkdir(exist_ok=True)
         self.plots_dir.mkdir(exist_ok=True)
+        self.show_plots = show_plots
+        self.latest_quantum_result: Optional[Dict[str, Any]] = None
 
     def _has_positive_values(self, values) -> bool:
         for value in values:
@@ -77,33 +82,40 @@ class QAERiskAnalyzer:
             print("Warning: No classical baseline results found")
             return {}
             
-    def run_quantum_estimation(self) -> bool:
-        """Run the Q# quantum estimation if possible."""
+    def run_quantum_estimation(self, skip_build: bool = False) -> Optional[Dict[str, Any]]:
+        """Run the Q# quantum estimation and return the parsed result payload."""
         qsharp_dir = self.problem_dir / "qsharp"
+        self.latest_quantum_result = None
         
         if not qsharp_dir.exists():
             print("Q# directory not found")
-            return False
+            return None
             
         try:
-            # Try to build and run the Q# project
-            print("Building Q# project...")
-            build_result = subprocess.run(
-                ["dotnet", "build", "--configuration", "Release"],
-                cwd=qsharp_dir,
-                check=True,
-                capture_output=True,
-                text=True,
-            )
+            if not skip_build:
+                print("Building Q# project...")
+                build_result = subprocess.run(
+                    ["dotnet", "build", "--configuration", "Release"],
+                    cwd=qsharp_dir,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                )
 
-            if build_result.stdout:
-                print(build_result.stdout.strip())
-            if build_result.stderr:
-                print(build_result.stderr.strip(), file=sys.stderr)
+                if build_result.stdout:
+                    print(build_result.stdout.strip())
+                if build_result.stderr:
+                    print(build_result.stderr.strip(), file=sys.stderr)
+            else:
+                print("Skipping build; reusing previous Q# compilation artifacts.")
             
             print("Running quantum estimation...")
+            run_command = ["dotnet", "run", "--configuration", "Release"]
+            if skip_build:
+                run_command.append("--no-build")
+
             run_result = subprocess.run(
-                ["dotnet", "run", "--configuration", "Release"],
+                run_command,
                 cwd=qsharp_dir,
                 check=True,
                 capture_output=True,
@@ -116,6 +128,12 @@ class QAERiskAnalyzer:
                 print(stdout_clean)
             if run_result.stderr:
                 print(run_result.stderr.strip(), file=sys.stderr)
+
+            histogram_counts: Dict[int, int] = {}
+            for match in re.finditer(r"^\s+(\d+):\s+(\d+)$", stdout_clean, flags=re.MULTILINE):
+                outcome = int(match.group(1))
+                count = int(match.group(2))
+                histogram_counts[outcome] = count
 
             shots_match = re.search(r"shots=([0-9]+)", stdout_clean)
             config_match = re.search(r"phase bits=([0-9]+), repeats=([0-9]+)", stdout_clean)
@@ -145,6 +163,28 @@ class QAERiskAnalyzer:
             repeats = int(config_match.group(2)) if config_match else None
             shots = int(shots_match.group(1)) if shots_match else repeats
 
+            circular_amplitude = None
+            circular_phase = None
+            if histogram_counts and phase_bits is not None:
+                total_counts = sum(histogram_counts.values())
+                if total_counts > 0:
+                    denom = 1 << phase_bits
+                    complex_sum = 0.0 + 0.0j
+                    for outcome, count in histogram_counts.items():
+                        folded_outcome = min(outcome, denom - outcome)
+                        angle = 2.0 * math.pi * folded_outcome / denom
+                        complex_sum += count * complex(math.cos(angle), math.sin(angle))
+                    complex_mean = complex_sum / total_counts
+                    if abs(complex_mean) > 1e-12:
+                        raw_phase = math.atan2(complex_mean.imag, complex_mean.real)
+                        if raw_phase < 0.0:
+                            raw_phase += 2.0 * math.pi
+                        normalized_phase = raw_phase / (2.0 * math.pi)
+                        folded_phase = min(normalized_phase, 1.0 - normalized_phase)
+                        theta = math.pi * folded_phase
+                        circular_amplitude = math.sin(theta) ** 2
+                        circular_phase = folded_phase
+
             if quantum_estimate is not None:
                 self.estimates_dir.mkdir(exist_ok=True)
                 logical_qubits = (phase_bits + 1) if phase_bits is not None else None
@@ -153,7 +193,7 @@ class QAERiskAnalyzer:
                 if phase_bits is not None and repeats is not None:
                     t_count = max(1, phase_bits * repeats * 4)
 
-                result_payload = {
+                result_payload: Dict[str, Any] = {
                     "timestamp": datetime.utcnow().isoformat() + "Z",
                     "algorithm": "QPEAmplitudeEstimation",
                     "estimator_target": "TailRisk > 3.0",
@@ -181,25 +221,34 @@ class QAERiskAnalyzer:
                         "classical_estimate": classical_prob,
                         "classical_std_error": classical_std,
                         "difference": difference,
+                        "circular_phase": circular_phase,
+                        "circular_amplitude": circular_amplitude,
                     },
                     "raw_output": stdout_clean,
                 }
+
+                if histogram_counts:
+                    result_payload["histogram_counts"] = histogram_counts
 
                 output_path = self.estimates_dir / "quantum_estimate.json"
                 with open(output_path, "w", encoding="utf-8") as f:
                     json.dump(result_payload, f, indent=2)
                 print(f"Saved quantum estimation results to {output_path}")
+                self.latest_quantum_result = result_payload
+                return result_payload
             else:
                 print("Warning: Unable to parse quantum estimation output for recording")
 
-            return True
+            return None
             
         except subprocess.CalledProcessError as e:
             print(f"Failed to run Q# estimation: {e}")
-            return False
+            self.latest_quantum_result = None
+            return None
         except FileNotFoundError:
             print("dotnet not found. Please install .NET SDK.")
-            return False
+            self.latest_quantum_result = None
+            return None
 
     def ensure_classical_baseline(self) -> bool:
         """Ensure classical baseline results exist, generating them if needed."""
@@ -223,6 +272,118 @@ class QAERiskAnalyzer:
         except subprocess.CalledProcessError as e:
             print(f"Failed to generate classical baseline: {e}")
             return False
+    
+    def _compose_ensemble_payload(self, results: List[Dict[str, Any]], runs_requested: int) -> Dict[str, Any]:
+        """Aggregate metrics across multiple quantum estimation results."""
+        metrics_list = [res.get("metrics", {}) for res in results if isinstance(res.get("metrics"), dict)]
+
+        def _collect_float(key: str) -> List[float]:
+            collected: List[float] = []
+            for metrics in metrics_list:
+                value = metrics.get(key)
+                if isinstance(value, (int, float)):
+                    collected.append(float(value))
+            return collected
+
+        amplitude_values = _collect_float("quantum_estimate")
+        std_error_values = _collect_float("quantum_std_error")
+        difference_values = _collect_float("difference")
+        circular_amp_values = _collect_float("circular_amplitude")
+        circular_phase_values = _collect_float("circular_phase")
+
+        amplitude_mean = statistics.mean(amplitude_values) if amplitude_values else None
+        amplitude_std = statistics.pstdev(amplitude_values) if amplitude_values else None
+        amplitude_std_error = None
+        if amplitude_std is not None and amplitude_values:
+            amplitude_std_error = amplitude_std / math.sqrt(len(amplitude_values)) if len(amplitude_values) > 0 else None
+
+        std_error_mean = statistics.mean(std_error_values) if std_error_values else None
+        difference_mean = statistics.mean(difference_values) if difference_values else None
+        circular_amp_mean = statistics.mean(circular_amp_values) if circular_amp_values else None
+        circular_phase_mean = statistics.mean(circular_phase_values) if circular_phase_values else None
+
+        histogram_totals: Dict[int, int] = {}
+        for res in results:
+            for outcome, count in (res.get("histogram_counts") or {}).items():
+                histogram_totals[outcome] = histogram_totals.get(outcome, 0) + count
+
+        first_result = results[0]
+        base_metrics = first_result.get("metrics", {})
+        ensemble_metrics: Dict[str, Any] = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "algorithm": "QPEAmplitudeEstimation",
+            "mode": "ensemble",
+            "estimator_target": first_result.get("estimator_target", "TailRisk > 3.0"),
+            "instance": first_result.get("instance", {}),
+            "metrics": {
+                "ensemble_runs": len(results),
+                "runs_requested": runs_requested,
+                "quantum_estimate": amplitude_mean,
+                "ensemble_std_deviation": amplitude_std,
+                "ensemble_std_error": amplitude_std_error,
+                "mean_reported_std_error": std_error_mean,
+                "mean_difference": difference_mean,
+                "circular_amplitude": circular_amp_mean,
+                "circular_phase": circular_phase_mean,
+                "phase_bits": base_metrics.get("phase_bits"),
+                "repetitions": base_metrics.get("repetitions"),
+                "logical_qubits": base_metrics.get("logical_qubits"),
+                "physical_qubits": base_metrics.get("physical_qubits"),
+                "t_count": base_metrics.get("t_count"),
+                "runtime_days": base_metrics.get("runtime_days"),
+            },
+            "ensemble": {
+                "runs": [
+                    {
+                        "index": idx + 1,
+                        "timestamp": res.get("timestamp"),
+                        "metrics": res.get("metrics", {}),
+                        "source_file": f"quantum_estimate_run{idx + 1}.json",
+                    }
+                    for idx, res in enumerate(results)
+                ]
+            },
+        }
+
+        ensemble_payload: Dict[str, Any] = ensemble_metrics
+
+        if histogram_totals:
+            ensemble_payload["histogram_counts"] = histogram_totals
+
+        return ensemble_payload
+
+    def run_quantum_ensemble(self, runs: int) -> Optional[Dict[str, Any]]:
+        """Execute multiple quantum estimations and aggregate the results."""
+        if runs <= 0:
+            print("Ensemble run count must be positive.")
+            return None
+
+        results: List[Dict[str, Any]] = []
+        print(f"Running ensemble of {runs} quantum estimations...")
+        for idx in range(runs):
+            print(f"\n▶️ Ensemble run {idx + 1}/{runs}")
+            result = self.run_quantum_estimation(skip_build=(idx > 0))
+            if result is None:
+                print("Ensemble execution aborted due to failure.")
+                break
+
+            results.append(result)
+            run_path = self.estimates_dir / f"quantum_estimate_run{idx + 1}.json"
+            with open(run_path, "w", encoding="utf-8") as f:
+                json.dump(result, f, indent=2)
+            print(f"Saved run {idx + 1} results to {run_path}")
+
+        if not results:
+            return None
+
+        ensemble_payload = self._compose_ensemble_payload(results, runs)
+        ensemble_path = self.estimates_dir / "quantum_estimate_ensemble.json"
+        with open(ensemble_path, "w", encoding="utf-8") as f:
+            json.dump(ensemble_payload, f, indent=2)
+        print(f"Saved ensemble summary to {ensemble_path}")
+
+        self.latest_quantum_result = ensemble_payload
+        return ensemble_payload
             
     def create_resource_comparison_plot(self, estimation_results: List[Dict[str, Any]]):
         """Create plots comparing resource requirements across targets."""
@@ -286,7 +447,10 @@ class QAERiskAnalyzer:
         
         plt.tight_layout()
         plt.savefig(self.plots_dir / "resource_comparison.png", dpi=300, bbox_inches='tight')
-        plt.show()
+        if self.show_plots:
+            plt.show()
+        else:
+            plt.close(fig)
         
     def create_precision_vs_resources_plot(self, estimation_results: List[Dict[str, Any]]):
         """Plot how resource requirements scale with precision."""
@@ -361,7 +525,10 @@ class QAERiskAnalyzer:
         
         plt.tight_layout()
         plt.savefig(self.plots_dir / "precision_scaling.png", dpi=300, bbox_inches='tight')
-        plt.show()
+        if self.show_plots:
+            plt.show()
+        else:
+            plt.close(fig)
         
     def create_quantum_classical_comparison(self, 
                                           estimation_results: List[Dict[str, Any]], 
@@ -431,7 +598,10 @@ class QAERiskAnalyzer:
             
         plt.tight_layout()
         plt.savefig(self.plots_dir / "quantum_classical_comparison.png", dpi=300, bbox_inches='tight')
-        plt.show()
+        if self.show_plots:
+            plt.show()
+        else:
+            plt.close(fig)
         
     def generate_summary_report(self, 
                               estimation_results: List[Dict[str, Any]], 
@@ -445,7 +615,16 @@ class QAERiskAnalyzer:
         
         # Quantum results summary
         report.append("## Quantum Amplitude Estimation Results")
-        if estimation_results:
+        single_results = [
+            result for result in estimation_results
+            if not result.get('metrics', {}).get('ensemble_runs')
+        ]
+        ensemble_results = [
+            result for result in estimation_results
+            if result.get('metrics', {}).get('ensemble_runs')
+        ]
+
+        if single_results:
             def format_with_commas(value: Any) -> str:
                 """Format numeric values with thousands separators when possible."""
                 if value is None:
@@ -461,18 +640,71 @@ class QAERiskAnalyzer:
                         return f"{int(numeric_value):,}"
                     return f"{numeric_value:,}"
 
-            for i, result in enumerate(estimation_results):
+            for i, result in enumerate(single_results):
                 metrics = result.get('metrics', {})
                 report.append(f"### Result {i+1}: {result.get('estimator_target', 'Unknown')}")
                 report.append(f"- Algorithm: {result.get('algorithm', 'Unknown')}")
                 report.append(f"- Logical Qubits: {metrics.get('logical_qubits', 'N/A')}")
                 report.append(f"- Physical Qubits: {format_with_commas(metrics.get('physical_qubits', 'N/A'))}")
                 report.append(f"- T-count: {format_with_commas(metrics.get('t_count', 'N/A'))}")
+                circular_amp = metrics.get('circular_amplitude')
+                circular_phase = metrics.get('circular_phase')
+                if circular_amp is not None:
+                    report.append(f"- Circular amplitude (phase-averaged): {circular_amp:.6f}")
+                if circular_phase is not None:
+                    report.append(f"- Circular phase estimate: {circular_phase:.6f}")
                 report.append(f"- Runtime: {metrics.get('runtime_days', 'N/A')} days")
                 report.append("")
         else:
-            report.append("No quantum estimation results available.")
+            report.append("No individual quantum estimation results available.")
             report.append("")
+
+        if ensemble_results:
+            report.append("## Quantum Ensemble Aggregations")
+            for i, result in enumerate(ensemble_results):
+                metrics = result.get('metrics', {})
+                report.append(f"### Ensemble {i+1}: {result.get('estimator_target', 'Unknown')}")
+                runs_recorded = metrics.get('ensemble_runs')
+                runs_requested = metrics.get('runs_requested')
+                if runs_recorded is not None:
+                    requested_text = f" (requested {runs_requested})" if runs_requested is not None else ""
+                    report.append(f"- Completed runs: {runs_recorded}{requested_text}")
+                mean_amp = metrics.get('quantum_estimate')
+                if isinstance(mean_amp, (int, float)):
+                    report.append(f"- Ensemble mean amplitude: {mean_amp:.6f}")
+                std_dev = metrics.get('ensemble_std_deviation')
+                if isinstance(std_dev, (int, float)):
+                    report.append(f"- Ensemble standard deviation: {std_dev:.6f}")
+                std_err = metrics.get('ensemble_std_error')
+                if isinstance(std_err, (int, float)):
+                    report.append(f"- Ensemble standard error: {std_err:.6f}")
+                reported_err = metrics.get('mean_reported_std_error')
+                if isinstance(reported_err, (int, float)):
+                    report.append(f"- Mean per-run reported std. error: {reported_err:.6f}")
+                diff_mean = metrics.get('mean_difference')
+                if isinstance(diff_mean, (int, float)):
+                    report.append(f"- Mean deviation from analytic: {diff_mean:.6f}")
+                circ_amp = metrics.get('circular_amplitude')
+                if isinstance(circ_amp, (int, float)):
+                    report.append(f"- Circular amplitude (aggregated): {circ_amp:.6f}")
+                circ_phase = metrics.get('circular_phase')
+                if isinstance(circ_phase, (int, float)):
+                    report.append(f"- Circular phase (aggregated): {circ_phase:.6f}")
+                ensemble_hist = result.get('histogram_counts')
+                if ensemble_hist:
+                    peak_outcome = max(ensemble_hist.items(), key=lambda kv: kv[1])[0]
+                    phase_bits = metrics.get('phase_bits')
+                    if isinstance(phase_bits, int) and phase_bits >= 0:
+                        denom = 1 << phase_bits
+                        report.append(f"- Most frequent outcome across ensemble: {peak_outcome}/{denom}")
+                    else:
+                        report.append(f"- Most frequent outcome across ensemble: {peak_outcome} (denominator unknown)")
+                runs_entries = result.get('ensemble', {}).get('runs')
+                if runs_entries:
+                    run_labels = [run.get('source_file', f"run{idx+1}") for idx, run in enumerate(runs_entries)]
+                    if run_labels:
+                        report.append(f"- Run artifacts: {', '.join(run_labels)}")
+                report.append("")
             
         # Classical results summary
         report.append("## Classical Monte Carlo Results")
@@ -523,16 +755,37 @@ class QAERiskAnalyzer:
             
         return report_text
 
-def main():
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Analyze QAE risk estimation outputs")
+    parser.add_argument("--show-plots", action="store_true", help="Display plots instead of just saving them")
+    parser.add_argument(
+        "--ensemble-runs",
+        type=int,
+        default=1,
+        help="Number of quantum estimation runs to perform for aggregation (default: 1)",
+    )
+    return parser.parse_args()
+
+
+def main(args: argparse.Namespace):
     """Main analysis workflow."""
     
-    analyzer = QAERiskAnalyzer()
+    analyzer = QAERiskAnalyzer(show_plots=args.show_plots)
     
     print("🔍 Starting QAE Risk Analysis...")
     
     # Try to run quantum estimation
-    print("\n📊 Running quantum estimation...")
-    quantum_success = analyzer.run_quantum_estimation()
+    ensemble_runs = max(1, args.ensemble_runs)
+    if ensemble_runs > 1:
+        print(f"\n📊 Running quantum estimation ensemble with {ensemble_runs} runs...")
+        quantum_result = analyzer.run_quantum_ensemble(ensemble_runs)
+        if quantum_result is None:
+            print("Quantum ensemble execution failed or was skipped. See logs above.")
+    else:
+        print("\n📊 Running quantum estimation...")
+        quantum_result = analyzer.run_quantum_estimation()
+        if quantum_result is None:
+            print("Quantum estimation failed or was skipped. See logs above.")
     
     # Load any existing results
     print("\n📁 Loading estimation results...")
@@ -579,5 +832,6 @@ if __name__ == "__main__":
     # Set plotting style
     plt.style.use('seaborn-v0_8')
     sns.set_palette("husl")
-    
-    main()
+
+    args = parse_args()
+    main(args)

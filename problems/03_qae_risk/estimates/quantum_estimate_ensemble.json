@@ -1,0 +1,102 @@
+{
+  "timestamp": "2025-10-26T06:49:04.415407Z",
+  "algorithm": "QPEAmplitudeEstimation",
+  "mode": "ensemble",
+  "estimator_target": "TailRisk > 3.0",
+  "instance": {
+    "parameters": {
+      "shots": 96,
+      "phase_bits": 7,
+      "repetitions": 96,
+      "threshold": 3.0,
+      "loss_qubits": 8,
+      "mean": 0.0,
+      "std_dev": 1.0
+    }
+  },
+  "metrics": {
+    "ensemble_runs": 2,
+    "runs_requested": 2,
+    "quantum_estimate": 0.16292025733180476,
+    "ensemble_std_deviation": 0.0009383258949275108,
+    "ensemble_std_error": 0.0006634966032661787,
+    "mean_reported_std_error": 0.018253714837374542,
+    "mean_difference": 0.003894624680876868,
+    "circular_amplitude": 0.1615942364814663,
+    "circular_phase": 0.13168054299017956,
+    "phase_bits": 7,
+    "repetitions": 96,
+    "logical_qubits": 8,
+    "physical_qubits": 8,
+    "t_count": 2688,
+    "runtime_days": 0
+  },
+  "ensemble": {
+    "runs": [
+      {
+        "index": 1,
+        "timestamp": "2025-10-26T06:48:59.147211Z",
+        "metrics": {
+          "logical_qubits": 8,
+          "physical_qubits": 8,
+          "t_count": 2688,
+          "runtime_days": 0,
+          "phase_bits": 7,
+          "repetitions": 96,
+          "quantum_estimate": 0.16198193143687725,
+          "quantum_std_error": 0.01817369358893257,
+          "analytic_probability": 0.1590256326509279,
+          "classical_estimate": 0.1590256326509279,
+          "classical_std_error": 0.0011564449005936255,
+          "difference": 0.0029562987859493572,
+          "circular_phase": 0.13154061019089275,
+          "circular_amplitude": 0.16127061357527384
+        },
+        "source_file": "quantum_estimate_run1.json"
+      },
+      {
+        "index": 2,
+        "timestamp": "2025-10-26T06:49:04.409282Z",
+        "metrics": {
+          "logical_qubits": 8,
+          "physical_qubits": 8,
+          "t_count": 2688,
+          "runtime_days": 0,
+          "phase_bits": 7,
+          "repetitions": 96,
+          "quantum_estimate": 0.16385858322673227,
+          "quantum_std_error": 0.01833373608581651,
+          "analytic_probability": 0.1590256326509279,
+          "classical_estimate": 0.1590256326509279,
+          "classical_std_error": 0.0011564449005936255,
+          "difference": 0.004832950575804379,
+          "circular_phase": 0.13182047578946637,
+          "circular_amplitude": 0.16191785938765876
+        },
+        "source_file": "quantum_estimate_run2.json"
+      }
+    ]
+  },
+  "histogram_counts": {
+    "14": 2,
+    "16": 7,
+    "17": 73,
+    "19": 1,
+    "107": 2,
+    "109": 3,
+    "111": 74,
+    "112": 9,
+    "113": 2,
+    "115": 2,
+    "121": 1,
+    "0": 1,
+    "15": 3,
+    "18": 1,
+    "20": 1,
+    "21": 2,
+    "22": 1,
+    "108": 2,
+    "110": 4,
+    "117": 1
+  }
+}

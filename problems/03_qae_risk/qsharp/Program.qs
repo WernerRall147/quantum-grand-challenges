@@ -102,15 +102,12 @@ namespace QuantumGrandChallenges.QAERisk {
 
     operation ApplyAmplitudeAmplificationIteration(probability : Double, target : Qubit) : Unit is Adj + Ctl {
         body (...) {
-            // Reflect about success state (ancilla = |1>)
+            within {
+                PrepareTailAmplitude(probability, target);
+            } apply {
+                Z(target);
+            }
             Z(target);
-
-            // Reflect about zero state via state preparation
-            Adjoint PrepareTailAmplitude(probability, target);
-            X(target);
-            Z(target);
-            X(target);
-            PrepareTailAmplitude(probability, target);
         }
         adjoint auto;
         controlled auto;
@@ -232,7 +229,8 @@ namespace QuantumGrandChallenges.QAERisk {
             for idx in 0 .. countingQubits - 1 {
                 let result = M(counting[idx]);
                 if (result == One) {
-                    set outcome += 1 <<< idx;
+                    let bitPosition = countingQubits - idx - 1;
+                    set outcome += 1 <<< bitPosition;
                     X(counting[idx]);
                 }
             }
@@ -269,6 +267,15 @@ namespace QuantumGrandChallenges.QAERisk {
                 set bestOutcome = idx;
             }
         }
+
+        Message("Histogram of measured outcomes (counting bits -> occurrences):");
+        for idx in 0 .. Length(outcomeCounts) - 1 {
+            let count = outcomeCounts[idx];
+            if (count > 0) {
+                Message($"  {idx}: {count}");
+            }
+        }
+
         let denomGlobal = IntAsDouble(1 <<< countingQubits);
         let rawBestPhase = IntAsDouble(bestOutcome) / denomGlobal;
         let bestPhase = MinDouble(rawBestPhase, 1.0 - rawBestPhase);
@@ -296,16 +303,19 @@ namespace QuantumGrandChallenges.QAERisk {
         let riskParams = RiskParameters(8, 3.0, 0.0, 1.0);
         let (lossQubits, threshold, mean, stdDev) = riskParams!;
 
-    let countingQubits = 6;
-    let repetitions = 64;
-        let (quantumEstimate, quantumStdError) = EstimateTailRiskAmplitude(riskParams, countingQubits, repetitions);
+    let countingQubits = 7;
+    let repetitions = 96;
+        let validatedCounting = MaxInt(1, countingQubits);
+        let validatedRepeats = MaxInt(1, repetitions);
+
+        let (quantumEstimate, quantumStdError) = EstimateTailRiskAmplitude(riskParams, validatedCounting, validatedRepeats);
         let analyticEstimate = EstimateTailRiskProbability(riskParams);
 
         let monteCarloSamples = 100000;
         let (classicalProb, classicalError) = ClassicalMonteCarloEstimate(monteCarloSamples, mean, stdDev, threshold, lossQubits);
         let difference = AbsDouble(quantumEstimate - analyticEstimate);
 
-        Message($"Quantum amplitude estimation (phase bits={countingQubits}, repeats={repetitions}): {quantumEstimate} +/- {quantumStdError}");
+    Message($"Quantum amplitude estimation (phase bits={validatedCounting}, repeats={validatedRepeats}): {quantumEstimate} +/- {quantumStdError}");
         Message($"Analytical probability: {analyticEstimate}");
         Message($"Classical Monte Carlo estimate: {classicalProb} ± {classicalError}");
         Message($"Difference between quantum and analytical: {difference}");

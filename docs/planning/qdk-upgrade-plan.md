@@ -57,3 +57,43 @@
 1. Commit this plan to `docs/planning/qdk-upgrade-plan.md`.
 2. Stage and push current work (`git add`, `git commit -m "docs: add QDK upgrade plan"`, `git push`).
 3. Branch from the latest mainline and begin Phase A when ready.
+
+## 9. Execution Log
+- 2025-10-26 19:50 UTC — Verified installed .NET SDKs via `dotnet --list-sdks`; host contains 6.0.428, 7.0.120, 8.0.121, 9.0.305, 9.0.306.
+### [2025-10-26] Phase A: Environment and SDK Verification
+
+1. Verified .NET SDKs installed: 6.0, 7.0, 8.0, 9.0 (`dotnet --list-sdks`)
+2. Created feature branch: `feature/qdk-upgrade-spike`
+3. Queried NuGet for Microsoft.Quantum.Sdk versions (`https://api.nuget.org/v3-flatcontainer/microsoft.quantum.sdk/index.json`)
+4. Result: Latest stable version is 0.28.302812 (no newer stable QDK available)
+5. No code changes made to csproj or Q# files yet.
+
+**Interim Conclusion:**
+- Upgrade blocked until newer QDK is released. All steps logged for future reference.
+
+---
+
+### [2025-10-26] Phase B: Recommendations and Next Steps
+
+**Blockers:**
+- No newer stable QDK available on NuGet as of this date.
+- Q# projects require .NET 6.0 runtime and Microsoft.Quantum.Sdk 0.28.302812.
+
+**Recommendations:**
+1. Periodically re-check NuGet for new QDK releases (both stable and pre-release).
+2. When a new QDK is available:
+	- Update csproj to target the new SDK and .NET version.
+	- Run full environment and build validation.
+	- Document all errors, warnings, and fixes in this log.
+3. Consider testing pre-release QDK versions in a separate branch if urgent.
+4. Keep all environment checks and migration steps reproducible for future upgrades.
+
+**Lessons Learned:**
+- Always verify NuGet before attempting migration.
+- Document every step, error code, and workaround for team knowledge transfer.
+- Maintain a rollback plan in case of breaking changes.
+
+**Next Actions:**
+- Wait for new QDK release.
+- Revisit this plan and restart migration when available.
+- Continue to log all findings and environment changes here.

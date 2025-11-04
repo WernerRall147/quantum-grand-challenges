@@ -61,24 +61,24 @@ make estimate        # Resource estimator harness (requires successful build)
 |---------|-------------------|--------------------|---------------------|--------|
 | [QAE Risk Analysis](problems/03_qae_risk/) | ✅ Analytical placeholder builds under .NET 6 | ✅ Complete (Monte Carlo + plots) | ⏳ Pending (fault-tolerant QAE sweep) | 🟢 Ready for quantum kernel |
 | [Hubbard Model](problems/01_hubbard/) | ✅ Analytical placeholder builds under .NET 6 | ✅ Complete (exact diagonalization) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Catalysis Simulation](problems/02_catalysis/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Linear Solvers](problems/04_linear_solvers/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | � Scaffolded |
-| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ Placeholder Q# stub + C# driver | ✅ Complete | ⏳ Pending | � Scaffolded |
-| [High-Frequency Trading](problems/06_high_frequency_trading/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Drug Discovery](problems/07_drug_discovery/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Protein Folding](problems/08_protein_folding/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Factorization](problems/09_factorization/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Quantum Optimization](problems/12_quantum_optimization/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Climate Modeling](problems/13_climate_modeling/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Materials Discovery](problems/14_materials_discovery/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Database Search](problems/15_database_search/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Error Correction](problems/16_error_correction/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Nuclear Physics](problems/17_nuclear_physics/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Photovoltaics](problems/18_photovoltaics/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Quantum Chromodynamics](problems/19_quantum_chromodynamics/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
-| [Space Mission Planning](problems/20_space_mission_planning/) | ✅ Placeholder Q# stub | ✅ Complete | ⏳ Pending | 🟡 Scaffolded |
+| [Catalysis Simulation](problems/02_catalysis/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Arrhenius rates + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Linear Solvers](problems/04_linear_solvers/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (condition analysis + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (graph cuts + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [High-Frequency Trading](problems/06_high_frequency_trading/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (portfolio optimization) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Drug Discovery](problems/07_drug_discovery/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (molecular docking + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Protein Folding](problems/08_protein_folding/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (contact maps + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Factorization](problems/09_factorization/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Pollard's rho + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (attack cost analysis) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (kernel methods + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Quantum Optimization](problems/12_quantum_optimization/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (scheduling + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Climate Modeling](problems/13_climate_modeling/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (energy balance + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Materials Discovery](problems/14_materials_discovery/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (cluster expansion + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Database Search](problems/15_database_search/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (query complexity + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Error Correction](problems/16_error_correction/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (repetition codes + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Nuclear Physics](problems/17_nuclear_physics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (EFT diagonalization + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Photovoltaics](problems/18_photovoltaics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Shockley-Queisser + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Quantum Chromodynamics](problems/19_quantum_chromodynamics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (lattice gauge + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [Space Mission Planning](problems/20_space_mission_planning/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (orbital mechanics + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
 
 ## 🏗️ Repository Structure
 

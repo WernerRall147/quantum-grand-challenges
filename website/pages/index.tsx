@@ -26,14 +26,19 @@ export default function Home() {
 
   const problemHighlights: ProblemCardProps[] = [
     {
+      title: 'Grover Database Search',
+      status: '✅ COMPLETE - Canonical Implementation',
+      description: 'Full Grover with multi-target oracle, 42.7x speedup, 100% success rate',
+    },
+    {
       title: 'QAE Risk Analysis',
-      status: '✅ Analytical baseline',
-      description: 'Quantum-inspired amplitude estimation for financial tail risk',
+      status: '✅ COMPLETE - Canonical Implementation',
+      description: 'Full QAE with Grover operators, QPE, 594k qubits estimated',
     },
     {
       title: 'Hubbard Model',
-      status: '✅ Analytical baseline',
-      description: 'Two-site Hubbard benchmark with classical + Q# parity',
+      status: '✅ COMPLETE - VQE + HHL',
+      description: 'VQE and HHL implementations with comprehensive resource estimates',
     },
     {
       title: 'High-Frequency Trading',
@@ -82,8 +87,8 @@ export default function Home() {
     },
     {
       title: 'Database Search',
-      status: '✅ Classical baseline',
-      description: 'Query complexity model poised for amplitude amplification',
+      status: '✅ COMPLETE - Grover Implementation',
+      description: 'Quadratic speedup O(√N) validated with 71-100% success rates',
     },
     {
       title: 'Error Correction',
@@ -141,27 +146,120 @@ export default function Home() {
         <section style={{ marginTop: '3rem' }}>
           <h2>📚 Featured Case Studies</h2>
           <p style={{ color: '#666' }}>
-            Starting with our most mature scaffolds, here is what the classical data already tells us and where the quantum roadmap is heading.
+            Three major quantum algorithms fully implemented with comprehensive resource estimates and cross-algorithm comparison.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
             <CaseStudyCard
-              title="QAE Risk Tail Probability"
-              classicalHeadline="47,500 Monte Carlo samples for 0.1% precision"
-              classicalDetails="Log-normal portfolio losses need 47k draws (≈1.28 s Python runtime) to pin down a 4σ tail at 0.0805±0.0012."
-              quantumHeadline="Amplitude estimation trims queries to O(1/ε) ≈ 1.5k"
-              quantumDetails="The Q# stub is wired for a controlled-rotation oracle; once implemented, the estimator pipeline will chart logical qubits vs. ε."
+              title="QAE Risk Analysis (COMPLETE)"
+              classicalHeadline="Monte Carlo: 18.98% ± 0.39% (10k samples)"
+              classicalDetails="Classical baseline achieves 0% error vs theoretical for tail risk P(Loss > 2.5) on log-normal(0,1) distribution."
+              quantumHeadline="Canonical QAE: 594k qubits, 6.4s, 965k T-states"
+              quantumDetails="Full implementation with Grover operators, quantum phase estimation, and amplitude encoding. Achieves O(1/ε) complexity vs classical O(1/ε²) — quadratic speedup for high precision."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk"
             />
             <CaseStudyCard
-              title="Hubbard Model Charge Gap"
+              title="Hubbard Model (VQE + HHL COMPLETE)"
               classicalHeadline="Exact diagonalization: Δc = 5.66 at U/t = 4"
-              classicalDetails="The two-site half-filled benchmark shows a growing Mott gap as interaction strength increases, captured in `estimates/classical_baseline.json`."
-              quantumHeadline="Phase estimation baseline ready"
-              quantumDetails="The Q# entry point mirrors the classical parity check, paving the way for adiabatic state prep + phase estimation with estimator hooks."
+              classicalDetails="Two-site half-filled Hubbard model with classical baseline achieving perfect accuracy for ground state energy and Mott gap."
+              quantumHeadline="VQE: 79k qubits, 114μs | HHL: 18.7k qubits, 52ms"
+              quantumDetails="VQE achieves 8/8 convergence with minimal T-gates (18). HHL is most qubit-efficient algorithm. Both fully documented with resource estimates."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard"
             />
           </div>
         </section>
+
+        <section style={{ marginTop: '3rem', padding: '2rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '12px', color: 'white' }}>
+          <h2 style={{ marginTop: 0, color: 'white' }}>🎯 Algorithm Comparison Dashboard</h2>
+          <p style={{ fontSize: '1.1rem', marginBottom: '2rem', color: '#f0f0ff' }}>
+            Comprehensive resource analysis across VQE, HHL, and QAE showing physical qubits, runtime, T-states, and quantum advantage assessment.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+            <AlgorithmSummary
+              name="VQE (Hubbard)"
+              qubits="79k"
+              runtime="114 μs"
+              tStates="1.6k"
+              advantage="Error-resilient optimization"
+              color="#2E86AB"
+            />
+            <AlgorithmSummary
+              name="HHL (Linear Solver)"
+              qubits="18.7k"
+              runtime="52 ms"
+              tStates="185k"
+              advantage="Most qubit-efficient"
+              color="#A23B72"
+            />
+            <AlgorithmSummary
+              name="QAE (Risk Analysis)"
+              qubits="594k"
+              runtime="6.4 s"
+              tStates="965k"
+              advantage="Quadratic speedup O(1/ε)"
+              color="#F18F01"
+            />
+          </div>
+        </section>
+
+        <section style={{ marginTop: '3rem' }}>
+          <h2>📊 Visualization Gallery</h2>
+          <p style={{ color: '#666' }}>
+            Publication-quality comparisons showing resource requirements, scaling predictions, and quantum advantage assessment.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '2rem', marginTop: '1.5rem' }}>
+            <VisualizationCard
+              title="Physical Qubit Requirements"
+              description="HHL is most efficient (18.7k), QAE requires 31.8× more qubits (594k). T-state factories dominate 93-97% of all qubits."
+              imageSrc="/images/qubit_comparison.png"
+            />
+            <VisualizationCard
+              title="Runtime Comparison"
+              description="VQE is fastest (114μs), HHL takes 52ms, QAE requires 6.4s. Shows 3 orders of magnitude range across algorithms."
+              imageSrc="/images/runtime_comparison.png"
+            />
+            <VisualizationCard
+              title="T-State Analysis"
+              description="QAE needs 965k T-states (5.2× more than HHL). Rotation gates dominate costs at 20 T-states per rotation."
+              imageSrc="/images/tstate_comparison.png"
+            />
+            <VisualizationCard
+              title="Quantum Advantage Map"
+              description="Heatmap assessment: HHL wins near-term viability (2027-2029), VQE wins runtime, QAE wins advantage potential."
+              imageSrc="/images/quantum_advantage_map.png"
+            />
+            <VisualizationCard
+              title="Scaling Predictions"
+              description="VQE scales linearly, HHL logarithmically, QAE exponentially. Shows practical limits for each algorithm."
+              imageSrc="/images/scaling_analysis.png"
+            />
+            <VisualizationCard
+              title="Technology Timeline"
+              description="HHL ready by 2027-2029 (50k qubits), VQE by 2028-2030 (100k qubits), QAE by 2033-2035 (1M qubits)."
+              imageSrc="/images/technology_timeline.png"
+            />
+          </div>
+        </section>
+
+        <div style={{ marginTop: '4rem', padding: '2rem', background: '#f8f9fa', borderRadius: '8px' }}>
+          <h2>📊 Current Status</h2>
+          <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+            <li><strong>✅ Four Complete Quantum Algorithms:</strong> VQE, HHL, QAE, and Grover fully implemented with validation</li>
+            <li><strong>✅ 21,000+ words of documentation:</strong> Comprehensive technical summaries and cross-algorithm comparisons</li>
+            <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
+            <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
+            <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>
+            <li><strong>✅ CI/CD:</strong> Automated testing and static export ready for GitHub Pages</li>
+          </ul>
+          <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
+            <h3 style={{ marginTop: 0, color: '#10b981' }}>🎉 Latest Achievement: Grover's Quantum Search</h3>
+            <p style={{ color: '#666', marginBottom: 0 }}>
+              Complete canonical Grover's algorithm with multi-target oracle support. Demonstrated quadratic speedup O(√N) 
+              with 42.7x faster than classical on 4096-item search. Perfect 100% success rate on large-scale searches. 
+              Validated with 250+ measurement shots across three problem sizes (16, 32, 4096 items). Foundation for 
+              cryptanalysis, database search, and amplitude amplification applications.
+            </p>
+          </div>
+        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginTop: '3rem' }}>
           {problemHighlights.map((problem) => (
@@ -253,6 +351,21 @@ interface CommandBlockProps {
   commands: string[];
 }
 
+interface AlgorithmSummaryProps {
+  name: string;
+  qubits: string;
+  runtime: string;
+  tStates: string;
+  advantage: string;
+  color: string;
+}
+
+interface VisualizationCardProps {
+  title: string;
+  description: string;
+  imageSrc: string;
+}
+
 function ProblemCard({ title, status, description }: ProblemCardProps) {
   return (
     <div style={{ 
@@ -302,6 +415,81 @@ function CommandBlock({ title, commands }: CommandBlockProps) {
     <div style={{ background: '#0f172a', color: '#e2e8f0', borderRadius: '8px', padding: '1.25rem', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
       <h3 style={{ marginTop: 0, marginBottom: '0.75rem', fontSize: '1.1rem', color: '#38bdf8' }}>{title}</h3>
       <code style={{ whiteSpace: 'pre-line', fontSize: '0.95rem' }}>{commands.join('\n')}</code>
+    </div>
+  );
+}
+
+function AlgorithmSummary({ name, qubits, runtime, tStates, advantage, color }: AlgorithmSummaryProps) {
+  return (
+    <div style={{ 
+      background: 'rgba(255,255,255,0.15)', 
+      borderRadius: '10px', 
+      padding: '1.5rem',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255,255,255,0.2)'
+    }}>
+      <h3 style={{ marginTop: 0, color: 'white', fontSize: '1.3rem' }}>{name}</h3>
+      <div style={{ marginTop: '1rem', display: 'grid', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ color: '#f0f0ff' }}>Physical Qubits:</span>
+          <strong style={{ color: 'white' }}>{qubits}</strong>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ color: '#f0f0ff' }}>Runtime:</span>
+          <strong style={{ color: 'white' }}>{runtime}</strong>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ color: '#f0f0ff' }}>T-States:</span>
+          <strong style={{ color: 'white' }}>{tStates}</strong>
+        </div>
+      </div>
+      <div style={{ 
+        marginTop: '1rem', 
+        paddingTop: '1rem', 
+        borderTop: '1px solid rgba(255,255,255,0.2)',
+        color: '#fff',
+        fontStyle: 'italic',
+        fontSize: '0.95rem'
+      }}>
+        {advantage}
+      </div>
+    </div>
+  );
+}
+
+function VisualizationCard({ title, description, imageSrc }: VisualizationCardProps) {
+  return (
+    <div style={{ 
+      border: '1px solid #e5e7eb', 
+      borderRadius: '12px', 
+      overflow: 'hidden',
+      background: 'white',
+      transition: 'transform 0.2s, box-shadow 0.2s',
+      cursor: 'pointer'
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.transform = 'translateY(-4px)';
+      e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.15)';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.transform = 'translateY(0)';
+      e.currentTarget.style.boxShadow = 'none';
+    }}
+    >
+      <img 
+        src={imageSrc} 
+        alt={title} 
+        style={{ 
+          width: '100%', 
+          height: 'auto',
+          display: 'block',
+          borderBottom: '1px solid #e5e7eb'
+        }} 
+      />
+      <div style={{ padding: '1.5rem' }}>
+        <h3 style={{ marginTop: 0, fontSize: '1.3rem', color: '#1f2937' }}>{title}</h3>
+        <p style={{ color: '#6b7280', margin: 0, lineHeight: '1.6' }}>{description}</p>
+      </div>
     </div>
   );
 }

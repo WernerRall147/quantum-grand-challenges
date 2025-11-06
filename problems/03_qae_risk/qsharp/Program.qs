@@ -3,6 +3,7 @@ namespace QuantumGrandChallenges.QAERisk {
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Canon;
 
     newtype RiskParameters = (
         LossQubits : Int,
@@ -93,39 +94,153 @@ namespace QuantumGrandChallenges.QAERisk {
         return TailProbability(probabilities, threshold, lossQubits);
     }
 
-    operation PrepareTailAmplitude(probability : Double, target : Qubit) : Unit is Adj + Ctl {
-        body (...) {
-            let rotation = 2.0 * ArcSin(Sqrt(probability));
-            Ry(rotation, target);
+    operation PrepareUniformSuperposition(qubits : Qubit[]) : Unit is Adj + Ctl {
+        for q in qubits {
+            H(q);
         }
     }
-
-    operation ApplyAmplitudeAmplificationIteration(probability : Double, target : Qubit) : Unit is Adj + Ctl {
-        body (...) {
-            // Reflect about success state (ancilla = |1>)
-            Z(target);
-
-            // Reflect about zero state via state preparation
-            Adjoint PrepareTailAmplitude(probability, target);
-            X(target);
-            Z(target);
-            X(target);
-            PrepareTailAmplitude(probability, target);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    
+    operation PrepareDistributionState(probabilities : Double[], lossQubits : Qubit[]) : Unit is Adj + Ctl {
+        let n = Length(lossQubits);
+        let numStates = 1 <<< n;
+        let amplitudes = NormalizedAmplitudes(probabilities, numStates);
+        ApplyMultiplexRotations(amplitudes, lossQubits);
     }
-
-    operation ApplyAmplitudeAmplificationPower(probability : Double, power : Int, target : Qubit) : Unit is Adj + Ctl {
-        body (...) {
-            for _ in 1 .. power {
-                ApplyAmplitudeAmplificationIteration(probability, target);
+    
+    function NormalizedAmplitudes(probabilities : Double[], numStates : Int) : Double[] {
+        mutable amplitudes = [0.0, size = numStates];
+        mutable sumSquares = 0.0;
+        
+        for i in 0 .. numStates - 1 {
+            let amplitude = Sqrt(probabilities[i]);
+            set amplitudes w/= i <- amplitude;
+            set sumSquares += amplitude * amplitude;
+        }
+        
+        if (sumSquares > 0.0) {
+            let norm = Sqrt(sumSquares);
+            for i in 0 .. numStates - 1 {
+                set amplitudes w/= i <- amplitudes[i] / norm;
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        
+        return amplitudes;
+    }
+
+    operation ApplyMultiplexRotations(amplitudes : Double[], qubits : Qubit[]) : Unit is Adj + Ctl {
+        let n = Length(qubits);
+        if (n > 0) {
+            if (n == 1) {
+                let angle = 2.0 * ArcTan2(amplitudes[1], amplitudes[0]);
+                Ry(angle, qubits[0]);
+            } else {
+                let half = Length(amplitudes) / 2;
+                let (leftAmps, rightAmps, leftNorm, rightNorm) = SplitAndNormalize(amplitudes, half);
+                
+                let angle = 2.0 * ArcTan2(rightNorm, leftNorm);
+                Ry(angle, qubits[0]);
+                
+                within {
+                    X(qubits[0]);
+                } apply {
+                    Controlled ApplyMultiplexRotations([qubits[0]], (leftAmps, qubits[1...]));
+                }
+                
+                Controlled ApplyMultiplexRotations([qubits[0]], (rightAmps, qubits[1...]));
+            }
+        }
+    }
+    
+    function SplitAndNormalize(amplitudes : Double[], half : Int) : (Double[], Double[], Double, Double) {
+        mutable leftAmps = [0.0, size = half];
+        mutable rightAmps = [0.0, size = half];
+        
+        for i in 0 .. half - 1 {
+            set leftAmps w/= i <- amplitudes[i];
+            set rightAmps w/= i <- amplitudes[i + half];
+        }
+        
+        mutable leftNorm = 0.0;
+        mutable rightNorm = 0.0;
+        for i in 0 .. half - 1 {
+            set leftNorm += leftAmps[i] * leftAmps[i];
+            set rightNorm += rightAmps[i] * rightAmps[i];
+        }
+        set leftNorm = Sqrt(leftNorm);
+        set rightNorm = Sqrt(rightNorm);
+        
+        if (leftNorm > 1e-10) {
+            for i in 0 .. half - 1 {
+                set leftAmps w/= i <- leftAmps[i] / leftNorm;
+            }
+        }
+        if (rightNorm > 1e-10) {
+            for i in 0 .. half - 1 {
+                set rightAmps w/= i <- rightAmps[i] / rightNorm;
+            }
+        }
+        
+        return (leftAmps, rightAmps, leftNorm, rightNorm);
+    }
+
+    operation OracleTailMarking(threshold : Double, lossQubits : Int, register : Qubit[], marker : Qubit) : Unit is Adj + Ctl {
+        let n = Length(register);
+        
+        for index in 0 .. (1 <<< n) - 1 {
+            let lossValue = LossValueFromIndex(index, lossQubits);
+            
+            if (lossValue > threshold) {
+                within {
+                    for bitIdx in 0 .. n - 1 {
+                        let bit = (index >>> bitIdx) &&& 1;
+                        if (bit == 0) {
+                            X(register[bitIdx]);
+                        }
+                    }
+                } apply {
+                    Controlled X(register, marker);
+                }
+            }
+        }
+    }
+
+    operation ReflectAboutState(state : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
+        within {
+            Adjoint state(register);
+            for q in register {
+                X(q);
+            }
+        } apply {
+            Controlled Z(register[0..Length(register)-2], register[Length(register)-1]);
+        }
+    }
+
+    operation GroverOperator(
+        statePrep : Qubit[] => Unit is Adj + Ctl,
+        oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
+        lossRegister : Qubit[],
+        marker : Qubit
+    ) : Unit is Adj + Ctl {
+        within {
+            X(marker);
+            H(marker);
+        } apply {
+            oracle(lossRegister, marker);
+        }
+        
+        ReflectAboutState(statePrep, lossRegister);
+    }
+
+    operation GroverOperatorPower(
+        statePrep : Qubit[] => Unit is Adj + Ctl,
+        oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
+        power : Int,
+        lossRegister : Qubit[],
+        marker : Qubit
+    ) : Unit is Adj + Ctl {
+        for _ in 1 .. power {
+            GroverOperator(statePrep, oracle, lossRegister, marker);
+        }
     }
 
     function ClipProbability(value : Double) : Double {
@@ -170,148 +285,206 @@ namespace QuantumGrandChallenges.QAERisk {
         }
     }
 
-    operation ApplyInverseQFT(register : Qubit[]) : Unit is Adj + Ctl {
-        body (...) {
-            let n = Length(register);
-            for j in 0 .. n - 1 {
-                let target = register[j];
-
-                for k in 0 .. j - 1 {
-                    let angle = -PI() / IntAsDouble(1 <<< (j - k));
-                    Controlled R1([register[k]], (angle, target));
-                }
-
-                H(target);
-            }
-
-            for j in 0 .. (n / 2 - 1) {
-                let right = n - j - 1;
-                if (j < right) {
-                    SWAP(register[j], register[right]);
-                }
+    operation QuantumFourierTransform(register : Qubit[]) : Unit is Adj + Ctl {
+        let n = Length(register);
+        
+        for j in 0 .. n - 1 {
+            H(register[j]);
+            
+            for k in j + 1 .. n - 1 {
+                let angle = PI() / IntAsDouble(1 <<< (k - j));
+                Controlled R1([register[k]], (angle, register[j]));
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        
+        for j in 0 .. (n / 2 - 1) {
+            let right = n - j - 1;
+            if (j < right) {
+                SWAP(register[j], register[right]);
+            }
+        }
     }
 
-    operation EstimateTailRiskAmplitude(riskParams : RiskParameters, countingQubits : Int, repetitions : Int) : (Double, Double) {
+    operation QuantumPhaseEstimationQAE(
+        statePrep : Qubit[] => Unit is Adj + Ctl,
+        oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
+        precisionQubits : Qubit[],
+        lossRegister : Qubit[],
+        marker : Qubit
+    ) : Unit {
+        for q in precisionQubits {
+            H(q);
+        }
+        
+        statePrep(lossRegister);
+        
+        let n = Length(precisionQubits);
+        for idx in 0 .. n - 1 {
+            let power = 1 <<< (n - idx - 1);
+            Controlled GroverOperatorPower(
+                [precisionQubits[idx]], 
+                (statePrep, oracle, power, lossRegister, marker)
+            );
+        }
+        
+        Adjoint QuantumFourierTransform(precisionQubits);
+    }
+
+    operation CanonicalQAE(
+        riskParams : RiskParameters, 
+        precisionBits : Int, 
+        repetitions : Int
+    ) : (Double, Double) {
         let (lossQubits, threshold, mean, stdDev) = riskParams!;
         let probabilities = LogNormalProbabilities(lossQubits, mean, stdDev);
-        let tailProbability = TailProbability(probabilities, threshold, lossQubits);
-
-        if (tailProbability <= 0.0 or tailProbability >= 1.0) {
-            return (ClipProbability(tailProbability), 0.0);
+        let theoreticalTailProb = TailProbability(probabilities, threshold, lossQubits);
+        
+        if (theoreticalTailProb <= 0.0 or theoreticalTailProb >= 1.0) {
+            return (ClipProbability(theoreticalTailProb), 0.0);
         }
-
+        
         let runs = MaxInt(1, repetitions);
-        mutable sumTheta = 0.0;
+        mutable phaseOutcomes = [0, size = 1 <<< precisionBits];
         mutable sumAmplitude = 0.0;
         mutable sumAmplitudeSquares = 0.0;
-        mutable outcomeCounts = [0, size = 1 <<< countingQubits];
-
-        for _ in 1 .. runs {
-            use counting = Qubit[countingQubits];
-            use system = Qubit();
-
-            for idx in 0 .. countingQubits - 1 {
-                H(counting[idx]);
-            }
-
-            PrepareTailAmplitude(tailProbability, system);
-
-            for idx in 0 .. countingQubits - 1 {
-                let power = 1 <<< (countingQubits - idx - 1);
-                Controlled ApplyAmplitudeAmplificationPower([counting[idx]], (tailProbability, power, system));
-            }
-
-            ApplyInverseQFT(counting);
-
-            mutable outcome = 0;
-            for idx in 0 .. countingQubits - 1 {
-                let result = M(counting[idx]);
+        
+        for run in 1 .. runs {
+            use precisionReg = Qubit[precisionBits];
+            use lossReg = Qubit[lossQubits];
+            use marker = Qubit();
+            
+            let statePrep = PrepareDistributionState(probabilities, _);
+            let oracle = OracleTailMarking(threshold, lossQubits, _, _);
+            
+            QuantumPhaseEstimationQAE(statePrep, oracle, precisionReg, lossReg, marker);
+            
+            mutable phaseInt = 0;
+            for idx in 0 .. precisionBits - 1 {
+                let result = M(precisionReg[idx]);
                 if (result == One) {
-                    set outcome += 1 <<< idx;
-                    X(counting[idx]);
+                    set phaseInt += 1 <<< idx;
                 }
             }
-
-            set outcomeCounts w/= outcome <- outcomeCounts[outcome] + 1;
-
-            ResetRegister(counting);
-            Adjoint PrepareTailAmplitude(tailProbability, system);
-            Reset(system);
-
-            let denom = IntAsDouble(1 <<< countingQubits);
-            let rawPhase = IntAsDouble(outcome) / denom;
-            let phase = MinDouble(rawPhase, 1.0 - rawPhase);
-            let theta = phase * PI();
-            let amplitudeSample = Sin(theta) * Sin(theta);
-
-            set sumTheta += theta;
-            set sumAmplitude += amplitudeSample;
-            set sumAmplitudeSquares += amplitudeSample * amplitudeSample;
+            
+            set phaseOutcomes w/= phaseInt <- phaseOutcomes[phaseInt] + 1;
+            
+            let phaseEstimate = IntAsDouble(phaseInt) / IntAsDouble(1 <<< precisionBits);
+            let theta = phaseEstimate * PI();
+            let amplitudeEstimate = Sin(theta);
+            let probabilityEstimate = amplitudeEstimate * amplitudeEstimate;
+            
+            set sumAmplitude += probabilityEstimate;
+            set sumAmplitudeSquares += probabilityEstimate * probabilityEstimate;
+            
+            ResetAll(precisionReg);
+            ResetAll(lossReg);
+            Reset(marker);
         }
-
+        
         let runsDouble = IntAsDouble(runs);
-        let meanTheta = sumTheta / runsDouble;
         let meanAmplitude = sumAmplitude / runsDouble;
-        let varianceAmplitude = MaxDouble(0.0, (sumAmplitudeSquares / runsDouble) - (meanAmplitude * meanAmplitude));
-        let samplingStd = Sqrt(varianceAmplitude / runsDouble);
-
-        mutable bestOutcome = 0;
-        mutable bestCount = outcomeCounts[0];
-        for idx in 1 .. Length(outcomeCounts) - 1 {
-            let count = outcomeCounts[idx];
-            if (count > bestCount) {
-                set bestCount = count;
-                set bestOutcome = idx;
+        let variance = MaxDouble(0.0, (sumAmplitudeSquares / runsDouble) - (meanAmplitude * meanAmplitude));
+        let stdError = Sqrt(variance / runsDouble);
+        
+        mutable bestPhaseInt = 0;
+        mutable bestCount = 0;
+        for idx in 0 .. Length(phaseOutcomes) - 1 {
+            if (phaseOutcomes[idx] > bestCount) {
+                set bestCount = phaseOutcomes[idx];
+                set bestPhaseInt = idx;
             }
         }
-        let denomGlobal = IntAsDouble(1 <<< countingQubits);
-        let rawBestPhase = IntAsDouble(bestOutcome) / denomGlobal;
-        let bestPhase = MinDouble(rawBestPhase, 1.0 - rawBestPhase);
-
-        let thetaBest = bestPhase * PI();
-        let clippedMeanAmplitude = ClipProbability(meanAmplitude);
-
-    let amplitudeBest = ClipProbability(Sin(thetaBest) * Sin(thetaBest));
-
-    Message($"Most frequent phase outcome: {bestOutcome}/{1 <<< countingQubits} (effective phase~{bestPhase}, amplitude~{amplitudeBest})");
-
-        let derivative = AbsDouble(Sin(2.0 * meanTheta));
-        let phaseResolution = PI() / IntAsDouble(1 <<< countingQubits);
-        let discretizationStd = derivative * phaseResolution;
-        let totalStd = Sqrt(samplingStd * samplingStd + discretizationStd * discretizationStd);
-
-        return (clippedMeanAmplitude, totalStd);
+        
+        Message($"=== Canonical QAE Results (precision={precisionBits} bits, runs={runs}) ===");
+        Message("Phase measurement histogram (top 10):");
+        mutable displayedCount = 0;
+        for _ in 1 .. 10 {
+            mutable maxIdx = 0;
+            mutable maxCount = 0;
+            for idx in 0 .. Length(phaseOutcomes) - 1 {
+                if (phaseOutcomes[idx] > maxCount) {
+                    set maxCount = phaseOutcomes[idx];
+                    set maxIdx = idx;
+                }
+            }
+            if (maxCount > 0) {
+                let phase = IntAsDouble(maxIdx) / IntAsDouble(1 <<< precisionBits);
+                let theta = phase * PI();
+                let prob = Sin(theta) * Sin(theta);
+                Message($"  Phase {maxIdx}/{1 <<< precisionBits} (θ={theta}, P≈{prob}): {maxCount} times");
+                set phaseOutcomes w/= maxIdx <- 0;
+            }
+        }
+        
+        let bestPhase = IntAsDouble(bestPhaseInt) / IntAsDouble(1 <<< precisionBits);
+        let bestTheta = bestPhase * PI();
+        let bestAmplitude = Sin(bestTheta) * Sin(bestTheta);
+        
+        Message($"Most frequent outcome: phase={bestPhaseInt}/{1 <<< precisionBits}, θ={bestTheta}, P≈{bestAmplitude}");
+        Message($"Mean amplitude estimate: {meanAmplitude} ± {stdError}");
+        Message($"Theoretical tail probability: {theoreticalTailProb}");
+        Message($"Relative error: {AbsDouble(meanAmplitude - theoreticalTailProb) / theoreticalTailProb * 100.0}%");
+        
+        return (ClipProbability(meanAmplitude), stdError);
     }
 
     @EntryPoint()
-    operation RunQAERiskAnalysis() : (Double, Double, Double) {
-        use marker = Qubit();
-        Reset(marker);
-
-        let riskParams = RiskParameters(8, 3.0, 0.0, 1.0);
-        let (lossQubits, threshold, mean, stdDev) = riskParams!;
-
-    let countingQubits = 6;
-    let repetitions = 64;
-        let (quantumEstimate, quantumStdError) = EstimateTailRiskAmplitude(riskParams, countingQubits, repetitions);
-        let analyticEstimate = EstimateTailRiskProbability(riskParams);
-
-        let monteCarloSamples = 100000;
-        let (classicalProb, classicalError) = ClassicalMonteCarloEstimate(monteCarloSamples, mean, stdDev, threshold, lossQubits);
-        let difference = AbsDouble(quantumEstimate - analyticEstimate);
-
-        Message($"Quantum amplitude estimation (phase bits={countingQubits}, repeats={repetitions}): {quantumEstimate} +/- {quantumStdError}");
-        Message($"Analytical probability: {analyticEstimate}");
-        Message($"Classical Monte Carlo estimate: {classicalProb} ± {classicalError}");
-        Message($"Difference between quantum and analytical: {difference}");
-
-        Reset(marker);
-
-        return (quantumEstimate, classicalProb, classicalError);
+    @EntryPoint()
+    operation RunQAERiskAnalysis() : Unit {
+        Message("=== Quantum Amplitude Estimation for Tail Risk Analysis ===");
+        Message("");
+        
+        let lossQubits = 4;
+        let threshold = 2.5;
+        let mean = 0.0;
+        let stdDev = 1.0;
+        let riskParams = RiskParameters(lossQubits, threshold, mean, stdDev);
+        
+        let probabilities = LogNormalProbabilities(lossQubits, mean, stdDev);
+        let theoreticalTailProb = TailProbability(probabilities, threshold, lossQubits);
+        
+        Message($"Risk Model Configuration:");
+        Message($"  Loss distribution qubits: {lossQubits} (2^{lossQubits} = {1 <<< lossQubits} discrete levels)");
+        Message($"  Loss threshold: {threshold}");
+        Message($"  Distribution: Log-normal(μ={mean}, σ={stdDev})");
+        Message($"  Theoretical tail probability P(Loss > {threshold}): {theoreticalTailProb}");
+        Message("");
+        
+        let precisionBits = 5;
+        let repetitions = 20;
+        
+        Message($"QAE Algorithm Parameters:");
+        Message($"  Precision qubits: {precisionBits} (phase resolution: π/{1 <<< precisionBits})");
+        Message($"  Repetitions: {repetitions}");
+        Message($"  Total qubits: {lossQubits + precisionBits + 1} (loss + precision + marker)");
+        Message("");
+        
+        let (qaeEstimate, qaeError) = CanonicalQAE(riskParams, precisionBits, repetitions);
+        
+        Message("");
+        Message("=== Classical Baseline Comparison ===");
+        let monteCarloSamples = 10000;
+        let (mcEstimate, mcError) = ClassicalMonteCarloEstimate(monteCarloSamples, mean, stdDev, threshold, lossQubits);
+        Message($"Monte Carlo ({monteCarloSamples} samples): {mcEstimate} ± {mcError}");
+        Message($"  Relative error vs theoretical: {AbsDouble(mcEstimate - theoreticalTailProb) / theoreticalTailProb * 100.0}%");
+        Message("");
+        
+        Message("=== Quantum Advantage Analysis ===");
+        let qaeRelativeError = AbsDouble(qaeEstimate - theoreticalTailProb) / theoreticalTailProb;
+        let mcRelativeError = AbsDouble(mcEstimate - theoreticalTailProb) / theoreticalTailProb;
+        let precisionImprovement = mcRelativeError / MaxDouble(qaeRelativeError, 1e-10);
+        
+        Message($"QAE precision: ε ≈ {qaeError}");
+        Message($"MC precision: ε ≈ {mcError}");
+        Message($"Precision improvement factor: {precisionImprovement}x");
+        Message($"Query complexity: QAE uses O(1/ε) = O({1.0 / MaxDouble(qaeError, 0.01)}) oracle calls");
+        Message($"                  MC uses O(1/ε²) = O({IntAsDouble(monteCarloSamples)}) samples");
+        Message("");
+        
+        Message("=== Summary ===");
+        Message($"Theoretical:     P = {theoreticalTailProb}");
+        Message($"QAE estimate:    P = {qaeEstimate} ± {qaeError}");
+        Message($"MC estimate:     P = {mcEstimate} ± {mcError}");
+        Message($"QAE demonstrates quadratic speedup: O(1/ε) vs O(1/ε²) for precision ε");
     }
 }

@@ -1,12 +1,9 @@
 namespace QuantumGrandChallenges.Common {
-    open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Math;
-    open Microsoft.Quantum.Measurement;
-    open Microsoft.Quantum.Preparation;
 
     /// # Summary
     /// Common utility operations for quantum grand challenges.
@@ -20,7 +17,7 @@ namespace QuantumGrandChallenges.Common {
     /// ## qubits
     /// Array of qubits to put in uniform superposition
     operation PrepareUniformSuperposition(qubits : Qubit[]) : Unit is Adj + Ctl {
-        ApplyToEach(H, qubits);
+        ApplyToEachCA(H, qubits);
     }
 
     /// # Summary
@@ -63,62 +60,6 @@ namespace QuantumGrandChallenges.Common {
     }
 
     /// # Summary
-    /// Prepares an arbitrary state from classical amplitudes.
-    /// Uses recursive amplitude encoding technique.
-    ///
-    /// # Input
-    /// ## amplitudes
-    /// Classical amplitudes (must be normalized)
-    /// ## qubits
-    /// Qubits to prepare the state on
-    operation PrepareArbitraryState(amplitudes : Double[], qubits : Qubit[]) : Unit is Adj + Ctl {
-        let n = Length(qubits);
-        if Length(amplitudes) != 2^n {
-            fail "Number of amplitudes must equal 2^n where n is number of qubits";
-        }
-        
-        PrepareArbitraryStateRecursive(amplitudes, qubits, 0);
-    }
-
-    /// # Summary
-    /// Recursive helper for arbitrary state preparation.
-    operation PrepareArbitraryStateRecursive(amplitudes : Double[], qubits : Qubit[], level : Int) : Unit is Adj + Ctl {
-        let n = Length(qubits);
-        if level == n {
-            return ();
-        }
-        
-        let blockSize = 2^(n - level - 1);
-        mutable evenNorm = 0.0;
-        mutable oddNorm = 0.0;
-        
-        // Calculate norms for even and odd blocks
-        for i in 0..2^level - 1 {
-            for j in 0..blockSize - 1 {
-                let evenIdx = 2 * i * blockSize + j;
-                let oddIdx = (2 * i + 1) * blockSize + j;
-                set evenNorm += amplitudes[evenIdx] * amplitudes[evenIdx];
-                set oddNorm += amplitudes[oddIdx] * amplitudes[oddIdx];
-            }
-        }
-        
-        let totalNorm = evenNorm + oddNorm;
-        if totalNorm > 1e-10 {
-            let theta = 2.0 * ArcTan2(Sqrt(oddNorm), Sqrt(evenNorm));
-            Ry(theta, qubits[level]);
-        }
-        
-        // Recursively prepare sub-blocks
-        if blockSize > 1 {
-            // Prepare even block (control = |0⟩)
-            (ControlledOnInt(0, PrepareArbitraryStateRecursive))([qubits[level]], (amplitudes, qubits[level+1..n-1], level + 1));
-            
-            // Prepare odd block (control = |1⟩)  
-            (ControlledOnInt(1, PrepareArbitraryStateRecursive))([qubits[level]], (amplitudes, qubits[level+1..n-1], level + 1));
-        }
-    }
-
-    /// # Summary
     /// Implements diffusion operator for Grover's algorithm.
     /// Reflects amplitudes around their average value.
     ///
@@ -128,7 +69,7 @@ namespace QuantumGrandChallenges.Common {
     operation DiffusionOperator(qubits : Qubit[]) : Unit is Adj + Ctl {
         within {
             PrepareUniformSuperposition(qubits);
-            ApplyToEach(X, qubits);
+            ApplyToEachCA(X, qubits);
         } apply {
             Controlled Z(Most(qubits), Tail(qubits));
         }
@@ -163,6 +104,68 @@ namespace QuantumGrandChallenges.Common {
         DiffusionOperator(qubits);
     }
 
+    function ClipProbability(value : Double) : Double {
+        if (value < 0.0) {
+            return 0.0;
+        }
+        if (value > 1.0) {
+            return 1.0;
+        }
+        return value;
+    }
+
+    operation ApplyAllOnesPhase(qubits : Qubit[]) : Unit is Adj + Ctl {
+        let n = Length(qubits);
+        if (n == 0) {
+            ()
+        } elif (n == 1) {
+            Z(qubits[0]);
+        } else {
+            Controlled Z(qubits[0..n - 2], qubits[n - 1]);
+        }
+    }
+
+    operation ReflectAboutState(statePrep : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
+        within {
+            statePrep(register);
+            ApplyToEachCA(X, register);
+        } apply {
+            ApplyAllOnesPhase(register);
+        }
+        Adjoint statePrep(register);
+    }
+
+    operation GroverOperator(
+        statePrep : Qubit[] => Unit is Adj + Ctl,
+        oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
+        register : Qubit[],
+        marker : Qubit
+    ) : Unit is Adj + Ctl {
+        within {
+            X(marker);
+            H(marker);
+        } apply {
+            oracle(register, marker);
+            ReflectAboutState(statePrep, register);
+        }
+    }
+
+    operation GroverOperatorPower(
+        statePrep : Qubit[] => Unit is Adj + Ctl,
+        oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
+        power : Int,
+        register : Qubit[],
+        marker : Qubit
+    ) : Unit is Adj + Ctl {
+        if (power <= 0) {
+            ()
+        } else {
+            for _ in 1..power {
+                GroverOperator(statePrep, oracle, register, marker);
+            }
+        }
+    }
+
     /// # Summary
     /// Estimates the amplitude of marked states using quantum amplitude estimation.
     ///
@@ -187,9 +190,37 @@ namespace QuantumGrandChallenges.Common {
         qubits : Qubit[],
         auxiliary : Qubit
     ) : Double {
-        // Placeholder implementation - would need full QAE circuit
-        // For now, return classical estimate
-        return 0.5; // This should be replaced with actual QAE implementation
+        if (precision <= 0) {
+            fail "Amplitude estimation requires at least one precision qubit.";
+        }
+
+        use precisionRegister = Qubit[precision];
+
+        ApplyToEach(H, precisionRegister);
+        statePrep(qubits);
+
+        for idx in 0..precision - 1 {
+            let power = 1 <<< idx;
+            Controlled GroverOperatorPower([precisionRegister[idx]], (statePrep, oracle, power, qubits, auxiliary));
+        }
+
+        Adjoint QuantumFourierTransform(precisionRegister);
+
+        mutable phaseInt = 0;
+        for idx in 0..precision - 1 {
+            if (M(precisionRegister[idx]) == One) {
+                set phaseInt += 1 <<< idx;
+            }
+        }
+
+        ResetAll(precisionRegister);
+        Reset(auxiliary);
+        ResetAll(qubits);
+
+        let phase = IntAsDouble(phaseInt) / IntAsDouble(1 <<< precision);
+        let theta = phase * PI();
+        let amplitude = Sin(theta) * Sin(theta);
+        return ClipProbability(amplitude);
     }
 
     /// # Summary

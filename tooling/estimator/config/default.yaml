@@ -1,0 +1,34 @@
+# Default estimator configuration for Quantum Grand Challenges
+# Defines reference problems, target profiles, and instance metadata
+problems:
+- id: "01_hubbard"
+  path: "problems/01_hubbard"
+  algorithm: "vqe_demo"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Two-site Hubbard half-filling demo instance"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunTwoSiteHubbardAnalysis"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "03_qae_risk"
+  path: "problems/03_qae_risk"
+  algorithm: "canonical_qae"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Log-normal tail risk benchmark"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunQAERiskAnalysis"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+  - "qubit_gate_ns_e4"

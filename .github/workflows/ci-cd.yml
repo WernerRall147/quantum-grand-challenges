@@ -193,18 +193,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test
     if: github.event_name == 'schedule'
-    
-    strategy:
-      matrix:
-        problem: [
-          "01_hubbard",
-          "02_catalysis", 
-          "03_qae_risk",
-          "04_linear_solvers",
-          "05_qaoa_maxcut",
-          "06_shor_resources"
-        ]
-    
+
     steps:
     - uses: actions/checkout@v4
     
@@ -224,62 +213,34 @@ jobs:
           6.0.x
           ${{ env.DOTNET_VERSION }}
     
-    # Note: This would require actual Resource Estimator installation
-    # For now, we'll simulate the estimation process
-    - name: Run estimation sweep for ${{ matrix.problem }}
+    - name: Run automated estimation sweep (mock mode)
       run: |
-        problem_dir="problems/${{ matrix.problem }}"
-        
-        if [ -d "$problem_dir" ]; then
-          echo "Running estimation sweep for ${{ matrix.problem }}"
-          
-          # Create mock estimation results for testing
-          mkdir -p "$problem_dir/estimates"
-          
-          python -c "
-          import json
-          import os
-          from datetime import datetime
-          
-          problem_id = '${{ matrix.problem }}'
-          timestamp = datetime.utcnow().isoformat() + 'Z'
-          
-          # Mock estimation result
-          result = {
-              'problem_id': problem_id,
-              'algorithm': 'MockAlgorithm',
-              'instance': {
-                  'description': f'CI test instance for {problem_id}',
-                  'parameters': {'test_run': True}
-              },
-              'estimator_target': 'surface_code_generic_v1',
-              'metrics': {
-                  'logical_qubits': 42,
-                  'physical_qubits': 100000,
-                  't_count': 1000000,
-                  'runtime_seconds': 3600,
-                  'runtime_days': 0.042
-              },
-              'build': {
-                  'commit': os.environ.get('GITHUB_SHA', 'unknown'),
-                  'date_utc': timestamp
-              },
-              'notes': 'Mock estimation generated during CI'
-          }
-          
-          output_file = f'problems/{problem_id}/estimates/ci_latest.json'
-          with open(output_file, 'w') as f:
-              json.dump(result, f, indent=2)
-          
-          print(f'✅ Mock estimation saved to {output_file}')
-          "
-        fi
-    
+        python tooling/estimator/run_estimation.py --all --mock --summary-path tooling/estimator/output/nightly_summary.json
+
+    - name: Collect estimation artifacts
+      run: |
+        set -e
+        mkdir -p tooling/estimator/output/_artifacts
+        cp tooling/estimator/output/nightly_summary.json tooling/estimator/output/_artifacts/nightly_summary.json
+
+        while IFS= read -r -d '' summary; do
+          rel="${summary#tooling/estimator/output/}"
+          dest="tooling/estimator/output/_artifacts/${rel}"
+          mkdir -p "$(dirname "$dest")"
+          cp "$summary" "$dest"
+        done < <(find tooling/estimator/output -mindepth 2 -maxdepth 2 -name "summary.json" -print0)
+
+        while IFS= read -r -d '' file; do
+          dest="tooling/estimator/output/_artifacts/${file}"
+          mkdir -p "$(dirname "$dest")"
+          cp "$file" "$dest"
+        done < <(find problems -path "*/estimates/*.json" -print0)
+
     - name: Upload estimation artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: estimation-results-${{ matrix.problem }}
-        path: problems/${{ matrix.problem }}/estimates/
+        name: estimation-results
+        path: tooling/estimator/output/_artifacts
         retention-days: 30
 
   # Deploy website (on main branch)
@@ -368,7 +329,7 @@ jobs:
         
         for result_dir in artifacts_dir.iterdir():
             if result_dir.is_dir():
-                for json_file in result_dir.glob('*.json'):
+                for json_file in result_dir.glob('**/*.json'):
                     try:
                         with open(json_file) as f:
                             result = json.load(f)

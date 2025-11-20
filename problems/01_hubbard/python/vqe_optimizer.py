@@ -1,11 +1,19 @@
-"""
-VQE Optimization for Hubbard Model
-Implements classical optimization loop to find ground state energy.
-"""
+"""Hybrid VQE workflow for the two-site Hubbard model."""
+
+from __future__ import annotations
+
+import json
+import subprocess
+from pathlib import Path
+from typing import List
+
 import numpy as np
 from scipy.optimize import minimize
-import subprocess
-import json
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+QSHARP_PROJECT = PROJECT_ROOT / "qsharp" / "Hubbard.csproj"
+DEFAULT_SHOTS = 1024
 
 
 def exact_hubbard_energy(t: float, u: float) -> float:
@@ -22,7 +30,7 @@ def exact_hubbard_energy(t: float, u: float) -> float:
     return 0.5 * (u - discriminant)
 
 
-def simulate_vqe_energy(params: list[float], t: float, u: float) -> float:
+def surrogate_vqe_energy(params: List[float], t: float, u: float) -> float:
     """Simulate VQE energy measurement for given ansatz parameters.
     
     In a real implementation, this would:
@@ -52,7 +60,48 @@ def simulate_vqe_energy(params: list[float], t: float, u: float) -> float:
     return exact + theta0_penalty + theta1_penalty + theta2_penalty
 
 
-def optimize_vqe(t: float, u: float, method: str = 'COBYLA', max_iter: int = 100) -> dict:
+def run_qsharp_energy(t: float, u: float, params: List[float], shots: int = DEFAULT_SHOTS) -> float:
+    """Call the Q# CLI to estimate the Hubbard energy for a parameter set."""
+
+    command = [
+        "dotnet",
+        "run",
+        "--no-build",
+        "--project",
+        str(QSHARP_PROJECT),
+        "--",
+        "energy",
+        f"{t:.15g}",
+        f"{u:.15g}",
+        f"{params[0]:.15g}",
+        f"{params[1]:.15g}",
+        f"{params[2]:.15g}",
+        str(int(shots)),
+    ]
+
+    result = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        cwd=QSHARP_PROJECT.parent,
+        check=False,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Q# energy estimation failed:\n"
+            f"STDOUT: {result.stdout}\n"
+            f"STDERR: {result.stderr.strip()}"
+        )
+
+    lines = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    if not lines:
+        raise RuntimeError("Q# energy estimator returned no output.")
+
+    return float(lines[-1])
+
+
+def optimize_vqe(t: float, u: float, method: str = 'COBYLA', max_iter: int = 100, shots: int = DEFAULT_SHOTS) -> dict:
     """Run VQE optimization to find ground state energy.
     
     Args:
@@ -69,7 +118,7 @@ def optimize_vqe(t: float, u: float, method: str = 'COBYLA', max_iter: int = 100
     
     # Energy function to minimize
     def energy_func(params):
-        return simulate_vqe_energy(params, t, u)
+        return surrogate_vqe_energy(params, t, u)
     
     # Run optimization
     result = minimize(
@@ -83,12 +132,18 @@ def optimize_vqe(t: float, u: float, method: str = 'COBYLA', max_iter: int = 100
     exact = exact_hubbard_energy(t, u)
     vqe = result.fun
     
+    optimal_params = result.x.tolist()
+    quantum_energy = run_qsharp_energy(t, u, optimal_params, shots=shots)
+
     return {
-        'optimal_params': result.x.tolist(),
+        'optimal_params': optimal_params,
         'vqe_energy': float(vqe),
         'exact_energy': float(exact),
         'error': float(abs(vqe - exact)),
+        'quantum_energy': float(quantum_energy),
+        'quantum_error': float(abs(quantum_energy - exact)),
         'iterations': int(result.get('nit', result.get('nfev', 0))),
+        'shots': shots,
         'success': bool(result.success)
     }
 
@@ -108,9 +163,11 @@ def run_vqe_benchmark():
             print(f"\nOptimizing t={t}, U={u}")
             result = optimize_vqe(t, u)
             
-            print(f"  VQE Energy:   {result['vqe_energy']:.6f}")
-            print(f"  Exact Energy: {result['exact_energy']:.6f}")
-            print(f"  Error:        {result['error']:.6f}")
+            print(f"  Surrogate Energy: {result['vqe_energy']:.6f}")
+            print(f"  Exact Energy:     {result['exact_energy']:.6f}")
+            print(f"  Surrogate Error:  {result['error']:.6f}")
+            print(f"  Q# Energy:        {result['quantum_energy']:.6f} (shots={result['shots']})")
+            print(f"  Q# Error:         {result['quantum_error']:.6f}")
             print(f"  Iterations:   {result['iterations']}")
             print(f"  θ₀={result['optimal_params'][0]:.4f}, "
                   f"θ₁={result['optimal_params'][1]:.4f}, "
@@ -137,6 +194,6 @@ if __name__ == '__main__':
     
     print("\nSummary Statistics:")
     errors = [r['error'] for r in results]
-    print(f"  Mean error:   {np.mean(errors):.6f}")
-    print(f"  Max error:    {np.max(errors):.6f}")
-    print(f"  Median error: {np.median(errors):.6f}")
+    quantum_errors = [r['quantum_error'] for r in results]
+    print(f"  Mean surrogate error: {np.mean(errors):.6f}")
+    print(f"  Mean Q# error:        {np.mean(quantum_errors):.6f}")

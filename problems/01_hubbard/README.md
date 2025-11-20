@@ -42,6 +42,10 @@ make analyze      # produces plots/gaps.png
 # Quantum analytical baseline (requires .NET 6)
 make build
 make run
+
+# Dedicated CLI modes
+dotnet run --project qsharp/Hubbard.csproj -- analysis            # original report
+dotnet run --project qsharp/Hubbard.csproj -- energy 1.0 4.0 0.785398 1.570796 0.392699 1024  # energy estimate
 ```
 
 ## 📈 Current Results

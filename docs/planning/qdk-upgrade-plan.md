@@ -97,3 +97,15 @@
 - Wait for new QDK release.
 - Revisit this plan and restart migration when available.
 - Continue to log all findings and environment changes here.
+- Add recurring NuGet check on the first business day of every month (align with dependency review), plus ad-hoc checks when Microsoft publishes QDK announcements.
+- If Microsoft publishes a signed preview tagged with upgrade guidance, evaluate it in an isolated `feature/qdk-upgrade-preview` branch and record findings separately before touching mainline projects.
+
+---
+
+### [2025-11-18] Phase A: NuGet Re-check
+
+1. Re-ran NuGet query for `Microsoft.Quantum.Sdk` versions to detect new releases (`https://api.nuget.org/v3-flatcontainer/microsoft.quantum.sdk/index.json`).
+2. Latest version remains **0.28.302812**; no newer stable or tagged pre-release suitable for upgrade.
+3. No repository changes performed; upgrade spike still blocked pending upstream release.
+
+**Status:** Continue periodic checks; next planned recheck can align with monthly dependency review or earlier if Microsoft announces a drop.

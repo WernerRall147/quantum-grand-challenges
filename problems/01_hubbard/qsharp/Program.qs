@@ -47,7 +47,72 @@ namespace QuantumGrandChallenges.Hubbard {
         CNOT(q0, q1);
     }
 
-    @EntryPoint()
+    operation ResetAll(qubits : Qubit[]) : Unit {
+        for qubit in qubits {
+            if (M(qubit) == One) {
+                X(qubit);
+            }
+        }
+    }
+
+    operation MeasurePauliOnce(paulis : Pauli[], register : Qubit[]) : Result {
+        mutable measurement = Zero;
+        within {
+            for idx in 0 .. Length(paulis) - 1 {
+                if (paulis[idx] == PauliX) {
+                    H(register[idx]);
+                } elif (paulis[idx] == PauliY) {
+                    Adjoint S(register[idx]);
+                    H(register[idx]);
+                }
+            }
+        } apply {
+            set measurement = Measure(paulis, register);
+        }
+
+        return measurement;
+    }
+
+    function MaxInt(a : Int, b : Int) : Int {
+        if (a > b) {
+            return a;
+        }
+        return b;
+    }
+
+    operation MeasurePauliExpectation(theta0 : Double, theta1 : Double, theta2 : Double, paulis : Pauli[], shots : Int) : Double {
+        let numShots = MaxInt(1, shots);
+        mutable sampleSum = 0.0;
+
+        for _ in 1 .. numShots {
+            use register = Qubit[2];
+            HubbardVQEAnsatz(theta0, theta1, theta2, register[0], register[1]);
+
+            let measurement = MeasurePauliOnce(paulis, register);
+            if (measurement == Zero) {
+                set sampleSum += 1.0;
+            } else {
+                set sampleSum -= 1.0;
+            }
+
+            ResetAll(register);
+        }
+
+        return sampleSum / IntAsDouble(numShots);
+    }
+
+    operation EstimateHubbardEnergy(t : Double, u : Double, theta0 : Double, theta1 : Double, theta2 : Double, shots : Int) : Double {
+        let xxExpectation = MeasurePauliExpectation(theta0, theta1, theta2, [PauliX, PauliX], shots);
+        let yyExpectation = MeasurePauliExpectation(theta0, theta1, theta2, [PauliY, PauliY], shots);
+        let ziExpectation = MeasurePauliExpectation(theta0, theta1, theta2, [PauliZ, PauliI], shots);
+        let izExpectation = MeasurePauliExpectation(theta0, theta1, theta2, [PauliI, PauliZ], shots);
+
+        let hoppingContribution = -t * (xxExpectation + yyExpectation);
+        let interactionContribution = 0.5 * u * (ziExpectation + izExpectation);
+
+        return hoppingContribution + interactionContribution;
+    }
+
     operation RunTwoSiteHubbardAnalysis() : Unit {
         Message("Two-site Hubbard model at half filling (one electron per site)");
         Message("-----------------------------------------------------------");
@@ -92,6 +157,9 @@ namespace QuantumGrandChallenges.Hubbard {
         
         Reset(q0);
         Reset(q1);
+
+        let demoEnergy = EstimateHubbardEnergy(1.0, 4.0, demoTheta0, demoTheta1, demoTheta2, 256);
+        Message($"Estimated Hubbard energy (t=1.0, U=4.0, shots=256): {demoEnergy}");
         
         Message("");
         Message("Next steps for full VQE implementation:");
@@ -100,4 +168,5 @@ namespace QuantumGrandChallenges.Hubbard {
         Message("  - Run Azure Quantum Resource Estimator for circuit resource analysis");
         Message("  - Scale to larger lattices with more sophisticated ansatze");
     }
+
 }

@@ -10,7 +10,10 @@
     "vqe_energy": -0.9999999997406167,
     "exact_energy": -1.0,
     "error": 2.593832926223172e-10,
+    "quantum_energy": 0.380859375,
+    "quantum_error": 1.380859375,
     "iterations": 60,
+    "shots": 1024,
     "success": true
   },
   {
@@ -24,7 +27,10 @@
     "vqe_energy": -0.4142135620306247,
     "exact_energy": -0.41421356237309515,
     "error": 3.424704408949708e-10,
+    "quantum_energy": -0.365234375,
+    "quantum_error": 0.048979187373095145,
     "iterations": 57,
+    "shots": 1024,
     "success": true
   },
   {
@@ -38,7 +44,10 @@
     "vqe_energy": -0.23606797715731936,
     "exact_energy": -0.2360679774997898,
     "error": 3.424704408949708e-10,
+    "quantum_energy": -1.083984375,
+    "quantum_error": 0.8479163975002102,
     "iterations": 57,
+    "shots": 1024,
     "success": true
   },
   {
@@ -52,7 +61,10 @@
     "vqe_energy": -0.12310562527519017,
     "exact_energy": -0.12310562561766059,
     "error": 3.424704131393952e-10,
+    "quantum_energy": -2.412109375,
+    "quantum_error": 2.2890037493823394,
     "iterations": 57,
+    "shots": 1024,
     "success": true
   },
   {
@@ -66,7 +78,10 @@
     "vqe_energy": -1.9999999997406164,
     "exact_energy": -2.0,
     "error": 2.5938362568922457e-10,
+    "quantum_energy": 0.744140625,
+    "quantum_error": 2.744140625,
     "iterations": 60,
+    "shots": 1024,
     "success": true
   },
   {
@@ -80,7 +95,10 @@
     "vqe_energy": -1.2360679772404062,
     "exact_energy": -1.2360679774997898,
     "error": 2.5938362568922457e-10,
+    "quantum_energy": -0.015625,
+    "quantum_error": 1.2204429774997898,
     "iterations": 60,
+    "shots": 1024,
     "success": true
   },
   {
@@ -94,7 +112,10 @@
     "vqe_energy": -0.828427124486807,
     "exact_energy": -0.8284271247461903,
     "error": 2.593832926223172e-10,
+    "quantum_energy": -0.642578125,
+    "quantum_error": 0.1858489997461903,
     "iterations": 60,
+    "shots": 1024,
     "success": true
   },
   {
@@ -108,7 +129,10 @@
     "vqe_energy": -0.47213595465710917,
     "exact_energy": -0.4721359549995796,
     "error": 3.424704408949708e-10,
+    "quantum_energy": -1.880859375,
+    "quantum_error": 1.4087234200004204,
     "iterations": 57,
+    "shots": 1024,
     "success": true
   }
 ]

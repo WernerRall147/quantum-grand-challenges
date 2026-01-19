@@ -1,16 +1,19 @@
 # Makefile for QAE Risk Analysis Problem
 
-PROBLEM_DIR := $(shell pwd)
+PROBLEM_DIR := $(CURDIR)
 TOOLING_DIR := $(PROBLEM_DIR)/../../tooling
-ESTIMATOR := python $(TOOLING_DIR)/estimator/run_estimation.py
-AZQ := python $(TOOLING_DIR)/azq/job_manager.py
+PYTHON ?= python3
+ifeq ($(OS),Windows_NT)
+override PYTHON = python
+endif
+ESTIMATOR := $(PYTHON) $(TOOLING_DIR)/estimator/run_estimation.py
+AZQ := $(PYTHON) $(TOOLING_DIR)/azq/job_manager.py
 
 # Default target for resource estimation
 TARGET ?= surface_code_generic_v1
 INSTANCE ?= small
 
 # Python environment
-PYTHON := python3
 VENV_DIR := venv
 
 .PHONY: help build test estimate sweep analyze compare clean setup-python install-deps

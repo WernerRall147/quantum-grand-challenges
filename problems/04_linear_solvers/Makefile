@@ -1,11 +1,14 @@
 # Quantum Linear Solvers Makefile
 
-PROBLEM_DIR := $(shell pwd)
+PROBLEM_DIR := $(CURDIR)
 TOOLING_DIR := $(PROBLEM_DIR)/../../tooling
-ESTIMATOR := python $(TOOLING_DIR)/estimator/run_estimation.py
+PYTHON ?= python3
+ifeq ($(OS),Windows_NT)
+override PYTHON = python
+endif
+ESTIMATOR := $(PYTHON) $(TOOLING_DIR)/estimator/run_estimation.py
 TARGET ?= surface_code_generic_v1
 INSTANCE ?= small
-PYTHON := python
 
 .PHONY: help build run test classical analyze estimate sweep check-env clean
 

@@ -1,7 +1,10 @@
 # Database Search (Problem 15) Makefile
 
-PROBLEM_DIR := $(shell pwd)
-PYTHON := python
+PROBLEM_DIR := $(CURDIR)
+PYTHON ?= python3
+ifeq ($(OS),Windows_NT)
+override PYTHON = python
+endif
 
 .PHONY: help build run classical analyze estimate sweep check-env clean
 

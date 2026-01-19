@@ -1,7 +1,10 @@
 # QAOA Max-Cut Makefile
 
-PROBLEM_DIR := $(shell pwd)
-PYTHON := python
+PROBLEM_DIR := $(CURDIR)
+PYTHON ?= python3
+ifeq ($(OS),Windows_NT)
+override PYTHON = python
+endif
 
 INSTANCE ?= small
 DEPTH ?= 1

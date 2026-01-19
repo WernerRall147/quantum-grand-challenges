@@ -55,6 +55,12 @@ make run             # Runs Program.qs entry point - produces analytical tail pr
 make estimate        # Resource estimator harness (requires successful build)
 ```
 
+### Windows tips
+
+- `make` works from PowerShell/CMD; we auto-detect `PYTHON=python` on Windows.
+- If `python` is not found, install Python 3.11+ and ensure `python` is on PATH (disable Store alias if needed).
+- Some helper targets (e.g., `make check-env`) use POSIX utilities; run from Git Bash/WSL if needed.
+
 ## 📊 Problem Status
 
 | Problem | Q# Implementation | Classical Baseline | Resource Estimation | Status |

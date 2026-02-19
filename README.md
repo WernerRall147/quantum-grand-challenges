@@ -60,6 +60,17 @@ make estimate        # Resource estimator harness (requires successful build)
 - `make` works from PowerShell/CMD; we auto-detect `PYTHON=python` on Windows.
 - If `python` is not found, install Python 3.11+ and ensure `python` is on PATH (disable Store alias if needed).
 - Some helper targets (e.g., `make check-env`) use POSIX utilities; run from Git Bash/WSL if needed.
+- For reliable local runs, bootstrap the shell first (sets UTF-8 output and optional headless plotting):
+
+```powershell
+. .\tooling\windows\bootstrap-env.ps1 -HeadlessPlots
+```
+
+- Run a full Windows validation sweep (all `classical`, `analyze`, and `build` targets):
+
+```powershell
+.\tooling\windows\validate-all.ps1
+```
 
 ## 📊 Problem Status
 

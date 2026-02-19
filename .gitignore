@@ -82,6 +82,8 @@ yarn-error.log*
 # Generated results and plots (optional - can be committed for sharing)
 estimates/*.json
 plots/*.png
+tooling/windows/logs/
+tooling/estimator/output/
 
 # Temporary files
 *.tmp

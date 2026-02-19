@@ -72,6 +72,19 @@ make estimate        # Resource estimator harness (requires successful build)
 .\tooling\windows\validate-all.ps1
 ```
 
+- Run the complete local Windows pipeline (validation + mock estimator + website build):
+
+```powershell
+.\tooling\windows\run-all.ps1
+```
+
+- CMD wrappers are available too:
+
+```bat
+tooling\windows\validate-all.cmd
+tooling\windows\run-all.cmd -SkipNpmInstall
+```
+
 ## 📊 Problem Status
 
 | Problem | Q# Implementation | Classical Baseline | Resource Estimation | Status |

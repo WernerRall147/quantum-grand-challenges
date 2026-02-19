@@ -204,15 +204,32 @@ namespace QuantumGrandChallenges.QAERisk {
         }
     }
 
-    operation ReflectAboutState(state : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
-        within {
-            Adjoint state(register);
-            for q in register {
-                X(q);
-            }
-        } apply {
-            Controlled Z(register[0..Length(register)-2], register[Length(register)-1]);
+    operation ApplyAllOnesPhase(qubits : Qubit[]) : Unit is Adj + Ctl {
+        let n = Length(qubits);
+        if (n == 0) {
+            // no-op
+        } elif (n == 1) {
+            Z(qubits[0]);
+        } else {
+            Controlled Z(qubits[0..n - 2], qubits[n - 1]);
         }
+    }
+
+    operation ReflectAboutZero(register : Qubit[]) : Unit is Adj + Ctl {
+        within {
+            ApplyToEachCA(X, register);
+        } apply {
+            ApplyAllOnesPhase(register);
+        }
+    }
+
+    operation ReflectAboutState(statePrep : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
+        within {
+            statePrep(register);
+        } apply {
+            ReflectAboutZero(register);
+        }
+        Adjoint statePrep(register);
     }
 
     operation GroverOperator(
@@ -221,14 +238,12 @@ namespace QuantumGrandChallenges.QAERisk {
         lossRegister : Qubit[],
         marker : Qubit
     ) : Unit is Adj + Ctl {
-        within {
-            X(marker);
-            H(marker);
-        } apply {
-            oracle(lossRegister, marker);
-        }
-        
         ReflectAboutState(statePrep, lossRegister);
+        oracle(lossRegister, marker);
+    }
+
+    operation OracleMarkOne(reg : Qubit[], mark : Qubit) : Unit is Adj + Ctl {
+        Controlled X(reg, mark);
     }
 
     operation GroverOperatorPower(
@@ -274,6 +289,17 @@ namespace QuantumGrandChallenges.QAERisk {
         return b;
     }
 
+    function ResultArrayAsInt(results : Result[]) : Int {
+        mutable output = 0;
+        let nBits = Length(results);
+        for i in 0..nBits - 1 {
+            if results[i] == One {
+                set output += 2^(nBits - 1 - i);
+            }
+        }
+        return output;
+    }
+
     operation ResetRegister(register : Qubit[]) : Unit {
         body (...) {
             for qubit in register {
@@ -286,17 +312,15 @@ namespace QuantumGrandChallenges.QAERisk {
     }
 
     operation QuantumFourierTransform(register : Qubit[]) : Unit is Adj + Ctl {
+        // Big-endian QFT with final bit reversal. register[0] = MSB.
         let n = Length(register);
-        
         for j in 0 .. n - 1 {
             H(register[j]);
-            
             for k in j + 1 .. n - 1 {
                 let angle = PI() / IntAsDouble(1 <<< (k - j));
                 Controlled R1([register[k]], (angle, register[j]));
             }
         }
-        
         for j in 0 .. (n / 2 - 1) {
             let right = n - j - 1;
             if (j < right) {
@@ -317,10 +341,13 @@ namespace QuantumGrandChallenges.QAERisk {
         }
         
         statePrep(lossRegister);
+        // Prepare marker for phase kickback once
+        X(marker);
+        H(marker);
         
         let n = Length(precisionQubits);
         for idx in 0 .. n - 1 {
-            let power = 1 <<< (n - idx - 1);
+            let power = 1 <<< (n - 1 - idx); // big-endian power scheduling
             Controlled GroverOperatorPower(
                 [precisionQubits[idx]], 
                 (statePrep, oracle, power, lossRegister, marker)
@@ -358,13 +385,11 @@ namespace QuantumGrandChallenges.QAERisk {
             
             QuantumPhaseEstimationQAE(statePrep, oracle, precisionReg, lossReg, marker);
             
-            mutable phaseInt = 0;
+            mutable results = [Zero, size = precisionBits];
             for idx in 0 .. precisionBits - 1 {
-                let result = M(precisionReg[idx]);
-                if (result == One) {
-                    set phaseInt += 1 <<< idx;
-                }
+                set results w/= idx <- M(precisionReg[idx]);
             }
+            let phaseInt = ResultArrayAsInt(results);
             
             set phaseOutcomes w/= phaseInt <- phaseOutcomes[phaseInt] + 1;
             
@@ -428,9 +453,45 @@ namespace QuantumGrandChallenges.QAERisk {
         return (ClipProbability(meanAmplitude), stdError);
     }
 
-    @EntryPoint()
+    operation TestQaeUniformHalf() : Unit {
+        // Simple sanity check: uniform superposition over 1 qubit => P(good)=0.5
+        let precisionBits = 5;
+        let repetitions = 40;
+        mutable sumProb = 0.0;
+        for _ in 1..repetitions {
+            use precisionReg = Qubit[precisionBits];
+            use lossReg = Qubit[1];
+            use marker = Qubit();
+
+            let statePrep = PrepareUniformSuperposition;
+
+            QuantumPhaseEstimationQAE(statePrep, OracleMarkOne, precisionReg, lossReg, marker);
+
+            mutable phaseInt = 0;
+            for idx in 0 .. precisionBits - 1 {
+                if (M(precisionReg[idx]) == One) {
+                    set phaseInt += 1 <<< idx;
+                }
+            }
+
+            let phase = IntAsDouble(phaseInt) / IntAsDouble(1 <<< precisionBits);
+            let theta = phase * PI();
+            let prob = Sin(theta) * Sin(theta);
+            set sumProb += prob;
+
+            ResetAll(precisionReg);
+            ResetAll(lossReg);
+            Reset(marker);
+        }
+
+        let mean = sumProb / IntAsDouble(repetitions);
+        Message($"TestQaeUniformHalf mean={mean}");
+    }
+
     @EntryPoint()
     operation RunQAERiskAnalysis() : Unit {
+        // Debug sanity check
+        TestQaeUniformHalf();
         Message("=== Quantum Amplitude Estimation for Tail Risk Analysis ===");
         Message("");
         

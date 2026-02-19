@@ -11,7 +11,7 @@
       "algorithm": "pollard_rho",
       "iterations": 6,
       "attempts": 1,
-      "runtime_ms": 0.06669998401775956,
+      "runtime_ms": 0.04890000127488747,
       "factors": [
         101,
         103
@@ -31,7 +31,7 @@
       "algorithm": "pollard_rho",
       "iterations": 3,
       "attempts": 1,
-      "runtime_ms": 0.050600036047399044,
+      "runtime_ms": 0.014900004316587001,
       "factors": [
         19,
         31
@@ -51,7 +51,7 @@
       "algorithm": "pollard_rho",
       "iterations": 1,
       "attempts": 2,
-      "runtime_ms": 0.05770003190264106,
+      "runtime_ms": 0.019500002963468432,
       "factors": [
         3,
         5

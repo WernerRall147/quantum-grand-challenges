@@ -44,15 +44,14 @@ namespace QuantumGrandChallenges.Common {
     /// ## qubits
     /// Array of qubits in computational basis to transform
     operation QuantumFourierTransform(qubits : Qubit[]) : Unit is Adj + Ctl {
+        // Big-endian QFT with final bit reversal. qubits[0] = MSB.
         let n = Length(qubits);
-        
         for i in 0..n-1 {
             H(qubits[i]);
             for j in i+1..n-1 {
                 ControlledZRotationByPower(qubits[j], qubits[i], j-i);
             }
         }
-        
         // Reverse qubit order
         for i in 0..n/2-1 {
             SWAP(qubits[i], qubits[n-1-i]);
@@ -125,12 +124,19 @@ namespace QuantumGrandChallenges.Common {
         }
     }
 
-    operation ReflectAboutState(statePrep : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
+    operation ReflectAboutZero(register : Qubit[]) : Unit is Adj + Ctl {
         within {
-            statePrep(register);
             ApplyToEachCA(X, register);
         } apply {
             ApplyAllOnesPhase(register);
+        }
+    }
+
+    operation ReflectAboutState(statePrep : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
+        within {
+            statePrep(register);
+        } apply {
+            ReflectAboutZero(register);
         }
         Adjoint statePrep(register);
     }
@@ -206,12 +212,11 @@ namespace QuantumGrandChallenges.Common {
 
         Adjoint QuantumFourierTransform(precisionRegister);
 
-        mutable phaseInt = 0;
+        mutable results = [Zero, size = precision];
         for idx in 0..precision - 1 {
-            if (M(precisionRegister[idx]) == One) {
-                set phaseInt += 1 <<< idx;
-            }
+            set results w/= idx <- M(precisionRegister[idx]);
         }
+        let phaseInt = ResultArrayAsInt(results);
 
         ResetAll(precisionRegister);
         Reset(auxiliary);

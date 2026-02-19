@@ -9,10 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Quantum.Numerics" Version="0.28.302812" />
+    <PackageReference Include="Microsoft.Quantum.Xunit" Version="0.28.302812" />
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('../../libs/common/Utils.qs')">
-    <Compile Include="../../libs/common/Utils.qs" />
-  </ItemGroup>
+  <!-- External Q# utils not included; Program.qs defines needed helpers locally. -->
 
 </Project>

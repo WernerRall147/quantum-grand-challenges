@@ -1,0 +1,38 @@
+{
+  "problem_id": "01_hubbard",
+  "algorithm": "vqe_demo",
+  "instance": {
+    "description": "Two-site Hubbard half-filling demo instance",
+    "parameters": {
+      "hopping": [
+        0.5
+      ],
+      "interaction": [
+        0.0,
+        4.0
+      ],
+      "notes": "Small instance for validating classical and quantum pipelines"
+    }
+  },
+  "estimator_target": "qubit_gate_ns_e3",
+  "metrics": {
+    "logical_qubits": 16,
+    "physical_qubits": 35200,
+    "t_count": 65536,
+    "t_depth": 4096,
+    "clifford_count": 262144,
+    "runtime_seconds": 480.0,
+    "runtime_days": 0.005555555555555556
+  },
+  "build": {
+    "commit": "8299b82d454143d0a659335954a660f63dd97ba6",
+    "qdk_version": "mock",
+    "estimator_version": "mock-qubit_gate_ns_e3",
+    "date_utc": "2026-02-19T17:13:54.440408Z"
+  },
+  "notes": "Estimated using qubit_gate_ns_e3 target profile",
+  "_metadata": {
+    "artifact_path": "01_hubbard/estimates/qubit_gate_ns_e3_2026-02-19T171354.440408Z.json",
+    "generated_at_utc": "2026-02-19T17:13:54.440408Z"
+  }
+}

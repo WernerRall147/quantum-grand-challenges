@@ -1,0 +1,38 @@
+{
+  "problem_id": "01_hubbard",
+  "algorithm": "vqe_demo",
+  "instance": {
+    "description": "Two-site Hubbard half-filling demo instance",
+    "parameters": {
+      "hopping": [
+        0.5
+      ],
+      "interaction": [
+        0.0,
+        4.0
+      ],
+      "notes": "Small instance for validating classical and quantum pipelines"
+    }
+  },
+  "estimator_target": "surface_code_generic_v1",
+  "metrics": {
+    "logical_qubits": 16,
+    "physical_qubits": 19200,
+    "t_count": 65536,
+    "t_depth": 4096,
+    "clifford_count": 262144,
+    "runtime_seconds": 480.0,
+    "runtime_days": 0.005555555555555556
+  },
+  "build": {
+    "commit": "6d0b1deaceecd7e63b70e6ce3feb6f86c2bd0656",
+    "qdk_version": "mock",
+    "estimator_version": "mock-surface_code_generic_v1",
+    "date_utc": "2026-02-19T14:39:53.194088Z"
+  },
+  "notes": "Estimated using surface_code_generic_v1 target profile",
+  "_metadata": {
+    "artifact_path": "01_hubbard/estimates/surface_code_generic_v1_2026-02-19T143953.194088Z.json",
+    "generated_at_utc": "2026-02-19T14:39:53.194088Z"
+  }
+}

@@ -14,10 +14,10 @@
       "notes": "Small instance for validating classical and quantum pipelines"
     }
   },
-  "estimator_target": "qubit_gate_ns_e3",
+  "estimator_target": "surface_code_generic_v1",
   "metrics": {
     "logical_qubits": 16,
-    "physical_qubits": 35200,
+    "physical_qubits": 19200,
     "t_count": 65536,
     "t_depth": 4096,
     "clifford_count": 262144,
@@ -27,12 +27,12 @@
   "build": {
     "commit": "de932d3fe7c295d2234413bbe630d3cc620654d4",
     "qdk_version": "mock",
-    "estimator_version": "mock-qubit_gate_ns_e3",
-    "date_utc": "2026-02-19T19:43:22.191707Z"
+    "estimator_version": "mock-surface_code_generic_v1",
+    "date_utc": "2026-02-19T19:43:22.054527Z"
   },
-  "notes": "Estimated using qubit_gate_ns_e3 target profile",
+  "notes": "Estimated using surface_code_generic_v1 target profile",
   "_metadata": {
-    "artifact_path": "01_hubbard/estimates/qubit_gate_ns_e3_2026-02-19T194322.191707Z.json",
-    "generated_at_utc": "2026-02-19T19:43:22.191707Z"
+    "artifact_path": "01_hubbard/estimates/surface_code_generic_v1_2026-02-19T194322.054527Z.json",
+    "generated_at_utc": "2026-02-19T19:43:22.054527Z"
   }
 }

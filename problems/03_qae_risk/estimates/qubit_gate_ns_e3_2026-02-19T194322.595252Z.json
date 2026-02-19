@@ -40,10 +40,10 @@
       }
     }
   },
-  "estimator_target": "qubit_gate_ns_e4",
+  "estimator_target": "qubit_gate_ns_e3",
   "metrics": {
     "logical_qubits": 12,
-    "physical_qubits": 57600,
+    "physical_qubits": 26400,
     "t_count": 1000000,
     "t_depth": 83333,
     "clifford_count": 4000000,
@@ -53,12 +53,12 @@
   "build": {
     "commit": "de932d3fe7c295d2234413bbe630d3cc620654d4",
     "qdk_version": "mock",
-    "estimator_version": "mock-qubit_gate_ns_e4",
-    "date_utc": "2026-02-19T19:43:22.774161Z"
+    "estimator_version": "mock-qubit_gate_ns_e3",
+    "date_utc": "2026-02-19T19:43:22.595252Z"
   },
-  "notes": "Estimated using qubit_gate_ns_e4 target profile",
+  "notes": "Estimated using qubit_gate_ns_e3 target profile",
   "_metadata": {
-    "artifact_path": "03_qae_risk/estimates/qubit_gate_ns_e4_2026-02-19T194322.774161Z.json",
-    "generated_at_utc": "2026-02-19T19:43:22.774161Z"
+    "artifact_path": "03_qae_risk/estimates/qubit_gate_ns_e3_2026-02-19T194322.595252Z.json",
+    "generated_at_utc": "2026-02-19T19:43:22.595252Z"
   }
 }

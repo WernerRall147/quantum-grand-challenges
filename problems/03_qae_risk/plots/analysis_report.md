@@ -1,5 +1,5 @@
 # QAE Risk Analysis Summary Report
-Generated: 2026-02-19 19:12:40.432836
+Generated: 2026-02-19 21:42:11.128034
 
 ## Quantum Amplitude Estimation Results
 ### Result 1: TailRisk > 3.0
@@ -50,7 +50,7 @@ Generated: 2026-02-19 19:12:40.432836
 | 0.05 | 1,000 | 0.000s |
 | 0.01 | 1,000 | 0.000s |
 | 0.005 | 1,900 | 0.000s |
-| 0.001 | 47,500 | 0.002s |
+| 0.001 | 47,500 | 0.000s |
 
 ### Threshold = 3.0
 | Precision | Samples Needed | Runtime |
@@ -59,7 +59,7 @@ Generated: 2026-02-19 19:12:40.432836
 | 0.05 | 1,000 | 0.000s |
 | 0.01 | 1,000 | 0.000s |
 | 0.005 | 1,900 | 0.000s |
-| 0.001 | 47,500 | 0.001s |
+| 0.001 | 47,500 | 0.000s |
 
 ### Threshold = 4.0
 | Precision | Samples Needed | Runtime |

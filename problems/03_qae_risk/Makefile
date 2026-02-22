@@ -16,7 +16,7 @@ INSTANCE ?= small
 # Python environment
 VENV_DIR := venv
 
-.PHONY: help build test estimate sweep analyze calibrate compare clean setup-python install-deps
+.PHONY: help build test estimate sweep analyze calibrate calibrate-fast sync-calibration-doc compare clean setup-python install-deps
 
 help:
 	@echo "QAE Risk Analysis - Available targets:"
@@ -30,6 +30,8 @@ help:
 	@echo "  sweep         - Run parameter sweep across multiple targets"
 	@echo "  analyze       - Generate analysis and plots"
 	@echo "  calibrate     - Run repeated quantum calibration ensemble and plots"
+	@echo "  calibrate-fast - Run short calibration smoke test"
+	@echo "  sync-calibration-doc - Update docs/QAE_PROJECT_COMPLETION.md from latest estimates"
 	@echo "  compare       - Compare with classical baseline"
 	@echo "  classical     - Run classical Monte Carlo baseline"
 	@echo "  clean         - Clean build artifacts"
@@ -80,10 +82,19 @@ analyze:
 	cd python && $(PYTHON) analyze.py
 
 CALIBRATION_RUNS ?= 20
+CALIBRATION_FAST_RUNS ?= 3
 
 calibrate:
 	@echo "Running QAE calibration ensemble with $(CALIBRATION_RUNS) runs..."
 	cd python && $(PYTHON) analyze.py --ensemble-runs $(CALIBRATION_RUNS)
+
+calibrate-fast:
+	@echo "Running fast QAE calibration smoke test with $(CALIBRATION_FAST_RUNS) runs..."
+	cd python && $(PYTHON) analyze.py --ensemble-runs $(CALIBRATION_FAST_RUNS)
+
+sync-calibration-doc:
+	@echo "Syncing QAE completion doc from latest calibration outputs..."
+	cd python && $(PYTHON) update_completion_doc.py
 
 compare: classical analyze
 	@echo "Complete comparison analysis finished"

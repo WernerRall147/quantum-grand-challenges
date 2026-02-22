@@ -91,11 +91,12 @@ make compare                      # Compare quantum vs classical
 - [x] Classical Monte Carlo baseline
 - [x] Analysis and visualization
 - [x] Comprehensive technical documentation
-- [ ] Algorithm calibration (phase-to-amplitude mapping refinement)
+- [x] Calibrated baseline instance (phase/oracle alignment and entrypoint fix)
+- [ ] Broader calibration hardening across more instances and seeds
 
 ## Results Summary
 
-**Test Case**: 4 loss qubits (16 levels), 5 precision qubits, log-normal(0,1), threshold=2.5, theoretical tail probability 18.98%
+**Test Case**: 4 loss qubits (16 levels), 6 precision qubits, log-normal(0,1), threshold=2.5, theoretical tail probability 18.98%
 
 Latest Azure Quantum Resource Estimates:
 
@@ -119,7 +120,7 @@ Latest Azure Quantum Resource Estimates:
 
 **Current Test Results**:
 - **Classical Monte Carlo** (10k samples): 18.98% ± 0.39% (0% relative error)
-- **QAE Current** (20 repetitions): 74.45% ± 5.77% (292% relative error - needs calibration)
+- **QAE Current** (120 repetitions): 19.17% ± 3.59% (about 1.0% relative error)
 - **Theoretical**: 18.98%
 
 **Complexity Analysis**:
@@ -129,7 +130,15 @@ Latest Azure Quantum Resource Estimates:
   - For ε = 0.01: ~100 queries
   - **Quadratic speedup** for high precision
 
-**Implementation Status**: Circuit structure is correct with proper Grover operators and QPE, but phase-to-amplitude mapping needs refinement to achieve accurate probability estimates.
+**Implementation Status**: Calibrated baseline instance is accurate with proper Grover operators and QPE; next work is robustness hardening across additional instances and ensemble seeds.
+
+### Calibration Workflow
+
+```bash
+make calibrate CALIBRATION_RUNS=20
+```
+
+This command runs repeated Q# executions through `python/analyze.py --ensemble-runs ...`, stores per-run outputs in `estimates/quantum_estimate_run*.json`, and writes aggregate metrics to `estimates/quantum_estimate_ensemble.json`.
 
 Quantum advantage becomes compelling when:
 

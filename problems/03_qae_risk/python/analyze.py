@@ -130,24 +130,42 @@ class QAERiskAnalyzer:
                 print(run_result.stderr.strip(), file=sys.stderr)
 
             histogram_counts: Dict[int, int] = {}
-            for match in re.finditer(r"^\s+(\d+):\s+(\d+)$", stdout_clean, flags=re.MULTILINE):
+            histogram_denominator: Optional[int] = None
+            for match in re.finditer(r"^\s+Phase\s+(\d+)/(\d+).*:\s+(\d+)\s+times$", stdout_clean, flags=re.MULTILINE):
                 outcome = int(match.group(1))
-                count = int(match.group(2))
+                histogram_denominator = int(match.group(2))
+                count = int(match.group(3))
                 histogram_counts[outcome] = count
 
-            shots_match = re.search(r"shots=([0-9]+)", stdout_clean)
+            number_pattern = r"([0-9eE+\-\.,]+)"
             config_match = re.search(r"phase bits=([0-9]+), repeats=([0-9]+)", stdout_clean)
+            precision_match = re.search(r"Precision qubits:\s*([0-9]+)", stdout_clean)
+            repetitions_match = re.search(r"Repetitions:\s*([0-9]+)", stdout_clean)
+            threshold_match = re.search(rf"Loss threshold:\s*{number_pattern}", stdout_clean)
+            loss_qubits_match = re.search(r"Loss distribution qubits:\s*([0-9]+)", stdout_clean)
             plus_minus_pattern = r"(?:Â?±|\+/-)"
-            quantum_match = re.search(rf"Quantum amplitude estimation.*: ([0-9eE+\-.]+) {plus_minus_pattern} ([0-9eE+\-.]+)", stdout_clean)
+            quantum_match = re.search(rf"Quantum amplitude estimation.*: {number_pattern} {plus_minus_pattern} {number_pattern}", stdout_clean)
+            if quantum_match is None:
+                quantum_match = re.search(rf"Mean amplitude estimate:\s*{number_pattern}\s*{plus_minus_pattern}\s*{number_pattern}", stdout_clean)
             analytic_match = re.search(r"Analytical probability: ([0-9eE+\-.]+)", stdout_clean)
-            classical_match = re.search(rf"Classical Monte Carlo estimate: ([0-9eE+\-.]+) {plus_minus_pattern} ([0-9eE+\-.]+)", stdout_clean)
-            difference_match = re.search(r"Difference between quantum and analytical: ([0-9eE+\-.]+)", stdout_clean)
+            if analytic_match is None:
+                analytic_match = re.search(rf"Theoretical tail probability:\s*{number_pattern}", stdout_clean)
+            classical_match = re.search(rf"Classical Monte Carlo estimate: {number_pattern} {plus_minus_pattern} {number_pattern}", stdout_clean)
+            if classical_match is None:
+                classical_match = re.search(rf"Monte Carlo \([0-9]+ samples\):\s*{number_pattern}\s*{plus_minus_pattern}\s*{number_pattern}", stdout_clean)
+            difference_match = re.search(rf"Difference between quantum and analytical:\s*{number_pattern}", stdout_clean)
 
             def to_float(value: str | None) -> float | None:
                 if value is None:
                     return None
                 try:
-                    return float(value)
+                    normalized = value.strip()
+                    # Q# output can use locale decimal commas (for example, 0,1897).
+                    if "," in normalized and "." not in normalized:
+                        normalized = normalized.replace(",", ".")
+                    elif "," in normalized and "." in normalized:
+                        normalized = normalized.replace(",", "")
+                    return float(normalized)
                 except ValueError:
                     return None
 
@@ -157,11 +175,21 @@ class QAERiskAnalyzer:
             classical_prob = to_float(classical_match.group(1) if classical_match else None)
             classical_std = to_float(classical_match.group(2) if classical_match else None)
             difference = to_float(difference_match.group(1) if difference_match else None)
-            shots = int(shots_match.group(1)) if shots_match else None
-
             phase_bits = int(config_match.group(1)) if config_match else None
             repeats = int(config_match.group(2)) if config_match else None
-            shots = int(shots_match.group(1)) if shots_match else repeats
+            if phase_bits is None and precision_match:
+                phase_bits = int(precision_match.group(1))
+            if repeats is None and repetitions_match:
+                repeats = int(repetitions_match.group(1))
+            if phase_bits is None and histogram_denominator and histogram_denominator > 0:
+                phase_bits = int(round(math.log2(histogram_denominator)))
+            shots = repeats
+
+            threshold = to_float(threshold_match.group(1) if threshold_match else None)
+            loss_qubits = int(loss_qubits_match.group(1)) if loss_qubits_match else None
+
+            if difference is None and quantum_estimate is not None and analytic_prob is not None:
+                difference = quantum_estimate - analytic_prob
 
             circular_amplitude = None
             circular_phase = None
@@ -196,14 +224,14 @@ class QAERiskAnalyzer:
                 result_payload: Dict[str, Any] = {
                     "timestamp": datetime.utcnow().isoformat() + "Z",
                     "algorithm": "QPEAmplitudeEstimation",
-                    "estimator_target": "TailRisk > 3.0",
+                    "estimator_target": f"TailRisk > {threshold}" if threshold is not None else "TailRisk",
                     "instance": {
                         "parameters": {
                             "shots": shots,
                             "phase_bits": phase_bits,
                             "repetitions": repeats,
-                            "threshold": 3.0,
-                            "loss_qubits": 8,
+                            "threshold": threshold,
+                            "loss_qubits": loss_qubits,
                             "mean": 0.0,
                             "std_dev": 1.0,
                         }

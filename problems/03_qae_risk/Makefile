@@ -16,7 +16,7 @@ INSTANCE ?= small
 # Python environment
 VENV_DIR := venv
 
-.PHONY: help build test estimate sweep analyze compare clean setup-python install-deps
+.PHONY: help build test estimate sweep analyze calibrate compare clean setup-python install-deps
 
 help:
 	@echo "QAE Risk Analysis - Available targets:"
@@ -29,6 +29,7 @@ help:
 	@echo "  estimate      - Run resource estimation (TARGET=$(TARGET))"
 	@echo "  sweep         - Run parameter sweep across multiple targets"
 	@echo "  analyze       - Generate analysis and plots"
+	@echo "  calibrate     - Run repeated quantum calibration ensemble and plots"
 	@echo "  compare       - Compare with classical baseline"
 	@echo "  classical     - Run classical Monte Carlo baseline"
 	@echo "  clean         - Clean build artifacts"
@@ -77,6 +78,12 @@ classical:
 analyze: 
 	@echo "Generating analysis and plots..."
 	cd python && $(PYTHON) analyze.py
+
+CALIBRATION_RUNS ?= 20
+
+calibrate:
+	@echo "Running QAE calibration ensemble with $(CALIBRATION_RUNS) runs..."
+	cd python && $(PYTHON) analyze.py --ensemble-runs $(CALIBRATION_RUNS)
 
 compare: classical analyze
 	@echo "Complete comparison analysis finished"

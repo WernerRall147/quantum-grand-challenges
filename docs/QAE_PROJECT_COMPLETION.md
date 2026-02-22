@@ -25,7 +25,7 @@ Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with c
 - **Configuration**: 4 loss qubits, 6 precision qubits, log-normal(0,1), threshold=2.5
 - **Theoretical**: 18.98% tail probability
 - **Classical MC**: 18.98% ± 0.39% (10k samples)
-- **QAE Current**: 19.17% ± 3.59% (120 repetitions; calibrated baseline run)
+- **QAE Current**: 19.44% ± 0.23% (3 repetitions; calibrated baseline run)
 - **Complexity**: O(1/ε) vs classical O(1/ε²) — quadratic speedup
 
 ### 2. Azure Quantum Resource Estimation ✅
@@ -227,7 +227,7 @@ Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with c
 
 ### Current Limitations
 1. **Statistical Stability**: Single-run histograms remain shot-noise sensitive
-   - Current baseline: QAE 19.17% vs theoretical 18.98% (about 1.0% relative error)
+   - Current baseline: QAE 19.44% vs theoretical 18.98% (about 2.5% relative error)
    - Remaining work: confidence-interval tightening across parameter sweeps
    - Next step: automate repeated-seed calibration runs and store trend metrics
 

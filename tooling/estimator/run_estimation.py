@@ -337,8 +337,20 @@ class ResourceEstimator:
 
         try:
             if not simulate:
-                result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-                raw_output = json.loads(result.stdout)
+                try:
+                    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+                    raw_output = json.loads(result.stdout)
+                except FileNotFoundError:
+                    print(
+                        "Warning: qsharp-re executable not found. Falling back to mock estimation output.",
+                        file=sys.stderr
+                    )
+                    raw_output = self._generate_mock_output(
+                        target_name,
+                        metadata_parameters=metadata_parameters,
+                        algorithm=algorithm,
+                        mock_overrides=mock_overrides
+                    )
             # Transform to our standard schema
             
             standardized = self._standardize_output(
@@ -668,11 +680,19 @@ def main():
 
     estimator = ResourceEstimator(args.problem_dir)
 
-    # Load instance parameters if provided
+    # Load instance parameters if provided (accept JSON or YAML).
     instance_params = None
     if args.params:
-        with open(args.params, "r", encoding="utf-8") as file_handle:
-            instance_params = json.load(file_handle)
+        params_path = Path(args.params)
+        if not params_path.exists():
+            raise FileNotFoundError(f"Parameter file not found: {params_path}")
+
+        suffix = params_path.suffix.lower()
+        if suffix in {".yaml", ".yml"}:
+            instance_params = _load_yaml_file(params_path)
+        else:
+            with open(params_path, "r", encoding="utf-8") as file_handle:
+                instance_params = json.load(file_handle)
 
     if args.sweep:
         results = estimator.run_parameter_sweep(

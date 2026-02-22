@@ -1,6 +1,9 @@
 import Head from 'next/head';
 
 export default function Home() {
+  const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
+  const withBasePath = (path: string) => `${basePath}${path}`;
+
   const pipelineStages: TimelineItem[] = [
     {
       title: 'Baseline & Validation',
@@ -32,8 +35,8 @@ export default function Home() {
     },
     {
       title: 'QAE Risk Analysis',
-      status: '✅ COMPLETE - Canonical Implementation',
-      description: 'Full QAE with Grover operators, QPE, 594k qubits estimated',
+      status: '⚠️ Implemented - Calibration Pending',
+      description: 'Canonical QAE structure is implemented; probability calibration is in progress',
     },
     {
       title: 'Hubbard Model',
@@ -123,12 +126,12 @@ export default function Home() {
         <title>Quantum Grand Challenges</title>
         <meta name="description" content="Systematic exploration of 20 quantum computing challenges" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={withBasePath('/favicon.ico')} />
       </Head>
       <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
         <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌌 Quantum Grand Challenges</h1>
         <p style={{ fontSize: '1.25rem', color: '#666', marginBottom: '2rem' }}>
-          Systematic exploration of 20 of the world's most challenging scientific problems using quantum computing
+          Systematic exploration of 20 of the world&apos;s most challenging scientific problems using quantum computing
         </p>
 
         <section style={{ padding: '2rem', background: '#f0f4ff', borderRadius: '12px' }}>
@@ -150,11 +153,11 @@ export default function Home() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
             <CaseStudyCard
-              title="QAE Risk Analysis (COMPLETE)"
+              title="QAE Risk Analysis (Implemented, Calibration Pending)"
               classicalHeadline="Monte Carlo: 18.98% ± 0.39% (10k samples)"
               classicalDetails="Classical baseline achieves 0% error vs theoretical for tail risk P(Loss > 2.5) on log-normal(0,1) distribution."
               quantumHeadline="Canonical QAE: 594k qubits, 6.4s, 965k T-states"
-              quantumDetails="Full implementation with Grover operators, quantum phase estimation, and amplitude encoding. Achieves O(1/ε) complexity vs classical O(1/ε²) — quadratic speedup for high precision."
+              quantumDetails="Canonical Grover/QPE/amplitude encoding structure is implemented. Calibration remains in progress to align estimates with theoretical probability."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk"
             />
             <CaseStudyCard
@@ -210,32 +213,32 @@ export default function Home() {
             <VisualizationCard
               title="Physical Qubit Requirements"
               description="HHL is most efficient (18.7k), QAE requires 31.8× more qubits (594k). T-state factories dominate 93-97% of all qubits."
-              imageSrc="/images/qubit_comparison.png"
+              imageSrc={withBasePath('/images/qubit_comparison.png')}
             />
             <VisualizationCard
               title="Runtime Comparison"
               description="VQE is fastest (114μs), HHL takes 52ms, QAE requires 6.4s. Shows 3 orders of magnitude range across algorithms."
-              imageSrc="/images/runtime_comparison.png"
+              imageSrc={withBasePath('/images/runtime_comparison.png')}
             />
             <VisualizationCard
               title="T-State Analysis"
               description="QAE needs 965k T-states (5.2× more than HHL). Rotation gates dominate costs at 20 T-states per rotation."
-              imageSrc="/images/tstate_comparison.png"
+              imageSrc={withBasePath('/images/tstate_comparison.png')}
             />
             <VisualizationCard
               title="Quantum Advantage Map"
               description="Heatmap assessment: HHL wins near-term viability (2027-2029), VQE wins runtime, QAE wins advantage potential."
-              imageSrc="/images/quantum_advantage_map.png"
+              imageSrc={withBasePath('/images/quantum_advantage_map.png')}
             />
             <VisualizationCard
               title="Scaling Predictions"
               description="VQE scales linearly, HHL logarithmically, QAE exponentially. Shows practical limits for each algorithm."
-              imageSrc="/images/scaling_analysis.png"
+              imageSrc={withBasePath('/images/scaling_analysis.png')}
             />
             <VisualizationCard
               title="Technology Timeline"
               description="HHL ready by 2027-2029 (50k qubits), VQE by 2028-2030 (100k qubits), QAE by 2033-2035 (1M qubits)."
-              imageSrc="/images/technology_timeline.png"
+              imageSrc={withBasePath('/images/technology_timeline.png')}
             />
           </div>
         </section>
@@ -243,7 +246,8 @@ export default function Home() {
         <div style={{ marginTop: '4rem', padding: '2rem', background: '#f8f9fa', borderRadius: '8px' }}>
           <h2>📊 Current Status</h2>
           <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
-            <li><strong>✅ Four Complete Quantum Algorithms:</strong> VQE, HHL, QAE, and Grover fully implemented with validation</li>
+            <li><strong>✅ Three Fully Validated Quantum Algorithms:</strong> VQE, HHL, and Grover have validated end-to-end flows</li>
+            <li><strong>⚠️ QAE Status:</strong> Canonical implementation is complete, with calibration work still in progress</li>
             <li><strong>✅ 21,000+ words of documentation:</strong> Comprehensive technical summaries and cross-algorithm comparisons</li>
             <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
             <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
@@ -251,9 +255,9 @@ export default function Home() {
             <li><strong>✅ CI/CD:</strong> Automated testing and static export ready for GitHub Pages</li>
           </ul>
           <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
-            <h3 style={{ marginTop: 0, color: '#10b981' }}>🎉 Latest Achievement: Grover's Quantum Search</h3>
+            <h3 style={{ marginTop: 0, color: '#10b981' }}>🎉 Latest Achievement: Grover&apos;s Quantum Search</h3>
             <p style={{ color: '#666', marginBottom: 0 }}>
-              Complete canonical Grover's algorithm with multi-target oracle support. Demonstrated quadratic speedup O(√N) 
+              Complete canonical Grover&apos;s algorithm with multi-target oracle support. Demonstrated quadratic speedup O(√N) 
               with 42.7x faster than classical on 4096-item search. Perfect 100% success rate on large-scale searches. 
               Validated with 250+ measurement shots across three problem sizes (16, 32, 4096 items). Foundation for 
               cryptanalysis, database search, and amplitude amplification applications.
@@ -270,16 +274,6 @@ export default function Home() {
               description={problem.description}
             />
           ))}
-        </div>
-
-        <div style={{ marginTop: '4rem', padding: '2rem', background: '#f8f9fa', borderRadius: '8px' }}>
-          <h2>📊 Current Status</h2>
-          <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
-            <li><strong>Q# Prototypes:</strong> Placeholders in place for finance, chemistry, error correction, nuclear physics, photovoltaics, QCD, and mission planning</li>
-            <li><strong>Classical Baselines:</strong> All twenty challenges now have reproducible baselines with JSON outputs and plots</li>
-            <li><strong>Visualization:</strong> Dashboard cards and per-problem plots refreshed after each scaffold</li>
-            <li><strong>CI/CD:</strong> Automated testing and static export ready for GitHub Pages</li>
-          </ul>
         </div>
 
         <section style={{ marginTop: '3rem', padding: '2rem', borderRadius: '8px', border: '1px dashed #b0c4de' }}>
@@ -428,7 +422,7 @@ function AlgorithmSummary({ name, qubits, runtime, tStates, advantage, color }: 
       backdropFilter: 'blur(10px)',
       border: '1px solid rgba(255,255,255,0.2)'
     }}>
-      <h3 style={{ marginTop: 0, color: 'white', fontSize: '1.3rem' }}>{name}</h3>
+      <h3 style={{ marginTop: 0, color, fontSize: '1.3rem' }}>{name}</h3>
       <div style={{ marginTop: '1rem', display: 'grid', gap: '0.5rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span style={{ color: '#f0f0ff' }}>Physical Qubits:</span>

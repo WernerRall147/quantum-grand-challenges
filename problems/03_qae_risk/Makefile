@@ -63,13 +63,7 @@ run: build
 # Resource estimation
 estimate: build
 	@echo "Running resource estimation with target: $(TARGET) and instance: $(INSTANCE)"
-	@if [ -f "instances/$(INSTANCE).yaml" ]; then \
-		$(ESTIMATOR) $(PROBLEM_DIR) --target $(TARGET) --params instances/$(INSTANCE).yaml; \
-	else \
-		echo "Instance file instances/$(INSTANCE).yaml not found"; \
-		echo "Available instances: $$(ls instances/*.yaml 2>/dev/null | xargs -n1 basename | sed 's/.yaml//' | tr '\n' ' ')"; \
-		exit 1; \
-	fi
+	$(ESTIMATOR) $(PROBLEM_DIR) --target $(TARGET) --params instances/$(INSTANCE).yaml
 
 sweep: build
 	@echo "Running resource estimation parameter sweep..."

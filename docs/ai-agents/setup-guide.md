@@ -128,7 +128,7 @@ cd problems/03_qae_risk
 make classical
 make analyze
 
-# Quantum workflow (experimental; currently fails to build until amplitude estimation is implemented)
+# Quantum workflow (builds successfully; amplitude calibration still in progress)
 make build
 make run
 make estimate

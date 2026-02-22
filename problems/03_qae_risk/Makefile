@@ -16,7 +16,7 @@ INSTANCE ?= small
 # Python environment
 VENV_DIR := venv
 
-.PHONY: help build test estimate sweep analyze calibrate calibrate-fast sync-calibration-doc compare clean setup-python install-deps
+.PHONY: help build test estimate sweep analyze calibrate calibrate-fast record-calibration calibrate-track sync-calibration-doc compare clean setup-python install-deps
 
 help:
 	@echo "QAE Risk Analysis - Available targets:"
@@ -31,6 +31,8 @@ help:
 	@echo "  analyze       - Generate analysis and plots"
 	@echo "  calibrate     - Run repeated quantum calibration ensemble and plots"
 	@echo "  calibrate-fast - Run short calibration smoke test"
+	@echo "  record-calibration - Append latest calibration metrics to history file"
+	@echo "  calibrate-track - Fast calibration + history append + doc sync"
 	@echo "  sync-calibration-doc - Update docs/QAE_PROJECT_COMPLETION.md from latest estimates"
 	@echo "  compare       - Compare with classical baseline"
 	@echo "  classical     - Run classical Monte Carlo baseline"
@@ -91,6 +93,13 @@ calibrate:
 calibrate-fast:
 	@echo "Running fast QAE calibration smoke test with $(CALIBRATION_FAST_RUNS) runs..."
 	cd python && $(PYTHON) analyze.py --ensemble-runs $(CALIBRATION_FAST_RUNS)
+
+record-calibration:
+	@echo "Recording latest QAE calibration metrics into history..."
+	cd python && $(PYTHON) update_calibration_history.py
+
+calibrate-track: calibrate-fast record-calibration sync-calibration-doc
+	@echo "Calibration tracking workflow complete"
 
 sync-calibration-doc:
 	@echo "Syncing QAE completion doc from latest calibration outputs..."

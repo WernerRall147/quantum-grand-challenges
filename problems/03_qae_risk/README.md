@@ -136,9 +136,12 @@ Latest Azure Quantum Resource Estimates:
 
 ```bash
 make calibrate CALIBRATION_RUNS=20
+make calibrate-track CALIBRATION_FAST_RUNS=3
 ```
 
 This command runs repeated Q# executions through `python/analyze.py --ensemble-runs ...`, stores per-run outputs in `estimates/quantum_estimate_run*.json`, and writes aggregate metrics to `estimates/quantum_estimate_ensemble.json`.
+
+`make calibrate-track` runs a fast ensemble, appends a persistent record to `estimates/quantum_calibration_history.json`, and syncs the latest headline numbers into `docs/QAE_PROJECT_COMPLETION.md`.
 
 Quantum advantage becomes compelling when:
 

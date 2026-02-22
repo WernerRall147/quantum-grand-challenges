@@ -192,7 +192,8 @@ namespace QuantumGrandChallenges.QAERisk {
             if (lossValue > threshold) {
                 within {
                     for bitIdx in 0 .. n - 1 {
-                        let bit = (index >>> bitIdx) &&& 1;
+                        // Keep register[0] as MSB to match state-prep and phase-estimation conventions.
+                        let bit = (index >>> (n - 1 - bitIdx)) &&& 1;
                         if (bit == 0) {
                             X(register[bitIdx]);
                         }
@@ -229,7 +230,6 @@ namespace QuantumGrandChallenges.QAERisk {
         } apply {
             ReflectAboutZero(register);
         }
-        Adjoint statePrep(register);
     }
 
     operation GroverOperator(
@@ -422,7 +422,6 @@ namespace QuantumGrandChallenges.QAERisk {
         
         Message($"=== Canonical QAE Results (precision={precisionBits} bits, runs={runs}) ===");
         Message("Phase measurement histogram (top 10):");
-        mutable displayedCount = 0;
         for _ in 1 .. 10 {
             mutable maxIdx = 0;
             mutable maxCount = 0;
@@ -470,7 +469,7 @@ namespace QuantumGrandChallenges.QAERisk {
             mutable phaseInt = 0;
             for idx in 0 .. precisionBits - 1 {
                 if (M(precisionReg[idx]) == One) {
-                    set phaseInt += 1 <<< idx;
+                    set phaseInt += 1 <<< (precisionBits - 1 - idx);
                 }
             }
 
@@ -511,8 +510,8 @@ namespace QuantumGrandChallenges.QAERisk {
         Message($"  Theoretical tail probability P(Loss > {threshold}): {theoreticalTailProb}");
         Message("");
         
-        let precisionBits = 5;
-        let repetitions = 20;
+        let precisionBits = 6;
+        let repetitions = 120;
         
         Message($"QAE Algorithm Parameters:");
         Message($"  Precision qubits: {precisionBits} (phase resolution: π/{1 <<< precisionBits})");

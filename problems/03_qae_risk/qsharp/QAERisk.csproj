@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>QAERisk</AssemblyName>
     <RootNamespace>QuantumGrandChallenges.QAERisk</RootNamespace>
+    <StartupObject>__QsEntryPoint__.__QsEntryPoint__</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

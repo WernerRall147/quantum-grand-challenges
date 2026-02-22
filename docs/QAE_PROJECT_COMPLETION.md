@@ -1,8 +1,8 @@
 # QAE Implementation - Project Completion Summary
 
-**Date**: November 6, 2025  
-**Status**: ⚠️ IMPLEMENTED (CALIBRATION PENDING)  
-**Branch**: feature/qdk-upgrade-spike
+**Date**: February 22, 2026  
+**Status**: ⚠️ IMPLEMENTED (CALIBRATED BASELINE; FURTHER HARDENING PENDING)  
+**Branch**: main
 
 ## Overview
 
@@ -19,13 +19,13 @@ Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with c
 - ✅ **Diffusion Operator**: Reflect about uniform superposition (within/apply pattern)
 - ✅ **Grover Operator**: Q = -S₀·Sχ combining oracle and diffusion
 - ✅ **Quantum Phase Estimation**: Controlled Grover^(2^k) powers with inverse QFT
-- ✅ **Statistical Averaging**: 20 repetitions with phase histogram analysis
+- ✅ **Statistical Averaging**: tuned repetitions with phase histogram analysis
 
 **Test Results**:
-- **Configuration**: 4 loss qubits, 5 precision qubits, log-normal(0,1), threshold=2.5
+- **Configuration**: 4 loss qubits, 6 precision qubits, log-normal(0,1), threshold=2.5
 - **Theoretical**: 18.98% tail probability
 - **Classical MC**: 18.98% ± 0.39% (10k samples)
-- **QAE Current**: 74.45% ± 5.77% (algorithm structure correct, needs calibration)
+- **QAE Current**: 19.17% ± 3.59% (120 repetitions; calibrated baseline run)
 - **Complexity**: O(1/ε) vs classical O(1/ε²) — quadratic speedup
 
 ### 2. Azure Quantum Resource Estimation ✅
@@ -226,10 +226,10 @@ Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with c
 ## Known Issues & Next Steps
 
 ### Current Limitations
-1. **Algorithm Calibration**: QAE estimate (74%) differs from theoretical (19%)
-   - Root cause: Phase-to-amplitude mapping needs refinement
-   - Solution: Adjust sin²(θ) relationship or Grover eigenvalue extraction
-   - Expected: <5% error after calibration
+1. **Statistical Stability**: Single-run histograms remain shot-noise sensitive
+   - Current baseline: QAE 19.17% vs theoretical 18.98% (about 1.0% relative error)
+   - Remaining work: confidence-interval tightening across parameter sweeps
+   - Next step: automate repeated-seed calibration runs and store trend metrics
 
 2. **State Preparation Cost**: Exponential in number of qubits
    - Current: O(2^n) rotation gates
@@ -237,7 +237,7 @@ Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with c
    - Solution: Approximate state preparation or variational methods
 
 ### Future Work (Optional)
-1. ⏳ Fix phase-to-amplitude mapping for correct probability estimates
+1. ✅ Fix phase/oracle bit-order and reflection consistency for calibrated default run
 2. ⏳ Scale to 8 loss qubits (small.yaml instance)
 3. ⏳ Optimize state preparation circuit depth
 4. ✅ Interactive visualization dashboard (Plotly/Bokeh)
@@ -246,14 +246,14 @@ Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with c
 ## Success Metrics
 
 ✅ **Implementation**: Canonical QAE with all components working  
-✅ **Execution**: Program builds successfully and runs via project host  
+✅ **Execution**: Program builds successfully and runs via explicit Q# entrypoint host  
 ✅ **Resource Estimation**: Complete analysis across 3 architectures  
 ✅ **Documentation**: Enterprise-level technical documentation  
 ✅ **Comparison**: Cross-algorithm analysis with VQE and HHL  
 ✅ **Visualization**: Publication-quality comparison plots  
 ✅ **Repository Integration**: All READMEs updated, dashboard linked  
 
-**Overall Status**: ⚠️ **IMPLEMENTATION COMPLETE, CALIBRATION PENDING**
+**Overall Status**: ⚠️ **IMPLEMENTATION COMPLETE, CALIBRATED BASELINE ACHIEVED**
 
 ## Impact Assessment
 
@@ -303,14 +303,14 @@ The QAE implementation represents a **structurally complete quantum algorithm pr
 
 **The Quantum Grand Challenges repository now has three fully-implemented quantum algorithms (VQE, HHL, QAE) with complete resource estimates, comprehensive documentation, and visual comparison dashboard.**
 
-**Next milestone**: Algorithm calibration and deployment on Azure Quantum when fault-tolerant hardware becomes available (2033-2035 for QAE).
+**Next milestone**: Multi-instance calibration sweeps and robustness hardening before Azure Quantum deployment planning (2033-2035 FT window for QAE).
 
 ---
 
-**Project Status**: ⚠️ IMPLEMENTED (CALIBRATION PENDING)  
+**Project Status**: ⚠️ IMPLEMENTED (CALIBRATED BASELINE; HARDENING PENDING)  
 **Documentation Quality**: ⭐⭐⭐⭐⭐ (Enterprise-level)  
-**Code Quality**: ⭐⭐⭐⭐☆ (Prototype with known calibration gap)  
+**Code Quality**: ⭐⭐⭐⭐☆ (Prototype with calibrated default instance)  
 **Resource Analysis**: ⭐⭐⭐⭐⭐ (Comprehensive)  
 **Visualization**: ⭐⭐⭐⭐⭐ (Publication-quality)  
 
-**Overall Assessment**: 🎯 **STRONG PROGRESS** — Core objectives achieved; numerical calibration remains
+**Overall Assessment**: 🎯 **STRONG PROGRESS** — Core objectives achieved; broadened calibration/hardening remains

@@ -18,6 +18,18 @@ from typing import Dict, Any, List, Optional
 from datetime import datetime
 import subprocess
 import sys
+import yaml
+
+
+DEFAULT_QAE_PARAMS: Dict[str, Any] = {
+    "loss_qubits": 4,
+    "threshold": 2.5,
+    "mean": 0.0,
+    "std_dev": 1.0,
+    "precision_bits": 6,
+    "repetitions": 120,
+    "run_sanity_check": False,
+}
 
 class QAERiskAnalyzer:
     """Analyzer for quantum amplitude estimation risk analysis results."""
@@ -68,6 +80,9 @@ class QAERiskAnalyzer:
                     results.append(result)
                 except Exception as e:
                     print(f"Warning: Could not load {json_file}: {e}")
+
+            # Keep report ordering stable and ensure "latest" points to newest timestamped result.
+            results.sort(key=lambda result: (str(result.get("timestamp", "")), str(result.get("source_file", ""))))
                     
         return results
         
@@ -82,10 +97,37 @@ class QAERiskAnalyzer:
             print("Warning: No classical baseline results found")
             return {}
             
-    def run_quantum_estimation(self, skip_build: bool = False) -> Optional[Dict[str, Any]]:
+    def run_quantum_estimation(
+        self,
+        skip_build: bool = False,
+        qae_params: Optional[Dict[str, Any]] = None,
+    ) -> Optional[Dict[str, Any]]:
         """Run the Q# quantum estimation and return the parsed result payload."""
         qsharp_dir = self.problem_dir / "qsharp"
         self.latest_quantum_result = None
+        effective_params = dict(DEFAULT_QAE_PARAMS)
+        if qae_params:
+            effective_params.update(qae_params)
+
+        runtime_config_script = self.problem_dir / "python" / "write_runtime_config.py"
+        runtime_config_command = [
+            sys.executable,
+            str(runtime_config_script),
+            "--loss-qubits",
+            str(int(effective_params["loss_qubits"])),
+            "--threshold",
+            str(float(effective_params["threshold"])),
+            "--mean",
+            str(float(effective_params["mean"])),
+            "--std-dev",
+            str(float(effective_params["std_dev"])),
+            "--precision-bits",
+            str(int(effective_params["precision_bits"])),
+            "--repetitions",
+            str(int(effective_params["repetitions"])),
+            "--run-sanity-check",
+            "true" if bool(effective_params["run_sanity_check"]) else "false",
+        ]
         
         if not qsharp_dir.exists():
             print("Q# directory not found")
@@ -93,6 +135,13 @@ class QAERiskAnalyzer:
             
         try:
             if not skip_build:
+                subprocess.run(
+                    runtime_config_command,
+                    cwd=runtime_config_script.parent,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                )
                 print("Building Q# project...")
                 build_result = subprocess.run(
                     ["dotnet", "build", "--configuration", "Release"],
@@ -107,12 +156,18 @@ class QAERiskAnalyzer:
                 if build_result.stderr:
                     print(build_result.stderr.strip(), file=sys.stderr)
             else:
+                subprocess.run(
+                    runtime_config_command,
+                    cwd=runtime_config_script.parent,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                )
                 print("Skipping build; reusing previous Q# compilation artifacts.")
             
             print("Running quantum estimation...")
-            run_command = ["dotnet", "run", "--configuration", "Release"]
-            if skip_build:
-                run_command.append("--no-build")
+            # Build is already handled above; always run without rebuilding to reduce noise.
+            run_command = ["dotnet", "run", "--configuration", "Release", "--no-build"]
 
             run_result = subprocess.run(
                 run_command,
@@ -143,11 +198,12 @@ class QAERiskAnalyzer:
             repetitions_match = re.search(r"Repetitions:\s*([0-9]+)", stdout_clean)
             threshold_match = re.search(rf"Loss threshold:\s*{number_pattern}", stdout_clean)
             loss_qubits_match = re.search(r"Loss distribution qubits:\s*([0-9]+)", stdout_clean)
+            total_qubits_match = re.search(r"Total qubits:\s*([0-9]+)", stdout_clean)
             plus_minus_pattern = r"(?:Â?±|\+/-)"
             quantum_match = re.search(rf"Quantum amplitude estimation.*: {number_pattern} {plus_minus_pattern} {number_pattern}", stdout_clean)
             if quantum_match is None:
                 quantum_match = re.search(rf"Mean amplitude estimate:\s*{number_pattern}\s*{plus_minus_pattern}\s*{number_pattern}", stdout_clean)
-            analytic_match = re.search(r"Analytical probability: ([0-9eE+\-.]+)", stdout_clean)
+            analytic_match = re.search(rf"Analytical probability:\s*{number_pattern}", stdout_clean)
             if analytic_match is None:
                 analytic_match = re.search(rf"Theoretical tail probability:\s*{number_pattern}", stdout_clean)
             classical_match = re.search(rf"Classical Monte Carlo estimate: {number_pattern} {plus_minus_pattern} {number_pattern}", stdout_clean)
@@ -215,7 +271,12 @@ class QAERiskAnalyzer:
 
             if quantum_estimate is not None:
                 self.estimates_dir.mkdir(exist_ok=True)
-                logical_qubits = (phase_bits + 1) if phase_bits is not None else None
+                total_qubits = int(total_qubits_match.group(1)) if total_qubits_match else None
+                if total_qubits is None and phase_bits is not None and loss_qubits is not None:
+                    # Risk register + counting register + one marker qubit.
+                    total_qubits = loss_qubits + phase_bits + 1
+
+                logical_qubits = total_qubits
                 physical_qubits = logical_qubits
                 t_count = None
                 if phase_bits is not None and repeats is not None:
@@ -232,8 +293,9 @@ class QAERiskAnalyzer:
                             "repetitions": repeats,
                             "threshold": threshold,
                             "loss_qubits": loss_qubits,
-                            "mean": 0.0,
-                            "std_dev": 1.0,
+                            "mean": float(effective_params["mean"]),
+                            "std_dev": float(effective_params["std_dev"]),
+                            "run_sanity_check": bool(effective_params["run_sanity_check"]),
                         }
                     },
                     "metrics": {
@@ -380,7 +442,7 @@ class QAERiskAnalyzer:
 
         return ensemble_payload
 
-    def run_quantum_ensemble(self, runs: int) -> Optional[Dict[str, Any]]:
+    def run_quantum_ensemble(self, runs: int, qae_params: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, Any]]:
         """Execute multiple quantum estimations and aggregate the results."""
         if runs <= 0:
             print("Ensemble run count must be positive.")
@@ -390,7 +452,7 @@ class QAERiskAnalyzer:
         print(f"Running ensemble of {runs} quantum estimations...")
         for idx in range(runs):
             print(f"\n▶️ Ensemble run {idx + 1}/{runs}")
-            result = self.run_quantum_estimation(skip_build=(idx > 0))
+            result = self.run_quantum_estimation(skip_build=(idx > 0), qae_params=qae_params)
             if result is None:
                 print("Ensemble execution aborted due to failure.")
                 break
@@ -787,6 +849,30 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Analyze QAE risk estimation outputs")
     parser.add_argument("--show-plots", action="store_true", help="Display plots instead of just saving them")
     parser.add_argument(
+        "--instance-file",
+        default="../instances/small.yaml",
+        help="Instance YAML to seed QAE runtime parameters (default: ../instances/small.yaml)",
+    )
+    parser.add_argument("--loss-qubits", type=int, default=None, help="Override loss encoding qubit count")
+    parser.add_argument("--threshold", type=float, default=None, help="Override tail-risk threshold")
+    parser.add_argument("--mean", type=float, default=None, help="Override log-normal mean")
+    parser.add_argument("--std-dev", type=float, default=None, help="Override log-normal std dev")
+    parser.add_argument("--precision-bits", type=int, default=None, help="Override QAE precision qubits")
+    parser.add_argument("--repetitions", type=int, default=None, help="Override QAE repetition count")
+    parser.add_argument(
+        "--run-sanity-check",
+        dest="run_sanity_check",
+        action="store_true",
+        help="Run the built-in QAE sanity test before risk analysis",
+    )
+    parser.add_argument(
+        "--skip-sanity-check",
+        dest="run_sanity_check",
+        action="store_false",
+        help="Skip the built-in QAE sanity test",
+    )
+    parser.set_defaults(run_sanity_check=None)
+    parser.add_argument(
         "--ensemble-runs",
         type=int,
         default=1,
@@ -795,23 +881,93 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def _resolve_qae_parameters(problem_dir: Path, args: argparse.Namespace) -> Dict[str, Any]:
+    resolved = dict(DEFAULT_QAE_PARAMS)
+
+    instance_path = Path(args.instance_file)
+    if not instance_path.is_absolute():
+        instance_path = (problem_dir / "python" / instance_path).resolve()
+
+    if instance_path.exists():
+        with open(instance_path, "r", encoding="utf-8") as f:
+            instance_data = yaml.safe_load(f) or {}
+
+        loss_encoding = instance_data.get("loss_encoding", {})
+        if isinstance(loss_encoding.get("num_qubits"), int):
+            resolved["loss_qubits"] = int(loss_encoding["num_qubits"])
+
+        if isinstance(instance_data.get("risk_threshold"), (int, float)):
+            resolved["threshold"] = float(instance_data["risk_threshold"])
+
+        amplitude_estimation = instance_data.get("amplitude_estimation", {})
+        if isinstance(amplitude_estimation.get("precision_qubits"), int):
+            resolved["precision_bits"] = int(amplitude_estimation["precision_qubits"])
+        if isinstance(amplitude_estimation.get("repetitions"), int):
+            resolved["repetitions"] = int(amplitude_estimation["repetitions"])
+
+        distribution = instance_data.get("distribution", {})
+        dist_type = str(distribution.get("type", "")).lower()
+        dist_params = distribution.get("parameters", {}) if isinstance(distribution, dict) else {}
+        if dist_type in ("log_normal", "", "none"):
+            if isinstance(dist_params.get("mean"), (int, float)):
+                resolved["mean"] = float(dist_params["mean"])
+            if isinstance(dist_params.get("std_dev"), (int, float)):
+                resolved["std_dev"] = float(dist_params["std_dev"])
+        elif dist_type:
+            print(
+                f"Warning: Instance distribution type '{dist_type}' is not directly supported by current Q# model; "
+                "retaining log-normal mean/std defaults unless explicitly overridden."
+            )
+
+    else:
+        print(f"Warning: Instance file not found at {instance_path}; using built-in defaults.")
+
+    if args.loss_qubits is not None:
+        resolved["loss_qubits"] = args.loss_qubits
+    if args.threshold is not None:
+        resolved["threshold"] = args.threshold
+    if args.mean is not None:
+        resolved["mean"] = args.mean
+    if args.std_dev is not None:
+        resolved["std_dev"] = args.std_dev
+    if args.precision_bits is not None:
+        resolved["precision_bits"] = args.precision_bits
+    if args.repetitions is not None:
+        resolved["repetitions"] = args.repetitions
+    if args.run_sanity_check is not None:
+        resolved["run_sanity_check"] = bool(args.run_sanity_check)
+
+    return resolved
+
+
 def main(args: argparse.Namespace):
     """Main analysis workflow."""
     
     analyzer = QAERiskAnalyzer(show_plots=args.show_plots)
+    qae_params = _resolve_qae_parameters(analyzer.problem_dir, args)
     
     print("🔍 Starting QAE Risk Analysis...")
+    print(
+        "QAE runtime params: "
+        f"loss_qubits={qae_params['loss_qubits']}, "
+        f"threshold={qae_params['threshold']}, "
+        f"mean={qae_params['mean']}, "
+        f"std_dev={qae_params['std_dev']}, "
+        f"precision_bits={qae_params['precision_bits']}, "
+        f"repetitions={qae_params['repetitions']}, "
+        f"run_sanity_check={qae_params['run_sanity_check']}"
+    )
     
     # Try to run quantum estimation
     ensemble_runs = max(1, args.ensemble_runs)
     if ensemble_runs > 1:
         print(f"\n📊 Running quantum estimation ensemble with {ensemble_runs} runs...")
-        quantum_result = analyzer.run_quantum_ensemble(ensemble_runs)
+        quantum_result = analyzer.run_quantum_ensemble(ensemble_runs, qae_params=qae_params)
         if quantum_result is None:
             print("Quantum ensemble execution failed or was skipped. See logs above.")
     else:
         print("\n📊 Running quantum estimation...")
-        quantum_result = analyzer.run_quantum_estimation()
+        quantum_result = analyzer.run_quantum_estimation(qae_params=qae_params)
         if quantum_result is None:
             print("Quantum estimation failed or was skipped. See logs above.")
     

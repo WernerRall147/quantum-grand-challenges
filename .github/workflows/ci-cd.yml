@@ -44,6 +44,23 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml
+
+    - name: Generate QAE runtime config
+      run: |
+        python problems/03_qae_risk/python/write_runtime_config.py \
+          --loss-qubits 4 \
+          --threshold 2.5 \
+          --mean 0.0 \
+          --std-dev 1.0 \
+          --precision-bits 6 \
+          --repetitions 120 \
+          --run-sanity-check false
+
+    - name: QAE runtime config sanity check
+      run: |
+        test -f problems/03_qae_risk/qsharp/RuntimeConfig.qs
+        cd problems/03_qae_risk/qsharp
+        dotnet build --configuration Release
     
     - name: Install Azure CLI and Quantum extension
       run: |

@@ -46,6 +46,7 @@ Consider a portfolio with loss distribution `L`. The quantity of interest is the
 ```bash
 make build
 make test
+make run INSTANCE=small
 ```
 
 ### Resource Estimation
@@ -59,7 +60,8 @@ make sweep                        # Precision sweep for comparison
 ### Analysis and Plotting
 
 ```bash
-make analyze                      # Generate comparison plots
+make analyze INSTANCE=small       # Generate comparison plots (instance-driven)
+make calibrate INSTANCE=medium CALIBRATION_RUNS=10
 make compare                      # Compare quantum vs classical
 ```
 
@@ -77,11 +79,7 @@ make compare                      # Compare quantum vs classical
 - Tail threshold at the 99th percentile (VaR 99%).
 - Precision ε = 0.01 requiring roughly 12–15 logical qubits.
 
-### Large (`instances/large.yaml`)
-
-- Multi-asset portfolio with correlated factors.
-- Tail threshold at the 99.9th percentile (extreme VaR).
-- Precision ε = 0.001 requiring roughly 18–20 logical qubits.
+Current repository instances include `small` and `medium`.
 
 ## Status Checklist
 
@@ -135,8 +133,8 @@ Latest Azure Quantum Resource Estimates:
 ### Calibration Workflow
 
 ```bash
-make calibrate CALIBRATION_RUNS=20
-make calibrate-track CALIBRATION_FAST_RUNS=3
+make calibrate INSTANCE=small CALIBRATION_RUNS=20
+make calibrate-track INSTANCE=medium CALIBRATION_FAST_RUNS=3
 ```
 
 This command runs repeated Q# executions through `python/analyze.py --ensemble-runs ...`, stores per-run outputs in `estimates/quantum_estimate_run*.json`, and writes aggregate metrics to `estimates/quantum_estimate_ensemble.json`.

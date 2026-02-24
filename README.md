@@ -72,6 +72,19 @@ make estimate        # Resource estimator harness (requires successful build)
 .\tooling\windows\validate-all.ps1
 ```
 
+- Run QAE-specific helper actions without `make`:
+
+```powershell
+.\tooling\windows\qae-risk.ps1 -Action run -Instance small
+.\tooling\windows\qae-risk.ps1 -Action analyze -Instance small
+.\tooling\windows\qae-risk.ps1 -Action calibrate -Instance medium -CalibrationRuns 10
+.\tooling\windows\qae-risk.ps1 -Action run -Instance small -Quick
+.\tooling\windows\qae-risk.ps1 -Action analyze -Instance small -Quick
+.\tooling\windows\qae-risk.ps1 -Action calibrate -Instance small -CalibrationRuns 3 -Quick
+```
+
+`-Quick` lowers default `precision_bits` to `4` and `repetitions` to `24` for faster smoke tests.
+
 - Run the complete local Windows pipeline (validation + mock estimator + website build):
 
 ```powershell

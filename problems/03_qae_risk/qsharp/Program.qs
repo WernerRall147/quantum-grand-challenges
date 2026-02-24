@@ -489,15 +489,20 @@ namespace QuantumGrandChallenges.QAERisk {
 
     @EntryPoint()
     operation RunQAERiskAnalysis() : Unit {
-        // Debug sanity check
-        TestQaeUniformHalf();
+        let lossQubits = RuntimeLossQubits();
+        let threshold = RuntimeThreshold();
+        let mean = RuntimeMean();
+        let stdDev = RuntimeStdDev();
+        let precisionBits = RuntimePrecisionBits();
+        let repetitions = RuntimeRepetitions();
+        let runSanityCheck = RuntimeRunSanityCheck();
+
+        if (runSanityCheck) {
+            TestQaeUniformHalf();
+        }
         Message("=== Quantum Amplitude Estimation for Tail Risk Analysis ===");
         Message("");
-        
-        let lossQubits = 4;
-        let threshold = 2.5;
-        let mean = 0.0;
-        let stdDev = 1.0;
+
         let riskParams = RiskParameters(lossQubits, threshold, mean, stdDev);
         
         let probabilities = LogNormalProbabilities(lossQubits, mean, stdDev);
@@ -509,9 +514,6 @@ namespace QuantumGrandChallenges.QAERisk {
         Message($"  Distribution: Log-normal(μ={mean}, σ={stdDev})");
         Message($"  Theoretical tail probability P(Loss > {threshold}): {theoreticalTailProb}");
         Message("");
-        
-        let precisionBits = 6;
-        let repetitions = 120;
         
         Message($"QAE Algorithm Parameters:");
         Message($"  Precision qubits: {precisionBits} (phase resolution: π/{1 <<< precisionBits})");

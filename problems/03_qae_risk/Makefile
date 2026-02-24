@@ -12,17 +12,26 @@ AZQ := $(PYTHON) $(TOOLING_DIR)/azq/job_manager.py
 # Default target for resource estimation
 TARGET ?= surface_code_generic_v1
 INSTANCE ?= small
+LOSS_QUBITS ?= 4
+THRESHOLD ?= 2.5
+MEAN ?= 0.0
+STD_DEV ?= 1.0
+PRECISION_BITS ?= 6
+REPETITIONS ?= 120
+RUN_SANITY_CHECK ?= false
+SANITY_FLAG := $(if $(filter true TRUE 1,$(RUN_SANITY_CHECK)),--run-sanity-check,--skip-sanity-check)
 
 # Python environment
 VENV_DIR := venv
 
-.PHONY: help build test estimate sweep analyze calibrate calibrate-fast record-calibration calibrate-track sync-calibration-doc compare clean setup-python install-deps
+.PHONY: help runtime-config build test estimate sweep analyze calibrate calibrate-fast record-calibration calibrate-track sync-calibration-doc compare clean setup-python install-deps
 
 help:
 	@echo "QAE Risk Analysis - Available targets:"
 	@echo ""
 	@echo "  setup-python  - Create Python virtual environment"
 	@echo "  install-deps  - Install Python dependencies"
+	@echo "  runtime-config - Generate qsharp/RuntimeConfig.qs from run variables"
 	@echo "  build         - Build Q# project"
 	@echo "  test          - Run Q# unit tests"
 	@echo "  run           - Run Q# program locally"
@@ -38,7 +47,8 @@ help:
 	@echo "  classical     - Run classical Monte Carlo baseline"
 	@echo "  clean         - Clean build artifacts"
 	@echo ""
-	@echo "Instance options: small, medium, large"
+	@echo "Instance options: small, medium"
+	@echo "Run vars: LOSS_QUBITS, THRESHOLD, MEAN, STD_DEV, PRECISION_BITS, REPETITIONS, RUN_SANITY_CHECK"
 	@echo "Target options: surface_code_generic_v1, qubit_gate_ns_e3, qubit_gate_ns_e4"
 
 # Python setup
@@ -53,7 +63,11 @@ install-deps:
 	pip install numpy scipy matplotlib pandas seaborn plotly jupyter pyyaml jsonschema pytest
 
 # Q# build and test
-build:
+runtime-config:
+	@echo "Generating Q# runtime config..."
+	cd python && $(PYTHON) write_runtime_config.py --loss-qubits $(LOSS_QUBITS) --threshold $(THRESHOLD) --mean $(MEAN) --std-dev $(STD_DEV) --precision-bits $(PRECISION_BITS) --repetitions $(REPETITIONS) --run-sanity-check $(RUN_SANITY_CHECK)
+
+build: runtime-config
 	@echo "Building Q# project..."
 	cd qsharp && dotnet build --configuration Release
 
@@ -63,7 +77,7 @@ test: build
 
 run: build
 	@echo "Running Q# QAE risk analysis..."
-	cd qsharp && dotnet run
+	cd qsharp && dotnet run --configuration Release
 
 # Resource estimation
 estimate: build
@@ -81,18 +95,18 @@ classical:
 
 analyze: 
 	@echo "Generating analysis and plots..."
-	cd python && $(PYTHON) analyze.py
+	cd python && $(PYTHON) analyze.py --instance-file ../instances/$(INSTANCE).yaml $(SANITY_FLAG)
 
 CALIBRATION_RUNS ?= 20
 CALIBRATION_FAST_RUNS ?= 3
 
 calibrate:
 	@echo "Running QAE calibration ensemble with $(CALIBRATION_RUNS) runs..."
-	cd python && $(PYTHON) analyze.py --ensemble-runs $(CALIBRATION_RUNS)
+	cd python && $(PYTHON) analyze.py --instance-file ../instances/$(INSTANCE).yaml --ensemble-runs $(CALIBRATION_RUNS) $(SANITY_FLAG)
 
 calibrate-fast:
 	@echo "Running fast QAE calibration smoke test with $(CALIBRATION_FAST_RUNS) runs..."
-	cd python && $(PYTHON) analyze.py --ensemble-runs $(CALIBRATION_FAST_RUNS)
+	cd python && $(PYTHON) analyze.py --instance-file ../instances/$(INSTANCE).yaml --ensemble-runs $(CALIBRATION_FAST_RUNS) $(SANITY_FLAG)
 
 record-calibration:
 	@echo "Recording latest QAE calibration metrics into history..."

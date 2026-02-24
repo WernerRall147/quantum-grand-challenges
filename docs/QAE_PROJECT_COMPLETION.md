@@ -1,12 +1,33 @@
 # QAE Implementation - Project Completion Summary
 
-**Date**: February 22, 2026  
+**Date**: February 24, 2026  
 **Status**: ⚠️ IMPLEMENTED (CALIBRATED BASELINE; FURTHER HARDENING PENDING)  
 **Branch**: main
 
 ## Overview
 
 Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with comprehensive documentation, resource estimation, and cross-algorithm comparison visualizations. This completes the third major quantum algorithm in the Quantum Grand Challenges repository.
+
+## Update (February 24, 2026)
+
+- Added instance-driven runtime parameter wiring from `instances/*.yaml` through `python/analyze.py` and `python/write_runtime_config.py` into `qsharp/RuntimeConfig.qs` (consumed by `qsharp/Program.qs`).
+- Added Makefile-level runtime knobs (`LOSS_QUBITS`, `THRESHOLD`, `MEAN`, `STD_DEV`, `PRECISION_BITS`, `REPETITIONS`, `RUN_SANITY_CHECK`) for controlled calibration sweeps.
+- Validated the end-to-end flow on `small.yaml` directly via Python on Windows (`make` unavailable in this shell), including Q# build/run and plot/report generation.
+- Hardened parser behavior so summary metrics derive logical qubits from reported total qubits (or `loss + precision + marker` fallback), avoiding previous undercounting.
+- Noted an editor-only Q# language-service false positive where `Runtime*` symbols in `Program.qs` may be flagged despite successful `dotnet build` and execution; CLI build output is the source of truth for validation.
+
+### Windows helper commands (no `make` required)
+
+```powershell
+.\tooling\windows\qae-risk.ps1 -Action run -Instance small
+.\tooling\windows\qae-risk.ps1 -Action analyze -Instance small
+.\tooling\windows\qae-risk.ps1 -Action calibrate -Instance medium -CalibrationRuns 10
+.\tooling\windows\qae-risk.ps1 -Action run -Instance small -Quick
+.\tooling\windows\qae-risk.ps1 -Action analyze -Instance small -Quick
+.\tooling\windows\qae-risk.ps1 -Action calibrate -Instance small -CalibrationRuns 3 -Quick
+```
+
+`-Quick` lowers default `precision_bits` to `4` and `repetitions` to `24` for fast local smoke validation.
 
 ## Deliverables
 
@@ -27,6 +48,13 @@ Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with c
 - **Classical MC**: 18.98% ± 0.39% (10k samples)
 - **QAE Current**: 19.44% ± 0.23% (3 repetitions; calibrated baseline run)
 - **Complexity**: O(1/ε) vs classical O(1/ε²) — quadratic speedup
+
+**Latest Validation Snapshot (small.yaml)**:
+- **Configuration**: 8 loss qubits, 4 precision qubits, log-normal(0,1), threshold=2.0, repetitions=120
+- **Theoretical**: 29.93% tail probability
+- **Classical MC**: 29.93% ± 0.46% (10k samples)
+- **QAE Current**: 34.17% ± 4.33% (single run; high shot noise)
+- **Interpretation**: runtime parameterization is functioning; estimator variance still requires multi-run calibration hardening
 
 ### 2. Azure Quantum Resource Estimation ✅
 **Tool**: Azure Quantum Resource Estimator (3 architectures)

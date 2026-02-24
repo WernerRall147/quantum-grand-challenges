@@ -84,6 +84,7 @@ estimates/*.json
 plots/*.png
 tooling/windows/logs/
 tooling/estimator/output/
+problems/03_qae_risk/qsharp/RuntimeConfig.qs
 
 # Temporary files
 *.tmp

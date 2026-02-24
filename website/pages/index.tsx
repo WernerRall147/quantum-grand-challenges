@@ -1,157 +1,10 @@
 import Head from 'next/head';
+import Image from 'next/image';
+import { activeWorkQueue, pipelineStages, problemHighlights } from '../data/projectStatus';
 
 export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
   const withBasePath = (path: string) => `${basePath}${path}`;
-
-  const pipelineStages: TimelineItem[] = [
-    {
-      title: 'Baseline & Validation',
-      description:
-        'Run classical solvers (Monte Carlo, exact diagonalization, schedulers) to generate reference JSON outputs and plots.',
-    },
-    {
-      title: 'Quantum Kernel Draft',
-      description:
-        'Stand up Q# stubs with the same interfaces so resource estimators and tests can drop in once the full circuits land.',
-    },
-    {
-      title: 'Resource Estimation',
-      description:
-        'Feed shared instances into the Azure Quantum Resource Estimator to chart logical qubits, T counts, and runtime bands.',
-    },
-    {
-      title: 'Integration & Publishing',
-      description:
-        'Automate plots, reports, and dashboard updates through GitHub Actions and the Next.js site you are reading now.',
-    },
-  ];
-
-  const activeWorkQueue: TimelineItem[] = [
-    {
-      title: '02 Catalysis Simulation',
-      description:
-        'Prioritize VQE-to-PEA chemistry kernel upgrade on top of the validated Arrhenius baseline and plotting stack.',
-    },
-    {
-      title: '04 Linear Solvers',
-      description:
-        'Promote the HHL scaffold to a full sparse-system pipeline with condition-number-aware benchmarking.',
-    },
-    {
-      title: '05 QAOA MaxCut',
-      description:
-        'Move from analytical placeholder to parameterized QAOA layers with approximation-ratio sweeps.',
-    },
-    {
-      title: '06 High-Frequency Trading',
-      description:
-        'Bridge moving-average baseline into quantum kernel experiments for short-horizon signal search.',
-    },
-  ];
-
-  const problemHighlights: ProblemCardProps[] = [
-    {
-      title: 'Hubbard Model',
-      status: '✅ COMPLETE - VQE + HHL',
-      description: 'Two validated quantum kernels with documented resource estimates and baseline agreement',
-    },
-    {
-      title: 'QAE Risk Analysis',
-      status: '⚠️ Implemented - Calibration Pending',
-      description: 'Canonical QAE structure is implemented; probability calibration is in progress',
-    },
-    {
-      title: 'Catalysis Simulation',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Classical Arrhenius baseline and plots are validated; quantum chemistry circuit work is next',
-    },
-    {
-      title: 'Linear Solvers',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Condition-analysis baseline is reproducible and prepared for HHL circuit expansion',
-    },
-    {
-      title: 'QAOA MaxCut',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Graph-cut classical baseline is stable and awaiting full QAOA parameterized layers',
-    },
-    {
-      title: 'High-Frequency Trading',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Knowledge-driven moving-average strategy ready for quantum upgrades',
-    },
-    {
-      title: 'Drug Discovery',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Docking energy scaffold with Q# VQE placeholder',
-    },
-    {
-      title: 'Protein Folding',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Contact-map scoring with amplitude-encoding Q# stub',
-    },
-    {
-      title: 'Factorization',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Pollard Rho analytics paving the way for Shor order finding',
-    },
-    {
-      title: 'Post-Quantum Cryptography',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Attack-cost estimator preparing amplitude-amplified sieving studies',
-    },
-    {
-      title: 'Quantum Machine Learning',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Kernel ridge benchmark ready for quantum feature maps',
-    },
-    {
-      title: 'Quantum Optimization',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Weighted tardiness scheduler poised for QAOA upgrades',
-    },
-    {
-      title: 'Climate Modeling',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Diffusion energy balance ready for HHL-style solvers',
-    },
-    {
-      title: 'Materials Discovery',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Surrogate cluster expansion primed for quantum spectroscopy',
-    },
-    {
-      title: 'Database Search',
-      status: '✅ COMPLETE - Grover Implementation',
-      description: 'Quadratic speedup O(√N) validated with 71-100% success rates',
-    },
-    {
-      title: 'Error Correction',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Repetition-code analytics setting the stage for surface codes',
-    },
-    {
-      title: 'Nuclear Physics',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Pionless EFT diagonalization with adiabatic state-prep stub',
-    },
-    {
-      title: 'Photovoltaics',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Shockley-Queisser heuristic with exciton preview in Q#',
-    },
-    {
-      title: 'Quantum Chromodynamics',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Coarse lattice plaquette baseline with gauge-walk stub',
-    },
-    {
-      title: 'Space Mission Planning',
-      status: '🟢 Ready for quantum kernel',
-      description: 'Patched-conic mission baseline with quantum annealing preview',
-    },
-  ];
 
   return (
     <>
@@ -318,6 +171,7 @@ export default function Home() {
               title={problem.title}
               status={problem.status}
               description={problem.description}
+              href={problem.href}
             />
           ))}
         </div>
@@ -370,6 +224,7 @@ interface ProblemCardProps {
   title: string;
   status: string;
   description: string;
+  href: string;
 }
 
 interface TimelineItem {
@@ -406,7 +261,19 @@ interface VisualizationCardProps {
   imageSrc: string;
 }
 
-function ProblemCard({ title, status, description }: ProblemCardProps) {
+function statusBadgeStyle(status: string): { text: string; bg: string; fg: string } {
+  const normalized = status.toLowerCase();
+  if (normalized.includes('complete')) {
+    return { text: 'Complete', bg: '#dcfce7', fg: '#166534' };
+  }
+  if (normalized.includes('implemented') || normalized.includes('pending')) {
+    return { text: 'Implemented', bg: '#fef3c7', fg: '#92400e' };
+  }
+  return { text: 'Kernel Ready', bg: '#dbeafe', fg: '#1e40af' };
+}
+
+function ProblemCard({ title, status, description, href }: ProblemCardProps) {
+  const badge = statusBadgeStyle(status);
   return (
     <div style={{ 
       padding: '1.5rem', 
@@ -420,8 +287,16 @@ function ProblemCard({ title, status, description }: ProblemCardProps) {
     onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
     >
       <h3 style={{ marginTop: 0, fontSize: '1.5rem' }}>{title}</h3>
+      <div style={{ margin: '0.5rem 0' }}>
+        <span style={{ background: badge.bg, color: badge.fg, fontWeight: 700, fontSize: '0.8rem', borderRadius: '999px', padding: '0.2rem 0.65rem' }}>
+          {badge.text}
+        </span>
+      </div>
       <p style={{ color: '#0070f3', fontWeight: '600', margin: '0.5rem 0' }}>{status}</p>
       <p style={{ color: '#666', margin: 0 }}>{description}</p>
+      <a href={href} style={{ display: 'inline-block', marginTop: '0.75rem', color: '#0ea5e9', textDecoration: 'none', fontWeight: 600 }}>
+        Open problem folder →
+      </a>
     </div>
   );
 }
@@ -516,15 +391,18 @@ function VisualizationCard({ title, description, imageSrc }: VisualizationCardPr
       e.currentTarget.style.boxShadow = 'none';
     }}
     >
-      <img 
-        src={imageSrc} 
-        alt={title} 
-        style={{ 
-          width: '100%', 
+      <Image
+        src={imageSrc}
+        alt={title}
+        width={1200}
+        height={675}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+        style={{
+          width: '100%',
           height: 'auto',
           display: 'block',
           borderBottom: '1px solid #e5e7eb'
-        }} 
+        }}
       />
       <div style={{ padding: '1.5rem' }}>
         <h3 style={{ marginTop: 0, fontSize: '1.3rem', color: '#1f2937' }}>{title}</h3>

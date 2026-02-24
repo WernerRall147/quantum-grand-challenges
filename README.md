@@ -81,9 +81,11 @@ make estimate        # Resource estimator harness (requires successful build)
 .\tooling\windows\qae-risk.ps1 -Action run -Instance small -Quick
 .\tooling\windows\qae-risk.ps1 -Action analyze -Instance small -Quick
 .\tooling\windows\qae-risk.ps1 -Action calibrate -Instance small -CalibrationRuns 3 -Quick
+.\tooling\windows\qae-risk.ps1 -Action run -Instance small -Quick -NoBuild
 ```
 
 `-Quick` lowers default `precision_bits` to `4` and `repetitions` to `24` for faster smoke tests.
+Use `-NoBuild` with `-Action run` only when artifacts were already built.
 
 - Run the complete local Windows pipeline (validation + mock estimator + website build):
 

@@ -25,9 +25,11 @@ Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with c
 .\tooling\windows\qae-risk.ps1 -Action run -Instance small -Quick
 .\tooling\windows\qae-risk.ps1 -Action analyze -Instance small -Quick
 .\tooling\windows\qae-risk.ps1 -Action calibrate -Instance small -CalibrationRuns 3 -Quick
+.\tooling\windows\qae-risk.ps1 -Action run -Instance small -Quick -NoBuild
 ```
 
 `-Quick` lowers default `precision_bits` to `4` and `repetitions` to `24` for fast local smoke validation.
+Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded.
 
 ## Deliverables
 

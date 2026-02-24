@@ -2,6 +2,7 @@ param(
     [ValidateSet("run", "analyze", "calibrate")]
     [string]$Action = "analyze",
     [switch]$Quick,
+    [switch]$NoBuild,
     [ValidateSet("small", "medium")]
     [string]$Instance = "small",
     [int]$CalibrationRuns = 20,
@@ -46,7 +47,7 @@ if ($Quick.IsPresent) {
     }
 }
 
-Write-Host "QAE helper action=$Action instance=$Instance quick=$($Quick.IsPresent)" -ForegroundColor Cyan
+Write-Host "QAE helper action=$Action instance=$Instance quick=$($Quick.IsPresent) noBuild=$($NoBuild.IsPresent)" -ForegroundColor Cyan
 
 switch ($Action) {
     "run" {
@@ -68,8 +69,12 @@ switch ($Action) {
 
         Push-Location $qsharpDir
         try {
-            dotnet build --configuration Release
-            if ($LASTEXITCODE -ne 0) { throw "Q# build failed." }
+            if (-not $NoBuild.IsPresent) {
+                dotnet build --configuration Release
+                if ($LASTEXITCODE -ne 0) { throw "Q# build failed." }
+            } else {
+                Write-Host "Skipping Q# build (-NoBuild)." -ForegroundColor Yellow
+            }
 
             dotnet run --configuration Release --no-build
             if ($LASTEXITCODE -ne 0) { throw "Q# run failed." }

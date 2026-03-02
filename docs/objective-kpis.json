@@ -1,0 +1,203 @@
+{
+  "summary": {
+    "total_problems": 20,
+    "stage_counts": {
+      "A": 0,
+      "B": 18,
+      "C": 2,
+      "D": 0,
+      "Unknown": 0
+    },
+    "stage_pct": {
+      "A": 0.0,
+      "B": 90.0,
+      "C": 10.0,
+      "D": 0.0,
+      "Unknown": 0.0
+    },
+    "with_advantage_contract": 20,
+    "with_advantage_contract_pct": 100.0,
+    "advisory_targets_total": 0,
+    "advisory_targets_met": 0,
+    "advisory_targets_met_pct": 0.0
+  },
+  "records": [
+    {
+      "problem": "01_hubbard",
+      "readme": "problems\\01_hubbard\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "02_catalysis",
+      "readme": "problems\\02_catalysis\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "03_qae_risk",
+      "readme": "problems\\03_qae_risk\\README.md",
+      "stage": "C",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "04_linear_solvers",
+      "readme": "problems\\04_linear_solvers\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "05_qaoa_maxcut",
+      "readme": "problems\\05_qaoa_maxcut\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "06_high_frequency_trading",
+      "readme": "problems\\06_high_frequency_trading\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "07_drug_discovery",
+      "readme": "problems\\07_drug_discovery\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "08_protein_folding",
+      "readme": "problems\\08_protein_folding\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "09_factorization",
+      "readme": "problems\\09_factorization\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "10_post_quantum_cryptography",
+      "readme": "problems\\10_post_quantum_cryptography\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "11_quantum_machine_learning",
+      "readme": "problems\\11_quantum_machine_learning\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "12_quantum_optimization",
+      "readme": "problems\\12_quantum_optimization\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "13_climate_modeling",
+      "readme": "problems\\13_climate_modeling\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "14_materials_discovery",
+      "readme": "problems\\14_materials_discovery\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "15_database_search",
+      "readme": "problems\\15_database_search\\README.md",
+      "stage": "C",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "16_error_correction",
+      "readme": "problems\\16_error_correction\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "17_nuclear_physics",
+      "readme": "problems\\17_nuclear_physics\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "18_photovoltaics",
+      "readme": "problems\\18_photovoltaics\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "19_quantum_chromodynamics",
+      "readme": "problems\\19_quantum_chromodynamics\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    },
+    {
+      "problem": "20_space_mission_planning",
+      "readme": "problems\\20_space_mission_planning\\README.md",
+      "stage": "B",
+      "has_advantage_contract": true
+    }
+  ],
+  "policy": {
+    "required_problems": [
+      "01_hubbard",
+      "02_catalysis",
+      "03_qae_risk",
+      "04_linear_solvers",
+      "05_qaoa_maxcut",
+      "06_high_frequency_trading",
+      "07_drug_discovery",
+      "08_protein_folding",
+      "09_factorization",
+      "10_post_quantum_cryptography",
+      "11_quantum_machine_learning",
+      "12_quantum_optimization",
+      "13_climate_modeling",
+      "14_materials_discovery",
+      "15_database_search",
+      "16_error_correction",
+      "17_nuclear_physics",
+      "18_photovoltaics",
+      "19_quantum_chromodynamics",
+      "20_space_mission_planning"
+    ],
+    "require_stage": true,
+    "require_advantage_contract": true,
+    "minimum_stage": "B",
+    "per_problem_minimum_stage": {
+      "01_hubbard": "B",
+      "02_catalysis": "B",
+      "03_qae_risk": "C",
+      "04_linear_solvers": "B",
+      "05_qaoa_maxcut": "B",
+      "06_high_frequency_trading": "B",
+      "07_drug_discovery": "B",
+      "08_protein_folding": "B",
+      "09_factorization": "B",
+      "10_post_quantum_cryptography": "B",
+      "11_quantum_machine_learning": "B",
+      "12_quantum_optimization": "B",
+      "13_climate_modeling": "B",
+      "14_materials_discovery": "B",
+      "15_database_search": "C",
+      "16_error_correction": "B",
+      "17_nuclear_physics": "B",
+      "18_photovoltaics": "B",
+      "19_quantum_chromodynamics": "B",
+      "20_space_mission_planning": "B"
+    },
+    "advisory_target_stage": {}
+  },
+  "violations": [],
+  "advisory_gaps": [],
+  "advisory": {
+    "total": 0,
+    "met": 0,
+    "unmet": 0
+  }
+}

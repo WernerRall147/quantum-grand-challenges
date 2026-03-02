@@ -1,0 +1,1022 @@
+
+[MUSIC PLAYING]
+
+WILL OLIVER: We hear about quantum computers
+nearly every day in the news and in the popular press.
+It's said that quantum computers will
+solve certain types of problems, ones
+of tremendous importance to humankind,
+and problems that today are practically
+prohibitive, or maybe even impossible to solve
+with current computers.
+We hear about pharmaceuticals and drug discovery
+gaining a better understanding of new materials
+like high-temperature superconductors
+and how they work, new methods for machine learning,
+artificial intelligence, optimization problems,
+financial services and technology.
+Quantum computers will even challenge and change
+the way we securely communicate information.
+It certainly sounds like a fantastic and exciting future,
+which leads us to a few fundamental questions.
+What exactly is a quantum computer and what's it good for?
+More importantly, when will we have one?
+DANNA ROSENBERG: Quantum computers
+are not just smaller, faster versions of classical computers.
+They're fundamentally different.
+BO EWALD: We're in the digital computer world.
+A bit, which is one basic element of information,
+is a 0 or a 1, nothing else.
+DANNA ROSENBERG: In a quantum computer,
+you can have a quantum bit, or qubit, that's
+in a superposition of 0 and 1.
+DAVID KIM: We can design it.
+We can actually control it.
+We're actually engineering and manipulating quantum mechanics.
+[MUSIC PLAYING]
+MORTEN KJAEGAARD: So when we'll have a quantum computer
+is a very interesting and nuanced question.
+And the answer will, therefore, be kind of finicky.
+JEREMY SAGE: We've been saying quantum computers are
+10 years away.
+But we've been saying that for decades.
+DANNA ROSENBERG: Depending on your definition,
+we already have quantum computers.
+They're just small.
+JEREMY SAGE: Within my lifetime, I believe,
+and I won't say how old I am.
+DARIO GIL: This is not decades away, or 100 years away.
+That quantum age has now come.
+WILL OLIVER: Quantum computers aren't simply faster,
+smaller versions of the conventional computers
+we have today.
+Nor are they another incremental step
+in the evolution of Moore's law.
+Rather, quantum computers represent
+a new, fundamentally different computing paradigm,
+one that carries tremendous advantage for certain types
+of problems of importance.
+DENNY DAHL: Quantum computing could really
+transform industries where there are significant optimization
+problems.
+You've got a lot of discrete, or binary decisions
+to make to figure out, do you do this first or that first?
+This is where we shine.
+SERGIO BOXIO: Another way to understand
+the difference between classical and quantum computers
+is if you look at quantum systems of quantum simulation.
+HARTMUT NEVEN: The quantum processor
+is a suitable tool for modeling other quantum systems.
+JONILYN YODER: Biomolecule systems, tons of systems
+that we use, materials systems work
+based on those quantum mechanical properties.
+DAVID KIM: You kind of need a quantum machine in order
+to simulate quantum effects.
+JOHN CHIAVERINI: When we can manipulate individual molecules
+and understand what's going on in those molecules, how they
+bond, then we'll be able to have a really good handle
+on generating new things, novel materials
+that might be very useful.
+WILL OLIVER: Still, we're just at the very beginning of quantum
+computing development, assembling and testing
+the first prototype processors.
+It's a bit like being in the 1950s at the dawn
+of transistor-based computing.
+And just as integrated circuits led to an information processing
+revolution last century, driving economic growth
+and productivity, many people today
+believe that quantum computing will have a similar impact
+this century.
+[MUSIC PLAYING]
+KRYSTA SVORE: Quantum computing and quantum algorithms
+present fundamentally new programming and algorithm design
+paradigms.
+How do we fundamentally unlock new ideas in computing?
+JONILYN YODER: We're still learning
+a lot about how to improve the individual components,
+as well as connect them together.
+DAVID KIM: That's part of the fun.
+That's why I'm there to see what can we
+do to enable that increased complexity and functionality
+of these qubits.
+DANNA ROSENBERG: We're really here at the very beginning,
+and I just find that tremendously exciting.
+WILL OLIVER: Our goal here is to separate the promise
+from the hype to help leaders in business, government,
+and technology understand the basics of how a quantum computer
+works and its applications.
+We'll begin by focusing on those basics,
+from both a technical standpoint and a business standpoint.
+First off, what is a quantum computer,
+and how are quantum computers different
+than conventional computers?
+What types of problems are hard for classical computers,
+but can be efficiently solved on a quantum computer?
+And what technology platforms are
+being used to realize a quantum computer,
+and how do they compare with one another?
+When can we expect a quantum computer,
+and what might it look like?
+Also, what threat does quantum computing
+pose for information security?
+How will post-quantum crypto mitigate that threat?
+And what do we need to do now to get ready?
+In answering these questions, we'll
+be laying the groundwork to help you
+and your organizations become quantum-aware,
+understanding how quantum may impact your business
+and your bottom line in the future,
+and getting started on developing strategies
+today that will help you and your organizations prepare for
+and be ready for that future.
+[MUSIC PLAYING]
+
+
+We're all familiar with the laptop computers,
+desktop computers, even servers in the cloud
+that we interact with on a daily basis.
+In this course we'll refer to these as classical computers
+to contrast them with the quantum computers
+we'll be discussing in detail later in the course.
+Classical computers use transistor-based integrated
+circuits-- computer chips--
+to process information and solve problems, whether for
+implementing a financial transaction,
+simulating a weather pattern, developing a CAD design,
+or even just drafting an email to a colleague.
+But it's important to remember that there
+are many alternative ways in which one
+can process information.
+So before we get started, let's hear
+from Professor Ike Chuang about what constitutes a computer
+and computation.
+There are many models of classical computation,
+and what I'd like to do is to illustrate
+a wide variety of models, some of which
+you might find unexpected.
+One model is actually mechanical.
+So for example, the thermostats on the walls, at least at MIT,
+are driven by pneumatic pressure,
+and they actuate a little switch.
+So they're a little kind of computer
+that controls temperature, but it's an analog computer.
+So mechanical computers do not need to be digital.
+They can come in all kinds of shapes and forms.
+And the one that's perhaps the most famous in history
+is Babbage's difference engine.
+We can have electrical circuits, which
+are ways of building a universal classical computer.
+We can also have optical computers
+that are made out of information carriers that
+are photons and not electrons.
+Biological.
+In many ways you and I are walking, talking computers.
+And this idea of biology and biological systems as computers
+is currently going through a renaissance because
+of the notions of neural networks and deep learning
+and these kinds of networks of neurons
+that act as computation.
+I also want to make a distinction
+between these models and some conceptual models.
+These are models by which you might realize computation,
+and these are the conceptual models which
+you might want to realize, one of them
+which is the Turing machine.
+It is a machine that has a head and a tape
+and the tape has slots on it which may have ones and zeros.
+And it is something which has an extent to left and right
+which goes off, in principle, to infinity.
+And the tape is a kind of memory.
+And the thing which is ostensibly
+doing the computation is a head that can read and write
+to this tape, but the only thing inside this head
+is a finite state machine.
+So there are different states and there
+are transitions between the states which happen
+depending on what is read at what
+time and the previous state that it used to exist in.
+And Turing machines like this come in many different flavors.
+There are probabilistic Turing machines,
+and there are universal Turing machines.
+So given a certain kind of structure of a finite state
+machine here, you find that this Turing machine, then,
+is capable of simulating any other Turing machine.
+Here's another model-- cellular automata.
+And here, the model of computation
+is a world which is a grid in two dimensions-- in n
+dimensions-- where the point is that you have
+some kind of state in a local cell of this grid,
+and it undergoes transitions based
+on the state of its neighbors.
+And you may have a local Cartesian neighborhood.
+You may have super Cartesian, but depending
+on what you're surrounded by you change your state.
+You change yourself to becoming empty or filled
+or a different color and so forth.
+And these rules of patterns and pattern changes
+can give rise to computation.
+There's the Von Neumann architecture.
+It is, again, a conceptual model of computation.
+And here the idea is to split memory from something
+which does arithmetic.
+So we have an arithmetic logic unit,
+for example, maybe some registers.
+Memory reads out data and feeds it into this ALU.
+Then the ALU feeds data back into the memory,
+and this is, by and large, the model that's
+used by all processors today, including
+the ones on all of your phones.
+There are DNA-based computation.
+This is the idea that maybe you have strands of bases--
+AGCT-- and then, A and T associate each other,
+and this is called ligation.
+And then G and C also ligate together.
+And, therefore, when you have two different strands of DNA,
+they will pattern match other strands in the right locations
+to produce base-pair ligations.
+And this has been shown to allow a kind of computation
+using polymerase chain reaction tools.
+So that if you have a beaker, for example, with just one
+DNA strand, with PCR you can amplify
+the number of DNA strands there so you
+can detect the existence of a certain sequence of DNA.
+And so it's really neat that you can
+think of using such tools to do computation.
+And I want you to be open to such kinds of models
+of computation, especially today because we are now
+starting to reconsider what it means to do computation.
+In many ways we are at the end of the road of silicon today.
+We cannot rely on Moore's Law much longer to provide
+an increasing scaling that's exponential of capability
+and size and power and weight to build our computers.
+We need to look at different physical mechanisms
+to build computation.
+And that's why all of these different approaches,
+where you represent information in different ways,
+is so appealing to think about because,
+maybe, the next thing beyond silicon
+could be something different-- very different--
+that utilizes these ideas.
+And maybe what we might discover is
+that it's already happening all around us, or within us,
+if we only know how to think about it in the right way.
+So although this class is about quantum computation,
+ostensibly, what I want you to think about
+is how we're also thinking about a broader question of what
+is the physics of computation?
+How do you think of physical mechanisms
+as doing computation?
+And how do you think you might be
+able to exploit physical mechanisms
+and biological mechanisms that exist
+to realize the computations that you want to achieve?
+
+Before diving into quantum computing,
+it's worthwhile to go back and revisit
+the history of classical electronic computing
+in the last century.
+And as we'll see, there are a few takeaways
+from this history that are relevant
+to the current and future development of quantum
+computing.
+The first three terminal triode vacuum tube
+was invented by Lee de Forest in 1906.
+Vacuum tubes, much like the transistors
+that would later follow, are essentially
+faucets for electricity, where the application
+of a small voltage on one terminal
+effectively opens a valve which allows
+current to flow between the other two terminals.
+As such, vacuum tubes were used primarily
+as amplifiers for radio receivers,
+but they could also be used as on/off switches
+to implement logic gates.
+And so it was about 40 years after that first invention,
+we had the first large scale computers based on vacuum tubes,
+such as the Electronic Numerical Integrator and Computer,
+or ENIAC, developed at the University of Pennsylvania
+in the 1940s.
+Also around that time, in 1947, the first transistor
+was invented at Bell Laboratories
+and the first fully transistor based computer soon followed.
+That computer, the Transistor Experimental Computer Number
+Zero, or TX-0, was built at MIT and Lincoln Laboratory
+in the mid 1950s, and it featured discrete transistors
+and a magnetic core memory, quite different from
+the computers we know and use today.
+Shortly thereafter, in 1959, the first integrated circuits using
+silicon were demonstrated, but still, it was a good 20 or 30
+years before we had the types of integrated circuit chips
+and memory chips that we now use in our computers
+on a daily basis.
+The first commercially available monolithic processor, the Intel
+4004, appeared in 1971.
+It was a 4-bit processor, featured 2100 transistors,
+and clocked in at around 740 kilohertz.
+Within a year or two, however, Intel came out with another
+processor, the 8008, an 8-bit processor with nearly double
+the number of transistors.
+This doubling of the number of transistors approximately
+every two years was exemplary of what
+became known as Moore's law.
+And by the 1990s, following Moore's law,
+the number of transistors had increased into the millions.
+Today we have computer chips, CPUs, TPUs,
+GPUs with multiple cores and transistor counts
+exceeding 100 billion.
+Although performance increases had previously simply followed
+from this Moore's law type scaling,
+these straightforward improvements
+have significantly waned over the past decade.
+Nonetheless, with the development of high-K
+dielectrics, low resistance interconnects,
+multi-core processors, 3D integration, and the like,
+we can expect continued improvements in the performance
+of classical processors for years to come.
+Now, in contrast to this 100-plus years of classical
+computing development, quantum computing is much more recent.
+In the early 1980s, Richard Feynman suggested that if we
+want to simulate a quantum system,
+a task that's very hard for a classical computer,
+we should in fact use a quantum system to perform that
+simulation.
+Basically, he was suggesting we should build a quantum computer.
+He also noted that it's a very interesting problem
+because it's not so easy.
+And he was right.
+Over the next decade or so, researchers
+thought about what kinds of algorithms
+could potentially give a quantum advantage for real world
+problems of significance and also how fragile quantum states
+could ever be used to implement such an algorithm.
+The answer started to come in the mid 1990s,
+including two very important milestones in the history
+of quantum computing.
+The first was the discovery of Shor's algorithm, developed
+by MIT Professor Peter Shor.
+Shor's algorithm was not the first quantum algorithm
+to show quantum advantage, but it
+was the first that also addressed an important practical
+problem, namely, the factorization of large numbers.
+Now, that's an important problem because the difficulty
+of factorization is a pillar for our present day encryption
+schemes that protect our information.
+Essentially, factoring large numbers
+is a very challenging problem on a classical computer,
+which is why it's used for public key encryption.
+And Peter Shor showed that factorization
+could be done efficiently on a quantum computer.
+Also around that time, Peter Shor and his colleagues
+Robert Calderbank and Andrew Steane
+developed the first quantum error
+correcting codes, which, once fully implemented,
+will enable quantum computers to continue to operate robustly,
+even in the presence of errors.
+Since then, researchers have focused
+on both the underlying physics as well as the hardware
+that we can use to build quantum computers.
+Starting at the single qubit level,
+researchers have explored numerous qubit modalities,
+from superconductors to trapped ions, semiconductors, and more.
+Today, we have processors operating with a few hundred
+to 1,000 qubits for gate model quantum computing,
+and more than 5,000 qubits in quantum annealing machines.
+There's also been a marked transition from prototype
+demonstrations in the early 2000s to where we are today,
+which is engineering larger and larger quantum systems.
+We're even now seeing examples of cloud quantum
+computers on the web.
+So what does this all mean?
+Well, I think there are a couple takeaways
+from this brief historical discussion.
+The first is that technology development takes time.
+It took more than a century to get from the first triode vacuum
+tubes to the computers that we have today.
+And that development is not over.
+It continues today.
+Furthermore, there are many changes along the way.
+The right approach to building a classical computer
+changed many times over the years.
+There was no single right answer.
+The right technology in the 1940s was not the same as it was
+in the 1980s, and that was also different than it is today.
+Nonetheless, in hindsight, all of these steps
+were crucial to the overall development.
+Similarly, we can expect that, going forward,
+quantum computing will also likely go through a technology
+evolution.
+The best qubit modalities today are not necessarily
+the ones that will excel in the future.
+However, the observation is that in the absence of effort,
+we should not expect the right technology to simply appear
+if we wait long enough.
+Technology is developed.
+It's not bestowed.
+The road to future quantum computers,
+whatever they may end up looking like,
+is paved with the technologies we develop today.
+Finally, we should not underestimate the crucial role
+that commercialization played in the development
+of classical computing technologies.
+Transistors, from the very beginning,
+had commercial applications that generated revenue
+long before computers were commonly available, including
+radio amplifiers, hearing aids, and the like.
+And although governments played a key role
+in seeding the development of transistor based computers
+and are playing an equally crucial role in the development
+of quantum computers today, it was commercial development
+of transistors and computer chips
+that ultimately enabled the virtuous cycle of development
+that made possible the Moore's law like scaling that led
+to the computers we use today.
+And in fact, a major challenge for quantum computing
+is to identify these kinds of commercially viable applications
+for qubits and small scale quantum processors that
+can kick start a similar virtuous development cycle, one
+that will absolutely be needed if we're to realize large scale
+quantum computers.
+
+
+So how is a quantum computer different?
+We can begin to answer that question by comparing it
+with a classical computer.
+Classical computers are the computing devices
+that, of course, we use everyday at work and at home,
+and they process information using
+transistors, each of which can store one bit of information.
+We'll call this a classical bit.
+A classical bit is binary.
+It can take on one of two states.
+It can either be in state 0, let's say the absence
+of a voltage on the transistor gate,
+or it can be in state 1, the presence
+of a voltage on that gate.
+These are discrete, robust states,
+and when we measure the state of that transistor,
+we'll see either a 0 or a 1, depending
+on where that bit was set.
+We can contrast that with a quantum computer which
+is built from logical elements called qubits, which
+is short for quantum bits.
+A qubit is binary in the sense that it's
+realized using a quantum coherent two-state system,
+and so of course, it can be set in state 0 or state 1,
+but because it's quantum mechanical,
+it can do much more.
+A qubit can also be at a quantum superposition state.
+It's a single state, but it carries aspects of both state 0
+and state 1 simultaneously, and this
+is a manifestly quantum mechanical effect.
+We can represent a qubit state on what's
+called a Bloch Sphere, which for the purposes
+of this discussion, we can think of as the planet Earth, where
+state 0 is at the North Pole and state 1 is at the South Pole.
+In this representation, a classical bit
+can be either at the North Pole or at the South Pole,
+but that's it.
+In contrast, a qubit can exist anywhere on its surface.
+Now, of course, a qubit can also be at the North
+Pole or the South Pole.
+That's fine, but when it's anywhere else,
+the qubit is in a superposition state, again, a single state
+that takes on aspects of state 0 and state 1 simultaneously,
+as shown in the notation here.
+
+Superposition states result in probabilistic measurements,
+meaning that if we had say an equal superposition of 0 and 1,
+and we measure the qubit, we have a 50/50
+chance of measuring in state 0 and a 50/50
+chance of getting state 1.
+If we identically prepare that same state
+and measure it, and do that over and over again,
+half of the time we'll get to 0 and half of the time we'll
+get to 1.
+As a result, quantum computers rely on encoding information
+in fundamentally different ways than classical computers.
+So on a classical computer N classical bits
+represent a single N-bit state.
+For example, if N equals 3, we have 3 classical bits,
+and they can represent the state 000 or 001,
+all the way up to 111.
+There are eight different combinations,
+but the three classical bits can represent only one of them
+at a time.
+
+And so when we want to process information
+on a classical computer, we pick one
+of those states as the input, we process the information,
+and we get a result as an output.
+But if we also want to process information
+using a different input state, we basically have two choices.
+We can either process in parallel,
+using additional copies of the hardware,
+or with additional time, we can process sequentially
+on the same piece of hardware.
+This is classical parallelism, and in both cases,
+we needed additional resources, either more hardware
+or more time.
+The qubits in a quantum computer, on the other hand,
+can be set into a single superposition state that
+simultaneously carries aspects of all of these 2
+to the N components.
+So for example, with three qubits,
+a quantum computer can represent aspects
+of all eight different components in a single quantum
+superposition state, and so as a consequence,
+we have a quantum version of parallelism,
+and importantly, we also have quantum interference
+between those constituent components.
+Quantum parallelism and quantum interference
+are what make a quantum computer different,
+and in the next section, we'll give
+examples of how they work in a quantum processor.
+
+
+Quantum parallelism and quantum interference
+are what make a quantum computer different
+than a classical computer.
+But what are these quantum effects?
+And how do they work in a quantum computer?
+To gain some insight, we'll consider
+an example of a small quantum computer with three qubits.
+Here we have three atoms.
+Each of which has an electron with a spin.
+And each of these spins can either
+be pointed up, which we'll call spin-up, or pointed down,
+which we'll call spin-down.
+We'll use these three electron spins as our qubits.
+And there are eight different spin combinations
+that we can have, from all three pointed up,
+to all three pointed down.
+We place these qubits in a single quantum superposition
+state, comprising all eight of these spin configurations.
+And it takes eight complex numbers, C1 through C8,
+to specify the weighting of each of these components.
+The superposition state can then be represented
+as a state register with all eight spin
+configurations and their respective coefficients.
+Let's now imagine that we want to perform an operation that
+flips the spin of Atom 1.
+We can do this by applying an electromagnetic pulse
+with the right strength and the right duration, such
+that it rotates the spin of Atom 1 by 180 degrees.
+This is called a pi pulse.
+And it acts to flip the spin.
+Spin-up rotates to spin-down, and spin-down rotates
+to spin-up.
+
+So when we flip the spin in Atom 1,
+it acts to flip the spin on each of the spins
+in the configurations that make up the superposition state.
+For example, the coefficients C1 through C4,
+originally associated with spin-up in Atom 1,
+are now associated with spin-down.
+And similarly, the coefficients C5 through C8,
+originally associated with spin-down,
+are now associated with spin-up.
+This happens simultaneously across all
+of the spin configurations that make up the quantum
+superposition state, even though we're
+performing only a single operation on a single qubit.
+And this is an example of quantum parallelism.
+Let's now take a look at quantum interference
+between these states.
+In this case, we'll address Atom 3.
+And we'll consider a type of pulse called a pi over 2 pulse.
+What a pi over 2 pulse does is it takes a spin-up
+and rotates it to a superposition state of
+up plus down.
+Now, if you've taken a quantum mechanics class before,
+you probably remember that there is a normalization factor
+1 over square root of 2 that sits in front.
+This maintains the length of the vector on the bloch sphere.
+But we'll omit those factors here
+as they're not important for this discussion.
+So a pi over 2 pulse rotates a spin-up to a superposition of
+up plus down.
+We can visualize that on the bloch sphere.
+The spin-up is pointed at the North Pole.
+And we rotate it pi over 2, or 90 degrees, down
+to the equator.
+We'll associate the direction of the vector
+that it's now pointing with a plus sign.
+And so the superposition state is up plus down.
+In the state space, for the moment,
+let's just look at coefficient C5.
+C5 is originally associated with a spin-up on Atom 3.
+After the pi over 2 rotation, it is now
+associated with both a spin-up and a spin-down.
+Next, let's look at what happens to spin-down.
+A pi over 2 pulse will rotate a spin-down
+pointed at the South Pole up to the equator,
+but now in the opposite direction.
+We'll associate this new direction with a minus sign.
+And so the resulting superposition state
+is up minus down.
+In the state space, the coefficient C6,
+originally associated with a spin-down in Atom 3,
+is now associated with both up and down, but with a minus sign
+for the spin-down.
+So we find plus 6 for spin-up, and minus 6 for spin-down.
+So what does it all mean?
+Well, if C5 equals C6, for example,
+then C5 minus C6 is zero.
+And there's no longer any weighting
+to the up-up-down state.
+And this is an example of destructive quantum
+interference.
+At the same time, there's constructive quantum
+interference that increases the weighting
+of the state with C5 plus C6.
+And this is also an example of quantum parallelism,
+because this quantum interference process also
+happens simultaneously to all the other states
+in the register.
+So quantum parallelism and quantum interference
+form the foundation for how a quantum computer processes
+information.
+As we just saw, with even a single gate
+operation, quantum parallelism and quantum interference
+allow us to simultaneously manipulate and change
+the values of the many weighting coefficients that
+comprise a superposition state.
+And at a fundamental level, this is
+how we can efficiently implement quantum algorithms on a quantum
+computer.
+
+
+Classical computers can perform arbitrary Boolean logic
+with a small set of single-bit and two-bit gates.
+For example, the NOT gate, in combination with the AND gate,
+is considered universal in that it can, in principle, implement
+any classical algorithm that uses binary logic.
+Similarly, quantum algorithms can
+be run on quantum computers using a small, universal set
+of single and two-qubit gates.
+Let's begin with an example of a single-qubit gate called
+the X-gate and its classical analog, the NOT gate.
+A NOT gate takes one bit as its input and it inverts it.
+For example, a 0 at the input is inverted to state 1,
+and a 1 at the input is inverted to state 0.
+The quantum analog of this gate is
+called the X-gate, which takes a quantum state as its input,
+in this case state 0, and rotates it to state 1
+or it takes state 1 and rotates it to state 0.
+We can represent this operation on the Bloch Sphere
+with state 0 at the North Pole and state 1 at the South Pole.
+On the right, we see an envelope of the pulse
+that we're using to drive the X-gate.
+We call this a pi pulse, because it will rotate the Bloch
+vector representing the state of the qubit from the North Pole
+to the South Pole, a rotation of 180 degrees.
+The red arrow that comes in and out of the screen of the Bloch
+Sphere represents the envelope of the pulse
+that we're using to drive this operation.
+And visually, much like the spokes of an umbrella
+will rotate around the umbrella's central axis
+when you twist its handle, the Bloch vector
+rotates around the axis to which we're applying the pulse.
+In this case, since this pulse is
+applied along the x-axis of the Bloch Sphere,
+this is why we call the operation an X-gate.
+Now as we show it here, we're rotating from the North Pole
+to the South Pole from state 0 to state 1.
+In this configuration, this is simply a classical operation,
+but the X-gate can do much more.
+The X-gate can take as its input any superposition state, that
+is any starting point on the Bloch Sphere
+and rotate it around the x-axis by 180 degrees.
+This is a quantum mechanical operation.
+The qubit starts in a superposition state,
+and it ends in a superposition state.
+And what the X-gate essentially does is take the input quantum
+state, alpha 0 plus beta 1, and swaps
+the coefficients to generate an output
+state, beta 0 plus alpha 1.
+The X-gate is one of a handful of standard single-qubit gates
+that rotate the qubit state around a few different axes
+on the Bloch Sphere.
+Let's now consider an example of a two-qubit gate,
+the controlled NOT gate, or CNOT-gate,
+and its classical analog, the exclusive OR, or the XOR-gate.
+XOR takes two bits as inputs, bit x and y.
+We'll call bit x the control bit and bit y the target bit.
+The truth table for XOR shows the output states
+of all four possible input state combinations.
+For example, when the control bit x is in its 0 state,
+the target bit y, whether a 0 or a 1, remains unchanged
+and its value is just passed to the output.
+However, when control bit x is set to state 1,
+the target bit y is inverted.
+0 becomes 1 and 1 becomes 0.
+The quantum analog of this gate is the CNOT-gate,
+and it takes as inputs qubit x and qubit y.
+Again, we'll call x the control bit and y the target bit.
+When qubit x is in state 0, qubit y remains unchanged.
+But when qubit x is in state 1, qubit y
+undergoes a pi rotation, a rotation of 180 degrees.
+This means that the rotation of qubit y
+depends on the state of qubit x.
+We can consider an interesting example
+where x, the control qubit, is in an equal superposition of 0
+and 1 and y, the target qubit, is in state 0.
+To determine the output, let's take it one piece at a time.
+When x is in state 0, y remains unchanged.
+And when x is in state 1, the qubit y
+undergoes a rotation of 180 degrees
+that flips state 0 to state 1.
+The resulting output state, 0, 0, plus 1, 1,
+is a very interesting state because it cannot be factorized
+into an x component  cross a y component.
+This type of state is entangled, and an entangled state
+is a manifestly quantum mechanical state.
+Universal quantum computation can
+be built from a small subset of these types
+of single and two-qubit gates, and a universal gate set
+allows us to perform any type of quantum algorithm
+on a gate model quantum computer.
+
+
+Let's get an intuitive picture of how
+a quantum algorithm works.
+A universal quantum algorithm is built
+from a small set of single and coupled qubit gates.
+The input to a quantum computer is a massive superposition
+state, in general.
+And then, we apply the types of single qubit gates
+that we've just talked about.
+The single qubit gate operates on all of the states
+simultaneously through quantum parallelism.
+This is followed by quantum interference,
+which modifies the coefficients in front of those states.
+We'll also apply the types of coupled qubit gates
+that we've talked about where, for example,
+the rotation of qubit y depends on the state of qubit x.
+And again, through quantum parallelism,
+these operations apply to the entire state space, followed
+by quantum interference, which again,
+will modify the coefficients.
+And the goal of an algorithm designer
+is to ensure that, by the end of the algorithm,
+one of these coefficients has a value that's
+unity or very close to unity, and it
+corresponds to the state that gives us
+the answer to our problem.
+And this is a very important point
+because we need to measure an output from the quantum
+computer to know the answer to the problem.
+And the measurement process itself, in a quantum system,
+is probabilistic and leads to a classical result.
+So although the output of the quantum computer
+is a massive superposition state, in general,
+the measurement process will project those qubits
+on to only one of the classical states that
+makes up the superposition.
+And the probability that we get any given state corresponds
+to the magnitude squared of that coefficient.
+And so having a coefficient that's
+close to one or, in fact, unity will give us,
+with very high probability, the correct answer.
+
+
+There are a couple of different kinds of quantum computers.
+The most general is a Universal Fault Tolerant Quantum
+Computer.
+The gate model algorithm that we discussed earlier runs
+on this type of computer.
+Building a Universal, Fault Tolerant Quantum Computer,
+I think, is one of the greatest scientific and technological
+endeavors today.
+Such a machine, when we build it,
+will have all the power that quantum has to offer.
+A Universal Fault Tolerant Quantum Computer
+is really a holy grail, in some sense,
+as it means we'll be able to program,
+implement, and reliably run complex large scale quantum
+algorithms.
+We use a small set of single and two qubit gates
+to implement universal quantum computation.
+In principle, this computer can run any type of algorithm.
+quantum or classical.
+But there are only certain algorithms
+that are known to exhibit a quantum advantage.
+Something that we'll refer to as quantum speed up.
+One example is Shor's Factoring Algorithm.
+Shor's algorithm is used to break public key cryptography.
+For example, RSA encryption.
+A scheme that's commonly used for secure communications.
+The security of RSA encryption is based on the premise
+that factoring a large integer number into two smaller
+prime numbers is a very difficult computation
+for a classical computer to perform.
+Furthermore, the computational complexity
+scales poorly with the length of the encryption key.
+So for example, if you're dissatisfied
+with your current level of security,
+just double the length of your public key
+and it will become exponentially harder for a classical computer
+to break that encryption scheme.
+In contrast, Shor's algorithm can perform the same tasks
+with only a marginal increase in difficulty
+as the length of the key has increased.
+Other examples include Grover's algorithm
+for searching an unsorted database,
+or sampling solutions to linear equations.
+For these types of algorithms, quantum speed up of some degree
+exists over known classical algorithms
+when run on a universal quantum computer.
+The actual amount of speed up for these algorithms
+is something we'll discuss later in the course.
+The advantage of a Gate Model Quantum computer
+is that it's universal.
+In principle, it can run any algorithm.
+Now, in practice of course, not all algorithms
+are going to exhibit a quantum speedup, but many will.
+The challenge lies in making a computer that
+is both large enough and operates for long enough
+to complete an algorithm and obtain the answer.
+Even though the fundamental building blocks,
+the qubits themselves, are prone to errors.
+In a quantum computer, each operation
+has a probability of being noisy, right?
+That is of adding an error to the computation.
+And we need a way to combat the buildup of all these errors
+so that the output we get out of the algorithm,
+or the computation, is actually reliable.
+As we'll see later in the course,
+such errors can be overcome by something called Quantum Error
+Correction.
+But it will require additional resources to implement it.
+
+
+Another type of quantum computer is a quantum simulator,
+a processor that simulates the behavior
+of a physical system, a chemical reaction,
+or a biological process.
+Simulations can be implemented using
+single- and two-qubit gates as on a universal quantum
+computer, and we'll call these digital simulations.
+Alternatively, the qubits themselves,
+the way that they connect to one another,
+and the strengths of those connections
+can be designed to emulate a system's behavior.
+We'll call this an analog simulator.
+There are also examples of hybrid simulators
+that use aspects of both digital and analog approaches.
+Nature is quantum mechanical.
+So with quantum computers, we get this ability
+to take a step closer to being able to actually
+computationally model aspects of physical systems.
+So I think this is a pretty amazing
+potential first application of quantum computers.
+As the first business application,
+with the knowledge of today, I would
+say the simulation of molecules in materials
+is the most likely, which, in turn, can
+have a really broad impact in science and technology
+and in society.
+One example is the simulation of chemical reaction mechanisms.
+It's estimated that somewhere between 1% and 2%
+of worldwide energy production is used to produce ammonia
+for agricultural fertilizer.
+The key step is a process called nitrogen fixation.
+In industry, nitrogen fixation is
+performed using the Haber Bosch process, which
+requires both high pressure and high temperature.
+In contrast, there exist bacteria
+which use an enzyme called molybdenum nitrogenase, which,
+even at room temperature, can catalyze atmospheric nitrogen
+into ammonia.
+How do the bacteria do it?
+Well, we don't really know precisely.
+We do know the key component is an iron molybdenum cofactor,
+a chemical compound that acts as a helper
+molecule for the enzyme.
+However, it's not known how the reaction works in detail.
+Simulations with classical computers, of course,
+exist but only provide approximate answers.
+If we could actually study that process and understand it,
+then we could potentially engineer a catalyst that
+makes this reaction efficient.
+Now to study this with classical computers,
+this is lifetime of the universe time scale
+to get a solution.
+On the other hand, a quantum simulation
+of the chemical reaction steps would
+provide the reaction energies that are involved
+in the nitrogen fixation.
+This type of quantum chemistry simulation
+has many applications.
+For example, developing new pharmaceutical drugs
+or tailoring a material to have unique properties.
+For these types of simulations, it's
+been shown that a quantum speedup can exist over known
+classical algorithms.
+
+WILL OLIVER: A third type of quantum computer
+is called a quantum annealer, and it's
+used solely to solve classical optimization problems.
+BO EWALD: Optimization problems are those that--
+we face them every day.
+What is the best way for you to be able to drive home at night
+when there's traffic?
+What is the best way to route aircraft around an airport?
+All of those are optimization problems.
+[RADIO CHATTER]
+DENNY DAHL: If you're planning a very complicated mission,
+A space mission with a lot of moving
+parts that involve material, people, gasoline,
+if you can optimize and improve the efficiency of something
+like that, quantum computing could have a huge impact.
+WILL OLIVER: Quantum annealers do not use digital gates.
+Instead, an optimization problem is encoded directly
+into the qubits and their connectivity to one another,
+and also by the strength of those connections.
+Finding the qubit states that then minimize their total energy
+is equivalent to optimizing and finding the answer
+to an encoded problem.
+However, how do we anneal these qubits
+into states that minimize their energy?
+BO EWALD: So the name, "quantum annealing,"
+is related to making a sword where you take a piece of metal
+and then you heat it up.
+And in the old days, a swordsmith
+would beat the sword into some shape,
+and then would cool it, quench it in water, perhaps, heat it up
+again, and then beat it into shape,
+and do that multiple times.
+And that was called an annealing process.
+So heat it up, cool it down, heat it up, cool it down.
+Quantum computing uses a similar technique.
+WILL OLIVER: To perform annealing, we
+start by setting the qubit states and their couplings
+to one another in a configuration where
+we know the ground state.
+Let's call this the starting configuration, or alternatively
+its starting Hamiltonian.
+We then slowly change the qubits in their couplings
+from those in the starting Hamiltonian
+to those in the encoded problem Hamiltonian.
+Now if we make these changes slowly enough,
+it's likely that we'll remain in or very near the ground
+state of the system so that by the end of this evolution,
+the qubits are in their ground state,
+and that represents the solution to our optimization problem.
+BO EWALD: If you have a problem that you
+can craft as a landscape, like the Alps,
+for example, what our computer does
+is without adding or subtracting,
+it would find the lowest valley or valleys in that landscape
+probably.
+It's probabilistic, and, again, doesn't add or subtract,
+but rather, what it's really doing
+is not a three-dimensional version of the Alps,
+but it's an n-dimensional energy landscape,
+and it's finding a low-energy solution to that problem.
+WILL OLIVER: The challenge is that for problems of interesting size
+and complexity, it's almost certain that no matter how
+slowly we change these parameters,
+the annealer will, at some point, leave its ground state.
+This is due to the larger number of energy states
+and their close proximity to one another.
+And as a result, quantum annealers
+must find additional mechanisms to return the computer
+to the ground state.
+For example, through quantum tunneling,
+or by introducing excess relaxation,
+a loss of energy that returns the computer to its ground
+state.
+BO EWALD: If you hit a barrier, like a mountain range,
+as we described earlier, what our machine does
+is rather than you having to put more energy to climb
+the mountainside and go down the other side,
+we use the quantum mechanical property of tunneling,
+and we tunnel through the barrier
+to get to what should be a lower energy
+solution in the next valley, if you will.
+WILL OLIVER: On the other hand, add too much relaxation
+and the computer may not even be quantum mechanical anymore.
+As a result, it's currently unknown
+if a quantum annealer can exhibit quantum enhancement
+for a general class of optimization problems.
+It may just represent another type of classical computer.
+And although, as a classical computer,
+it would not scale well with the size of the problem,
+it may still be interesting if it were substantially faster
+than any of today's transistor-based classical
+computers.
+BO EWALD: There are technical challenges
+facing quantum computing.
+For our quantum annealing computers,
+how do we scale them up to be able to start attacking
+more real-world problems instead of subsets
+of real-world problems?
+WILL OLIVER: There's a strong interest in quantum annealers
+because classical optimization problems are everywhere,
+from supply transport optimization,
+to sensor and satellite tasking, pattern recognition,
+needle-in-a-haystack problems, et cetera.
+Many, many problems can be reduced to optimization.
+And so there's a large application
+pull to understand quantum annealers better.

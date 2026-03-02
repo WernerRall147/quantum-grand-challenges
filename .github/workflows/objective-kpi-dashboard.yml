@@ -1,0 +1,46 @@
+name: Objective KPI Dashboard
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh-kpis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate objective KPI snapshots
+        run: |
+          python tooling/reporting/stage_kpis.py \
+            --policy tooling/reporting/maturity-policy.json \
+            --out-md docs/objective-kpis.md \
+            --out-json docs/objective-kpis.json
+
+      - name: Create pull request for KPI updates
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/update-objective-kpis
+          commit-message: "chore(reporting): refresh objective KPI dashboard"
+          title: "chore(reporting): refresh objective KPI dashboard"
+          body: |
+            Automated refresh of objective maturity KPI snapshots.
+
+            - Source: `tooling/reporting/stage_kpis.py`
+            - Policy: `tooling/reporting/maturity-policy.json`
+            - Outputs: `docs/objective-kpis.md`, `docs/objective-kpis.json`
+          labels: |
+            documentation
+            reporting

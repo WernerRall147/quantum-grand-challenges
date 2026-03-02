@@ -1,46 +1,215 @@
 # QAE Risk Analysis Summary Report
-Generated: 2026-02-19 21:42:11.128034
+Generated: 2026-02-25 16:11:07.492750
 
 ## Quantum Amplitude Estimation Results
-### Result 1: TailRisk > 3.0
+### Result 1: Unknown
+- Algorithm: Unknown
+- Logical Qubits: N/A
+- Physical Qubits: N/A
+- T-count: N/A
+- Runtime: N/A days
+
+### Result 2: TailRisk > 2.5
 - Algorithm: QPEAmplitudeEstimation
-- Logical Qubits: 8
-- Physical Qubits: 8
-- T-count: 2,688
-- Circular amplitude (phase-averaged): 0.161918
-- Circular phase estimate: 0.131820
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
 - Runtime: 0 days
 
-### Result 2: TailRisk > 3.0
+### Result 3: TailRisk > 2.5
 - Algorithm: QPEAmplitudeEstimation
-- Logical Qubits: 8
-- Physical Qubits: 8
-- T-count: 2,688
-- Circular amplitude (phase-averaged): 0.161271
-- Circular phase estimate: 0.131541
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
 - Runtime: 0 days
 
-### Result 3: TailRisk > 3.0
+### Result 4: TailRisk > 2.5
 - Algorithm: QPEAmplitudeEstimation
-- Logical Qubits: 8
-- Physical Qubits: 8
-- T-count: 2,688
-- Circular amplitude (phase-averaged): 0.161918
-- Circular phase estimate: 0.131820
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 5: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 6: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 7: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 8: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 9: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 10: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 11: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 12: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 13: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 14: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 15: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 16: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 17: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 18: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 19: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 20: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 21: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
+- Runtime: 0 days
+
+### Result 22: TailRisk > 2.5
+- Algorithm: QPEAmplitudeEstimation
+- Logical Qubits: 9
+- Physical Qubits: 9
+- T-count: 384
+- Circular amplitude (phase-averaged): 0.000000
+- Circular phase estimate: 0.000000
 - Runtime: 0 days
 
 ## Quantum Ensemble Aggregations
-### Ensemble 1: TailRisk > 3.0
-- Completed runs: 2 (requested 2)
-- Ensemble mean amplitude: 0.162920
-- Ensemble standard deviation: 0.000938
-- Ensemble standard error: 0.000663
-- Mean per-run reported std. error: 0.018254
-- Mean deviation from analytic: 0.003895
-- Circular amplitude (aggregated): 0.161594
-- Circular phase (aggregated): 0.131681
-- Most frequent outcome across ensemble: 111/128
-- Run artifacts: quantum_estimate_run1.json, quantum_estimate_run2.json
+### Ensemble 1: TailRisk > 2.5
+- Completed runs: 20 (requested 20)
+- Ensemble mean amplitude: 0.195833
+- Ensemble standard deviation: 0.081330
+- Ensemble standard error: 0.018186
+- Mean per-run reported std. error: 0.078132
+- Mean deviation from analytic: 0.006060
+- Circular amplitude (aggregated): 0.000000
+- Circular phase (aggregated): 0.000000
+- Most frequent outcome across ensemble: 0/16
+- Run artifacts: quantum_estimate_run1.json, quantum_estimate_run2.json, quantum_estimate_run3.json, quantum_estimate_run4.json, quantum_estimate_run5.json, quantum_estimate_run6.json, quantum_estimate_run7.json, quantum_estimate_run8.json, quantum_estimate_run9.json, quantum_estimate_run10.json, quantum_estimate_run11.json, quantum_estimate_run12.json, quantum_estimate_run13.json, quantum_estimate_run14.json, quantum_estimate_run15.json, quantum_estimate_run16.json, quantum_estimate_run17.json, quantum_estimate_run18.json, quantum_estimate_run19.json, quantum_estimate_run20.json
 
 ## Classical Monte Carlo Results
 ### Threshold = 2.0

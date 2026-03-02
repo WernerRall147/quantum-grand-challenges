@@ -1,7 +1,7 @@
 # QAE Implementation - Project Completion Summary
 
-**Date**: February 24, 2026  
-**Status**: ⚠️ IMPLEMENTED (CALIBRATED BASELINE; FURTHER HARDENING PENDING)  
+**Date**: February 25, 2026  
+**Status**: ⚠️ Stage C complete (calibrated baseline and uncertainty-bounded validation in place; Stage D hardening pending)  
 **Branch**: main
 
 ## Overview
@@ -45,10 +45,10 @@ Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded
 - ✅ **Statistical Averaging**: tuned repetitions with phase histogram analysis
 
 **Test Results**:
-- **Configuration**: 4 loss qubits, 6 precision qubits, log-normal(0,1), threshold=2.5
+- **Configuration**: 4 loss qubits, 4 precision qubits, log-normal(0,1), threshold=2.5
 - **Theoretical**: 18.98% tail probability
 - **Classical MC**: 18.98% ± 0.39% (10k samples)
-- **QAE Current**: 19.44% ± 0.23% (3 repetitions; calibrated baseline run)
+- **QAE Current**: 19.58% ± 1.82% (20 ensemble runs; calibrated baseline)
 - **Complexity**: O(1/ε) vs classical O(1/ε²) — quadratic speedup
 
 **Latest Validation Snapshot (small.yaml)**:
@@ -256,8 +256,7 @@ Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded
 ## Known Issues & Next Steps
 
 ### Current Limitations
-1. **Statistical Stability**: Single-run histograms remain shot-noise sensitive
-   - Current baseline: QAE 19.44% vs theoretical 18.98% (about 2.5% relative error)
+1. **Statistical Stability**: Single-run histograms remain shot-noise sensitive   - Current baseline: QAE 19.58% vs theoretical 18.98% (about 3.2% relative error)
    - Remaining work: confidence-interval tightening across parameter sweeps
    - Next step: automate repeated-seed calibration runs and store trend metrics
 

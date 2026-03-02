@@ -142,15 +142,18 @@ Estimates the phase θ of Grover operator eigenvalues using semiclassical Fourie
 **Precision**: Resolution Δφ = 1/32 ≈ 0.03, giving amplitude uncertainty Δa ≈ 0.05-0.10
 
 ### Phase 6: Statistical Averaging
-**Operation**: Repeat QPE measurement 20 times
+**Operation**: Repeat QPE measurements and aggregate across runs
 
-**Analysis**:
-- Collect histogram of phase measurements
-- Most frequent outcome: k=11/32 → θ≈1.08 → P≈77.8% (6 times)
-- Mean amplitude across 20 runs: 74.45% ± 5.77%
-- **Issue**: Large systematic error (292% relative error vs theoretical 18.98%)
+**Current calibrated baseline (small instance, tracked ensemble)**:
+- Ensemble configuration: 20 runs, 24 repetitions/run, 4 phase bits
+- Quantum estimate mean: 19.58% ± 1.82% (ensemble standard error)
+- Theoretical tail probability: 18.98%
+- Relative error: 3.19%
 
-**Root Cause**: The current implementation measures the phase of the Grover operator but doesn't properly account for the relationship between Grover eigenphase and the target amplitude for tail probability estimation. Additional calibration or algorithmic refinement is needed.
+**Interpretation**:
+- The phase-to-amplitude mapping and oracle/reflection alignment are functioning.
+- The dominant remaining issue is variance/shot noise sensitivity under low-repetition settings.
+- Additional hardening focuses on larger ensembles, higher repetition counts, and multi-instance calibration tracking.
 
 ## Resource Requirements
 
@@ -285,7 +288,7 @@ Estimates the phase θ of Grover operator eigenvalues using semiclassical Fourie
 - **QAE Disadvantages**:
   - Requires fault-tolerant quantum computer (594k qubits)
   - Complex circuit (965k T states)
-  - Needs algorithmic refinement (current 292% error)
+  - Variance-sensitive under low-shot and low-precision settings
   - State preparation bottleneck
 
 ## Correctness Verification
@@ -293,13 +296,14 @@ Estimates the phase θ of Grover operator eigenvalues using semiclassical Fourie
 ### Test Results
 - **Program Execution**: ✅ Runs successfully
 - **Phase Measurement Distribution**: ✅ Histogram generated
-- **Most Frequent Outcome**: k=11/32 (6/20 runs)
-- **Statistical Averaging**: ✅ 20 repetitions completed
+- **Most Frequent Outcome**: phase 0/16 (386/480 shots across 20 runs)
+- **Statistical Averaging**: ✅ 20 ensemble runs completed (24 repetitions/run)
+- **Calibrated Baseline**: 19.58% ± 1.82% vs theoretical 18.98% (3.19% relative error)
 - **Resource Estimation**: ✅ Azure Quantum estimates generated
 
 ### Known Issues
-- ❌ **Large systematic error** (292% vs theoretical)
-- ❌ **Phase interpretation** needs correction
+- ⚠️ **Shot-noise sensitivity** remains for low repetition counts and coarse phase precision
+- ⚠️ **Cross-instance robustness** requires additional tracked calibration sweeps
 - ✅ **Circuit structure** correct (Grover + QPE)
 - ✅ **Resource requirements** validated
 

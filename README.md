@@ -102,28 +102,39 @@ tooling\windows\run-all.cmd -SkipNpmInstall
 
 ## 📊 Problem Status
 
+Status labels are being migrated to a maturity-gate model so readiness claims stay aligned with validation depth.
+
+**Maturity Gate Legend**
+
+- **Stage A**: Classical baseline validated on defined instances.
+- **Stage B**: Quantum scaffold or canonical algorithm implemented and building.
+- **Stage C**: Hardware-aware validation complete (transpilation/mapping + uncertainty-bounded results + calibration evidence).
+- **Stage D**: Advantage evidence package complete (assumptions, fair classical baseline, and claim category).
+
+See `docs/objective-gates.md` for gate criteria and the required advantage-claim template.
+
 | Problem | Q# Implementation | Classical Baseline | Resource Estimation | Status |
 |---------|-------------------|--------------------|---------------------|--------|
-| [QAE Risk Analysis](problems/03_qae_risk/) | ✅ **Canonical QAE with Grover + QPE** | ✅ Complete (Monte Carlo + plots) | ✅ **Complete** (594k qubits, 6.4s, 965k T-states) | 🟢 **Implementation complete** |
-| [Hubbard Model](problems/01_hubbard/) | ✅ Analytical placeholder builds under .NET 6 | ✅ Complete (exact diagonalization) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Catalysis Simulation](problems/02_catalysis/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Arrhenius rates + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Linear Solvers](problems/04_linear_solvers/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (condition analysis + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (graph cuts + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [High-Frequency Trading](problems/06_high_frequency_trading/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (portfolio optimization) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Drug Discovery](problems/07_drug_discovery/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (molecular docking + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Protein Folding](problems/08_protein_folding/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (contact maps + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Factorization](problems/09_factorization/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Pollard's rho + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (attack cost analysis) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (kernel methods + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Quantum Optimization](problems/12_quantum_optimization/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (scheduling + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Climate Modeling](problems/13_climate_modeling/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (energy balance + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Materials Discovery](problems/14_materials_discovery/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (cluster expansion + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Database Search](problems/15_database_search/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (query complexity + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Error Correction](problems/16_error_correction/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (repetition codes + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Nuclear Physics](problems/17_nuclear_physics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (EFT diagonalization + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Photovoltaics](problems/18_photovoltaics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Shockley-Queisser + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Quantum Chromodynamics](problems/19_quantum_chromodynamics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (lattice gauge + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
-| [Space Mission Planning](problems/20_space_mission_planning/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (orbital mechanics + plots) | ⏳ Pending | 🟢 Ready for quantum kernel |
+| [QAE Risk Analysis](problems/03_qae_risk/) | ✅ **Canonical QAE with Grover + QPE** | ✅ Complete (Monte Carlo + plots) | ✅ **Complete** (594k qubits, 6.4s, 965k T-states) | 🟢 **Stage C complete; Stage D evidence hardening next** |
+| [Hubbard Model](problems/01_hubbard/) | ✅ Analytical placeholder builds under .NET 6 | ✅ Complete (exact diagonalization) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Catalysis Simulation](problems/02_catalysis/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Arrhenius rates + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Linear Solvers](problems/04_linear_solvers/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (condition analysis + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (graph cuts + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [High-Frequency Trading](problems/06_high_frequency_trading/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (portfolio optimization) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Drug Discovery](problems/07_drug_discovery/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (molecular docking + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Protein Folding](problems/08_protein_folding/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (contact maps + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Factorization](problems/09_factorization/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Pollard's rho + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (attack cost analysis) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (kernel methods + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Quantum Optimization](problems/12_quantum_optimization/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (scheduling + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Climate Modeling](problems/13_climate_modeling/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (energy balance + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Materials Discovery](problems/14_materials_discovery/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (cluster expansion + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Database Search](problems/15_database_search/) | ✅ Canonical Grover implementation builds under .NET 6 | ✅ Complete (query complexity + plots) | ⏳ Pending | 🟢 **Stage C complete; Stage D evidence hardening next** |
+| [Error Correction](problems/16_error_correction/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (repetition codes + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Nuclear Physics](problems/17_nuclear_physics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (EFT diagonalization + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Photovoltaics](problems/18_photovoltaics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Shockley-Queisser + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Quantum Chromodynamics](problems/19_quantum_chromodynamics/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (lattice gauge + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [Space Mission Planning](problems/20_space_mission_planning/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (orbital mechanics + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
 
 ## 🏗️ Repository Structure
 
@@ -197,6 +208,17 @@ Each problem follows this workflow:
 3. **Q# Placeholder / Kernel**: Matching Q# project (`make build`) keeps the quantum interface ready for upgrades
 4. **Resource Estimation**: Azure Quantum profiles (manual today, automated via nightly sweeps tomorrow)
 5. **Website Publication**: CI packages outputs into the Next.js dashboard for reproducibility and storytelling
+
+### 🎯 Objective Maturity Gates
+
+To level up from implementation to evidence-backed outcomes, each problem should pass these gates in order:
+
+1. **Stage A (Classical baseline)**: deterministic baseline, instance coverage, and reproducible metrics.
+2. **Stage B (Quantum implementation)**: compiling Q# kernel/scaffold with documented algorithm assumptions.
+3. **Stage C (Hardware-aware validation)**: topology-aware mapping impact, error/calibration trends, and uncertainty-bounded comparisons.
+4. **Stage D (Advantage evidence)**: explicit claim contract (`theoretical`, `projected`, or `demonstrated`) with fair classical comparator and assumption log.
+
+This gate model keeps roadmap claims honest as we scale from placeholders to production-grade quantum studies.
 
 ### 🎲 Problem Instances
 

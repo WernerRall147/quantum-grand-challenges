@@ -45,6 +45,27 @@ jobs:
         python -m pip install --upgrade pip
         pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml
 
+    - name: Enforce maturity contract policy
+      run: |
+        python tooling/reporting/stage_kpis.py \
+          --policy tooling/reporting/maturity-policy.json \
+          --enforce
+
+    - name: Generate maturity KPI dashboard artifacts
+      run: |
+        mkdir -p tooling/reporting/output
+        python tooling/reporting/stage_kpis.py \
+          --policy tooling/reporting/maturity-policy.json \
+          --out-md tooling/reporting/output/objective-kpis.md \
+          --out-json tooling/reporting/output/objective-kpis.json
+
+    - name: Upload maturity KPI artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: maturity-kpis
+        path: tooling/reporting/output
+        retention-days: 30
+
     - name: Generate QAE runtime config
       run: |
         python problems/03_qae_risk/python/write_runtime_config.py \

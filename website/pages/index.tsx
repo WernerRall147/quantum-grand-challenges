@@ -35,23 +35,31 @@ export default function Home() {
         <section style={{ marginTop: '3rem' }}>
           <h2>📚 Featured Case Studies</h2>
           <p style={{ color: '#666' }}>
-            Three major quantum algorithms fully implemented with comprehensive resource estimates and cross-algorithm comparison.
+            Stage C implementations now anchor the portfolio while Stage B tracks continue progressing under policy-gated evidence requirements.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
             <CaseStudyCard
-              title="QAE Risk Analysis (Implemented, Calibration Pending)"
+              title="QAE Risk Analysis (Stage C Complete)"
               classicalHeadline="Monte Carlo: 18.98% ± 0.39% (10k samples)"
               classicalDetails="Classical baseline achieves 0% error vs theoretical for tail risk P(Loss > 2.5) on log-normal(0,1) distribution."
               quantumHeadline="Canonical QAE: 594k qubits, 6.4s, 965k T-states"
-              quantumDetails="Canonical Grover/QPE/amplitude encoding structure is implemented. Calibration remains in progress to align estimates with theoretical probability."
+              quantumDetails="QAE kernel and Stage C evidence artifacts are published, including calibration and runtime mapping outputs."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk"
             />
             <CaseStudyCard
-              title="Hubbard Model (VQE + HHL COMPLETE)"
+              title="Database Search (Stage C Complete)"
+              classicalHeadline="Search baselines: 16, 32, and 4096-item instances"
+              classicalDetails="Classical search and verification harnesses provide reproducible reference outputs for Grover comparisons."
+              quantumHeadline="Canonical Grover: quadratic search behavior"
+              quantumDetails="Multi-target oracle and measurement validation support the Stage C evidence bundle for database search."
+              linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/15_database_search"
+            />
+            <CaseStudyCard
+              title="Hubbard Model (Stage B Complete)"
               classicalHeadline="Exact diagonalization: Δc = 5.66 at U/t = 4"
               classicalDetails="Two-site half-filled Hubbard model with classical baseline achieving perfect accuracy for ground state energy and Mott gap."
               quantumHeadline="VQE: 79k qubits, 114μs | HHL: 18.7k qubits, 52ms"
-              quantumDetails="VQE achieves 8/8 convergence with minimal T-gates (18). HHL is most qubit-efficient algorithm. Both fully documented with resource estimates."
+              quantumDetails="Reproducible baselines and scaffolded quantum flows are complete; next target is Stage C evidence gating."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard"
             />
           </div>
@@ -132,22 +140,21 @@ export default function Home() {
         <div style={{ marginTop: '4rem', padding: '2rem', background: '#f8f9fa', borderRadius: '8px' }}>
           <h2>📊 Current Status</h2>
           <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
-            <li><strong>✅ Three Fully Validated Quantum Algorithms:</strong> VQE, HHL, and Grover have validated end-to-end flows</li>
-            <li><strong>⚠️ QAE Status:</strong> Canonical implementation is complete, with calibration work still in progress</li>
-            <li><strong>🟢 Seventeen Additional Tracks:</strong> Classical baselines and Q# scaffolds are in place and queued for kernel expansion</li>
-            <li><strong>✅ 21,000+ words of documentation:</strong> Comprehensive technical summaries and cross-algorithm comparisons</li>
+            <li><strong>✅ Stage Coverage:</strong> 20/20 problems include objective maturity gates and advantage-claim contracts</li>
+            <li><strong>✅ Current KPI Snapshot:</strong> 18 problems at Stage B and 2 problems at Stage C</li>
+            <li><strong>✅ Stage C Tracks:</strong> QAE Risk Analysis and Database Search are policy-enforced at Stage C</li>
+            <li><strong>🟢 Stage B Tracks:</strong> Eighteen additional problems are baseline-complete and queued for Stage C promotion</li>
+            <li><strong>✅ Governance Automation:</strong> CI enforces maturity policy and publishes markdown/JSON KPI artifacts</li>
             <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
             <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
             <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>
             <li><strong>✅ CI/CD:</strong> Automated testing and static export ready for GitHub Pages</li>
           </ul>
           <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
-            <h3 style={{ marginTop: 0, color: '#10b981' }}>🎉 Latest Achievement: Grover&apos;s Quantum Search</h3>
+            <h3 style={{ marginTop: 0, color: '#10b981' }}>🎉 Latest Achievement: Stage-Gated Portfolio Rollout</h3>
             <p style={{ color: '#666', marginBottom: 0 }}>
-              Complete canonical Grover&apos;s algorithm with multi-target oracle support. Demonstrated quadratic speedup O(√N) 
-              with 42.7x faster than classical on 4096-item search. Perfect 100% success rate on large-scale searches. 
-              Validated with 250+ measurement shots across three problem sizes (16, 32, 4096 items). Foundation for 
-              cryptanalysis, database search, and amplitude amplification applications.
+              Maturity gates, contract coverage, KPI reporting, and CI policy enforcement are now active across all 20 challenge tracks.
+              This creates a single evidence standard for promoting Stage B scaffolds to Stage C implementations and future Stage D claims.
             </p>
           </div>
         </div>
@@ -155,7 +162,7 @@ export default function Home() {
         <section style={{ marginTop: '3rem', padding: '2rem', background: '#eef6ff', borderRadius: '12px' }}>
           <h2 style={{ marginTop: 0 }}>🚧 Active Work Queue</h2>
           <p style={{ color: '#4b5c79' }}>
-            Current development focus for the next wave of quantum-kernel upgrades beyond QAE and Grover.
+            Current promotion queue for moving Stage B tracks into Stage C with benchmarked kernel evidence.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginTop: '1.25rem' }}>
             {activeWorkQueue.map((item) => (
@@ -263,13 +270,22 @@ interface VisualizationCardProps {
 
 function statusBadgeStyle(status: string): { text: string; bg: string; fg: string } {
   const normalized = status.toLowerCase();
+  if (normalized.includes('stage d')) {
+    return { text: 'Stage D', bg: '#ede9fe', fg: '#5b21b6' };
+  }
+  if (normalized.includes('stage c')) {
+    return { text: 'Stage C', bg: '#dcfce7', fg: '#166534' };
+  }
+  if (normalized.includes('stage b')) {
+    return { text: 'Stage B', bg: '#dbeafe', fg: '#1e40af' };
+  }
   if (normalized.includes('complete')) {
     return { text: 'Complete', bg: '#dcfce7', fg: '#166534' };
   }
   if (normalized.includes('implemented') || normalized.includes('pending')) {
     return { text: 'Implemented', bg: '#fef3c7', fg: '#92400e' };
   }
-  return { text: 'Kernel Ready', bg: '#dbeafe', fg: '#1e40af' };
+  return { text: 'Stage A', bg: '#fef3c7', fg: '#92400e' };
 }
 
 function ProblemCard({ title, status, description, href }: ProblemCardProps) {

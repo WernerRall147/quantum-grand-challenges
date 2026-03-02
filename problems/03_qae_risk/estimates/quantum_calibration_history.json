@@ -1,0 +1,31 @@
+{
+  "records": [
+    {
+      "recorded_utc": "2026-02-25T14:08:37.249846Z",
+      "source": "ensemble",
+      "timestamp": "2026-02-25T14:08:22.293939Z",
+      "phase_bits": 4,
+      "repetitions": 24,
+      "runs": 3,
+      "quantum_estimate": 0.16666666666666666,
+      "std_error": 0.01964185503295966,
+      "theoretical": 0.18977381200856933,
+      "mean_difference": -0.023107145341902658,
+      "relative_error_percent": 12.17615070137246
+    },
+    {
+      "recorded_utc": "2026-02-25T14:11:08.045642Z",
+      "source": "ensemble",
+      "timestamp": "2026-02-25T14:11:03.991977Z",
+      "phase_bits": 4,
+      "repetitions": 24,
+      "runs": 20,
+      "quantum_estimate": 0.19583333333333333,
+      "std_error": 0.018185960702329328,
+      "theoretical": 0.18977381200856933,
+      "mean_difference": 0.006059521324764005,
+      "relative_error_percent": 3.1930229258873637
+    }
+  ],
+  "last_updated_utc": "2026-02-25T14:11:08.045642Z"
+}

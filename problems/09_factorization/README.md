@@ -43,3 +43,26 @@ python python/analyze.py
 4. **Resource Estimation** – Analyze logical qubit counts and T-depth for RSA-1024 style moduli via Azure Quantum tools.
 
 This scaffold keeps the classical baseline reproducible while we iterate toward full-scale quantum period finding demonstrations. 🔐⚛️
+
+## Objective Maturity Gate
+
+- **Current gate**: **Stage B complete** (classical baseline and Q# scaffold/build path are in place).
+- **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons).
+
+Stage C exit criteria for this problem:
+
+- Execute at least one non-placeholder quantum workflow path tied to the problem objective.
+- Report uncertainty-bounded comparisons between classical and quantum outputs on `small` and `medium` instances.
+- Document transpilation/connectivity and backend assumptions used for reported quantum runs.
+- Add calibration/noise-sensitivity evidence for the reported quantum metrics.
+
+## Advantage Claim Contract
+
+- **Claim category (current)**: `theoretical`.
+- **Problem class and regime**: Problem-specific challenge instances defined in this directory.
+- **Fair baseline**: Problem-local classical baseline in `python/` outputs.
+- **Quantum resource scaling claim**: Expected asymptotic advantage depends on algorithm family and implementation assumptions; no hardware-demonstrated speedup claim yet.
+- **Data-loading and I/O assumptions**: Must be documented alongside future advantage claims.
+- **Noise/error model assumptions**: Backend-specific model and calibration assumptions to be added at Stage C.
+- **Confidence/uncertainty method**: To be reported using shot-based confidence intervals or equivalent statistical bounds.
+- **Residual risks**: Oracle/state-preparation/transpilation overhead may dominate for near-term instance sizes.

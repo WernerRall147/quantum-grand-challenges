@@ -1,23 +1,23 @@
 export const pipelineStages = [
   {
-    title: 'Baseline & Validation',
+    title: 'Stage A - Problem Framing',
     description:
-      'Run classical solvers (Monte Carlo, exact diagonalization, schedulers) to generate reference JSON outputs and plots.',
+      'Define the objective, baseline metrics, and evidence plan before any quantum claim is made.',
   },
   {
-    title: 'Quantum Kernel Draft',
+    title: 'Stage B - Baseline + Scaffold',
     description:
-      'Stand up Q# stubs with the same interfaces so resource estimators and tests can drop in once the full circuits land.',
+      'Deliver reproducible classical baselines and Q# scaffolds with aligned interfaces and testable outputs.',
   },
   {
-    title: 'Resource Estimation',
+    title: 'Stage C - Implemented Kernel',
     description:
-      'Feed shared instances into the Azure Quantum Resource Estimator to chart logical qubits, T counts, and runtime bands.',
+      'Ship a working quantum kernel with benchmarked behavior, bounded uncertainty, and explicit evidence links.',
   },
   {
-    title: 'Integration & Publishing',
+    title: 'Stage D - Advantage Claim',
     description:
-      'Automate plots, reports, and dashboard updates through GitHub Actions and the Next.js site you are reading now.',
+      'Permit advantage claims only when calibrated, stress-tested, and policy-gated in CI.',
   },
 ];
 
@@ -25,147 +25,147 @@ export const activeWorkQueue = [
   {
     title: '02 Catalysis Simulation',
     description:
-      'Prioritize VQE-to-PEA chemistry kernel upgrade on top of the validated Arrhenius baseline and plotting stack.',
+      'Promote from Stage B to Stage C with a chemistry kernel and evidence-backed benchmark bundle.',
   },
   {
     title: '04 Linear Solvers',
     description:
-      'Promote the HHL scaffold to a full sparse-system pipeline with condition-number-aware benchmarking.',
+      'Advance the HHL scaffold to Stage C with condition-number-aware runtime and precision benchmarks.',
   },
   {
     title: '05 QAOA MaxCut',
     description:
-      'Move from analytical placeholder to parameterized QAOA layers with approximation-ratio sweeps.',
+      'Replace placeholder logic with parameterized QAOA layers and approximation-ratio evidence needed for Stage C.',
   },
   {
     title: '06 High-Frequency Trading',
     description:
-      'Bridge moving-average baseline into quantum kernel experiments for short-horizon signal search.',
+      'Turn the trading baseline into a measurable quantum-kernel experiment package for Stage C review.',
   },
 ];
 
 export const problemHighlights = [
   {
     title: 'Hubbard Model',
-    status: '✅ COMPLETE - VQE + HHL',
+    status: 'Stage B complete',
     description:
-      'Two validated quantum kernels with documented resource estimates and baseline agreement',
+      'Classical baseline and Q# scaffold are in place; next target is Stage C kernel evidence',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard',
   },
   {
     title: 'QAE Risk Analysis',
-    status: '⚠️ Implemented - Calibration Pending',
-    description: 'Canonical QAE structure is implemented; probability calibration is in progress',
+    status: 'Stage C complete',
+    description: 'Implemented QAE kernel with Stage C evidence bundle and calibrated reporting artifacts',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk',
   },
   {
     title: 'Catalysis Simulation',
-    status: '🟢 Ready for quantum kernel',
+    status: 'Stage B complete',
     description:
-      'Classical Arrhenius baseline and plots are validated; quantum chemistry circuit work is next',
+      'Classical Arrhenius baseline and plots are validated; next milestone is Stage C chemistry kernel',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/02_catalysis',
   },
   {
     title: 'Linear Solvers',
-    status: '🟢 Ready for quantum kernel',
+    status: 'Stage B complete',
     description:
-      'Condition-analysis baseline is reproducible and prepared for HHL circuit expansion',
+      'Condition-analysis baseline is reproducible and prepared for Stage C HHL circuit expansion',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/04_linear_solvers',
   },
   {
     title: 'QAOA MaxCut',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Graph-cut classical baseline is stable and awaiting full QAOA parameterized layers',
+    status: 'Stage B complete',
+    description: 'Graph-cut classical baseline is stable and awaiting Stage C QAOA parameterized layers',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/05_qaoa_maxcut',
   },
   {
     title: 'High-Frequency Trading',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Knowledge-driven moving-average strategy ready for quantum upgrades',
+    status: 'Stage B complete',
+    description: 'Knowledge-driven moving-average strategy is ready for Stage C quantum upgrades',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/06_high_frequency_trading',
   },
   {
     title: 'Drug Discovery',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Docking energy scaffold with Q# VQE placeholder',
+    status: 'Stage B complete',
+    description: 'Docking energy scaffold with Q# VQE placeholder awaiting Stage C implementation',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/07_drug_discovery',
   },
   {
     title: 'Protein Folding',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Contact-map scoring with amplitude-encoding Q# stub',
+    status: 'Stage B complete',
+    description: 'Contact-map scoring with amplitude-encoding Q# stub prepared for Stage C',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/08_protein_folding',
   },
   {
     title: 'Factorization',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Pollard Rho analytics paving the way for Shor order finding',
+    status: 'Stage B complete',
+    description: 'Pollard Rho analytics are in place and paving the way for Stage C Shor-style work',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/09_factorization',
   },
   {
     title: 'Post-Quantum Cryptography',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Attack-cost estimator preparing amplitude-amplified sieving studies',
+    status: 'Stage B complete',
+    description: 'Attack-cost estimator is ready for Stage C amplitude-amplified sieving studies',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/10_post_quantum_cryptography',
   },
   {
     title: 'Quantum Machine Learning',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Kernel ridge benchmark ready for quantum feature maps',
+    status: 'Stage B complete',
+    description: 'Kernel ridge benchmark is ready for Stage C quantum feature map experiments',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/11_quantum_machine_learning',
   },
   {
     title: 'Quantum Optimization',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Weighted tardiness scheduler poised for QAOA upgrades',
+    status: 'Stage B complete',
+    description: 'Weighted tardiness scheduler is poised for Stage C QAOA upgrades',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/12_quantum_optimization',
   },
   {
     title: 'Climate Modeling',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Diffusion energy balance ready for HHL-style solvers',
+    status: 'Stage B complete',
+    description: 'Diffusion energy balance is ready for Stage C HHL-style solver kernels',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/13_climate_modeling',
   },
   {
     title: 'Materials Discovery',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Surrogate cluster expansion primed for quantum spectroscopy',
+    status: 'Stage B complete',
+    description: 'Surrogate cluster expansion is primed for Stage C quantum spectroscopy work',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/14_materials_discovery',
   },
   {
     title: 'Database Search',
-    status: '✅ COMPLETE - Grover Implementation',
-    description: 'Quadratic speedup O(√N) validated with 71-100% success rates',
+    status: 'Stage C complete',
+    description: 'Canonical Grover implementation validated with reproducible speedup-oriented evidence',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/15_database_search',
   },
   {
     title: 'Error Correction',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Repetition-code analytics setting the stage for surface codes',
+    status: 'Stage B complete',
+    description: 'Repetition-code analytics are setting up Stage C and future surface-code progression',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/16_error_correction',
   },
   {
     title: 'Nuclear Physics',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Pionless EFT diagonalization with adiabatic state-prep stub',
+    status: 'Stage B complete',
+    description: 'Pionless EFT diagonalization with adiabatic state-prep stub is awaiting Stage C',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/17_nuclear_physics',
   },
   {
     title: 'Photovoltaics',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Shockley-Queisser heuristic with exciton preview in Q#',
+    status: 'Stage B complete',
+    description: 'Shockley-Queisser heuristic with exciton preview in Q# is poised for Stage C',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/18_photovoltaics',
   },
   {
     title: 'Quantum Chromodynamics',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Coarse lattice plaquette baseline with gauge-walk stub',
+    status: 'Stage B complete',
+    description: 'Coarse lattice plaquette baseline with gauge-walk stub is ready for Stage C expansion',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/19_quantum_chromodynamics',
   },
   {
     title: 'Space Mission Planning',
-    status: '🟢 Ready for quantum kernel',
-    description: 'Patched-conic mission baseline with quantum annealing preview',
+    status: 'Stage B complete',
+    description: 'Patched-conic mission baseline with quantum annealing preview is prepared for Stage C',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/20_space_mission_planning',
   },
 ];

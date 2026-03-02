@@ -15,7 +15,7 @@ The QAE workflow for risk estimation consists of the following stages:
 
 ## Implementation
 
-- **Q# code**: `qsharp/Program.qs` implements the **canonical QAE algorithm** with Grover operators and quantum phase estimation. ✅ **COMPLETE**
+- **Q# code**: `qsharp/Program.qs` implements the **canonical QAE algorithm** with Grover operators and quantum phase estimation. ✅ **Stage B complete**
 - **Python tooling**: `python/` contains the Monte Carlo baseline and visualization scripts.
 - **Instances**: `instances/` provides YAML files that parameterize the loss distribution and thresholds.
 - **Estimates**: `estimates/` captures resource estimation outputs produced by Azure Quantum tooling.
@@ -92,6 +92,18 @@ Current repository instances include `small` and `medium`.
 - [x] Calibrated baseline instance (phase/oracle alignment and entrypoint fix)
 - [ ] Broader calibration hardening across more instances and seeds
 
+## Objective Maturity Gate
+
+- **Current gate**: **Stage C complete** (hardware-aware validation baseline in place with uncertainty-bounded calibration evidence).
+- **Next gate target**: **Stage D** (advantage evidence package hardened for promotion from `projected` to `demonstrated` claim category).
+
+Stage C evidence references for this problem:
+
+- Uncertainty-bounded estimates: `estimates/quantum_estimate_ensemble.json` and run-level samples in `estimates/quantum_estimate_run*.json`.
+- Calibration trend history: `estimates/quantum_calibration_history.json`.
+- Runtime mapping and execution assumptions: `qsharp/RuntimeConfig.qs` generated via `python/write_runtime_config.py`; layout overhead and estimator assumptions documented in this README and `QAE_IMPLEMENTATION_SUMMARY.md`.
+- Validation-oriented claim language synchronized in `README.md`, this problem README, and `docs/QAE_PROJECT_COMPLETION.md`.
+
 ## Results Summary
 
 **Test Case**: 4 loss qubits (16 levels), 6 precision qubits, log-normal(0,1), threshold=2.5, theoretical tail probability 18.98%
@@ -118,7 +130,7 @@ Latest Azure Quantum Resource Estimates:
 
 **Current Test Results**:
 - **Classical Monte Carlo** (10k samples): 18.98% ± 0.39% (0% relative error)
-- **QAE Current** (120 repetitions): 19.17% ± 3.59% (about 1.0% relative error)
+- **QAE Current** (20 ensemble runs, 24 repetitions/run): 19.58% ± 1.82% (about 3.2% relative error)
 - **Theoretical**: 18.98%
 
 **Complexity Analysis**:
@@ -129,6 +141,17 @@ Latest Azure Quantum Resource Estimates:
   - **Quadratic speedup** for high precision
 
 **Implementation Status**: Calibrated baseline instance is accurate with proper Grover operators and QPE; next work is robustness hardening across additional instances and ensemble seeds.
+
+## Advantage Claim Contract
+
+- **Claim category (current)**: `projected`.
+- **Speedup statement**: QAE provides asymptotic O(1/epsilon) query scaling versus classical O(1/epsilon^2), contingent on oracle/state-preparation and error-correction assumptions.
+- **Fair baseline**: Monte Carlo baseline in `python/classical_baseline.py` with documented confidence intervals.
+- **Assumption log**:
+  - Tail-probability model uses parameterized synthetic loss distributions, not full production portfolios.
+  - Current QAE output quality depends on calibration and ensemble averaging settings.
+  - Resource estimates assume fault-tolerant profiles from Azure Quantum Resource Estimator.
+- **Promotion rule**: Upgrade claim to `demonstrated` only after Stage C evidence is satisfied and instance-level uncertainty targets are met.
 
 ### Calibration Workflow
 

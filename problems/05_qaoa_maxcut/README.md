@@ -32,3 +32,26 @@ make run            # Run the depth-1 QAOA grid search on the small triangle gra
 ## Current Baseline
 
 The classical baseline enumerates all bit strings to guarantee optimal Max-Cut values and logs diagnostic metrics that translate directly to QAOA objective functions. The Q# entry point `RunMaxCutBaseline` now performs a depth-1 QAOA grid search for the weighted triangle instance, reports the best sampled cut and expectation value, and highlights the gap to the classical optimum. Future work will expand the pipeline to larger graphs and tighter optimizers.
+
+## Objective Maturity Gate
+
+- **Current gate**: **Stage B complete** (classical baseline and Q# scaffold/build path are in place).
+- **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons).
+
+Stage C exit criteria for this problem:
+
+- Execute at least one non-placeholder quantum workflow path tied to the problem objective.
+- Report uncertainty-bounded comparisons between classical and quantum outputs on `small` and `medium` instances.
+- Document transpilation/connectivity and backend assumptions used for reported quantum runs.
+- Add calibration/noise-sensitivity evidence for the reported quantum metrics.
+
+## Advantage Claim Contract
+
+- **Claim category (current)**: `theoretical`.
+- **Problem class and regime**: Problem-specific challenge instances defined in this directory.
+- **Fair baseline**: Problem-local classical baseline in `python/` outputs.
+- **Quantum resource scaling claim**: Expected asymptotic advantage depends on algorithm family and implementation assumptions; no hardware-demonstrated speedup claim yet.
+- **Data-loading and I/O assumptions**: Must be documented alongside future advantage claims.
+- **Noise/error model assumptions**: Backend-specific model and calibration assumptions to be added at Stage C.
+- **Confidence/uncertainty method**: To be reported using shot-based confidence intervals or equivalent statistical bounds.
+- **Residual risks**: Oracle/state-preparation/transpilation overhead may dominate for near-term instance sizes.

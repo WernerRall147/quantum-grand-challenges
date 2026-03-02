@@ -1,46 +1,38 @@
 {
-  "timestamp": "2025-10-26T06:48:59.147211Z",
+  "timestamp": "2026-02-25T14:10:38.631819Z",
   "algorithm": "QPEAmplitudeEstimation",
-  "estimator_target": "TailRisk > 3.0",
+  "estimator_target": "TailRisk > 2.5",
   "instance": {
     "parameters": {
-      "shots": 96,
-      "phase_bits": 7,
-      "repetitions": 96,
-      "threshold": 3.0,
-      "loss_qubits": 8,
+      "shots": 24,
+      "phase_bits": 4,
+      "repetitions": 24,
+      "threshold": 2.5,
+      "loss_qubits": 4,
       "mean": 0.0,
-      "std_dev": 1.0
+      "std_dev": 1.0,
+      "run_sanity_check": false
     }
   },
   "metrics": {
-    "logical_qubits": 8,
-    "physical_qubits": 8,
-    "t_count": 2688,
+    "logical_qubits": 9,
+    "physical_qubits": 9,
+    "t_count": 384,
     "runtime_days": 0,
-    "phase_bits": 7,
-    "repetitions": 96,
-    "quantum_estimate": 0.16198193143687725,
-    "quantum_std_error": 0.01817369358893257,
-    "analytic_probability": 0.1590256326509279,
-    "classical_estimate": 0.1590256326509279,
-    "classical_std_error": 0.0011564449005936255,
-    "difference": 0.0029562987859493572,
-    "circular_phase": 0.13154061019089275,
-    "circular_amplitude": 0.16127061357527384
+    "phase_bits": 4,
+    "repetitions": 24,
+    "quantum_estimate": 0.25,
+    "quantum_std_error": 0.08838834764831845,
+    "analytic_probability": 0.18977381200856933,
+    "classical_estimate": 0.18977381200856933,
+    "classical_std_error": 0.0039212206299098435,
+    "difference": 0.060226187991430674,
+    "circular_phase": 9.745429581298439e-18,
+    "circular_amplitude": 9.37349864163661e-34
   },
-  "raw_output": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\9.0.306\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\9.0.306\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\9.0.306\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nHistogram of measured outcomes (counting bits -> occurrences):\n  14: 1\n  16: 4\n  17: 37\n  19: 1\n  107: 1\n  109: 3\n  111: 42\n  112: 3\n  113: 2\n  115: 1\n  121: 1\nMost frequent phase outcome: 111/128 (effective phase~0.1328125, amplitude~0.16422052257649078)\nQuantum amplitude estimation (phase bits=7, repeats=96): 0.16198193143687725 +/- 0.01817369358893257\nAnalytical probability: 0.1590256326509279\nClassical Monte Carlo estimate: 0.1590256326509279 \u00b1 0.0011564449005936255\nDifference between quantum and analytical: 0.0029562987859493572\n(0.16198193143687725, 0.1590256326509279, 0.0011564449005936255)",
+  "raw_output": "=== Quantum Amplitude Estimation for Tail Risk Analysis ===\n\nRisk Model Configuration:\n  Loss distribution qubits: 4 (2^4 = 16 discrete levels)\n  Loss threshold: 2.5\n  Distribution: Log-normal(\u03bc=0, \u03c3=1)\n  Theoretical tail probability P(Loss > 2.5): 0.18977381200856933\n\nQAE Algorithm Parameters:\n  Precision qubits: 4 (phase resolution: \u03c0/16)\n  Repetitions: 24\n  Total qubits: 9 (loss + precision + marker)\n\n=== Canonical QAE Results (precision=4 bits, runs=24) ===\nPhase measurement histogram (top 10):\n  Phase 0/16 (\u03b8=0, P\u22480): 18 times\n  Phase 8/16 (\u03b8=1.5707963267948966, P\u22481): 6 times\nMost frequent outcome: phase=0/16, \u03b8=0, P\u22480\nMean amplitude estimate: 0.25 \u00b1 0.08838834764831845\nTheoretical tail probability: 0.18977381200856933\nRelative error: 31.735773947941315%\n\n=== Classical Baseline Comparison ===\nMonte Carlo (10000 samples): 0.18977381200856933 \u00b1 0.0039212206299098435\n  Relative error vs theoretical: 0%\n\n=== Quantum Advantage Analysis ===\nQAE precision: \u03b5 \u2248 0.08838834764831845\nMC precision: \u03b5 \u2248 0.0039212206299098435\nPrecision improvement factor: 0x\nQuery complexity: QAE uses O(1/\u03b5) = O(11.31370849898476) oracle calls\n                  MC uses O(1/\u03b5\u00b2) = O(10000) samples\n\n=== Summary ===\nTheoretical:     P = 0.18977381200856933\nQAE estimate:    P = 0.25 \u00b1 0.08838834764831845\nMC estimate:     P = 0.18977381200856933 \u00b1 0.0039212206299098435\nQAE demonstrates quadratic speedup: O(1/\u03b5) vs O(1/\u03b5\u00b2) for precision \u03b5",
   "histogram_counts": {
-    "14": 1,
-    "16": 4,
-    "17": 37,
-    "19": 1,
-    "107": 1,
-    "109": 3,
-    "111": 42,
-    "112": 3,
-    "113": 2,
-    "115": 1,
-    "121": 1
+    "0": 18,
+    "8": 6
   }
 }

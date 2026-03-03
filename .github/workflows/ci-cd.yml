@@ -391,13 +391,14 @@ jobs:
       run: |
         python -c "
         import json
-        import os
         import pandas as pd
         from pathlib import Path
         
         print('📊 Analyzing estimation results...')
         
         results = []
+        normalized_inputs = []
+        skipped_payloads = 0
         artifacts_dir = Path('./artifacts')
         
         for result_dir in artifacts_dir.iterdir():
@@ -410,10 +411,24 @@ jobs:
                         print(f'✅ Loaded {json_file}')
                     except Exception as e:
                         print(f'⚠️ Failed to load {json_file}: {e}')
+
+        for payload in results:
+            if isinstance(payload, dict):
+                normalized_inputs.append(payload)
+            elif isinstance(payload, list):
+                for item in payload:
+                    if isinstance(item, dict):
+                        normalized_inputs.append(item)
+                    else:
+                        skipped_payloads += 1
+            else:
+                skipped_payloads += 1
         
-        if results:
-          df = pd.json_normalize(results)
-          print(f'📈 Analyzed {len(results)} estimation results')
+        if normalized_inputs:
+          df = pd.json_normalize(normalized_inputs)
+          print(f'📈 Loaded {len(results)} payloads; normalized {len(normalized_inputs)} records')
+          if skipped_payloads:
+            print(f'⚠️ Skipped {skipped_payloads} non-dict payload items during normalization')
 
           preferred_cols = [
             'problem_id',
@@ -428,7 +443,7 @@ jobs:
             print('⚠️ Preferred summary columns not present in normalized payload; printing all columns.')
             print(df.to_string())
         else:
-            print('No valid estimation results found')
+            print('No valid dict records found for normalization')
         "
     
     - name: Generate summary report

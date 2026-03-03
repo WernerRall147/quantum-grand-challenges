@@ -53,6 +53,7 @@ Current progress toward Stage C:
 
 - Depth-1 QAOA host now emits uncertainty-bounded trial statistics and JSON artifacts for reproducible small-instance comparisons.
 - Medium-instance uncertainty report is now available in `estimates/quantum_baseline_medium_d1.json`.
+- Large-instance uncertainty report is now available in `estimates/quantum_baseline_large_d1.json`.
 - Hardware-targeted estimator routing remains open.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)

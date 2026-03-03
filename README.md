@@ -108,6 +108,7 @@ For `qaoa-maxcut.ps1`, `-Quick` lowers defaults to `coarse_shots=12`, `refined_s
 ```bat
 tooling\windows\validate-all.cmd
 tooling\windows\run-all.cmd -SkipNpmInstall
+tooling\windows\qaoa-maxcut.cmd -Action evidence -Quick
 ```
 
 ## 📊 Problem Status

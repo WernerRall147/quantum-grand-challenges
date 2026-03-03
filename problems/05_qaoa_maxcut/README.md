@@ -46,6 +46,12 @@ Windows helper script (recommended in PowerShell):
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence -Quick
 ```
 
+CMD wrapper equivalent:
+
+```bat
+tooling\windows\qaoa-maxcut.cmd -Action evidence -Quick
+```
+
 ## Outputs
 
 - `estimates/classical_baseline.json` – Maximum cut assignments and values for every graph instance

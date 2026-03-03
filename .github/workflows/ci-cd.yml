@@ -74,27 +74,7 @@ jobs:
 
     - name: Verify QAOA estimator summary coverage
       run: |
-        python - <<'PY'
-        from pathlib import Path
-        import re
-
-        summary = Path('problems/05_qaoa_maxcut/estimates/estimator_profile_summary.md')
-        if not summary.exists():
-            raise SystemExit(f"Missing estimator summary: {summary}")
-
-        text = summary.read_text(encoding='utf-8')
-        for instance in ('small', 'medium', 'large'):
-            pattern = re.compile(
-                rf"^\|\s*{instance}\s*\|.*\|\s*(?!n/a)([^|]+)\|\s*(?!n/a)([^|]+)\|",
-                re.IGNORECASE | re.MULTILINE,
-            )
-            if not pattern.search(text):
-                raise SystemExit(
-                    f"Estimator summary lacks populated metrics for instance '{instance}'"
-                )
-
-        print('✅ QAOA estimator summary coverage validated for small/medium/large')
-        PY
+        python problems/05_qaoa_maxcut/python/validate_estimator_summary.py
 
     - name: Generate QAE runtime config
       run: |

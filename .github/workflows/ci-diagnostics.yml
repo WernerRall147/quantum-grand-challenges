@@ -235,13 +235,49 @@ jobs:
         run: |
           set +e
           (cd problems/05_qaoa_maxcut && make estimate-all) > diagnostics-qaoa-estimator.log 2>&1
-          code=$?
+          estimate_code=$?
+
+          summary_code=1
+          if [ $estimate_code -eq 0 ]; then
+            python - <<'PY' >> diagnostics-qaoa-estimator.log 2>&1
+            from pathlib import Path
+            import re
+            import sys
+
+            summary_path = Path("problems/05_qaoa_maxcut/estimates/estimator_profile_summary.md")
+            if not summary_path.exists():
+              print(f"Missing summary file: {summary_path}")
+              sys.exit(1)
+
+            text = summary_path.read_text(encoding="utf-8")
+            for instance in ("small", "medium", "large"):
+              # Require at least one non-n/a metric row for each instance.
+              pattern = re.compile(
+                rf"^\|\s*{instance}\s*\|.*\|\s*(?!n/a)([^|]+)\|\s*(?!n/a)([^|]+)\|",
+                re.IGNORECASE | re.MULTILINE,
+              )
+              if not pattern.search(text):
+                print(f"Instance '{instance}' is missing populated estimator metrics in summary")
+                sys.exit(1)
+
+            print("Estimator summary coverage check passed for small/medium/large")
+            PY
+            summary_code=$?
+          fi
+
+          if [ $estimate_code -eq 0 ] && [ $summary_code -eq 0 ]; then
+            code=0
+          else
+            code=1
+          fi
+
           if [ $code -eq 0 ]; then
             echo "status=pass" >> "$GITHUB_OUTPUT"
           else
             echo "status=fail" >> "$GITHUB_OUTPUT"
           fi
-          echo "estimate_all_exit_code=$code" >> diagnostics-qaoa-estimator.log
+          echo "estimate_all_exit_code=$estimate_code" >> diagnostics-qaoa-estimator.log
+          echo "summary_coverage_exit_code=$summary_code" >> diagnostics-qaoa-estimator.log
 
       - name: Upload QAOA estimator diagnostics log
         uses: actions/upload-artifact@v4

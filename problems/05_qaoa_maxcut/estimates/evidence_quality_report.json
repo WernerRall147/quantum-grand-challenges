@@ -1,0 +1,50 @@
+{
+  "status": "pass",
+  "estimates_dir": "C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\05_qaoa_maxcut\\estimates",
+  "thresholds": {
+    "min_depth_points": 2,
+    "min_noise_points": 5,
+    "min_depth_gain": 0.02,
+    "max_depth_step_regression": 0.15,
+    "min_noise_degradation": 0.05,
+    "max_noise_step_increase": 0.05,
+    "min_trials": 4
+  },
+  "depth_results": [
+    {
+      "instance": "small",
+      "points": 3.0,
+      "gain": 0.392708333333333
+    },
+    {
+      "instance": "medium",
+      "points": 2.0,
+      "gain": 0.027343749999999556
+    },
+    {
+      "instance": "large",
+      "points": 2.0,
+      "gain": 0.1976562499999992
+    }
+  ],
+  "noise_results": [
+    {
+      "instance": "small",
+      "depth": 3.0,
+      "points": 5.0,
+      "degradation": 0.23535156250000244
+    },
+    {
+      "instance": "medium",
+      "depth": 2.0,
+      "points": 5.0,
+      "degradation": 0.66748046875
+    },
+    {
+      "instance": "large",
+      "depth": 2.0,
+      "points": 5.0,
+      "degradation": 1.4286132812499766
+    }
+  ]
+}

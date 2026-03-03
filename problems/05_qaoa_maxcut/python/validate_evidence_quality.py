@@ -141,6 +141,16 @@ def main() -> None:
     parser.add_argument("--min-noise-degradation", type=float, default=0.05)
     parser.add_argument("--max-noise-step-increase", type=float, default=0.05)
     parser.add_argument("--min-trials", type=int, default=4)
+    parser.add_argument(
+        "--out-md",
+        default=None,
+        help="Optional markdown report output path. Defaults to <estimates-dir>/evidence_quality_report.md",
+    )
+    parser.add_argument(
+        "--out-json",
+        default=None,
+        help="Optional JSON report output path. Defaults to <estimates-dir>/evidence_quality_report.json",
+    )
     args = parser.parse_args()
 
     estimates_dir = Path(args.estimates_dir)
@@ -193,6 +203,69 @@ def main() -> None:
             )
         )
 
+    report_payload = {
+        "status": "pass",
+        "estimates_dir": str(estimates_dir),
+        "thresholds": {
+            "min_depth_points": args.min_depth_points,
+            "min_noise_points": args.min_noise_points,
+            "min_depth_gain": args.min_depth_gain,
+            "max_depth_step_regression": args.max_depth_step_regression,
+            "min_noise_degradation": args.min_noise_degradation,
+            "max_noise_step_increase": args.max_noise_step_increase,
+            "min_trials": args.min_trials,
+        },
+        "depth_results": depth_results,
+        "noise_results": noise_results,
+    }
+
+    out_md = Path(args.out_md) if args.out_md else estimates_dir / "evidence_quality_report.md"
+    out_json = Path(args.out_json) if args.out_json else estimates_dir / "evidence_quality_report.json"
+    if not out_md.is_absolute():
+        out_md = (Path.cwd() / out_md).resolve()
+    if not out_json.is_absolute():
+        out_json = (Path.cwd() / out_json).resolve()
+
+    out_json.parent.mkdir(parents=True, exist_ok=True)
+    out_json.write_text(json.dumps(report_payload, indent=2) + "\n", encoding="utf-8")
+
+    md_lines: List[str] = []
+    md_lines.append("# QAOA Evidence Quality Report")
+    md_lines.append("")
+    md_lines.append("Status: **pass**")
+    md_lines.append("")
+    md_lines.append("## Thresholds")
+    md_lines.append("")
+    md_lines.append("| Metric | Value |")
+    md_lines.append("|---|---:|")
+    md_lines.append(f"| Min depth points | {args.min_depth_points} |")
+    md_lines.append(f"| Min noise points | {args.min_noise_points} |")
+    md_lines.append(f"| Min depth gain | {args.min_depth_gain:.4f} |")
+    md_lines.append(f"| Max depth step regression | {args.max_depth_step_regression:.4f} |")
+    md_lines.append(f"| Min noise degradation | {args.min_noise_degradation:.4f} |")
+    md_lines.append(f"| Max noise step increase | {args.max_noise_step_increase:.4f} |")
+    md_lines.append(f"| Min trials | {args.min_trials} |")
+    md_lines.append("")
+    md_lines.append("## Depth Results")
+    md_lines.append("")
+    md_lines.append("| Instance | Points | Gain |")
+    md_lines.append("|---|---:|---:|")
+    for row in depth_results:
+        md_lines.append(f"| {row['instance']} | {int(row['points'])} | {row['gain']:.4f} |")
+    md_lines.append("")
+    md_lines.append("## Noise Results")
+    md_lines.append("")
+    md_lines.append("| Instance | Depth | Points | Degradation |")
+    md_lines.append("|---|---:|---:|---:|")
+    for row in noise_results:
+        md_lines.append(
+            f"| {row['instance']} | {int(row['depth'])} | {int(row['points'])} | {row['degradation']:.4f} |"
+        )
+    md_lines.append("")
+
+    out_md.parent.mkdir(parents=True, exist_ok=True)
+    out_md.write_text("\n".join(md_lines), encoding="utf-8")
+
     print("Evidence quality validation passed")
     for row in depth_results:
         print(
@@ -203,6 +276,8 @@ def main() -> None:
             f"  noise::{row['instance']}@d{int(row['depth'])}: points={int(row['points'])}, "
             f"degradation={row['degradation']:.4f}"
         )
+    print(f"Wrote {out_md}")
+    print(f"Wrote {out_json}")
 
 
 if __name__ == "__main__":

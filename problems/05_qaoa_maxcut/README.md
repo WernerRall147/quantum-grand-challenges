@@ -79,6 +79,8 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/noise_sweep_<instance>_d<depth>.md` – Markdown summary table for noise sweep results
 - `estimates/backend_assumptions.md` – Backend/transpilation/connectivity assumptions for reported runtime + estimator evidence
 - `python/validate_evidence_quality.py` – Enforces depth/noise evidence quality thresholds used by CI/automation
+- `estimates/evidence_quality_report.md` – Human-readable snapshot of depth/noise evidence threshold checks
+- `estimates/evidence_quality_report.json` – Machine-readable snapshot of depth/noise evidence threshold checks
 - `estimates/estimator_params_<instance>_d<depth>.json` – Estimator-ready parameter payload derived from the latest quantum baseline
 - `estimates/quantum_classical_summary.md` – Auto-generated markdown table comparing classical optimum vs quantum mean +/- CI
 - `estimates/estimator_profile_summary.md` – Auto-generated table summarizing latest estimator metrics across instances and targets
@@ -125,6 +127,7 @@ Current progress toward Stage C:
 - Hardware-targeted estimator routing is now wired through `python/prepare_estimator_params.py` and `tooling/estimator/run_estimation.py`.
 - Backend/transpilation/connectivity assumptions are now documented in `estimates/backend_assumptions.md` and checked via `python/validate_backend_assumptions.py`.
 - Depth/noise evidence quality is now enforced via `python/validate_evidence_quality.py` (minimum points, bounded monotonicity behavior, and minimum degradation/gain thresholds).
+- Quality checks now emit `estimates/evidence_quality_report.{md,json}` for reproducible CI/local audit trails.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

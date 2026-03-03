@@ -67,7 +67,7 @@ validate-assumptions:
 	$(PYTHON) python/validate_backend_assumptions.py
 
 validate-quality:
-	@echo "Validating depth/noise evidence quality thresholds..."
+	@echo "Validating depth/noise evidence quality thresholds and writing evidence_quality_report.* ..."
 	$(PYTHON) python/validate_evidence_quality.py
 
 evidence: classical run-all analyze estimate-all validate-assumptions validate-quality

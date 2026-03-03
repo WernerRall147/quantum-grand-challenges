@@ -247,6 +247,11 @@ jobs:
             assumptions_code=$?
             python problems/05_qaoa_maxcut/python/validate_evidence_quality.py >> diagnostics-qaoa-estimator.log 2>&1
             quality_code=$?
+            if [ -f "problems/05_qaoa_maxcut/estimates/evidence_quality_report.md" ]; then
+              echo "" >> diagnostics-qaoa-estimator.log
+              echo "--- evidence_quality_report.md ---" >> diagnostics-qaoa-estimator.log
+              cat problems/05_qaoa_maxcut/estimates/evidence_quality_report.md >> diagnostics-qaoa-estimator.log
+            fi
           fi
 
           if [ $estimate_code -eq 0 ] && [ $summary_code -eq 0 ] && [ $assumptions_code -eq 0 ] && [ $quality_code -eq 0 ]; then
@@ -269,7 +274,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ci-diagnostics-qaoa-estimator
-          path: diagnostics-qaoa-estimator.log
+          path: |
+            diagnostics-qaoa-estimator.log
+            problems/05_qaoa_maxcut/estimates/evidence_quality_report.md
+            problems/05_qaoa_maxcut/estimates/evidence_quality_report.json
           retention-days: 14
 
   diagnostics-summary:

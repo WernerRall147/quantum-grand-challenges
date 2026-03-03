@@ -211,10 +211,49 @@ jobs:
           path: diagnostics-website.log
           retention-days: 14
 
+  qaoa-estimator-check:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.capture.outputs.status }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install estimator dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml
+
+      - name: Run QAOA estimator diagnostics (mock)
+        id: capture
+        shell: bash
+        run: |
+          set +e
+          (cd problems/05_qaoa_maxcut && make estimate-all) > diagnostics-qaoa-estimator.log 2>&1
+          code=$?
+          if [ $code -eq 0 ]; then
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+          fi
+          echo "estimate_all_exit_code=$code" >> diagnostics-qaoa-estimator.log
+
+      - name: Upload QAOA estimator diagnostics log
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostics-qaoa-estimator
+          path: diagnostics-qaoa-estimator.log
+          retention-days: 14
+
   diagnostics-summary:
     runs-on: ubuntu-latest
     if: always()
-    needs: [policy-check, qae-runtime-check, qsharp-build-smoke, website-build-check]
+    needs: [policy-check, qae-runtime-check, qsharp-build-smoke, website-build-check, qaoa-estimator-check]
     steps:
       - name: Build diagnostics summary
         id: summarize
@@ -224,9 +263,10 @@ jobs:
           qae='${{ needs.qae-runtime-check.outputs.status }}'
           qsharp='${{ needs.qsharp-build-smoke.outputs.status }}'
           website='${{ needs.website-build-check.outputs.status }}'
+          qaoa='${{ needs.qaoa-estimator-check.outputs.status }}'
 
           failed=0
-          for status in "$policy" "$qae" "$qsharp" "$website"; do
+          for status in "$policy" "$qae" "$qsharp" "$website" "$qaoa"; do
             if [ "$status" != "pass" ]; then
               failed=1
             fi
@@ -239,12 +279,14 @@ jobs:
             echo "- QAE runtime + build: **$qae**"
             echo "- Q# smoke build: **$qsharp**"
             echo "- Website build: **$website**"
+            echo "- QAOA estimator (mock): **$qaoa**"
             echo
             echo "## Triage Tips"
             echo "- If policy fails: check DiVincenzo and stage contract sections in problem READMEs."
             echo "- If QAE runtime fails: inspect runtime config generation and net6.0 build logs."
             echo "- If Q# smoke build fails: inspect failing .csproj entries in qsharp build diagnostics."
             echo "- If website fails: inspect npm install/build output in website diagnostics log."
+            echo "- If QAOA estimator fails: inspect estimate-all output and ensure quantum_baseline_*_d1.json artifacts are present."
           } > ci-diagnostics-summary.md
 
           echo "failed=$failed" >> "$GITHUB_OUTPUT"

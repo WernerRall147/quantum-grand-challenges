@@ -80,6 +80,19 @@ def load_depth_sweeps(estimates_dir: Path) -> Dict[str, List[dict]]:
     return out
 
 
+def classify_trend(rows: List[dict], tolerance: float = 0.01) -> str:
+    if len(rows) < 2:
+        return "insufficient-data"
+    start = float(rows[0]["refined_mean"])
+    end = float(rows[-1]["refined_mean"])
+    delta = end - start
+    if delta > tolerance:
+        return "improving"
+    if delta < -tolerance:
+        return "regressing"
+    return "flat"
+
+
 def build_markdown(
     classical_best: Dict[str, float],
     selected_reports: Dict[str, dict],
@@ -115,15 +128,16 @@ def build_markdown(
         lines.append("")
         lines.append("## Depth Sweep Dashboard")
         lines.append("")
-        lines.append("| Instance | Depths | Best Refined Mean | Best Depth | Best Mean Gap |")
-        lines.append("|---|---|---:|---:|---:|")
+        lines.append("| Instance | Depths | Trend | Best Refined Mean | Best Depth | Best Mean Gap |")
+        lines.append("|---|---|---|---:|---:|---:|")
 
         for instance in sorted(depth_sweeps.keys()):
             rows = depth_sweeps[instance]
             depths_text = ", ".join(str(row["depth"]) for row in rows)
+            trend = classify_trend(rows)
             best = max(rows, key=lambda row: row["refined_mean"])
             lines.append(
-                f"| {instance} | {depths_text} | {best['refined_mean']:.4f} | {best['depth']} | {best['gap']:.4f} |"
+                f"| {instance} | {depths_text} | {trend} | {best['refined_mean']:.4f} | {best['depth']} | {best['gap']:.4f} |"
             )
 
     lines.append("")

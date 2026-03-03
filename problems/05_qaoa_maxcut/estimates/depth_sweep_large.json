@@ -1,0 +1,31 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "instance_id": "large",
+  "depths": [
+    1,
+    2
+  ],
+  "coarse_shots": 24,
+  "refined_shots": 96,
+  "trials": 4,
+  "records": [
+    {
+      "depth": 1,
+      "refined_mean": 3.9057291666666676,
+      "refined_ci95": 0.3107019352428578,
+      "coarse_mean": 4.766666666666667,
+      "mean_optimality_gap": 3.394270833333333,
+      "trials": 4,
+      "source": "quantum_baseline_large_d1.json"
+    },
+    {
+      "depth": 2,
+      "refined_mean": 4.103385416666667,
+      "refined_ci95": 0.324905634615349,
+      "coarse_mean": 4.857291666666667,
+      "mean_optimality_gap": 3.196614583333334,
+      "trials": 4,
+      "source": "quantum_baseline_large_d2.json"
+    }
+  ]
+}

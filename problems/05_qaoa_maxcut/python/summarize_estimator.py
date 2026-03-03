@@ -25,11 +25,25 @@ def parse_timestamp(value: Optional[str]) -> datetime:
 def discover_latest_by_instance_and_target(estimates_dir: Path) -> Dict[Tuple[str, str], dict]:
     latest: Dict[Tuple[str, str], dict] = {}
 
+    # Prefer stable latest artifacts when available.
+    for instance in ("small", "medium", "large"):
+        for target in TARGETS:
+            stable_path = estimates_dir / f"latest_{target}_{instance}.json"
+            if not stable_path.exists():
+                continue
+            try:
+                payload = json.loads(stable_path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                continue
+            latest[(instance, target)] = payload
+
     for path in sorted(estimates_dir.glob("*.json")):
         name = path.name
         if name.startswith("quantum_baseline_") or name.startswith("estimator_params_"):
             continue
         if name in {"classical_baseline.json", "latest.json"}:
+            continue
+        if name.startswith("latest_"):
             continue
 
         try:

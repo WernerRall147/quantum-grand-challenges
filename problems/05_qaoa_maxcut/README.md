@@ -68,6 +68,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/estimator_params_<instance>_d<depth>.json` – Estimator-ready parameter payload derived from the latest quantum baseline
 - `estimates/quantum_classical_summary.md` – Auto-generated markdown table comparing classical optimum vs quantum mean +/- CI
 - `estimates/estimator_profile_summary.md` – Auto-generated table summarizing latest estimator metrics across instances and targets
+- `estimates/latest_<target>_<instance>.json` – Stable latest estimator artifact for each target/instance pair (used by summary tooling)
 - `tooling/estimator/output/qaoa_summary_<instance>.json` – Combined estimator summary for QAOA targets (mock/live depending on invocation)
 - `plots/best_cut_values.png` – Visual comparison of Max-Cut values across instances
 - `plots/value_distribution_small.png` – Distribution of cut values for the small instance

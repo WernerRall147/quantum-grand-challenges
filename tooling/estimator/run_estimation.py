@@ -7,6 +7,7 @@ Runs Azure Quantum Resource Estimator with standardized targets and outputs.
 import argparse
 import json
 import math
+import re
 import subprocess
 import sys
 from datetime import datetime
@@ -291,6 +292,27 @@ class ResourceEstimator:
         self.problem_dir = Path(problem_dir)
         self.estimates_dir = self.problem_dir / "estimates"
         self.estimates_dir.mkdir(exist_ok=True)
+
+    @staticmethod
+    def _normalize_label(value: object) -> Optional[str]:
+        text = str(value).strip().lower()
+        if not text:
+            return None
+        normalized = re.sub(r"[^a-z0-9_-]+", "_", text)
+        normalized = re.sub(r"_+", "_", normalized).strip("_")
+        return normalized or None
+
+    @staticmethod
+    def _extract_instance_label(payload: Dict[str, Any]) -> Optional[str]:
+        params = payload.get("instance", {}).get("parameters", {})
+        if not isinstance(params, dict):
+            return None
+        for key in ("instance", "size", "name"):
+            if key in params:
+                label = ResourceEstimator._normalize_label(params.get(key))
+                if label:
+                    return label
+        return None
         
     def run_estimation(self, 
                       target_name: str,
@@ -409,6 +431,19 @@ class ResourceEstimator:
             latest_file = self.estimates_dir / "latest.json"
             with open(latest_file, 'w') as f:
                 json.dump(standardized, f, indent=2)
+
+            # Maintain stable latest artifacts per target and per target+instance.
+            latest_target_file = self.estimates_dir / f"latest_{target_name}.json"
+            with open(latest_target_file, 'w') as f:
+                json.dump(standardized, f, indent=2)
+
+            instance_label = self._extract_instance_label(standardized)
+            if instance_label:
+                latest_target_instance_file = (
+                    self.estimates_dir / f"latest_{target_name}_{instance_label}.json"
+                )
+                with open(latest_target_instance_file, 'w') as f:
+                    json.dump(standardized, f, indent=2)
                 
             return standardized
             

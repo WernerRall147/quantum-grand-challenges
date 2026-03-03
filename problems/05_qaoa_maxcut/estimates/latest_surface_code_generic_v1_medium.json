@@ -8,59 +8,35 @@
         [
           0.0,
           1.0,
-          0.0,
-          0.6,
-          0.0,
-          0.8
+          0.5,
+          1.0
         ],
         [
           1.0,
           0.0,
-          0.7,
-          0.0,
-          0.4,
+          1.0,
           0.0
         ],
         [
-          0.0,
-          0.7,
-          0.0,
-          1.1,
-          0.0,
-          0.5
-        ],
-        [
-          0.6,
-          0.0,
-          1.1,
-          0.0,
-          0.9,
-          0.0
-        ],
-        [
-          0.0,
-          0.4,
-          0.0,
-          0.9,
-          0.0,
-          1.3
-        ],
-        [
-          0.8,
-          0.0,
           0.5,
+          1.0,
           0.0,
-          1.3,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          1.0,
           0.0
         ]
       ],
       "depth": 1,
       "coarseShots": 24,
       "refinedShots": 96,
-      "bestBeta": 0.9,
-      "bestGamma": 0.3,
-      "instance": "large",
-      "sourceQuantumArtifact": "estimates\\quantum_baseline_large_d1.json"
+      "bestBeta": 0.7,
+      "bestGamma": 0.9,
+      "instance": "medium",
+      "sourceQuantumArtifact": "estimates\\quantum_baseline_medium_d1.json"
     }
   },
   "estimator_target": "surface_code_generic_v1",
@@ -74,14 +50,14 @@
     "runtime_days": 0.005555555555555556
   },
   "build": {
-    "commit": "7f9b6ec9de327e896611f9bfe56fab6628165d75",
+    "commit": "9b2803d6875f3ffbe10d7b8c457c5e9c87645d9f",
     "qdk_version": "mock",
     "estimator_version": "mock-surface_code_generic_v1",
-    "date_utc": "2026-03-03T15:46:40.074057Z"
+    "date_utc": "2026-03-03T15:57:30.855048Z"
   },
   "notes": "Estimated using surface_code_generic_v1 target profile",
   "_metadata": {
-    "artifact_path": "05_qaoa_maxcut/estimates/surface_code_generic_v1_2026-03-03T154640.074057Z.json",
-    "generated_at_utc": "2026-03-03T15:46:40.074057Z"
+    "artifact_path": "05_qaoa_maxcut/estimates/surface_code_generic_v1_2026-03-03T155730.855048Z.json",
+    "generated_at_utc": "2026-03-03T15:57:30.855048Z"
   }
 }

@@ -80,6 +80,10 @@ jobs:
       run: |
         python problems/05_qaoa_maxcut/python/validate_backend_assumptions.py
 
+    - name: Verify QAOA evidence quality thresholds
+      run: |
+        python problems/05_qaoa_maxcut/python/validate_evidence_quality.py
+
     - name: Generate QAE runtime config
       run: |
         python problems/03_qae_risk/python/write_runtime_config.py \

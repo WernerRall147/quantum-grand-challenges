@@ -27,6 +27,7 @@ make run-all        # Run depth-configurable QAOA for small/medium/large and wri
 make depth-sweep INSTANCE=small DEPTHS=1,2,3 TRIALS=6  # Generate depth-vs-quality evidence artifacts
 make noise-sweep INSTANCE=small DEPTH=3 NOISE_LEVELS=0.00,0.01,0.02,0.05,0.10  # Generate readout-noise sensitivity artifacts
 make validate-assumptions  # Validate backend/transpilation/connectivity assumptions evidence
+make validate-quality  # Validate depth/noise quality thresholds for Stage C evidence
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
 make estimate-all   # Build estimator params, run estimator automation for small/medium/large, prune stale artifacts, and refresh markdown summary
 make estimate ESTIMATE_MOCK=0  # Optional: run estimator automation without mock mode
@@ -77,6 +78,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/noise_sweep_<instance>_d<depth>.json` – Readout-noise sensitivity sweep metrics for a selected baseline depth
 - `estimates/noise_sweep_<instance>_d<depth>.md` – Markdown summary table for noise sweep results
 - `estimates/backend_assumptions.md` – Backend/transpilation/connectivity assumptions for reported runtime + estimator evidence
+- `python/validate_evidence_quality.py` – Enforces depth/noise evidence quality thresholds used by CI/automation
 - `estimates/estimator_params_<instance>_d<depth>.json` – Estimator-ready parameter payload derived from the latest quantum baseline
 - `estimates/quantum_classical_summary.md` – Auto-generated markdown table comparing classical optimum vs quantum mean +/- CI
 - `estimates/estimator_profile_summary.md` – Auto-generated table summarizing latest estimator metrics across instances and targets
@@ -122,6 +124,7 @@ Current progress toward Stage C:
 - Large-instance uncertainty report is now available in `estimates/quantum_baseline_large_d1.json`.
 - Hardware-targeted estimator routing is now wired through `python/prepare_estimator_params.py` and `tooling/estimator/run_estimation.py`.
 - Backend/transpilation/connectivity assumptions are now documented in `estimates/backend_assumptions.md` and checked via `python/validate_backend_assumptions.py`.
+- Depth/noise evidence quality is now enforced via `python/validate_evidence_quality.py` (minimum points, bounded monotonicity behavior, and minimum degradation/gain thresholds).
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

@@ -57,6 +57,16 @@ Stage C evidence references for this problem:
 - Classical comparison artifacts in `python/classical_baseline.py`, `estimates/classical_baseline.json`, and `plots/`.
 - Circuit construction and control assumptions documented in the implementation summary and problem-local Q# sources.
 
+## DiVincenzo Readiness (Stage C/D Overlay)
+
+| Criterion | Status | Evidence / Notes |
+|---|---|---|
+| Scalable qubit system | partial | Simulator-backed scaling evidence spans small to large instances; hardware resource-estimation evidence is not yet complete. |
+| Initialization | met | Initial-state preparation for canonical Grover flow is explicit in `qsharp/Program.qs` and validated in simulator runs. |
+| Coherence vs gate time | not-yet | Backend-calibrated coherence-vs-depth evidence is not yet included; current validation is simulator-centric. |
+| Universal gate set | met | Canonical Grover oracle/diffuser workflow is implemented in Q# with documented circuit assumptions. |
+| Qubit-specific measurement | partial | Measurement and success-rate validation are documented in simulator studies; hardware readout characterization is pending. |
+
 ## Advantage Claim Contract
 
 - **Claim category (current)**: `projected`.

@@ -125,6 +125,7 @@ problems/XX_problem_name/
 - Write clear commit messages
 - Include tests for new functionality
 - Update documentation for any changes
+- Keep website governance messaging in sync with docs changes (at minimum `website/data/projectStatus.ts` and `website/pages/index.tsx` when stage policy or objective-gate text changes)
 - Ensure all code compiles and tests pass
 
 ### Resource Estimation

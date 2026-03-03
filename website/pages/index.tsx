@@ -145,6 +145,7 @@ export default function Home() {
             <li><strong>✅ Stage C Tracks:</strong> QAE Risk Analysis and Database Search are policy-enforced at Stage C</li>
             <li><strong>🟢 Stage B Tracks:</strong> Eighteen additional problems are baseline-complete and queued for Stage C promotion</li>
             <li><strong>✅ Governance Automation:</strong> CI enforces maturity policy and publishes markdown/JSON KPI artifacts</li>
+            <li><strong>✅ Hardware Readiness Overlay:</strong> DiVincenzo criteria are policy-enforced and documented across all 20 problem READMEs</li>
             <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
             <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
             <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>
@@ -153,7 +154,7 @@ export default function Home() {
           <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
             <h3 style={{ marginTop: 0, color: '#10b981' }}>🎉 Latest Achievement: Stage-Gated Portfolio Rollout</h3>
             <p style={{ color: '#666', marginBottom: 0 }}>
-              Maturity gates, contract coverage, KPI reporting, and CI policy enforcement are now active across all 20 challenge tracks.
+              Maturity gates, contract coverage, KPI reporting, CI policy enforcement, and DiVincenzo readiness overlay are now active across all 20 challenge tracks.
               This creates a single evidence standard for promoting Stage B scaffolds to Stage C implementations and future Stage D claims.
             </p>
           </div>

@@ -71,6 +71,16 @@ Stage C exit criteria for this problem:
 - Document transpilation and connectivity assumptions used for hardware-aware or estimator-backed runs.
 - Include calibration or validation artifacts that quantify drift/sensitivity of reported quantum metrics.
 
+## DiVincenzo Readiness (Stage C/D Overlay)
+
+| Criterion | Status | Evidence / Notes |
+|---|---|---|
+| Scalable qubit system | partial | Two-site model is intentionally small; scalable resource projections will be added once non-analytical quantum kernels are benchmarked. |
+| Initialization | partial | Initial-state assumptions for analytical parity are clear, but hardware-ready state-preparation routines are pending. |
+| Coherence vs gate time | not-yet | No backend-calibrated coherence-vs-depth evidence yet because Stage C kernel execution is still pending. |
+| Universal gate set | partial | Q# scaffold compiles and runs, but full gate-level decomposition for VQE/QPE kernels is a Stage C task. |
+| Qubit-specific measurement | partial | Measurement semantics are defined in the scaffold; hardware readout error characterization is pending. |
+
 ## Advantage Claim Contract
 
 - **Claim category (current)**: `theoretical`.

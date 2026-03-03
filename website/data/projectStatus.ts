@@ -12,7 +12,7 @@ export const pipelineStages = [
   {
     title: 'Stage C - Implemented Kernel',
     description:
-      'Ship a working quantum kernel with benchmarked behavior, bounded uncertainty, and explicit evidence links.',
+      'Ship a working quantum kernel with benchmarked behavior, bounded uncertainty, explicit evidence links, and DiVincenzo readiness coverage.',
   },
   {
     title: 'Stage D - Advantage Claim',

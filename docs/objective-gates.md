@@ -40,6 +40,51 @@ Required evidence:
 - Claim category explicitly tagged: `theoretical`, `projected`, or `demonstrated`.
 - Residual risks and assumption sensitivities documented.
 
+## DiVincenzo Readiness Overlay
+
+Use this as a hardware-realism overlay on top of Stages A-D. It does not replace stage gates; it strengthens Stage C/D evidence quality.
+
+### Criteria Coverage
+
+Track these criteria per problem as `met`, `partial`, `not-yet`, or `not-applicable` with one-line evidence notes:
+
+- **Scalable physical system with well-characterized qubits**: map to logical/physical qubit counts, architecture assumptions, and calibration context.
+- **Initialization capability**: document state-preparation assumptions and reset/initialization path.
+- **Coherence long relative to gate/measurement times**: document noise model, depth/runtime relation, and error-budget assumptions.
+- **Universal gate set**: document gate-basis assumptions, decomposition/transpilation notes, and unsupported operations.
+- **Qubit-specific measurement**: document readout model, measurement fidelity assumptions, and post-processing dependence.
+
+Optional (only when relevant to communication-oriented tracks):
+
+- **Interconversion between stationary and flying qubits**.
+- **Faithful transmission of flying qubits**.
+
+### Stage Expectations With Overlay
+
+- **Stage A/B**: optional qualitative notes are recommended but not blocking.
+- **Stage C**: all five compute-oriented criteria should be present with at least `partial` or a justified `not-applicable` tag.
+- **Stage D**: no unresolved `not-yet` entries in criteria required by the claim scope; residual gaps must appear in the Risk section of the Advantage Claim Contract.
+
+### Minimal README Snippet
+
+Add this section to each problem README during Stage C promotion:
+
+```markdown
+## DiVincenzo Readiness (Stage C/D Overlay)
+
+| Criterion | Status | Evidence / Notes |
+|---|---|---|
+| Scalable qubit system | partial | Logical/physical qubit projections from estimator runs. |
+| Initialization | met | Explicit state-preparation and reset path documented. |
+| Coherence vs gate time | partial | Error budget and runtime/depth assumptions reported. |
+| Universal gate set | met | Canonical gate decomposition documented in qsharp notes. |
+| Qubit-specific measurement | partial | Readout assumptions and uncertainty bars included. |
+```
+
+Policy recommendation:
+
+- Extend `tooling/reporting/maturity-policy.json` over time with DiVincenzo-compliance checks once README adoption is complete.
+
 ## Advantage Claim Template
 
 Add this section to each problem README once Stage B is reached:
@@ -114,6 +159,7 @@ Current rollout:
 
 - All 20 problems now have explicit enforced per-problem stage thresholds in `tooling/reporting/maturity-policy.json`.
 - Stage C is enforced for `03_qae_risk` and `15_database_search`; Stage B is enforced for remaining tracks.
+- DiVincenzo readiness sections are now present across all 20 problem READMEs, enabling full-policy enforcement.
 
 Persistent publication:
 
@@ -123,6 +169,6 @@ Persistent publication:
 ## Rollout Guidance
 
 1. Start with pilot problems that already have complete pipelines (`03_qae_risk`, `15_database_search`, `01_hubbard`).
-2. Add gate and claim sections to each problem README.
+2. Add gate, claim, and DiVincenzo-readiness sections to each problem README.
 3. Update root `README.md` status rows to use stage labels.
 4. Promote stages only when evidence artifacts are committed.

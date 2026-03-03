@@ -74,6 +74,16 @@ Stage C exit criteria for this problem:
 - Document transpilation/connectivity and backend assumptions used for reported quantum runs.
 - Add calibration/noise-sensitivity evidence for the reported quantum metrics.
 
+## DiVincenzo Readiness (Stage C/D Overlay)
+
+| Criterion | Status | Evidence / Notes |
+|---|---|---|
+| Scalable qubit system | partial | Estimator-backed 2x2 HHL resources are reported (18.7k physical qubits); scaling evidence for larger systems is still in progress. |
+| Initialization | partial | RHS-vector state preparation is implemented for the current HHL path; robust loading for larger instances remains open. |
+| Coherence vs gate time | partial | Runtime/T-gate estimates are available, but backend-calibrated coherence margin evidence is pending Stage C hardening. |
+| Universal gate set | met | QPE, inverse QFT, controlled evolutions, and inversion rotations are implemented in the Q# HHL workflow. |
+| Qubit-specific measurement | partial | Success-probability and post-selection behavior are documented; hardware readout uncertainty characterization is pending. |
+
 ## Advantage Claim Contract
 
 - **Claim category (current)**: `theoretical`.

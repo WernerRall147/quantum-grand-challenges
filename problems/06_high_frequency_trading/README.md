@@ -62,6 +62,15 @@ Stage C exit criteria for this problem:
 - Document transpilation/connectivity and backend assumptions used for reported quantum runs.
 - Add calibration/noise-sensitivity evidence for the reported quantum metrics.
 
+## DiVincenzo Readiness (Stage C/D Overlay)
+
+| Criterion | Status | Evidence / Notes |
+|---|---|---|
+| Scalable qubit system | partial | Problem-scoped instance baselines are in place; full hardware-scale projections are tracked as Stage C work. |
+| Initialization | partial | Input/state initialization path is defined for current workflows, with backend-ready loading fidelity still to be hardened. |
+| Coherence vs gate time | not-yet | Backend-calibrated coherence-vs-depth evidence is pending and required for Stage C/D promotion. |
+| Universal gate set | partial | Q# scaffold/build path exists; gate-basis decomposition and transpilation evidence remain Stage C tasks. |
+| Qubit-specific measurement | partial | Measurement outputs are defined for current validation flows; hardware readout characterization is pending. |
 ## Advantage Claim Contract
 
 - **Claim category (current)**: `theoretical`.

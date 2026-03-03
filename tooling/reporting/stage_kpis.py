@@ -32,6 +32,7 @@ class ProblemKpi:
     readme: str
     stage: Optional[str]
     has_advantage_contract: bool
+    has_divincenzo_readiness: bool
 
 
 @dataclass
@@ -68,6 +69,10 @@ def detect_stage(text: str) -> Optional[str]:
 
 def has_advantage_contract(text: str) -> bool:
     return "## Advantage Claim Contract" in text
+
+
+def has_divincenzo_readiness(text: str) -> bool:
+    return "## DiVincenzo Readiness (Stage C/D Overlay)" in text
 
 
 def summarize(records: List[ProblemKpi]) -> Summary:
@@ -114,6 +119,7 @@ def collect_problem_kpis(repo_root: Path) -> List[ProblemKpi]:
                     readme=str(readme.relative_to(repo_root)),
                     stage=None,
                     has_advantage_contract=False,
+                    has_divincenzo_readiness=False,
                 )
             )
             continue
@@ -125,6 +131,7 @@ def collect_problem_kpis(repo_root: Path) -> List[ProblemKpi]:
                 readme=str(readme.relative_to(repo_root)),
                 stage=detect_stage(text),
                 has_advantage_contract=has_advantage_contract(text),
+                has_divincenzo_readiness=has_divincenzo_readiness(text),
             )
         )
 
@@ -218,6 +225,17 @@ def _policy_require_advantage_contract(payload: Dict[str, object]) -> bool:
     return bool(payload.get("require_advantage_contract", True))
 
 
+def _policy_require_divincenzo_readiness(payload: Dict[str, object]) -> bool:
+    return bool(payload.get("require_divincenzo_readiness", False))
+
+
+def _policy_required_divincenzo_problems(payload: Dict[str, object]) -> List[str]:
+    value = payload.get("required_divincenzo_problems", [])
+    if not isinstance(value, list):
+        return []
+    return [str(v) for v in value]
+
+
 def _normalize_stage(value: object) -> Optional[str]:
     if value is None:
         return None
@@ -269,9 +287,13 @@ def evaluate_policy(
     required = set(_policy_required_problems(policy))
     req_stage = _policy_require_stage(policy)
     req_contract = _policy_require_advantage_contract(policy)
+    req_divincenzo = _policy_require_divincenzo_readiness(policy)
     min_stage = _policy_minimum_stage(policy)
     per_problem_min_stage = _policy_per_problem_minimum_stage(policy)
     advisory_target_stage = _policy_advisory_target_stage(policy)
+    required_divincenzo = set(_policy_required_divincenzo_problems(policy))
+    if req_divincenzo and not required_divincenzo:
+        required_divincenzo = set(required)
 
     by_problem = {rec.problem: rec for rec in records}
     violations: List[str] = []
@@ -291,6 +313,17 @@ def evaluate_policy(
             )
         if req_contract and not rec.has_advantage_contract:
             violations.append(f"{problem}: missing '## Advantage Claim Contract' section")
+
+    if req_divincenzo:
+        for problem in sorted(required_divincenzo):
+            rec = by_problem.get(problem)
+            if rec is None:
+                violations.append(f"Missing required problem directory: {problem}")
+                continue
+            if not rec.has_divincenzo_readiness:
+                violations.append(
+                    f"{problem}: missing '## DiVincenzo Readiness (Stage C/D Overlay)' section"
+                )
 
     advisory_gaps: List[str] = []
     advisory_total = 0
@@ -312,6 +345,8 @@ def evaluate_policy(
         "required_problems": sorted(required),
         "require_stage": req_stage,
         "require_advantage_contract": req_contract,
+        "require_divincenzo_readiness": req_divincenzo,
+        "required_divincenzo_problems": sorted(required_divincenzo),
         "minimum_stage": min_stage,
         "per_problem_minimum_stage": per_problem_min_stage,
         "advisory_target_stage": advisory_target_stage,

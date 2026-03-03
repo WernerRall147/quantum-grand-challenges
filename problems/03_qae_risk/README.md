@@ -104,6 +104,16 @@ Stage C evidence references for this problem:
 - Runtime mapping and execution assumptions: `qsharp/RuntimeConfig.qs` generated via `python/write_runtime_config.py`; layout overhead and estimator assumptions documented in this README and `QAE_IMPLEMENTATION_SUMMARY.md`.
 - Validation-oriented claim language synchronized in `README.md`, this problem README, and `docs/QAE_PROJECT_COMPLETION.md`.
 
+## DiVincenzo Readiness (Stage C/D Overlay)
+
+| Criterion | Status | Evidence / Notes |
+|---|---|---|
+| Scalable qubit system | met | Logical/physical resource estimates are tracked per architecture in `estimates/` and summarized in this README. |
+| Initialization | partial | Distribution loading and threshold marking are documented, but production-grade portfolio data loaders are still future work. |
+| Coherence vs gate time | partial | Runtime and T-state projections are available; backend-calibrated coherence margins remain part of Stage D hardening. |
+| Universal gate set | met | Canonical QAE with Grover + QPE is implemented in `qsharp/Program.qs` and compiled through supported Q# toolchain assumptions. |
+| Qubit-specific measurement | partial | Ensemble-based uncertainty artifacts exist (`estimates/quantum_estimate_ensemble.json`), but hardware readout characterization is still pending. |
+
 ## Results Summary
 
 **Test Case**: 4 loss qubits (16 levels), 6 precision qubits, log-normal(0,1), threshold=2.5, theoretical tail probability 18.98%

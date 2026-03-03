@@ -25,6 +25,7 @@ make build          # Build the Q# project (requires .NET 6.0 runtime)
 make run            # Run depth-configurable QAOA with multi-trial uncertainty summary + JSON output
 make run-all        # Run depth-configurable QAOA for small/medium/large and write quantum artifacts
 make depth-sweep INSTANCE=small DEPTHS=1,2,3 TRIALS=6  # Generate depth-vs-quality evidence artifacts
+make noise-sweep INSTANCE=small DEPTH=3 NOISE_LEVELS=0.00,0.01,0.02,0.05,0.10  # Generate readout-noise sensitivity artifacts
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
 make estimate-all   # Build estimator params, run estimator automation for small/medium/large, prune stale artifacts, and refresh markdown summary
 make estimate ESTIMATE_MOCK=0  # Optional: run estimator automation without mock mode
@@ -51,6 +52,7 @@ Windows helper script (recommended in PowerShell):
 .\tooling\windows\qaoa-maxcut.ps1 -Action run -Instance small
 .\tooling\windows\qaoa-maxcut.ps1 -Action run-all
 .\tooling\windows\qaoa-maxcut.ps1 -Action depth-sweep -Instance small -Depths 1,2,3
+.\tooling\windows\qaoa-maxcut.ps1 -Action noise-sweep -Instance small -Depth 3 -NoiseLevels 0.00,0.01,0.02,0.05,0.10
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate-all
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small -LiveEstimate
@@ -71,6 +73,8 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/quantum_baseline_<instance>_d<depth>.json` – Multi-trial QAOA statistics with confidence intervals
 - `estimates/depth_sweep_<instance>.json` – Aggregated depth sweep metrics for the selected instance
 - `estimates/depth_sweep_<instance>.md` – Markdown summary table for depth sweep results
+- `estimates/noise_sweep_<instance>_d<depth>.json` – Readout-noise sensitivity sweep metrics for a selected baseline depth
+- `estimates/noise_sweep_<instance>_d<depth>.md` – Markdown summary table for noise sweep results
 - `estimates/estimator_params_<instance>_d<depth>.json` – Estimator-ready parameter payload derived from the latest quantum baseline
 - `estimates/quantum_classical_summary.md` – Auto-generated markdown table comparing classical optimum vs quantum mean +/- CI
 - `estimates/estimator_profile_summary.md` – Auto-generated table summarizing latest estimator metrics across instances and targets
@@ -81,6 +85,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `plots/value_distribution_small.png` – Distribution of cut values for the small instance
 - `plots/quantum_vs_classical_uncertainty.png` – Quantum refined expectation versus classical optimum with 95% CI bars
 - `plots/qaoa_depth_sweep_<instance>.png` – Refined expectation versus depth with 95% CI bars
+- `plots/qaoa_noise_sweep_<instance>_d<depth>.png` – Refined cut-value sensitivity across readout-noise levels
 - `qsharp/bin/Release/net6.0/QaoaMaxCut.dll` – Compiled Q# QAOA implementation
 
 ## Current Baseline
@@ -107,6 +112,10 @@ Current progress toward Stage C:
 - Depth sweep evidence (`d=1,2,3`) for the small instance is available in `estimates/depth_sweep_small.md`, showing improved refined mean from `1.5255` (d=1) to `1.9182` (d=3).
 - Medium-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_medium.md` (best refined mean `2.8893` at depth 2).
 - Large-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_large.md` (best refined mean `4.1034` at depth 2).
+- Noise-sensitivity sweeps can now be generated via `make noise-sweep` (or `python/noise_sweep.py`) and are surfaced in the summary dashboard when present.
+- Small-instance noise sweep at depth 3 is available in `estimates/noise_sweep_small_d3.md` (degrades from `2.2000` at `p=0.00` to `1.9646` at `p=0.10`).
+- Medium-instance noise sweep at depth 2 is available in `estimates/noise_sweep_medium_d2.md` (degrades from `4.0000` at `p=0.00` to `3.3325` at `p=0.10`).
+- Large-instance noise sweep at depth 2 is available in `estimates/noise_sweep_large_d2.md` (degrades from `7.3000` at `p=0.00` to `5.8714` at `p=0.10`).
 - Medium-instance uncertainty report is now available in `estimates/quantum_baseline_medium_d1.json`.
 - Large-instance uncertainty report is now available in `estimates/quantum_baseline_large_d1.json`.
 - Hardware-targeted estimator routing is now wired through `python/prepare_estimator_params.py` and `tooling/estimator/run_estimation.py`.

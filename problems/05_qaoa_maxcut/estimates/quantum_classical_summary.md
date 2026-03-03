@@ -15,3 +15,11 @@ This summary is auto-generated from `estimates/classical_baseline.json` and `est
 | large | 1, 2 | improving | 4.1034 | 2 | 3.1966 |
 | medium | 1, 2 | improving | 2.8893 | 2 | 1.1107 |
 | small | 1, 2, 3 | improving | 1.9182 | 3 | 0.2818 |
+
+## Noise Sweep Dashboard
+
+| Instance/Depth | Noise Levels | Low-Noise Mean (p=min) | High-Noise Mean (p=max) | Degradation |
+|---|---|---:|---:|---:|
+| large::d2 | 0.000, 0.010, 0.020, 0.050, 0.100 | 7.3000 | 5.8714 | 1.4286 |
+| medium::d2 | 0.000, 0.010, 0.020, 0.050, 0.100 | 4.0000 | 3.3325 | 0.6675 |
+| small::d3 | 0.000, 0.010, 0.020, 0.050, 0.100 | 2.2000 | 1.9646 | 0.2354 |

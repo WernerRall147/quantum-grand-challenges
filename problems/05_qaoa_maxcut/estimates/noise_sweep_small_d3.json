@@ -1,0 +1,60 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "instance_id": "small",
+  "depth": 3,
+  "source_quantum_report": "quantum_baseline_small_d3.json",
+  "noise_model": {
+    "type": "independent_bit_flip",
+    "description": "Each bit in each trial best assignment is flipped independently with probability p."
+  },
+  "classical_optimum": 2.2,
+  "seed": 1337,
+  "samples_per_trial": 256,
+  "records": [
+    {
+      "noise": 0.0,
+      "samples_per_trial": 256,
+      "trial_count": 4,
+      "noisy_mean": 2.199999999999997,
+      "noisy_std": 0.0,
+      "noisy_ci95": 0.0,
+      "mean_optimality_gap": 3.1086244689504383e-15
+    },
+    {
+      "noise": 0.01,
+      "samples_per_trial": 256,
+      "trial_count": 4,
+      "noisy_mean": 2.1765624999999966,
+      "noisy_std": 0.007493486755176315,
+      "noisy_ci95": 0.007343617020072789,
+      "mean_optimality_gap": 0.023437500000003553
+    },
+    {
+      "noise": 0.02,
+      "samples_per_trial": 256,
+      "trial_count": 4,
+      "noisy_mean": 2.148242187499996,
+      "noisy_std": 0.0041524007080996714,
+      "noisy_ci95": 0.004069352693937678,
+      "mean_optimality_gap": 0.051757812500004
+    },
+    {
+      "noise": 0.05,
+      "samples_per_trial": 256,
+      "trial_count": 4,
+      "noisy_mean": 2.0753906249999954,
+      "noisy_std": 0.025781250000000734,
+      "noisy_ci95": 0.025265625000000718,
+      "mean_optimality_gap": 0.1246093750000048
+    },
+    {
+      "noise": 0.1,
+      "samples_per_trial": 256,
+      "trial_count": 4,
+      "noisy_mean": 1.9646484374999946,
+      "noisy_std": 0.023379920591160078,
+      "noisy_ci95": 0.022912322179336874,
+      "mean_optimality_gap": 0.23535156250000555
+    }
+  ]
+}

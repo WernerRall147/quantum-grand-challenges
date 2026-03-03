@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "depth-sweep", "classical", "analyze", "estimate", "estimate-all", "evidence")]
+    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -8,6 +8,8 @@ param(
     [int]$RefinedShots = 96,
     [int]$Trials = 6,
     [string]$Depths = "1,2,3",
+    [string]$NoiseLevels = "0.00,0.01,0.02,0.05,0.10",
+    [int]$NoiseSamples = 256,
     [switch]$LiveEstimate,
     [switch]$Quick,
     [switch]$NoBuild
@@ -80,6 +82,22 @@ function Invoke-DepthSweep {
     try {
         & $pythonExe python/depth_sweep.py --instance $TargetInstance --depths $Depths --coarse-shots $effectiveCoarseShots --refined-shots $effectiveRefinedShots --trials $effectiveTrials
         if ($LASTEXITCODE -ne 0) { throw "Depth sweep failed for instance '$TargetInstance'." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-NoiseSweep {
+    param(
+        [string]$TargetInstance
+    )
+
+    Write-Host "Running noise sweep for '$TargetInstance' (depth=$Depth, levels=$NoiseLevels, samples=$NoiseSamples)..." -ForegroundColor Cyan
+    Push-Location $problemRoot
+    try {
+        & $pythonExe python/noise_sweep.py --instance $TargetInstance --depth $Depth --noise-levels $NoiseLevels --samples-per-trial $NoiseSamples
+        if ($LASTEXITCODE -ne 0) { throw "Noise sweep failed for instance '$TargetInstance'." }
     }
     finally {
         Pop-Location
@@ -205,6 +223,9 @@ switch ($Action) {
             Invoke-Build
         }
         Invoke-DepthSweep -TargetInstance $Instance
+    }
+    "noise-sweep" {
+        Invoke-NoiseSweep -TargetInstance $Instance
     }
     "analyze" {
         Invoke-Analyze

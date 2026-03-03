@@ -93,10 +93,43 @@ def classify_trend(rows: List[dict], tolerance: float = 0.01) -> str:
     return "flat"
 
 
+def load_noise_sweeps(estimates_dir: Path) -> Dict[str, List[dict]]:
+    out: Dict[str, List[dict]] = {}
+    for path in sorted(estimates_dir.glob("noise_sweep_*_d*.json")):
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        instance = str(payload.get("instance_id", "")).strip()
+        depth = int(payload.get("depth", 1))
+        rows = payload.get("records", [])
+        if not instance or not isinstance(rows, list):
+            continue
+
+        normalized: List[dict] = []
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            normalized.append(
+                {
+                    "noise": float(row.get("noise", 0.0)),
+                    "noisy_mean": float(row.get("noisy_mean", 0.0)),
+                    "noisy_ci95": float(row.get("noisy_ci95", 0.0)),
+                    "gap": float(row.get("mean_optimality_gap", 0.0)),
+                }
+            )
+
+        if not normalized:
+            continue
+
+        normalized.sort(key=lambda r: r["noise"])
+        key = f"{instance}::d{depth}"
+        out[key] = normalized
+    return out
+
+
 def build_markdown(
     classical_best: Dict[str, float],
     selected_reports: Dict[str, dict],
     depth_sweeps: Dict[str, List[dict]],
+    noise_sweeps: Dict[str, List[dict]],
 ) -> str:
     lines: List[str] = []
     lines.append("# QAOA Quantum vs Classical Summary")
@@ -140,6 +173,23 @@ def build_markdown(
                 f"| {instance} | {depths_text} | {trend} | {best['refined_mean']:.4f} | {best['depth']} | {best['gap']:.4f} |"
             )
 
+    if noise_sweeps:
+        lines.append("")
+        lines.append("## Noise Sweep Dashboard")
+        lines.append("")
+        lines.append("| Instance/Depth | Noise Levels | Low-Noise Mean (p=min) | High-Noise Mean (p=max) | Degradation |")
+        lines.append("|---|---|---:|---:|---:|")
+
+        for key in sorted(noise_sweeps.keys()):
+            rows = noise_sweeps[key]
+            low = rows[0]
+            high = rows[-1]
+            levels = ", ".join(f"{row['noise']:.3f}" for row in rows)
+            degradation = low["noisy_mean"] - high["noisy_mean"]
+            lines.append(
+                f"| {key} | {levels} | {low['noisy_mean']:.4f} | {high['noisy_mean']:.4f} | {degradation:.4f} |"
+            )
+
     lines.append("")
     return "\n".join(lines)
 
@@ -161,9 +211,10 @@ def main() -> None:
     classical_best = load_classical_best(estimates_dir)
     selected = pick_best_report_per_instance(reports)
     depth_sweeps = load_depth_sweeps(estimates_dir)
+    noise_sweeps = load_noise_sweeps(estimates_dir)
 
     output_path = estimates_dir / "quantum_classical_summary.md"
-    output_path.write_text(build_markdown(classical_best, selected, depth_sweeps), encoding="utf-8")
+    output_path.write_text(build_markdown(classical_best, selected, depth_sweeps, noise_sweeps), encoding="utf-8")
 
     try:
         rel = output_path.resolve().relative_to(Path.cwd().resolve())

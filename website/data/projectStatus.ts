@@ -35,7 +35,7 @@ export const activeWorkQueue = [
   {
     title: '05 QAOA MaxCut',
     description:
-      'Replace placeholder logic with parameterized QAOA layers and approximation-ratio evidence needed for Stage C.',
+      'Depth-1 parameterized QAOA and multi-trial uncertainty reporting are live; next step is estimator-profile routing.',
   },
   {
     title: '06 High-Frequency Trading',
@@ -75,7 +75,7 @@ export const problemHighlights = [
   {
     title: 'QAOA MaxCut',
     status: 'Stage B complete',
-    description: 'Graph-cut classical baseline is stable and awaiting Stage C QAOA parameterized layers',
+    description: 'Parameterized QAOA with uncertainty-bounded trial reporting is live; Stage C calibration and estimator routing remain',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/05_qaoa_maxcut',
   },
   {

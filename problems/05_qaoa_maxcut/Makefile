@@ -10,6 +10,7 @@ INSTANCE ?= small
 DEPTH ?= 1
 COARSE_SHOTS ?= 64
 REFINED_SHOTS ?= 256
+TRIALS ?= 16
 
 .PHONY: help build run test classical analyze estimate sweep check-env clean
 
@@ -28,7 +29,7 @@ build:
 
 run: build
 	@echo "Running QAOA depth $(DEPTH) for instance '$(INSTANCE)'..."
-	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance $(INSTANCE) --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS)
+	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance $(INSTANCE) --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
 
 test:
 	@echo "No dedicated Q# tests yet; build covers compilation."

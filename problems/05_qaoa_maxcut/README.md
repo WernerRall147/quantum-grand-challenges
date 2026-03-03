@@ -21,6 +21,20 @@ make classical      # Exhaustive search baseline for each YAML graph instance
 make analyze        # Generate plots summarizing best cut values
 make build          # Build the Q# project (requires .NET 6.0 runtime)
 make run            # Run depth-1 QAOA with multi-trial uncertainty summary + JSON output
+make run-all        # Run depth-1 QAOA for small/medium/large and write quantum artifacts
+make evidence       # One-shot refresh: classical baseline + quantum runs + plots + markdown summary
+```
+
+If `make` is unavailable on Windows PowerShell, run the equivalent sequence directly:
+
+```powershell
+dotnet build host/QaoaMaxCut.Driver.csproj --configuration Release
+python python/classical_baseline.py
+dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance small --depth 1 --coarse-shots 24 --refined-shots 96 --trials 6
+dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance medium --depth 1 --coarse-shots 24 --refined-shots 96 --trials 6
+dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance large --depth 1 --coarse-shots 24 --refined-shots 96 --trials 6
+python python/analyze.py
+python python/compare.py
 ```
 
 ## Outputs

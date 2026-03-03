@@ -50,6 +50,7 @@ CMD wrapper equivalent:
 
 ```bat
 tooling\windows\qaoa-maxcut.cmd -Action evidence -Quick
+tooling\windows\qaoa-maxcut-quick.cmd
 ```
 
 ## Outputs

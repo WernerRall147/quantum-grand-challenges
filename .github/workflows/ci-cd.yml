@@ -83,10 +83,22 @@ jobs:
         cd problems/03_qae_risk/qsharp
         dotnet build --configuration Release
     
-    - name: Install Azure CLI and Quantum extension
+    - name: Install Azure CLI and Quantum extension (non-blocking)
       run: |
+        set +e
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        AZ_INSTALL_EXIT=$?
+        if [ $AZ_INSTALL_EXIT -ne 0 ]; then
+          echo "⚠️ Azure CLI install failed (continuing): exit code $AZ_INSTALL_EXIT"
+          exit 0
+        fi
+
         az extension add --name quantum
+        AZ_EXT_EXIT=$?
+        if [ $AZ_EXT_EXIT -ne 0 ]; then
+          echo "⚠️ Azure Quantum extension install failed (continuing): exit code $AZ_EXT_EXIT"
+        fi
+        exit 0
     
     - name: Cache .NET packages
       uses: actions/cache@v3
@@ -378,9 +390,21 @@ jobs:
                         print(f'⚠️ Failed to load {json_file}: {e}')
         
         if results:
-            df = pd.json_normalize(results)
-            print(f'📈 Analyzed {len(results)} estimation results')
-            print(df[['problem_id', 'algorithm', 'metrics.logical_qubits', 'metrics.physical_qubits']].to_string())
+          df = pd.json_normalize(results)
+          print(f'📈 Analyzed {len(results)} estimation results')
+
+          preferred_cols = [
+            'problem_id',
+            'algorithm',
+            'metrics.logical_qubits',
+            'metrics.physical_qubits',
+          ]
+          available_cols = [col for col in preferred_cols if col in df.columns]
+          if available_cols:
+            print(df[available_cols].to_string())
+          else:
+            print('⚠️ Preferred summary columns not present in normalized payload; printing all columns.')
+            print(df.to_string())
         else:
             print('No valid estimation results found')
         "
@@ -402,7 +426,7 @@ jobs:
         - 03_qae_risk: Mock estimation complete
         - 04_linear_solvers: Mock estimation complete
         - 05_qaoa_maxcut: Mock estimation complete
-        - 06_shor_resources: Mock estimation complete
+        - 06_high_frequency_trading: Mock estimation complete
         
         ## Next Steps
         1. Implement actual quantum algorithms

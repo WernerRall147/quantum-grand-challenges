@@ -23,7 +23,7 @@ make build          # Build the Q# project (requires .NET 6.0 runtime)
 make run            # Run depth-1 QAOA with multi-trial uncertainty summary + JSON output
 make run-all        # Run depth-1 QAOA for small/medium/large and write quantum artifacts
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
-make estimate-all   # Build estimator params and run estimator automation for small/medium/large + markdown summary
+make estimate-all   # Build estimator params, run estimator automation for small/medium/large, prune stale artifacts, and refresh markdown summary
 make estimate ESTIMATE_MOCK=0  # Optional: run estimator automation without mock mode
 make evidence       # One-shot refresh: classical baseline + quantum runs + plots + estimator summaries
 ```
@@ -69,6 +69,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/quantum_classical_summary.md` – Auto-generated markdown table comparing classical optimum vs quantum mean +/- CI
 - `estimates/estimator_profile_summary.md` – Auto-generated table summarizing latest estimator metrics across instances and targets
 - `estimates/latest_<target>_<instance>.json` – Stable latest estimator artifact for each target/instance pair (used by summary tooling)
+- `python/prune_estimator_artifacts.py` – Keeps timestamped estimator artifacts bounded (`--keep-per-target`, default 3)
 - `tooling/estimator/output/qaoa_summary_<instance>.json` – Combined estimator summary for QAOA targets (mock/live depending on invocation)
 - `plots/best_cut_values.png` – Visual comparison of Max-Cut values across instances
 - `plots/value_distribution_small.png` – Distribution of cut values for the small instance

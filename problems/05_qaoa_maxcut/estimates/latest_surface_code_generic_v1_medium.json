@@ -50,14 +50,14 @@
     "runtime_days": 0.005555555555555556
   },
   "build": {
-    "commit": "9b2803d6875f3ffbe10d7b8c457c5e9c87645d9f",
+    "commit": "9947bfcfd5d595228a629ab74431f925e2d2ea02",
     "qdk_version": "mock",
     "estimator_version": "mock-surface_code_generic_v1",
-    "date_utc": "2026-03-03T15:57:30.855048Z"
+    "date_utc": "2026-03-03T16:00:35.062519Z"
   },
   "notes": "Estimated using surface_code_generic_v1 target profile",
   "_metadata": {
-    "artifact_path": "05_qaoa_maxcut/estimates/surface_code_generic_v1_2026-03-03T155730.855048Z.json",
-    "generated_at_utc": "2026-03-03T15:57:30.855048Z"
+    "artifact_path": "05_qaoa_maxcut/estimates/surface_code_generic_v1_2026-03-03T160035.062519Z.json",
+    "generated_at_utc": "2026-03-03T16:00:35.062519Z"
   }
 }

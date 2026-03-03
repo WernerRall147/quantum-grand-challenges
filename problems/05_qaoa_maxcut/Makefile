@@ -78,6 +78,7 @@ estimate-all:
 	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --params-file estimates/estimator_params_small_d$(DEPTH).json --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary_small.json
 	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --params-file estimates/estimator_params_medium_d$(DEPTH).json --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary_medium.json
 	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --params-file estimates/estimator_params_large_d$(DEPTH).json --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary_large.json
+	$(PYTHON) python/prune_estimator_artifacts.py --keep-per-target 3
 	$(PYTHON) python/summarize_estimator.py
 
 sweep:

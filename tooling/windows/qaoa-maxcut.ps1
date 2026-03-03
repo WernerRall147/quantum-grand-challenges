@@ -148,6 +148,18 @@ function Invoke-EstimatorSummary {
     }
 }
 
+function Invoke-PruneEstimatorArtifacts {
+    Write-Host "Pruning stale estimator timestamp artifacts..." -ForegroundColor Cyan
+    Push-Location $problemRoot
+    try {
+        & $pythonExe python/prune_estimator_artifacts.py --keep-per-target 3
+        if ($LASTEXITCODE -ne 0) { throw "Estimator artifact prune failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
 Write-Host "QAOA helper action=$Action quick=$($Quick.IsPresent) noBuild=$($NoBuild.IsPresent)" -ForegroundColor Cyan
 
 switch ($Action) {
@@ -181,6 +193,7 @@ switch ($Action) {
         foreach ($target in @("small", "medium", "large")) {
             Invoke-Estimate -TargetInstance $target
         }
+        Invoke-PruneEstimatorArtifacts
         Invoke-EstimatorSummary
     }
     "evidence" {
@@ -195,6 +208,7 @@ switch ($Action) {
         foreach ($target in @("small", "medium", "large")) {
             Invoke-Estimate -TargetInstance $target
         }
+        Invoke-PruneEstimatorArtifacts
         Invoke-EstimatorSummary
     }
 }

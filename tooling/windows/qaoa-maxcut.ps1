@@ -136,6 +136,18 @@ function Invoke-Estimate {
     }
 }
 
+function Invoke-EstimatorSummary {
+    Write-Host "Generating estimator markdown summary..." -ForegroundColor Cyan
+    Push-Location $problemRoot
+    try {
+        & $pythonExe python/summarize_estimator.py
+        if ($LASTEXITCODE -ne 0) { throw "Estimator summary generation failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
 Write-Host "QAOA helper action=$Action quick=$($Quick.IsPresent) noBuild=$($NoBuild.IsPresent)" -ForegroundColor Cyan
 
 switch ($Action) {
@@ -169,6 +181,7 @@ switch ($Action) {
         foreach ($target in @("small", "medium", "large")) {
             Invoke-Estimate -TargetInstance $target
         }
+        Invoke-EstimatorSummary
     }
     "evidence" {
         if (-not $NoBuild.IsPresent) {
@@ -179,7 +192,10 @@ switch ($Action) {
             Invoke-RunInstance -TargetInstance $target
         }
         Invoke-Analyze
-        Invoke-Estimate -TargetInstance "small"
+        foreach ($target in @("small", "medium", "large")) {
+            Invoke-Estimate -TargetInstance $target
+        }
+        Invoke-EstimatorSummary
     }
 }
 

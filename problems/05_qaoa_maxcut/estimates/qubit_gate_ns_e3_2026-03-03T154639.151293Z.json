@@ -4,32 +4,30 @@
   "instance": {
     "description": "Weighted triangle max-cut benchmark",
     "parameters": {
-      "graph": "triangle",
-      "size": "small",
-      "description": "Weighted triangle graph",
-      "nodes": [
-        "A",
-        "B",
-        "C"
-      ],
-      "edges": [
+      "weights": [
         [
-          "A",
-          "B",
-          1.0
+          0.0,
+          1.0,
+          0.8
         ],
         [
-          "B",
-          "C",
+          1.0,
+          0.0,
           1.2
         ],
         [
-          "A",
-          "C",
-          0.8
+          0.8,
+          1.2,
+          0.0
         ]
       ],
-      "target_precision": 0.02
+      "depth": 1,
+      "coarseShots": 24,
+      "refinedShots": 96,
+      "bestBeta": 0.9,
+      "bestGamma": 0.1,
+      "instance": "small",
+      "sourceQuantumArtifact": "estimates\\quantum_baseline_small_d1.json"
     }
   },
   "estimator_target": "qubit_gate_ns_e3",
@@ -43,14 +41,14 @@
     "runtime_days": 0.005555555555555556
   },
   "build": {
-    "commit": "5b4ecf98488a64ca8b745a3b3929771163c73aa5",
+    "commit": "7f9b6ec9de327e896611f9bfe56fab6628165d75",
     "qdk_version": "mock",
     "estimator_version": "mock-qubit_gate_ns_e3",
-    "date_utc": "2026-03-03T15:39:35.371915Z"
+    "date_utc": "2026-03-03T15:46:39.151293Z"
   },
   "notes": "Estimated using qubit_gate_ns_e3 target profile",
   "_metadata": {
-    "artifact_path": "05_qaoa_maxcut/estimates/qubit_gate_ns_e3_2026-03-03T153935.371915Z.json",
-    "generated_at_utc": "2026-03-03T15:39:35.371915Z"
+    "artifact_path": "05_qaoa_maxcut/estimates/qubit_gate_ns_e3_2026-03-03T154639.151293Z.json",
+    "generated_at_utc": "2026-03-03T15:46:39.151293Z"
   }
 }

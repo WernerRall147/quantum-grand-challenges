@@ -176,6 +176,7 @@ class EstimationManager:
             extra_cli_args = estimator_params.get("cli_args")
             mock_overrides = estimator_params.get("mock_metrics")
             targets = list(selected_targets) if selected_targets else problem.get("targets", list(ESTIMATOR_TARGETS.keys()))
+            metadata_parameters = instance_details.get("parameters")
 
             if parameters_file:
                 resolved_params_file = (problem_dir / parameters_file).resolve()
@@ -200,6 +201,9 @@ class EstimationManager:
                         f"Warning: estimator parameters_file not found: {resolved_params_file}",
                         file=sys.stderr
                     )
+
+            if isinstance(estimator_arguments, dict):
+                metadata_parameters = estimator_arguments
 
             problem_entry = {
                 "id": problem_id,
@@ -234,7 +238,7 @@ class EstimationManager:
                         entry_point_flag=entry_point_flag,
                         extra_cli_args=extra_cli_args,
                         instance_description=instance_details.get("description"),
-                        metadata_parameters=instance_details.get("parameters"),
+                        metadata_parameters=metadata_parameters,
                         simulate=simulate,
                         mock_overrides=mock_overrides
                     )

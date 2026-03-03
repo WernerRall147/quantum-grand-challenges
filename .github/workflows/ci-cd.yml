@@ -318,7 +318,18 @@ jobs:
       run: |
         if [ -d "website" ] && [ -f "website/package.json" ]; then
           cd website
-          npm install
+          attempts=0
+          until [ $attempts -ge 3 ]
+          do
+            npm install && break
+            attempts=$((attempts + 1))
+            echo "⚠️ npm install failed, retry $attempts/3"
+            sleep 5
+          done
+          if [ $attempts -ge 3 ]; then
+            echo "❌ npm install failed after 3 attempts"
+            exit 1
+          fi
         else
           echo "Website not yet implemented, skipping..."
         fi
@@ -327,7 +338,18 @@ jobs:
       run: |
         if [ -d "website" ] && [ -f "website/package.json" ]; then
           cd website
-          npm run build
+          attempts=0
+          until [ $attempts -ge 3 ]
+          do
+            npm run build && break
+            attempts=$((attempts + 1))
+            echo "⚠️ npm run build failed, retry $attempts/3"
+            sleep 5
+          done
+          if [ $attempts -ge 3 ]; then
+            echo "❌ npm run build failed after 3 attempts"
+            exit 1
+          fi
         else
           echo "Website directory not found, skipping build"
           exit 1

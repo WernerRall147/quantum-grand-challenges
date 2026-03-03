@@ -184,8 +184,18 @@ jobs:
             echo "Website directory or package.json missing" > diagnostics-website.log
             echo "status=fail" >> "$GITHUB_OUTPUT"
           else
-            (cd website && npm install && npm run build) > diagnostics-website.log 2>&1
-            code=$?
+            code=1
+            attempts=0
+            while [ $attempts -lt 3 ]; do
+              (cd website && npm install && npm run build) > diagnostics-website.log 2>&1
+              code=$?
+              if [ $code -eq 0 ]; then
+                break
+              fi
+              attempts=$((attempts + 1))
+              echo "retry=$attempts" >> diagnostics-website.log
+              sleep 5
+            done
             if [ $code -eq 0 ]; then
               echo "status=pass" >> "$GITHUB_OUTPUT"
             else

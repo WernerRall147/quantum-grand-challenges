@@ -24,6 +24,10 @@
   "require_stage": true,
   "require_advantage_contract": true,
   "require_divincenzo_readiness": true,
+  "require_estimator_profile_summary": true,
+  "required_estimator_summary_problems": [
+    "05_qaoa_maxcut"
+  ],
   "minimum_stage": "B",
   "per_problem_minimum_stage": {
     "01_hubbard": "B",

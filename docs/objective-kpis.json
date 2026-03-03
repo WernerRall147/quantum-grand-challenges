@@ -27,140 +27,160 @@
       "readme": "problems\\01_hubbard\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "02_catalysis",
       "readme": "problems\\02_catalysis\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "03_qae_risk",
       "readme": "problems\\03_qae_risk\\README.md",
       "stage": "C",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "04_linear_solvers",
       "readme": "problems\\04_linear_solvers\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "05_qaoa_maxcut",
       "readme": "problems\\05_qaoa_maxcut\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": true
     },
     {
       "problem": "06_high_frequency_trading",
       "readme": "problems\\06_high_frequency_trading\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "07_drug_discovery",
       "readme": "problems\\07_drug_discovery\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "08_protein_folding",
       "readme": "problems\\08_protein_folding\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "09_factorization",
       "readme": "problems\\09_factorization\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "10_post_quantum_cryptography",
       "readme": "problems\\10_post_quantum_cryptography\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "11_quantum_machine_learning",
       "readme": "problems\\11_quantum_machine_learning\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "12_quantum_optimization",
       "readme": "problems\\12_quantum_optimization\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "13_climate_modeling",
       "readme": "problems\\13_climate_modeling\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "14_materials_discovery",
       "readme": "problems\\14_materials_discovery\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "15_database_search",
       "readme": "problems\\15_database_search\\README.md",
       "stage": "C",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "16_error_correction",
       "readme": "problems\\16_error_correction\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "17_nuclear_physics",
       "readme": "problems\\17_nuclear_physics\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "18_photovoltaics",
       "readme": "problems\\18_photovoltaics\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "19_quantum_chromodynamics",
       "readme": "problems\\19_quantum_chromodynamics\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     },
     {
       "problem": "20_space_mission_planning",
       "readme": "problems\\20_space_mission_planning\\README.md",
       "stage": "B",
       "has_advantage_contract": true,
-      "has_divincenzo_readiness": true
+      "has_divincenzo_readiness": true,
+      "has_estimator_profile_summary": false
     }
   ],
   "policy": {
@@ -210,6 +230,10 @@
       "18_photovoltaics",
       "19_quantum_chromodynamics",
       "20_space_mission_planning"
+    ],
+    "require_estimator_profile_summary": true,
+    "required_estimator_summary_problems": [
+      "05_qaoa_maxcut"
     ],
     "minimum_stage": "B",
     "per_problem_minimum_stage": {

@@ -33,6 +33,7 @@ class ProblemKpi:
     stage: Optional[str]
     has_advantage_contract: bool
     has_divincenzo_readiness: bool
+    has_estimator_profile_summary: bool
 
 
 @dataclass
@@ -73,6 +74,22 @@ def has_advantage_contract(text: str) -> bool:
 
 def has_divincenzo_readiness(text: str) -> bool:
     return "## DiVincenzo Readiness (Stage C/D Overlay)" in text
+
+
+def has_populated_estimator_profile_summary(problem_dir: Path) -> bool:
+    summary_path = problem_dir / "estimates" / "estimator_profile_summary.md"
+    if not summary_path.exists():
+        return False
+
+    text = summary_path.read_text(encoding="utf-8", errors="replace")
+    for instance in ("small", "medium", "large"):
+        pattern = re.compile(
+            rf"^\|\s*{instance}\s*\|.*\|\s*(?!n/a)([^|]+)\|\s*(?!n/a)([^|]+)\|",
+            re.IGNORECASE | re.MULTILINE,
+        )
+        if not pattern.search(text):
+            return False
+    return True
 
 
 def summarize(records: List[ProblemKpi]) -> Summary:
@@ -120,6 +137,7 @@ def collect_problem_kpis(repo_root: Path) -> List[ProblemKpi]:
                     stage=None,
                     has_advantage_contract=False,
                     has_divincenzo_readiness=False,
+                    has_estimator_profile_summary=has_populated_estimator_profile_summary(child),
                 )
             )
             continue
@@ -132,6 +150,7 @@ def collect_problem_kpis(repo_root: Path) -> List[ProblemKpi]:
                 stage=detect_stage(text),
                 has_advantage_contract=has_advantage_contract(text),
                 has_divincenzo_readiness=has_divincenzo_readiness(text),
+                has_estimator_profile_summary=has_populated_estimator_profile_summary(child),
             )
         )
 
@@ -158,7 +177,11 @@ def print_human(summary: Summary, records: List[ProblemKpi]) -> None:
     for rec in records:
         stage_label = rec.stage if rec.stage else "Unknown"
         contract_label = "yes" if rec.has_advantage_contract else "no"
-        print(f"  - {rec.problem}: stage={stage_label}, contract={contract_label}")
+        estimator_label = "yes" if rec.has_estimator_profile_summary else "no"
+        print(
+            f"  - {rec.problem}: stage={stage_label}, contract={contract_label}, "
+            f"estimator_summary={estimator_label}"
+        )
 
 
 def build_markdown(summary: Summary, records: List[ProblemKpi], advisory_gaps: Optional[List[str]] = None) -> str:
@@ -199,12 +222,15 @@ def build_markdown(summary: Summary, records: List[ProblemKpi], advisory_gaps: O
     lines.append("")
     lines.append("## Per-Problem Status")
     lines.append("")
-    lines.append("| Problem | Stage | Advantage Contract | README |")
-    lines.append("|---|---|---|---|")
+    lines.append("| Problem | Stage | Advantage Contract | Estimator Summary | README |")
+    lines.append("|---|---|---|---|---|")
     for rec in records:
         stage_label = rec.stage if rec.stage else "Unknown"
         contract_label = "yes" if rec.has_advantage_contract else "no"
-        lines.append(f"| {rec.problem} | {stage_label} | {contract_label} | `{rec.readme}` |")
+        estimator_label = "yes" if rec.has_estimator_profile_summary else "no"
+        lines.append(
+            f"| {rec.problem} | {stage_label} | {contract_label} | {estimator_label} | `{rec.readme}` |"
+        )
 
     lines.append("")
     return "\n".join(lines)
@@ -231,6 +257,17 @@ def _policy_require_divincenzo_readiness(payload: Dict[str, object]) -> bool:
 
 def _policy_required_divincenzo_problems(payload: Dict[str, object]) -> List[str]:
     value = payload.get("required_divincenzo_problems", [])
+    if not isinstance(value, list):
+        return []
+    return [str(v) for v in value]
+
+
+def _policy_require_estimator_profile_summary(payload: Dict[str, object]) -> bool:
+    return bool(payload.get("require_estimator_profile_summary", False))
+
+
+def _policy_required_estimator_summary_problems(payload: Dict[str, object]) -> List[str]:
+    value = payload.get("required_estimator_summary_problems", [])
     if not isinstance(value, list):
         return []
     return [str(v) for v in value]
@@ -288,12 +325,16 @@ def evaluate_policy(
     req_stage = _policy_require_stage(policy)
     req_contract = _policy_require_advantage_contract(policy)
     req_divincenzo = _policy_require_divincenzo_readiness(policy)
+    req_estimator_summary = _policy_require_estimator_profile_summary(policy)
     min_stage = _policy_minimum_stage(policy)
     per_problem_min_stage = _policy_per_problem_minimum_stage(policy)
     advisory_target_stage = _policy_advisory_target_stage(policy)
     required_divincenzo = set(_policy_required_divincenzo_problems(policy))
+    required_estimator_summary = set(_policy_required_estimator_summary_problems(policy))
     if req_divincenzo and not required_divincenzo:
         required_divincenzo = set(required)
+    if req_estimator_summary and not required_estimator_summary:
+        required_estimator_summary = set(required)
 
     by_problem = {rec.problem: rec for rec in records}
     violations: List[str] = []
@@ -325,6 +366,17 @@ def evaluate_policy(
                     f"{problem}: missing '## DiVincenzo Readiness (Stage C/D Overlay)' section"
                 )
 
+    if req_estimator_summary:
+        for problem in sorted(required_estimator_summary):
+            rec = by_problem.get(problem)
+            if rec is None:
+                violations.append(f"Missing required problem directory: {problem}")
+                continue
+            if not rec.has_estimator_profile_summary:
+                violations.append(
+                    f"{problem}: missing populated `estimates/estimator_profile_summary.md` artifact"
+                )
+
     advisory_gaps: List[str] = []
     advisory_total = 0
     advisory_met = 0
@@ -347,6 +399,8 @@ def evaluate_policy(
         "require_advantage_contract": req_contract,
         "require_divincenzo_readiness": req_divincenzo,
         "required_divincenzo_problems": sorted(required_divincenzo),
+        "require_estimator_profile_summary": req_estimator_summary,
+        "required_estimator_summary_problems": sorted(required_estimator_summary),
         "minimum_stage": min_stage,
         "per_problem_minimum_stage": per_problem_min_stage,
         "advisory_target_stage": advisory_target_stage,

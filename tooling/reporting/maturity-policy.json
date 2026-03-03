@@ -25,7 +25,11 @@
   "require_advantage_contract": true,
   "require_divincenzo_readiness": true,
   "require_estimator_profile_summary": true,
+  "require_backend_assumptions": true,
   "required_estimator_summary_problems": [
+    "05_qaoa_maxcut"
+  ],
+  "required_backend_assumptions_problems": [
     "05_qaoa_maxcut"
   ],
   "minimum_stage": "B",

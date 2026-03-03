@@ -66,6 +66,36 @@ jobs:
         path: tooling/reporting/output
         retention-days: 30
 
+    - name: QAOA estimator smoke (mock)
+      run: |
+        set -e
+        cd problems/05_qaoa_maxcut
+        make estimate-all
+
+    - name: Verify QAOA estimator summary coverage
+      run: |
+        python - <<'PY'
+        from pathlib import Path
+        import re
+
+        summary = Path('problems/05_qaoa_maxcut/estimates/estimator_profile_summary.md')
+        if not summary.exists():
+            raise SystemExit(f"Missing estimator summary: {summary}")
+
+        text = summary.read_text(encoding='utf-8')
+        for instance in ('small', 'medium', 'large'):
+            pattern = re.compile(
+                rf"^\|\s*{instance}\s*\|.*\|\s*(?!n/a)([^|]+)\|\s*(?!n/a)([^|]+)\|",
+                re.IGNORECASE | re.MULTILINE,
+            )
+            if not pattern.search(text):
+                raise SystemExit(
+                    f"Estimator summary lacks populated metrics for instance '{instance}'"
+                )
+
+        print('✅ QAOA estimator summary coverage validated for small/medium/large')
+        PY
+
     - name: Generate QAE runtime config
       run: |
         python problems/03_qae_risk/python/write_runtime_config.py \

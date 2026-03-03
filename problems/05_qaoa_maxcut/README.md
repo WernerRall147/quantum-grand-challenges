@@ -105,6 +105,7 @@ Current progress toward Stage C:
 - Q# optimizer now supports depth >= 1 using coordinate-search updates over beta/gamma layers.
 - Depth-2 trial evidence for the small instance is available in `estimates/quantum_baseline_small_d2.json`.
 - Depth sweep evidence (`d=1,2,3`) for the small instance is available in `estimates/depth_sweep_small.md`, showing improved refined mean from `1.5255` (d=1) to `1.9182` (d=3).
+- Medium-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_medium.md` (best refined mean `2.8893` at depth 2).
 - Medium-instance uncertainty report is now available in `estimates/quantum_baseline_medium_d1.json`.
 - Large-instance uncertainty report is now available in `estimates/quantum_baseline_large_d1.json`.
 - Hardware-targeted estimator routing is now wired through `python/prepare_estimator_params.py` and `tooling/estimator/run_estimation.py`.

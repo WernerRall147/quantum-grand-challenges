@@ -54,7 +54,37 @@ def pick_best_report_per_instance(reports: List[dict]) -> Dict[str, dict]:
     return selected
 
 
-def build_markdown(classical_best: Dict[str, float], selected_reports: Dict[str, dict]) -> str:
+def load_depth_sweeps(estimates_dir: Path) -> Dict[str, List[dict]]:
+    out: Dict[str, List[dict]] = {}
+    for path in sorted(estimates_dir.glob("depth_sweep_*.json")):
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        instance = str(payload.get("instance_id", "")).strip()
+        records = payload.get("records", [])
+        if not instance or not isinstance(records, list):
+            continue
+        normalized: List[dict] = []
+        for row in records:
+            if not isinstance(row, dict):
+                continue
+            normalized.append(
+                {
+                    "depth": int(row.get("depth", 1)),
+                    "refined_mean": float(row.get("refined_mean", 0.0)),
+                    "refined_ci95": float(row.get("refined_ci95", 0.0)),
+                    "gap": float(row.get("mean_optimality_gap", 0.0)),
+                }
+            )
+        if normalized:
+            normalized.sort(key=lambda r: r["depth"])
+            out[instance] = normalized
+    return out
+
+
+def build_markdown(
+    classical_best: Dict[str, float],
+    selected_reports: Dict[str, dict],
+    depth_sweeps: Dict[str, List[dict]],
+) -> str:
     lines: List[str] = []
     lines.append("# QAOA Quantum vs Classical Summary")
     lines.append("")
@@ -81,6 +111,21 @@ def build_markdown(classical_best: Dict[str, float], selected_reports: Dict[str,
             f"| {instance} | {classical_text} | {quantum_text} | {gap_text} | {report['depth']} | {report['trials']} | `{report['source']}` |"
         )
 
+    if depth_sweeps:
+        lines.append("")
+        lines.append("## Depth Sweep Dashboard")
+        lines.append("")
+        lines.append("| Instance | Depths | Best Refined Mean | Best Depth | Best Mean Gap |")
+        lines.append("|---|---|---:|---:|---:|")
+
+        for instance in sorted(depth_sweeps.keys()):
+            rows = depth_sweeps[instance]
+            depths_text = ", ".join(str(row["depth"]) for row in rows)
+            best = max(rows, key=lambda row: row["refined_mean"])
+            lines.append(
+                f"| {instance} | {depths_text} | {best['refined_mean']:.4f} | {best['depth']} | {best['gap']:.4f} |"
+            )
+
     lines.append("")
     return "\n".join(lines)
 
@@ -101,9 +146,10 @@ def main() -> None:
 
     classical_best = load_classical_best(estimates_dir)
     selected = pick_best_report_per_instance(reports)
+    depth_sweeps = load_depth_sweeps(estimates_dir)
 
     output_path = estimates_dir / "quantum_classical_summary.md"
-    output_path.write_text(build_markdown(classical_best, selected), encoding="utf-8")
+    output_path.write_text(build_markdown(classical_best, selected, depth_sweeps), encoding="utf-8")
 
     try:
         rel = output_path.resolve().relative_to(Path.cwd().resolve())

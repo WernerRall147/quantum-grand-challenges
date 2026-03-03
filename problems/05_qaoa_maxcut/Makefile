@@ -22,7 +22,7 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all depth-sweep noise-sweep evidence test classical analyze estimate estimate-all sweep check-env clean
+.PHONY: help build run run-all depth-sweep noise-sweep validate-assumptions evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
@@ -31,6 +31,7 @@ help:
 	@echo "  make run-all     Run QAOA for small/medium/large instances"
 	@echo "  make depth-sweep Run depth sweep for an instance (DEPTHS=1,2,3 by default)"
 	@echo "  make noise-sweep Run readout-noise sensitivity sweep for a selected instance/depth"
+	@echo "  make validate-assumptions Validate backend/transpilation assumptions artifact"
 	@echo "  make evidence    Rebuild quantum artifacts and regenerate plots/summary"
 	@echo "  make classical   Run exhaustive Max-Cut baseline for all instances"
 	@echo "  make analyze     Generate diagnostic plots"
@@ -60,7 +61,11 @@ noise-sweep:
 	@echo "Running QAOA noise sweep for instance '$(INSTANCE)' at depth $(DEPTH)..."
 	$(PYTHON) python/noise_sweep.py --instance $(INSTANCE) --depth $(DEPTH) --noise-levels $(NOISE_LEVELS) --samples-per-trial $(NOISE_SAMPLES)
 
-evidence: classical run-all analyze estimate-all
+validate-assumptions:
+	@echo "Validating backend/transpilation assumptions evidence..."
+	$(PYTHON) python/validate_backend_assumptions.py
+
+evidence: classical run-all analyze estimate-all validate-assumptions
 	@echo "QAOA evidence bundle refreshed in estimates/ and plots/."
 
 test:

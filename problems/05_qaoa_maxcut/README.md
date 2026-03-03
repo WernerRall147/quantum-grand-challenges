@@ -26,6 +26,7 @@ make run            # Run depth-configurable QAOA with multi-trial uncertainty s
 make run-all        # Run depth-configurable QAOA for small/medium/large and write quantum artifacts
 make depth-sweep INSTANCE=small DEPTHS=1,2,3 TRIALS=6  # Generate depth-vs-quality evidence artifacts
 make noise-sweep INSTANCE=small DEPTH=3 NOISE_LEVELS=0.00,0.01,0.02,0.05,0.10  # Generate readout-noise sensitivity artifacts
+make validate-assumptions  # Validate backend/transpilation/connectivity assumptions evidence
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
 make estimate-all   # Build estimator params, run estimator automation for small/medium/large, prune stale artifacts, and refresh markdown summary
 make estimate ESTIMATE_MOCK=0  # Optional: run estimator automation without mock mode
@@ -75,6 +76,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/depth_sweep_<instance>.md` – Markdown summary table for depth sweep results
 - `estimates/noise_sweep_<instance>_d<depth>.json` – Readout-noise sensitivity sweep metrics for a selected baseline depth
 - `estimates/noise_sweep_<instance>_d<depth>.md` – Markdown summary table for noise sweep results
+- `estimates/backend_assumptions.md` – Backend/transpilation/connectivity assumptions for reported runtime + estimator evidence
 - `estimates/estimator_params_<instance>_d<depth>.json` – Estimator-ready parameter payload derived from the latest quantum baseline
 - `estimates/quantum_classical_summary.md` – Auto-generated markdown table comparing classical optimum vs quantum mean +/- CI
 - `estimates/estimator_profile_summary.md` – Auto-generated table summarizing latest estimator metrics across instances and targets
@@ -119,6 +121,7 @@ Current progress toward Stage C:
 - Medium-instance uncertainty report is now available in `estimates/quantum_baseline_medium_d1.json`.
 - Large-instance uncertainty report is now available in `estimates/quantum_baseline_large_d1.json`.
 - Hardware-targeted estimator routing is now wired through `python/prepare_estimator_params.py` and `tooling/estimator/run_estimation.py`.
+- Backend/transpilation/connectivity assumptions are now documented in `estimates/backend_assumptions.md` and checked via `python/validate_backend_assumptions.py`.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

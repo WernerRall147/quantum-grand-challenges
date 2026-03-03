@@ -238,12 +238,15 @@ jobs:
           estimate_code=$?
 
           summary_code=1
+          assumptions_code=1
           if [ $estimate_code -eq 0 ]; then
             python problems/05_qaoa_maxcut/python/validate_estimator_summary.py >> diagnostics-qaoa-estimator.log 2>&1
             summary_code=$?
+            python problems/05_qaoa_maxcut/python/validate_backend_assumptions.py >> diagnostics-qaoa-estimator.log 2>&1
+            assumptions_code=$?
           fi
 
-          if [ $estimate_code -eq 0 ] && [ $summary_code -eq 0 ]; then
+          if [ $estimate_code -eq 0 ] && [ $summary_code -eq 0 ] && [ $assumptions_code -eq 0 ]; then
             code=0
           else
             code=1
@@ -256,6 +259,7 @@ jobs:
           fi
           echo "estimate_all_exit_code=$estimate_code" >> diagnostics-qaoa-estimator.log
           echo "summary_coverage_exit_code=$summary_code" >> diagnostics-qaoa-estimator.log
+          echo "assumptions_validation_exit_code=$assumptions_code" >> diagnostics-qaoa-estimator.log
 
       - name: Upload QAOA estimator diagnostics log
         uses: actions/upload-artifact@v4
@@ -300,7 +304,7 @@ jobs:
             echo "- If QAE runtime fails: inspect runtime config generation and net6.0 build logs."
             echo "- If Q# smoke build fails: inspect failing .csproj entries in qsharp build diagnostics."
             echo "- If website fails: inspect npm install/build output in website diagnostics log."
-            echo "- If QAOA estimator fails: inspect estimate-all output and ensure quantum_baseline_*_d1.json artifacts are present."
+            echo "- If QAOA estimator fails: inspect estimate-all output, ensure quantum_baseline_*_d1.json artifacts are present, and validate backend_assumptions.md."
           } > ci-diagnostics-summary.md
 
           echo "failed=$failed" >> "$GITHUB_OUTPUT"

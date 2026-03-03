@@ -11,6 +11,7 @@ DEPTH ?= 1
 COARSE_SHOTS ?= 64
 REFINED_SHOTS ?= 256
 TRIALS ?= 16
+DEPTHS ?= 1,2,3
 ESTIMATE_MOCK ?= 1
 
 ifeq ($(ESTIMATE_MOCK),1)
@@ -19,13 +20,14 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all evidence test classical analyze estimate estimate-all sweep check-env clean
+.PHONY: help build run run-all depth-sweep evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
 	@echo "  make build       Build the Q# project"
 	@echo "  make run         Execute the Q# driver (INSTANCE/DEPTH/COARSE_SHOTS/REFINED_SHOTS configurable)"
 	@echo "  make run-all     Run QAOA for small/medium/large instances"
+	@echo "  make depth-sweep Run depth sweep for an instance (DEPTHS=1,2,3 by default)"
 	@echo "  make evidence    Rebuild quantum artifacts and regenerate plots/summary"
 	@echo "  make classical   Run exhaustive Max-Cut baseline for all instances"
 	@echo "  make analyze     Generate diagnostic plots"
@@ -46,6 +48,10 @@ run-all: build
 	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance small --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
 	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance medium --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
 	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance large --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
+
+depth-sweep: build
+	@echo "Running QAOA depth sweep for instance '$(INSTANCE)' with depths $(DEPTHS)..."
+	$(PYTHON) python/depth_sweep.py --instance $(INSTANCE) --depths $(DEPTHS) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
 
 evidence: classical run-all analyze estimate-all
 	@echo "QAOA evidence bundle refreshed in estimates/ and plots/."

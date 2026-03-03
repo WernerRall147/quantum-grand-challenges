@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "classical", "analyze", "estimate", "estimate-all", "evidence")]
+    [ValidateSet("build", "run", "run-all", "depth-sweep", "classical", "analyze", "estimate", "estimate-all", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -7,6 +7,7 @@ param(
     [int]$CoarseShots = 24,
     [int]$RefinedShots = 96,
     [int]$Trials = 6,
+    [string]$Depths = "1,2,3",
     [switch]$LiveEstimate,
     [switch]$Quick,
     [switch]$NoBuild
@@ -63,6 +64,22 @@ function Invoke-RunInstance {
     try {
         dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance $TargetInstance --depth $Depth --coarse-shots $effectiveCoarseShots --refined-shots $effectiveRefinedShots --trials $effectiveTrials
         if ($LASTEXITCODE -ne 0) { throw "Run failed for instance '$TargetInstance'." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-DepthSweep {
+    param(
+        [string]$TargetInstance
+    )
+
+    Write-Host "Running depth sweep for '$TargetInstance' (depths=$Depths, coarse=$effectiveCoarseShots, refined=$effectiveRefinedShots, trials=$effectiveTrials)..." -ForegroundColor Cyan
+    Push-Location $problemRoot
+    try {
+        & $pythonExe python/depth_sweep.py --instance $TargetInstance --depths $Depths --coarse-shots $effectiveCoarseShots --refined-shots $effectiveRefinedShots --trials $effectiveTrials
+        if ($LASTEXITCODE -ne 0) { throw "Depth sweep failed for instance '$TargetInstance'." }
     }
     finally {
         Pop-Location
@@ -183,6 +200,12 @@ switch ($Action) {
     "classical" {
         Invoke-Classical
     }
+    "depth-sweep" {
+        if (-not $NoBuild.IsPresent) {
+            Invoke-Build
+        }
+        Invoke-DepthSweep -TargetInstance $Instance
+    }
     "analyze" {
         Invoke-Analyze
     }
@@ -204,6 +227,7 @@ switch ($Action) {
         foreach ($target in @("small", "medium", "large")) {
             Invoke-RunInstance -TargetInstance $target
         }
+        Invoke-DepthSweep -TargetInstance "small"
         Invoke-Analyze
         foreach ($target in @("small", "medium", "large")) {
             Invoke-Estimate -TargetInstance $target

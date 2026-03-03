@@ -4,7 +4,7 @@
   "depth": 1,
   "coarse_shots": 24,
   "refined_shots": 96,
-  "trials": 6,
+  "trials": 4,
   "classical_optimum": {
     "value": 2.2,
     "assignment": [
@@ -15,42 +15,54 @@
   },
   "aggregate": {
     "coarse_expectation": {
-      "mean": 1.738888888888889,
-      "std": 0.12938601447119666,
-      "ci95": 0.1035303736668854
+      "mean": 1.7895833333333335,
+      "std": 0.06714239980706567,
+      "ci95": 0.06579955181092435
     },
     "refined_expectation": {
-      "mean": 1.6034722222222222,
-      "std": 0.06430270572038913,
-      "ci95": 0.05145288057779746
+      "mean": 1.5255208333333337,
+      "std": 0.14770010555363733,
+      "ci95": 0.14474610344256458
     },
     "refined_best_sample": {
-      "mean": 2.1999999999999997,
-      "std": 4.864753555590494E-16,
-      "ci95": 3.892613552291724E-16
+      "mean": 2.2,
+      "std": 0,
+      "ci95": 0
     },
-    "mean_optimality_gap": 0.596527777777778
+    "mean_optimality_gap": 0.6744791666666665
   },
   "best_trial": {
-    "Trial": 6,
+    "Trial": 2,
+    "BestBetas": [
+      0.9
+    ],
+    "BestGammas": [
+      0.1
+    ],
     "BestBeta": 0.9,
     "BestGamma": 0.1,
-    "CoarseExpectation": 1.833333333333333,
-    "RefinedExpectation": 1.6708333333333334,
+    "CoarseExpectation": 1.7333333333333332,
+    "RefinedExpectation": 1.6312500000000005,
     "RefinedBestSample": 2.2,
     "RefinedAssignment": [
-      1,
       0,
-      1
+      1,
+      0
     ]
   },
   "trial_results": [
     {
       "Trial": 1,
+      "BestBetas": [
+        0.9
+      ],
+      "BestGammas": [
+        0.1
+      ],
       "BestBeta": 0.9,
       "BestGamma": 0.1,
-      "CoarseExpectation": 1.6500000000000001,
-      "RefinedExpectation": 1.6270833333333332,
+      "CoarseExpectation": 1.7916666666666667,
+      "RefinedExpectation": 1.5395833333333335,
       "RefinedBestSample": 2.2,
       "RefinedAssignment": [
         1,
@@ -60,10 +72,16 @@
     },
     {
       "Trial": 2,
+      "BestBetas": [
+        0.9
+      ],
+      "BestGammas": [
+        0.1
+      ],
       "BestBeta": 0.9,
       "BestGamma": 0.1,
-      "CoarseExpectation": 1.6000000000000003,
-      "RefinedExpectation": 1.5062500000000003,
+      "CoarseExpectation": 1.7333333333333332,
+      "RefinedExpectation": 1.6312500000000005,
       "RefinedBestSample": 2.2,
       "RefinedAssignment": [
         0,
@@ -73,36 +91,16 @@
     },
     {
       "Trial": 3,
-      "BestBeta": 0.1,
-      "BestGamma": 0.9,
-      "CoarseExpectation": 1.8666666666666665,
-      "RefinedExpectation": 1.552083333333333,
-      "RefinedBestSample": 2.2,
-      "RefinedAssignment": [
-        1,
-        0,
-        1
-      ]
-    },
-    {
-      "Trial": 4,
+      "BestBetas": [
+        0.9
+      ],
+      "BestGammas": [
+        0.1
+      ],
       "BestBeta": 0.9,
       "BestGamma": 0.1,
-      "CoarseExpectation": 1.8666666666666671,
-      "RefinedExpectation": 1.6020833333333335,
-      "RefinedBestSample": 2.2,
-      "RefinedAssignment": [
-        1,
-        0,
-        1
-      ]
-    },
-    {
-      "Trial": 5,
-      "BestBeta": 0.1,
-      "BestGamma": 0.9,
-      "CoarseExpectation": 1.616666666666667,
-      "RefinedExpectation": 1.6625000000000003,
+      "CoarseExpectation": 1.8833333333333335,
+      "RefinedExpectation": 1.6187500000000001,
       "RefinedBestSample": 2.2,
       "RefinedAssignment": [
         0,
@@ -111,11 +109,17 @@
       ]
     },
     {
-      "Trial": 6,
-      "BestBeta": 0.9,
+      "Trial": 4,
+      "BestBetas": [
+        0.1
+      ],
+      "BestGammas": [
+        0.1
+      ],
+      "BestBeta": 0.1,
       "BestGamma": 0.1,
-      "CoarseExpectation": 1.833333333333333,
-      "RefinedExpectation": 1.6708333333333334,
+      "CoarseExpectation": 1.7500000000000007,
+      "RefinedExpectation": 1.3125,
       "RefinedBestSample": 2.2,
       "RefinedAssignment": [
         1,

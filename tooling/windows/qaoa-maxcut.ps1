@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "classical", "analyze", "evidence")]
+    [ValidateSet("build", "run", "run-all", "classical", "analyze", "estimate", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -7,6 +7,7 @@ param(
     [int]$CoarseShots = 24,
     [int]$RefinedShots = 96,
     [int]$Trials = 6,
+    [switch]$LiveEstimate,
     [switch]$Quick,
     [switch]$NoBuild
 )
@@ -95,6 +96,44 @@ function Invoke-Analyze {
     }
 }
 
+function Invoke-Estimate {
+    param(
+        [string]$TargetInstance
+    )
+
+    Write-Host "Preparing estimator parameters for '$TargetInstance'..." -ForegroundColor Cyan
+    Push-Location $problemRoot
+    try {
+        & $pythonExe python/prepare_estimator_params.py --instance $TargetInstance --depth $Depth
+        if ($LASTEXITCODE -ne 0) { throw "Estimator parameter preparation failed." }
+    }
+    finally {
+        Pop-Location
+    }
+
+    Write-Host "Running estimator automation for '$TargetInstance'..." -ForegroundColor Cyan
+    $summaryPath = Join-Path $repoRoot "tooling\estimator\output\qaoa_summary.json"
+    $estimateArgs = @(
+        "tooling/estimator/run_estimation.py",
+        "--all",
+        "--problem", "05_qaoa_maxcut",
+        "--targets", "surface_code_generic_v1,qubit_gate_ns_e3",
+        "--summary-path", $summaryPath
+    )
+    if (-not $LiveEstimate.IsPresent) {
+        $estimateArgs += "--mock"
+    }
+
+    Push-Location $repoRoot
+    try {
+        & $pythonExe @estimateArgs
+        if ($LASTEXITCODE -ne 0) { throw "Estimator automation failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
 Write-Host "QAOA helper action=$Action quick=$($Quick.IsPresent) noBuild=$($NoBuild.IsPresent)" -ForegroundColor Cyan
 
 switch ($Action) {
@@ -121,6 +160,9 @@ switch ($Action) {
     "analyze" {
         Invoke-Analyze
     }
+    "estimate" {
+        Invoke-Estimate -TargetInstance $Instance
+    }
     "evidence" {
         if (-not $NoBuild.IsPresent) {
             Invoke-Build
@@ -130,6 +172,7 @@ switch ($Action) {
             Invoke-RunInstance -TargetInstance $target
         }
         Invoke-Analyze
+        Invoke-Estimate -TargetInstance "small"
     }
 }
 

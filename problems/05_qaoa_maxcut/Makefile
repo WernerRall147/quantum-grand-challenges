@@ -11,6 +11,13 @@ DEPTH ?= 1
 COARSE_SHOTS ?= 64
 REFINED_SHOTS ?= 256
 TRIALS ?= 16
+ESTIMATE_MOCK ?= 1
+
+ifeq ($(ESTIMATE_MOCK),1)
+ESTIMATE_FLAGS := --mock
+else
+ESTIMATE_FLAGS :=
+endif
 
 .PHONY: help build run run-all evidence test classical analyze estimate sweep check-env clean
 
@@ -22,7 +29,7 @@ help:
 	@echo "  make evidence    Rebuild quantum artifacts and regenerate plots/summary"
 	@echo "  make classical   Run exhaustive Max-Cut baseline for all instances"
 	@echo "  make analyze     Generate diagnostic plots"
-	@echo "  make estimate    Placeholder for resource estimation"
+	@echo "  make estimate    Generate estimator params and run estimator automation (ESTIMATE_MOCK=1 by default)"
 	@echo "  make clean       Remove generated artifacts"
 
 build:
@@ -56,7 +63,10 @@ analyze:
 	$(PYTHON) python/compare.py
 
 estimate:
-	@echo "Resource estimation will be wired once QAOA circuits land."
+	@echo "Preparing estimator parameter payload from latest QAOA artifact..."
+	$(PYTHON) python/prepare_estimator_params.py --instance $(INSTANCE) --depth $(DEPTH)
+	@echo "Running estimator automation for QAOA Max-Cut (mock mode by default)..."
+	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary.json
 
 sweep:
 	@echo "Parameter sweep not yet implemented for QAOA Max-Cut."

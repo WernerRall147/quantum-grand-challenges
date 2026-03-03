@@ -32,3 +32,19 @@ problems:
   - "surface_code_generic_v1"
   - "qubit_gate_ns_e3"
   - "qubit_gate_ns_e4"
+- id: "05_qaoa_maxcut"
+  path: "problems/05_qaoa_maxcut"
+  algorithm: "qaoa_depth1"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Weighted triangle max-cut benchmark"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunQaoaAnalysis"
+    entry_point_flag: "--operation"
+    parameters_file: "estimates/estimator_params_small_d1.json"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"

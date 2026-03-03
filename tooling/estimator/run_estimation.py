@@ -170,10 +170,35 @@ class EstimationManager:
             estimator_params = problem.get("estimator_params", {})
             entry_point = estimator_params.get("entry_point")
             estimator_arguments = estimator_params.get("parameters")
+            parameters_file = estimator_params.get("parameters_file")
             entry_point_flag = estimator_params.get("entry_point_flag", "--operation")
             extra_cli_args = estimator_params.get("cli_args")
             mock_overrides = estimator_params.get("mock_metrics")
             targets = list(selected_targets) if selected_targets else problem.get("targets", list(ESTIMATOR_TARGETS.keys()))
+
+            if parameters_file:
+                resolved_params_file = (problem_dir / parameters_file).resolve()
+                if resolved_params_file.exists():
+                    try:
+                        file_payload = json.loads(resolved_params_file.read_text(encoding="utf-8"))
+                        if estimator_arguments is None:
+                            estimator_arguments = file_payload
+                        elif isinstance(estimator_arguments, dict) and isinstance(file_payload, dict):
+                            merged = dict(file_payload)
+                            merged.update(estimator_arguments)
+                            estimator_arguments = merged
+                        else:
+                            estimator_arguments = file_payload
+                    except Exception as exc:  # pragma: no cover - best effort
+                        print(
+                            f"Warning: failed to load estimator parameters_file {resolved_params_file}: {exc}",
+                            file=sys.stderr
+                        )
+                else:
+                    print(
+                        f"Warning: estimator parameters_file not found: {resolved_params_file}",
+                        file=sys.stderr
+                    )
 
             problem_entry = {
                 "id": problem_id,

@@ -1,4 +1,5 @@
 namespace QuantumGrandChallenges.QaoaMaxCut {
+    open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Math;
@@ -100,30 +101,88 @@ namespace QuantumGrandChallenges.QaoaMaxCut {
         return (totalValue / IntAsDouble(shots), bestObserved, bestAssignment);
     }
 
-    operation OptimizeDepthOne(weights : Double[][], coarseShots : Int) : (Double, Double, Double, Double, Int[]) {
+    function ReplaceAt(values : Double[], index : Int, value : Double) : Double[] {
+        mutable copy = values;
+        set copy w/= index <- value;
+        return copy;
+    }
+
+    operation OptimizeByCoordinateSearch(
+        weights : Double[][],
+        depth : Int,
+        coarseShots : Int,
+        passes : Int
+    ) : (Double[], Double[], Double, Double, Int[]) {
         let gammaCandidates = [0.1, 0.3, 0.5, 0.7, 0.9];
         let betaCandidates = [0.1, 0.3, 0.5, 0.7, 0.9];
 
+        mutable bestGammas = [0.5, size = depth];
+        mutable bestBetas = [0.5, size = depth];
         mutable bestExpectation = -1.0;
-        mutable bestGamma = 0.1;
-        mutable bestBeta = 0.1;
         mutable sampleBest = -1.0;
         mutable sampleAssignment = [0, size = Length(weights)];
 
-        for gamma in gammaCandidates {
-            for beta in betaCandidates {
-                let (expectation, bestValue, assignment) = EvaluateQaoa(weights, [beta], [gamma], coarseShots);
-                if expectation > bestExpectation {
-                    set bestExpectation = expectation;
-                    set bestGamma = gamma;
-                    set bestBeta = beta;
-                    set sampleBest = bestValue;
-                    set sampleAssignment = assignment;
+        let (seedExpectation, seedSample, seedAssignment) =
+            EvaluateQaoa(weights, bestBetas, bestGammas, coarseShots);
+        set bestExpectation = seedExpectation;
+        set sampleBest = seedSample;
+        set sampleAssignment = seedAssignment;
+
+        for _pass in 1..passes {
+            for layer in 0..depth - 1 {
+                mutable gammaExpectation = bestExpectation;
+                mutable gammaChoice = bestGammas[layer];
+                mutable gammaSample = sampleBest;
+                mutable gammaAssignment = sampleAssignment;
+
+                for gamma in gammaCandidates {
+                    let trialGammas = ReplaceAt(bestGammas, layer, gamma);
+                    let (expectation, bestValue, assignment) =
+                        EvaluateQaoa(weights, bestBetas, trialGammas, coarseShots);
+                    if expectation > gammaExpectation {
+                        set gammaExpectation = expectation;
+                        set gammaChoice = gamma;
+                        set gammaSample = bestValue;
+                        set gammaAssignment = assignment;
+                    }
                 }
+                set bestGammas = ReplaceAt(bestGammas, layer, gammaChoice);
+                set bestExpectation = gammaExpectation;
+                set sampleBest = gammaSample;
+                set sampleAssignment = gammaAssignment;
+
+                mutable betaExpectation = bestExpectation;
+                mutable betaChoice = bestBetas[layer];
+                mutable betaSample = sampleBest;
+                mutable betaAssignment = sampleAssignment;
+
+                for beta in betaCandidates {
+                    let trialBetas = ReplaceAt(bestBetas, layer, beta);
+                    let (expectation, bestValue, assignment) =
+                        EvaluateQaoa(weights, trialBetas, bestGammas, coarseShots);
+                    if expectation > betaExpectation {
+                        set betaExpectation = expectation;
+                        set betaChoice = beta;
+                        set betaSample = bestValue;
+                        set betaAssignment = assignment;
+                    }
+                }
+                set bestBetas = ReplaceAt(bestBetas, layer, betaChoice);
+                set bestExpectation = betaExpectation;
+                set sampleBest = betaSample;
+                set sampleAssignment = betaAssignment;
             }
         }
 
-        return (bestBeta, bestGamma, bestExpectation, sampleBest, sampleAssignment);
+        let (finalExpectation, finalSample, finalAssignment) =
+            EvaluateQaoa(weights, bestBetas, bestGammas, coarseShots);
+        if finalExpectation > bestExpectation {
+            set bestExpectation = finalExpectation;
+            set sampleBest = finalSample;
+            set sampleAssignment = finalAssignment;
+        }
+
+        return (bestBetas, bestGammas, bestExpectation, sampleBest, sampleAssignment);
     }
 
     operation RunQaoaAnalysis(
@@ -131,24 +190,24 @@ namespace QuantumGrandChallenges.QaoaMaxCut {
         depth : Int,
         coarseShots : Int,
         refinedShots : Int
-    ) : (Double, Int[], Double, Double, Double, Double, Int[], Double, Double, Int[]) {
+    ) : (Double, Int[], Double[], Double[], Double, Double, Int[], Double, Double, Int[]) {
         let (optimalValue, optimalAssignment) = MaxCutExact(weights);
 
-        if depth != 1 {
-            fail "Only depth-1 QAOA is supported in the current prototype.";
+        if depth < 1 {
+            fail "Depth must be at least 1.";
         }
 
-        let (bestBeta, bestGamma, coarseExpectation, coarseSample, coarseAssignment) =
-            OptimizeDepthOne(weights, coarseShots);
+        let (bestBetas, bestGammas, coarseExpectation, coarseSample, coarseAssignment) =
+            OptimizeByCoordinateSearch(weights, depth, coarseShots, 2);
 
         let (refinedExpectation, refinedSample, refinedAssignment) =
-            EvaluateQaoa(weights, [bestBeta], [bestGamma], refinedShots);
+            EvaluateQaoa(weights, bestBetas, bestGammas, refinedShots);
 
         return (
             optimalValue,
             optimalAssignment,
-            bestBeta,
-            bestGamma,
+            bestBetas,
+            bestGammas,
             coarseExpectation,
             coarseSample,
             coarseAssignment,

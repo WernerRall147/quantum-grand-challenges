@@ -9,6 +9,7 @@ This problem prepares the groundwork for implementing the Quantum Approximate Op
 - [x] Add parameterized graph instances (small/medium/large)
 - [x] Generate diagnostic plots for cut values
 - [x] Implement depth-1 QAOA circuit with coarse parameter sweep
+- [x] Generalize QAOA optimizer to support depth >= 1 via coordinate search
 - [x] Generalize QAOA driver to consume YAML instances dynamically
 - [x] Add uncertainty-bounded multi-trial QAOA reporting to `estimates/`
 - [x] Route optimized parameters into the resource estimator profiles
@@ -20,8 +21,8 @@ cd problems/05_qaoa_maxcut
 make classical      # Exhaustive search baseline for each YAML graph instance
 make analyze        # Generate plots summarizing best cut values
 make build          # Build the Q# project (requires .NET 6.0 runtime)
-make run            # Run depth-1 QAOA with multi-trial uncertainty summary + JSON output
-make run-all        # Run depth-1 QAOA for small/medium/large and write quantum artifacts
+make run            # Run depth-configurable QAOA with multi-trial uncertainty summary + JSON output
+make run-all        # Run depth-configurable QAOA for small/medium/large and write quantum artifacts
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
 make estimate-all   # Build estimator params, run estimator automation for small/medium/large, prune stale artifacts, and refresh markdown summary
 make estimate ESTIMATE_MOCK=0  # Optional: run estimator automation without mock mode
@@ -78,7 +79,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 
 ## Current Baseline
 
-The classical baseline enumerates all bit strings to guarantee optimal Max-Cut values and logs diagnostic metrics that translate directly to QAOA objective functions. The Q# host now runs a depth-1 QAOA grid search per trial, aggregates uncertainty-bounded expectation metrics across repeated simulator trials, and writes a JSON report for reproducible comparison against the classical optimum. Future work will expand the pipeline to tighter optimizers and estimator-driven hardware profiling.
+The classical baseline enumerates all bit strings to guarantee optimal Max-Cut values and logs diagnostic metrics that translate directly to QAOA objective functions. The Q# host now runs a depth-configurable QAOA coordinate-search optimizer per trial, aggregates uncertainty-bounded expectation metrics across repeated simulator trials, and writes a JSON report for reproducible comparison against the classical optimum. Future work will expand the pipeline to tighter optimizers and estimator-driven hardware profiling.
 
 ## Objective Maturity Gate
 
@@ -95,6 +96,8 @@ Stage C exit criteria for this problem:
 Current progress toward Stage C:
 
 - Depth-1 QAOA host now emits uncertainty-bounded trial statistics and JSON artifacts for reproducible small-instance comparisons.
+- Q# optimizer now supports depth >= 1 using coordinate-search updates over beta/gamma layers.
+- Depth-2 trial evidence for the small instance is available in `estimates/quantum_baseline_small_d2.json`.
 - Medium-instance uncertainty report is now available in `estimates/quantum_baseline_medium_d1.json`.
 - Large-instance uncertainty report is now available in `estimates/quantum_baseline_large_d1.json`.
 - Hardware-targeted estimator routing is now wired through `python/prepare_estimator_params.py` and `tooling/estimator/run_estimation.py`.

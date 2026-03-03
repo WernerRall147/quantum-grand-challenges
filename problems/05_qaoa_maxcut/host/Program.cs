@@ -139,6 +139,8 @@ internal readonly record struct Parameters(
 
 internal readonly record struct TrialMetrics(
     int Trial,
+    double[] BestBetas,
+    double[] BestGammas,
     double BestBeta,
     double BestGamma,
     double CoarseExpectation,
@@ -192,10 +194,17 @@ internal static class Program
                     optimalAssignment = result.Item2.ToArray();
                 }
 
+                var bestBetas = result.Item3.ToArray();
+                var bestGammas = result.Item4.ToArray();
+                var primaryBeta = bestBetas.Length > 0 ? bestBetas[0] : 0.0;
+                var primaryGamma = bestGammas.Length > 0 ? bestGammas[0] : 0.0;
+
                 trials.Add(new TrialMetrics(
                     Trial: trial,
-                    BestBeta: result.Item3,
-                    BestGamma: result.Item4,
+                    BestBetas: bestBetas,
+                    BestGammas: bestGammas,
+                    BestBeta: primaryBeta,
+                    BestGamma: primaryGamma,
                     CoarseExpectation: result.Item5,
                     RefinedExpectation: result.Item8,
                     RefinedBestSample: result.Item9,
@@ -231,8 +240,9 @@ internal static class Program
 
             Console.WriteLine("Best trial parameters:");
             Console.WriteLine($"  Trial      : {bestTrial.Trial}");
-            Console.WriteLine($"  Beta       : {bestTrial.BestBeta:F4}");
-            Console.WriteLine($"  Gamma      : {bestTrial.BestGamma:F4}");
+            Console.WriteLine($"  Betas      : {FormatDoubleArray(bestTrial.BestBetas)}");
+            Console.WriteLine($"  Gammas     : {FormatDoubleArray(bestTrial.BestGammas)}");
+            Console.WriteLine($"  Primary β/γ: {bestTrial.BestBeta:F4} / {bestTrial.BestGamma:F4}");
             Console.WriteLine($"  Expectation: {bestTrial.RefinedExpectation:F4}");
             Console.WriteLine($"  Assignment : {FormatAssignment(bestTrial.RefinedAssignment)}");
 
@@ -387,5 +397,10 @@ internal static class Program
     private static string FormatAssignment(IEnumerable<long> bits)
     {
         return "[" + string.Join(",", bits.Select(bit => bit.ToString(CultureInfo.InvariantCulture))) + "]";
+    }
+
+    private static string FormatDoubleArray(IEnumerable<double> values)
+    {
+        return "[" + string.Join(",", values.Select(v => v.ToString("F4", CultureInfo.InvariantCulture))) + "]";
     }
 }

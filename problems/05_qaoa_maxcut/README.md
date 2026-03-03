@@ -27,6 +27,7 @@ make run            # Run depth-1 QAOA with multi-trial uncertainty summary + JS
 
 - `estimates/classical_baseline.json` – Maximum cut assignments and values for every graph instance
 - `estimates/quantum_baseline_<instance>_d<depth>.json` – Multi-trial QAOA statistics with confidence intervals
+- `estimates/quantum_classical_summary.md` – Auto-generated markdown table comparing classical optimum vs quantum mean +/- CI
 - `plots/best_cut_values.png` – Visual comparison of Max-Cut values across instances
 - `plots/value_distribution_small.png` – Distribution of cut values for the small instance
 - `plots/quantum_vs_classical_uncertainty.png` – Quantum refined expectation versus classical optimum with 95% CI bars

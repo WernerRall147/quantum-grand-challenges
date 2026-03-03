@@ -41,6 +41,8 @@ classical:
 analyze:
 	@echo "Generating Max-Cut diagnostic plots..."
 	$(PYTHON) python/analyze.py
+	@echo "Generating quantum/classical markdown summary..."
+	$(PYTHON) python/compare.py
 
 estimate:
 	@echo "Resource estimation will be wired once QAOA circuits land."

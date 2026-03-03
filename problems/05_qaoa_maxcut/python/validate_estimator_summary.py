@@ -6,6 +6,10 @@ import argparse
 import re
 from pathlib import Path
 
+TARGET_TIMESTAMP_RE = re.compile(
+    r"^(surface_code_generic_v1|qubit_gate_ns_e3)_(\d{4}-\d{2}-\d{2}T\d{6}\.\d+Z)\.json$"
+)
+
 
 def validate_summary(summary_path: Path, required_instances: list[str]) -> None:
     if not summary_path.exists():
@@ -39,6 +43,28 @@ def validate_stable_artifacts(
                 raise FileNotFoundError(f"Missing stable estimator artifact: {path}")
 
 
+def validate_timestamp_budget(
+    estimates_dir: Path,
+    required_targets: list[str],
+    max_per_target: int,
+) -> None:
+    counts = {target: 0 for target in required_targets}
+    for path in estimates_dir.glob("*.json"):
+        match = TARGET_TIMESTAMP_RE.match(path.name)
+        if not match:
+            continue
+        target = match.group(1)
+        if target in counts:
+            counts[target] += 1
+
+    for target in required_targets:
+        if counts[target] > max_per_target:
+            raise ValueError(
+                f"Timestamp artifact budget exceeded for '{target}': "
+                f"{counts[target]} > {max_per_target}"
+            )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Validate estimator_profile_summary.md has populated rows for required instances."
@@ -70,6 +96,24 @@ def main() -> None:
         action="store_false",
         help="Disable stable artifact existence checks.",
     )
+    parser.add_argument(
+        "--enforce-timestamp-budget",
+        action="store_true",
+        default=True,
+        help="Require timestamped artifacts per target to stay under --max-timestamped-per-target (default: enabled).",
+    )
+    parser.add_argument(
+        "--no-enforce-timestamp-budget",
+        dest="enforce_timestamp_budget",
+        action="store_false",
+        help="Disable timestamp artifact budget checks.",
+    )
+    parser.add_argument(
+        "--max-timestamped-per-target",
+        type=int,
+        default=3,
+        help="Maximum number of timestamped artifacts allowed per target.",
+    )
     args = parser.parse_args()
 
     instances = [part.strip() for part in args.instances.split(",") if part.strip()]
@@ -78,11 +122,19 @@ def main() -> None:
     targets = [part.strip() for part in args.targets.split(",") if part.strip()]
     if not targets:
         raise ValueError("No required targets specified.")
+    if args.max_timestamped_per_target < 1:
+        raise ValueError("--max-timestamped-per-target must be >= 1")
 
     summary_path = Path(args.summary)
     validate_summary(summary_path, instances)
     if args.require_stable_artifacts:
         validate_stable_artifacts(summary_path.parent, instances, targets)
+    if args.enforce_timestamp_budget:
+        validate_timestamp_budget(
+            summary_path.parent,
+            targets,
+            max_per_target=args.max_timestamped_per_target,
+        )
     print(
         "Estimator summary validation passed for instances "
         f"{', '.join(instances)} and targets {', '.join(targets)}"

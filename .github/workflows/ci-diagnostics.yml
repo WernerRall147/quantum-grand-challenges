@@ -1,0 +1,253 @@
+name: CI Diagnostics
+
+on:
+  workflow_dispatch:
+    inputs:
+      fail_on_issue:
+        description: "Fail workflow if any diagnostic check fails"
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    - cron: "30 3 * * *"
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "18"
+
+jobs:
+  policy-check:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.capture.outputs.status }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Run maturity policy enforcement
+        id: capture
+        shell: bash
+        run: |
+          set +e
+          python tooling/reporting/stage_kpis.py \
+            --policy tooling/reporting/maturity-policy.json \
+            --enforce > diagnostics-policy.log 2>&1
+          code=$?
+          if [ $code -eq 0 ]; then
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+          fi
+          echo "exit_code=$code" >> diagnostics-policy.log
+
+      - name: Upload policy diagnostics log
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostics-policy
+          path: diagnostics-policy.log
+          retention-days: 14
+
+  qae-runtime-check:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.capture.outputs.status }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            8.0.x
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Generate runtime config and build QAE
+        id: capture
+        shell: bash
+        run: |
+          set +e
+          python problems/03_qae_risk/python/write_runtime_config.py \
+            --loss-qubits 4 \
+            --threshold 2.5 \
+            --mean 0.0 \
+            --std-dev 1.0 \
+            --precision-bits 6 \
+            --repetitions 120 \
+            --run-sanity-check false > diagnostics-qae.log 2>&1
+          config_code=$?
+
+          if [ $config_code -eq 0 ]; then
+            (cd problems/03_qae_risk/qsharp && dotnet build --configuration Release) >> diagnostics-qae.log 2>&1
+            build_code=$?
+          else
+            build_code=1
+          fi
+
+          if [ $config_code -eq 0 ] && [ $build_code -eq 0 ]; then
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+          fi
+
+          echo "runtime_config_exit_code=$config_code" >> diagnostics-qae.log
+          echo "dotnet_build_exit_code=$build_code" >> diagnostics-qae.log
+
+      - name: Upload QAE diagnostics log
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostics-qae
+          path: diagnostics-qae.log
+          retention-days: 14
+
+  qsharp-build-smoke:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.capture.outputs.status }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            8.0.x
+
+      - name: Build all Q# projects (smoke)
+        id: capture
+        shell: bash
+        run: |
+          set +e
+          failures=0
+          total=0
+          : > diagnostics-qsharp-build.log
+
+          for csproj in $(find problems -path "*/qsharp/*.csproj" | sort); do
+            total=$((total + 1))
+            echo "=== Building $csproj ===" >> diagnostics-qsharp-build.log
+            dotnet build "$csproj" --configuration Release >> diagnostics-qsharp-build.log 2>&1
+            code=$?
+            if [ $code -ne 0 ]; then
+              failures=$((failures + 1))
+              echo "FAIL: $csproj (exit $code)" >> diagnostics-qsharp-build.log
+            else
+              echo "PASS: $csproj" >> diagnostics-qsharp-build.log
+            fi
+          done
+
+          echo "total_projects=$total" >> diagnostics-qsharp-build.log
+          echo "failed_projects=$failures" >> diagnostics-qsharp-build.log
+
+          if [ $failures -eq 0 ]; then
+            echo "status=pass" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload Q# build diagnostics log
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostics-qsharp-build
+          path: diagnostics-qsharp-build.log
+          retention-days: 14
+
+  website-build-check:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.capture.outputs.status }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Build website
+        id: capture
+        shell: bash
+        run: |
+          set +e
+          if [ ! -d "website" ] || [ ! -f "website/package.json" ]; then
+            echo "Website directory or package.json missing" > diagnostics-website.log
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+          else
+            (cd website && npm install && npm run build) > diagnostics-website.log 2>&1
+            code=$?
+            if [ $code -eq 0 ]; then
+              echo "status=pass" >> "$GITHUB_OUTPUT"
+            else
+              echo "status=fail" >> "$GITHUB_OUTPUT"
+            fi
+            echo "website_build_exit_code=$code" >> diagnostics-website.log
+          fi
+
+      - name: Upload website diagnostics log
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostics-website
+          path: diagnostics-website.log
+          retention-days: 14
+
+  diagnostics-summary:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [policy-check, qae-runtime-check, qsharp-build-smoke, website-build-check]
+    steps:
+      - name: Build diagnostics summary
+        id: summarize
+        shell: bash
+        run: |
+          policy='${{ needs.policy-check.outputs.status }}'
+          qae='${{ needs.qae-runtime-check.outputs.status }}'
+          qsharp='${{ needs.qsharp-build-smoke.outputs.status }}'
+          website='${{ needs.website-build-check.outputs.status }}'
+
+          failed=0
+          for status in "$policy" "$qae" "$qsharp" "$website"; do
+            if [ "$status" != "pass" ]; then
+              failed=1
+            fi
+          done
+
+          {
+            echo "# CI Diagnostics Summary"
+            echo
+            echo "- Policy enforcement: **$policy**"
+            echo "- QAE runtime + build: **$qae**"
+            echo "- Q# smoke build: **$qsharp**"
+            echo "- Website build: **$website**"
+            echo
+            echo "## Triage Tips"
+            echo "- If policy fails: check DiVincenzo and stage contract sections in problem READMEs."
+            echo "- If QAE runtime fails: inspect runtime config generation and net6.0 build logs."
+            echo "- If Q# smoke build fails: inspect failing .csproj entries in qsharp build diagnostics."
+            echo "- If website fails: inspect npm install/build output in website diagnostics log."
+          } > ci-diagnostics-summary.md
+
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+
+      - name: Upload diagnostics summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostics-summary
+          path: ci-diagnostics-summary.md
+          retention-days: 14
+
+      - name: Optionally fail workflow on diagnostics issues
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.fail_on_issue && steps.summarize.outputs.failed == '1' }}
+        run: |
+          echo "One or more diagnostic checks failed."
+          exit 1

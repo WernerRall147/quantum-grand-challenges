@@ -37,6 +37,15 @@ python python/analyze.py
 python python/compare.py
 ```
 
+Windows helper script (recommended in PowerShell):
+
+```powershell
+.\tooling\windows\qaoa-maxcut.ps1 -Action run -Instance small
+.\tooling\windows\qaoa-maxcut.ps1 -Action run-all
+.\tooling\windows\qaoa-maxcut.ps1 -Action evidence
+.\tooling\windows\qaoa-maxcut.ps1 -Action evidence -Quick
+```
+
 ## Outputs
 
 - `estimates/classical_baseline.json` – Maximum cut assignments and values for every graph instance

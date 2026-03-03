@@ -84,8 +84,18 @@ make estimate        # Resource estimator harness (requires successful build)
 .\tooling\windows\qae-risk.ps1 -Action run -Instance small -Quick -NoBuild
 ```
 
+- Run QAOA Max-Cut helper actions without `make`:
+
+```powershell
+.\tooling\windows\qaoa-maxcut.ps1 -Action run -Instance small
+.\tooling\windows\qaoa-maxcut.ps1 -Action run-all
+.\tooling\windows\qaoa-maxcut.ps1 -Action evidence
+.\tooling\windows\qaoa-maxcut.ps1 -Action evidence -Quick
+```
+
 `-Quick` lowers default `precision_bits` to `4` and `repetitions` to `24` for faster smoke tests.
 Use `-NoBuild` with `-Action run` only when artifacts were already built.
+For `qaoa-maxcut.ps1`, `-Quick` lowers defaults to `coarse_shots=12`, `refined_shots=48`, and `trials=3`.
 
 - Run the complete local Windows pipeline (validation + mock estimator + website build):
 

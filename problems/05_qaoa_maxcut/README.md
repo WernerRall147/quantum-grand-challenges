@@ -23,6 +23,7 @@ make build          # Build the Q# project (requires .NET 6.0 runtime)
 make run            # Run depth-1 QAOA with multi-trial uncertainty summary + JSON output
 make run-all        # Run depth-1 QAOA for small/medium/large and write quantum artifacts
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
+make estimate-all   # Build estimator params and run estimator automation for small/medium/large
 make estimate ESTIMATE_MOCK=0  # Optional: run estimator automation without mock mode
 make evidence       # One-shot refresh: classical baseline + quantum runs + plots + markdown summary
 ```
@@ -38,7 +39,7 @@ dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance large --depth 1
 python python/analyze.py
 python python/compare.py
 python python/prepare_estimator_params.py --instance small --depth 1
-python ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --targets surface_code_generic_v1,qubit_gate_ns_e3 --mock --summary-path ../../tooling/estimator/output/qaoa_summary.json
+python ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --params-file estimates/estimator_params_small_d1.json --targets surface_code_generic_v1,qubit_gate_ns_e3 --mock --summary-path ../../tooling/estimator/output/qaoa_summary_small.json
 ```
 
 Windows helper script (recommended in PowerShell):
@@ -47,6 +48,7 @@ Windows helper script (recommended in PowerShell):
 .\tooling\windows\qaoa-maxcut.ps1 -Action run -Instance small
 .\tooling\windows\qaoa-maxcut.ps1 -Action run-all
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small
+.\tooling\windows\qaoa-maxcut.ps1 -Action estimate-all
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small -LiveEstimate
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence -Quick
@@ -65,7 +67,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/quantum_baseline_<instance>_d<depth>.json` – Multi-trial QAOA statistics with confidence intervals
 - `estimates/estimator_params_<instance>_d<depth>.json` – Estimator-ready parameter payload derived from the latest quantum baseline
 - `estimates/quantum_classical_summary.md` – Auto-generated markdown table comparing classical optimum vs quantum mean +/- CI
-- `tooling/estimator/output/qaoa_summary.json` – Combined estimator summary for QAOA targets (mock/live depending on invocation)
+- `tooling/estimator/output/qaoa_summary_<instance>.json` – Combined estimator summary for QAOA targets (mock/live depending on invocation)
 - `plots/best_cut_values.png` – Visual comparison of Max-Cut values across instances
 - `plots/value_distribution_small.png` – Distribution of cut values for the small instance
 - `plots/quantum_vs_classical_uncertainty.png` – Quantum refined expectation versus classical optimum with 95% CI bars

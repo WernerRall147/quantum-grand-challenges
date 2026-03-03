@@ -118,6 +118,7 @@ class EstimationManager:
         self,
         selected_problem_ids: Optional[Sequence[str]] = None,
         selected_targets: Optional[Sequence[str]] = None,
+        params_file_override: Optional[str] = None,
         dry_run: bool = False,
         summary_output: Optional[Path] = None,
         simulate: bool = False
@@ -170,7 +171,7 @@ class EstimationManager:
             estimator_params = problem.get("estimator_params", {})
             entry_point = estimator_params.get("entry_point")
             estimator_arguments = estimator_params.get("parameters")
-            parameters_file = estimator_params.get("parameters_file")
+            parameters_file = params_file_override or estimator_params.get("parameters_file")
             entry_point_flag = estimator_params.get("entry_point_flag", "--operation")
             extra_cli_args = estimator_params.get("cli_args")
             mock_overrides = estimator_params.get("mock_metrics")
@@ -654,6 +655,8 @@ def main():
                         help="Print planned batch runs without executing them")
     parser.add_argument("--summary-path",
                         help="Optional path to write combined summary JSON (works with dry-run)")
+    parser.add_argument("--params-file",
+                        help="Override estimator parameters_file path for selected batch problems (relative to problem dir)")
     parser.add_argument("--mock", action="store_true",
                         help="Simulate estimator outputs instead of calling Azure Resource Estimator")
 
@@ -684,6 +687,7 @@ def main():
         summary = EstimationManager(config_path, output_dir=output_dir).run_all(
             selected_problem_ids=selected_problems,
             selected_targets=selected_targets,
+            params_file_override=args.params_file,
             dry_run=args.dry_run,
             summary_output=summary_path,
             simulate=args.mock

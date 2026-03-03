@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "classical", "analyze", "estimate", "evidence")]
+    [ValidateSet("build", "run", "run-all", "classical", "analyze", "estimate", "estimate-all", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -112,11 +112,13 @@ function Invoke-Estimate {
     }
 
     Write-Host "Running estimator automation for '$TargetInstance'..." -ForegroundColor Cyan
-    $summaryPath = Join-Path $repoRoot "tooling\estimator\output\qaoa_summary.json"
+    $summaryPath = Join-Path $repoRoot "tooling\estimator\output\qaoa_summary_$TargetInstance.json"
+    $paramsFile = "estimates/estimator_params_$TargetInstance`_d$Depth.json"
     $estimateArgs = @(
         "tooling/estimator/run_estimation.py",
         "--all",
         "--problem", "05_qaoa_maxcut",
+        "--params-file", $paramsFile,
         "--targets", "surface_code_generic_v1,qubit_gate_ns_e3",
         "--summary-path", $summaryPath
     )
@@ -162,6 +164,11 @@ switch ($Action) {
     }
     "estimate" {
         Invoke-Estimate -TargetInstance $Instance
+    }
+    "estimate-all" {
+        foreach ($target in @("small", "medium", "large")) {
+            Invoke-Estimate -TargetInstance $target
+        }
     }
     "evidence" {
         if (-not $NoBuild.IsPresent) {

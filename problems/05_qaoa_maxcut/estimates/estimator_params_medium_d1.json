@@ -1,0 +1,35 @@
+{
+  "weights": [
+    [
+      0.0,
+      1.0,
+      0.5,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.5,
+      1.0,
+      0.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      1.0,
+      0.0
+    ]
+  ],
+  "depth": 1,
+  "coarseShots": 24,
+  "refinedShots": 96,
+  "bestBeta": 0.7,
+  "bestGamma": 0.9,
+  "instance": "medium",
+  "sourceQuantumArtifact": "estimates\\quantum_baseline_medium_d1.json"
+}

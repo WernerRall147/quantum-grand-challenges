@@ -19,7 +19,7 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all evidence test classical analyze estimate sweep check-env clean
+.PHONY: help build run run-all evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
@@ -30,6 +30,7 @@ help:
 	@echo "  make classical   Run exhaustive Max-Cut baseline for all instances"
 	@echo "  make analyze     Generate diagnostic plots"
 	@echo "  make estimate    Generate estimator params and run estimator automation (ESTIMATE_MOCK=1 by default)"
+	@echo "  make estimate-all Generate estimator params and estimates for small/medium/large"
 	@echo "  make clean       Remove generated artifacts"
 
 build:
@@ -66,7 +67,17 @@ estimate:
 	@echo "Preparing estimator parameter payload from latest QAOA artifact..."
 	$(PYTHON) python/prepare_estimator_params.py --instance $(INSTANCE) --depth $(DEPTH)
 	@echo "Running estimator automation for QAOA Max-Cut (mock mode by default)..."
-	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary.json
+	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --params-file estimates/estimator_params_$(INSTANCE)_d$(DEPTH).json --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary_$(INSTANCE).json
+
+estimate-all:
+	@echo "Preparing estimator parameter payloads for small/medium/large..."
+	$(PYTHON) python/prepare_estimator_params.py --instance small --depth $(DEPTH)
+	$(PYTHON) python/prepare_estimator_params.py --instance medium --depth $(DEPTH)
+	$(PYTHON) python/prepare_estimator_params.py --instance large --depth $(DEPTH)
+	@echo "Running estimator automation for all QAOA benchmark instances..."
+	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --params-file estimates/estimator_params_small_d$(DEPTH).json --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary_small.json
+	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --params-file estimates/estimator_params_medium_d$(DEPTH).json --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary_medium.json
+	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 05_qaoa_maxcut --params-file estimates/estimator_params_large_d$(DEPTH).json --targets surface_code_generic_v1,qubit_gate_ns_e3 $(ESTIMATE_FLAGS) --summary-path ../../tooling/estimator/output/qaoa_summary_large.json
 
 sweep:
 	@echo "Parameter sweep not yet implemented for QAOA Max-Cut."

@@ -55,6 +55,37 @@ make run             # Runs Program.qs entry point - produces analytical tail pr
 make estimate        # Resource estimator harness (requires successful build)
 ```
 
+### Azure Auth + Run (QAOA, Microsoft Priority)
+
+For Azure-backed QAOA workflows, auth is intentionally manual-gated to avoid accidental cloud submissions.
+
+```bash
+cd problems/05_qaoa_maxcut
+
+# 1) Prepare env file (manual step)
+cp .env.azure.example .env.azure.local
+# Edit .env.azure.local and replace all CHANGE_ME values.
+
+# 2) Validate local auth/workspace config
+make validate-azure-env
+
+# 3) Generate and validate Azure job manifest
+make azure-manifest INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator
+make validate-azure-manifest INSTANCE=small DEPTH=3
+
+# 4) After real Azure submission, stamp job id/status into the manifest
+make azure-submit INSTANCE=small DEPTH=3 AZURE_MANUAL_JOB_ID=<azure_job_id>
+
+# 5) After completion, stamp final result status
+make azure-collect INSTANCE=small DEPTH=3 AZURE_RESULT_STATUS=succeeded
+```
+
+Notes:
+
+- `.env.azure.local` is intentionally ignored by git and must be created manually.
+- Placeholder values are rejected by `make validate-azure-env`.
+- Problem-specific details are documented in `problems/05_qaoa_maxcut/README.md`.
+
 ### Windows tips
 
 - `make` works from PowerShell/CMD; we auto-detect `PYTHON=python` on Windows.
@@ -131,7 +162,7 @@ See `docs/objective-gates.md` for gate criteria and the required advantage-claim
 | [Hubbard Model](problems/01_hubbard/) | ✅ Analytical placeholder builds under .NET 6 | ✅ Complete (exact diagonalization) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
 | [Catalysis Simulation](problems/02_catalysis/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (Arrhenius rates + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
 | [Linear Solvers](problems/04_linear_solvers/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (condition analysis + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
-| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (graph cuts + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
+| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (graph cuts + plots) | ⏳ Pending | 🟢 **Stage C complete; Stage D evidence hardening next** |
 | [High-Frequency Trading](problems/06_high_frequency_trading/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (portfolio optimization) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
 | [Drug Discovery](problems/07_drug_discovery/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (molecular docking + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |
 | [Protein Folding](problems/08_protein_folding/) | ✅ Analytical baseline builds under .NET 6 | ✅ Complete (contact maps + plots) | ⏳ Pending | 🟡 **Stage B complete; Stage C not started** |

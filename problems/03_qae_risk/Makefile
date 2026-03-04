@@ -4,7 +4,7 @@ PROBLEM_DIR := $(CURDIR)
 TOOLING_DIR := $(PROBLEM_DIR)/../../tooling
 PYTHON ?= python3
 ifeq ($(OS),Windows_NT)
-override PYTHON = python
+PYTHON := $(PROBLEM_DIR)/../../.venv/Scripts/python.exe
 endif
 ESTIMATOR := $(PYTHON) $(TOOLING_DIR)/estimator/run_estimation.py
 AZQ := $(PYTHON) $(TOOLING_DIR)/azq/job_manager.py

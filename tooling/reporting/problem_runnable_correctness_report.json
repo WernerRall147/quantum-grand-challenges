@@ -1,0 +1,536 @@
+{
+  "generated_utc": "2026-03-04T17:13:50Z",
+  "environment": {
+    "make_available": true,
+    "dotnet_available": true,
+    "dotnet6_available": true,
+    "qsharp_included": false
+  },
+  "summary": {
+    "total": 20,
+    "passed": 20,
+    "failed": 0
+  },
+  "problems": [
+    {
+      "problem_id": "01_hubbard",
+      "problem_name": "Hubbard Model",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "cd python && C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/../../.venv/Scripts/python.exe classical_baseline.py\n\u2705 Classical baseline written to C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "02_catalysis",
+      "problem_name": "Catalysis Simulation",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "python python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/02_catalysis/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "03_qae_risk",
+      "problem_name": "QAE Risk Analysis",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Running classical Monte Carlo baseline...\"\ncd python && C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/../../.venv/Scripts/python.exe classical_baseline.py\n\n=== Analyzing threshold = 2.0 ===\nProbability estimate: 0.244940 \u00b1 0.001360\nRuntime: 0.003 seconds\n\n=== Analyzing threshold = 3.0 ===\nProbability estimate: 0.136340 \u00b1 0.001085\nRuntime: 0.003 seconds\n\n=== Analyzing threshold = 4.0 ===\nProbability estimate: 0.083390 \u00b1 0.000874\nRuntime: 0.004 seconds\n\nResults saved to ..\\estimates\\classical_baseline.json\nPlots saved to ../plots/",
+        "stderr_tail": "C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\python\\classical_baseline.py:150: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\nC:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\python\\classical_baseline.py:206: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "04_linear_solvers",
+      "problem_name": "Linear Solvers",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Solving YAML instances with classical dense linear algebra...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/04_linear_solvers/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "05_qaoa_maxcut",
+      "problem_name": "QAOA MaxCut",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Running brute-force Max-Cut baselines...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/05_qaoa_maxcut/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "06_high_frequency_trading",
+      "problem_name": "High-Frequency Trading",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Running classical trading baseline...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/06_high_frequency_trading/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "07_drug_discovery",
+      "problem_name": "Drug Discovery",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Scoring ligand-protein instances...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/07_drug_discovery/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "08_protein_folding",
+      "problem_name": "Protein Folding",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Scoring protein folding instances with knowledge-based potentials...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/08_protein_folding/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "09_factorization",
+      "problem_name": "Factorization",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Factoring instances with Pollard Rho baseline...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/09_factorization/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "10_post_quantum_cryptography",
+      "problem_name": "Post-Quantum Cryptography",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Estimating classical and quantum attack costs...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/10_post_quantum_cryptography/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "11_quantum_machine_learning",
+      "problem_name": "Quantum Machine Learning",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating kernel ridge baseline...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/11_quantum_machine_learning/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "12_quantum_optimization",
+      "problem_name": "Quantum Optimization",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating greedy weighted tardiness baseline...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/12_quantum_optimization/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "13_climate_modeling",
+      "problem_name": "Climate Modeling",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Simulating finite-difference diffusion baseline...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/13_climate_modeling/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "14_materials_discovery",
+      "problem_name": "Materials Discovery",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating surrogate materials baseline...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/14_materials_discovery/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "15_database_search",
+      "problem_name": "Database Search",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating classical search baseline...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "16_error_correction",
+      "problem_name": "Error Correction",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating repetition-code baseline...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/16_error_correction/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "17_nuclear_physics",
+      "problem_name": "Nuclear Physics",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating pionless EFT baseline...\"\npython python/classical_baseline.py\n\u2705 Classical EFT baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/17_nuclear_physics/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "18_photovoltaics",
+      "problem_name": "Photovoltaics",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating photovoltaic baseline...\"\npython python/classical_baseline.py\nPhotovoltaic baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/18_photovoltaics/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "19_quantum_chromodynamics",
+      "problem_name": "Quantum Chromodynamics",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating lattice baseline...\"\npython python/classical_baseline.py\nQCD baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/19_quantum_chromodynamics/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    },
+    {
+      "problem_id": "20_space_mission_planning",
+      "problem_name": "Space Mission Planning",
+      "classical": {
+        "ok": true,
+        "returncode": 0,
+        "stdout_tail": "\"Evaluating mission planning baseline...\"\npython python/classical_baseline.py\nMission planning baseline written to estimates\\classical_baseline.json",
+        "stderr_tail": "",
+        "timed_out": false
+      },
+      "classical_baseline_json": {
+        "path": "C:/Users/weral/Git/quantum-grand-challenges/problems/20_space_mission_planning/estimates/classical_baseline.json",
+        "exists": true,
+        "valid_json": true,
+        "error": ""
+      },
+      "qsharp": {
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
+        "timed_out": false
+      },
+      "runnable_and_correct_signal": true
+    }
+  ]
+}

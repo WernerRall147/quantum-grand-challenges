@@ -1,6 +1,9 @@
 .PHONY: classical analyze build run estimate clean
 
-PYTHON := python
+PYTHON ?= python3
+ifeq ($(OS),Windows_NT)
+PYTHON := $(CURDIR)/../../.venv/Scripts/python.exe
+endif
 ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 
 classical:

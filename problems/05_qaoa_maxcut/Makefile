@@ -18,6 +18,10 @@ NOISE_SAMPLES ?= 256
 AZURE_ENV_FILE ?= .env.azure.local
 AZURE_MANUAL_JOB_ID ?=
 AZURE_RESULT_STATUS ?=
+AZURE_JOB_INPUT_FILE ?=
+AZURE_JOB_INPUT_FORMAT ?= qir.v1
+AZURE_ENTRY_POINT ?=
+AZURE_SUBMIT_EXECUTE ?= 0
 ESTIMATE_MOCK ?= 1
 
 ifeq ($(ESTIMATE_MOCK),1)
@@ -26,7 +30,7 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-cli validate-azure-manifest azure-submit azure-collect azure-collect-auto validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
+.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-cli validate-azure-manifest azure-submit azure-submit-auto azure-collect azure-collect-auto validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
@@ -41,6 +45,7 @@ help:
 	@echo "  make validate-azure-cli Validate Azure CLI login/extension/workspace readiness"
 	@echo "  make validate-azure-manifest Validate Azure Quantum job manifest and referenced evidence"
 	@echo "  make azure-submit Record manual Azure submission metadata in manifest (requires AZURE_MANUAL_JOB_ID)"
+	@echo "  make azure-submit-auto Preview or execute az quantum job submit and update manifest metadata"
 	@echo "  make azure-collect Record manual Azure result status in manifest (requires AZURE_RESULT_STATUS)"
 	@echo "  make azure-collect-auto Fetch Azure result status via az CLI and update manifest"
 	@echo "  make validate-assumptions Validate backend/transpilation assumptions artifact"
@@ -96,6 +101,9 @@ azure-runbook:
 	@echo ""
 	@echo "4) After real Azure submission, stamp job metadata:"
 	@echo "   make azure-submit INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) AZURE_MANUAL_JOB_ID=<azure_job_id>"
+	@echo "   or run submit directly via Azure CLI (dry-run default):"
+	@echo "   make azure-submit-auto INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) TARGET_ID=$(TARGET_ID) AZURE_JOB_INPUT_FILE=<path/to/program.qir>"
+	@echo "   make azure-submit-auto INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) TARGET_ID=$(TARGET_ID) AZURE_JOB_INPUT_FILE=<path/to/program.qir> AZURE_SUBMIT_EXECUTE=1"
 	@echo ""
 	@echo "5) After completion, stamp result status:"
 	@echo "   make azure-collect INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) AZURE_RESULT_STATUS=succeeded"
@@ -119,6 +127,10 @@ validate-azure-manifest: validate-azure-env
 azure-submit: validate-azure-env
 	@echo "Recording Azure submission metadata for instance '$(INSTANCE)' at depth $(DEPTH)..."
 	$(PYTHON) python/submit_azure_job.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json --env-file $(AZURE_ENV_FILE) --manual-job-id $(AZURE_MANUAL_JOB_ID)
+
+azure-submit-auto: validate-azure-cli
+	@echo "Running Azure auto-submit for instance '$(INSTANCE)' at depth $(DEPTH) (AZURE_SUBMIT_EXECUTE=$(AZURE_SUBMIT_EXECUTE))..."
+	$(PYTHON) python/submit_azure_job_auto.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json --env-file $(AZURE_ENV_FILE) --target-id $(TARGET_ID) $(if $(AZURE_JOB_INPUT_FILE),--job-input-file $(AZURE_JOB_INPUT_FILE),) --job-input-format $(AZURE_JOB_INPUT_FORMAT) $(if $(AZURE_ENTRY_POINT),--entry-point $(AZURE_ENTRY_POINT),) $(if $(filter 1,$(AZURE_SUBMIT_EXECUTE)),--execute,)
 
 azure-collect: validate-azure-env
 	@echo "Recording Azure result metadata for instance '$(INSTANCE)' at depth $(DEPTH)..."

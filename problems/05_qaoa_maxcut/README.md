@@ -34,6 +34,8 @@ make validate-azure-env  # Enforce manual env file is present and placeholders a
 make validate-azure-cli  # Validate az CLI login, quantum extension, and workspace access
 make validate-azure-manifest INSTANCE=small DEPTH=3  # Validate Azure manifest + referenced evidence artifacts
 make azure-submit INSTANCE=small DEPTH=3 AZURE_MANUAL_JOB_ID=<azure_job_id>  # Record real Azure submission metadata
+make azure-submit-auto INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZURE_JOB_INPUT_FILE=<path/to/program.qir>  # Dry-run preview of az quantum submit command
+make azure-submit-auto INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZURE_JOB_INPUT_FILE=<path/to/program.qir> AZURE_SUBMIT_EXECUTE=1  # Execute az quantum submit and auto-stamp manifest
 make azure-collect INSTANCE=small DEPTH=3 AZURE_RESULT_STATUS=succeeded  # Record Azure result status
 make azure-collect-auto INSTANCE=small DEPTH=3  # Query Azure CLI for live status and update manifest
 make validate-assumptions  # Validate backend/transpilation/connectivity assumptions evidence
@@ -70,6 +72,8 @@ Windows helper script (recommended in PowerShell):
 .\tooling\windows\qaoa-maxcut.ps1 -Action validate-azure-cli -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-manifest -Instance small -Depth 3 -TargetId microsoft.estimator
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit-auto -Instance small -Depth 3 -TargetId microsoft.estimator -AzureEnvFile .env.azure.local -AzureJobInputFile <path\to\program.qir>
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit-auto -Instance small -Depth 3 -TargetId microsoft.estimator -AzureEnvFile .env.azure.local -AzureJobInputFile <path\to\program.qir> -AzureSubmitExecute
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect-auto -Instance small -Depth 3 -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small
@@ -100,6 +104,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `python/prepare_azure_job_manifest.py` – Generates Azure Quantum submission contract artifacts from current QAOA evidence
 - `python/validate_azure_env.py` – Validates required manual Azure env values and blocks placeholder usage
 - `python/submit_azure_job.py` – Records real Azure submission metadata in manifest after manual/cloud submit
+- `python/submit_azure_job_auto.py` – Dry-run-safe Azure CLI submission helper; with `--execute`, submits and auto-stamps job metadata
 - `python/collect_azure_job.py` – Records Azure result status in manifest for traceable job lifecycle
 - `python/validate_azure_job_manifest.py` – Validates Azure job manifest schema assumptions and referenced evidence files
 - `python/validate_evidence_quality.py` – Enforces depth/noise evidence quality thresholds used by CI/automation

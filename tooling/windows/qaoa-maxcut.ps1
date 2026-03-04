@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-cli", "validate-azure-manifest", "azure-submit", "azure-collect", "azure-collect-auto", "evidence")]
+    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-cli", "validate-azure-manifest", "azure-submit", "azure-submit-auto", "azure-collect", "azure-collect-auto", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -13,6 +13,10 @@ param(
     [string]$TargetId = "microsoft.estimator",
     [string]$AzureEnvFile = ".env.azure.local",
     [string]$AzureManualJobId = "",
+    [string]$AzureJobInputFile = "",
+    [string]$AzureJobInputFormat = "qir.v1",
+    [string]$AzureEntryPoint = "",
+    [switch]$AzureSubmitExecute,
     [ValidateSet("running", "succeeded", "failed", "cancelled")]
     [string]$AzureResultStatus = "succeeded",
     [switch]$LiveEstimate,
@@ -135,6 +139,9 @@ function Invoke-AzureRunbook {
     Write-Host ""
     Write-Host "4) After real Azure submission, stamp job metadata:"
     Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-submit -Instance $Instance -Depth $Depth -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>"
+    Write-Host "   or run submit directly via Azure CLI (dry-run default):"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-submit-auto -Instance $Instance -Depth $Depth -TargetId $TargetId -AzureEnvFile .env.azure.local -AzureJobInputFile <path\\to\\program.qir>"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-submit-auto -Instance $Instance -Depth $Depth -TargetId $TargetId -AzureEnvFile .env.azure.local -AzureJobInputFile <path\\to\\program.qir> -AzureSubmitExecute"
     Write-Host ""
     Write-Host "5) After completion, stamp result status:"
     Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-collect -Instance $Instance -Depth $Depth -AzureEnvFile .env.azure.local -AzureResultStatus succeeded"
@@ -221,6 +228,45 @@ function Invoke-AzureCollect {
     try {
         & $pythonExe problems/05_qaoa_maxcut/python/collect_azure_job.py --manifest "problems/05_qaoa_maxcut/estimates/azure_job_manifest_${Instance}_d${Depth}.json" --env-file $envPathArg --result-status $AzureResultStatus
         if ($LASTEXITCODE -ne 0) { throw "Azure collect metadata update failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-AzureSubmitAuto {
+    Invoke-ValidateAzureCli
+    Write-Host "Running Azure auto-submit for '$Instance' (depth=$Depth, execute=$($AzureSubmitExecute.IsPresent))..." -ForegroundColor Cyan
+    $envPathArg = Get-AzureEnvPathArg
+    $submitArgs = @(
+        "problems/05_qaoa_maxcut/python/submit_azure_job_auto.py",
+        "--manifest", "problems/05_qaoa_maxcut/estimates/azure_job_manifest_${Instance}_d${Depth}.json",
+        "--env-file", $envPathArg,
+        "--target-id", $TargetId,
+        "--job-input-format", $AzureJobInputFormat
+    )
+
+    if (-not [string]::IsNullOrWhiteSpace($AzureJobInputFile)) {
+        if ([System.IO.Path]::IsPathRooted($AzureJobInputFile)) {
+            $submitArgs += @("--job-input-file", $AzureJobInputFile)
+        }
+        else {
+            $submitArgs += @("--job-input-file", (Join-Path $repoRoot $AzureJobInputFile))
+        }
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($AzureEntryPoint)) {
+        $submitArgs += @("--entry-point", $AzureEntryPoint)
+    }
+
+    if ($AzureSubmitExecute.IsPresent) {
+        $submitArgs += "--execute"
+    }
+
+    Push-Location $repoRoot
+    try {
+        & $pythonExe @submitArgs
+        if ($LASTEXITCODE -ne 0) { throw "Azure auto-submit failed." }
     }
     finally {
         Pop-Location
@@ -394,6 +440,9 @@ switch ($Action) {
     }
     "azure-submit" {
         Invoke-AzureSubmit
+    }
+    "azure-submit-auto" {
+        Invoke-AzureSubmitAuto
     }
     "azure-collect" {
         Invoke-AzureCollect

@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-cli", "validate-azure-manifest", "azure-submit", "azure-submit-auto", "azure-smoke", "azure-collect", "azure-collect-auto", "evidence")]
+    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-cli", "validate-azure-manifest", "azure-submit", "azure-submit-auto", "azure-smoke", "azure-smoke-report", "azure-collect", "azure-collect-auto", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -18,6 +18,8 @@ param(
     [string]$AzureEntryPoint = "",
     [switch]$AzureSubmitExecute,
     [switch]$AzureSmokeCollect,
+    [string]$AzureSmokeReportJson = "",
+    [string]$AzureSmokeReportMd = "",
     [ValidateSet("running", "succeeded", "failed", "cancelled")]
     [string]$AzureResultStatus = "succeeded",
     [switch]$LiveEstimate,
@@ -296,6 +298,45 @@ function Invoke-AzureSmoke {
     else {
         Write-Host "Skipping auto-collect. Use -AzureSubmitExecute -AzureSmokeCollect to include it in smoke workflow." -ForegroundColor Yellow
     }
+
+    Invoke-AzureSmokeReport
+}
+
+function Invoke-AzureSmokeReport {
+    Write-Host "Writing Azure smoke report for '$Instance' (depth=$Depth)..." -ForegroundColor Cyan
+    $reportArgs = @(
+        "problems/05_qaoa_maxcut/python/write_azure_smoke_report.py",
+        "--manifest", "problems/05_qaoa_maxcut/estimates/azure_job_manifest_${Instance}_d${Depth}.json"
+    )
+
+    if ($AzureSubmitExecute.IsPresent) {
+        $reportArgs += @("--mode", "execute")
+    }
+    else {
+        $reportArgs += @("--mode", "dry-run")
+    }
+
+    if ($AzureSmokeCollect.IsPresent) {
+        $reportArgs += "--collect-enabled"
+    }
+    if ($AzureSubmitExecute.IsPresent -and $AzureSmokeCollect.IsPresent) {
+        $reportArgs += "--collect-attempted"
+    }
+    if (-not [string]::IsNullOrWhiteSpace($AzureSmokeReportJson)) {
+        $reportArgs += @("--output-json", $AzureSmokeReportJson)
+    }
+    if (-not [string]::IsNullOrWhiteSpace($AzureSmokeReportMd)) {
+        $reportArgs += @("--output-md", $AzureSmokeReportMd)
+    }
+
+    Push-Location $repoRoot
+    try {
+        & $pythonExe @reportArgs
+        if ($LASTEXITCODE -ne 0) { throw "Azure smoke report generation failed." }
+    }
+    finally {
+        Pop-Location
+    }
 }
 
 function Invoke-AzureCollectAuto {
@@ -471,6 +512,9 @@ switch ($Action) {
     }
     "azure-smoke" {
         Invoke-AzureSmoke
+    }
+    "azure-smoke-report" {
+        Invoke-AzureSmokeReport
     }
     "azure-collect" {
         Invoke-AzureCollect

@@ -1,0 +1,35 @@
+{
+  "generated_utc": "2026-03-04T15:43:39Z",
+  "workflow": "azure-smoke",
+  "overall_status": "passed",
+  "manifest_path": "estimates/azure_job_manifest_small_d3.json",
+  "mode": "dry-run",
+  "instance_id": "small",
+  "depth": 3,
+  "backend": {
+    "provider": "azure-quantum",
+    "target_id": "microsoft.estimator",
+    "job_name": "qaoa-small-d3",
+    "workspace": {
+      "subscription_id": "",
+      "resource_group": "",
+      "workspace_name": "",
+      "location": ""
+    }
+  },
+  "submission": {
+    "job_id": "",
+    "status": "not_submitted",
+    "result_status": "pending",
+    "submitted_utc": "",
+    "dry_run_command": ""
+  },
+  "checks": {
+    "env_gate": "passed",
+    "cli_preflight": "passed",
+    "manifest_generated": "passed",
+    "manifest_validated": "passed",
+    "submit_step": "dry_run",
+    "collect_step": "skipped"
+  }
+}

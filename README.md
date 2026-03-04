@@ -85,6 +85,9 @@ make azure-submit-auto INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZUR
 make azure-smoke INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZURE_JOB_INPUT_FILE=<path/to/program.qir>
 make azure-smoke INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZURE_JOB_INPUT_FILE=<path/to/program.qir> AZURE_SUBMIT_EXECUTE=1 AZURE_SMOKE_COLLECT=1
 
+# 4d) Optional: regenerate smoke audit artifacts from current manifest
+make azure-smoke-report INSTANCE=small DEPTH=3
+
 # 5) After completion, stamp final result status
 make azure-collect INSTANCE=small DEPTH=3 AZURE_RESULT_STATUS=succeeded
 
@@ -141,6 +144,7 @@ Notes:
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit-auto -Instance small -Depth 3 -TargetId microsoft.estimator -AzureEnvFile .env.azure.local -AzureJobInputFile <path\to\program.qir> -AzureSubmitExecute
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-smoke -Instance small -Depth 3 -TargetId microsoft.estimator -AzureEnvFile .env.azure.local -AzureJobInputFile <path\to\program.qir>
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-smoke -Instance small -Depth 3 -TargetId microsoft.estimator -AzureEnvFile .env.azure.local -AzureJobInputFile <path\to\program.qir> -AzureSubmitExecute -AzureSmokeCollect
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-smoke-report -Instance small -Depth 3
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect-auto -Instance small -Depth 3 -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence

@@ -23,6 +23,8 @@ AZURE_JOB_INPUT_FORMAT ?= qir.v1
 AZURE_ENTRY_POINT ?=
 AZURE_SUBMIT_EXECUTE ?= 0
 AZURE_SMOKE_COLLECT ?= 1
+AZURE_SMOKE_REPORT_JSON ?=
+AZURE_SMOKE_REPORT_MD ?=
 ESTIMATE_MOCK ?= 1
 
 ifeq ($(ESTIMATE_MOCK),1)
@@ -31,7 +33,7 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-cli validate-azure-manifest azure-submit azure-submit-auto azure-smoke azure-collect azure-collect-auto validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
+.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-cli validate-azure-manifest azure-submit azure-submit-auto azure-smoke azure-smoke-report azure-collect azure-collect-auto validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
@@ -48,6 +50,7 @@ help:
 	@echo "  make azure-submit Record manual Azure submission metadata in manifest (requires AZURE_MANUAL_JOB_ID)"
 	@echo "  make azure-submit-auto Preview or execute az quantum job submit and update manifest metadata"
 	@echo "  make azure-smoke Run env+CLI+manifest+submit checks in one command (dry-run by default)"
+	@echo "  make azure-smoke-report Write Azure smoke JSON/MD evidence from current manifest"
 	@echo "  make azure-collect Record manual Azure result status in manifest (requires AZURE_RESULT_STATUS)"
 	@echo "  make azure-collect-auto Fetch Azure result status via az CLI and update manifest"
 	@echo "  make validate-assumptions Validate backend/transpilation assumptions artifact"
@@ -145,6 +148,11 @@ azure-smoke: validate-azure-cli azure-manifest validate-azure-manifest
 	else \
 		echo "Skipping azure-collect-auto (requires AZURE_SUBMIT_EXECUTE=1 and AZURE_SMOKE_COLLECT=1)."; \
 	fi
+	@$(MAKE) azure-smoke-report INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) AZURE_SUBMIT_EXECUTE=$(AZURE_SUBMIT_EXECUTE) AZURE_SMOKE_COLLECT=$(AZURE_SMOKE_COLLECT) AZURE_SMOKE_REPORT_JSON="$(AZURE_SMOKE_REPORT_JSON)" AZURE_SMOKE_REPORT_MD="$(AZURE_SMOKE_REPORT_MD)"
+
+azure-smoke-report:
+	@echo "Writing Azure smoke report for instance '$(INSTANCE)' at depth $(DEPTH)..."
+	$(PYTHON) python/write_azure_smoke_report.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json --mode $(if $(filter 1,$(AZURE_SUBMIT_EXECUTE)),execute,dry-run) $(if $(filter 1,$(AZURE_SMOKE_COLLECT)),--collect-enabled,) $(if $(and $(filter 1,$(AZURE_SUBMIT_EXECUTE)),$(filter 1,$(AZURE_SMOKE_COLLECT))),--collect-attempted,) $(if $(AZURE_SMOKE_REPORT_JSON),--output-json $(AZURE_SMOKE_REPORT_JSON),) $(if $(AZURE_SMOKE_REPORT_MD),--output-md $(AZURE_SMOKE_REPORT_MD),)
 
 azure-collect: validate-azure-env
 	@echo "Recording Azure result metadata for instance '$(INSTANCE)' at depth $(DEPTH)..."

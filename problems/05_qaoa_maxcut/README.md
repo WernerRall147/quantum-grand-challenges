@@ -38,6 +38,7 @@ make azure-submit-auto INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZUR
 make azure-submit-auto INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZURE_JOB_INPUT_FILE=<path/to/program.qir> AZURE_SUBMIT_EXECUTE=1  # Execute az quantum submit and auto-stamp manifest
 make azure-smoke INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZURE_JOB_INPUT_FILE=<path/to/program.qir>  # One-command preflight + manifest + dry-run submit
 make azure-smoke INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator AZURE_JOB_INPUT_FILE=<path/to/program.qir> AZURE_SUBMIT_EXECUTE=1 AZURE_SMOKE_COLLECT=1  # Execute submit and fetch current Azure status
+make azure-smoke-report INSTANCE=small DEPTH=3  # Rebuild Azure smoke JSON/MD evidence from current manifest
 make azure-collect INSTANCE=small DEPTH=3 AZURE_RESULT_STATUS=succeeded  # Record Azure result status
 make azure-collect-auto INSTANCE=small DEPTH=3  # Query Azure CLI for live status and update manifest
 make validate-assumptions  # Validate backend/transpilation/connectivity assumptions evidence
@@ -78,6 +79,7 @@ Windows helper script (recommended in PowerShell):
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit-auto -Instance small -Depth 3 -TargetId microsoft.estimator -AzureEnvFile .env.azure.local -AzureJobInputFile <path\to\program.qir> -AzureSubmitExecute
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-smoke -Instance small -Depth 3 -TargetId microsoft.estimator -AzureEnvFile .env.azure.local -AzureJobInputFile <path\to\program.qir>
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-smoke -Instance small -Depth 3 -TargetId microsoft.estimator -AzureEnvFile .env.azure.local -AzureJobInputFile <path\to\program.qir> -AzureSubmitExecute -AzureSmokeCollect
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-smoke-report -Instance small -Depth 3
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect-auto -Instance small -Depth 3 -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small
@@ -103,12 +105,15 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/noise_sweep_<instance>_d<depth>.json` – Readout-noise sensitivity sweep metrics for a selected baseline depth
 - `estimates/noise_sweep_<instance>_d<depth>.md` – Markdown summary table for noise sweep results
 - `estimates/azure_job_manifest_<instance>_d<depth>.json` – Azure Quantum execution contract manifest (target, job metadata, and evidence paths)
+- `estimates/azure_smoke_report_<instance>_d<depth>.json` – Machine-readable Azure smoke workflow audit (preflight/manifest/submit/collect status)
+- `estimates/azure_smoke_report_<instance>_d<depth>.md` – Human-readable Azure smoke workflow audit summary
 - `.env.azure.example` – Template for manual Azure auth/workspace configuration (copy to `.env.azure.local` and edit)
 - `estimates/backend_assumptions.md` – Backend/transpilation/connectivity assumptions for reported runtime + estimator evidence
 - `python/prepare_azure_job_manifest.py` – Generates Azure Quantum submission contract artifacts from current QAOA evidence
 - `python/validate_azure_env.py` – Validates required manual Azure env values and blocks placeholder usage
 - `python/submit_azure_job.py` – Records real Azure submission metadata in manifest after manual/cloud submit
 - `python/submit_azure_job_auto.py` – Dry-run-safe Azure CLI submission helper; with `--execute`, submits and auto-stamps job metadata
+- `python/write_azure_smoke_report.py` – Generates Azure smoke evidence artifacts (JSON + markdown) from manifest and workflow mode
 - `python/collect_azure_job.py` – Records Azure result status in manifest for traceable job lifecycle
 - `python/validate_azure_job_manifest.py` – Validates Azure job manifest schema assumptions and referenced evidence files
 - `python/validate_evidence_quality.py` – Enforces depth/noise evidence quality thresholds used by CI/automation

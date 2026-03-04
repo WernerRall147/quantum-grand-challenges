@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { activeWorkQueue, pipelineStages, problemHighlights } from '../data/projectStatus';
+import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit } from '../data/projectStatus';
 
 export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
@@ -147,6 +147,7 @@ export default function Home() {
             <li><strong>✅ Governance Automation:</strong> CI enforces maturity policy and publishes markdown/JSON KPI artifacts</li>
             <li><strong>✅ Hardware Readiness Overlay:</strong> DiVincenzo criteria are policy-enforced and documented across all 20 problem READMEs</li>
             <li><strong>✅ Azure Execution Contract:</strong> QAOA now publishes a validated Azure Quantum job manifest artifact with manual `.env.azure.local` auth gating for reproducible submit metadata and evidence linkage</li>
+            <li><strong>✅ Azure Smoke Audit:</strong> Latest QAOA smoke report is `{qaoaAzureSmokeAudit.status}` in `{qaoaAzureSmokeAudit.mode}` mode (submit `{qaoaAzureSmokeAudit.submitStep}`, collect `{qaoaAzureSmokeAudit.collectStep}`) from `{qaoaAzureSmokeAudit.generatedUtc}` against `{qaoaAzureSmokeAudit.manifestPath}`</li>
             <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
             <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
             <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>
@@ -156,7 +157,7 @@ export default function Home() {
             <h3 style={{ marginTop: 0, color: '#10b981' }}>🎉 Latest Achievement: QAOA MaxCut Promoted to Stage C</h3>
             <p style={{ color: '#666', marginBottom: 0 }}>
               QAOA MaxCut now ships depth/noise evidence, uncertainty-bounded reporting, and quality-gated artifacts at Stage C.
-              The next scoped step is Microsoft-first Azure Quantum execution hardening, followed by additive hardware-agnostic adapters for future IBM/Google/AWS portability.
+              Azure smoke audit artifacts are now auto-emitted in JSON/markdown for runbook traceability, and the next scoped step is cross-problem adapter reuse for Microsoft-first Azure execution hardening.
             </p>
           </div>
         </div>

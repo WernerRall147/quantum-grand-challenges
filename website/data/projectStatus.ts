@@ -169,3 +169,12 @@ export const problemHighlights = [
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/20_space_mission_planning',
   },
 ];
+
+export const qaoaAzureSmokeAudit = {
+  status: 'passed',
+  mode: 'dry-run',
+  generatedUtc: '2026-03-04T15:43:39Z',
+  manifestPath: 'estimates/azure_job_manifest_small_d3.json',
+  submitStep: 'dry_run',
+  collectStep: 'skipped',
+};

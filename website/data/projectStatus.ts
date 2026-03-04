@@ -35,7 +35,7 @@ export const activeWorkQueue = [
   {
     title: '05 QAOA MaxCut',
     description:
-      'Stage C evidence and Azure Quantum manifest contract are live; next step is submit-and-collect hardening with a hardware-agnostic adapter boundary.',
+      'Stage C evidence and an env-gated Azure Quantum manifest contract are live; next step is submit-and-collect hardening with a hardware-agnostic adapter boundary.',
   },
   {
     title: '06 High-Frequency Trading',
@@ -75,7 +75,7 @@ export const problemHighlights = [
   {
     title: 'QAOA MaxCut',
     status: 'Stage C complete',
-    description: 'Depth/noise sweeps, uncertainty reports, estimator routing, and Azure job manifest validation are complete; next target is Azure submit/collect hardening and portability adapters',
+    description: 'Depth/noise sweeps, uncertainty reports, estimator routing, and env-gated Azure job-manifest validation are complete; next target is Azure submit/collect hardening and portability adapters',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/05_qaoa_maxcut',
   },
   {

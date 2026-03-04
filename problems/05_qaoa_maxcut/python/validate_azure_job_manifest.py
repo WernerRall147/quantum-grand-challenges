@@ -81,6 +81,22 @@ def validate_manifest(path: Path) -> None:
     if status not in ALLOWED_STATUSES:
         raise ValueError(f"submission.status must be one of {sorted(ALLOWED_STATUSES)}")
 
+    if status != "not_submitted":
+        job_id = submission.get("job_id")
+        submitted_utc = submission.get("submitted_utc")
+        if not isinstance(job_id, str) or not job_id.strip():
+            raise ValueError("submission.job_id must be set once status is not_submitted -> submitted/running/terminal")
+        if not isinstance(submitted_utc, str) or not submitted_utc.strip():
+            raise ValueError("submission.submitted_utc must be set once status is not_submitted")
+
+        workspace = backend.get("workspace")
+        if not isinstance(workspace, dict):
+            raise ValueError("backend.workspace must be present once status is not_submitted")
+        for key in ["subscription_id", "resource_group", "workspace_name", "location"]:
+            value = workspace.get(key)
+            if value is None or not isinstance(value, str) or not value.strip():
+                raise ValueError(f"backend.workspace.{key} must be set once status is not_submitted")
+
     evidence = payload["evidence"]
     if not isinstance(evidence, dict):
         raise ValueError("evidence must be an object")

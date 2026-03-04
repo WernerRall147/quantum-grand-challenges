@@ -28,7 +28,11 @@ make run-all        # Run depth-configurable QAOA for small/medium/large and wri
 make depth-sweep INSTANCE=small DEPTHS=1,2,3 TRIALS=6  # Generate depth-vs-quality evidence artifacts
 make noise-sweep INSTANCE=small DEPTH=3 NOISE_LEVELS=0.00,0.01,0.02,0.05,0.10  # Generate readout-noise sensitivity artifacts
 make azure-manifest INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator  # Build Azure Quantum execution contract manifest
+cp .env.azure.example .env.azure.local  # Manual step: fill Azure workspace/auth values before cloud operations
+make validate-azure-env  # Enforce manual env file is present and placeholders are replaced
 make validate-azure-manifest INSTANCE=small DEPTH=3  # Validate Azure manifest + referenced evidence artifacts
+make azure-submit INSTANCE=small DEPTH=3 AZURE_MANUAL_JOB_ID=<azure_job_id>  # Record real Azure submission metadata
+make azure-collect INSTANCE=small DEPTH=3 AZURE_RESULT_STATUS=succeeded  # Record Azure result status
 make validate-assumptions  # Validate backend/transpilation/connectivity assumptions evidence
 make validate-quality  # Validate depth/noise quality thresholds for Stage C evidence
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
@@ -81,8 +85,12 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/noise_sweep_<instance>_d<depth>.json` – Readout-noise sensitivity sweep metrics for a selected baseline depth
 - `estimates/noise_sweep_<instance>_d<depth>.md` – Markdown summary table for noise sweep results
 - `estimates/azure_job_manifest_<instance>_d<depth>.json` – Azure Quantum execution contract manifest (target, job metadata, and evidence paths)
+- `.env.azure.example` – Template for manual Azure auth/workspace configuration (copy to `.env.azure.local` and edit)
 - `estimates/backend_assumptions.md` – Backend/transpilation/connectivity assumptions for reported runtime + estimator evidence
 - `python/prepare_azure_job_manifest.py` – Generates Azure Quantum submission contract artifacts from current QAOA evidence
+- `python/validate_azure_env.py` – Validates required manual Azure env values and blocks placeholder usage
+- `python/submit_azure_job.py` – Records real Azure submission metadata in manifest after manual/cloud submit
+- `python/collect_azure_job.py` – Records Azure result status in manifest for traceable job lifecycle
 - `python/validate_azure_job_manifest.py` – Validates Azure job manifest schema assumptions and referenced evidence files
 - `python/validate_evidence_quality.py` – Enforces depth/noise evidence quality thresholds used by CI/automation
 - `estimates/evidence_quality_report.md` – Human-readable snapshot of depth/noise evidence threshold checks

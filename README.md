@@ -126,6 +126,20 @@ python tooling/azure/smoke_problem.py \
 
 Shared workflow docs: `tooling/azure/README.md`.
 
+### Azure Secret Hygiene (Repo-Wide)
+
+To prevent accidental secret commits across all problems:
+
+- Every problem now has `problems/<problem>/.env.azure.example`.
+- Local secret files must use `problems/<problem>/.env.azure.local` (ignored by git).
+- CI enforces this with `.github/workflows/azure-secret-hygiene.yml`.
+
+Run the same checks locally:
+
+```bash
+python tooling/azure/check_secret_hygiene.py
+```
+
 ### Windows tips
 
 - `make` works from PowerShell/CMD; we auto-detect `PYTHON=python` on Windows.

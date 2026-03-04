@@ -27,6 +27,8 @@ Once a problem has a runnable quantum program and at least one evidence artifact
 - `write_smoke_report.py`: writes `azure_smoke_report_<instance>_d<depth>.{json,md}`.
 - `smoke_problem.py`: one-command orchestrator for the full smoke workflow.
 - `assess_problem_readiness.py`: emits `tooling/azure/readiness_report.json` with all-problem readiness status.
+- `bootstrap_problem_env_examples.py`: creates missing `problems/*/.env.azure.example` files from shared template.
+- `check_secret_hygiene.py`: verifies local env ignore rules and per-problem template coverage.
 
 ## Quickstart (Cross-Problem)
 
@@ -75,3 +77,20 @@ python tooling/azure/assess_problem_readiness.py
 ```
 
 This writes `tooling/azure/readiness_report.json` and reports how many registered problems are ready for the shared workflow.
+
+## Secret Hygiene Enforcement
+
+Repo policy is enforced in two ways:
+
+1. CI workflow: `.github/workflows/azure-secret-hygiene.yml`
+2. Local check script:
+
+```bash
+python tooling/azure/check_secret_hygiene.py
+```
+
+To regenerate missing per-problem templates:
+
+```bash
+python tooling/azure/bootstrap_problem_env_examples.py --write
+```

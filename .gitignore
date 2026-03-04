@@ -97,7 +97,7 @@ packages-microsoft-prod.deb
 *.publishsettings
 *.azurePubxml
 .azure/
-problems/**/.env.azure.local
+**/.env.azure.local
 
 # Package files
 *.deb

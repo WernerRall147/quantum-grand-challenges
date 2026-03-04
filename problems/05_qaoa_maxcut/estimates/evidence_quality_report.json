@@ -32,19 +32,19 @@
       "instance": "small",
       "depth": 3.0,
       "points": 5.0,
-      "degradation": 0.23535156250000244
+      "degradation": 0.24791666666666878
     },
     {
       "instance": "medium",
       "depth": 2.0,
       "points": 5.0,
-      "degradation": 0.66748046875
+      "degradation": 0.68359375
     },
     {
       "instance": "large",
       "depth": 2.0,
       "points": 5.0,
-      "degradation": 1.4286132812499766
+      "degradation": 1.311653645833311
     }
   ]
 }

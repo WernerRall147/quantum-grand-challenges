@@ -26,6 +26,6 @@ Status: **pass**
 
 | Instance | Depth | Points | Degradation |
 |---|---:|---:|---:|
-| small | 3 | 5 | 0.2354 |
-| medium | 2 | 5 | 0.6675 |
-| large | 2 | 5 | 1.4286 |
+| small | 3 | 5 | 0.2479 |
+| medium | 2 | 5 | 0.6836 |
+| large | 2 | 5 | 1.3117 |

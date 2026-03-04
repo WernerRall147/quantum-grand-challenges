@@ -119,9 +119,9 @@ Current progress toward Stage C:
 - Medium-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_medium.md` (best refined mean `2.8316` at depth 2).
 - Large-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_large.md` (best refined mean `4.1578` at depth 2).
 - Noise-sensitivity sweeps can now be generated via `make noise-sweep` (or `python/noise_sweep.py`) and are surfaced in the summary dashboard when present.
-- Small-instance noise sweep at depth 3 is available in `estimates/noise_sweep_small_d3.md` (degrades from `2.2000` at `p=0.00` to `1.9646` at `p=0.10`).
-- Medium-instance noise sweep at depth 2 is available in `estimates/noise_sweep_medium_d2.md` (degrades from `4.0000` at `p=0.00` to `3.3325` at `p=0.10`).
-- Large-instance noise sweep at depth 2 is available in `estimates/noise_sweep_large_d2.md` (degrades from `7.3000` at `p=0.00` to `5.8714` at `p=0.10`).
+- Small-instance noise sweep at depth 3 is available in `estimates/noise_sweep_small_d3.md` (degrades from `2.2000` at `p=0.00` to `1.9521` at `p=0.10`).
+- Medium-instance noise sweep at depth 2 is available in `estimates/noise_sweep_medium_d2.md` (degrades from `4.0000` at `p=0.00` to `3.3164` at `p=0.10`).
+- Large-instance noise sweep at depth 2 is available in `estimates/noise_sweep_large_d2.md` (degrades from `7.3000` at `p=0.00` to `5.9883` at `p=0.10`).
 - Medium-instance uncertainty report is now available in `estimates/quantum_baseline_medium_d1.json`.
 - Large-instance uncertainty report is now available in `estimates/quantum_baseline_large_d1.json`.
 - Hardware-targeted estimator routing is now wired through `python/prepare_estimator_params.py` and `tooling/estimator/run_estimation.py`.

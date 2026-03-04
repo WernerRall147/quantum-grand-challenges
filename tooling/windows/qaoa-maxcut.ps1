@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-cli", "validate-azure-manifest", "azure-submit", "azure-submit-auto", "azure-collect", "azure-collect-auto", "evidence")]
+    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-cli", "validate-azure-manifest", "azure-submit", "azure-submit-auto", "azure-smoke", "azure-collect", "azure-collect-auto", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -17,6 +17,7 @@ param(
     [string]$AzureJobInputFormat = "qir.v1",
     [string]$AzureEntryPoint = "",
     [switch]$AzureSubmitExecute,
+    [switch]$AzureSmokeCollect,
     [ValidateSet("running", "succeeded", "failed", "cancelled")]
     [string]$AzureResultStatus = "succeeded",
     [switch]$LiveEstimate,
@@ -142,6 +143,9 @@ function Invoke-AzureRunbook {
     Write-Host "   or run submit directly via Azure CLI (dry-run default):"
     Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-submit-auto -Instance $Instance -Depth $Depth -TargetId $TargetId -AzureEnvFile .env.azure.local -AzureJobInputFile <path\\to\\program.qir>"
     Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-submit-auto -Instance $Instance -Depth $Depth -TargetId $TargetId -AzureEnvFile .env.azure.local -AzureJobInputFile <path\\to\\program.qir> -AzureSubmitExecute"
+    Write-Host "   one-command smoke workflow:"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-smoke -Instance $Instance -Depth $Depth -TargetId $TargetId -AzureEnvFile .env.azure.local -AzureJobInputFile <path\\to\\program.qir>"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-smoke -Instance $Instance -Depth $Depth -TargetId $TargetId -AzureEnvFile .env.azure.local -AzureJobInputFile <path\\to\\program.qir> -AzureSubmitExecute -AzureSmokeCollect"
     Write-Host ""
     Write-Host "5) After completion, stamp result status:"
     Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-collect -Instance $Instance -Depth $Depth -AzureEnvFile .env.azure.local -AzureResultStatus succeeded"
@@ -235,7 +239,13 @@ function Invoke-AzureCollect {
 }
 
 function Invoke-AzureSubmitAuto {
-    Invoke-ValidateAzureCli
+    param(
+        [switch]$SkipPreflight
+    )
+
+    if (-not $SkipPreflight.IsPresent) {
+        Invoke-ValidateAzureCli
+    }
     Write-Host "Running Azure auto-submit for '$Instance' (depth=$Depth, execute=$($AzureSubmitExecute.IsPresent))..." -ForegroundColor Cyan
     $envPathArg = Get-AzureEnvPathArg
     $submitArgs = @(
@@ -270,6 +280,21 @@ function Invoke-AzureSubmitAuto {
     }
     finally {
         Pop-Location
+    }
+}
+
+function Invoke-AzureSmoke {
+    Write-Host "Running Azure smoke workflow for '$Instance' (depth=$Depth, execute=$($AzureSubmitExecute.IsPresent), collect=$($AzureSmokeCollect.IsPresent))..." -ForegroundColor Cyan
+    Invoke-ValidateAzureCli
+    Invoke-AzureManifest
+    Invoke-ValidateAzureManifest
+    Invoke-AzureSubmitAuto -SkipPreflight
+
+    if ($AzureSubmitExecute.IsPresent -and $AzureSmokeCollect.IsPresent) {
+        Invoke-AzureCollectAuto
+    }
+    else {
+        Write-Host "Skipping auto-collect. Use -AzureSubmitExecute -AzureSmokeCollect to include it in smoke workflow." -ForegroundColor Yellow
     }
 }
 
@@ -443,6 +468,9 @@ switch ($Action) {
     }
     "azure-submit-auto" {
         Invoke-AzureSubmitAuto
+    }
+    "azure-smoke" {
+        Invoke-AzureSmoke
     }
     "azure-collect" {
         Invoke-AzureCollect

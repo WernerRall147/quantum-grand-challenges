@@ -26,7 +26,7 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-manifest azure-submit azure-collect azure-collect-auto validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
+.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-cli validate-azure-manifest azure-submit azure-collect azure-collect-auto validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
@@ -38,6 +38,7 @@ help:
 	@echo "  make azure-manifest Build Azure Quantum job manifest contract for selected instance/depth"
 	@echo "  make azure-runbook Print Azure auth + run checklist with current variables"
 	@echo "  make validate-azure-env Validate manual Azure auth/config env file before cloud operations"
+	@echo "  make validate-azure-cli Validate Azure CLI login/extension/workspace readiness"
 	@echo "  make validate-azure-manifest Validate Azure Quantum job manifest and referenced evidence"
 	@echo "  make azure-submit Record manual Azure submission metadata in manifest (requires AZURE_MANUAL_JOB_ID)"
 	@echo "  make azure-collect Record manual Azure result status in manifest (requires AZURE_RESULT_STATUS)"
@@ -107,6 +108,10 @@ validate-azure-env:
 	@echo "Validating Azure env file $(AZURE_ENV_FILE)..."
 	$(PYTHON) python/validate_azure_env.py --env-file $(AZURE_ENV_FILE)
 
+validate-azure-cli: validate-azure-env
+	@echo "Validating Azure CLI preflight for env file $(AZURE_ENV_FILE)..."
+	$(PYTHON) python/validate_azure_cli.py --env-file $(AZURE_ENV_FILE)
+
 validate-azure-manifest: validate-azure-env
 	@echo "Validating Azure Quantum job manifest for instance '$(INSTANCE)' at depth $(DEPTH)..."
 	$(PYTHON) python/validate_azure_job_manifest.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json
@@ -119,7 +124,7 @@ azure-collect: validate-azure-env
 	@echo "Recording Azure result metadata for instance '$(INSTANCE)' at depth $(DEPTH)..."
 	$(PYTHON) python/collect_azure_job.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json --env-file $(AZURE_ENV_FILE) --result-status $(AZURE_RESULT_STATUS)
 
-azure-collect-auto: validate-azure-env
+azure-collect-auto: validate-azure-cli
 	@echo "Fetching Azure result metadata from az CLI for instance '$(INSTANCE)' at depth $(DEPTH)..."
 	$(PYTHON) python/collect_azure_job.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json --env-file $(AZURE_ENV_FILE) --fetch-from-azure
 

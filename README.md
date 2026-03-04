@@ -68,6 +68,7 @@ cp .env.azure.example .env.azure.local
 
 # 2) Validate local auth/workspace config
 make validate-azure-env
+make validate-azure-cli
 
 # 3) Generate and validate Azure job manifest
 make azure-manifest INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator
@@ -125,6 +126,7 @@ Notes:
 .\tooling\windows\qaoa-maxcut.ps1 -Action run-all
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-runbook -Instance small -Depth 3
 .\tooling\windows\qaoa-maxcut.ps1 -Action validate-azure-env -AzureEnvFile .env.azure.local
+.\tooling\windows\qaoa-maxcut.ps1 -Action validate-azure-cli -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-manifest -Instance small -Depth 3 -TargetId microsoft.estimator
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded

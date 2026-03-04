@@ -31,6 +31,7 @@ make azure-manifest INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator  # Buil
 make azure-runbook INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator  # Print end-to-end Azure auth/run checklist
 cp .env.azure.example .env.azure.local  # Manual step: fill Azure workspace/auth values before cloud operations
 make validate-azure-env  # Enforce manual env file is present and placeholders are replaced
+make validate-azure-cli  # Validate az CLI login, quantum extension, and workspace access
 make validate-azure-manifest INSTANCE=small DEPTH=3  # Validate Azure manifest + referenced evidence artifacts
 make azure-submit INSTANCE=small DEPTH=3 AZURE_MANUAL_JOB_ID=<azure_job_id>  # Record real Azure submission metadata
 make azure-collect INSTANCE=small DEPTH=3 AZURE_RESULT_STATUS=succeeded  # Record Azure result status
@@ -66,6 +67,7 @@ Windows helper script (recommended in PowerShell):
 .\tooling\windows\qaoa-maxcut.ps1 -Action noise-sweep -Instance small -Depth 3 -NoiseLevels 0.00,0.01,0.02,0.05,0.10
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-runbook -Instance small -Depth 3
 .\tooling\windows\qaoa-maxcut.ps1 -Action validate-azure-env -AzureEnvFile .env.azure.local
+.\tooling\windows\qaoa-maxcut.ps1 -Action validate-azure-cli -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-manifest -Instance small -Depth 3 -TargetId microsoft.estimator
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded

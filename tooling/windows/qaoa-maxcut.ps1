@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-manifest", "azure-submit", "azure-collect", "azure-collect-auto", "evidence")]
+    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-cli", "validate-azure-manifest", "azure-submit", "azure-collect", "azure-collect-auto", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -127,6 +127,7 @@ function Invoke-AzureRunbook {
     Write-Host ""
     Write-Host "2) Validate env gate:"
     Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action validate-azure-env -AzureEnvFile .env.azure.local"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action validate-azure-cli -AzureEnvFile .env.azure.local"
     Write-Host ""
     Write-Host "3) Build/validate manifest:"
     Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-manifest -Instance $Instance -Depth $Depth -TargetId $TargetId"
@@ -162,6 +163,20 @@ function Invoke-AzureManifest {
     try {
         & $pythonExe python/prepare_azure_job_manifest.py --instance $Instance --depth $Depth --coarse-shots $effectiveCoarseShots --refined-shots $effectiveRefinedShots --trials $effectiveTrials --target-id $TargetId
         if ($LASTEXITCODE -ne 0) { throw "Azure manifest generation failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-ValidateAzureCli {
+    Invoke-ValidateAzureEnv
+    Write-Host "Validating Azure CLI preflight for '$AzureEnvFile'..." -ForegroundColor Cyan
+    $envPathArg = Get-AzureEnvPathArg
+    Push-Location $repoRoot
+    try {
+        & $pythonExe problems/05_qaoa_maxcut/python/validate_azure_cli.py --env-file $envPathArg
+        if ($LASTEXITCODE -ne 0) { throw "Azure CLI preflight failed." }
     }
     finally {
         Pop-Location
@@ -213,7 +228,7 @@ function Invoke-AzureCollect {
 }
 
 function Invoke-AzureCollectAuto {
-    Invoke-ValidateAzureEnv
+    Invoke-ValidateAzureCli
     Write-Host "Fetching Azure result metadata via az CLI for '$Instance' (depth=$Depth)..." -ForegroundColor Cyan
     $envPathArg = Get-AzureEnvPathArg
     Push-Location $repoRoot
@@ -370,6 +385,9 @@ switch ($Action) {
     }
     "azure-manifest" {
         Invoke-AzureManifest
+    }
+    "validate-azure-cli" {
+        Invoke-ValidateAzureCli
     }
     "validate-azure-manifest" {
         Invoke-ValidateAzureManifest

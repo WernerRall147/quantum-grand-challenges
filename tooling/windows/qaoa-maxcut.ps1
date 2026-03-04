@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "evidence")]
+    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-manifest", "azure-submit", "azure-collect", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -10,6 +10,11 @@ param(
     [string]$Depths = "1,2,3",
     [string]$NoiseLevels = "0.00,0.01,0.02,0.05,0.10",
     [int]$NoiseSamples = 256,
+    [string]$TargetId = "microsoft.estimator",
+    [string]$AzureEnvFile = ".env.azure.local",
+    [string]$AzureManualJobId = "",
+    [ValidateSet("running", "succeeded", "failed", "cancelled")]
+    [string]$AzureResultStatus = "succeeded",
     [switch]$LiveEstimate,
     [switch]$Quick,
     [switch]$NoBuild
@@ -42,6 +47,13 @@ if ($Quick.IsPresent) {
     if (-not $PSBoundParameters.ContainsKey("Trials")) {
         $effectiveTrials = 3
     }
+}
+
+function Get-AzureEnvPathArg {
+    if ([System.IO.Path]::IsPathRooted($AzureEnvFile)) {
+        return $AzureEnvFile
+    }
+    return "problems/05_qaoa_maxcut/$AzureEnvFile"
 }
 
 function Invoke-Build {
@@ -98,6 +110,100 @@ function Invoke-NoiseSweep {
     try {
         & $pythonExe python/noise_sweep.py --instance $TargetInstance --depth $Depth --noise-levels $NoiseLevels --samples-per-trial $NoiseSamples
         if ($LASTEXITCODE -ne 0) { throw "Noise sweep failed for instance '$TargetInstance'." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-AzureRunbook {
+    Write-Host "Azure Quantum Runbook (QAOA MaxCut)" -ForegroundColor Cyan
+    Write-Host "===================================" -ForegroundColor Cyan
+    Write-Host "Current defaults: instance=$Instance depth=$Depth targetId=$TargetId"
+    Write-Host ""
+    Write-Host "1) Create local auth/workspace file (manual):"
+    Write-Host "   Copy-Item .env.azure.example .env.azure.local"
+    Write-Host "   Then edit .env.azure.local and replace all CHANGE_ME values."
+    Write-Host ""
+    Write-Host "2) Validate env gate:"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action validate-azure-env -AzureEnvFile .env.azure.local"
+    Write-Host ""
+    Write-Host "3) Build/validate manifest:"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-manifest -Instance $Instance -Depth $Depth -TargetId $TargetId"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action validate-azure-manifest -Instance $Instance -Depth $Depth -AzureEnvFile .env.azure.local"
+    Write-Host ""
+    Write-Host "4) After real Azure submission, stamp job metadata:"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-submit -Instance $Instance -Depth $Depth -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>"
+    Write-Host ""
+    Write-Host "5) After completion, stamp result status:"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-collect -Instance $Instance -Depth $Depth -AzureEnvFile .env.azure.local -AzureResultStatus succeeded"
+    Write-Host ""
+    Write-Host "Manual gate reminder: Azure operations are blocked until .env.azure.local is valid." -ForegroundColor Yellow
+}
+
+function Invoke-ValidateAzureEnv {
+    Write-Host "Validating Azure env file '$AzureEnvFile'..." -ForegroundColor Cyan
+    $envPathArg = Get-AzureEnvPathArg
+    Push-Location $repoRoot
+    try {
+        & $pythonExe problems/05_qaoa_maxcut/python/validate_azure_env.py --env-file $envPathArg
+        if ($LASTEXITCODE -ne 0) { throw "Azure env validation failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-AzureManifest {
+    Write-Host "Preparing Azure manifest for '$Instance' (depth=$Depth, target=$TargetId)..." -ForegroundColor Cyan
+    Push-Location $problemRoot
+    try {
+        & $pythonExe python/prepare_azure_job_manifest.py --instance $Instance --depth $Depth --coarse-shots $effectiveCoarseShots --refined-shots $effectiveRefinedShots --trials $effectiveTrials --target-id $TargetId
+        if ($LASTEXITCODE -ne 0) { throw "Azure manifest generation failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-ValidateAzureManifest {
+    Invoke-ValidateAzureEnv
+    Write-Host "Validating Azure manifest for '$Instance' (depth=$Depth)..." -ForegroundColor Cyan
+    Push-Location $repoRoot
+    try {
+        & $pythonExe problems/05_qaoa_maxcut/python/validate_azure_job_manifest.py --manifest "problems/05_qaoa_maxcut/estimates/azure_job_manifest_${Instance}_d${Depth}.json"
+        if ($LASTEXITCODE -ne 0) { throw "Azure manifest validation failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-AzureSubmit {
+    if ([string]::IsNullOrWhiteSpace($AzureManualJobId)) {
+        throw "AzureManualJobId is required for -Action azure-submit."
+    }
+    Invoke-ValidateAzureEnv
+    Write-Host "Recording Azure submission metadata for '$Instance' (depth=$Depth)..." -ForegroundColor Cyan
+    $envPathArg = Get-AzureEnvPathArg
+    Push-Location $repoRoot
+    try {
+        & $pythonExe problems/05_qaoa_maxcut/python/submit_azure_job.py --manifest "problems/05_qaoa_maxcut/estimates/azure_job_manifest_${Instance}_d${Depth}.json" --env-file $envPathArg --manual-job-id $AzureManualJobId
+        if ($LASTEXITCODE -ne 0) { throw "Azure submit metadata update failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-AzureCollect {
+    Invoke-ValidateAzureEnv
+    Write-Host "Recording Azure result metadata for '$Instance' (depth=$Depth, status=$AzureResultStatus)..." -ForegroundColor Cyan
+    $envPathArg = Get-AzureEnvPathArg
+    Push-Location $repoRoot
+    try {
+        & $pythonExe problems/05_qaoa_maxcut/python/collect_azure_job.py --manifest "problems/05_qaoa_maxcut/estimates/azure_job_manifest_${Instance}_d${Depth}.json" --env-file $envPathArg --result-status $AzureResultStatus
+        if ($LASTEXITCODE -ne 0) { throw "Azure collect metadata update failed." }
     }
     finally {
         Pop-Location
@@ -239,6 +345,24 @@ switch ($Action) {
         }
         Invoke-PruneEstimatorArtifacts
         Invoke-EstimatorSummary
+    }
+    "azure-runbook" {
+        Invoke-AzureRunbook
+    }
+    "validate-azure-env" {
+        Invoke-ValidateAzureEnv
+    }
+    "azure-manifest" {
+        Invoke-AzureManifest
+    }
+    "validate-azure-manifest" {
+        Invoke-ValidateAzureManifest
+    }
+    "azure-submit" {
+        Invoke-AzureSubmit
+    }
+    "azure-collect" {
+        Invoke-AzureCollect
     }
     "evidence" {
         if (-not $NoBuild.IsPresent) {

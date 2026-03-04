@@ -120,6 +120,11 @@ Notes:
 ```powershell
 .\tooling\windows\qaoa-maxcut.ps1 -Action run -Instance small
 .\tooling\windows\qaoa-maxcut.ps1 -Action run-all
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-runbook -Instance small -Depth 3
+.\tooling\windows\qaoa-maxcut.ps1 -Action validate-azure-env -AzureEnvFile .env.azure.local
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-manifest -Instance small -Depth 3 -TargetId microsoft.estimator
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence -Quick
 ```

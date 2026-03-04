@@ -63,6 +63,11 @@ Windows helper script (recommended in PowerShell):
 .\tooling\windows\qaoa-maxcut.ps1 -Action run-all
 .\tooling\windows\qaoa-maxcut.ps1 -Action depth-sweep -Instance small -Depths 1,2,3
 .\tooling\windows\qaoa-maxcut.ps1 -Action noise-sweep -Instance small -Depth 3 -NoiseLevels 0.00,0.01,0.02,0.05,0.10
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-runbook -Instance small -Depth 3
+.\tooling\windows\qaoa-maxcut.ps1 -Action validate-azure-env -AzureEnvFile .env.azure.local
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-manifest -Instance small -Depth 3 -TargetId microsoft.estimator
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate-all
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small -LiveEstimate

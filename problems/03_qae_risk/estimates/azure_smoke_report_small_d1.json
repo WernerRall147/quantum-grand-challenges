@@ -1,8 +1,10 @@
 {
-  "manifest_version": "1.0",
-  "generated_utc": "2026-03-04T16:23:38Z",
+  "generated_utc": "2026-03-04T16:38:04Z",
+  "workflow": "azure-smoke",
+  "overall_status": "passed",
   "problem_id": "03_qae_risk",
-  "problem_name": "QAE Risk Analysis",
+  "manifest_path": "problems/03_qae_risk/estimates/azure_job_manifest_small_d1.json",
+  "mode": "execute",
   "instance_id": "small",
   "depth": 1,
   "backend": {
@@ -16,20 +18,18 @@
       "location": "eastus"
     }
   },
-  "execution": {
-    "shots": 256,
-    "refined_shots": 256,
-    "trials": 1
-  },
-  "evidence": {
-    "primary_artifact": "problems/03_qae_risk/estimates/quantum_estimate_ensemble.json",
-    "related_artifacts": []
-  },
   "submission": {
-    "status": "succeeded",
-    "submitted_utc": "2026-03-04T16:37:04Z",
     "job_id": "bebad079-d4d7-4176-ae24-c645058b213e",
+    "status": "succeeded",
     "result_status": "succeeded",
+    "submitted_utc": "2026-03-04T16:37:04Z",
     "dry_run_command": "quantum job submit --workspace-name Quantum-Grand-Challenges --resource-group Quantum-Grand-Challenges --location eastus --target-id rigetti.sim.qvm --job-name 03_qae_risk-small-d1 --shots 256 --output json --job-input-file 'C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\estimates\\rigetti_smoke.quil' --job-input-format rigetti.quil.v1 --job-output-format rigetti.quil-results.v1"
+  },
+  "checks": {
+    "env_gate": "passed",
+    "cli_preflight": "passed",
+    "manifest_generated": "passed",
+    "submit_step": "executed",
+    "collect_step": "attempted"
   }
 }

@@ -1,6 +1,7 @@
 param(
     [string]$PythonDir = "$env:LOCALAPPDATA\Programs\Python\Python311",
     [string]$MakeDir = "C:\Program Files (x86)\GnuWin32\bin",
+    [string[]]$AzCliDirs = @("C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin", "C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin"),
     [switch]$HeadlessPlots
 )
 
@@ -22,6 +23,12 @@ if (Test-Path (Join-Path $MakeDir "make.exe")) {
     Write-Warning "GNU Make not found at $MakeDir. Install GnuWin32.Make or pass -MakeDir."
 }
 
+foreach ($azDir in $AzCliDirs) {
+    if (Test-Path (Join-Path $azDir "az.cmd")) {
+        $pathsToPrepend += $azDir
+    }
+}
+
 if ($pathsToPrepend.Count -gt 0) {
     $env:Path = (($pathsToPrepend -join ';') + ';' + $env:Path)
 }
@@ -37,6 +44,7 @@ if ($HeadlessPlots.IsPresent) {
 Write-Host "Quantum Grand Challenges Windows environment bootstrapped." -ForegroundColor Green
 Write-Host "  python: $(Get-Command python -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue)"
 Write-Host "  make:   $(Get-Command make -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue)"
+Write-Host "  az:     $(Get-Command az -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue)"
 Write-Host "  PYTHONUTF8=$env:PYTHONUTF8"
 if ($HeadlessPlots.IsPresent) {
     Write-Host "  MPLBACKEND=$env:MPLBACKEND"

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit } from '../data/projectStatus';
+import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit, azureExecutionStats, recentAzureRuns } from '../data/projectStatus';
 
 export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
@@ -148,6 +148,8 @@ export default function Home() {
             <li><strong>✅ Hardware Readiness Overlay:</strong> DiVincenzo criteria are policy-enforced and documented across all 20 problem READMEs</li>
             <li><strong>✅ Azure Execution Contract:</strong> QAOA now publishes a validated Azure Quantum job manifest artifact with manual `.env.azure.local` auth gating for reproducible submit metadata and evidence linkage</li>
             <li><strong>✅ Azure Smoke Audit:</strong> Latest QAOA smoke report is `{qaoaAzureSmokeAudit.status}` in `{qaoaAzureSmokeAudit.mode}` mode (submit `{qaoaAzureSmokeAudit.submitStep}`, collect `{qaoaAzureSmokeAudit.collectStep}`) from `{qaoaAzureSmokeAudit.generatedUtc}` against `{qaoaAzureSmokeAudit.manifestPath}`</li>
+            <li><strong>✅ Azure Successful Runs:</strong> `{azureExecutionStats.totalSuccessfulRuns}` successful live runs recorded across `{azureExecutionStats.systems.length}` quantum systems</li>
+            <li><strong>✅ Systems Used:</strong> {azureExecutionStats.systems.map((item) => `${item.targetId} (${item.runs})`).join(', ') || 'none yet'}</li>
             <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
             <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
             <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>
@@ -172,6 +174,41 @@ export default function Home() {
               <TimelineCard key={item.title} title={item.title} description={item.description} />
             ))}
           </div>
+        </section>
+
+        <section style={{ marginTop: '3rem', padding: '2rem', background: '#f5f3ff', borderRadius: '12px' }}>
+          <h2 style={{ marginTop: 0 }}>☁️ Azure Run Ledger</h2>
+          <p style={{ color: '#5b21b6' }}>
+            Automatic record of successful Azure Quantum executions and the systems used.
+          </p>
+          {recentAzureRuns.length === 0 ? (
+            <p style={{ color: '#6b7280', marginBottom: 0 }}>No successful live runs recorded yet.</p>
+          ) : (
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: '8px', overflow: 'hidden' }}>
+                <thead>
+                  <tr style={{ background: '#ede9fe', color: '#4c1d95' }}>
+                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>Problem</th>
+                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>Instance/Depth</th>
+                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>System</th>
+                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>Job ID</th>
+                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>Recorded UTC</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentAzureRuns.map((run) => (
+                    <tr key={run.jobId} style={{ borderTop: '1px solid #e5e7eb' }}>
+                      <td style={{ padding: '0.75rem', color: '#111827' }}>{run.problemId}</td>
+                      <td style={{ padding: '0.75rem', color: '#374151' }}>{run.instanceId} / d{run.depth}</td>
+                      <td style={{ padding: '0.75rem', color: '#374151' }}>{run.targetId}</td>
+                      <td style={{ padding: '0.75rem', color: '#1d4ed8', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>{run.jobId}</td>
+                      <td style={{ padding: '0.75rem', color: '#6b7280' }}>{run.recordedUtc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginTop: '3rem' }}>

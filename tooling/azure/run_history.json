@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "updated_utc": "2026-03-04T16:42:08Z",
+  "runs": [
+    {
+      "recorded_utc": "2026-03-04T16:41:55Z",
+      "job_id": "bebad079-d4d7-4176-ae24-c645058b213e",
+      "problem_id": "03_qae_risk",
+      "problem_name": "QAE Risk Analysis",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "rigetti.sim.qvm",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-04T16:37:04Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-04T16:42:08Z",
+      "job_id": "2b01d692-a33e-40f9-85f1-9f267e77394f",
+      "problem_id": "05_qaoa_maxcut",
+      "problem_name": "QAOA MaxCut",
+      "instance_id": "small",
+      "depth": 3,
+      "provider": "azure-quantum",
+      "target_id": "rigetti.sim.qvm",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-04T16:41:40Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/05_qaoa_maxcut/estimates/azure_job_manifest_small_d3.json"
+    }
+  ]
+}

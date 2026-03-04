@@ -45,12 +45,18 @@ def _cmd_to_string(cmd: list[str]) -> str:
     return " ".join(shlex.quote(part) for part in cmd)
 
 
+def _run_az(args: list[str], timeout: int) -> subprocess.CompletedProcess[str]:
+    cmdline = subprocess.list2cmdline(["az", *args])
+    return subprocess.run(cmdline, shell=True, capture_output=True, text=True, check=True, timeout=timeout)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Submit Azure job from generic problem manifest.")
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--env-file", required=True)
     parser.add_argument("--job-input-file", default=None)
     parser.add_argument("--job-input-format", default="qir.v1")
+    parser.add_argument("--job-output-format", default=None)
     parser.add_argument("--entry-point", default=None)
     parser.add_argument("--target-id", default=None)
     parser.add_argument("--job-name", default=None)
@@ -86,7 +92,7 @@ def main() -> None:
     workspace["location"] = azure_env["AZURE_LOCATION"]
 
     cmd = [
-        "az", "quantum", "job", "submit",
+        "quantum", "job", "submit",
         "--workspace-name", azure_env["AZURE_QUANTUM_WORKSPACE"],
         "--resource-group", azure_env["AZURE_RESOURCE_GROUP"],
         "--location", azure_env["AZURE_LOCATION"],
@@ -105,6 +111,9 @@ def main() -> None:
     if args.entry_point:
         cmd.extend(["--entry-point", args.entry_point])
 
+    if args.job_output_format:
+        cmd.extend(["--job-output-format", args.job_output_format])
+
     command_preview = _cmd_to_string(cmd)
     if not args.execute:
         submission["status"] = "not_submitted"
@@ -119,9 +128,7 @@ def main() -> None:
         raise SystemExit("--job-input-file is required with --execute")
 
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=args.az_timeout)
-    except FileNotFoundError:
-        raise SystemExit("Azure auto-submit failed: 'az' command not found on PATH.")
+        result = _run_az(cmd, args.az_timeout)
     except subprocess.CalledProcessError as exc:
         detail = exc.stderr.strip() if exc.stderr else str(exc)
         raise SystemExit(f"Azure auto-submit failed: {detail}")

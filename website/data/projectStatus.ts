@@ -1,3 +1,5 @@
+import azureRunHistory from './azureRunHistory.json';
+
 export const pipelineStages = [
   {
     title: 'Stage A - Problem Framing',
@@ -172,9 +174,39 @@ export const problemHighlights = [
 
 export const qaoaAzureSmokeAudit = {
   status: 'passed',
-  mode: 'dry-run',
-  generatedUtc: '2026-03-04T15:43:39Z',
+  mode: 'execute',
+  generatedUtc: '2026-03-04T16:42:19Z',
   manifestPath: 'estimates/azure_job_manifest_small_d3.json',
-  submitStep: 'dry_run',
-  collectStep: 'skipped',
+  submitStep: 'executed',
+  collectStep: 'attempted',
 };
+
+const successfulRuns = Array.isArray(azureRunHistory.runs)
+  ? azureRunHistory.runs.filter((entry) => entry && entry.status === 'succeeded')
+  : [];
+
+const runsBySystemMap = successfulRuns.reduce((acc, entry) => {
+  const key = String(entry.target_id || 'unknown');
+  acc[key] = (acc[key] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
+export const azureExecutionStats = {
+  totalSuccessfulRuns: successfulRuns.length,
+  systems: Object.entries(runsBySystemMap)
+    .map(([targetId, runs]) => ({ targetId, runs }))
+    .sort((a, b) => b.runs - a.runs),
+};
+
+export const recentAzureRuns = successfulRuns
+  .slice()
+  .sort((a, b) => String(b.recorded_utc || '').localeCompare(String(a.recorded_utc || '')))
+  .slice(0, 6)
+  .map((entry) => ({
+    jobId: String(entry.job_id || ''),
+    problemId: String(entry.problem_id || ''),
+    instanceId: String(entry.instance_id || ''),
+    depth: Number(entry.depth || 0),
+    targetId: String(entry.target_id || 'unknown'),
+    recordedUtc: String(entry.recorded_utc || ''),
+  }));

@@ -30,6 +30,7 @@ def main() -> None:
     parser.add_argument("--evidence-file", default=None)
     parser.add_argument("--job-input-file", default=None)
     parser.add_argument("--job-input-format", default="qir.v1")
+    parser.add_argument("--job-output-format", default=None)
     parser.add_argument("--entry-point", default=None)
     parser.add_argument("--execute", action="store_true", default=False)
     parser.add_argument("--collect", action="store_true", default=False)
@@ -62,6 +63,8 @@ def main() -> None:
         "--target-id", args.target_id,
         "--job-input-format", args.job_input_format,
     ]
+    if args.job_output_format:
+        submit_cmd.extend(["--job-output-format", args.job_output_format])
     if args.job_input_file:
         submit_cmd.extend(["--job-input-file", str(_resolve(args.job_input_file))])
     if args.entry_point:

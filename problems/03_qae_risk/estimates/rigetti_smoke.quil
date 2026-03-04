@@ -1,0 +1,3 @@
+DECLARE ro BIT[1]
+H 0
+MEASURE 0 ro[0]

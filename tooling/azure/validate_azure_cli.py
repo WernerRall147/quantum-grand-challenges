@@ -10,10 +10,16 @@ from pathlib import Path
 from azure_env import AzureEnvError, load_azure_env
 
 
-def _run(cmd: list[str], timeout: int) -> dict:
-    result = subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=timeout)
+def _run_az(args: list[str], timeout: int) -> dict:
+    cmdline = subprocess.list2cmdline(["az", *args])
+    result = subprocess.run(cmdline, shell=True, capture_output=True, text=True, check=True, timeout=timeout)
     payload = json.loads(result.stdout) if result.stdout.strip() else {}
     return payload if isinstance(payload, dict) else {}
+
+
+def _run_az_check(args: list[str], timeout: int) -> None:
+    cmdline = subprocess.list2cmdline(["az", *args])
+    subprocess.run(cmdline, shell=True, capture_output=True, text=True, check=True, timeout=timeout)
 
 
 def main() -> None:
@@ -32,7 +38,7 @@ def main() -> None:
         raise SystemExit(f"Azure CLI preflight failed: {exc}")
 
     try:
-        account = _run(["az", "account", "show", "--output", "json"], args.timeout)
+        account = _run_az(["account", "show", "--output", "json"], args.timeout)
     except FileNotFoundError:
         raise SystemExit("Azure CLI preflight failed: 'az' command not found on PATH.")
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
@@ -47,9 +53,8 @@ def main() -> None:
         print(f"  expected: {expected_subscription}")
 
     try:
-        subprocess.run(
+        _run_az_check(
             [
-                "az",
                 "quantum",
                 "workspace",
                 "show",
@@ -60,10 +65,7 @@ def main() -> None:
                 "--output",
                 "json",
             ],
-            capture_output=True,
-            text=True,
-            check=True,
-            timeout=args.timeout,
+            args.timeout,
         )
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
         raise SystemExit(f"Azure CLI preflight failed on workspace validation: {exc}")

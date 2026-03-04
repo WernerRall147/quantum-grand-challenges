@@ -1,33 +1,35 @@
 {
+  "manifest_version": "1.0",
+  "generated_utc": "2026-03-04T16:41:32Z",
   "problem_id": "05_qaoa_maxcut",
+  "problem_name": "QAOA MaxCut",
   "instance_id": "small",
   "depth": 3,
-  "execution": {
-    "coarse_shots": 24,
-    "refined_shots": 96,
-    "trials": 6
-  },
   "backend": {
     "provider": "azure-quantum",
-    "target_id": "microsoft.estimator",
-    "job_name": "qaoa-small-d3",
+    "target_id": "rigetti.sim.qvm",
+    "job_name": "05_qaoa_maxcut-small-d3",
     "workspace": {
-      "subscription_id": null,
-      "resource_group": null,
-      "workspace_name": null,
-      "location": null
+      "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+      "resource_group": "Quantum-Grand-Challenges",
+      "workspace_name": "Quantum-Grand-Challenges",
+      "location": "eastus"
     }
   },
-  "submission": {
-    "status": "not_submitted",
-    "submitted_utc": null,
-    "job_id": null,
-    "result_status": null
+  "execution": {
+    "shots": 256,
+    "refined_shots": 256,
+    "trials": 1
   },
   "evidence": {
-    "quantum_baseline": "estimates/quantum_baseline_small_d3.json",
-    "depth_sweep": "estimates/depth_sweep_small.json",
-    "noise_sweep": "estimates/noise_sweep_small_d3.json",
-    "summary": "estimates/quantum_classical_summary.md"
+    "primary_artifact": "problems/05_qaoa_maxcut/estimates/quantum_baseline_small_d3.json",
+    "related_artifacts": []
+  },
+  "submission": {
+    "status": "succeeded",
+    "submitted_utc": "2026-03-04T16:41:40Z",
+    "job_id": "2b01d692-a33e-40f9-85f1-9f267e77394f",
+    "result_status": "succeeded",
+    "dry_run_command": "quantum job submit --workspace-name Quantum-Grand-Challenges --resource-group Quantum-Grand-Challenges --location eastus --target-id rigetti.sim.qvm --job-name 05_qaoa_maxcut-small-d3 --shots 256 --output json --job-input-file 'C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\05_qaoa_maxcut\\estimates\\rigetti_smoke.quil' --job-input-format rigetti.quil.v1 --job-output-format rigetti.quil-results.v1"
   }
 }

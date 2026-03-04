@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("validate-env", "validate-cli", "prepare-manifest", "submit-auto", "collect", "smoke")]
+    [ValidateSet("validate-env", "validate-cli", "prepare-manifest", "submit-auto", "collect", "smoke", "smoke-report")]
     [string]$Action = "smoke",
     [string]$Problem = "03_qae_risk",
     [string]$Instance = "small",
@@ -11,6 +11,7 @@ param(
     [string]$EvidenceFile = "",
     [string]$JobInputFile = "",
     [string]$JobInputFormat = "qir.v1",
+    [string]$JobOutputFormat = "",
     [string]$EntryPoint = "",
     [switch]$Execute,
     [switch]$Collect
@@ -41,10 +42,10 @@ $envPath = Resolve-ArgPath $EnvFile
 $evidencePath = Resolve-ArgPath $EvidenceFile
 $jobInputPath = Resolve-ArgPath $JobInputFile
 
-function Invoke-AzureTool([string[]]$Cmd) {
+function Invoke-AzureTool([string[]]$CliParams) {
     Push-Location $repoRoot
     try {
-        & $pythonExe @Cmd
+        & $pythonExe $CliParams
         if ($LASTEXITCODE -ne 0) {
             throw "Azure tooling command failed"
         }
@@ -56,10 +57,10 @@ function Invoke-AzureTool([string[]]$Cmd) {
 
 switch ($Action) {
     "validate-env" {
-        Invoke-AzureTool @("tooling/azure/validate_azure_env.py", "--env-file", $envPath)
+        Invoke-AzureTool -CliParams @("tooling/azure/validate_azure_env.py", "--env-file", $envPath)
     }
     "validate-cli" {
-        Invoke-AzureTool @("tooling/azure/validate_azure_cli.py", "--env-file", $envPath)
+        Invoke-AzureTool -CliParams @("tooling/azure/validate_azure_cli.py", "--env-file", $envPath)
     }
     "prepare-manifest" {
         $cmdList = @(
@@ -74,7 +75,7 @@ switch ($Action) {
         if (-not [string]::IsNullOrWhiteSpace($evidencePath)) {
             $cmdList += @("--evidence-file", $evidencePath)
         }
-        Invoke-AzureTool $cmdList
+        Invoke-AzureTool -CliParams $cmdList
     }
     "submit-auto" {
         $manifest = "problems/$Problem/estimates/azure_job_manifest_${Instance}_d${Depth}.json"
@@ -85,6 +86,9 @@ switch ($Action) {
             "--target-id", $TargetId,
             "--job-input-format", $JobInputFormat
         )
+        if (-not [string]::IsNullOrWhiteSpace($JobOutputFormat)) {
+            $cmdList += @("--job-output-format", $JobOutputFormat)
+        }
         if (-not [string]::IsNullOrWhiteSpace($jobInputPath)) {
             $cmdList += @("--job-input-file", $jobInputPath)
         }
@@ -94,11 +98,11 @@ switch ($Action) {
         if ($Execute.IsPresent) {
             $cmdList += "--execute"
         }
-        Invoke-AzureTool $cmdList
+        Invoke-AzureTool -CliParams $cmdList
     }
     "collect" {
         $manifest = "problems/$Problem/estimates/azure_job_manifest_${Instance}_d${Depth}.json"
-        Invoke-AzureTool @(
+        Invoke-AzureTool -CliParams @(
             "tooling/azure/collect_job.py",
             "--manifest", $manifest,
             "--env-file", $envPath,
@@ -117,6 +121,9 @@ switch ($Action) {
             "--env-file", $envPath,
             "--job-input-format", $JobInputFormat
         )
+        if (-not [string]::IsNullOrWhiteSpace($JobOutputFormat)) {
+            $cmdList += @("--job-output-format", $JobOutputFormat)
+        }
         if (-not [string]::IsNullOrWhiteSpace($evidencePath)) {
             $cmdList += @("--evidence-file", $evidencePath)
         }
@@ -132,7 +139,19 @@ switch ($Action) {
         if ($Collect.IsPresent) {
             $cmdList += "--collect"
         }
-        Invoke-AzureTool $cmdList
+        Invoke-AzureTool -CliParams $cmdList
+    }
+    "smoke-report" {
+        $manifest = "problems/$Problem/estimates/azure_job_manifest_${Instance}_d${Depth}.json"
+        $cmdList = @(
+            "tooling/azure/write_smoke_report.py",
+            "--manifest", $manifest,
+            "--mode", $(if ($Execute.IsPresent) { "execute" } else { "dry-run" })
+        )
+        if ($Collect.IsPresent) {
+            $cmdList += @("--collect-enabled", "--collect-attempted")
+        }
+        Invoke-AzureTool -CliParams $cmdList
     }
 }
 

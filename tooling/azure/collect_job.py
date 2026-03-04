@@ -5,12 +5,17 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict
+from typing import Any, Dict
 
 from azure_env import AzureEnvError, load_azure_env
 
 ALLOWED = {"running", "succeeded", "failed", "cancelled"}
+
+
+def utc_now() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _resolve(path_arg: str) -> Path:
@@ -29,19 +34,83 @@ def _normalize(raw: str) -> str:
     raise ValueError(f"Unsupported Azure status '{raw}'")
 
 
+def _run_az(args: list[str], timeout: int) -> subprocess.CompletedProcess[str]:
+    cmdline = subprocess.list2cmdline(["az", *args])
+    return subprocess.run(cmdline, shell=True, capture_output=True, text=True, check=True, timeout=timeout)
+
+
 def _fetch(job_id: str, azure_env: Dict[str, str], timeout: int) -> str:
     cmd = [
-        "az", "quantum", "job", "show",
+        "quantum", "job", "show",
         "--workspace-name", azure_env["AZURE_QUANTUM_WORKSPACE"],
         "--resource-group", azure_env["AZURE_RESOURCE_GROUP"],
         "--job-id", job_id,
         "--output", "json",
     ]
-    result = subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=timeout)
+    result = _run_az(cmd, timeout)
     payload = json.loads(result.stdout)
     if not isinstance(payload, dict):
         raise ValueError("Azure CLI returned invalid job payload")
     return _normalize(str(payload.get("status", "")))
+
+
+def _record_successful_run(payload: Dict[str, Any], manifest_path: Path) -> None:
+    submission = payload.get("submission", {}) if isinstance(payload.get("submission"), dict) else {}
+    status = str(submission.get("status", "")).strip().lower()
+    result_status = str(submission.get("result_status", "")).strip().lower()
+    if status != "succeeded" and result_status != "succeeded":
+        return
+
+    job_id = str(submission.get("job_id", "")).strip()
+    if not job_id:
+        return
+
+    backend = payload.get("backend", {}) if isinstance(payload.get("backend"), dict) else {}
+    workspace = backend.get("workspace", {}) if isinstance(backend.get("workspace"), dict) else {}
+    history_path = Path(__file__).resolve().parent / "run_history.json"
+
+    if history_path.exists():
+        history = json.loads(history_path.read_text(encoding="utf-8"))
+        if not isinstance(history, dict):
+            history = {}
+    else:
+        history = {}
+
+    runs = history.get("runs") if isinstance(history.get("runs"), list) else []
+    if any(isinstance(entry, dict) and str(entry.get("job_id", "")).strip() == job_id for entry in runs):
+        return
+
+    runs.append(
+        {
+            "recorded_utc": utc_now(),
+            "job_id": job_id,
+            "problem_id": str(payload.get("problem_id", "")),
+            "problem_name": str(payload.get("problem_name", "")),
+            "instance_id": str(payload.get("instance_id", "")),
+            "depth": int(payload.get("depth", 0) or 0),
+            "provider": str(backend.get("provider", "azure-quantum")),
+            "target_id": str(backend.get("target_id", "")),
+            "workspace": {
+                "subscription_id": str(workspace.get("subscription_id", "")),
+                "resource_group": str(workspace.get("resource_group", "")),
+                "workspace_name": str(workspace.get("workspace_name", "")),
+                "location": str(workspace.get("location", "")),
+            },
+            "submitted_utc": str(submission.get("submitted_utc", "")),
+            "status": "succeeded",
+            "manifest_path": manifest_path.as_posix(),
+        }
+    )
+
+    history["schema_version"] = "1.0"
+    history["updated_utc"] = utc_now()
+    history["runs"] = runs
+    history_path.write_text(json.dumps(history, indent=2) + "\n", encoding="utf-8")
+
+    # Mirror for website import to keep dashboard numbers in sync.
+    web_history_path = Path(__file__).resolve().parents[2] / "website" / "data" / "azureRunHistory.json"
+    web_history_path.parent.mkdir(parents=True, exist_ok=True)
+    web_history_path.write_text(json.dumps(history, indent=2) + "\n", encoding="utf-8")
 
 
 def main() -> None:
@@ -81,6 +150,7 @@ def main() -> None:
     submission["result_status"] = status
 
     manifest_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    _record_successful_run(payload, manifest_path)
     print("Azure collect complete")
     print(f"  manifest: {manifest_path}")
     print(f"  job_id: {job_id}")

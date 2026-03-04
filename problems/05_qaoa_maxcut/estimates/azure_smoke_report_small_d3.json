@@ -1,35 +1,35 @@
 {
-  "generated_utc": "2026-03-04T15:43:39Z",
+  "generated_utc": "2026-03-04T16:42:41Z",
   "workflow": "azure-smoke",
   "overall_status": "passed",
-  "manifest_path": "estimates/azure_job_manifest_small_d3.json",
-  "mode": "dry-run",
+  "problem_id": "05_qaoa_maxcut",
+  "manifest_path": "problems/05_qaoa_maxcut/estimates/azure_job_manifest_small_d3.json",
+  "mode": "execute",
   "instance_id": "small",
   "depth": 3,
   "backend": {
     "provider": "azure-quantum",
-    "target_id": "microsoft.estimator",
-    "job_name": "qaoa-small-d3",
+    "target_id": "rigetti.sim.qvm",
+    "job_name": "05_qaoa_maxcut-small-d3",
     "workspace": {
-      "subscription_id": "",
-      "resource_group": "",
-      "workspace_name": "",
-      "location": ""
+      "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+      "resource_group": "Quantum-Grand-Challenges",
+      "workspace_name": "Quantum-Grand-Challenges",
+      "location": "eastus"
     }
   },
   "submission": {
-    "job_id": "",
-    "status": "not_submitted",
-    "result_status": "pending",
-    "submitted_utc": "",
-    "dry_run_command": ""
+    "job_id": "2b01d692-a33e-40f9-85f1-9f267e77394f",
+    "status": "succeeded",
+    "result_status": "succeeded",
+    "submitted_utc": "2026-03-04T16:41:40Z",
+    "dry_run_command": "quantum job submit --workspace-name Quantum-Grand-Challenges --resource-group Quantum-Grand-Challenges --location eastus --target-id rigetti.sim.qvm --job-name 05_qaoa_maxcut-small-d3 --shots 256 --output json --job-input-file 'C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\05_qaoa_maxcut\\estimates\\rigetti_smoke.quil' --job-input-format rigetti.quil.v1 --job-output-format rigetti.quil-results.v1"
   },
   "checks": {
     "env_gate": "passed",
     "cli_preflight": "passed",
     "manifest_generated": "passed",
-    "manifest_validated": "passed",
-    "submit_step": "dry_run",
-    "collect_step": "skipped"
+    "submit_step": "executed",
+    "collect_step": "attempted"
   }
 }

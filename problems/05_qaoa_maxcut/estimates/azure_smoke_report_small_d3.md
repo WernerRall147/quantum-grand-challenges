@@ -1,37 +1,18 @@
 # Azure Smoke Report
 
-- Generated UTC: `2026-03-04T15:43:39Z`
+- Generated UTC: `2026-03-04T16:42:41Z`
 - Workflow: `azure-smoke`
 - Overall Status: `passed`
-- Mode: `dry-run`
+- Problem: `05_qaoa_maxcut`
+- Mode: `execute`
 - Instance: `small`
 - Depth: `3`
-- Manifest: `estimates/azure_job_manifest_small_d3.json`
-
-## Backend
-
-- Provider: `azure-quantum`
-- Target ID: `microsoft.estimator`
-- Job Name: `qaoa-small-d3`
-- Subscription: ``
-- Resource Group: ``
-- Workspace: ``
-- Location: ``
+- Manifest: `problems/05_qaoa_maxcut/estimates/azure_job_manifest_small_d3.json`
 
 ## Submission
 
-- Job ID: ``
-- Status: `not_submitted`
-- Result Status: `pending`
-- Submitted UTC: ``
-- Dry Run Command: ``
-
-## Checks
-
-- Env Gate: `passed`
-- CLI Preflight: `passed`
-- Manifest Generated: `passed`
-- Manifest Validated: `passed`
-- Submit Step: `dry_run`
-- Collect Step: `skipped`
+- Job ID: `2b01d692-a33e-40f9-85f1-9f267e77394f`
+- Status: `succeeded`
+- Result Status: `succeeded`
+- Submitted UTC: `2026-03-04T16:41:40Z`
 

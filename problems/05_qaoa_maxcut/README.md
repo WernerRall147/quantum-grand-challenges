@@ -27,6 +27,8 @@ make run            # Run depth-configurable QAOA with multi-trial uncertainty s
 make run-all        # Run depth-configurable QAOA for small/medium/large and write quantum artifacts
 make depth-sweep INSTANCE=small DEPTHS=1,2,3 TRIALS=6  # Generate depth-vs-quality evidence artifacts
 make noise-sweep INSTANCE=small DEPTH=3 NOISE_LEVELS=0.00,0.01,0.02,0.05,0.10  # Generate readout-noise sensitivity artifacts
+make azure-manifest INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator  # Build Azure Quantum execution contract manifest
+make validate-azure-manifest INSTANCE=small DEPTH=3  # Validate Azure manifest + referenced evidence artifacts
 make validate-assumptions  # Validate backend/transpilation/connectivity assumptions evidence
 make validate-quality  # Validate depth/noise quality thresholds for Stage C evidence
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
@@ -78,7 +80,10 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `estimates/depth_sweep_<instance>.md` – Markdown summary table for depth sweep results
 - `estimates/noise_sweep_<instance>_d<depth>.json` – Readout-noise sensitivity sweep metrics for a selected baseline depth
 - `estimates/noise_sweep_<instance>_d<depth>.md` – Markdown summary table for noise sweep results
+- `estimates/azure_job_manifest_<instance>_d<depth>.json` – Azure Quantum execution contract manifest (target, job metadata, and evidence paths)
 - `estimates/backend_assumptions.md` – Backend/transpilation/connectivity assumptions for reported runtime + estimator evidence
+- `python/prepare_azure_job_manifest.py` – Generates Azure Quantum submission contract artifacts from current QAOA evidence
+- `python/validate_azure_job_manifest.py` – Validates Azure job manifest schema assumptions and referenced evidence files
 - `python/validate_evidence_quality.py` – Enforces depth/noise evidence quality thresholds used by CI/automation
 - `estimates/evidence_quality_report.md` – Human-readable snapshot of depth/noise evidence threshold checks
 - `estimates/evidence_quality_report.json` – Machine-readable snapshot of depth/noise evidence threshold checks
@@ -153,6 +158,7 @@ Current progress toward Stage C (exit criteria satisfied):
 - Medium-instance uncertainty report is now available in `estimates/quantum_baseline_medium_d1.json`.
 - Large-instance uncertainty report is now available in `estimates/quantum_baseline_large_d1.json`.
 - Hardware-targeted estimator routing is now wired through `python/prepare_estimator_params.py` and `tooling/estimator/run_estimation.py`.
+- Azure Quantum job manifest contract generation/validation is now available via `python/prepare_azure_job_manifest.py` and `python/validate_azure_job_manifest.py`.
 - Backend/transpilation/connectivity assumptions are now documented in `estimates/backend_assumptions.md` and checked via `python/validate_backend_assumptions.py`.
 - Depth/noise evidence quality is now enforced via `python/validate_evidence_quality.py` (minimum points, bounded monotonicity behavior, and minimum degradation/gain thresholds).
 - Quality checks now emit `estimates/evidence_quality_report.{md,json}` for reproducible CI/local audit trails.

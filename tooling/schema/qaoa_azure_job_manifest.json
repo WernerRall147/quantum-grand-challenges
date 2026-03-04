@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QAOA Azure Quantum Job Manifest",
+  "description": "Execution contract for submitting QAOA Max-Cut runs to Azure Quantum and tracking evidence artifacts.",
+  "type": "object",
+  "required": [
+    "problem_id",
+    "instance_id",
+    "depth",
+    "execution",
+    "backend",
+    "submission",
+    "evidence"
+  ],
+  "properties": {
+    "problem_id": {
+      "type": "string",
+      "const": "05_qaoa_maxcut"
+    },
+    "instance_id": {
+      "type": "string",
+      "enum": ["small", "medium", "large"]
+    },
+    "depth": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "execution": {
+      "type": "object",
+      "required": ["coarse_shots", "refined_shots", "trials"],
+      "properties": {
+        "coarse_shots": { "type": "integer", "minimum": 1 },
+        "refined_shots": { "type": "integer", "minimum": 1 },
+        "trials": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "backend": {
+      "type": "object",
+      "required": ["provider", "target_id", "job_name"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "target_id": { "type": "string", "minLength": 1 },
+        "job_name": { "type": "string", "minLength": 1 },
+        "workspace": {
+          "type": "object",
+          "properties": {
+            "subscription_id": { "type": ["string", "null"] },
+            "resource_group": { "type": ["string", "null"] },
+            "workspace_name": { "type": ["string", "null"] },
+            "location": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+    "submission": {
+      "type": "object",
+      "required": ["status", "submitted_utc", "job_id"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["not_submitted", "submitted", "running", "succeeded", "failed", "cancelled"]
+        },
+        "submitted_utc": { "type": ["string", "null"] },
+        "job_id": { "type": ["string", "null"] },
+        "result_status": { "type": ["string", "null"] }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["quantum_baseline", "depth_sweep", "noise_sweep", "summary"],
+      "properties": {
+        "quantum_baseline": { "type": "string", "minLength": 1 },
+        "depth_sweep": { "type": "string", "minLength": 1 },
+        "noise_sweep": { "type": ["string", "null"] },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

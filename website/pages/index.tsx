@@ -146,6 +146,7 @@ export default function Home() {
             <li><strong>🟢 Stage B Tracks:</strong> Seventeen additional problems are baseline-complete and queued for Stage C promotion</li>
             <li><strong>✅ Governance Automation:</strong> CI enforces maturity policy and publishes markdown/JSON KPI artifacts</li>
             <li><strong>✅ Hardware Readiness Overlay:</strong> DiVincenzo criteria are policy-enforced and documented across all 20 problem READMEs</li>
+            <li><strong>✅ Azure Execution Contract:</strong> QAOA now publishes a validated Azure Quantum job manifest artifact for reproducible submit metadata and evidence linkage</li>
             <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
             <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
             <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>

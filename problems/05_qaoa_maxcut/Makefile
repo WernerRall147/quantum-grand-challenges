@@ -12,6 +12,7 @@ COARSE_SHOTS ?= 64
 REFINED_SHOTS ?= 256
 TRIALS ?= 16
 DEPTHS ?= 1,2,3
+TARGET_ID ?= microsoft.estimator
 NOISE_LEVELS ?= 0.00,0.01,0.02,0.05,0.10
 NOISE_SAMPLES ?= 256
 ESTIMATE_MOCK ?= 1
@@ -22,7 +23,7 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all depth-sweep noise-sweep validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
+.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest validate-azure-manifest validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
@@ -31,6 +32,8 @@ help:
 	@echo "  make run-all     Run QAOA for small/medium/large instances"
 	@echo "  make depth-sweep Run depth sweep for an instance (DEPTHS=1,2,3 by default)"
 	@echo "  make noise-sweep Run readout-noise sensitivity sweep for a selected instance/depth"
+	@echo "  make azure-manifest Build Azure Quantum job manifest contract for selected instance/depth"
+	@echo "  make validate-azure-manifest Validate Azure Quantum job manifest and referenced evidence"
 	@echo "  make validate-assumptions Validate backend/transpilation assumptions artifact"
 	@echo "  make validate-quality Validate depth/noise evidence quality thresholds"
 	@echo "  make evidence    Rebuild quantum artifacts and regenerate plots/summary"
@@ -61,6 +64,14 @@ depth-sweep: build
 noise-sweep:
 	@echo "Running QAOA noise sweep for instance '$(INSTANCE)' at depth $(DEPTH)..."
 	$(PYTHON) python/noise_sweep.py --instance $(INSTANCE) --depth $(DEPTH) --noise-levels $(NOISE_LEVELS) --samples-per-trial $(NOISE_SAMPLES)
+
+azure-manifest:
+	@echo "Preparing Azure Quantum job manifest for instance '$(INSTANCE)' at depth $(DEPTH)..."
+	$(PYTHON) python/prepare_azure_job_manifest.py --instance $(INSTANCE) --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS) --target-id $(TARGET_ID)
+
+validate-azure-manifest:
+	@echo "Validating Azure Quantum job manifest for instance '$(INSTANCE)' at depth $(DEPTH)..."
+	$(PYTHON) python/validate_azure_job_manifest.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json
 
 validate-assumptions:
 	@echo "Validating backend/transpilation assumptions evidence..."

@@ -1,0 +1,33 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "instance_id": "small",
+  "depth": 3,
+  "execution": {
+    "coarse_shots": 24,
+    "refined_shots": 96,
+    "trials": 6
+  },
+  "backend": {
+    "provider": "azure-quantum",
+    "target_id": "microsoft.estimator",
+    "job_name": "qaoa-small-d3",
+    "workspace": {
+      "subscription_id": null,
+      "resource_group": null,
+      "workspace_name": null,
+      "location": null
+    }
+  },
+  "submission": {
+    "status": "not_submitted",
+    "submitted_utc": null,
+    "job_id": null,
+    "result_status": null
+  },
+  "evidence": {
+    "quantum_baseline": "estimates/quantum_baseline_small_d3.json",
+    "depth_sweep": "estimates/depth_sweep_small.json",
+    "noise_sweep": "estimates/noise_sweep_small_d3.json",
+    "summary": "estimates/quantum_classical_summary.md"
+  }
+}

@@ -1,10 +1,39 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit, azureExecutionStats, recentAzureRuns } from '../data/projectStatus';
+import { useMemo, useState } from 'react';
+import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns } from '../data/projectStatus';
 
 export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
   const withBasePath = (path: string) => `${basePath}${path}`;
+  const [trendWindow, setTrendWindow] = useState<'all' | 'last7'>('all');
+
+  const displayedTrend = useMemo(() => {
+    if (trendWindow === 'all' || azureRunTrend.length === 0) {
+      return azureRunTrend;
+    }
+
+    const latest = azureRunTrend[azureRunTrend.length - 1]?.date;
+    if (!latest) {
+      return azureRunTrend;
+    }
+
+    const latestDate = new Date(`${latest}T00:00:00Z`);
+    if (Number.isNaN(latestDate.getTime())) {
+      return azureRunTrend;
+    }
+
+    const threshold = new Date(latestDate);
+    threshold.setUTCDate(threshold.getUTCDate() - 6);
+
+    return azureRunTrend.filter((point) => {
+      const pointDate = new Date(`${point.date}T00:00:00Z`);
+      if (Number.isNaN(pointDate.getTime())) {
+        return false;
+      }
+      return pointDate >= threshold && pointDate <= latestDate;
+    });
+  }, [trendWindow]);
 
   return (
     <>
@@ -181,6 +210,76 @@ export default function Home() {
           <p style={{ color: '#5b21b6' }}>
             Automatic record of successful Azure Quantum executions and the systems used.
           </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
+            <div style={{ background: 'white', border: '1px solid #ddd6fe', borderRadius: '10px', padding: '1rem' }}>
+              <h3 style={{ marginTop: 0, color: '#4c1d95' }}>Provider Families</h3>
+              {azureProviderFamilyStats.length === 0 ? (
+                <p style={{ color: '#6b7280', marginBottom: 0 }}>No successful runs yet.</p>
+              ) : (
+                <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#374151' }}>
+                  {azureProviderFamilyStats.map((item) => (
+                    <li key={item.providerFamily}>{item.providerFamily}: {item.runs}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div style={{ background: 'white', border: '1px solid #ddd6fe', borderRadius: '10px', padding: '1rem' }}>
+              <h3 style={{ marginTop: 0, color: '#4c1d95' }}>Run Trend (UTC Day)</h3>
+              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                <button
+                  type="button"
+                  onClick={() => setTrendWindow('all')}
+                  style={{
+                    border: trendWindow === 'all' ? '1px solid #7c3aed' : '1px solid #d1d5db',
+                    background: trendWindow === 'all' ? '#ede9fe' : '#ffffff',
+                    color: trendWindow === 'all' ? '#4c1d95' : '#374151',
+                    borderRadius: '999px',
+                    padding: '0.25rem 0.75rem',
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  All time
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTrendWindow('last7')}
+                  style={{
+                    border: trendWindow === 'last7' ? '1px solid #7c3aed' : '1px solid #d1d5db',
+                    background: trendWindow === 'last7' ? '#ede9fe' : '#ffffff',
+                    color: trendWindow === 'last7' ? '#4c1d95' : '#374151',
+                    borderRadius: '999px',
+                    padding: '0.25rem 0.75rem',
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Last 7 days
+                </button>
+              </div>
+              {displayedTrend.length === 0 ? (
+                <p style={{ color: '#6b7280', marginBottom: 0 }}>No successful runs yet.</p>
+              ) : (
+                <div style={{ display: 'grid', gap: '0.5rem' }}>
+                  {displayedTrend.map((point) => (
+                    <div key={point.date} style={{ display: 'grid', gridTemplateColumns: '110px 1fr 36px', alignItems: 'center', gap: '0.5rem' }}>
+                      <span style={{ color: '#6b7280', fontSize: '0.9rem' }}>{point.date}</span>
+                      <div style={{ background: '#ede9fe', borderRadius: '999px', overflow: 'hidden', height: '10px' }}>
+                        <div
+                          style={{
+                            width: `${Math.max(10, point.runs * 18)}px`,
+                            height: '10px',
+                            background: 'linear-gradient(90deg, #8b5cf6, #4f46e5)',
+                          }}
+                        />
+                      </div>
+                      <span style={{ color: '#374151', fontWeight: 600 }}>{point.runs}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           {recentAzureRuns.length === 0 ? (
             <p style={{ color: '#6b7280', marginBottom: 0 }}>No successful live runs recorded yet.</p>
           ) : (

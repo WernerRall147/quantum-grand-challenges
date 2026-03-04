@@ -191,12 +191,51 @@ const runsBySystemMap = successfulRuns.reduce((acc, entry) => {
   return acc;
 }, {} as Record<string, number>);
 
+function providerFamilyFromTarget(targetId: string): string {
+  const normalized = targetId.toLowerCase();
+  if (normalized.startsWith('rigetti.')) {
+    return 'Rigetti';
+  }
+  if (normalized.startsWith('quantinuum.')) {
+    return 'Quantinuum';
+  }
+  if (normalized.startsWith('ionq.')) {
+    return 'IonQ';
+  }
+  if (normalized.startsWith('microsoft.')) {
+    return 'Microsoft';
+  }
+  return 'Other';
+}
+
+const runsByFamilyMap = successfulRuns.reduce((acc, entry) => {
+  const family = providerFamilyFromTarget(String(entry.target_id || 'unknown'));
+  acc[family] = (acc[family] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
+const runsByDayMap = successfulRuns.reduce((acc, entry) => {
+  const recordedUtc = String(entry.recorded_utc || '');
+  const day = recordedUtc.length >= 10 ? recordedUtc.slice(0, 10) : 'unknown';
+  acc[day] = (acc[day] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
 export const azureExecutionStats = {
   totalSuccessfulRuns: successfulRuns.length,
   systems: Object.entries(runsBySystemMap)
     .map(([targetId, runs]) => ({ targetId, runs }))
     .sort((a, b) => b.runs - a.runs),
 };
+
+export const azureProviderFamilyStats = Object.entries(runsByFamilyMap)
+  .map(([providerFamily, runs]) => ({ providerFamily, runs }))
+  .sort((a, b) => b.runs - a.runs);
+
+export const azureRunTrend = Object.entries(runsByDayMap)
+  .filter(([date]) => date !== 'unknown')
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([date, runs]) => ({ date, runs }));
 
 export const recentAzureRuns = successfulRuns
   .slice()

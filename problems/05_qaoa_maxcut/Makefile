@@ -26,7 +26,7 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-manifest azure-submit azure-collect validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
+.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-manifest azure-submit azure-collect azure-collect-auto validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
@@ -41,6 +41,7 @@ help:
 	@echo "  make validate-azure-manifest Validate Azure Quantum job manifest and referenced evidence"
 	@echo "  make azure-submit Record manual Azure submission metadata in manifest (requires AZURE_MANUAL_JOB_ID)"
 	@echo "  make azure-collect Record manual Azure result status in manifest (requires AZURE_RESULT_STATUS)"
+	@echo "  make azure-collect-auto Fetch Azure result status via az CLI and update manifest"
 	@echo "  make validate-assumptions Validate backend/transpilation assumptions artifact"
 	@echo "  make validate-quality Validate depth/noise evidence quality thresholds"
 	@echo "  make evidence    Rebuild quantum artifacts and regenerate plots/summary"
@@ -97,6 +98,8 @@ azure-runbook:
 	@echo ""
 	@echo "5) After completion, stamp result status:"
 	@echo "   make azure-collect INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) AZURE_RESULT_STATUS=succeeded"
+	@echo "   or fetch status directly from Azure CLI:"
+	@echo "   make azure-collect-auto INSTANCE=$(INSTANCE) DEPTH=$(DEPTH)"
 	@echo ""
 	@echo "Manual gate reminder: Azure operations are blocked until .env.azure.local is valid."
 
@@ -115,6 +118,10 @@ azure-submit: validate-azure-env
 azure-collect: validate-azure-env
 	@echo "Recording Azure result metadata for instance '$(INSTANCE)' at depth $(DEPTH)..."
 	$(PYTHON) python/collect_azure_job.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json --env-file $(AZURE_ENV_FILE) --result-status $(AZURE_RESULT_STATUS)
+
+azure-collect-auto: validate-azure-env
+	@echo "Fetching Azure result metadata from az CLI for instance '$(INSTANCE)' at depth $(DEPTH)..."
+	$(PYTHON) python/collect_azure_job.py --manifest estimates/azure_job_manifest_$(INSTANCE)_d$(DEPTH).json --env-file $(AZURE_ENV_FILE) --fetch-from-azure
 
 validate-assumptions:
 	@echo "Validating backend/transpilation assumptions evidence..."

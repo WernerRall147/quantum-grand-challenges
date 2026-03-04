@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-manifest", "azure-submit", "azure-collect", "evidence")]
+    [ValidateSet("build", "run", "run-all", "depth-sweep", "noise-sweep", "classical", "analyze", "estimate", "estimate-all", "azure-runbook", "azure-manifest", "validate-azure-env", "validate-azure-manifest", "azure-submit", "azure-collect", "azure-collect-auto", "evidence")]
     [string]$Action = "evidence",
     [ValidateSet("small", "medium", "large")]
     [string]$Instance = "small",
@@ -137,6 +137,8 @@ function Invoke-AzureRunbook {
     Write-Host ""
     Write-Host "5) After completion, stamp result status:"
     Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-collect -Instance $Instance -Depth $Depth -AzureEnvFile .env.azure.local -AzureResultStatus succeeded"
+    Write-Host "   or fetch status directly from Azure CLI:"
+    Write-Host "   .\\tooling\\windows\\qaoa-maxcut.ps1 -Action azure-collect-auto -Instance $Instance -Depth $Depth -AzureEnvFile .env.azure.local"
     Write-Host ""
     Write-Host "Manual gate reminder: Azure operations are blocked until .env.azure.local is valid." -ForegroundColor Yellow
 }
@@ -204,6 +206,20 @@ function Invoke-AzureCollect {
     try {
         & $pythonExe problems/05_qaoa_maxcut/python/collect_azure_job.py --manifest "problems/05_qaoa_maxcut/estimates/azure_job_manifest_${Instance}_d${Depth}.json" --env-file $envPathArg --result-status $AzureResultStatus
         if ($LASTEXITCODE -ne 0) { throw "Azure collect metadata update failed." }
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Invoke-AzureCollectAuto {
+    Invoke-ValidateAzureEnv
+    Write-Host "Fetching Azure result metadata via az CLI for '$Instance' (depth=$Depth)..." -ForegroundColor Cyan
+    $envPathArg = Get-AzureEnvPathArg
+    Push-Location $repoRoot
+    try {
+        & $pythonExe problems/05_qaoa_maxcut/python/collect_azure_job.py --manifest "problems/05_qaoa_maxcut/estimates/azure_job_manifest_${Instance}_d${Depth}.json" --env-file $envPathArg --fetch-from-azure
+        if ($LASTEXITCODE -ne 0) { throw "Azure auto-collect metadata update failed." }
     }
     finally {
         Pop-Location
@@ -363,6 +379,9 @@ switch ($Action) {
     }
     "azure-collect" {
         Invoke-AzureCollect
+    }
+    "azure-collect-auto" {
+        Invoke-AzureCollectAuto
     }
     "evidence" {
         if (-not $NoBuild.IsPresent) {

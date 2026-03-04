@@ -78,6 +78,9 @@ make azure-submit INSTANCE=small DEPTH=3 AZURE_MANUAL_JOB_ID=<azure_job_id>
 
 # 5) After completion, stamp final result status
 make azure-collect INSTANCE=small DEPTH=3 AZURE_RESULT_STATUS=succeeded
+
+# Optional: fetch result status directly from Azure CLI
+make azure-collect-auto INSTANCE=small DEPTH=3
 ```
 
 Notes:
@@ -125,6 +128,7 @@ Notes:
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-manifest -Instance small -Depth 3 -TargetId microsoft.estimator
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect-auto -Instance small -Depth 3 -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence -Quick
 ```

@@ -34,6 +34,7 @@ make validate-azure-env  # Enforce manual env file is present and placeholders a
 make validate-azure-manifest INSTANCE=small DEPTH=3  # Validate Azure manifest + referenced evidence artifacts
 make azure-submit INSTANCE=small DEPTH=3 AZURE_MANUAL_JOB_ID=<azure_job_id>  # Record real Azure submission metadata
 make azure-collect INSTANCE=small DEPTH=3 AZURE_RESULT_STATUS=succeeded  # Record Azure result status
+make azure-collect-auto INSTANCE=small DEPTH=3  # Query Azure CLI for live status and update manifest
 make validate-assumptions  # Validate backend/transpilation/connectivity assumptions evidence
 make validate-quality  # Validate depth/noise quality thresholds for Stage C evidence
 make estimate       # Build estimator params from latest quantum artifact and run estimator automation
@@ -68,6 +69,7 @@ Windows helper script (recommended in PowerShell):
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-manifest -Instance small -Depth 3 -TargetId microsoft.estimator
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-submit -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureManualJobId <azure_job_id>
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect -Instance small -Depth 3 -AzureEnvFile .env.azure.local -AzureResultStatus succeeded
+.\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect-auto -Instance small -Depth 3 -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate-all
 .\tooling\windows\qaoa-maxcut.ps1 -Action estimate -Instance small -LiveEstimate

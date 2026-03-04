@@ -1,0 +1,35 @@
+{
+  "manifest_version": "1.0",
+  "generated_utc": "2026-03-04T15:52:58Z",
+  "problem_id": "15_database_search",
+  "problem_name": "Database Search",
+  "instance_id": "small",
+  "depth": 1,
+  "backend": {
+    "provider": "azure-quantum",
+    "target_id": "microsoft.estimator",
+    "job_name": "15_database_search-small-d1",
+    "workspace": {
+      "subscription_id": null,
+      "resource_group": null,
+      "workspace_name": null,
+      "location": null
+    }
+  },
+  "execution": {
+    "shots": 256,
+    "refined_shots": 256,
+    "trials": 1
+  },
+  "evidence": {
+    "primary_artifact": "problems/15_database_search/estimates/classical_baseline.json",
+    "related_artifacts": []
+  },
+  "submission": {
+    "status": "not_submitted",
+    "submitted_utc": null,
+    "job_id": null,
+    "result_status": null,
+    "dry_run_command": null
+  }
+}

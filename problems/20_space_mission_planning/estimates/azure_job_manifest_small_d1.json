@@ -1,0 +1,35 @@
+{
+  "manifest_version": "1.0",
+  "generated_utc": "2026-03-04T15:55:34Z",
+  "problem_id": "20_space_mission_planning",
+  "problem_name": "Space Mission Planning",
+  "instance_id": "small",
+  "depth": 1,
+  "backend": {
+    "provider": "azure-quantum",
+    "target_id": "microsoft.estimator",
+    "job_name": "20_space_mission_planning-small-d1",
+    "workspace": {
+      "subscription_id": null,
+      "resource_group": null,
+      "workspace_name": null,
+      "location": null
+    }
+  },
+  "execution": {
+    "shots": 256,
+    "refined_shots": 256,
+    "trials": 1
+  },
+  "evidence": {
+    "primary_artifact": "problems/20_space_mission_planning/estimates/classical_baseline.json",
+    "related_artifacts": []
+  },
+  "submission": {
+    "status": "not_submitted",
+    "submitted_utc": null,
+    "job_id": null,
+    "result_status": null,
+    "dry_run_command": null
+  }
+}

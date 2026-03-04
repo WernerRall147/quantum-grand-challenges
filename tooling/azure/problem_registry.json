@@ -1,0 +1,24 @@
+{
+  "problems": [
+    { "id": "01_hubbard", "name": "Hubbard Model", "default_target_id": "microsoft.estimator" },
+    { "id": "02_catalysis", "name": "Catalysis Simulation", "default_target_id": "microsoft.estimator" },
+    { "id": "03_qae_risk", "name": "QAE Risk Analysis", "default_target_id": "microsoft.estimator" },
+    { "id": "04_linear_solvers", "name": "Linear Solvers", "default_target_id": "microsoft.estimator" },
+    { "id": "05_qaoa_maxcut", "name": "QAOA MaxCut", "default_target_id": "microsoft.estimator" },
+    { "id": "06_high_frequency_trading", "name": "High-Frequency Trading", "default_target_id": "microsoft.estimator" },
+    { "id": "07_drug_discovery", "name": "Drug Discovery", "default_target_id": "microsoft.estimator" },
+    { "id": "08_protein_folding", "name": "Protein Folding", "default_target_id": "microsoft.estimator" },
+    { "id": "09_factorization", "name": "Factorization", "default_target_id": "microsoft.estimator" },
+    { "id": "10_post_quantum_cryptography", "name": "Post-Quantum Cryptography", "default_target_id": "microsoft.estimator" },
+    { "id": "11_quantum_machine_learning", "name": "Quantum Machine Learning", "default_target_id": "microsoft.estimator" },
+    { "id": "12_quantum_optimization", "name": "Quantum Optimization", "default_target_id": "microsoft.estimator" },
+    { "id": "13_climate_modeling", "name": "Climate Modeling", "default_target_id": "microsoft.estimator" },
+    { "id": "14_materials_discovery", "name": "Materials Discovery", "default_target_id": "microsoft.estimator" },
+    { "id": "15_database_search", "name": "Database Search", "default_target_id": "microsoft.estimator" },
+    { "id": "16_error_correction", "name": "Error Correction", "default_target_id": "microsoft.estimator" },
+    { "id": "17_nuclear_physics", "name": "Nuclear Physics", "default_target_id": "microsoft.estimator" },
+    { "id": "18_photovoltaics", "name": "Photovoltaics", "default_target_id": "microsoft.estimator" },
+    { "id": "19_quantum_chromodynamics", "name": "Quantum Chromodynamics", "default_target_id": "microsoft.estimator" },
+    { "id": "20_space_mission_planning", "name": "Space Mission Planning", "default_target_id": "microsoft.estimator" }
+  ]
+}

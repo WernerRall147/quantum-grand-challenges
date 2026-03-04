@@ -97,7 +97,7 @@ packages-microsoft-prod.deb
 *.publishsettings
 *.azurePubxml
 .azure/
-problems/05_qaoa_maxcut/.env.azure.local
+problems/**/.env.azure.local
 
 # Package files
 *.deb

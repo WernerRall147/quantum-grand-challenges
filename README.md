@@ -101,6 +101,31 @@ Notes:
 - Placeholder values are rejected by `make validate-azure-env`.
 - Problem-specific details are documented in `problems/05_qaoa_maxcut/README.md`.
 
+### Shared Azure Workflow (All Problems)
+
+QAOA keeps its dedicated runbook, and a shared mechanism now exists for every `problems/XX_*` folder:
+
+```bash
+# Copy template into any problem-local env file
+cp tooling/azure/.env.azure.example problems/03_qae_risk/.env.azure.local
+
+# Run shared dry-run smoke (env + CLI + manifest + submit-preview + report)
+python tooling/azure/smoke_problem.py \
+  --problem 03_qae_risk \
+  --instance small \
+  --depth 1 \
+  --env-file problems/03_qae_risk/.env.azure.local
+
+# Works the same for other problems
+python tooling/azure/smoke_problem.py \
+  --problem 15_database_search \
+  --instance small \
+  --depth 1 \
+  --env-file problems/15_database_search/.env.azure.local
+```
+
+Shared workflow docs: `tooling/azure/README.md`.
+
 ### Windows tips
 
 - `make` works from PowerShell/CMD; we auto-detect `PYTHON=python` on Windows.
@@ -149,6 +174,13 @@ Notes:
 .\tooling\windows\qaoa-maxcut.ps1 -Action azure-collect-auto -Instance small -Depth 3 -AzureEnvFile .env.azure.local
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence
 .\tooling\windows\qaoa-maxcut.ps1 -Action evidence -Quick
+```
+
+- Run shared Azure workflow for any problem (single mechanism):
+
+```powershell
+.\tooling\windows\problem-azure.ps1 -Action smoke -Problem 03_qae_risk -Instance small -Depth 1 -EnvFile problems/03_qae_risk/.env.azure.local
+.\tooling\windows\problem-azure.ps1 -Action smoke -Problem 15_database_search -Instance small -Depth 1 -EnvFile problems/15_database_search/.env.azure.local
 ```
 
 `-Quick` lowers default `precision_bits` to `4` and `repetitions` to `24` for faster smoke tests.

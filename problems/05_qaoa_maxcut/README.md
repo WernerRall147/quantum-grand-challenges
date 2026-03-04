@@ -14,6 +14,7 @@ This problem prepares the groundwork for implementing the Quantum Approximate Op
 - [x] Generalize QAOA driver to consume YAML instances dynamically
 - [x] Add uncertainty-bounded multi-trial QAOA reporting to `estimates/`
 - [x] Route optimized parameters into the resource estimator profiles
+- [ ] Add Microsoft Quantum Stack execution path and portability layer (Azure Quantum first, hardware-agnostic adapters next)
 
 ## Quickstart
 
@@ -102,6 +103,33 @@ The classical baseline enumerates all bit strings to guarantee optimal Max-Cut v
 
 - **Current gate**: **Stage C complete** (hardware-aware validation evidence with uncertainty-bounded comparisons is in place).
 - **Next gate target**: **Stage D** (backend-calibrated performance hardening and stronger hardware-readiness evidence).
+
+## Microsoft-First Portability Scope
+
+Priority order for execution backends:
+
+1. Microsoft Quantum Stack (`Q#` + Azure Quantum targets) as the production path.
+2. Hardware-agnostic export/adapter path for future IBM/Google/AWS backend trials.
+
+Scope for the next implementation step (Stage C to D bridge):
+
+1. **Azure Quantum execution contract (required first)**
+	- Define a stable job manifest for QAOA runs (`instance`, `depth`, `shots`, `trials`, `target_id`, evidence output paths).
+	- Add a non-placeholder submit-and-collect workflow against Azure Quantum targets (or mock-compatible shape where target access is restricted).
+	- Emit run metadata (`provider`, `target`, submission timestamp, job id, result status) into `estimates/` artifacts.
+2. **Backend adapter boundary (required for portability)**
+	- Introduce an execution interface that separates problem orchestration from backend-specific submission details.
+	- Keep Q# as source of truth while allowing adapters to plug in alternate runtimes.
+3. **Cross-stack pilot (long-term, not blocking Microsoft priority)**
+	- Add export hooks for OpenQASM 3 and evaluate one pilot run path for non-Microsoft stacks (IBM/Google/AWS simulators first).
+	- Mark cross-stack outputs as comparative evidence only until parity checks pass.
+
+Acceptance criteria for this step:
+
+- At least one QAOA artifact is produced via Azure Quantum submission metadata path.
+- Existing `depth_sweep` and `noise_sweep` reports remain reproducible and unchanged in schema.
+- Backend assumptions document explicitly distinguishes simulator evidence from cloud-target evidence.
+- Portability adapters are additive and do not regress the default Q# workflow.
 
 Stage C exit criteria for this problem:
 

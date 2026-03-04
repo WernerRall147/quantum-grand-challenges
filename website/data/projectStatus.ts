@@ -35,7 +35,7 @@ export const activeWorkQueue = [
   {
     title: '05 QAOA MaxCut',
     description:
-      'Depth-1 parameterized QAOA and multi-trial uncertainty reporting are live; next step is estimator-profile routing.',
+      'Stage C evidence is complete; next step is Microsoft-first Azure Quantum execution hardening with a hardware-agnostic adapter boundary.',
   },
   {
     title: '06 High-Frequency Trading',
@@ -74,8 +74,8 @@ export const problemHighlights = [
   },
   {
     title: 'QAOA MaxCut',
-    status: 'Stage B complete',
-    description: 'Parameterized QAOA with uncertainty-bounded trial reporting is live; Stage C calibration and estimator routing remain',
+    status: 'Stage C complete',
+    description: 'Depth/noise sweeps, uncertainty reports, and estimator routing are complete; next target is Azure Quantum job-path hardening and portability adapters',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/05_qaoa_maxcut',
   },
   {

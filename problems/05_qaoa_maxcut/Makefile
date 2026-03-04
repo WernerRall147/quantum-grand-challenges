@@ -26,7 +26,7 @@ else
 ESTIMATE_FLAGS :=
 endif
 
-.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest validate-azure-env validate-azure-manifest azure-submit azure-collect validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
+.PHONY: help build run run-all depth-sweep noise-sweep azure-manifest azure-runbook validate-azure-env validate-azure-manifest azure-submit azure-collect validate-assumptions validate-quality evidence test classical analyze estimate estimate-all sweep check-env clean
 
 help:
 	@echo "QAOA Max-Cut - Available targets:"
@@ -36,6 +36,7 @@ help:
 	@echo "  make depth-sweep Run depth sweep for an instance (DEPTHS=1,2,3 by default)"
 	@echo "  make noise-sweep Run readout-noise sensitivity sweep for a selected instance/depth"
 	@echo "  make azure-manifest Build Azure Quantum job manifest contract for selected instance/depth"
+	@echo "  make azure-runbook Print Azure auth + run checklist with current variables"
 	@echo "  make validate-azure-env Validate manual Azure auth/config env file before cloud operations"
 	@echo "  make validate-azure-manifest Validate Azure Quantum job manifest and referenced evidence"
 	@echo "  make azure-submit Record manual Azure submission metadata in manifest (requires AZURE_MANUAL_JOB_ID)"
@@ -74,6 +75,30 @@ noise-sweep:
 azure-manifest:
 	@echo "Preparing Azure Quantum job manifest for instance '$(INSTANCE)' at depth $(DEPTH)..."
 	$(PYTHON) python/prepare_azure_job_manifest.py --instance $(INSTANCE) --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS) --target-id $(TARGET_ID)
+
+azure-runbook:
+	@echo "Azure Quantum Runbook (QAOA MaxCut)"
+	@echo "==================================="
+	@echo "Current defaults: INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) TARGET_ID=$(TARGET_ID)"
+	@echo ""
+	@echo "1) Create local auth/workspace file (manual):"
+	@echo "   cp .env.azure.example .env.azure.local"
+	@echo "   Then edit .env.azure.local and replace all CHANGE_ME values."
+	@echo ""
+	@echo "2) Validate env gate:"
+	@echo "   make validate-azure-env AZURE_ENV_FILE=$(AZURE_ENV_FILE)"
+	@echo ""
+	@echo "3) Build/validate manifest:"
+	@echo "   make azure-manifest INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) TARGET_ID=$(TARGET_ID)"
+	@echo "   make validate-azure-manifest INSTANCE=$(INSTANCE) DEPTH=$(DEPTH)"
+	@echo ""
+	@echo "4) After real Azure submission, stamp job metadata:"
+	@echo "   make azure-submit INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) AZURE_MANUAL_JOB_ID=<azure_job_id>"
+	@echo ""
+	@echo "5) After completion, stamp result status:"
+	@echo "   make azure-collect INSTANCE=$(INSTANCE) DEPTH=$(DEPTH) AZURE_RESULT_STATUS=succeeded"
+	@echo ""
+	@echo "Manual gate reminder: Azure operations are blocked until .env.azure.local is valid."
 
 validate-azure-env:
 	@echo "Validating Azure env file $(AZURE_ENV_FILE)..."

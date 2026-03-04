@@ -28,6 +28,7 @@ make run-all        # Run depth-configurable QAOA for small/medium/large and wri
 make depth-sweep INSTANCE=small DEPTHS=1,2,3 TRIALS=6  # Generate depth-vs-quality evidence artifacts
 make noise-sweep INSTANCE=small DEPTH=3 NOISE_LEVELS=0.00,0.01,0.02,0.05,0.10  # Generate readout-noise sensitivity artifacts
 make azure-manifest INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator  # Build Azure Quantum execution contract manifest
+make azure-runbook INSTANCE=small DEPTH=3 TARGET_ID=microsoft.estimator  # Print end-to-end Azure auth/run checklist
 cp .env.azure.example .env.azure.local  # Manual step: fill Azure workspace/auth values before cloud operations
 make validate-azure-env  # Enforce manual env file is present and placeholders are replaced
 make validate-azure-manifest INSTANCE=small DEPTH=3  # Validate Azure manifest + referenced evidence artifacts

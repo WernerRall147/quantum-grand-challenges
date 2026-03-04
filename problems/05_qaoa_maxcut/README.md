@@ -100,8 +100,8 @@ The classical baseline enumerates all bit strings to guarantee optimal Max-Cut v
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage B complete** (classical baseline and Q# scaffold/build path are in place).
-- **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons).
+- **Current gate**: **Stage C complete** (hardware-aware validation evidence with uncertainty-bounded comparisons is in place).
+- **Next gate target**: **Stage D** (backend-calibrated performance hardening and stronger hardware-readiness evidence).
 
 Stage C exit criteria for this problem:
 
@@ -110,7 +110,7 @@ Stage C exit criteria for this problem:
 - Document transpilation/connectivity and backend assumptions used for reported quantum runs.
 - Add calibration/noise-sensitivity evidence for the reported quantum metrics.
 
-Current progress toward Stage C:
+Current progress toward Stage C (exit criteria satisfied):
 
 - Depth-1 QAOA host now emits uncertainty-bounded trial statistics and JSON artifacts for reproducible small-instance comparisons.
 - Q# optimizer now supports depth >= 1 using coordinate-search updates over beta/gamma layers.

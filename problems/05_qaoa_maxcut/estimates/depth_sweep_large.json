@@ -7,24 +7,24 @@
   ],
   "coarse_shots": 24,
   "refined_shots": 96,
-  "trials": 4,
+  "trials": 6,
   "records": [
     {
       "depth": 1,
-      "refined_mean": 3.9057291666666676,
-      "refined_ci95": 0.3107019352428578,
-      "coarse_mean": 4.766666666666667,
-      "mean_optimality_gap": 3.394270833333333,
-      "trials": 4,
+      "refined_mean": 3.9878472222222237,
+      "refined_ci95": 0.22538783515213898,
+      "coarse_mean": 4.643055555555556,
+      "mean_optimality_gap": 3.312152777777777,
+      "trials": 6,
       "source": "quantum_baseline_large_d1.json"
     },
     {
       "depth": 2,
-      "refined_mean": 4.103385416666667,
-      "refined_ci95": 0.324905634615349,
-      "coarse_mean": 4.857291666666667,
-      "mean_optimality_gap": 3.196614583333334,
-      "trials": 4,
+      "refined_mean": 4.1578125,
+      "refined_ci95": 0.22703832116323505,
+      "coarse_mean": 4.879166666666666,
+      "mean_optimality_gap": 3.1421875000000004,
+      "trials": 6,
       "source": "quantum_baseline_large_d2.json"
     }
   ]

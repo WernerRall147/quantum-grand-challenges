@@ -115,9 +115,9 @@ Current progress toward Stage C:
 - Depth-1 QAOA host now emits uncertainty-bounded trial statistics and JSON artifacts for reproducible small-instance comparisons.
 - Q# optimizer now supports depth >= 1 using coordinate-search updates over beta/gamma layers.
 - Depth-2 trial evidence for the small instance is available in `estimates/quantum_baseline_small_d2.json`.
-- Depth sweep evidence (`d=1,2,3`) for the small instance is available in `estimates/depth_sweep_small.md`, showing improved refined mean from `1.5255` (d=1) to `1.9182` (d=3).
-- Medium-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_medium.md` (best refined mean `2.8893` at depth 2).
-- Large-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_large.md` (best refined mean `4.1034` at depth 2).
+- Depth sweep evidence (`d=1,2,3`) for the small instance is available in `estimates/depth_sweep_small.md`, showing improved refined mean from `1.4927` (d=1) to `1.9247` (d=3).
+- Medium-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_medium.md` (best refined mean `2.8316` at depth 2).
+- Large-instance depth sweep (`d=1,2`) is available in `estimates/depth_sweep_large.md` (best refined mean `4.1578` at depth 2).
 - Noise-sensitivity sweeps can now be generated via `make noise-sweep` (or `python/noise_sweep.py`) and are surfaced in the summary dashboard when present.
 - Small-instance noise sweep at depth 3 is available in `estimates/noise_sweep_small_d3.md` (degrades from `2.2000` at `p=0.00` to `1.9646` at `p=0.10`).
 - Medium-instance noise sweep at depth 2 is available in `estimates/noise_sweep_medium_d2.md` (degrades from `4.0000` at `p=0.00` to `3.3325` at `p=0.10`).

@@ -14,17 +14,17 @@
     {
       "instance": "small",
       "points": 3.0,
-      "gain": 0.392708333333333
+      "gain": 0.4319444444444438
     },
     {
       "instance": "medium",
       "points": 2.0,
-      "gain": 0.027343749999999556
+      "gain": 0.033854166666666075
     },
     {
       "instance": "large",
       "points": 2.0,
-      "gain": 0.1976562499999992
+      "gain": 0.1699652777777767
     }
   ],
   "noise_results": [

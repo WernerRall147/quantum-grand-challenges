@@ -4,7 +4,7 @@
   "depth": 1,
   "coarse_shots": 24,
   "refined_shots": 96,
-  "trials": 4,
+  "trials": 6,
   "classical_optimum": {
     "value": 7.300000000000001,
     "assignment": [
@@ -18,24 +18,24 @@
   },
   "aggregate": {
     "coarse_expectation": {
-      "mean": 4.766666666666667,
-      "std": 0.3466940427224832,
-      "ci95": 0.33976016186803354
+      "mean": 4.643055555555556,
+      "std": 0.33917451533370196,
+      "ci95": 0.2713961354656306
     },
     "refined_expectation": {
-      "mean": 3.9057291666666676,
-      "std": 0.31704279106414057,
-      "ci95": 0.3107019352428578
+      "mean": 3.9878472222222237,
+      "std": 0.2816761175271787,
+      "ci95": 0.22538783515213898
     },
     "refined_best_sample": {
-      "mean": 7.300000000000001,
-      "std": 0,
-      "ci95": 0
+      "mean": 7.3,
+      "std": 9.729507111180987E-16,
+      "ci95": 7.785227104583448E-16
     },
-    "mean_optimality_gap": 3.394270833333333
+    "mean_optimality_gap": 3.312152777777777
   },
   "best_trial": {
-    "Trial": 3,
+    "Trial": 5,
     "BestBetas": [
       0.9
     ],
@@ -44,16 +44,16 @@
     ],
     "BestBeta": 0.9,
     "BestGamma": 0.7,
-    "CoarseExpectation": 4.625,
-    "RefinedExpectation": 4.189583333333333,
+    "CoarseExpectation": 4.520833333333335,
+    "RefinedExpectation": 4.236458333333335,
     "RefinedBestSample": 7.300000000000001,
     "RefinedAssignment": [
-      0,
       1,
       0,
       1,
       0,
-      1
+      1,
+      0
     ]
   },
   "trial_results": [
@@ -143,6 +143,50 @@
         1,
         0,
         1
+      ]
+    },
+    {
+      "Trial": 5,
+      "BestBetas": [
+        0.9
+      ],
+      "BestGammas": [
+        0.7
+      ],
+      "BestBeta": 0.9,
+      "BestGamma": 0.7,
+      "CoarseExpectation": 4.520833333333335,
+      "RefinedExpectation": 4.236458333333335,
+      "RefinedBestSample": 7.300000000000001,
+      "RefinedAssignment": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "Trial": 6,
+      "BestBetas": [
+        0.9
+      ],
+      "BestGammas": [
+        0.1
+      ],
+      "BestBeta": 0.9,
+      "BestGamma": 0.1,
+      "CoarseExpectation": 4.270833333333333,
+      "RefinedExpectation": 4.067708333333334,
+      "RefinedBestSample": 7.300000000000001,
+      "RefinedAssignment": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
       ]
     }
   ]

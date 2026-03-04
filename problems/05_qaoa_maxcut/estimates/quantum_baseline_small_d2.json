@@ -4,7 +4,7 @@
   "depth": 2,
   "coarse_shots": 24,
   "refined_shots": 96,
-  "trials": 4,
+  "trials": 6,
   "classical_optimum": {
     "value": 2.2,
     "assignment": [
@@ -15,21 +15,21 @@
   },
   "aggregate": {
     "coarse_expectation": {
-      "mean": 1.9333333333333333,
-      "std": 0.01521451548625464,
-      "ci95": 0.014910225176529547
+      "mean": 1.9416666666666667,
+      "std": 0.020412414523193294,
+      "ci95": 0.01633333333333345
     },
     "refined_expectation": {
-      "mean": 1.875520833333334,
-      "std": 0.01580910060810042,
-      "ci95": 0.015492918595938411
+      "mean": 1.8402777777777786,
+      "std": 0.06459901243368552,
+      "ci95": 0.05168997532774366
     },
     "refined_best_sample": {
-      "mean": 2.2,
-      "std": 0,
-      "ci95": 0
+      "mean": 2.1999999999999997,
+      "std": 4.864753555590494E-16,
+      "ci95": 3.892613552291724E-16
     },
-    "mean_optimality_gap": 0.3244791666666662
+    "mean_optimality_gap": 0.3597222222222216
   },
   "best_trial": {
     "Trial": 2,
@@ -130,6 +130,48 @@
       "BestGamma": 0.7,
       "CoarseExpectation": 1.925,
       "RefinedExpectation": 1.8541666666666672,
+      "RefinedBestSample": 2.2,
+      "RefinedAssignment": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "Trial": 5,
+      "BestBetas": [
+        0.3,
+        0.7
+      ],
+      "BestGammas": [
+        0.7,
+        0.9
+      ],
+      "BestBeta": 0.3,
+      "BestGamma": 0.7,
+      "CoarseExpectation": 1.9750000000000005,
+      "RefinedExpectation": 1.8208333333333346,
+      "RefinedBestSample": 2.2,
+      "RefinedAssignment": [
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "Trial": 6,
+      "BestBetas": [
+        0.1,
+        0.1
+      ],
+      "BestGammas": [
+        0.9,
+        0.3
+      ],
+      "BestBeta": 0.1,
+      "BestGamma": 0.9,
+      "CoarseExpectation": 1.9416666666666664,
+      "RefinedExpectation": 1.7187499999999998,
       "RefinedBestSample": 2.2,
       "RefinedAssignment": [
         0,

@@ -18,9 +18,9 @@ Status: **pass**
 
 | Instance | Points | Gain |
 |---|---:|---:|
-| small | 3 | 0.3927 |
-| medium | 2 | 0.0273 |
-| large | 2 | 0.1977 |
+| small | 3 | 0.4319 |
+| medium | 2 | 0.0339 |
+| large | 2 | 0.1700 |
 
 ## Noise Results
 

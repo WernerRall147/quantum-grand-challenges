@@ -8,33 +8,33 @@
   ],
   "coarse_shots": 24,
   "refined_shots": 96,
-  "trials": 4,
+  "trials": 6,
   "records": [
     {
       "depth": 1,
-      "refined_mean": 1.5255208333333337,
-      "refined_ci95": 0.14474610344256458,
-      "coarse_mean": 1.7895833333333335,
-      "mean_optimality_gap": 0.6744791666666665,
-      "trials": 4,
+      "refined_mean": 1.4927083333333337,
+      "refined_ci95": 0.10110820375093582,
+      "coarse_mean": 1.7708333333333333,
+      "mean_optimality_gap": 0.7072916666666664,
+      "trials": 6,
       "source": "quantum_baseline_small_d1.json"
     },
     {
       "depth": 2,
-      "refined_mean": 1.875520833333334,
-      "refined_ci95": 0.015492918595938411,
-      "coarse_mean": 1.9333333333333333,
-      "mean_optimality_gap": 0.3244791666666662,
-      "trials": 4,
+      "refined_mean": 1.8402777777777786,
+      "refined_ci95": 0.05168997532774366,
+      "coarse_mean": 1.9416666666666667,
+      "mean_optimality_gap": 0.3597222222222216,
+      "trials": 6,
       "source": "quantum_baseline_small_d2.json"
     },
     {
       "depth": 3,
-      "refined_mean": 1.9182291666666667,
-      "refined_ci95": 0.032297721206594174,
-      "coarse_mean": 2.0249999999999995,
-      "mean_optimality_gap": 0.2817708333333335,
-      "trials": 4,
+      "refined_mean": 1.9246527777777775,
+      "refined_ci95": 0.022025200388656904,
+      "coarse_mean": 2.0277777777777772,
+      "mean_optimality_gap": 0.27534722222222263,
+      "trials": 6,
       "source": "quantum_baseline_small_d3.json"
     }
   ]

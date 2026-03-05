@@ -1,12 +1,20 @@
 # Quantum Catalysis Challenge Makefile
 
-.PHONY: classical analyze build run estimate clean
+.PHONY: classical analyze test build run estimate clean
+
+PYTHON ?= python3
+ifeq ($(OS),Windows_NT)
+PYTHON := $(CURDIR)/../../.venv/Scripts/python.exe
+endif
 
 classical:
-	python python/classical_baseline.py
+	$(PYTHON) python/classical_baseline.py
 
 analyze:
-	python python/analyze.py
+	$(PYTHON) python/analyze.py
+
+test: classical
+	$(PYTHON) python/test_baseline.py
 
 build:
 	cd qsharp && dotnet build --configuration Release

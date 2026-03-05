@@ -1,4 +1,4 @@
-.PHONY: classical analyze build run estimate clean
+.PHONY: classical analyze test build run estimate clean
 
 PYTHON ?= python3
 ifeq ($(OS),Windows_NT)
@@ -11,6 +11,9 @@ classical:
 
 analyze: classical
 	cd python && $(PYTHON) analyze.py
+
+test: classical
+	cd python && $(PYTHON) test_baseline.py
 
 build:
 	dotnet build qsharp/Hubbard.csproj --configuration Release

@@ -1,11 +1,11 @@
 # Problem Verification Matrix
 
-- Generated UTC: `2026-03-05T13:56:57Z`
+- Generated UTC: `2026-03-05T14:02:04Z`
 - Total Problems: `20`
 - Build Passed: `20`
 - Classical Passed: `20`
-- Test Passed: `17`
-- Test Missing: `3`
+- Test Passed: `19`
+- Test Missing: `1`
 
 ## Per Problem
 
@@ -28,6 +28,6 @@
 | `15_database_search` | passed | passed | passed |
 | `16_error_correction` | passed | passed | passed |
 | `17_nuclear_physics` | passed | passed | passed |
-| `18_photovoltaics` | passed | passed | not_defined |
-| `19_quantum_chromodynamics` | passed | passed | not_defined |
+| `18_photovoltaics` | passed | passed | passed |
+| `19_quantum_chromodynamics` | passed | passed | passed |
 | `20_space_mission_planning` | passed | passed | not_defined |

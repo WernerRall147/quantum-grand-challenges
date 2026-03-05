@@ -1,11 +1,11 @@
 # Problem Verification Matrix
 
-- Generated UTC: `2026-03-05T14:02:04Z`
+- Generated UTC: `2026-03-05T14:03:49Z`
 - Total Problems: `20`
 - Build Passed: `20`
 - Classical Passed: `20`
-- Test Passed: `19`
-- Test Missing: `1`
+- Test Passed: `20`
+- Test Missing: `0`
 
 ## Per Problem
 
@@ -30,4 +30,4 @@
 | `17_nuclear_physics` | passed | passed | passed |
 | `18_photovoltaics` | passed | passed | passed |
 | `19_quantum_chromodynamics` | passed | passed | passed |
-| `20_space_mission_planning` | passed | passed | not_defined |
+| `20_space_mission_planning` | passed | passed | passed |

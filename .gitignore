@@ -85,6 +85,10 @@ plots/*.png
 tooling/windows/logs/
 tooling/estimator/output/
 problems/03_qae_risk/qsharp/RuntimeConfig.qs
+**/estimates/azure_job_manifest_*.json
+**/estimates/azure_smoke_report_*.json
+**/estimates/azure_smoke_report_*.md
+**/qsharp/qir/
 
 # Temporary files
 *.tmp

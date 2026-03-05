@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-03-04T16:59:30Z",
+  "updated_utc": "2026-03-05T15:31:05Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -21,6 +21,46 @@
     {
       "recorded_utc": "2026-03-04T16:59:30Z",
       "problem_id": "15_database_search",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:29:51Z",
+      "problem_id": "03_qae_risk",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:29:54Z",
+      "problem_id": "05_qaoa_maxcut",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:29:57Z",
+      "problem_id": "10_post_quantum_cryptography",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:30:00Z",
+      "problem_id": "15_database_search",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:31:05Z",
+      "problem_id": "20_space_mission_planning",
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-03-04T16:59:30Z",
+  "updated_utc": "2026-03-05T15:31:05Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -58,6 +58,101 @@
       "submitted_utc": "2026-03-04T16:59:15Z",
       "status": "succeeded",
       "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:29:51Z",
+      "job_id": "e5c82bc6-3f72-43cf-93a7-bd496841f410",
+      "problem_id": "03_qae_risk",
+      "problem_name": "QAE Risk Analysis",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-05T15:28:36Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:29:54Z",
+      "job_id": "3af626cd-4503-487a-962a-50a884f1827e",
+      "problem_id": "05_qaoa_maxcut",
+      "problem_name": "QAOA MaxCut",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-05T15:28:50Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/05_qaoa_maxcut/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:29:57Z",
+      "job_id": "aad3fa93-7b28-4739-ab67-249e673b80c6",
+      "problem_id": "10_post_quantum_cryptography",
+      "problem_name": "Post-Quantum Cryptography",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-05T15:29:03Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/10_post_quantum_cryptography/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:30:00Z",
+      "job_id": "d0a74cda-65be-4277-8014-feb285ee3ae3",
+      "problem_id": "15_database_search",
+      "problem_name": "Database Search",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-05T15:29:18Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-05T15:31:05Z",
+      "job_id": "fb12f239-86a1-4663-a9b3-466ea41508a9",
+      "problem_id": "20_space_mission_planning",
+      "problem_name": "Space Mission Planning",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-05T15:29:30Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/20_space_mission_planning/estimates/azure_job_manifest_small_d1.json"
     }
   ]
 }

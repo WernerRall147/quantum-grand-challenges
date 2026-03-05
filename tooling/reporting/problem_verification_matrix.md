@@ -1,11 +1,11 @@
 # Problem Verification Matrix
 
-- Generated UTC: `2026-03-05T09:38:12Z`
+- Generated UTC: `2026-03-05T09:59:14Z`
 - Total Problems: `20`
 - Build Passed: `20`
 - Classical Passed: `20`
-- Test Passed: `5`
-- Test Missing: `15`
+- Test Passed: `7`
+- Test Missing: `13`
 
 ## Per Problem
 
@@ -16,8 +16,8 @@
 | `03_qae_risk` | passed | passed | passed |
 | `04_linear_solvers` | passed | passed | passed |
 | `05_qaoa_maxcut` | passed | passed | passed |
-| `06_high_frequency_trading` | passed | passed | not_defined |
-| `07_drug_discovery` | passed | passed | not_defined |
+| `06_high_frequency_trading` | passed | passed | passed |
+| `07_drug_discovery` | passed | passed | passed |
 | `08_protein_folding` | passed | passed | not_defined |
 | `09_factorization` | passed | passed | not_defined |
 | `10_post_quantum_cryptography` | passed | passed | not_defined |

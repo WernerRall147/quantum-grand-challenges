@@ -3,12 +3,12 @@
 PROBLEM_DIR := $(CURDIR)
 PYTHON ?= python3
 ifeq ($(OS),Windows_NT)
-override PYTHON = python
+PYTHON := $(CURDIR)/../../.venv/Scripts/python.exe
 endif
 
 INSTANCE ?= small
 
-.PHONY: help build run classical analyze estimate sweep check-env clean
+.PHONY: help build run classical analyze test estimate sweep check-env clean
 
 help:
 	@echo "HFT Quantum Challenge - Available targets:"
@@ -16,6 +16,7 @@ help:
 	@echo "  make run         Execute the Q# placeholder entry point"
 	@echo "  make classical   Run the moving-average classical baseline"
 	@echo "  make analyze     Generate price/equity plots"
+	@echo "  make test        Run deterministic baseline checks"
 	@echo "  make estimate    Placeholder for resource estimation"
 	@echo "  make clean       Remove generated artifacts"
 
@@ -30,6 +31,10 @@ run: build
 classical:
 	@echo "Running classical trading baseline..."
 	$(PYTHON) python/classical_baseline.py
+
+test: classical
+	@echo "Running deterministic baseline checks..."
+	$(PYTHON) python/test_baseline.py
 
 analyze:
 	@echo "Generating plots from classical baseline..."

@@ -1,4 +1,5 @@
 import azureRunHistory from './azureRunHistory.json';
+const runnableCorrectnessReport = require('./problemRunnableCorrectnessReport.json');
 
 export const pipelineStages = [
   {
@@ -249,3 +250,30 @@ export const recentAzureRuns = successfulRuns
     targetId: String(entry.target_id || 'unknown'),
     recordedUtc: String(entry.recorded_utc || ''),
   }));
+
+const runnableSummary = runnableCorrectnessReport.summary || { total: 0, passed: 0, failed: 0 };
+const runnableProblems = Array.isArray(runnableCorrectnessReport.problems) ? runnableCorrectnessReport.problems : [];
+
+export const runnableCorrectnessStats = {
+  generatedUtc: String(runnableCorrectnessReport.generated_utc || ''),
+  total: Number(runnableSummary.total || 0),
+  passed: Number(runnableSummary.passed || 0),
+  failed: Number(runnableSummary.failed || 0),
+  passRatePercent:
+    Number(runnableSummary.total || 0) > 0
+      ? Math.round((Number(runnableSummary.passed || 0) / Number(runnableSummary.total || 0)) * 100)
+      : 0,
+  qsharpIncluded: Boolean(runnableCorrectnessReport.environment?.qsharp_included),
+};
+
+export const runnableCorrectnessFailures = runnableProblems
+  .filter((entry) => entry && entry.runnable_and_correct_signal === false)
+  .map((entry) => ({
+    problemId: String(entry.problem_id || ''),
+    problemName: String(entry.problem_name || ''),
+    reason:
+      String(entry.classical?.stderr_tail || '').trim() ||
+      String(entry.qsharp?.stderr_tail || '').trim() ||
+      'Unknown failure',
+  }))
+  .slice(0, 6);

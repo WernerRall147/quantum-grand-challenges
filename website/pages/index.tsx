@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
-import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns } from '../data/projectStatus';
+import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns, runnableCorrectnessStats, runnableCorrectnessFailures } from '../data/projectStatus';
 
 export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
@@ -179,6 +179,7 @@ export default function Home() {
             <li><strong>✅ Azure Smoke Audit:</strong> Latest QAOA smoke report is `{qaoaAzureSmokeAudit.status}` in `{qaoaAzureSmokeAudit.mode}` mode (submit `{qaoaAzureSmokeAudit.submitStep}`, collect `{qaoaAzureSmokeAudit.collectStep}`) from `{qaoaAzureSmokeAudit.generatedUtc}` against `{qaoaAzureSmokeAudit.manifestPath}`</li>
             <li><strong>✅ Azure Successful Runs:</strong> `{azureExecutionStats.totalSuccessfulRuns}` successful live runs recorded across `{azureExecutionStats.systems.length}` quantum systems</li>
             <li><strong>✅ Systems Used:</strong> {azureExecutionStats.systems.map((item) => `${item.targetId} (${item.runs})`).join(', ') || 'none yet'}</li>
+            <li><strong>✅ Runnable/Correctness Audit:</strong> `{runnableCorrectnessStats.passed}/{runnableCorrectnessStats.total}` problems currently pass executable correctness checks ({runnableCorrectnessStats.passRatePercent}%)</li>
             <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
             <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
             <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>
@@ -306,6 +307,41 @@ export default function Home() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+        </section>
+
+        <section style={{ marginTop: '3rem', padding: '2rem', background: '#eefbf3', borderRadius: '12px' }}>
+          <h2 style={{ marginTop: 0 }}>✅ Runnable And Correctness</h2>
+          <p style={{ color: '#166534' }}>
+            Nightly-style execution audit tracking classical runnability and baseline output validity across all registered problems.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1rem' }}>
+              <strong style={{ display: 'block', color: '#14532d' }}>Pass Count</strong>
+              <span style={{ fontSize: '1.6rem', color: '#166534' }}>{runnableCorrectnessStats.passed}/{runnableCorrectnessStats.total}</span>
+            </div>
+            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1rem' }}>
+              <strong style={{ display: 'block', color: '#14532d' }}>Pass Rate</strong>
+              <span style={{ fontSize: '1.6rem', color: '#166534' }}>{runnableCorrectnessStats.passRatePercent}%</span>
+            </div>
+            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1rem' }}>
+              <strong style={{ display: 'block', color: '#14532d' }}>Audit Timestamp</strong>
+              <span style={{ fontSize: '0.95rem', color: '#166534' }}>{runnableCorrectnessStats.generatedUtc || 'n/a'}</span>
+            </div>
+          </div>
+          {runnableCorrectnessFailures.length === 0 ? (
+            <p style={{ marginBottom: 0, color: '#15803d' }}>No failing problems in the latest audit.</p>
+          ) : (
+            <div style={{ background: 'white', borderRadius: '10px', border: '1px solid #fecaca', padding: '1rem' }}>
+              <h3 style={{ marginTop: 0, color: '#991b1b' }}>Current Failures</h3>
+              <ul style={{ marginBottom: 0, color: '#7f1d1d' }}>
+                {runnableCorrectnessFailures.map((failure) => (
+                  <li key={failure.problemId}>
+                    <strong>{failure.problemId}</strong> ({failure.problemName}): {failure.reason}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </section>

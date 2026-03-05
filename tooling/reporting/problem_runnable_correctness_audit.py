@@ -72,18 +72,41 @@ def has_dotnet6() -> bool:
     return "Microsoft.NETCore.App 6." in proc.stdout
 
 
+def discover_make(root: Path, explicit: str | None) -> str | None:
+    if explicit:
+        candidate = Path(explicit)
+        if candidate.exists():
+            return str(candidate)
+        return None
+
+    on_path = shutil.which("make")
+    if on_path:
+        return on_path
+
+    fallback_paths = [
+        root / "tools" / "make" / "bin" / "make.exe",
+        Path(r"C:\Program Files (x86)\GnuWin32\bin\make.exe"),
+        Path(r"C:\Program Files\Git\usr\bin\make.exe"),
+    ]
+    for path in fallback_paths:
+        if path.exists():
+            return str(path)
+    return None
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Audit all problems for runnable/correctness signals.")
     parser.add_argument("--classical-timeout", type=int, default=120)
     parser.add_argument("--qsharp-timeout", type=int, default=180)
     parser.add_argument("--include-qsharp", action="store_true", default=False)
+    parser.add_argument("--make-exe", default=None)
     parser.add_argument("--output", default="tooling/reporting/problem_runnable_correctness_report.json")
     args = parser.parse_args()
 
     root = repo_root()
     registry = load_registry(root)
 
-    make_exe = shutil.which("make")
+    make_exe = discover_make(root, args.make_exe)
     dotnet_exe = shutil.which("dotnet")
     dotnet6_available = has_dotnet6() if dotnet_exe else False
 
@@ -187,8 +210,14 @@ def main() -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
+    # Mirror report into website data for dashboard rendering.
+    website_path = root / "website" / "data" / "problemRunnableCorrectnessReport.json"
+    website_path.parent.mkdir(parents=True, exist_ok=True)
+    website_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
     print("Runnable/correctness audit written")
     print(f"  output: {out_path}")
+    print(f"  website: {website_path}")
     print(f"  passed: {passed}/{len(rows)}")
 
 

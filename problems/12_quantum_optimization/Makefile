@@ -3,10 +3,10 @@
 PROBLEM_DIR := $(CURDIR)
 PYTHON ?= python3
 ifeq ($(OS),Windows_NT)
-override PYTHON = python
+PYTHON := $(CURDIR)/../../.venv/Scripts/python.exe
 endif
 
-.PHONY: help build run classical analyze estimate sweep check-env clean
+.PHONY: help build run classical analyze test estimate sweep check-env clean
 
 help:
 	@echo "Quantum Optimization - Available targets:"
@@ -14,6 +14,7 @@ help:
 	@echo "  make run         Execute the Q# placeholder entry point"
 	@echo "  make classical   Run the weighted tardiness baseline"
 	@echo "  make analyze     Generate tardiness and utilization plots"
+	@echo "  make test        Run deterministic baseline checks"
 	@echo "  make estimate    Placeholder for resource estimation"
 	@echo "  make clean       Remove generated artifacts"
 
@@ -32,6 +33,10 @@ classical:
 analyze:
 	@echo "Generating optimization baseline plots..."
 	$(PYTHON) python/analyze.py
+
+test: classical
+	@echo "Running deterministic baseline checks..."
+	$(PYTHON) python/test_baseline.py
 
 estimate:
 	@echo "Resource estimation pending QAOA implementation."

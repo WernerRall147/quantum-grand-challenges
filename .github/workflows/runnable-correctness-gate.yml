@@ -5,10 +5,18 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+  schedule:
+    - cron: '30 2 * * *'
+
+env:
+  PYTHON_VERSION: '3.11'
+  DOTNET_VERSION: '6.0.x'
 
 jobs:
   runnable-correctness:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
 
     steps:
       - name: Checkout
@@ -17,7 +25,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install dependencies
         run: |
@@ -66,6 +74,76 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: runnable-correctness-report
+          path: |
+            tooling/reporting/problem_runnable_correctness_report.json
+            website/data/problemRunnableCorrectnessReport.json
+          retention-days: 30
+
+  runnable-correctness-qsharp:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy matplotlib pandas pyyaml jsonschema
+
+      - name: Run runnable/correctness audit (Q# included)
+        run: |
+          python tooling/reporting/problem_runnable_correctness_audit.py --classical-timeout 180 --qsharp-timeout 300 --include-qsharp
+
+      - name: Enforce all problems pass with Q# checks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report_path = Path("tooling/reporting/problem_runnable_correctness_report.json")
+          payload = json.loads(report_path.read_text(encoding="utf-8"))
+          summary = payload.get("summary", {})
+          total = int(summary.get("total", 0) or 0)
+          passed = int(summary.get("passed", 0) or 0)
+
+          failures = [
+              p for p in payload.get("problems", [])
+              if not p.get("runnable_and_correct_signal", False)
+          ]
+
+          print(f"Runnable/correctness summary (Q#): {passed}/{total}")
+          if failures:
+              print("Failing problems:")
+              for problem in failures:
+                  pid = problem.get("problem_id", "unknown")
+                  reason = (
+                      (problem.get("qsharp") or {}).get("stderr_tail")
+                      or (problem.get("classical") or {}).get("stderr_tail")
+                      or "unknown error"
+                  )
+                  reason = str(reason).strip().splitlines()[0]
+                  print(f"- {pid}: {reason}")
+
+          if passed != total:
+              raise SystemExit(1)
+          PY
+
+      - name: Upload runnable/correctness artifacts (Q#)
+        uses: actions/upload-artifact@v4
+        with:
+          name: runnable-correctness-qsharp-report
           path: |
             tooling/reporting/problem_runnable_correctness_report.json
             website/data/problemRunnableCorrectnessReport.json

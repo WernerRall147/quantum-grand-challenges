@@ -1,11 +1,11 @@
 # Problem Verification Matrix
 
-- Generated UTC: `2026-03-05T12:49:01Z`
+- Generated UTC: `2026-03-05T12:51:27Z`
 - Total Problems: `20`
 - Build Passed: `20`
 - Classical Passed: `20`
-- Test Passed: `13`
-- Test Missing: `7`
+- Test Passed: `15`
+- Test Missing: `5`
 
 ## Per Problem
 
@@ -24,8 +24,8 @@
 | `11_quantum_machine_learning` | passed | passed | passed |
 | `12_quantum_optimization` | passed | passed | passed |
 | `13_climate_modeling` | passed | passed | passed |
-| `14_materials_discovery` | passed | passed | not_defined |
-| `15_database_search` | passed | passed | not_defined |
+| `14_materials_discovery` | passed | passed | passed |
+| `15_database_search` | passed | passed | passed |
 | `16_error_correction` | passed | passed | not_defined |
 | `17_nuclear_physics` | passed | passed | not_defined |
 | `18_photovoltaics` | passed | passed | not_defined |

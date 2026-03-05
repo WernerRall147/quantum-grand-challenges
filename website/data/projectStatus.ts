@@ -243,7 +243,6 @@ export const recentAzureRuns = successfulRuns
   .sort((a, b) => String(b.recorded_utc || '').localeCompare(String(a.recorded_utc || '')))
   .slice(0, 6)
   .map((entry) => ({
-    jobId: String(entry.job_id || ''),
     problemId: String(entry.problem_id || ''),
     instanceId: String(entry.instance_id || ''),
     depth: Number(entry.depth || 0),

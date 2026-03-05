@@ -291,17 +291,15 @@ export default function Home() {
                     <th style={{ textAlign: 'left', padding: '0.75rem' }}>Problem</th>
                     <th style={{ textAlign: 'left', padding: '0.75rem' }}>Instance/Depth</th>
                     <th style={{ textAlign: 'left', padding: '0.75rem' }}>System</th>
-                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>Job ID</th>
                     <th style={{ textAlign: 'left', padding: '0.75rem' }}>Recorded UTC</th>
                   </tr>
                 </thead>
                 <tbody>
                   {recentAzureRuns.map((run) => (
-                    <tr key={run.jobId} style={{ borderTop: '1px solid #e5e7eb' }}>
+                    <tr key={`${run.problemId}-${run.targetId}-${run.instanceId}-${run.depth}-${run.recordedUtc}`} style={{ borderTop: '1px solid #e5e7eb' }}>
                       <td style={{ padding: '0.75rem', color: '#111827' }}>{run.problemId}</td>
                       <td style={{ padding: '0.75rem', color: '#374151' }}>{run.instanceId} / d{run.depth}</td>
                       <td style={{ padding: '0.75rem', color: '#374151' }}>{run.targetId}</td>
-                      <td style={{ padding: '0.75rem', color: '#1d4ed8', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>{run.jobId}</td>
                       <td style={{ padding: '0.75rem', color: '#6b7280' }}>{run.recordedUtc}</td>
                     </tr>
                   ))}

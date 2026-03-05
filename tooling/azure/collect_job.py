@@ -107,10 +107,28 @@ def _record_successful_run(payload: Dict[str, Any], manifest_path: Path) -> None
     history["runs"] = runs
     history_path.write_text(json.dumps(history, indent=2) + "\n", encoding="utf-8")
 
-    # Mirror for website import to keep dashboard numbers in sync.
+    # Mirror sanitized fields for website import to avoid exposing sensitive identifiers.
+    website_runs = [
+        {
+            "recorded_utc": str(entry.get("recorded_utc", "")),
+            "problem_id": str(entry.get("problem_id", "")),
+            "instance_id": str(entry.get("instance_id", "")),
+            "depth": int(entry.get("depth", 0) or 0),
+            "target_id": str(entry.get("target_id", "")),
+            "status": str(entry.get("status", "")),
+        }
+        for entry in runs
+        if isinstance(entry, dict)
+    ]
+    website_history = {
+        "schema_version": "1.0",
+        "updated_utc": history.get("updated_utc", utc_now()),
+        "runs": website_runs,
+    }
+
     web_history_path = Path(__file__).resolve().parents[2] / "website" / "data" / "azureRunHistory.json"
     web_history_path.parent.mkdir(parents=True, exist_ok=True)
-    web_history_path.write_text(json.dumps(history, indent=2) + "\n", encoding="utf-8")
+    web_history_path.write_text(json.dumps(website_history, indent=2) + "\n", encoding="utf-8")
 
 
 def main() -> None:

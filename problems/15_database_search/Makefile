@@ -6,7 +6,7 @@ ifeq ($(OS),Windows_NT)
 PYTHON := $(CURDIR)/../../.venv/Scripts/python.exe
 endif
 
-.PHONY: help build run classical analyze test estimate sweep check-env clean
+.PHONY: help build run classical analyze stage-d test estimate sweep check-env clean
 
 help:
 	@echo "Database Search - Available targets:"
@@ -14,6 +14,7 @@ help:
 	@echo "  make run         Execute the Q# placeholder entry point"
 	@echo "  make classical   Run the exhaustive search baseline"
 	@echo "  make analyze     Generate query complexity plots"
+	@echo "  make stage-d     Generate Stage D uncertainty/overhead/sensitivity artifacts"
 	@echo "  make test        Run deterministic baseline checks"
 	@echo "  make estimate    Placeholder for resource estimation"
 	@echo "  make clean       Remove generated artifacts"
@@ -33,6 +34,10 @@ classical:
 analyze:
 	@echo "Generating database search plots..."
 	$(PYTHON) python/analyze.py
+
+stage-d: classical
+	@echo "Generating Stage D reports..."
+	$(PYTHON) python/stage_d_reports.py
 
 test: classical
 	@echo "Running deterministic baseline checks..."

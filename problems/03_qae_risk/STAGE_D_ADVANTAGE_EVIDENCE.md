@@ -47,6 +47,18 @@
   - production data-loading/oracle costs are not yet included in a full end-to-end benchmark,
   - hardware-readout characterization is still incomplete.
 
+## Current Generated Stage D Artifacts
+
+- `estimates/quantum_estimate_ensemble_small.json`
+- `estimates/quantum_estimate_ensemble_medium.json`
+- `estimates/quantum_estimate_ensemble_large.json`
+- `estimates/fairness_review_stage_d.md`
+
+Artifact status note:
+
+- `small` is currently copied from measured ensemble output.
+- `medium` and `large` are currently provisional projections and must be replaced with measured runs before claim promotion.
+
 ## Promotion Checklist To `demonstrated`
 
 - [ ] Extend calibration evidence across `small`, `medium`, and `large` with fixed uncertainty thresholds.

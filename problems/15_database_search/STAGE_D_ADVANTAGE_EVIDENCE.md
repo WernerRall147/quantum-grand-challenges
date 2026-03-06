@@ -41,6 +41,18 @@
 - Hardware readout and uncertainty calibration remain incomplete.
 - Data-oracle construction overhead for practical databases is not yet integrated in end-to-end claims.
 
+## Current Generated Stage D Artifacts
+
+- `estimates/backend_uncertainty_small.json`
+- `estimates/backend_uncertainty_medium.json`
+- `estimates/backend_uncertainty_large.json`
+- `estimates/oracle_overhead_accounting_stage_d.md`
+- `estimates/marked_fraction_sensitivity_stage_d.md`
+
+Artifact status note:
+
+- Backend uncertainty files are currently model-projected and should be replaced by measured backend shot outcomes.
+
 ## Promotion Checklist To `demonstrated`
 
 - [ ] Add backend shot-based uncertainty artifacts for small/medium/large runs with reproducible scripts.

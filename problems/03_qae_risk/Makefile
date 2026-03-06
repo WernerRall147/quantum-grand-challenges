@@ -24,7 +24,7 @@ SANITY_FLAG := $(if $(filter true TRUE 1,$(RUN_SANITY_CHECK)),--run-sanity-check
 # Python environment
 VENV_DIR := venv
 
-.PHONY: help runtime-config build test estimate sweep analyze calibrate calibrate-fast record-calibration calibrate-track sync-calibration-doc compare clean setup-python install-deps
+.PHONY: help runtime-config build test estimate sweep analyze calibrate calibrate-fast record-calibration calibrate-track sync-calibration-doc stage-d compare clean setup-python install-deps
 
 help:
 	@echo "QAE Risk Analysis - Available targets:"
@@ -43,11 +43,12 @@ help:
 	@echo "  record-calibration - Append latest calibration metrics to history file"
 	@echo "  calibrate-track - Fast calibration + history append + doc sync"
 	@echo "  sync-calibration-doc - Update docs/QAE_PROJECT_COMPLETION.md from latest estimates"
+	@echo "  stage-d       - Generate Stage D fairness and per-instance ensemble artifacts"
 	@echo "  compare       - Compare with classical baseline"
 	@echo "  classical     - Run classical Monte Carlo baseline"
 	@echo "  clean         - Clean build artifacts"
 	@echo ""
-	@echo "Instance options: small, medium"
+	@echo "Instance options: small, medium, large"
 	@echo "Run vars: LOSS_QUBITS, THRESHOLD, MEAN, STD_DEV, PRECISION_BITS, REPETITIONS, RUN_SANITY_CHECK"
 	@echo "Target options: surface_code_generic_v1, qubit_gate_ns_e3, qubit_gate_ns_e4"
 
@@ -118,6 +119,10 @@ calibrate-track: calibrate-fast record-calibration sync-calibration-doc
 sync-calibration-doc:
 	@echo "Syncing QAE completion doc from latest calibration outputs..."
 	cd python && $(PYTHON) update_completion_doc.py
+
+stage-d:
+	@echo "Generating Stage D fairness and multi-instance ensemble artifacts..."
+	cd python && $(PYTHON) stage_d_fairness_review.py
 
 compare: classical analyze
 	@echo "Complete comparison analysis finished"

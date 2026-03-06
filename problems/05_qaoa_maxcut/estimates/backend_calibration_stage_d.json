@@ -1,0 +1,33 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "artifact_type": "backend_calibration_stage_d",
+  "backend": {
+    "target_id": "rigetti.sim.qvm",
+    "workspace_location": "eastus",
+    "smoke_report": "azure_smoke_report_small_d3.json"
+  },
+  "shot_plan": {
+    "source": "azure_job_manifest_small_d3.json",
+    "coarse_shots": 64,
+    "refined_shots": 256,
+    "trials": 16
+  },
+  "readout_coherence_proxy": {
+    "noise_model": {
+      "type": "independent_bit_flip",
+      "description": "Each bit in each trial best assignment is flipped independently with probability p."
+    },
+    "records_analyzed": 5,
+    "start_noise": 0.0,
+    "end_noise": 0.1,
+    "degradation": 0.24791666666666878,
+    "start_mean": 2.199999999999997,
+    "end_mean": 1.9520833333333283,
+    "end_ci95": 0.02220635153759167
+  },
+  "status": "provisional_backend_calibration",
+  "notes": [
+    "This artifact combines Azure smoke metadata and noise-sweep degradation proxy.",
+    "Upgrade to hardware-calibrated evidence by replacing proxy section with backend readout/coherence measurements."
+  ]
+}

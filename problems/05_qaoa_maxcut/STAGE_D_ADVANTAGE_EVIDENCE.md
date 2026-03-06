@@ -43,6 +43,17 @@
 - Backend-calibrated, hardware-specific quality comparisons are incomplete.
 - Claim remains `theoretical` until portability assumptions, fairness baselines, and hardware uncertainty evidence are all strengthened.
 
+## Current Generated Stage D Artifacts
+
+- `estimates/backend_calibration_stage_d.json`
+- `estimates/fairness_benchmark_stage_d.json`
+- `estimates/fairness_benchmark_stage_d.md`
+
+Artifact status note:
+
+- Backend calibration is currently a proxy composition from smoke metadata plus noise-degradation evidence.
+- Promote to stronger claim only after replacing proxy calibration with backend measured coherence/readout data.
+
 ## Promotion Checklist To `projected`
 
 - [ ] Complete coherence/readout calibration evidence on at least one named backend target.

@@ -1,0 +1,29 @@
+{
+  "problem_id": "15_database_search",
+  "instance_id": "medium",
+  "artifact_type": "backend_uncertainty",
+  "evidence_mode": "projected_from_model",
+  "backend": {
+    "target_id": "quantinuum.sim.h2-1sc",
+    "workspace_location": "eastus",
+    "source_smoke_report": "azure_smoke_report_small_d1.json"
+  },
+  "shot_plan": {
+    "shots": 768,
+    "estimated_quantum_rounds": 24
+  },
+  "observed": {
+    "successes": 730,
+    "shots": 768,
+    "success_rate": 0.9505208333333334
+  },
+  "confidence_interval": {
+    "method": "wilson_95",
+    "lower": 0.9328153246381266,
+    "upper": 0.9637416891325747
+  },
+  "notes": [
+    "This uncertainty artifact is model-projected from instance confidence targets.",
+    "Replace with backend measured success counts once repeated execution data is available."
+  ]
+}

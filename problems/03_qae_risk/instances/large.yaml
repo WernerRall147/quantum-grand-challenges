@@ -1,0 +1,39 @@
+# Large Instance - QAE Risk Analysis
+# Stage D hardening instance for higher precision and lower tail probabilities.
+
+problem_id: "03_qae_risk"
+instance_name: "large"
+description: "Large-scale tail risk estimation with tighter precision requirements"
+
+distribution:
+  type: "log_normal"
+  parameters:
+    mean: 0.0
+    std_dev: 1.2
+
+loss_encoding:
+  num_qubits: 16
+  max_loss: 32.0
+
+risk_threshold: 7.0
+target_precision: 0.005
+
+amplitude_estimation:
+  precision_qubits: 8
+  estimation_method: "canonical_qae"
+  repetitions: 3
+
+theoretical:
+  tail_probability: 0.006
+  classical_samples_needed: 238560
+  quantum_queries_needed: 200
+
+estimated_resources:
+  logical_qubits: 25
+  physical_qubits: 350000
+  t_count_order: 9
+  runtime_hours: 3
+
+validation:
+  max_error_vs_theoretical: 0.006
+  quantum_classical_agreement: 0.004

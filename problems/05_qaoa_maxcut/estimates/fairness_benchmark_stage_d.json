@@ -1,0 +1,44 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "rows": [
+    {
+      "instance_id": "large",
+      "quantum_source": "quantum_baseline_large_d2.json",
+      "quantum_depth": 2,
+      "quantum_refined_mean": 4.1578125,
+      "quantum_refined_ci95": 0.22703832116323505,
+      "classical_optimum": 7.3,
+      "greedy_local_search": 7.3,
+      "random_sampling_best": 7.3,
+      "gap_to_optimum": 3.1421874999999995,
+      "gap_to_greedy": 3.1421874999999995,
+      "gap_to_random": 3.1421874999999995
+    },
+    {
+      "instance_id": "medium",
+      "quantum_source": "quantum_baseline_medium_d2.json",
+      "quantum_depth": 2,
+      "quantum_refined_mean": 2.831597222222222,
+      "quantum_refined_ci95": 0.20046953468400064,
+      "classical_optimum": 4.0,
+      "greedy_local_search": 2.5,
+      "random_sampling_best": 4.0,
+      "gap_to_optimum": 1.1684027777777781,
+      "gap_to_greedy": -0.3315972222222219,
+      "gap_to_random": 1.1684027777777781
+    },
+    {
+      "instance_id": "small",
+      "quantum_source": "quantum_baseline_small_d3.json",
+      "quantum_depth": 3,
+      "quantum_refined_mean": 1.9246527777777775,
+      "quantum_refined_ci95": 0.022025200388656904,
+      "classical_optimum": 2.2,
+      "greedy_local_search": 2.2,
+      "random_sampling_best": 2.2,
+      "gap_to_optimum": 0.27534722222222263,
+      "gap_to_greedy": 0.27534722222222263,
+      "gap_to_random": 0.27534722222222263
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "timestamp": null,
+  "algorithm": "QPEAmplitudeEstimation",
+  "mode": "ensemble",
+  "evidence_mode": "provisional_projection",
+  "instance_id": "large",
+  "estimator_target": "TailRisk > 7.0",
+  "instance": {
+    "parameters": {
+      "threshold": 7.0,
+      "mean": 0.0,
+      "std_dev": 1.2
+    }
+  },
+  "metrics": {
+    "ensemble_runs": 20,
+    "runs_requested": 20,
+    "quantum_estimate": 0.006,
+    "ensemble_std_deviation": 0.006825961470738023,
+    "ensemble_std_error": 0.0015263313860364662,
+    "mean_reported_std_error": 0.0015263313860364662,
+    "mean_difference": 0.0
+  },
+  "notes": [
+    "This artifact is provisional and model-projected.",
+    "Replace with measured ensemble output from analyze.py --ensemble-runs once available."
+  ]
+}

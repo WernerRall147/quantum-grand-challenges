@@ -77,3 +77,8 @@ Stage C evidence references for this problem:
 - **Noise/error model assumptions**: Current evidence is simulator-centric; backend-calibrated noise models remain pending.
 - **Confidence/uncertainty method**: Simulator trials reported in implementation summary; backend shot-based confidence intervals remain a Stage D hardening task.
 - **Residual risks**: Oracle synthesis and transpilation overhead can erode practical speedup for near-term sizes.
+
+## Stage D Hardening Package
+
+- Stage D evidence file: `STAGE_D_ADVANTAGE_EVIDENCE.md`.
+- This package defines the Stage D uncertainty/fairness hardening work needed before any promotion to a demonstrated claim category.

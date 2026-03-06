@@ -163,6 +163,11 @@ Latest Azure Quantum Resource Estimates:
   - Resource estimates assume fault-tolerant profiles from Azure Quantum Resource Estimator.
 - **Promotion rule**: Upgrade claim to `demonstrated` only after Stage C evidence is satisfied and instance-level uncertainty targets are met.
 
+## Stage D Hardening Package
+
+- Stage D evidence file: `STAGE_D_ADVANTAGE_EVIDENCE.md`.
+- This package captures baseline-fairness review status, uncertainty methodology, backend assumptions, sensitivity analysis, and promotion checklist criteria.
+
 ### Calibration Workflow
 
 ```bash

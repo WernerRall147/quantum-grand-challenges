@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-03-05T15:31:05Z",
+  "updated_utc": "2026-03-06T14:06:00Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -153,6 +153,291 @@
       "submitted_utc": "2026-03-05T15:29:30Z",
       "status": "succeeded",
       "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/20_space_mission_planning/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:16Z",
+      "job_id": "d3a3bcd5-483e-4856-9b12-3b6e0de83897",
+      "problem_id": "01_hubbard",
+      "problem_name": "Hubbard Model",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:00:58Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:19Z",
+      "job_id": "24dfd18d-b315-43f7-a6b8-ad839322f490",
+      "problem_id": "02_catalysis",
+      "problem_name": "Catalysis Simulation",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:01:12Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/02_catalysis/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:22Z",
+      "job_id": "0a5188b1-46bc-4c4a-b111-0d3b13950b81",
+      "problem_id": "04_linear_solvers",
+      "problem_name": "Linear Solvers",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:01:28Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/04_linear_solvers/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:25Z",
+      "job_id": "10a00752-777c-4086-b50b-2c9733b8d5be",
+      "problem_id": "06_high_frequency_trading",
+      "problem_name": "High-Frequency Trading",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:01:43Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/06_high_frequency_trading/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:28Z",
+      "job_id": "76c1b8ff-43a3-41c7-bfd5-2ac1f252d2fa",
+      "problem_id": "07_drug_discovery",
+      "problem_name": "Drug Discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:01:57Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/07_drug_discovery/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:31Z",
+      "job_id": "f92bed5b-b9b3-4153-b2a5-fd8abc6ee82f",
+      "problem_id": "08_protein_folding",
+      "problem_name": "Protein Folding",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:02:29Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/08_protein_folding/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:35Z",
+      "job_id": "ccb986a1-6e38-4d01-8b01-da5a0e5cbb31",
+      "problem_id": "09_factorization",
+      "problem_name": "Factorization",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:02:44Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/09_factorization/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:38Z",
+      "job_id": "1b32728e-e400-49a4-b13a-54bc1be48d82",
+      "problem_id": "11_quantum_machine_learning",
+      "problem_name": "Quantum Machine Learning",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:02:57Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/11_quantum_machine_learning/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:41Z",
+      "job_id": "994acfb9-e62e-423e-b18f-b9eec05a72ba",
+      "problem_id": "12_quantum_optimization",
+      "problem_name": "Quantum Optimization",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:03:11Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/12_quantum_optimization/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:44Z",
+      "job_id": "f0ab08af-6f6c-425b-9292-f69742783f97",
+      "problem_id": "13_climate_modeling",
+      "problem_name": "Climate Modeling",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:03:26Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/13_climate_modeling/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:47Z",
+      "job_id": "a3e52da1-8450-426b-96e8-5a21a70a45fb",
+      "problem_id": "14_materials_discovery",
+      "problem_name": "Materials Discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:03:51Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/14_materials_discovery/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:50Z",
+      "job_id": "0534f1d6-bbd2-4837-a183-d8c024b07203",
+      "problem_id": "16_error_correction",
+      "problem_name": "Error Correction",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:04:05Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/16_error_correction/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:53Z",
+      "job_id": "d0f52c0b-246c-451f-acbd-22f0e22bf89f",
+      "problem_id": "17_nuclear_physics",
+      "problem_name": "Nuclear Physics",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:04:19Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/17_nuclear_physics/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:05:57Z",
+      "job_id": "415dfaef-3c35-4737-a462-d62b89fb3f42",
+      "problem_id": "18_photovoltaics",
+      "problem_name": "Photovoltaics",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:04:34Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/18_photovoltaics/estimates/azure_job_manifest_small_d1.json"
+    },
+    {
+      "recorded_utc": "2026-03-06T14:06:00Z",
+      "job_id": "fb7b3597-6fb3-4cb8-a7fb-88619b06d0af",
+      "problem_id": "19_quantum_chromodynamics",
+      "problem_name": "Quantum Chromodynamics",
+      "instance_id": "small",
+      "depth": 1,
+      "provider": "azure-quantum",
+      "target_id": "quantinuum.sim.h2-1sc",
+      "workspace": {
+        "subscription_id": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3",
+        "resource_group": "Quantum-Grand-Challenges",
+        "workspace_name": "Quantum-Grand-Challenges",
+        "location": "eastus"
+      },
+      "submitted_utc": "2026-03-06T14:04:49Z",
+      "status": "succeeded",
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/19_quantum_chromodynamics/estimates/azure_job_manifest_small_d1.json"
     }
   ]
 }

@@ -214,3 +214,8 @@ Current progress toward Stage C (exit criteria satisfied):
 - **Noise/error model assumptions**: Backend-specific model and calibration assumptions to be added at Stage C.
 - **Confidence/uncertainty method**: To be reported using shot-based confidence intervals or equivalent statistical bounds.
 - **Residual risks**: Oracle/state-preparation/transpilation overhead may dominate for near-term instance sizes.
+
+## Stage D Hardening Package
+
+- Stage D evidence file: `STAGE_D_ADVANTAGE_EVIDENCE.md`.
+- This package records fairness/uncertainty evidence status and concrete promotion criteria from `theoretical` to a stronger claim category.

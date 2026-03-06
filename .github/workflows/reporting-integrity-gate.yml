@@ -1,0 +1,44 @@
+name: Reporting Integrity Gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.11'
+  DOTNET_VERSION: '6.0.x'
+
+jobs:
+  verify-reporting-artifacts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy matplotlib pandas pyyaml jsonschema
+
+      - name: Verify matrix freshness
+        run: |
+          python tooling/reporting/check_verification_matrix_freshness.py
+
+      - name: Validate website data schema
+        run: |
+          python tooling/reporting/validate_website_data_schema.py

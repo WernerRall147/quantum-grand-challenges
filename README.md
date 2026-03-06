@@ -14,6 +14,16 @@ This repository systematically tackles 20 of the world's most challenging scient
 
 Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 
+## 🏁 Latest Milestone (March 2026)
+
+- Deterministic validation now covers all 20 problems: `build=20/20`, `classical=20/20`, `test=20/20`.
+- Runnable/correctness audit is green across the full registry (`20/20`).
+- Azure execute-mode sweep completed for five representative problems with recorded successful runs:
+  `03_qae_risk`, `05_qaoa_maxcut`, `10_post_quantum_cryptography`, `15_database_search`, `20_space_mission_planning`.
+- Website reporting remains privacy-safe (no job IDs or workspace identifiers in website data).
+
+Milestone notes: `docs/MILESTONE_2026_03_CLOSEOUT.md`.
+
 ## 🎯 Quick Start
 
 ### Prerequisites

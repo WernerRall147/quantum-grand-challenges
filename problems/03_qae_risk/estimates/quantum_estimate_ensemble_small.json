@@ -461,5 +461,8 @@
     "8": 94
   },
   "instance_id": "small",
-  "evidence_mode": "measured"
+  "evidence_mode": "measured",
+  "notes": [
+    "Measured from 20-run ensemble calibration."
+  ]
 }

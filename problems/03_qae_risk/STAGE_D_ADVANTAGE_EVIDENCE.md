@@ -56,8 +56,9 @@
 
 Artifact status note:
 
-- `small` is currently copied from measured ensemble output.
-- `medium` and `large` are currently provisional projections and must be replaced with measured runs before claim promotion.
+- `small` is measured from a full 20-run ensemble.
+- `medium` and `large` are now measured with reduced runtime parameters (`loss_qubits=8`, `precision_bits=4`, `repetitions=24`) to avoid simulator stalls.
+- Promotion still requires rerunning `medium`/`large` with full target parameters once runtime stability constraints are resolved.
 
 ## Promotion Checklist To `demonstrated`
 

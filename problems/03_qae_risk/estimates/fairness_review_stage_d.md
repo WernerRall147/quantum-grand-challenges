@@ -6,8 +6,8 @@ Rows marked `provisional_projection` are placeholders and must be replaced by me
 | Instance | Evidence Mode | Quantum Estimate | Ensemble Std Error | Classical Baseline (threshold 2.0) | Quantum-Classical Delta |
 |---|---|---:|---:|---:|---:|
 | small | measured | 0.195833 | 0.018186 | 0.242000 | -0.046167 |
-| medium | provisional_projection | 0.015000 | 0.002402 | 0.242000 | -0.227000 |
-| large | provisional_projection | 0.006000 | 0.001526 | 0.242000 | -0.236000 |
+| medium | measured_reduced_params | 0.066667 | 0.011180 | 0.242000 | -0.175333 |
+| large | measured_reduced_params | 0.020833 | 0.006250 | 0.242000 | -0.221167 |
 
 ## Fairness Notes
 

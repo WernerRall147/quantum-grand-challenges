@@ -164,7 +164,12 @@ def main() -> None:
     summary_rows: List[Dict[str, Any]] = []
     for instance_id in required:
         out_path = estimates_dir / f"quantum_estimate_ensemble_{instance_id}.json"
-        if instance_id == "small" and source_payload is not None:
+        existing_payload = _load_json(out_path) if out_path.exists() else None
+        existing_mode = str(existing_payload.get("evidence_mode", "")) if existing_payload else ""
+
+        if existing_payload is not None and existing_mode.startswith("measured"):
+            payload = existing_payload
+        elif instance_id == "small" and source_payload is not None:
             payload = dict(source_payload)
             payload["instance_id"] = "small"
             payload["evidence_mode"] = "measured"

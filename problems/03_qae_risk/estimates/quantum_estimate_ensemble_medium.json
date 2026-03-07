@@ -1,28 +1,469 @@
 {
-  "timestamp": null,
+  "timestamp": "2026-03-07T04:38:33.954456Z",
   "algorithm": "QPEAmplitudeEstimation",
   "mode": "ensemble",
-  "evidence_mode": "provisional_projection",
-  "instance_id": "medium",
   "estimator_target": "TailRisk > 5.0",
   "instance": {
     "parameters": {
+      "shots": 24,
+      "phase_bits": 4,
+      "repetitions": 24,
       "threshold": 5.0,
+      "loss_qubits": 8,
       "mean": 0.0,
-      "std_dev": 1.0
+      "std_dev": 1.0,
+      "run_sanity_check": false
     }
   },
   "metrics": {
     "ensemble_runs": 20,
     "runs_requested": 20,
-    "quantum_estimate": 0.015,
-    "ensemble_std_deviation": 0.010743820898544428,
-    "ensemble_std_error": 0.002402391386722821,
-    "mean_reported_std_error": 0.002402391386722821,
-    "mean_difference": 0.0
+    "quantum_estimate": 0.06666666666666667,
+    "ensemble_std_deviation": 0.049999999999999996,
+    "ensemble_std_error": 0.011180339887498947,
+    "mean_reported_std_error": 0.043419379179763094,
+    "mean_difference": 0.0069988948972276996,
+    "circular_amplitude": 4.6089811296087666e-35,
+    "circular_phase": 1.6581996090603252e-18,
+    "phase_bits": 4,
+    "repetitions": 24,
+    "logical_qubits": 13,
+    "physical_qubits": 13,
+    "t_count": 384,
+    "runtime_days": 0
   },
+  "ensemble": {
+    "runs": [
+      {
+        "index": 1,
+        "timestamp": "2026-03-07T04:34:12.976153Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.041666666666666664,
+          "quantum_std_error": 0.040789375432190036,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.0180011051027723,
+          "circular_phase": 8.859481437544035e-19,
+          "circular_amplitude": 7.746693092261659e-36
+        },
+        "source_file": "quantum_estimate_run1.json"
+      },
+      {
+        "index": 2,
+        "timestamp": "2026-03-07T04:34:26.695425Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.125,
+          "quantum_std_error": 0.06750771560841522,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.06533222823056103,
+          "circular_phase": 3.2484765270994795e-18,
+          "circular_amplitude": 1.0414998490707344e-34
+        },
+        "source_file": "quantum_estimate_run2.json"
+      },
+      {
+        "index": 3,
+        "timestamp": "2026-03-07T04:34:41.184721Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.041666666666666664,
+          "quantum_std_error": 0.040789375432190036,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.0180011051027723,
+          "circular_phase": 8.859481437544035e-19,
+          "circular_amplitude": 7.746693092261659e-36
+        },
+        "source_file": "quantum_estimate_run3.json"
+      },
+      {
+        "index": 4,
+        "timestamp": "2026-03-07T04:34:54.510851Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.08333333333333333,
+          "quantum_std_error": 0.0564169333655275,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.023665561563894363,
+          "circular_phase": 1.9490859162596876e-18,
+          "circular_amplitude": 3.7493994566546436e-35
+        },
+        "source_file": "quantum_estimate_run4.json"
+      },
+      {
+        "index": 5,
+        "timestamp": "2026-03-07T04:35:08.061362Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.041666666666666664,
+          "quantum_std_error": 0.040789375432190036,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.0180011051027723,
+          "circular_phase": 8.859481437544035e-19,
+          "circular_amplitude": 7.746693092261659e-36
+        },
+        "source_file": "quantum_estimate_run5.json"
+      },
+      {
+        "index": 6,
+        "timestamp": "2026-03-07T04:35:21.388562Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.125,
+          "quantum_std_error": 0.06750771560841522,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.06533222823056103,
+          "circular_phase": 3.2484765270994795e-18,
+          "circular_amplitude": 1.0414998490707344e-34
+        },
+        "source_file": "quantum_estimate_run6.json"
+      },
+      {
+        "index": 7,
+        "timestamp": "2026-03-07T04:35:34.729390Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.0,
+          "quantum_std_error": 0.0,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.059667771769438965,
+          "circular_phase": 0.0,
+          "circular_amplitude": 0.0
+        },
+        "source_file": "quantum_estimate_run7.json"
+      },
+      {
+        "index": 8,
+        "timestamp": "2026-03-07T04:35:47.751123Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.125,
+          "quantum_std_error": 0.06750771560841522,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.06533222823056103,
+          "circular_phase": 3.2484765270994795e-18,
+          "circular_amplitude": 1.0414998490707344e-34
+        },
+        "source_file": "quantum_estimate_run8.json"
+      },
+      {
+        "index": 9,
+        "timestamp": "2026-03-07T04:36:01.062533Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.08333333333333333,
+          "quantum_std_error": 0.0564169333655275,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.023665561563894363,
+          "circular_phase": 1.9490859162596876e-18,
+          "circular_amplitude": 3.7493994566546436e-35
+        },
+        "source_file": "quantum_estimate_run9.json"
+      },
+      {
+        "index": 10,
+        "timestamp": "2026-03-07T04:36:14.227789Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.0,
+          "quantum_std_error": 0.0,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.059667771769438965,
+          "circular_phase": 0.0,
+          "circular_amplitude": 0.0
+        },
+        "source_file": "quantum_estimate_run10.json"
+      },
+      {
+        "index": 11,
+        "timestamp": "2026-03-07T04:36:27.629508Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.041666666666666664,
+          "quantum_std_error": 0.040789375432190036,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.0180011051027723,
+          "circular_phase": 8.859481437544035e-19,
+          "circular_amplitude": 7.746693092261659e-36
+        },
+        "source_file": "quantum_estimate_run11.json"
+      },
+      {
+        "index": 12,
+        "timestamp": "2026-03-07T04:36:40.595148Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.08333333333333333,
+          "quantum_std_error": 0.0564169333655275,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.023665561563894363,
+          "circular_phase": 1.9490859162596876e-18,
+          "circular_amplitude": 3.7493994566546436e-35
+        },
+        "source_file": "quantum_estimate_run12.json"
+      },
+      {
+        "index": 13,
+        "timestamp": "2026-03-07T04:36:53.814342Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.16666666666666666,
+          "quantum_std_error": 0.07607257743127308,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.10699889489722769,
+          "circular_phase": 4.872714790649219e-18,
+          "circular_amplitude": 2.3433746604091525e-34
+        },
+        "source_file": "quantum_estimate_run13.json"
+      },
+      {
+        "index": 14,
+        "timestamp": "2026-03-07T04:37:07.383321Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.0,
+          "quantum_std_error": 0.0,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.059667771769438965,
+          "circular_phase": 0.0,
+          "circular_amplitude": 0.0
+        },
+        "source_file": "quantum_estimate_run14.json"
+      },
+      {
+        "index": 15,
+        "timestamp": "2026-03-07T04:37:20.720905Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.125,
+          "quantum_std_error": 0.06750771560841522,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.06533222823056103,
+          "circular_phase": 3.2484765270994795e-18,
+          "circular_amplitude": 1.0414998490707344e-34
+        },
+        "source_file": "quantum_estimate_run15.json"
+      },
+      {
+        "index": 16,
+        "timestamp": "2026-03-07T04:37:38.694133Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.125,
+          "quantum_std_error": 0.06750771560841522,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": 0.06533222823056103,
+          "circular_phase": 3.2484765270994795e-18,
+          "circular_amplitude": 1.0414998490707344e-34
+        },
+        "source_file": "quantum_estimate_run16.json"
+      },
+      {
+        "index": 17,
+        "timestamp": "2026-03-07T04:37:53.604975Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.041666666666666664,
+          "quantum_std_error": 0.040789375432190036,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.0180011051027723,
+          "circular_phase": 8.859481437544035e-19,
+          "circular_amplitude": 7.746693092261659e-36
+        },
+        "source_file": "quantum_estimate_run17.json"
+      },
+      {
+        "index": 18,
+        "timestamp": "2026-03-07T04:38:06.911143Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.0,
+          "quantum_std_error": 0.0,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.059667771769438965,
+          "circular_phase": 0.0,
+          "circular_amplitude": 0.0
+        },
+        "source_file": "quantum_estimate_run18.json"
+      },
+      {
+        "index": 19,
+        "timestamp": "2026-03-07T04:38:20.858053Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.041666666666666664,
+          "quantum_std_error": 0.040789375432190036,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.0180011051027723,
+          "circular_phase": 8.859481437544035e-19,
+          "circular_amplitude": 7.746693092261659e-36
+        },
+        "source_file": "quantum_estimate_run19.json"
+      },
+      {
+        "index": 20,
+        "timestamp": "2026-03-07T04:38:33.944495Z",
+        "metrics": {
+          "logical_qubits": 13,
+          "physical_qubits": 13,
+          "t_count": 384,
+          "runtime_days": 0,
+          "phase_bits": 4,
+          "repetitions": 24,
+          "quantum_estimate": 0.041666666666666664,
+          "quantum_std_error": 0.040789375432190036,
+          "analytic_probability": 0.059667771769438965,
+          "classical_estimate": 0.059667771769438965,
+          "classical_std_error": 0.0023687027838356824,
+          "difference": -0.0180011051027723,
+          "circular_phase": 8.859481437544035e-19,
+          "circular_amplitude": 7.746693092261659e-36
+        },
+        "source_file": "quantum_estimate_run20.json"
+      }
+    ]
+  },
+  "histogram_counts": {
+    "0": 448,
+    "8": 32
+  },
+  "instance_id": "medium",
+  "evidence_mode": "measured_reduced_params",
   "notes": [
-    "This artifact is provisional and model-projected.",
-    "Replace with measured ensemble output from analyze.py --ensemble-runs once available."
+    "Measured with reduced runtime parameters to avoid simulator stalls.",
+    "Overrides: loss_qubits=8, precision_bits=4, repetitions=24, ensemble_runs=20."
   ]
 }

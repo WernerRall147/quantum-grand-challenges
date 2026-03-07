@@ -34,7 +34,13 @@ DEFAULT_QAE_PARAMS: Dict[str, Any] = {
 class QAERiskAnalyzer:
     """Analyzer for quantum amplitude estimation risk analysis results."""
     
-    def __init__(self, problem_dir: str | None = None, show_plots: bool = False):
+    def __init__(
+        self,
+        problem_dir: str | None = None,
+        show_plots: bool = False,
+        build_timeout_seconds: int = 180,
+        run_timeout_seconds: int = 180,
+    ):
         script_dir = Path(__file__).resolve().parent
         if problem_dir is None:
             self.problem_dir = script_dir.parent
@@ -50,6 +56,8 @@ class QAERiskAnalyzer:
         self.plots_dir.mkdir(exist_ok=True)
         self.show_plots = show_plots
         self.latest_quantum_result: Optional[Dict[str, Any]] = None
+        self.build_timeout_seconds = max(1, int(build_timeout_seconds))
+        self.run_timeout_seconds = max(1, int(run_timeout_seconds))
 
     def _has_positive_values(self, values) -> bool:
         for value in values:
@@ -141,6 +149,7 @@ class QAERiskAnalyzer:
                     check=True,
                     capture_output=True,
                     text=True,
+                    timeout=self.build_timeout_seconds,
                 )
                 print("Building Q# project...")
                 build_result = subprocess.run(
@@ -149,6 +158,7 @@ class QAERiskAnalyzer:
                     check=True,
                     capture_output=True,
                     text=True,
+                    timeout=self.build_timeout_seconds,
                 )
 
                 if build_result.stdout:
@@ -162,6 +172,7 @@ class QAERiskAnalyzer:
                     check=True,
                     capture_output=True,
                     text=True,
+                    timeout=self.build_timeout_seconds,
                 )
                 print("Skipping build; reusing previous Q# compilation artifacts.")
             
@@ -175,6 +186,7 @@ class QAERiskAnalyzer:
                 check=True,
                 capture_output=True,
                 text=True,
+                timeout=self.run_timeout_seconds,
             )
             
             raw_stdout = run_result.stdout
@@ -333,6 +345,14 @@ class QAERiskAnalyzer:
             
         except subprocess.CalledProcessError as e:
             print(f"Failed to run Q# estimation: {e}")
+            self.latest_quantum_result = None
+            return None
+        except subprocess.TimeoutExpired as e:
+            command_text = " ".join(e.cmd) if isinstance(e.cmd, list) else str(e.cmd)
+            print(
+                f"Q# subprocess timed out after {e.timeout} seconds: {command_text}. "
+                "Retry with lower ensemble size or higher timeout flags."
+            )
             self.latest_quantum_result = None
             return None
         except FileNotFoundError:
@@ -878,6 +898,18 @@ def parse_args() -> argparse.Namespace:
         default=1,
         help="Number of quantum estimation runs to perform for aggregation (default: 1)",
     )
+    parser.add_argument(
+        "--build-timeout-seconds",
+        type=int,
+        default=180,
+        help="Timeout in seconds for runtime-config/build subprocesses (default: 180)",
+    )
+    parser.add_argument(
+        "--run-timeout-seconds",
+        type=int,
+        default=180,
+        help="Timeout in seconds for each dotnet run subprocess (default: 180)",
+    )
     return parser.parse_args()
 
 
@@ -943,7 +975,11 @@ def _resolve_qae_parameters(problem_dir: Path, args: argparse.Namespace) -> Dict
 def main(args: argparse.Namespace):
     """Main analysis workflow."""
     
-    analyzer = QAERiskAnalyzer(show_plots=args.show_plots)
+    analyzer = QAERiskAnalyzer(
+        show_plots=args.show_plots,
+        build_timeout_seconds=args.build_timeout_seconds,
+        run_timeout_seconds=args.run_timeout_seconds,
+    )
     qae_params = _resolve_qae_parameters(analyzer.problem_dir, args)
     
     print("🔍 Starting QAE Risk Analysis...")

@@ -3,15 +3,15 @@
     "total_problems": 20,
     "stage_counts": {
       "A": 0,
-      "B": 18,
-      "C": 2,
+      "B": 17,
+      "C": 3,
       "D": 0,
       "Unknown": 0
     },
     "stage_pct": {
       "A": 0.0,
-      "B": 90.0,
-      "C": 10.0,
+      "B": 85.0,
+      "C": 15.0,
       "D": 0.0,
       "Unknown": 0.0
     },
@@ -24,7 +24,7 @@
   "records": [
     {
       "problem": "01_hubbard",
-      "readme": "problems\\01_hubbard\\README.md",
+      "readme": "problems/01_hubbard/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -33,7 +33,7 @@
     },
     {
       "problem": "02_catalysis",
-      "readme": "problems\\02_catalysis\\README.md",
+      "readme": "problems/02_catalysis/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -42,7 +42,7 @@
     },
     {
       "problem": "03_qae_risk",
-      "readme": "problems\\03_qae_risk\\README.md",
+      "readme": "problems/03_qae_risk/README.md",
       "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -51,7 +51,7 @@
     },
     {
       "problem": "04_linear_solvers",
-      "readme": "problems\\04_linear_solvers\\README.md",
+      "readme": "problems/04_linear_solvers/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -60,8 +60,8 @@
     },
     {
       "problem": "05_qaoa_maxcut",
-      "readme": "problems\\05_qaoa_maxcut\\README.md",
-      "stage": "B",
+      "readme": "problems/05_qaoa_maxcut/README.md",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -69,7 +69,7 @@
     },
     {
       "problem": "06_high_frequency_trading",
-      "readme": "problems\\06_high_frequency_trading\\README.md",
+      "readme": "problems/06_high_frequency_trading/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -78,7 +78,7 @@
     },
     {
       "problem": "07_drug_discovery",
-      "readme": "problems\\07_drug_discovery\\README.md",
+      "readme": "problems/07_drug_discovery/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -87,7 +87,7 @@
     },
     {
       "problem": "08_protein_folding",
-      "readme": "problems\\08_protein_folding\\README.md",
+      "readme": "problems/08_protein_folding/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -96,7 +96,7 @@
     },
     {
       "problem": "09_factorization",
-      "readme": "problems\\09_factorization\\README.md",
+      "readme": "problems/09_factorization/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -105,7 +105,7 @@
     },
     {
       "problem": "10_post_quantum_cryptography",
-      "readme": "problems\\10_post_quantum_cryptography\\README.md",
+      "readme": "problems/10_post_quantum_cryptography/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -114,7 +114,7 @@
     },
     {
       "problem": "11_quantum_machine_learning",
-      "readme": "problems\\11_quantum_machine_learning\\README.md",
+      "readme": "problems/11_quantum_machine_learning/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -123,7 +123,7 @@
     },
     {
       "problem": "12_quantum_optimization",
-      "readme": "problems\\12_quantum_optimization\\README.md",
+      "readme": "problems/12_quantum_optimization/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -132,7 +132,7 @@
     },
     {
       "problem": "13_climate_modeling",
-      "readme": "problems\\13_climate_modeling\\README.md",
+      "readme": "problems/13_climate_modeling/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -141,7 +141,7 @@
     },
     {
       "problem": "14_materials_discovery",
-      "readme": "problems\\14_materials_discovery\\README.md",
+      "readme": "problems/14_materials_discovery/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -150,7 +150,7 @@
     },
     {
       "problem": "15_database_search",
-      "readme": "problems\\15_database_search\\README.md",
+      "readme": "problems/15_database_search/README.md",
       "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -159,7 +159,7 @@
     },
     {
       "problem": "16_error_correction",
-      "readme": "problems\\16_error_correction\\README.md",
+      "readme": "problems/16_error_correction/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -168,7 +168,7 @@
     },
     {
       "problem": "17_nuclear_physics",
-      "readme": "problems\\17_nuclear_physics\\README.md",
+      "readme": "problems/17_nuclear_physics/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -177,7 +177,7 @@
     },
     {
       "problem": "18_photovoltaics",
-      "readme": "problems\\18_photovoltaics\\README.md",
+      "readme": "problems/18_photovoltaics/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -186,7 +186,7 @@
     },
     {
       "problem": "19_quantum_chromodynamics",
-      "readme": "problems\\19_quantum_chromodynamics\\README.md",
+      "readme": "problems/19_quantum_chromodynamics/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -195,7 +195,7 @@
     },
     {
       "problem": "20_space_mission_planning",
-      "readme": "problems\\20_space_mission_planning\\README.md",
+      "readme": "problems/20_space_mission_planning/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,

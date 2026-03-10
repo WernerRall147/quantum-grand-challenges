@@ -21,6 +21,7 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 - Azure execute-mode sweep completed for five representative problems with recorded successful runs:
   `03_qae_risk`, `05_qaoa_maxcut`, `10_post_quantum_cryptography`, `15_database_search`, `20_space_mission_planning`.
 - Website reporting remains privacy-safe (no job IDs or workspace identifiers in website data).
+- Evidence-based target map now available: `docs/platform-target-recommendations.md` (Quantinuum vs Rigetti recommendations per problem).
 
 Milestone notes: `docs/MILESTONE_2026_03_CLOSEOUT.md`.
 

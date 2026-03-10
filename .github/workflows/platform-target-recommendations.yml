@@ -1,0 +1,49 @@
+name: Platform Target Recommendations
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 4 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh-platform-target-map:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate platform recommendations
+        run: |
+          python tooling/reporting/recommend_platform_targets.py
+
+      - name: Validate website data schema
+        run: |
+          python tooling/reporting/validate_website_data_schema.py
+
+      - name: Create pull request for recommendation updates
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/update-platform-target-recommendations
+          commit-message: "chore(reporting): refresh platform target recommendations"
+          title: "chore(reporting): refresh platform target recommendations"
+          body: |
+            Automated refresh of Azure Quantum platform target recommendations.
+
+            - Source: `tooling/reporting/recommend_platform_targets.py`
+            - Outputs:
+              - `tooling/reporting/platform_target_recommendations.json`
+              - `docs/platform-target-recommendations.md`
+          labels: |
+            documentation
+            reporting
+            azure

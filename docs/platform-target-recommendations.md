@@ -1,6 +1,6 @@
 # Platform Target Recommendations
 
-Generated: 2026-03-07T05:20:05Z
+Generated: 2026-03-10T09:20:03Z
 
 Scoring: `5 * run_history_successes + 3 * smoke_successes`
 

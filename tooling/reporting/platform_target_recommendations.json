@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_utc": "2026-03-07T05:20:05Z",
+  "generated_utc": "2026-03-10T09:20:03Z",
   "method": {
     "scoring": "score = 5 * run_history_successes + 3 * smoke_successes",
     "tie_breakers": [

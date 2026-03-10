@@ -1,6 +1,6 @@
 # Platform Target Recommendations
 
-Generated: 2026-03-10T09:57:06Z
+Generated: 2026-03-10T12:35:21Z
 
 Preference mode: `simulator-first`
 
@@ -44,25 +44,34 @@ Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonu
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.98) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.9845, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 9.32
+- Avg cost usd: 0.0000
 
 ### 02_catalysis
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
 - Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Evidence: score=6.9952, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 2.90
+- Avg cost usd: 0.0000
 
 ### 03_qae_risk
 
 - Recommended target: rigetti.sim.qvm
 - Confidence: medium
-- Rationale: Highest weighted score (10.00) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (simulator-first).
-- Evidence: score=10.0, run_history=1, smoke=1, failures=0, global=2
+- Rationale: Highest weighted score (9.99) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (simulator-first).
+- Evidence: score=9.9914, run_history=1, smoke=1, failures=0, global=2
 - Simulator target: True
+- Avg runtime seconds: 1.31
+- Avg queue seconds: 3.82
+- Avg cost usd: 0.0000
 - Input formats: rigetti.quil.v1
 - Output formats: rigetti.quil-results.v1
 
@@ -70,9 +79,12 @@ Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonu
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.9948, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 3.11
+- Avg cost usd: 0.0000
 
 ### 05_qaoa_maxcut
 
@@ -88,81 +100,111 @@ Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonu
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.9949, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 3.06
+- Avg cost usd: 0.0000
 
 ### 07_drug_discovery
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.9944, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 3.38
+- Avg cost usd: 0.0000
 
 ### 08_protein_folding
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
 - Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Evidence: score=6.9951, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 2.95
+- Avg cost usd: 0.0000
 
 ### 09_factorization
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
 - Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Evidence: score=6.9951, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 2.95
+- Avg cost usd: 0.0000
 
 ### 10_post_quantum_cryptography
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
 - Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Evidence: score=6.9951, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 2.95
+- Avg cost usd: 0.0000
 
 ### 11_quantum_machine_learning
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.995, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 3.01
+- Avg cost usd: 0.0000
 
 ### 12_quantum_optimization
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
 - Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Evidence: score=6.9951, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 2.97
+- Avg cost usd: 0.0000
 
 ### 13_climate_modeling
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.9947, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 3.17
+- Avg cost usd: 0.0000
 
 ### 14_materials_discovery
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.9936, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 3.82
+- Avg cost usd: 0.0000
 
 ### 15_database_search
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: high
-- Rationale: Highest weighted score (15.00) from run-history successes (2), smoke successes (1), failures (0), and strategy mode (simulator-first).
-- Evidence: score=15.0, run_history=2, smoke=1, failures=0, global=21
+- Rationale: Highest weighted score (14.99) from run-history successes (2), smoke successes (1), failures (0), and strategy mode (simulator-first).
+- Evidence: score=14.9859, run_history=2, smoke=1, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 8.48
+- Avg cost usd: 0.0000
 - Input formats: honeywell.openqasm.v1
 - Output formats: honeywell.quantum-results.v1
 
@@ -170,33 +212,45 @@ Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonu
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.9949, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 3.05
+- Avg cost usd: 0.0000
 
 ### 17_nuclear_physics
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
 - Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Evidence: score=6.9951, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 2.97
+- Avg cost usd: 0.0000
 
 ### 18_photovoltaics
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
-- Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Rationale: Highest weighted score (6.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
+- Evidence: score=6.9949, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 3.04
+- Avg cost usd: 0.0000
 
 ### 19_quantum_chromodynamics
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: medium
 - Rationale: Highest weighted score (7.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (simulator-first).
-- Evidence: score=7.0, run_history=1, smoke=0, failures=0, global=21
+- Evidence: score=6.9951, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 2.91
+- Avg cost usd: 0.0000
 
 ### 20_space_mission_planning
 

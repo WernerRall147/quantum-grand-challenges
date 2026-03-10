@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-03-06T14:06:00Z",
+  "updated_utc": "2026-03-10T12:35:19Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -19,7 +19,11 @@
       },
       "submitted_utc": "2026-03-04T16:37:04Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 1.305996,
+      "queue_seconds": 3.824282,
+      "duration_seconds": 5.130278,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-04T16:42:08Z",
@@ -57,7 +61,11 @@
       },
       "submitted_utc": "2026-03-04T16:59:15Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 8.2e-05,
+      "queue_seconds": 8.481288,
+      "duration_seconds": 8.48137,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-05T15:29:51Z",
@@ -95,7 +103,11 @@
       },
       "submitted_utc": "2026-03-05T15:28:50Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/05_qaoa_maxcut/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/05_qaoa_maxcut/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 6.7e-05,
+      "queue_seconds": 2.848128,
+      "duration_seconds": 2.848195,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-05T15:29:57Z",
@@ -114,7 +126,11 @@
       },
       "submitted_utc": "2026-03-05T15:29:03Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/10_post_quantum_cryptography/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/10_post_quantum_cryptography/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 5.7e-05,
+      "queue_seconds": 2.954039,
+      "duration_seconds": 2.954096,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-05T15:30:00Z",
@@ -171,7 +187,11 @@
       },
       "submitted_utc": "2026-03-06T14:00:58Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 5.4e-05,
+      "queue_seconds": 9.322133,
+      "duration_seconds": 9.322187,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:19Z",
@@ -190,7 +210,11 @@
       },
       "submitted_utc": "2026-03-06T14:01:12Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/02_catalysis/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/02_catalysis/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 7.2e-05,
+      "queue_seconds": 2.901304,
+      "duration_seconds": 2.901376,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:22Z",
@@ -209,7 +233,11 @@
       },
       "submitted_utc": "2026-03-06T14:01:28Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/04_linear_solvers/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/04_linear_solvers/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 5.3e-05,
+      "queue_seconds": 3.11226,
+      "duration_seconds": 3.112313,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:25Z",
@@ -228,7 +256,11 @@
       },
       "submitted_utc": "2026-03-06T14:01:43Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/06_high_frequency_trading/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/06_high_frequency_trading/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 5.3e-05,
+      "queue_seconds": 3.056437,
+      "duration_seconds": 3.05649,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:28Z",
@@ -247,7 +279,11 @@
       },
       "submitted_utc": "2026-03-06T14:01:57Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/07_drug_discovery/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/07_drug_discovery/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 5.8e-05,
+      "queue_seconds": 3.38114,
+      "duration_seconds": 3.381198,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:31Z",
@@ -266,7 +302,11 @@
       },
       "submitted_utc": "2026-03-06T14:02:29Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/08_protein_folding/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/08_protein_folding/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 6.1e-05,
+      "queue_seconds": 2.948955,
+      "duration_seconds": 2.949016,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:35Z",
@@ -285,7 +325,11 @@
       },
       "submitted_utc": "2026-03-06T14:02:44Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/09_factorization/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/09_factorization/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 7.1e-05,
+      "queue_seconds": 2.949315,
+      "duration_seconds": 2.949386,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:38Z",
@@ -304,7 +348,11 @@
       },
       "submitted_utc": "2026-03-06T14:02:57Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/11_quantum_machine_learning/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/11_quantum_machine_learning/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 7.5e-05,
+      "queue_seconds": 3.013944,
+      "duration_seconds": 3.014019,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:41Z",
@@ -323,7 +371,11 @@
       },
       "submitted_utc": "2026-03-06T14:03:11Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/12_quantum_optimization/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/12_quantum_optimization/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 6e-05,
+      "queue_seconds": 2.965043,
+      "duration_seconds": 2.965103,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:44Z",
@@ -342,7 +394,11 @@
       },
       "submitted_utc": "2026-03-06T14:03:26Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/13_climate_modeling/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/13_climate_modeling/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 5.6e-05,
+      "queue_seconds": 3.170278,
+      "duration_seconds": 3.170334,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:47Z",
@@ -361,7 +417,11 @@
       },
       "submitted_utc": "2026-03-06T14:03:51Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/14_materials_discovery/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/14_materials_discovery/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 7.1e-05,
+      "queue_seconds": 3.818445,
+      "duration_seconds": 3.818516,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:50Z",
@@ -380,7 +440,11 @@
       },
       "submitted_utc": "2026-03-06T14:04:05Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/16_error_correction/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/16_error_correction/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 6.4e-05,
+      "queue_seconds": 3.052658,
+      "duration_seconds": 3.052722,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:53Z",
@@ -399,7 +463,11 @@
       },
       "submitted_utc": "2026-03-06T14:04:19Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/17_nuclear_physics/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/17_nuclear_physics/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 9.3e-05,
+      "queue_seconds": 2.967791,
+      "duration_seconds": 2.967884,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:05:57Z",
@@ -418,7 +486,11 @@
       },
       "submitted_utc": "2026-03-06T14:04:34Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/18_photovoltaics/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/18_photovoltaics/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 8.1e-05,
+      "queue_seconds": 3.036909,
+      "duration_seconds": 3.03699,
+      "cost_usd": 0.0
     },
     {
       "recorded_utc": "2026-03-06T14:06:00Z",
@@ -437,7 +509,11 @@
       },
       "submitted_utc": "2026-03-06T14:04:49Z",
       "status": "succeeded",
-      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/19_quantum_chromodynamics/estimates/azure_job_manifest_small_d1.json"
+      "manifest_path": "C:/Users/weral/Git/quantum-grand-challenges/problems/19_quantum_chromodynamics/estimates/azure_job_manifest_small_d1.json",
+      "runtime_seconds": 7.3e-05,
+      "queue_seconds": 2.914988,
+      "duration_seconds": 2.915061,
+      "cost_usd": 0.0
     }
   ]
 }

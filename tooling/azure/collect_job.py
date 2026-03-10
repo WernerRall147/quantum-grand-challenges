@@ -181,7 +181,50 @@ def _record_successful_run(payload: Dict[str, Any], manifest_path: Path, metrics
         history = {}
 
     runs = history.get("runs") if isinstance(history.get("runs"), list) else []
-    if any(isinstance(entry, dict) and str(entry.get("job_id", "")).strip() == job_id for entry in runs):
+
+    existing_entry: Optional[Dict[str, Any]] = None
+    for entry in runs:
+        if isinstance(entry, dict) and str(entry.get("job_id", "")).strip() == job_id:
+            existing_entry = entry
+            break
+
+    if existing_entry is not None:
+        if metrics:
+            for key in ("runtime_seconds", "queue_seconds", "duration_seconds", "cost_usd"):
+                metric = metrics.get(key)
+                if metric is not None:
+                    existing_entry[key] = round(float(metric), 6)
+
+        history["schema_version"] = "1.0"
+        history["updated_utc"] = utc_now()
+        history["runs"] = runs
+        history_path.write_text(json.dumps(history, indent=2) + "\n", encoding="utf-8")
+
+        website_runs = [
+            {
+                "recorded_utc": str(entry.get("recorded_utc", "")),
+                "problem_id": str(entry.get("problem_id", "")),
+                "instance_id": str(entry.get("instance_id", "")),
+                "depth": int(entry.get("depth", 0) or 0),
+                "target_id": str(entry.get("target_id", "")),
+                "status": str(entry.get("status", "")),
+                "runtime_seconds": _safe_float(entry.get("runtime_seconds")),
+                "queue_seconds": _safe_float(entry.get("queue_seconds")),
+                "duration_seconds": _safe_float(entry.get("duration_seconds")),
+                "cost_usd": _safe_float(entry.get("cost_usd")),
+            }
+            for entry in runs
+            if isinstance(entry, dict)
+        ]
+        website_history = {
+            "schema_version": "1.0",
+            "updated_utc": history.get("updated_utc", utc_now()),
+            "runs": website_runs,
+        }
+
+        web_history_path = Path(__file__).resolve().parents[2] / "website" / "data" / "azureRunHistory.json"
+        web_history_path.parent.mkdir(parents=True, exist_ok=True)
+        web_history_path.write_text(json.dumps(website_history, indent=2) + "\n", encoding="utf-8")
         return
 
     run_row: Dict[str, Any] = {

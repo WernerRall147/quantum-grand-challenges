@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_utc": "2026-03-10T09:57:05Z",
+  "generated_utc": "2026-03-10T12:35:20Z",
   "preference_mode": "balanced",
   "method": {
     "scoring": "score = 5*run_history_successes + 3*smoke_successes - 1*run_history_failures + strategy_bonus - optional(cost/runtime/queue penalties)",
@@ -26,11 +26,11 @@
       "problem_id": "01_hubbard",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.98) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9845,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -39,9 +39,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:16Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 5.4e-05,
+          "avg_queue_seconds": 9.322133,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -55,7 +55,7 @@
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9952,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -64,9 +64,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:19Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 7.2e-05,
+          "avg_queue_seconds": 2.901304,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -76,11 +76,11 @@
       "problem_id": "03_qae_risk",
       "recommended_target": "rigetti.sim.qvm",
       "confidence": "medium",
-      "rationale": "Highest weighted score (8.00) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (7.99) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "rigetti.sim.qvm",
-          "score": 8.0,
+          "score": 7.9914,
           "run_history_successes": 1,
           "smoke_successes": 1,
           "run_history_failures": 0,
@@ -89,9 +89,9 @@
           "latest_recorded_utc": "2026-03-04T16:41:55Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 1.305996,
+          "avg_queue_seconds": 3.824282,
+          "avg_cost_usd": 0.0,
           "input_formats": [
             "rigetti.quil.v1"
           ],
@@ -122,11 +122,11 @@
       "problem_id": "04_linear_solvers",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9948,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -135,9 +135,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:22Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 5.3e-05,
+          "avg_queue_seconds": 3.11226,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -172,7 +172,7 @@
         },
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9953,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -181,9 +181,9 @@
           "latest_recorded_utc": "2026-03-05T15:29:54Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 6.7e-05,
+          "avg_queue_seconds": 2.848128,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -193,11 +193,11 @@
       "problem_id": "06_high_frequency_trading",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9949,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -206,9 +206,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:25Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 5.3e-05,
+          "avg_queue_seconds": 3.056437,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -218,11 +218,11 @@
       "problem_id": "07_drug_discovery",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9944,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -231,9 +231,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:28Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 5.8e-05,
+          "avg_queue_seconds": 3.38114,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -247,7 +247,7 @@
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9951,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -256,9 +256,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:31Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 6.1e-05,
+          "avg_queue_seconds": 2.948955,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -272,7 +272,7 @@
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9951,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -281,9 +281,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:35Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 7.1e-05,
+          "avg_queue_seconds": 2.949315,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -297,7 +297,7 @@
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9951,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -306,9 +306,9 @@
           "latest_recorded_utc": "2026-03-05T15:29:57Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 5.7e-05,
+          "avg_queue_seconds": 2.954039,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -318,11 +318,11 @@
       "problem_id": "11_quantum_machine_learning",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.995,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -331,9 +331,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:38Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 7.5e-05,
+          "avg_queue_seconds": 3.013944,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -347,7 +347,7 @@
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9951,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -356,9 +356,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:41Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 6e-05,
+          "avg_queue_seconds": 2.965043,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -368,11 +368,11 @@
       "problem_id": "13_climate_modeling",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9947,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -381,9 +381,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:44Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 5.6e-05,
+          "avg_queue_seconds": 3.170278,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -393,11 +393,11 @@
       "problem_id": "14_materials_discovery",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9936,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -406,9 +406,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:47Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 7.1e-05,
+          "avg_queue_seconds": 3.818445,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -418,11 +418,11 @@
       "problem_id": "15_database_search",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "high",
-      "rationale": "Highest weighted score (13.00) from run-history successes (2), smoke successes (1), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (12.99) from run-history successes (2), smoke successes (1), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 13.0,
+          "score": 12.9859,
           "run_history_successes": 2,
           "smoke_successes": 1,
           "run_history_failures": 0,
@@ -431,9 +431,9 @@
           "latest_recorded_utc": "2026-03-05T15:30:00Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 8.2e-05,
+          "avg_queue_seconds": 8.481288,
+          "avg_cost_usd": 0.0,
           "input_formats": [
             "honeywell.openqasm.v1"
           ],
@@ -447,11 +447,11 @@
       "problem_id": "16_error_correction",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9949,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -460,9 +460,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:50Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 6.4e-05,
+          "avg_queue_seconds": 3.052658,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -476,7 +476,7 @@
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9951,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -485,9 +485,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:53Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 9.3e-05,
+          "avg_queue_seconds": 2.967791,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -497,11 +497,11 @@
       "problem_id": "18_photovoltaics",
       "recommended_target": "quantinuum.sim.h2-1sc",
       "confidence": "low",
-      "rationale": "Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
+      "rationale": "Highest weighted score (4.99) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).",
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9949,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -510,9 +510,9 @@
           "latest_recorded_utc": "2026-03-06T14:05:57Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 8.1e-05,
+          "avg_queue_seconds": 3.036909,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }
@@ -526,7 +526,7 @@
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9951,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -535,9 +535,9 @@
           "latest_recorded_utc": "2026-03-06T14:06:00Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 7.3e-05,
+          "avg_queue_seconds": 2.914988,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }

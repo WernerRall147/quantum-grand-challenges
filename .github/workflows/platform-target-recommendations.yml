@@ -22,6 +22,12 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Audit Azure run-history metric coverage
+        run: |
+          python tooling/reporting/audit_azure_run_history_metrics.py \
+            --min-resolved-coverage 0.85 \
+            --enforce-threshold
+
       - name: Generate platform recommendations
         run: |
           python tooling/reporting/recommend_platform_targets.py --preference balanced
@@ -49,6 +55,7 @@ jobs:
 
             - Source: `tooling/reporting/recommend_platform_targets.py`
             - Outputs:
+              - `tooling/reporting/azure_run_history_metrics_audit.json`
               - `tooling/reporting/platform_target_recommendations.json`
               - `docs/platform-target-recommendations.md`
               - `tooling/reporting/platform_target_recommendations_hardware_first.json`

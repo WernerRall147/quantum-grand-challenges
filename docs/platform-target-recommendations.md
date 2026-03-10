@@ -1,6 +1,6 @@
 # Platform Target Recommendations
 
-Generated: 2026-03-10T13:30:50Z
+Generated: 2026-03-10T14:16:45Z
 
 Preference mode: `balanced`
 
@@ -90,9 +90,12 @@ Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonu
 
 - Recommended target: rigetti.sim.qvm
 - Confidence: medium
-- Rationale: Highest weighted score (8.00) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (balanced).
-- Evidence: score=8.0, run_history=1, smoke=1, failures=0, global=2
+- Rationale: Highest weighted score (7.98) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (balanced).
+- Evidence: score=7.9808, run_history=1, smoke=1, failures=0, global=2
 - Simulator target: True
+- Avg runtime seconds: 1.28
+- Avg queue seconds: 10.23
+- Avg cost usd: 0.0000
 - Input formats: rigetti.quil.v1
 - Output formats: rigetti.quil-results.v1
 

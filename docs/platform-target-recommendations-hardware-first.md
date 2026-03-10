@@ -1,6 +1,6 @@
 # Platform Target Recommendations
 
-Generated: 2026-03-10T13:30:50Z
+Generated: 2026-03-10T14:16:45Z
 
 Preference mode: `hardware-first`
 
@@ -21,7 +21,7 @@ Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonu
 | 02_catalysis | quantinuum.sim.h2-1sc | low |
 | 03_qae_risk | rigetti.sim.qvm | low |
 | 04_linear_solvers | quantinuum.sim.h2-1sc | low |
-| 05_qaoa_maxcut | rigetti.sim.qvm | medium |
+| 05_qaoa_maxcut | rigetti.sim.qvm | low |
 | 06_high_frequency_trading | quantinuum.sim.h2-1sc | low |
 | 07_drug_discovery | quantinuum.sim.h2-1sc | low |
 | 08_protein_folding | quantinuum.sim.h2-1sc | low |
@@ -89,10 +89,13 @@ Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonu
 ### 05_qaoa_maxcut
 
 - Recommended target: rigetti.sim.qvm
-- Confidence: medium
-- Rationale: Highest weighted score (6.00) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (hardware-first).
-- Evidence: score=6.0, run_history=1, smoke=1, failures=0, global=2
+- Confidence: low
+- Rationale: Highest weighted score (5.98) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (hardware-first).
+- Evidence: score=5.9808, run_history=1, smoke=1, failures=0, global=2
 - Simulator target: True
+- Avg runtime seconds: 1.28
+- Avg queue seconds: 10.23
+- Avg cost usd: 0.0000
 - Input formats: rigetti.quil.v1
 - Output formats: rigetti.quil-results.v1
 

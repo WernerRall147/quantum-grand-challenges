@@ -1,0 +1,20 @@
+{
+  "generated_utc": "2026-03-10T14:16:46Z",
+  "threshold": {
+    "min_resolved_coverage": 0.85,
+    "enforce_threshold": true
+  },
+  "summary": {
+    "total_runs": 23,
+    "available_metrics": 21,
+    "explicit_unavailable": 2,
+    "unresolved": 0,
+    "resolved_coverage": 1.0,
+    "direct_metric_coverage": 0.913043,
+    "probed_missing_rows": 0,
+    "backfilled_rows": 0,
+    "marked_unavailable_rows": 0
+  },
+  "unresolved_rows": [],
+  "probe_errors": []
+}

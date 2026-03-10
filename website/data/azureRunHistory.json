@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-03-10T13:30:49Z",
+  "updated_utc": "2026-03-10T14:16:46Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -12,7 +12,8 @@
       "runtime_seconds": 1.305996,
       "queue_seconds": 3.824282,
       "duration_seconds": 5.130278,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-04T16:42:08Z",
@@ -21,10 +22,11 @@
       "depth": 3,
       "target_id": "rigetti.sim.qvm",
       "status": "succeeded",
-      "runtime_seconds": null,
-      "queue_seconds": null,
-      "duration_seconds": null,
-      "cost_usd": null
+      "runtime_seconds": 1.277946,
+      "queue_seconds": 10.231919,
+      "duration_seconds": 11.509865,
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-04T16:59:30Z",
@@ -36,7 +38,8 @@
       "runtime_seconds": 8.2e-05,
       "queue_seconds": 8.481288,
       "duration_seconds": 8.48137,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-05T15:29:51Z",
@@ -48,7 +51,8 @@
       "runtime_seconds": null,
       "queue_seconds": null,
       "duration_seconds": null,
-      "cost_usd": null
+      "cost_usd": null,
+      "metrics_status": "unavailable"
     },
     {
       "recorded_utc": "2026-03-05T15:29:54Z",
@@ -60,7 +64,8 @@
       "runtime_seconds": 6.7e-05,
       "queue_seconds": 2.848128,
       "duration_seconds": 2.848195,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-05T15:29:57Z",
@@ -72,7 +77,8 @@
       "runtime_seconds": 5.7e-05,
       "queue_seconds": 2.954039,
       "duration_seconds": 2.954096,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-05T15:30:00Z",
@@ -84,7 +90,8 @@
       "runtime_seconds": null,
       "queue_seconds": null,
       "duration_seconds": null,
-      "cost_usd": null
+      "cost_usd": null,
+      "metrics_status": "unavailable"
     },
     {
       "recorded_utc": "2026-03-05T15:31:05Z",
@@ -96,7 +103,8 @@
       "runtime_seconds": 6.3e-05,
       "queue_seconds": 2.777635,
       "duration_seconds": 2.777698,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:16Z",
@@ -108,7 +116,8 @@
       "runtime_seconds": 5.4e-05,
       "queue_seconds": 9.322133,
       "duration_seconds": 9.322187,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:19Z",
@@ -120,7 +129,8 @@
       "runtime_seconds": 7.2e-05,
       "queue_seconds": 2.901304,
       "duration_seconds": 2.901376,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:22Z",
@@ -132,7 +142,8 @@
       "runtime_seconds": 5.3e-05,
       "queue_seconds": 3.11226,
       "duration_seconds": 3.112313,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:25Z",
@@ -144,7 +155,8 @@
       "runtime_seconds": 5.3e-05,
       "queue_seconds": 3.056437,
       "duration_seconds": 3.05649,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:28Z",
@@ -156,7 +168,8 @@
       "runtime_seconds": 5.8e-05,
       "queue_seconds": 3.38114,
       "duration_seconds": 3.381198,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:31Z",
@@ -168,7 +181,8 @@
       "runtime_seconds": 6.1e-05,
       "queue_seconds": 2.948955,
       "duration_seconds": 2.949016,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:35Z",
@@ -180,7 +194,8 @@
       "runtime_seconds": 7.1e-05,
       "queue_seconds": 2.949315,
       "duration_seconds": 2.949386,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:38Z",
@@ -192,7 +207,8 @@
       "runtime_seconds": 7.5e-05,
       "queue_seconds": 3.013944,
       "duration_seconds": 3.014019,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:41Z",
@@ -204,7 +220,8 @@
       "runtime_seconds": 6e-05,
       "queue_seconds": 2.965043,
       "duration_seconds": 2.965103,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:44Z",
@@ -216,7 +233,8 @@
       "runtime_seconds": 5.6e-05,
       "queue_seconds": 3.170278,
       "duration_seconds": 3.170334,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:47Z",
@@ -228,7 +246,8 @@
       "runtime_seconds": 7.1e-05,
       "queue_seconds": 3.818445,
       "duration_seconds": 3.818516,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:50Z",
@@ -240,7 +259,8 @@
       "runtime_seconds": 6.4e-05,
       "queue_seconds": 3.052658,
       "duration_seconds": 3.052722,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:53Z",
@@ -252,7 +272,8 @@
       "runtime_seconds": 9.3e-05,
       "queue_seconds": 2.967791,
       "duration_seconds": 2.967884,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:05:57Z",
@@ -264,7 +285,8 @@
       "runtime_seconds": 8.1e-05,
       "queue_seconds": 3.036909,
       "duration_seconds": 3.03699,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     },
     {
       "recorded_utc": "2026-03-06T14:06:00Z",
@@ -276,7 +298,8 @@
       "runtime_seconds": 7.3e-05,
       "queue_seconds": 2.914988,
       "duration_seconds": 2.915061,
-      "cost_usd": 0.0
+      "cost_usd": 0.0,
+      "metrics_status": "available"
     }
   ]
 }

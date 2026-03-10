@@ -24,7 +24,15 @@ jobs:
 
       - name: Generate platform recommendations
         run: |
-          python tooling/reporting/recommend_platform_targets.py
+          python tooling/reporting/recommend_platform_targets.py --preference balanced
+          python tooling/reporting/recommend_platform_targets.py \
+            --preference hardware-first \
+            --out-json tooling/reporting/platform_target_recommendations_hardware_first.json \
+            --out-md docs/platform-target-recommendations-hardware-first.md
+          python tooling/reporting/recommend_platform_targets.py \
+            --preference simulator-first \
+            --out-json tooling/reporting/platform_target_recommendations_simulator_first.json \
+            --out-md docs/platform-target-recommendations-simulator-first.md
 
       - name: Validate website data schema
         run: |
@@ -43,6 +51,10 @@ jobs:
             - Outputs:
               - `tooling/reporting/platform_target_recommendations.json`
               - `docs/platform-target-recommendations.md`
+              - `tooling/reporting/platform_target_recommendations_hardware_first.json`
+              - `docs/platform-target-recommendations-hardware-first.md`
+              - `tooling/reporting/platform_target_recommendations_simulator_first.json`
+              - `docs/platform-target-recommendations-simulator-first.md`
           labels: |
             documentation
             reporting

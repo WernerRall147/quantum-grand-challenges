@@ -2,6 +2,11 @@
 
 This report combines execute history and smoke-report compatibility evidence
 to recommend a primary target for each problem.
+
+Strategy modes:
+- balanced: conservative mix of evidence volume and compatibility
+- hardware-first: prefer non-simulator targets when evidence exists
+- simulator-first: prefer simulator targets for rapid iteration
 """
 
 from __future__ import annotations
@@ -56,9 +61,18 @@ class TargetEvidence:
     target_id: str
     run_history_successes: int = 0
     smoke_successes: int = 0
+    run_history_failures: int = 0
+    total_runs_seen: int = 0
     latest_recorded_utc: Optional[str] = None
     input_formats: set[str] = None
     output_formats: set[str] = None
+    runtime_seconds_total: float = 0.0
+    runtime_seconds_count: int = 0
+    queue_seconds_total: float = 0.0
+    queue_seconds_count: int = 0
+    cost_usd_total: float = 0.0
+    cost_usd_count: int = 0
+    strategy_bonus: float = 0.0
 
     def __post_init__(self) -> None:
         if self.input_formats is None:
@@ -67,9 +81,81 @@ class TargetEvidence:
             self.output_formats = set()
 
     @property
-    def score(self) -> int:
-        # Execute history is weighted higher than smoke compatibility checks.
-        return (5 * self.run_history_successes) + (3 * self.smoke_successes)
+    def is_simulator(self) -> bool:
+        return ".sim." in self.target_id.lower()
+
+    @property
+    def avg_runtime_seconds(self) -> Optional[float]:
+        if self.runtime_seconds_count <= 0:
+            return None
+        return self.runtime_seconds_total / self.runtime_seconds_count
+
+    @property
+    def avg_queue_seconds(self) -> Optional[float]:
+        if self.queue_seconds_count <= 0:
+            return None
+        return self.queue_seconds_total / self.queue_seconds_count
+
+    @property
+    def avg_cost_usd(self) -> Optional[float]:
+        if self.cost_usd_count <= 0:
+            return None
+        return self.cost_usd_total / self.cost_usd_count
+
+
+def _safe_float(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    try:
+        return float(str(value))
+    except (TypeError, ValueError):
+        return None
+
+
+def _extract_metric(row: Dict[str, Any], keys: List[str]) -> Optional[float]:
+    for key in keys:
+        if key in row:
+            metric = _safe_float(row.get(key))
+            if metric is not None:
+                return metric
+    return None
+
+
+def strategy_bonus(target_id: str, preference: str) -> float:
+    is_sim = ".sim." in target_id.lower()
+    if preference == "hardware-first":
+        return -2.0 if is_sim else 2.0
+    if preference == "simulator-first":
+        return 2.0 if is_sim else -2.0
+    return 0.0
+
+
+def weighted_score(row: TargetEvidence, preference: str) -> float:
+    # Core evidence weights.
+    score = (5.0 * row.run_history_successes) + (3.0 * row.smoke_successes)
+
+    # Penalize failures lightly to avoid overreacting to sparse data.
+    score -= 1.0 * row.run_history_failures
+
+    # Strategy mode preference.
+    bonus = strategy_bonus(row.target_id, preference)
+    row.strategy_bonus = bonus
+    score += bonus
+
+    # Optional secondary penalties when richer metrics exist in run_history.
+    avg_runtime = row.avg_runtime_seconds
+    avg_queue = row.avg_queue_seconds
+    avg_cost = row.avg_cost_usd
+    if avg_runtime is not None:
+        score -= min(2.0, avg_runtime / 600.0)  # at most -2 beyond ~20 min average runtime
+    if avg_queue is not None:
+        score -= min(2.0, avg_queue / 600.0)    # at most -2 beyond ~20 min average queue
+    if avg_cost is not None:
+        score -= min(3.0, avg_cost / 5.0)       # at most -3 beyond $15 average cost
+
+    return score
 
 
 def update_latest_timestamp(current: Optional[str], candidate: Optional[str]) -> Optional[str]:
@@ -92,9 +178,6 @@ def collect_run_history_evidence(root: Path) -> tuple[Dict[str, Dict[str, Target
     for row in runs:
         if not isinstance(row, dict):
             continue
-        if str(row.get("status", "")).lower() != "succeeded":
-            continue
-
         problem_id = str(row.get("problem_id", "")).strip()
         target_id = str(row.get("target_id", "")).strip()
         if not problem_id or not target_id:
@@ -105,9 +188,31 @@ def collect_run_history_evidence(root: Path) -> tuple[Dict[str, Dict[str, Target
             entry = TargetEvidence(target_id=target_id)
             by_problem[problem_id][target_id] = entry
 
-        entry.run_history_successes += 1
+        entry.total_runs_seen += 1
+
+        status = str(row.get("status", "")).lower()
+        if status == "succeeded":
+            entry.run_history_successes += 1
+            global_successes[target_id] += 1
+        elif status:
+            entry.run_history_failures += 1
+
+        runtime_seconds = _extract_metric(row, ["runtime_seconds", "execution_seconds", "duration_seconds"])
+        if runtime_seconds is not None and runtime_seconds >= 0.0:
+            entry.runtime_seconds_total += runtime_seconds
+            entry.runtime_seconds_count += 1
+
+        queue_seconds = _extract_metric(row, ["queue_seconds", "queue_time_seconds", "queued_seconds"])
+        if queue_seconds is not None and queue_seconds >= 0.0:
+            entry.queue_seconds_total += queue_seconds
+            entry.queue_seconds_count += 1
+
+        cost_usd = _extract_metric(row, ["cost_usd", "estimated_cost_usd", "billing_cost_usd"])
+        if cost_usd is not None and cost_usd >= 0.0:
+            entry.cost_usd_total += cost_usd
+            entry.cost_usd_count += 1
+
         entry.latest_recorded_utc = update_latest_timestamp(entry.latest_recorded_utc, row.get("recorded_utc"))
-        global_successes[target_id] += 1
 
     return by_problem, dict(global_successes)
 
@@ -160,11 +265,16 @@ def collect_smoke_evidence(root: Path, by_problem: Dict[str, Dict[str, TargetEvi
 def pick_recommendation(
     target_map: Dict[str, TargetEvidence],
     global_successes: Dict[str, int],
+    preference: str,
 ) -> tuple[str, Optional[TargetEvidence], List[Dict[str, Any]]]:
+    scored_rows: List[tuple[TargetEvidence, float]] = []
+    for row in target_map.values():
+        scored_rows.append((row, weighted_score(row, preference)))
+
     rows: List[TargetEvidence] = sorted(
-        target_map.values(),
+        [row for row, _ in scored_rows],
         key=lambda row: (
-            row.score,
+            weighted_score(row, preference),
             global_successes.get(row.target_id, 0),
             row.run_history_successes,
             row.smoke_successes,
@@ -175,14 +285,22 @@ def pick_recommendation(
 
     candidates: List[Dict[str, Any]] = []
     for row in rows:
+        score = weighted_score(row, preference)
         candidates.append(
             {
                 "target_id": row.target_id,
-                "score": row.score,
+                "score": round(score, 4),
                 "run_history_successes": row.run_history_successes,
                 "smoke_successes": row.smoke_successes,
+                "run_history_failures": row.run_history_failures,
+                "total_runs_seen": row.total_runs_seen,
                 "global_target_successes": global_successes.get(row.target_id, 0),
                 "latest_recorded_utc": row.latest_recorded_utc,
+                "is_simulator": row.is_simulator,
+                "strategy_bonus": row.strategy_bonus,
+                "avg_runtime_seconds": row.avg_runtime_seconds,
+                "avg_queue_seconds": row.avg_queue_seconds,
+                "avg_cost_usd": row.avg_cost_usd,
                 "input_formats": sorted(row.input_formats),
                 "output_formats": sorted(row.output_formats),
             }
@@ -192,9 +310,10 @@ def pick_recommendation(
         return "low", None, candidates
 
     winner = rows[0]
-    if winner.score >= 12:
+    winner_score = weighted_score(winner, preference)
+    if winner_score >= 12:
         confidence = "high"
-    elif winner.score >= 6:
+    elif winner_score >= 6:
         confidence = "medium"
     else:
         confidence = "low"
@@ -202,7 +321,7 @@ def pick_recommendation(
     return confidence, winner, candidates
 
 
-def build_report_payload(root: Path) -> Dict[str, Any]:
+def build_report_payload(root: Path, preference: str) -> Dict[str, Any]:
     by_problem, global_successes = collect_run_history_evidence(root)
     collect_smoke_evidence(root, by_problem)
 
@@ -212,16 +331,18 @@ def build_report_payload(root: Path) -> Dict[str, Any]:
     recommendations: List[Dict[str, Any]] = []
     for problem_id in all_problem_ids:
         target_map = by_problem.get(problem_id, {})
-        confidence, winner, candidates = pick_recommendation(target_map, global_successes)
+        confidence, winner, candidates = pick_recommendation(target_map, global_successes, preference)
 
         if winner is None:
             recommended_target = "quantinuum.sim.h2-1sc"
             rationale = "Fallback default because no succeeded evidence rows were found for this problem."
         else:
+            winner_score = weighted_score(winner, preference)
             recommended_target = winner.target_id
             rationale = (
-                f"Highest weighted score ({winner.score}) from run-history successes "
-                f"({winner.run_history_successes}) and smoke successes ({winner.smoke_successes})."
+                f"Highest weighted score ({winner_score:.2f}) from run-history successes "
+                f"({winner.run_history_successes}), smoke successes ({winner.smoke_successes}), "
+                f"failures ({winner.run_history_failures}), and strategy mode ({preference})."
             )
 
         recommendations.append(
@@ -242,8 +363,12 @@ def build_report_payload(root: Path) -> Dict[str, Any]:
     return {
         "schema_version": "1.0",
         "generated_utc": utc_now_iso(),
+        "preference_mode": preference,
         "method": {
-            "scoring": "score = 5 * run_history_successes + 3 * smoke_successes",
+            "scoring": (
+                "score = 5*run_history_successes + 3*smoke_successes "
+                "- 1*run_history_failures + strategy_bonus - optional(cost/runtime/queue penalties)"
+            ),
             "tie_breakers": [
                 "higher global target success count",
                 "higher run-history success count",
@@ -262,7 +387,9 @@ def write_markdown(payload: Dict[str, Any], path: Path) -> None:
     lines.append("")
     lines.append(f"Generated: {payload.get('generated_utc', '')}")
     lines.append("")
-    lines.append("Scoring: `5 * run_history_successes + 3 * smoke_successes`")
+    lines.append(f"Preference mode: `{payload.get('preference_mode', 'balanced')}`")
+    lines.append("")
+    lines.append("Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonus - optional cost/runtime/queue penalties`")
     lines.append("")
     lines.append("## Global Target Summary")
     lines.append("")
@@ -293,8 +420,15 @@ def write_markdown(payload: Dict[str, Any], path: Path) -> None:
             lines.append(
                 "- Evidence: "
                 f"score={top['score']}, run_history={top['run_history_successes']}, "
-                f"smoke={top['smoke_successes']}, global={top['global_target_successes']}"
+                f"smoke={top['smoke_successes']}, failures={top['run_history_failures']}, global={top['global_target_successes']}"
             )
+            lines.append(f"- Simulator target: {top['is_simulator']}")
+            if top.get("avg_runtime_seconds") is not None:
+                lines.append(f"- Avg runtime seconds: {top['avg_runtime_seconds']:.2f}")
+            if top.get("avg_queue_seconds") is not None:
+                lines.append(f"- Avg queue seconds: {top['avg_queue_seconds']:.2f}")
+            if top.get("avg_cost_usd") is not None:
+                lines.append(f"- Avg cost usd: {top['avg_cost_usd']:.4f}")
             if top.get("input_formats"):
                 lines.append(f"- Input formats: {', '.join(top['input_formats'])}")
             if top.get("output_formats"):
@@ -310,6 +444,12 @@ def write_markdown(payload: Dict[str, Any], path: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate Azure Quantum platform recommendations per problem.")
     parser.add_argument(
+        "--preference",
+        choices=["balanced", "hardware-first", "simulator-first"],
+        default="balanced",
+        help="Recommendation strategy preference mode",
+    )
+    parser.add_argument(
         "--out-json",
         default="tooling/reporting/platform_target_recommendations.json",
         help="Output JSON path",
@@ -322,7 +462,7 @@ def main() -> None:
     args = parser.parse_args()
 
     root = repo_root()
-    payload = build_report_payload(root)
+    payload = build_report_payload(root, args.preference)
 
     out_json = Path(args.out_json)
     if not out_json.is_absolute():

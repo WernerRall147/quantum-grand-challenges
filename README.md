@@ -22,6 +22,10 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
   `03_qae_risk`, `05_qaoa_maxcut`, `10_post_quantum_cryptography`, `15_database_search`, `20_space_mission_planning`.
 - Website reporting remains privacy-safe (no job IDs or workspace identifiers in website data).
 - Evidence-based target map now available: `docs/platform-target-recommendations.md` (Quantinuum vs Rigetti recommendations per problem).
+- Strategy variants:
+  - `docs/platform-target-recommendations.md` (`balanced`)
+  - `docs/platform-target-recommendations-hardware-first.md` (`hardware-first`)
+  - `docs/platform-target-recommendations-simulator-first.md` (`simulator-first`)
 
 Milestone notes: `docs/MILESTONE_2026_03_CLOSEOUT.md`.
 

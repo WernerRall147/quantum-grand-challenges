@@ -1,8 +1,10 @@
 # Platform Target Recommendations
 
-Generated: 2026-03-10T09:20:03Z
+Generated: 2026-03-10T09:57:05Z
 
-Scoring: `5 * run_history_successes + 3 * smoke_successes`
+Preference mode: `balanced`
+
+Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonus - optional cost/runtime/queue penalties`
 
 ## Global Target Summary
 
@@ -42,22 +44,25 @@ Scoring: `5 * run_history_successes + 3 * smoke_successes`
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 02_catalysis
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 03_qae_risk
 
 - Recommended target: rigetti.sim.qvm
 - Confidence: medium
-- Rationale: Highest weighted score (8) from run-history successes (1) and smoke successes (1).
-- Evidence: score=8, run_history=1, smoke=1, global=2
+- Rationale: Highest weighted score (8.00) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (balanced).
+- Evidence: score=8.0, run_history=1, smoke=1, failures=0, global=2
+- Simulator target: True
 - Input formats: rigetti.quil.v1
 - Output formats: rigetti.quil-results.v1
 
@@ -65,15 +70,17 @@ Scoring: `5 * run_history_successes + 3 * smoke_successes`
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 05_qaoa_maxcut
 
 - Recommended target: rigetti.sim.qvm
 - Confidence: medium
-- Rationale: Highest weighted score (8) from run-history successes (1) and smoke successes (1).
-- Evidence: score=8, run_history=1, smoke=1, global=2
+- Rationale: Highest weighted score (8.00) from run-history successes (1), smoke successes (1), failures (0), and strategy mode (balanced).
+- Evidence: score=8.0, run_history=1, smoke=1, failures=0, global=2
+- Simulator target: True
 - Input formats: rigetti.quil.v1
 - Output formats: rigetti.quil-results.v1
 
@@ -81,71 +88,81 @@ Scoring: `5 * run_history_successes + 3 * smoke_successes`
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 07_drug_discovery
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 08_protein_folding
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 09_factorization
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 10_post_quantum_cryptography
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 11_quantum_machine_learning
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 12_quantum_optimization
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 13_climate_modeling
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 14_materials_discovery
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 15_database_search
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: high
-- Rationale: Highest weighted score (13) from run-history successes (2) and smoke successes (1).
-- Evidence: score=13, run_history=2, smoke=1, global=21
+- Rationale: Highest weighted score (13.00) from run-history successes (2), smoke successes (1), failures (0), and strategy mode (balanced).
+- Evidence: score=13.0, run_history=2, smoke=1, failures=0, global=21
+- Simulator target: True
 - Input formats: honeywell.openqasm.v1
 - Output formats: honeywell.quantum-results.v1
 
@@ -153,34 +170,39 @@ Scoring: `5 * run_history_successes + 3 * smoke_successes`
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 17_nuclear_physics
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 18_photovoltaics
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 19_quantum_chromodynamics
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 
 ### 20_space_mission_planning
 
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
-- Rationale: Highest weighted score (5) from run-history successes (1) and smoke successes (0).
-- Evidence: score=5, run_history=1, smoke=0, global=21
+- Rationale: Highest weighted score (5.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (balanced).
+- Evidence: score=5.0, run_history=1, smoke=0, failures=0, global=21
+- Simulator target: True
 

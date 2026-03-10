@@ -1,0 +1,144 @@
+{
+  "generated_utc": "2026-03-10T14:33:23Z",
+  "summary": {
+    "candidate_count": 3,
+    "fully_ready": 0,
+    "avg_readiness_percent": 83.3,
+    "open_checklist_items": 12,
+    "artifact_issue_count": 0
+  },
+  "candidates": [
+    {
+      "problem_id": "03_qae_risk",
+      "expected_claim": "projected",
+      "current_claim": "projected",
+      "readme_exists": true,
+      "stage_d_file_exists": true,
+      "checklist": {
+        "total": 4,
+        "done": 0,
+        "open": 4
+      },
+      "artifacts": [
+        {
+          "path": "estimates/quantum_estimate_ensemble_small.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/quantum_estimate_ensemble_medium.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/quantum_estimate_ensemble_large.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/fairness_review_stage_d.md",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        }
+      ],
+      "artifact_issue_count": 0,
+      "readiness": {
+        "score": 5,
+        "max_score": 6,
+        "percent": 83.3
+      }
+    },
+    {
+      "problem_id": "05_qaoa_maxcut",
+      "expected_claim": "theoretical",
+      "current_claim": "theoretical",
+      "readme_exists": true,
+      "stage_d_file_exists": true,
+      "checklist": {
+        "total": 4,
+        "done": 0,
+        "open": 4
+      },
+      "artifacts": [
+        {
+          "path": "estimates/backend_calibration_stage_d.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/fairness_benchmark_stage_d.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/fairness_benchmark_stage_d.md",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        }
+      ],
+      "artifact_issue_count": 0,
+      "readiness": {
+        "score": 5,
+        "max_score": 6,
+        "percent": 83.3
+      }
+    },
+    {
+      "problem_id": "15_database_search",
+      "expected_claim": "projected",
+      "current_claim": "projected",
+      "readme_exists": true,
+      "stage_d_file_exists": true,
+      "checklist": {
+        "total": 4,
+        "done": 0,
+        "open": 4
+      },
+      "artifacts": [
+        {
+          "path": "estimates/backend_uncertainty_small.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/backend_uncertainty_medium.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/backend_uncertainty_large.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/oracle_overhead_accounting_stage_d.md",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/marked_fraction_sensitivity_stage_d.md",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        }
+      ],
+      "artifact_issue_count": 0,
+      "readiness": {
+        "score": 5,
+        "max_score": 6,
+        "percent": 83.3
+      }
+    }
+  ]
+}

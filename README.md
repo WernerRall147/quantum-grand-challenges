@@ -29,6 +29,20 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 
 Milestone notes: `docs/MILESTONE_2026_03_CLOSEOUT.md`.
 
+## Completeness Gate Before Website Updates
+
+Before updating website-facing data, run the full completeness gate:
+
+```bash
+python tooling/reporting/stage_kpis.py --out-md docs/objective-kpis.md --out-json docs/objective-kpis.json
+python tooling/reporting/problem_runnable_correctness_audit.py --output tooling/reporting/problem_runnable_correctness_report.json
+python tooling/reporting/audit_azure_run_history_metrics.py --min-resolved-coverage 0.85 --enforce-threshold
+python tooling/reporting/validate_website_data_schema.py
+cd website && npm run build
+```
+
+Execution plan: `docs/planning/completeness-execution-plan-2026-03-10.md`.
+
 ## 🎯 Quick Start
 
 ### Prerequisites

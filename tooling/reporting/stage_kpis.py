@@ -142,7 +142,7 @@ def collect_problem_kpis(repo_root: Path) -> List[ProblemKpi]:
             records.append(
                 ProblemKpi(
                     problem=child.name,
-                    readme=str(readme.relative_to(repo_root)),
+                    readme=readme.relative_to(repo_root).as_posix(),
                     stage=None,
                     has_advantage_contract=False,
                     has_divincenzo_readiness=False,
@@ -156,7 +156,7 @@ def collect_problem_kpis(repo_root: Path) -> List[ProblemKpi]:
         records.append(
             ProblemKpi(
                 problem=child.name,
-                readme=str(readme.relative_to(repo_root)),
+                readme=readme.relative_to(repo_root).as_posix(),
                 stage=detect_stage(text),
                 has_advantage_contract=has_advantage_contract(text),
                 has_divincenzo_readiness=has_divincenzo_readiness(text),

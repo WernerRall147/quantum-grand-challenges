@@ -1,10 +1,10 @@
 {
-  "generated_utc": "2026-03-06T17:38:55Z",
+  "generated_utc": "2026-03-10T14:30:39Z",
   "environment": {
     "make_available": true,
     "dotnet_available": true,
     "dotnet6_available": true,
-    "qsharp_included": true
+    "qsharp_included": false
   },
   "summary": {
     "total": 20,
@@ -18,7 +18,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "cd python && C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/../../.venv/Scripts/python.exe classical_baseline.py\n\u2705 Classical baseline written to C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\estimates\\classical_baseline.json",
+        "stdout_tail": "cd python && C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/../../.venv/Scripts/python.exe classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -29,11 +29,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\Hubbard.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\Hubbard.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\Hubbard.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\Hubbard.csproj]\n  All projects are up-to-date for restore.\n  Hubbard -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\bin\\Release\\net6.0\\HubbardModel.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\Hubbard.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\Hubbard.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\Hubbard.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\qsharp\\Hubbard.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.20",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -44,7 +44,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "C:/Users/weral/Git/quantum-grand-challenges/problems/02_catalysis/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "C:/Users/weral/Git/quantum-grand-challenges/problems/02_catalysis/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -55,11 +55,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\Catalysis.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\Catalysis.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\Catalysis.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\Catalysis.csproj]\n  All projects are up-to-date for restore.\n  Catalysis -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\bin\\Release\\net6.0\\Catalysis.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\Catalysis.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\Catalysis.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\Catalysis.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\02_catalysis\\qsharp\\Catalysis.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.10",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -70,7 +70,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Running classical Monte Carlo baseline...\"\ncd python && C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/../../.venv/Scripts/python.exe classical_baseline.py\n\n=== Analyzing threshold = 2.0 ===\nProbability estimate: 0.244940 \u00b1 0.001360\nRuntime: 0.002 seconds\n\n=== Analyzing threshold = 3.0 ===\nProbability estimate: 0.136340 \u00b1 0.001085\nRuntime: 0.002 seconds\n\n=== Analyzing threshold = 4.0 ===\nProbability estimate: 0.083390 \u00b1 0.000874\nRuntime: 0.003 seconds\n\nResults saved to ..\\estimates\\classical_baseline.json\nPlots saved to ../plots/",
+        "stdout_tail": "\"Running classical Monte Carlo baseline...\"\ncd python && C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/../../.venv/Scripts/python.exe classical_baseline.py\n\n=== Analyzing threshold = 2.0 ===\nProbability estimate: 0.244940 \u00c2\u00b1 0.001360\nRuntime: 0.003 seconds\n\n=== Analyzing threshold = 3.0 ===\nProbability estimate: 0.136340 \u00c2\u00b1 0.001085\nRuntime: 0.003 seconds\n\n=== Analyzing threshold = 4.0 ===\nProbability estimate: 0.083390 \u00c2\u00b1 0.000874\nRuntime: 0.003 seconds\n\nResults saved to ..\\estimates\\classical_baseline.json\nPlots saved to ../plots/",
         "stderr_tail": "C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\python\\classical_baseline.py:150: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\nC:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\python\\classical_baseline.py:206: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()",
         "timed_out": false
       },
@@ -81,11 +81,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\n  All projects are up-to-date for restore.\n  \n  ____________________________________________\n  \n  Q#: Success! (0 errors, 0 warnings) \n  \n  QAERisk -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\bin\\Release\\net6.0\\QAERisk.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\qsharp\\QAERisk.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:05.72",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -96,7 +96,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Solving YAML instances with classical dense linear algebra...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Solving YAML instances with classical dense linear algebra...\"\npython python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -107,11 +107,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\LinearSolvers.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\LinearSolvers.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\LinearSolvers.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\LinearSolvers.csproj]\n  All projects are up-to-date for restore.\n  LinearSolvers -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\bin\\Release\\net6.0\\LinearSolvers.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\LinearSolvers.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\LinearSolvers.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\LinearSolvers.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\04_linear_solvers\\qsharp\\LinearSolvers.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.02",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -122,7 +122,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Running brute-force Max-Cut baselines...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Running brute-force Max-Cut baselines...\"\npython python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -133,11 +133,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\n  All projects are up-to-date for restore.\n  Determining projects to restore...\n  All projects are up-to-date for restore.\n  QaoaMaxCut -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\05_qaoa_maxcut\\qsharp\\bin\\Release\\net6.0\\QaoaMaxCut.dll\n\nBuild succeeded.\n    0 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.02",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -148,7 +148,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Running classical trading baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/06_high_frequency_trading/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Running classical trading baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/06_high_frequency_trading/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -159,11 +159,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\HighFrequencyTrading.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\HighFrequencyTrading.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\HighFrequencyTrading.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\HighFrequencyTrading.csproj]\n  All projects are up-to-date for restore.\n  HighFrequencyTrading -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\bin\\Release\\net6.0\\HighFrequencyTrading.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\HighFrequencyTrading.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\HighFrequencyTrading.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\HighFrequencyTrading.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\06_high_frequency_trading\\qsharp\\HighFrequencyTrading.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.13",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -174,7 +174,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Scoring ligand-protein instances...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/07_drug_discovery/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Scoring ligand-protein instances...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/07_drug_discovery/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -185,11 +185,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\DrugDiscovery.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\DrugDiscovery.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\DrugDiscovery.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\DrugDiscovery.csproj]\n  All projects are up-to-date for restore.\n  DrugDiscovery -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\bin\\Release\\net6.0\\DrugDiscovery.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\DrugDiscovery.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\DrugDiscovery.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\DrugDiscovery.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\07_drug_discovery\\qsharp\\DrugDiscovery.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.02",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -200,7 +200,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Scoring protein folding instances with knowledge-based potentials...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/08_protein_folding/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Scoring protein folding instances with knowledge-based potentials...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/08_protein_folding/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -211,11 +211,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\ProteinFolding.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\ProteinFolding.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\ProteinFolding.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\ProteinFolding.csproj]\n  All projects are up-to-date for restore.\n  ProteinFolding -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\bin\\Release\\net6.0\\ProteinFolding.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\ProteinFolding.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\ProteinFolding.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\ProteinFolding.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\08_protein_folding\\qsharp\\ProteinFolding.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.07",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -226,7 +226,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Factoring instances with Pollard Rho baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/09_factorization/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Factoring instances with Pollard Rho baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/09_factorization/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -237,11 +237,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\Factorization.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\Factorization.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\Factorization.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\Factorization.csproj]\n  All projects are up-to-date for restore.\n  Factorization -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\bin\\Release\\net6.0\\Factorization.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\Factorization.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\Factorization.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\Factorization.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\09_factorization\\qsharp\\Factorization.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:00.99",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -252,7 +252,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Estimating classical and quantum attack costs...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/10_post_quantum_cryptography/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Estimating classical and quantum attack costs...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/10_post_quantum_cryptography/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -263,11 +263,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\PostQuantum.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\PostQuantum.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\PostQuantum.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\PostQuantum.csproj]\n  All projects are up-to-date for restore.\n  PostQuantum -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\bin\\Release\\net6.0\\PostQuantum.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\PostQuantum.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\PostQuantum.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\PostQuantum.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\10_post_quantum_cryptography\\qsharp\\PostQuantum.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:00.99",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -278,7 +278,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating kernel ridge baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/11_quantum_machine_learning/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating kernel ridge baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/11_quantum_machine_learning/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -289,11 +289,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\QuantumML.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\QuantumML.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\QuantumML.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\QuantumML.csproj]\n  All projects are up-to-date for restore.\n  QuantumML -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\bin\\Release\\net6.0\\QuantumML.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\QuantumML.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\QuantumML.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\QuantumML.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\11_quantum_machine_learning\\qsharp\\QuantumML.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.01",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -304,7 +304,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating greedy weighted tardiness baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/12_quantum_optimization/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating greedy weighted tardiness baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/12_quantum_optimization/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -315,11 +315,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\QuantumOptimization.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\QuantumOptimization.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\QuantumOptimization.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\QuantumOptimization.csproj]\n  All projects are up-to-date for restore.\n  QuantumOptimization -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\bin\\Release\\net6.0\\QuantumOptimization.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\QuantumOptimization.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\QuantumOptimization.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\QuantumOptimization.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\12_quantum_optimization\\qsharp\\QuantumOptimization.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:00.99",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -330,7 +330,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Simulating finite-difference diffusion baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/13_climate_modeling/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Simulating finite-difference diffusion baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/13_climate_modeling/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -341,11 +341,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\QuantumClimate.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\QuantumClimate.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\QuantumClimate.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\QuantumClimate.csproj]\n  All projects are up-to-date for restore.\n  QuantumClimate -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\bin\\Release\\net6.0\\QuantumClimate.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\QuantumClimate.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\QuantumClimate.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\QuantumClimate.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\13_climate_modeling\\qsharp\\QuantumClimate.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.02",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -356,7 +356,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating surrogate materials baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/14_materials_discovery/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating surrogate materials baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/14_materials_discovery/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -367,11 +367,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\QuantumMaterials.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\QuantumMaterials.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\QuantumMaterials.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\QuantumMaterials.csproj]\n  All projects are up-to-date for restore.\n  QuantumMaterials -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\bin\\Release\\net6.0\\QuantumMaterials.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\QuantumMaterials.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\QuantumMaterials.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\QuantumMaterials.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\14_materials_discovery\\qsharp\\QuantumMaterials.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.00",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -382,7 +382,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating classical search baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating classical search baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -393,11 +393,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\QuantumSearch.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\QuantumSearch.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\QuantumSearch.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\QuantumSearch.csproj]\n  All projects are up-to-date for restore.\n  QuantumSearch -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\bin\\Release\\net6.0\\QuantumSearch.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\QuantumSearch.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\QuantumSearch.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\QuantumSearch.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\15_database_search\\qsharp\\QuantumSearch.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.07",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -408,7 +408,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating repetition-code baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/16_error_correction/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating repetition-code baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/16_error_correction/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -419,11 +419,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\QuantumQEC.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\QuantumQEC.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\QuantumQEC.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\QuantumQEC.csproj]\n  All projects are up-to-date for restore.\n  QuantumQEC -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\bin\\Release\\net6.0\\QuantumQEC.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\QuantumQEC.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\QuantumQEC.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\QuantumQEC.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\16_error_correction\\qsharp\\QuantumQEC.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.02",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -434,7 +434,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating pionless EFT baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/17_nuclear_physics/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical EFT baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating pionless EFT baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/17_nuclear_physics/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical EFT baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -445,11 +445,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\QuantumNuclear.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\QuantumNuclear.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\QuantumNuclear.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\QuantumNuclear.csproj]\n  All projects are up-to-date for restore.\n  QuantumNuclear -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\bin\\Release\\net6.0\\QuantumNuclear.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\QuantumNuclear.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\QuantumNuclear.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\QuantumNuclear.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\17_nuclear_physics\\qsharp\\QuantumNuclear.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.01",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -471,11 +471,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\QuantumPhotovoltaics.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\QuantumPhotovoltaics.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\QuantumPhotovoltaics.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\QuantumPhotovoltaics.csproj]\n  All projects are up-to-date for restore.\n  QuantumPhotovoltaics -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\bin\\Release\\net6.0\\QuantumPhotovoltaics.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\QuantumPhotovoltaics.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\QuantumPhotovoltaics.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\QuantumPhotovoltaics.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\18_photovoltaics\\qsharp\\QuantumPhotovoltaics.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.03",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -497,11 +497,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\QuantumQcd.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\QuantumQcd.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\QuantumQcd.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\QuantumQcd.csproj]\n  All projects are up-to-date for restore.\n  QuantumQcd -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\bin\\Release\\net6.0\\QuantumQcd.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\QuantumQcd.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\QuantumQcd.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\QuantumQcd.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\19_quantum_chromodynamics\\qsharp\\QuantumQcd.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.01",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true
@@ -523,11 +523,11 @@
         "error": ""
       },
       "qsharp": {
-        "attempted": true,
-        "ok": true,
-        "returncode": 0,
-        "stdout_tail": "Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\QuantumMission.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\QuantumMission.csproj]\n  All projects are up-to-date for restore.\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\QuantumMission.csproj]\n  Determining projects to restore...\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\QuantumMission.csproj]\n  All projects are up-to-date for restore.\n  QuantumMission -> C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\bin\\Release\\net6.0\\QuantumMission.dll\n\nBuild succeeded.\n\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\QuantumMission.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\QuantumMission.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\QuantumMission.csproj]\nC:\\Program Files\\dotnet\\sdk\\10.0.103\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.EolTargetFrameworks.targets(32,5): warning NETSDK1138: The target framework 'net6.0' is out of support and will not receive security updates in the future. Please refer to https://aka.ms/dotnet-core-support for more information about the support policy. [C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\20_space_mission_planning\\qsharp\\QuantumMission.csproj]\n    4 Warning(s)\n    0 Error(s)\n\nTime Elapsed 00:00:01.01",
-        "stderr_tail": "",
+        "attempted": false,
+        "ok": null,
+        "returncode": null,
+        "stdout_tail": "",
+        "stderr_tail": "not attempted",
         "timed_out": false
       },
       "runnable_and_correct_signal": true

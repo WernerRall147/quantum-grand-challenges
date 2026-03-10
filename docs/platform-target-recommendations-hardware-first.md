@@ -1,6 +1,6 @@
 # Platform Target Recommendations
 
-Generated: 2026-03-10T12:35:20Z
+Generated: 2026-03-10T13:30:50Z
 
 Preference mode: `hardware-first`
 
@@ -257,6 +257,9 @@ Scoring: `5*run_history_successes + 3*smoke_successes - failures + strategy bonu
 - Recommended target: quantinuum.sim.h2-1sc
 - Confidence: low
 - Rationale: Highest weighted score (3.00) from run-history successes (1), smoke successes (0), failures (0), and strategy mode (hardware-first).
-- Evidence: score=3.0, run_history=1, smoke=0, failures=0, global=21
+- Evidence: score=2.9954, run_history=1, smoke=0, failures=0, global=21
 - Simulator target: True
+- Avg runtime seconds: 0.00
+- Avg queue seconds: 2.78
+- Avg cost usd: 0.0000
 

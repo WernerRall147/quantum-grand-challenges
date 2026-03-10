@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_utc": "2026-03-10T12:35:20Z",
+  "generated_utc": "2026-03-10T13:30:50Z",
   "preference_mode": "balanced",
   "method": {
     "scoring": "score = 5*run_history_successes + 3*smoke_successes - 1*run_history_failures + strategy_bonus - optional(cost/runtime/queue penalties)",
@@ -551,7 +551,7 @@
       "candidates": [
         {
           "target_id": "quantinuum.sim.h2-1sc",
-          "score": 5.0,
+          "score": 4.9954,
           "run_history_successes": 1,
           "smoke_successes": 0,
           "run_history_failures": 0,
@@ -560,9 +560,9 @@
           "latest_recorded_utc": "2026-03-05T15:31:05Z",
           "is_simulator": true,
           "strategy_bonus": 0.0,
-          "avg_runtime_seconds": null,
-          "avg_queue_seconds": null,
-          "avg_cost_usd": null,
+          "avg_runtime_seconds": 6.3e-05,
+          "avg_queue_seconds": 2.777635,
+          "avg_cost_usd": 0.0,
           "input_formats": [],
           "output_formats": []
         }

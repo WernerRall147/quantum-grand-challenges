@@ -26,10 +26,10 @@
     "related_artifacts": []
   },
   "submission": {
-    "status": "not_submitted",
-    "submitted_utc": null,
-    "job_id": null,
-    "result_status": null,
+    "status": "succeeded",
+    "submitted_utc": "2026-03-05T15:29:30Z",
+    "job_id": "fb12f239-86a1-4663-a9b3-466ea41508a9",
+    "result_status": "succeeded",
     "dry_run_command": null
   }
 }

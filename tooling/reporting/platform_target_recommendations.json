@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_utc": "2026-03-10T14:16:45Z",
+  "generated_utc": "2026-03-15T05:46:08Z",
   "preference_mode": "balanced",
   "method": {
     "scoring": "score = 5*run_history_successes + 3*smoke_successes - 1*run_history_failures + strategy_bonus - optional(cost/runtime/queue penalties)",

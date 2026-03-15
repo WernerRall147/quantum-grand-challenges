@@ -1,6 +1,6 @@
 # Platform Target Recommendations
 
-Generated: 2026-03-10T14:16:45Z
+Generated: 2026-03-15T05:46:08Z
 
 Preference mode: `simulator-first`
 

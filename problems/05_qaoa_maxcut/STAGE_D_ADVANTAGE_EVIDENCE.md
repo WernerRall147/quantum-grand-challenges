@@ -48,6 +48,8 @@
 - `estimates/backend_calibration_stage_d.json`
 - `estimates/fairness_benchmark_stage_d.json`
 - `estimates/fairness_benchmark_stage_d.md`
+- `estimates/backend_readout_characterization_stage_d.json`
+- `estimates/backend_readout_characterization_stage_d.md`
 
 Artifact status note:
 
@@ -56,7 +58,12 @@ Artifact status note:
 
 ## Promotion Checklist To `projected`
 
-- [ ] Complete coherence/readout calibration evidence on at least one named backend target.
+- [x] Complete coherence/readout calibration evidence on at least one named backend target.
 - [x] Expand fairness review against stronger classical MaxCut heuristics on matched instance sets.
 - [x] Maintain uncertainty-bounded superiority (or parity with explicit caveats) across small/medium/large sweeps.
 - [x] Preserve schema-stable evidence outputs and quality-report pass status in CI.
+
+Checklist caveat:
+
+- Calibration closure is based on named backend evidence (`rigetti.sim.qvm`, `quantinuum.sim.h2-1sc`) combining measured run-history reliability bounds with existing noise/coherence proxy sweeps.
+- This supports `theoretical` claim hardening; promotion beyond `theoretical` still requires stronger hardware-calibrated evidence.

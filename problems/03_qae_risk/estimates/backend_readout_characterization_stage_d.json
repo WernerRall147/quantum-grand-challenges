@@ -1,0 +1,66 @@
+{
+  "problem_id": "03_qae_risk",
+  "generated_utc": "2026-03-20T08:20:12Z",
+  "artifact_type": "backend_readout_characterization_stage_d",
+  "evidence_mode": "measured_backend_reliability_proxy",
+  "summary": {
+    "total_runs": 2,
+    "successes": 2,
+    "success_rate": 1.0,
+    "success_rate_ci95": {
+      "lower": 0.34237195288961925,
+      "upper": 1.0
+    },
+    "metrics_available": 1,
+    "metrics_available_rate": 0.5,
+    "metrics_available_rate_ci95": {
+      "lower": 0.09452865480086614,
+      "upper": 0.9054713451991339
+    }
+  },
+  "targets": [
+    {
+      "target_id": "quantinuum.sim.h2-1sc",
+      "run_count": 1,
+      "succeeded": 1,
+      "success_rate": 1.0,
+      "success_rate_ci95": {
+        "lower": 0.2065432914738929,
+        "upper": 1.0
+      },
+      "metrics_available": 0,
+      "metrics_available_rate": 0.0,
+      "metrics_available_rate_ci95": {
+        "lower": 0.0,
+        "upper": 0.7934567085261071
+      },
+      "avg_runtime_seconds": null,
+      "avg_queue_seconds": null,
+      "avg_duration_seconds": null
+    },
+    {
+      "target_id": "rigetti.sim.qvm",
+      "run_count": 1,
+      "succeeded": 1,
+      "success_rate": 1.0,
+      "success_rate_ci95": {
+        "lower": 0.2065432914738929,
+        "upper": 1.0
+      },
+      "metrics_available": 1,
+      "metrics_available_rate": 1.0,
+      "metrics_available_rate_ci95": {
+        "lower": 0.2065432914738929,
+        "upper": 1.0
+      },
+      "avg_runtime_seconds": 1.305996,
+      "avg_queue_seconds": 3.824282,
+      "avg_duration_seconds": 5.130278
+    }
+  ],
+  "notes": [
+    "This artifact is derived from measured Azure run history entries for this problem.",
+    "Characterization is execution/readout proxy evidence, not full hardware tomography.",
+    "Use this to bound backend reliability assumptions in Stage D claim confidence mapping."
+  ]
+}

@@ -1,10 +1,10 @@
 {
-  "generated_utc": "2026-03-20T08:16:33Z",
+  "generated_utc": "2026-03-20T08:22:39Z",
   "summary": {
     "candidate_count": 3,
-    "fully_ready": 0,
-    "avg_readiness_percent": 83.3,
-    "open_checklist_items": 4,
+    "fully_ready": 3,
+    "avg_readiness_percent": 100.0,
+    "open_checklist_items": 0,
     "artifact_issue_count": 0
   },
   "candidates": [
@@ -16,8 +16,8 @@
       "stage_d_file_exists": true,
       "checklist": {
         "total": 4,
-        "done": 3,
-        "open": 1
+        "done": 4,
+        "open": 0
       },
       "artifacts": [
         {
@@ -43,13 +43,37 @@
           "exists": true,
           "listed_in_stage_d_file": true,
           "quality_issues": []
+        },
+        {
+          "path": "estimates/variance_and_overhead_stage_d.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/variance_and_overhead_stage_d.md",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/backend_readout_characterization_stage_d.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/backend_readout_characterization_stage_d.md",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
         }
       ],
       "artifact_issue_count": 0,
       "readiness": {
-        "score": 5,
+        "score": 6,
         "max_score": 6,
-        "percent": 83.3
+        "percent": 100.0
       }
     },
     {
@@ -60,8 +84,8 @@
       "stage_d_file_exists": true,
       "checklist": {
         "total": 4,
-        "done": 3,
-        "open": 1
+        "done": 4,
+        "open": 0
       },
       "artifacts": [
         {
@@ -81,13 +105,25 @@
           "exists": true,
           "listed_in_stage_d_file": true,
           "quality_issues": []
+        },
+        {
+          "path": "estimates/backend_readout_characterization_stage_d.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/backend_readout_characterization_stage_d.md",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
         }
       ],
       "artifact_issue_count": 0,
       "readiness": {
-        "score": 5,
+        "score": 6,
         "max_score": 6,
-        "percent": 83.3
+        "percent": 100.0
       }
     },
     {
@@ -98,8 +134,8 @@
       "stage_d_file_exists": true,
       "checklist": {
         "total": 4,
-        "done": 2,
-        "open": 2
+        "done": 4,
+        "open": 0
       },
       "artifacts": [
         {
@@ -131,13 +167,25 @@
           "exists": true,
           "listed_in_stage_d_file": true,
           "quality_issues": []
+        },
+        {
+          "path": "estimates/backend_readout_characterization_stage_d.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/backend_readout_characterization_stage_d.md",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
         }
       ],
       "artifact_issue_count": 0,
       "readiness": {
-        "score": 5,
+        "score": 6,
         "max_score": 6,
-        "percent": 83.3
+        "percent": 100.0
       }
     }
   ]

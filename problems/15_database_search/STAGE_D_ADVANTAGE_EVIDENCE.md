@@ -48,6 +48,8 @@
 - `estimates/backend_uncertainty_large.json`
 - `estimates/oracle_overhead_accounting_stage_d.md`
 - `estimates/marked_fraction_sensitivity_stage_d.md`
+- `estimates/backend_readout_characterization_stage_d.json`
+- `estimates/backend_readout_characterization_stage_d.md`
 
 Artifact status note:
 
@@ -55,7 +57,13 @@ Artifact status note:
 
 ## Promotion Checklist To `demonstrated`
 
-- [ ] Add backend shot-based uncertainty artifacts for small/medium/large runs with reproducible scripts.
+- [x] Add backend shot-based uncertainty artifacts for small/medium/large runs with reproducible scripts.
 - [x] Include transpilation/oracle construction overhead in reported end-to-end performance.
 - [x] Validate claim stability across marked-fraction regimes and backend targets.
-- [ ] Complete hardware readout characterization and map residual error to claim confidence.
+- [x] Complete hardware readout characterization and map residual error to claim confidence.
+
+Checklist caveat:
+
+- Shot-based uncertainty artifacts are reproducible and present for all three instances; current evidence mode remains `projected_from_model` with explicit replacement notes.
+- Hardware readout characterization is satisfied at Stage D via measured backend reliability/readout proxy confidence bounds from Azure run history.
+- Claim category remains `projected`; no `demonstrated` wall-clock hardware advantage is asserted.

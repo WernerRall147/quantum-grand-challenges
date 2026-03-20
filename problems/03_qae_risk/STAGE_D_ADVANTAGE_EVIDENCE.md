@@ -55,6 +55,8 @@
 - `estimates/fairness_review_stage_d.md`
 - `estimates/variance_and_overhead_stage_d.json`
 - `estimates/variance_and_overhead_stage_d.md`
+- `estimates/backend_readout_characterization_stage_d.json`
+- `estimates/backend_readout_characterization_stage_d.md`
 
 Artifact status note:
 
@@ -72,5 +74,10 @@ Current uncertainty thresholds used for Stage D projection hardening:
 
 - [x] Extend calibration evidence across `small`, `medium`, and `large` with fixed uncertainty thresholds.
 - [x] Include oracle/state-preparation overhead in end-to-end timing and query accounting.
-- [ ] Add backend-specific readout/error characterization with reproducible confidence bounds.
+- [x] Add backend-specific readout/error characterization with reproducible confidence bounds.
 - [x] Re-run fairness audit against best-known classical Monte Carlo variance-reduction baselines for the same objective.
+
+Checklist caveat:
+
+- Readout/error characterization is currently satisfied by measured execution/readout proxy confidence bounds from Azure run history.
+- Full hardware tomography-style readout characterization remains future enhancement and is not required for the current `projected` claim category.

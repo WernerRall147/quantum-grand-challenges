@@ -1,0 +1,47 @@
+{
+  "problem_id": "15_database_search",
+  "generated_utc": "2026-03-20T08:20:21Z",
+  "artifact_type": "backend_readout_characterization_stage_d",
+  "evidence_mode": "measured_backend_reliability_proxy",
+  "summary": {
+    "total_runs": 2,
+    "successes": 2,
+    "success_rate": 1.0,
+    "success_rate_ci95": {
+      "lower": 0.34237195288961925,
+      "upper": 1.0
+    },
+    "metrics_available": 1,
+    "metrics_available_rate": 0.5,
+    "metrics_available_rate_ci95": {
+      "lower": 0.09452865480086614,
+      "upper": 0.9054713451991339
+    }
+  },
+  "targets": [
+    {
+      "target_id": "quantinuum.sim.h2-1sc",
+      "run_count": 2,
+      "succeeded": 2,
+      "success_rate": 1.0,
+      "success_rate_ci95": {
+        "lower": 0.34237195288961925,
+        "upper": 1.0
+      },
+      "metrics_available": 1,
+      "metrics_available_rate": 0.5,
+      "metrics_available_rate_ci95": {
+        "lower": 0.09452865480086614,
+        "upper": 0.9054713451991339
+      },
+      "avg_runtime_seconds": 8.2e-05,
+      "avg_queue_seconds": 8.481288,
+      "avg_duration_seconds": 8.48137
+    }
+  ],
+  "notes": [
+    "This artifact is derived from measured Azure run history entries for this problem.",
+    "Characterization is execution/readout proxy evidence, not full hardware tomography.",
+    "Use this to bound backend reliability assumptions in Stage D claim confidence mapping."
+  ]
+}

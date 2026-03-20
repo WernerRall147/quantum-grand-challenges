@@ -33,6 +33,10 @@ CANDIDATES = [
             "estimates/quantum_estimate_ensemble_medium.json",
             "estimates/quantum_estimate_ensemble_large.json",
             "estimates/fairness_review_stage_d.md",
+            "estimates/variance_and_overhead_stage_d.json",
+            "estimates/variance_and_overhead_stage_d.md",
+            "estimates/backend_readout_characterization_stage_d.json",
+            "estimates/backend_readout_characterization_stage_d.md",
         ],
     ),
     CandidateSpec(
@@ -42,6 +46,8 @@ CANDIDATES = [
             "estimates/backend_calibration_stage_d.json",
             "estimates/fairness_benchmark_stage_d.json",
             "estimates/fairness_benchmark_stage_d.md",
+            "estimates/backend_readout_characterization_stage_d.json",
+            "estimates/backend_readout_characterization_stage_d.md",
         ],
     ),
     CandidateSpec(
@@ -53,6 +59,8 @@ CANDIDATES = [
             "estimates/backend_uncertainty_large.json",
             "estimates/oracle_overhead_accounting_stage_d.md",
             "estimates/marked_fraction_sensitivity_stage_d.md",
+            "estimates/backend_readout_characterization_stage_d.json",
+            "estimates/backend_readout_characterization_stage_d.md",
         ],
     ),
 ]

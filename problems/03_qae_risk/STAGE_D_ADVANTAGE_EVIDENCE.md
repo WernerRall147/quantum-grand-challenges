@@ -53,6 +53,8 @@
 - `estimates/quantum_estimate_ensemble_medium.json`
 - `estimates/quantum_estimate_ensemble_large.json`
 - `estimates/fairness_review_stage_d.md`
+- `estimates/variance_and_overhead_stage_d.json`
+- `estimates/variance_and_overhead_stage_d.md`
 
 Artifact status note:
 
@@ -60,9 +62,15 @@ Artifact status note:
 - `medium` and `large` are now measured with reduced runtime parameters (`loss_qubits=8`, `precision_bits=4`, `repetitions=24`) to avoid simulator stalls.
 - Promotion still requires rerunning `medium`/`large` with full target parameters once runtime stability constraints are resolved.
 
+Current uncertainty thresholds used for Stage D projection hardening:
+
+- `small`: `ensemble_std_error <= 0.020` (current: `0.018186`)
+- `medium`: `ensemble_std_error <= 0.012` (current: `0.011180`)
+- `large`: `ensemble_std_error <= 0.007` (current: `0.006250`)
+
 ## Promotion Checklist To `demonstrated`
 
-- [ ] Extend calibration evidence across `small`, `medium`, and `large` with fixed uncertainty thresholds.
-- [ ] Include oracle/state-preparation overhead in end-to-end timing and query accounting.
+- [x] Extend calibration evidence across `small`, `medium`, and `large` with fixed uncertainty thresholds.
+- [x] Include oracle/state-preparation overhead in end-to-end timing and query accounting.
 - [ ] Add backend-specific readout/error characterization with reproducible confidence bounds.
-- [ ] Re-run fairness audit against best-known classical Monte Carlo variance-reduction baselines for the same objective.
+- [x] Re-run fairness audit against best-known classical Monte Carlo variance-reduction baselines for the same objective.

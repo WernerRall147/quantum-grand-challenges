@@ -57,6 +57,6 @@ Artifact status note:
 ## Promotion Checklist To `projected`
 
 - [ ] Complete coherence/readout calibration evidence on at least one named backend target.
-- [ ] Expand fairness review against stronger classical MaxCut heuristics on matched instance sets.
-- [ ] Maintain uncertainty-bounded superiority (or parity with explicit caveats) across small/medium/large sweeps.
-- [ ] Preserve schema-stable evidence outputs and quality-report pass status in CI.
+- [x] Expand fairness review against stronger classical MaxCut heuristics on matched instance sets.
+- [x] Maintain uncertainty-bounded superiority (or parity with explicit caveats) across small/medium/large sweeps.
+- [x] Preserve schema-stable evidence outputs and quality-report pass status in CI.

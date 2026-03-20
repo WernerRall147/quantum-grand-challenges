@@ -12,6 +12,6 @@ Rows marked `provisional_projection` are placeholders and must be replaced by me
 ## Fairness Notes
 
 - Baseline source: `python/classical_baseline.py` -> `estimates/classical_baseline.json`.
-- Current baseline is plain Monte Carlo and should be extended with variance-reduction comparators.
+- Variance-reduction comparators (antithetic and control-variate Monte Carlo) are documented in `estimates/variance_and_overhead_stage_d.md`.
 - Promotion to demonstrated status requires measured ensemble artifacts for all listed instances.
 

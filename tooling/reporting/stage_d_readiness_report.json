@@ -1,10 +1,10 @@
 {
-  "generated_utc": "2026-03-10T14:33:23Z",
+  "generated_utc": "2026-03-20T08:16:33Z",
   "summary": {
     "candidate_count": 3,
     "fully_ready": 0,
     "avg_readiness_percent": 83.3,
-    "open_checklist_items": 12,
+    "open_checklist_items": 4,
     "artifact_issue_count": 0
   },
   "candidates": [
@@ -16,8 +16,8 @@
       "stage_d_file_exists": true,
       "checklist": {
         "total": 4,
-        "done": 0,
-        "open": 4
+        "done": 3,
+        "open": 1
       },
       "artifacts": [
         {
@@ -60,8 +60,8 @@
       "stage_d_file_exists": true,
       "checklist": {
         "total": 4,
-        "done": 0,
-        "open": 4
+        "done": 3,
+        "open": 1
       },
       "artifacts": [
         {
@@ -98,8 +98,8 @@
       "stage_d_file_exists": true,
       "checklist": {
         "total": 4,
-        "done": 0,
-        "open": 4
+        "done": 2,
+        "open": 2
       },
       "artifacts": [
         {

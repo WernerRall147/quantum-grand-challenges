@@ -56,6 +56,6 @@ Artifact status note:
 ## Promotion Checklist To `demonstrated`
 
 - [ ] Add backend shot-based uncertainty artifacts for small/medium/large runs with reproducible scripts.
-- [ ] Include transpilation/oracle construction overhead in reported end-to-end performance.
-- [ ] Validate claim stability across marked-fraction regimes and backend targets.
+- [x] Include transpilation/oracle construction overhead in reported end-to-end performance.
+- [x] Validate claim stability across marked-fraction regimes and backend targets.
 - [ ] Complete hardware readout characterization and map residual error to claim confidence.

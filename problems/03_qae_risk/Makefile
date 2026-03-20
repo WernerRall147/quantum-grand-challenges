@@ -123,6 +123,8 @@ sync-calibration-doc:
 stage-d:
 	@echo "Generating Stage D fairness and multi-instance ensemble artifacts..."
 	cd python && $(PYTHON) stage_d_fairness_review.py
+	@echo "Generating Stage D variance-reduction fairness and overhead artifacts..."
+	cd python && $(PYTHON) stage_d_variance_and_overhead.py
 
 compare: classical analyze
 	@echo "Complete comparison analysis finished"

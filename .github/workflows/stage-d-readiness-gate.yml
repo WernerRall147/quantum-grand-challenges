@@ -1,0 +1,82 @@
+name: Stage D Readiness Gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  stage-d-readiness:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Run Stage D readiness audit
+        run: |
+          python tooling/reporting/stage_d_readiness_audit.py
+
+      - name: Enforce Stage D readiness
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report_path = Path("tooling/reporting/stage_d_readiness_report.json")
+          payload = json.loads(report_path.read_text(encoding="utf-8"))
+          summary = payload.get("summary", {})
+
+          candidates = int(summary.get("candidate_count", 0) or 0)
+          fully_ready = int(summary.get("fully_ready", 0) or 0)
+          open_items = int(summary.get("open_checklist_items", 0) or 0)
+          artifact_issues = int(summary.get("artifact_issue_count", 0) or 0)
+
+          print(
+              "Stage D readiness summary: "
+              f"{fully_ready}/{candidates} fully ready, "
+              f"open_checklist_items={open_items}, "
+              f"artifact_issue_count={artifact_issues}"
+          )
+
+          failing = [
+              candidate
+              for candidate in payload.get("candidates", [])
+              if int(((candidate.get("readiness") or {}).get("score", 0) or 0))
+              != int(((candidate.get("readiness") or {}).get("max_score", 0) or 0))
+          ]
+
+          if failing:
+              print("Candidates below full Stage D readiness:")
+              for candidate in failing:
+                  pid = candidate.get("problem_id", "unknown")
+                  readiness = candidate.get("readiness", {})
+                  checklist = candidate.get("checklist", {})
+                  print(
+                      f"- {pid}: score={readiness.get('score')}/{readiness.get('max_score')}, "
+                      f"open_checklist_items={checklist.get('open')}"
+                  )
+
+          if fully_ready != candidates or open_items != 0 or artifact_issues != 0:
+              raise SystemExit(1)
+          PY
+
+      - name: Upload Stage D readiness artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-d-readiness-report
+          path: |
+            tooling/reporting/stage_d_readiness_report.json
+            docs/planning/stage-d-readiness-2026-03-10.md
+          retention-days: 30

@@ -6,12 +6,16 @@ Provides comparison baseline for quantum amplitude estimation results.
 
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 import json
 from pathlib import Path
 from scipy import stats
 from typing import Tuple, Dict, Any
 import time
+
+try:
+    import seaborn as sns
+except ImportError:
+    sns = None
 
 class ClassicalRiskAnalysis:
     """Classical risk analysis using Monte Carlo simulation."""
@@ -265,7 +269,11 @@ if __name__ == "__main__":
     np.random.seed(42)
     
     # Set plotting style
-    plt.style.use('seaborn-v0_8')
-    sns.set_palette("husl")
+    try:
+        plt.style.use('seaborn-v0_8')
+    except OSError:
+        plt.style.use('default')
+    if sns is not None:
+        sns.set_palette("husl")
     
     main()

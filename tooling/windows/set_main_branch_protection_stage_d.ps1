@@ -1,7 +1,8 @@
 Param(
     [string]$Owner = "WernerRall147",
     [string]$Repo = "quantum-grand-challenges",
-    [string]$Branch = "main"
+    [string]$Branch = "main",
+    [int]$RequiredApprovals = 0
 )
 
 $ghPath = "C:\Program Files\GitHub CLI\gh.exe"
@@ -27,7 +28,7 @@ $payload = @{
     required_pull_request_reviews = @{
         dismiss_stale_reviews = $true
         require_code_owner_reviews = $false
-        required_approving_review_count = 1
+        required_approving_review_count = $RequiredApprovals
     }
     restrictions = $null
     required_conversation_resolution = $true

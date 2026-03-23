@@ -1,0 +1,70 @@
+{
+  "generated_utc": "2026-03-23T11:13:27Z",
+  "baseline_generated_utc": "2026-03-23T11:13:27Z",
+  "current_generated_utc": "2026-03-23T11:13:27Z",
+  "summary": {
+    "baseline": {
+      "candidate_count": 3,
+      "fully_ready": 0,
+      "avg_readiness_percent": 83.3,
+      "open_checklist_items": 0,
+      "artifact_issue_count": 8
+    },
+    "current": {
+      "candidate_count": 3,
+      "fully_ready": 0,
+      "avg_readiness_percent": 83.3,
+      "open_checklist_items": 0,
+      "artifact_issue_count": 8
+    },
+    "delta": {
+      "fully_ready_delta": 0,
+      "avg_readiness_delta": 0.0,
+      "open_checklist_items_delta": 0,
+      "artifact_issue_count_delta": 0
+    }
+  },
+  "degraded": false,
+  "degraded_problems": [],
+  "per_problem": [
+    {
+      "problem_id": "03_qae_risk",
+      "baseline_readiness_percent": 83.3,
+      "current_readiness_percent": 83.3,
+      "readiness_delta": 0.0,
+      "baseline_open_checklist": 0,
+      "current_open_checklist": 0,
+      "open_checklist_delta": 0,
+      "baseline_artifact_issues": 3,
+      "current_artifact_issues": 3,
+      "artifact_issue_delta": 0,
+      "degraded": false
+    },
+    {
+      "problem_id": "05_qaoa_maxcut",
+      "baseline_readiness_percent": 83.3,
+      "current_readiness_percent": 83.3,
+      "readiness_delta": 0.0,
+      "baseline_open_checklist": 0,
+      "current_open_checklist": 0,
+      "open_checklist_delta": 0,
+      "baseline_artifact_issues": 2,
+      "current_artifact_issues": 2,
+      "artifact_issue_delta": 0,
+      "degraded": false
+    },
+    {
+      "problem_id": "15_database_search",
+      "baseline_readiness_percent": 83.3,
+      "current_readiness_percent": 83.3,
+      "readiness_delta": 0.0,
+      "baseline_open_checklist": 0,
+      "current_open_checklist": 0,
+      "open_checklist_delta": 0,
+      "baseline_artifact_issues": 3,
+      "current_artifact_issues": 3,
+      "artifact_issue_delta": 0,
+      "degraded": false
+    }
+  ]
+}

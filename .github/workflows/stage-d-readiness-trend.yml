@@ -1,0 +1,86 @@
+name: Stage D Readiness Trend
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * *'
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  trend-monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Preserve baseline readiness report
+        run: |
+          if [ -f tooling/reporting/stage_d_readiness_report.json ]; then
+            cp tooling/reporting/stage_d_readiness_report.json tooling/reporting/stage_d_readiness_report.baseline.json
+          else
+            python tooling/reporting/stage_d_readiness_audit.py
+            cp tooling/reporting/stage_d_readiness_report.json tooling/reporting/stage_d_readiness_report.baseline.json
+          fi
+
+      - name: Regenerate current readiness report
+        run: |
+          python tooling/reporting/stage_d_readiness_audit.py
+
+      - name: Compute Stage D trend report
+        run: |
+          python tooling/reporting/stage_d_readiness_trend.py \
+            --baseline tooling/reporting/stage_d_readiness_report.baseline.json \
+            --current tooling/reporting/stage_d_readiness_report.json \
+            --out-json tooling/reporting/stage_d_readiness_trend_report.json \
+            --out-md docs/planning/stage-d-readiness-trend.md
+
+      - name: Extract regression signal
+        id: trend
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          payload = json.loads(Path("tooling/reporting/stage_d_readiness_trend_report.json").read_text(encoding="utf-8"))
+          degraded = bool(payload.get("degraded", False))
+          output_path = os.environ.get("GITHUB_OUTPUT")
+          if output_path:
+              with Path(output_path).open("a", encoding="utf-8") as f:
+                  f.write(f"degraded={str(degraded).lower()}\n")
+          print(f"degraded={str(degraded).lower()}")
+          PY
+
+      - name: Create regression issue
+        if: steps.trend.outputs.degraded == 'true'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: 'Stage D readiness regression detected'
+          content-filepath: docs/planning/stage-d-readiness-trend.md
+          labels: |
+            reporting
+            stage-d
+            regression
+
+      - name: Upload Stage D trend artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-d-readiness-trend
+          path: |
+            tooling/reporting/stage_d_readiness_report.baseline.json
+            tooling/reporting/stage_d_readiness_report.json
+            tooling/reporting/stage_d_readiness_trend_report.json
+            docs/planning/stage-d-readiness-trend.md
+          retention-days: 30

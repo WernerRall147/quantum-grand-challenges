@@ -86,6 +86,14 @@ def parse_json(path: Path) -> Dict[str, Any] | None:
     return payload if isinstance(payload, dict) else None
 
 
+def parse_iso_utc(value: str) -> datetime | None:
+    try:
+        dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return dt.astimezone(timezone.utc)
+
+
 def checklist_stats(stage_d_text: str) -> Dict[str, int]:
     states = [m.group("state").lower() for m in CHECKBOX_PATTERN.finditer(stage_d_text)]
     total = len(states)
@@ -118,6 +126,18 @@ def validate_artifact_quality(problem_dir: Path, rel_path: str) -> List[str]:
             issues.append("invalid_json")
             return issues
 
+        generated_utc = payload.get("generated_utc")
+        if isinstance(generated_utc, str):
+            parsed = parse_iso_utc(generated_utc)
+            if parsed is None:
+                issues.append("invalid_generated_utc")
+            else:
+                age_days = (datetime.now(timezone.utc) - parsed).days
+                if age_days > 60:
+                    issues.append("stale_generated_utc_over_60d")
+        else:
+            issues.append("missing_generated_utc")
+
         # Lightweight problem-specific quality checks.
         if "quantum_estimate_ensemble_" in rel_path:
             metrics = payload.get("metrics", {}) if isinstance(payload.get("metrics"), dict) else {}
@@ -132,6 +152,25 @@ def validate_artifact_quality(problem_dir: Path, rel_path: str) -> List[str]:
             backend = payload.get("backend", {}) if isinstance(payload.get("backend"), dict) else {}
             if not str(backend.get("target_id", "")).strip():
                 issues.append("missing_backend_target")
+
+        if rel_path.endswith("variance_and_overhead_stage_d.json"):
+            variance_rows = payload.get("variance_reduction_rows") if isinstance(payload.get("variance_reduction_rows"), list) else []
+            overhead_rows = payload.get("overhead_rows") if isinstance(payload.get("overhead_rows"), list) else []
+            if len(variance_rows) < 3:
+                issues.append("insufficient_variance_reduction_rows")
+            if len(overhead_rows) < 3:
+                issues.append("insufficient_overhead_rows")
+
+        if rel_path.endswith("backend_readout_characterization_stage_d.json"):
+            if payload.get("evidence_mode") != "measured_backend_reliability_proxy":
+                issues.append("unexpected_evidence_mode")
+            summary = payload.get("summary") if isinstance(payload.get("summary"), dict) else {}
+            total_runs = summary.get("total_runs")
+            if not isinstance(total_runs, int) or total_runs < 2:
+                issues.append("insufficient_total_runs")
+            targets = payload.get("targets") if isinstance(payload.get("targets"), list) else []
+            if not targets:
+                issues.append("missing_targets")
 
         if "backend_uncertainty_" in rel_path:
             observed = payload.get("observed", {}) if isinstance(payload.get("observed"), dict) else {}
@@ -266,6 +305,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Audit Stage D readiness for key candidate problems.")
     parser.add_argument("--out-json", default="tooling/reporting/stage_d_readiness_report.json")
     parser.add_argument("--out-md", default="docs/planning/stage-d-readiness-2026-03-10.md")
+    parser.add_argument("--out-website-json", default="website/data/stageDReadinessReport.json")
     args = parser.parse_args()
 
     root = repo_root()
@@ -273,15 +313,19 @@ def main() -> None:
 
     out_json = (root / args.out_json).resolve()
     out_md = (root / args.out_md).resolve()
+    out_website_json = (root / args.out_website_json).resolve()
 
     out_json.parent.mkdir(parents=True, exist_ok=True)
     out_md.parent.mkdir(parents=True, exist_ok=True)
+    out_website_json.parent.mkdir(parents=True, exist_ok=True)
 
     out_json.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     out_md.write_text(markdown_report(payload) + "\n", encoding="utf-8")
+    out_website_json.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
     print(f"Wrote {out_json}")
     print(f"Wrote {out_md}")
+    print(f"Wrote {out_website_json}")
 
 
 if __name__ == "__main__":

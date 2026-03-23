@@ -1,5 +1,6 @@
 import azureRunHistory from './azureRunHistory.json';
 const runnableCorrectnessReport = require('./problemRunnableCorrectnessReport.json');
+const stageDReadinessReport = require('./stageDReadinessReport.json');
 
 export const pipelineStages = [
   {
@@ -276,3 +277,43 @@ export const runnableCorrectnessFailures = runnableProblems
       'Unknown failure',
   }))
   .slice(0, 6);
+
+const stageDSummary = stageDReadinessReport.summary || {
+  candidate_count: 0,
+  fully_ready: 0,
+  avg_readiness_percent: 0,
+  open_checklist_items: 0,
+  artifact_issue_count: 0,
+};
+
+const stageDCandidates = Array.isArray(stageDReadinessReport.candidates) ? stageDReadinessReport.candidates : [];
+
+export const stageDReadinessStats = {
+  generatedUtc: String(stageDReadinessReport.generated_utc || ''),
+  candidateCount: Number(stageDSummary.candidate_count || 0),
+  fullyReady: Number(stageDSummary.fully_ready || 0),
+  avgReadinessPercent: Number(stageDSummary.avg_readiness_percent || 0),
+  openChecklistItems: Number(stageDSummary.open_checklist_items || 0),
+  artifactIssueCount: Number(stageDSummary.artifact_issue_count || 0),
+};
+
+export const stageDReadinessCandidates = stageDCandidates.map((entry) => ({
+  problemId: String(entry.problem_id || ''),
+  claim: String(entry.current_claim || ''),
+  score: Number(entry.readiness?.score || 0),
+  maxScore: Number(entry.readiness?.max_score || 0),
+  readinessPercent: Number(entry.readiness?.percent || 0),
+  openChecklist: Number(entry.checklist?.open || 0),
+  artifactIssues: Number(entry.artifact_issue_count || 0),
+}));
+
+export const stageDExpansionQueue = [
+  {
+    problemId: '01_hubbard',
+    rationale: 'Strong Stage B baseline quality and mature Q# scaffolding make this the nearest Stage C to Stage D candidate after kernel hardening.',
+  },
+  {
+    problemId: '04_linear_solvers',
+    rationale: 'Condition-number-aware analysis stack is in place, making it a high-leverage next candidate for Stage C and Stage D evidence progression.',
+  },
+];

@@ -1,24 +1,24 @@
 # Stage D Readiness Audit
 
-Generated: 2026-03-20T08:24:59Z
+Generated: 2026-03-23T11:13:27Z
 
 ## Summary
 
 - Candidate problems: 3
-- Fully ready: 3
-- Average readiness: 100.0%
+- Fully ready: 0
+- Average readiness: 83.3%
 - Open checklist items: 0
-- Artifact quality issues: 0
+- Artifact quality issues: 8
 
 ## 03_qae_risk
 
 - Claim category: expected `projected`, current `projected`
-- Readiness score: 6/6 (100.0%)
+- Readiness score: 5/6 (83.3%)
 - Checklist: total=4, done=4, open=0
 - Artifact checks:
-  - estimates/quantum_estimate_ensemble_small.json: exists=true, listed=true, issues=none
-  - estimates/quantum_estimate_ensemble_medium.json: exists=true, listed=true, issues=none
-  - estimates/quantum_estimate_ensemble_large.json: exists=true, listed=true, issues=none
+  - estimates/quantum_estimate_ensemble_small.json: exists=true, listed=true, issues=missing_generated_utc
+  - estimates/quantum_estimate_ensemble_medium.json: exists=true, listed=true, issues=missing_generated_utc
+  - estimates/quantum_estimate_ensemble_large.json: exists=true, listed=true, issues=missing_generated_utc
   - estimates/fairness_review_stage_d.md: exists=true, listed=true, issues=none
   - estimates/variance_and_overhead_stage_d.json: exists=true, listed=true, issues=none
   - estimates/variance_and_overhead_stage_d.md: exists=true, listed=true, issues=none
@@ -28,11 +28,11 @@ Generated: 2026-03-20T08:24:59Z
 ## 05_qaoa_maxcut
 
 - Claim category: expected `theoretical`, current `theoretical`
-- Readiness score: 6/6 (100.0%)
+- Readiness score: 5/6 (83.3%)
 - Checklist: total=4, done=4, open=0
 - Artifact checks:
-  - estimates/backend_calibration_stage_d.json: exists=true, listed=true, issues=none
-  - estimates/fairness_benchmark_stage_d.json: exists=true, listed=true, issues=none
+  - estimates/backend_calibration_stage_d.json: exists=true, listed=true, issues=missing_generated_utc
+  - estimates/fairness_benchmark_stage_d.json: exists=true, listed=true, issues=missing_generated_utc
   - estimates/fairness_benchmark_stage_d.md: exists=true, listed=true, issues=none
   - estimates/backend_readout_characterization_stage_d.json: exists=true, listed=true, issues=none
   - estimates/backend_readout_characterization_stage_d.md: exists=true, listed=true, issues=none
@@ -40,12 +40,12 @@ Generated: 2026-03-20T08:24:59Z
 ## 15_database_search
 
 - Claim category: expected `projected`, current `projected`
-- Readiness score: 6/6 (100.0%)
+- Readiness score: 5/6 (83.3%)
 - Checklist: total=4, done=4, open=0
 - Artifact checks:
-  - estimates/backend_uncertainty_small.json: exists=true, listed=true, issues=none
-  - estimates/backend_uncertainty_medium.json: exists=true, listed=true, issues=none
-  - estimates/backend_uncertainty_large.json: exists=true, listed=true, issues=none
+  - estimates/backend_uncertainty_small.json: exists=true, listed=true, issues=missing_generated_utc
+  - estimates/backend_uncertainty_medium.json: exists=true, listed=true, issues=missing_generated_utc
+  - estimates/backend_uncertainty_large.json: exists=true, listed=true, issues=missing_generated_utc
   - estimates/oracle_overhead_accounting_stage_d.md: exists=true, listed=true, issues=none
   - estimates/marked_fraction_sensitivity_stage_d.md: exists=true, listed=true, issues=none
   - estimates/backend_readout_characterization_stage_d.json: exists=true, listed=true, issues=none

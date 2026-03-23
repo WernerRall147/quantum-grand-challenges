@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
-import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns, runnableCorrectnessStats, runnableCorrectnessFailures } from '../data/projectStatus';
+import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns, runnableCorrectnessStats, runnableCorrectnessFailures, stageDReadinessStats, stageDReadinessCandidates, stageDExpansionQueue } from '../data/projectStatus';
 
 export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
@@ -180,6 +180,7 @@ export default function Home() {
             <li><strong>✅ Azure Successful Runs:</strong> `{azureExecutionStats.totalSuccessfulRuns}` successful live runs recorded across `{azureExecutionStats.systems.length}` quantum systems</li>
             <li><strong>✅ Systems Used:</strong> {azureExecutionStats.systems.map((item) => `${item.targetId} (${item.runs})`).join(', ') || 'none yet'}</li>
             <li><strong>✅ Runnable/Correctness Audit:</strong> `{runnableCorrectnessStats.passed}/{runnableCorrectnessStats.total}` problems currently pass executable correctness checks ({runnableCorrectnessStats.passRatePercent}%)</li>
+            <li><strong>✅ Stage D Readiness:</strong> `{stageDReadinessStats.fullyReady}/{stageDReadinessStats.candidateCount}` candidates fully ready with `{stageDReadinessStats.openChecklistItems}` open checklist items and `{stageDReadinessStats.artifactIssueCount}` artifact issues</li>
             <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
             <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
             <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>
@@ -203,6 +204,65 @@ export default function Home() {
             {activeWorkQueue.map((item) => (
               <TimelineCard key={item.title} title={item.title} description={item.description} />
             ))}
+          </div>
+        </section>
+
+        <section style={{ marginTop: '3rem', padding: '2rem', background: '#ecfeff', borderRadius: '12px' }}>
+          <h2 style={{ marginTop: 0 }}>🧭 Stage D Readiness</h2>
+          <p style={{ color: '#0e7490' }}>
+            Continuous readiness audit for current Stage D candidates and next expansion queue.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
+              <strong style={{ color: '#155e75' }}>Fully Ready</strong>
+              <div style={{ fontSize: '1.5rem', color: '#0e7490' }}>{stageDReadinessStats.fullyReady}/{stageDReadinessStats.candidateCount}</div>
+            </div>
+            <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
+              <strong style={{ color: '#155e75' }}>Average Readiness</strong>
+              <div style={{ fontSize: '1.5rem', color: '#0e7490' }}>{stageDReadinessStats.avgReadinessPercent}%</div>
+            </div>
+            <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
+              <strong style={{ color: '#155e75' }}>Open Checklist Items</strong>
+              <div style={{ fontSize: '1.5rem', color: '#0e7490' }}>{stageDReadinessStats.openChecklistItems}</div>
+            </div>
+            <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
+              <strong style={{ color: '#155e75' }}>Artifact Issues</strong>
+              <div style={{ fontSize: '1.5rem', color: '#0e7490' }}>{stageDReadinessStats.artifactIssueCount}</div>
+            </div>
+          </div>
+          <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: '8px', overflow: 'hidden' }}>
+              <thead>
+                <tr style={{ background: '#cffafe', color: '#155e75' }}>
+                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Problem</th>
+                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Claim</th>
+                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Readiness</th>
+                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Open Checklist</th>
+                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Artifact Issues</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stageDReadinessCandidates.map((row) => (
+                  <tr key={row.problemId} style={{ borderTop: '1px solid #e5e7eb' }}>
+                    <td style={{ padding: '0.75rem', color: '#111827' }}>{row.problemId}</td>
+                    <td style={{ padding: '0.75rem', color: '#374151' }}>{row.claim}</td>
+                    <td style={{ padding: '0.75rem', color: '#374151' }}>{row.score}/{row.maxScore} ({row.readinessPercent}%)</td>
+                    <td style={{ padding: '0.75rem', color: '#374151' }}>{row.openChecklist}</td>
+                    <td style={{ padding: '0.75rem', color: '#374151' }}>{row.artifactIssues}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
+            <h3 style={{ marginTop: 0, color: '#155e75' }}>Next Candidate Expansion Queue</h3>
+            <ul style={{ marginBottom: 0 }}>
+              {stageDExpansionQueue.map((entry) => (
+                <li key={entry.problemId} style={{ marginBottom: '0.5rem', color: '#374151' }}>
+                  <strong>{entry.problemId}:</strong> {entry.rationale}
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 

@@ -58,6 +58,7 @@ Generated artefacts:
 
 - `estimates/classical_baseline.json`: Numerical data for ground and excited states.
 - `plots/gaps.png`: Charge and spin gap trends vs interaction strength.
+- `STAGE_D_ADVANTAGE_EVIDENCE.md`: Stage D claim-boundary and evidence-tracking scaffold for expansion-queue onboarding.
 
 ## Objective Maturity Gate
 

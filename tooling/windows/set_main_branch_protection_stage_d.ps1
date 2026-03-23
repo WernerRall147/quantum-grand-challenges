@@ -1,7 +1,8 @@
 Param(
     [string]$Owner = "WernerRall147",
     [string]$Repo = "quantum-grand-challenges",
-    [string]$Branch = "main"
+    [string]$Branch = "main",
+    [int]$RequiredApprovals = 0
 )
 
 $ghPath = "C:\Program Files\GitHub CLI\gh.exe"
@@ -20,24 +21,28 @@ $payload = @{
     required_status_checks = @{
         strict = $true
         checks = @(
-            @{ context = "Stage D Readiness Gate / stage-d-readiness" }
+            @{ context = "Stage D Readiness Gate / stage-d-readiness"; app_id = -1 }
         )
     }
     enforce_admins = $true
     required_pull_request_reviews = @{
         dismiss_stale_reviews = $true
         require_code_owner_reviews = $false
-        required_approving_review_count = 1
+        required_approving_review_count = $RequiredApprovals
     }
     restrictions = $null
+    required_conversation_resolution = $true
     allow_force_pushes = $false
     allow_deletions = $false
-    required_conversation_resolution = $true
+    block_creations = $false
+    required_linear_history = $false
+    lock_branch = $false
+    allow_fork_syncing = $false
 } | ConvertTo-Json -Depth 6 -Compress
 
 Write-Host "Applying branch protection to $Owner/${Repo}:$Branch..."
 $tempFile = [System.IO.Path]::GetTempFileName()
-Set-Content -Path $tempFile -Value $payload -Encoding UTF8
+Set-Content -Path $tempFile -Value $payload -Encoding Ascii
 
 & $ghPath api --method PUT "repos/$Owner/$Repo/branches/$Branch/protection" --input $tempFile
 $exitCode = $LASTEXITCODE

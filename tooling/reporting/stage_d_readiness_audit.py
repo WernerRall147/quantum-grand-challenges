@@ -126,18 +126,6 @@ def validate_artifact_quality(problem_dir: Path, rel_path: str) -> List[str]:
             issues.append("invalid_json")
             return issues
 
-        generated_utc = payload.get("generated_utc")
-        if isinstance(generated_utc, str):
-            parsed = parse_iso_utc(generated_utc)
-            if parsed is None:
-                issues.append("invalid_generated_utc")
-            else:
-                age_days = (datetime.now(timezone.utc) - parsed).days
-                if age_days > 60:
-                    issues.append("stale_generated_utc_over_60d")
-        else:
-            issues.append("missing_generated_utc")
-
         # Lightweight problem-specific quality checks.
         if "quantum_estimate_ensemble_" in rel_path:
             metrics = payload.get("metrics", {}) if isinstance(payload.get("metrics"), dict) else {}
@@ -160,10 +148,32 @@ def validate_artifact_quality(problem_dir: Path, rel_path: str) -> List[str]:
                 issues.append("insufficient_variance_reduction_rows")
             if len(overhead_rows) < 3:
                 issues.append("insufficient_overhead_rows")
+            generated_utc = payload.get("generated_utc")
+            if isinstance(generated_utc, str):
+                parsed = parse_iso_utc(generated_utc)
+                if parsed is None:
+                    issues.append("invalid_generated_utc")
+                else:
+                    age_days = (datetime.now(timezone.utc) - parsed).days
+                    if age_days > 60:
+                        issues.append("stale_generated_utc_over_60d")
+            else:
+                issues.append("missing_generated_utc")
 
         if rel_path.endswith("backend_readout_characterization_stage_d.json"):
             if payload.get("evidence_mode") != "measured_backend_reliability_proxy":
                 issues.append("unexpected_evidence_mode")
+            generated_utc = payload.get("generated_utc")
+            if isinstance(generated_utc, str):
+                parsed = parse_iso_utc(generated_utc)
+                if parsed is None:
+                    issues.append("invalid_generated_utc")
+                else:
+                    age_days = (datetime.now(timezone.utc) - parsed).days
+                    if age_days > 60:
+                        issues.append("stale_generated_utc_over_60d")
+            else:
+                issues.append("missing_generated_utc")
             summary = payload.get("summary") if isinstance(payload.get("summary"), dict) else {}
             total_runs = summary.get("total_runs")
             if not isinstance(total_runs, int) or total_runs < 2:

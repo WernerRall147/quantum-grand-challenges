@@ -5,10 +5,10 @@
     "description": "Log-normal tail risk benchmark",
     "parameters": {}
   },
-  "estimator_target": "qubit_gate_ns_e3",
+  "estimator_target": "surface_code_generic_v1",
   "metrics": {
     "logical_qubits": 16,
-    "physical_qubits": 35200,
+    "physical_qubits": 19200,
     "t_count": 65536,
     "t_depth": 4096,
     "clifford_count": 262144,
@@ -18,12 +18,12 @@
   "build": {
     "commit": "2b4198b280e0767d75d6f4484ccda20ccfb3de03",
     "qdk_version": "mock",
-    "estimator_version": "mock-qubit_gate_ns_e3",
-    "date_utc": "2026-03-24T17:22:44.714808Z"
+    "estimator_version": "mock-surface_code_generic_v1",
+    "date_utc": "2026-03-24T17:22:44.651313Z"
   },
-  "notes": "Estimated using qubit_gate_ns_e3 target profile",
+  "notes": "Estimated using surface_code_generic_v1 target profile",
   "_metadata": {
-    "artifact_path": "03_qae_risk/estimates/qubit_gate_ns_e3_2026-03-24T172244.714808Z.json",
-    "generated_at_utc": "2026-03-24T17:22:44.714808Z"
+    "artifact_path": "03_qae_risk/estimates/surface_code_generic_v1_2026-03-24T172244.651313Z.json",
+    "generated_at_utc": "2026-03-24T17:22:44.651313Z"
   }
 }

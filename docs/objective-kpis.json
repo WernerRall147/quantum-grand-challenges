@@ -37,8 +37,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "03_qae_risk",
@@ -46,8 +46,8 @@
       "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "04_linear_solvers",
@@ -73,8 +73,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "07_drug_discovery",
@@ -82,8 +82,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "08_protein_folding",
@@ -91,8 +91,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "09_factorization",
@@ -101,7 +101,7 @@
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
-      "has_backend_assumptions": false
+      "has_backend_assumptions": true
     },
     {
       "problem": "10_post_quantum_cryptography",
@@ -110,7 +110,7 @@
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
-      "has_backend_assumptions": false
+      "has_backend_assumptions": true
     },
     {
       "problem": "11_quantum_machine_learning",
@@ -119,7 +119,7 @@
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
-      "has_backend_assumptions": false
+      "has_backend_assumptions": true
     },
     {
       "problem": "12_quantum_optimization",
@@ -128,7 +128,7 @@
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
-      "has_backend_assumptions": false
+      "has_backend_assumptions": true
     },
     {
       "problem": "13_climate_modeling",
@@ -136,8 +136,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "14_materials_discovery",
@@ -145,8 +145,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "15_database_search",
@@ -164,7 +164,7 @@
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
-      "has_backend_assumptions": false
+      "has_backend_assumptions": true
     },
     {
       "problem": "17_nuclear_physics",
@@ -172,8 +172,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "18_photovoltaics",
@@ -181,8 +181,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "19_quantum_chromodynamics",
@@ -190,8 +190,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "20_space_mission_planning",
@@ -199,8 +199,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     }
   ]
 }

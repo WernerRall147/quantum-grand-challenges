@@ -153,3 +153,153 @@ problems:
   targets:
   - "surface_code_generic_v1"
   - "qubit_gate_ns_e3"
+- id: "02_catalysis"
+  path: "problems/02_catalysis"
+  algorithm: "vqe_chemistry"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "VQE H2 molecular energy"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunCatalysisAnalysis"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "06_high_frequency_trading"
+  path: "problems/06_high_frequency_trading"
+  algorithm: "quantum_var"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Quantum VaR estimation"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunHFTAnalysis"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "07_drug_discovery"
+  path: "problems/07_drug_discovery"
+  algorithm: "vqe_binding"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "VQE molecular binding energy"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunDrugDiscovery"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "08_protein_folding"
+  path: "problems/08_protein_folding"
+  algorithm: "qaoa_folding"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "QAOA lattice conformation"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunProteinFolding"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "13_climate_modeling"
+  path: "problems/13_climate_modeling"
+  algorithm: "hhl_diffusion"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "HHL thermal diffusion PDE"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunClimateModeling"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "14_materials_discovery"
+  path: "problems/14_materials_discovery"
+  algorithm: "vqe_bandgap"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "VQE band gap estimation"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunMaterialsDiscovery"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "17_nuclear_physics"
+  path: "problems/17_nuclear_physics"
+  algorithm: "vqe_deuteron"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "VQE deuteron binding energy"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunNuclearPhysics"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "18_photovoltaics"
+  path: "problems/18_photovoltaics"
+  algorithm: "quantum_walk"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Quantum walk exciton transport"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunPhotovoltaics"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "19_quantum_chromodynamics"
+  path: "problems/19_quantum_chromodynamics"
+  algorithm: "trotter_gauge"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Trotter lattice gauge simulation"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunQCDSimulation"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "20_space_mission_planning"
+  path: "problems/20_space_mission_planning"
+  algorithm: "qaoa_trajectory"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "QAOA trajectory optimization"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunMissionOptimization"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"

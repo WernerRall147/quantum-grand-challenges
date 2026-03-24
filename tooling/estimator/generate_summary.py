@@ -9,13 +9,25 @@ TARGETS = ("surface_code_generic_v1", "qubit_gate_ns_e3")
 
 PROBLEMS = {
     "01_hubbard": "Hubbard VQE",
+    "02_catalysis": "VQE Chemistry",
+    "03_qae_risk": "Canonical QAE",
     "04_linear_solvers": "HHL Linear Solver",
+    "05_qaoa_maxcut": "QAOA MaxCut",
+    "06_high_frequency_trading": "Quantum VaR",
+    "07_drug_discovery": "VQE Binding",
+    "08_protein_folding": "QAOA Folding",
     "09_factorization": "Shor Factorization",
     "10_post_quantum_cryptography": "Grover Key Search",
     "11_quantum_machine_learning": "Swap Test Kernel",
     "12_quantum_optimization": "QAOA Scheduling",
+    "13_climate_modeling": "HHL Diffusion",
+    "14_materials_discovery": "VQE Band Gap",
     "15_database_search": "Grover Database Search",
     "16_error_correction": "Repetition Code QEC",
+    "17_nuclear_physics": "VQE Deuteron",
+    "18_photovoltaics": "Quantum Walk",
+    "19_quantum_chromodynamics": "Trotter Gauge",
+    "20_space_mission_planning": "QAOA Trajectory",
 }
 
 

@@ -1,8 +1,8 @@
 {
-  "problem_id": "03_qae_risk",
-  "algorithm": "canonical_qae",
+  "problem_id": "02_catalysis",
+  "algorithm": "vqe_chemistry",
   "instance": {
-    "description": "Log-normal tail risk benchmark",
+    "description": "VQE H2 molecular energy",
     "parameters": {}
   },
   "estimator_target": "qubit_gate_ns_e3",
@@ -19,11 +19,11 @@
     "commit": "2b4198b280e0767d75d6f4484ccda20ccfb3de03",
     "qdk_version": "mock",
     "estimator_version": "mock-qubit_gate_ns_e3",
-    "date_utc": "2026-03-24T17:22:44.714808Z"
+    "date_utc": "2026-03-24T17:22:44.404097Z"
   },
   "notes": "Estimated using qubit_gate_ns_e3 target profile",
   "_metadata": {
-    "artifact_path": "03_qae_risk/estimates/qubit_gate_ns_e3_2026-03-24T172244.714808Z.json",
-    "generated_at_utc": "2026-03-24T17:22:44.714808Z"
+    "artifact_path": "02_catalysis/estimates/qubit_gate_ns_e3_2026-03-24T172244.404097Z.json",
+    "generated_at_utc": "2026-03-24T17:22:44.404097Z"
   }
 }

@@ -1,4 +1,4 @@
-# QAOA Estimator Summary
+# QAOA MaxCut Estimator Summary
 
 Auto-generated from latest target artifacts in `estimates/`.
 

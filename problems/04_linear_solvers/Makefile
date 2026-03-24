@@ -41,9 +41,9 @@ analyze:
 	@echo "Generating condition-number diagnostics..."
 	$(PYTHON) python/analyze.py
 
-estimate:
-	@echo "Resource estimation pipeline will be enabled once the HHL kernel lands."
-	@echo "Use tooling/estimator/run_estimation.py manually against draft qsharp files if needed."
+estimate: build
+	@echo "Running resource estimation for 04_linear_solvers..."
+	$(ESTIMATOR) --all --problem 04_linear_solvers --targets surface_code_generic_v1,qubit_gate_ns_e3 --mock
 
 sweep:
 	@echo "Parameter sweep not yet wired for the linear solver problem."

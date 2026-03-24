@@ -23,15 +23,20 @@ namespace QuantumGrandChallenges.QAERisk {
     }
 
     function LogNormalPdf(x : Double, mean : Double, stdDev : Double) : Double {
-        mutable spread = stdDev;
-        if (spread <= 0.1) {
-            set spread = 0.1;
+        // Log-normal PDF: f(x) = (1/(x σ √(2π))) exp(-(ln(x)-μ)² / (2σ²))
+        if (x <= 1e-15) {
+            return 0.0;
         }
 
-        let center = 1.0 + mean;
-        let distance = x - center;
-        let denominator = 1.0 + (distance * distance) / (spread * spread);
-        return 1.0 / denominator;
+        mutable sigma = stdDev;
+        if (sigma <= 0.01) {
+            set sigma = 0.01;
+        }
+
+        let logX = Log(x);
+        let diff = logX - mean;
+        let exponent = -(diff * diff) / (2.0 * sigma * sigma);
+        return ExpD(exponent) / (x * sigma * Sqrt(2.0 * PI()));
     }
 
     function AbsDouble(value : Double) : Double {

@@ -20,10 +20,10 @@ Advantage Claim Contract coverage: **20/20 (100.0%)**
 
 | Problem | Stage | Advantage Contract | Estimator Summary | Backend Assumptions | README |
 |---|---|---|---|---|---|
-| 01_hubbard | B | yes | no | no | `problems/01_hubbard/README.md` |
+| 01_hubbard | B | yes | yes | yes | `problems/01_hubbard/README.md` |
 | 02_catalysis | B | yes | no | no | `problems/02_catalysis/README.md` |
 | 03_qae_risk | C | yes | no | no | `problems/03_qae_risk/README.md` |
-| 04_linear_solvers | B | yes | no | no | `problems/04_linear_solvers/README.md` |
+| 04_linear_solvers | B | yes | yes | yes | `problems/04_linear_solvers/README.md` |
 | 05_qaoa_maxcut | C | yes | yes | yes | `problems/05_qaoa_maxcut/README.md` |
 | 06_high_frequency_trading | B | yes | no | no | `problems/06_high_frequency_trading/README.md` |
 | 07_drug_discovery | B | yes | no | no | `problems/07_drug_discovery/README.md` |
@@ -34,7 +34,7 @@ Advantage Claim Contract coverage: **20/20 (100.0%)**
 | 12_quantum_optimization | B | yes | no | no | `problems/12_quantum_optimization/README.md` |
 | 13_climate_modeling | B | yes | no | no | `problems/13_climate_modeling/README.md` |
 | 14_materials_discovery | B | yes | no | no | `problems/14_materials_discovery/README.md` |
-| 15_database_search | C | yes | no | no | `problems/15_database_search/README.md` |
+| 15_database_search | C | yes | yes | yes | `problems/15_database_search/README.md` |
 | 16_error_correction | B | yes | no | no | `problems/16_error_correction/README.md` |
 | 17_nuclear_physics | B | yes | no | no | `problems/17_nuclear_physics/README.md` |
 | 18_photovoltaics | B | yes | no | no | `problems/18_photovoltaics/README.md` |

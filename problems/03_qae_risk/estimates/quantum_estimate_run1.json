@@ -1,37 +1,39 @@
 {
-  "timestamp": "2026-03-07T04:40:03.195984Z",
+  "timestamp": "2026-03-24T12:36:58.331710Z",
   "algorithm": "QPEAmplitudeEstimation",
-  "estimator_target": "TailRisk > 7.0",
+  "estimator_target": "TailRisk > 2.5",
   "instance": {
     "parameters": {
-      "shots": 24,
-      "phase_bits": 4,
-      "repetitions": 24,
-      "threshold": 7.0,
-      "loss_qubits": 8,
+      "shots": 120,
+      "phase_bits": 6,
+      "repetitions": 120,
+      "threshold": 2.5,
+      "loss_qubits": 4,
       "mean": 0.0,
-      "std_dev": 1.2,
+      "std_dev": 1.0,
       "run_sanity_check": false
     }
   },
   "metrics": {
-    "logical_qubits": 13,
-    "physical_qubits": 13,
-    "t_count": 384,
+    "logical_qubits": 11,
+    "physical_qubits": 11,
+    "t_count": 2880,
     "runtime_days": 0,
-    "phase_bits": 4,
-    "repetitions": 24,
-    "quantum_estimate": 0.0,
-    "quantum_std_error": 0.0,
-    "analytic_probability": 0.030491648413714236,
-    "classical_estimate": 0.030491648413714236,
-    "classical_std_error": 0.0017193576646738944,
-    "difference": -0.030491648413714236,
-    "circular_phase": 0.0,
-    "circular_amplitude": 0.0
+    "phase_bits": 6,
+    "repetitions": 120,
+    "quantum_estimate": 0.1571129449216106,
+    "quantum_std_error": 0.03308912217947701,
+    "analytic_probability": 0.16136312961328608,
+    "classical_estimate": 0.16136312961328608,
+    "classical_std_error": 0.003678655597017638,
+    "difference": -0.004250184691675485,
+    "circular_phase": 0.001367515049756273,
+    "circular_amplitude": 1.8457008086296386e-05
   },
-  "raw_output": "=== Quantum Amplitude Estimation for Tail Risk Analysis ===\n\nRisk Model Configuration:\n  Loss distribution qubits: 8 (2^8 = 256 discrete levels)\n  Loss threshold: 7\n  Distribution: Log-normal(\u03bc=0, \u03c3=1.2)\n  Theoretical tail probability P(Loss > 7): 0.030491648413714236\n\nQAE Algorithm Parameters:\n  Precision qubits: 4 (phase resolution: \u03c0/16)\n  Repetitions: 24\n  Total qubits: 13 (loss + precision + marker)\n\n=== Canonical QAE Results (precision=4 bits, runs=24) ===\nPhase measurement histogram (top 10):\n  Phase 0/16 (\u03b8=0, P\u22480): 24 times\nMost frequent outcome: phase=0/16, \u03b8=0, P\u22480\nMean amplitude estimate: 0 \u00b1 0\nTheoretical tail probability: 0.030491648413714236\nRelative error: 100%\n\n=== Classical Baseline Comparison ===\nMonte Carlo (10000 samples): 0.030491648413714236 \u00b1 0.0017193576646738944\n  Relative error vs theoretical: 0%\n\n=== Quantum Advantage Analysis ===\nQAE precision: \u03b5 \u2248 0\nMC precision: \u03b5 \u2248 0.0017193576646738944\nPrecision improvement factor: 0x\nQuery complexity: QAE uses O(1/\u03b5) = O(100) oracle calls\n                  MC uses O(1/\u03b5\u00b2) = O(10000) samples\n\n=== Summary ===\nTheoretical:     P = 0.030491648413714236\nQAE estimate:    P = 0 \u00b1 0\nMC estimate:     P = 0.030491648413714236 \u00b1 0.0017193576646738944\nQAE demonstrates quadratic speedup: O(1/\u03b5) vs O(1/\u03b5\u00b2) for precision \u03b5",
+  "raw_output": "=== Quantum Amplitude Estimation for Tail Risk Analysis ===\n\nRisk Model Configuration:\n  Loss distribution qubits: 4 (2^4 = 16 discrete levels)\n  Loss threshold: 2.5\n  Distribution: Log-normal(\u03bc=0, \u03c3=1)\n  Theoretical tail probability P(Loss > 2.5): 0.16136312961328608\n\nQAE Algorithm Parameters:\n  Precision qubits: 6 (phase resolution: \u03c0/64)\n  Repetitions: 120\n  Total qubits: 11 (loss + precision + marker)\n\n=== Canonical QAE Results (precision=6 bits, runs=120) ===\nPhase measurement histogram (top 10):\n  Phase 0/64 (\u03b8=0, P\u22480): 101 times\n  Phase 32/64 (\u03b8=1.5707963267948966, P\u22481): 18 times\n  Phase 24/64 (\u03b8=1.1780972450961724, P\u22480.8535533905932737): 1 times\nMost frequent outcome: phase=0/64, \u03b8=0, P\u22480\nMean amplitude estimate: 0.1571129449216106 \u00b1 0.03308912217947701\nTheoretical tail probability: 0.16136312961328608\nRelative error: 2.6339255453592414%\n\n=== Classical Baseline Comparison ===\nMonte Carlo (10000 samples): 0.16136312961328608 \u00b1 0.003678655597017638\n  Relative error vs theoretical: 0%\n\n=== Quantum Advantage Analysis ===\nQAE precision: \u03b5 \u2248 0.03308912217947701\nMC precision: \u03b5 \u2248 0.003678655597017638\nPrecision improvement factor: 0x\nQuery complexity: QAE uses O(1/\u03b5) = O(30.221412178176) oracle calls\n                  MC uses O(1/\u03b5\u00b2) = O(10000) samples\n\n=== Summary ===\nTheoretical:     P = 0.16136312961328608\nQAE estimate:    P = 0.1571129449216106 \u00b1 0.03308912217947701\nMC estimate:     P = 0.16136312961328608 \u00b1 0.003678655597017638\nQAE demonstrates quadratic speedup: O(1/\u03b5) vs O(1/\u03b5\u00b2) for precision \u03b5",
   "histogram_counts": {
-    "0": 24
+    "0": 101,
+    "32": 18,
+    "24": 1
   }
 }

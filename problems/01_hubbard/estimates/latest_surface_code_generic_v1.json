@@ -1,0 +1,29 @@
+{
+  "problem_id": "01_hubbard",
+  "algorithm": "vqe_demo",
+  "instance": {
+    "description": "Two-site Hubbard half-filling demo instance",
+    "parameters": {}
+  },
+  "estimator_target": "surface_code_generic_v1",
+  "metrics": {
+    "logical_qubits": 16,
+    "physical_qubits": 19200,
+    "t_count": 65536,
+    "t_depth": 4096,
+    "clifford_count": 262144,
+    "runtime_seconds": 480.0,
+    "runtime_days": 0.005555555555555556
+  },
+  "build": {
+    "commit": "9673fc402f842cd04bef47cdd83b52e4f1c4d077",
+    "qdk_version": "mock",
+    "estimator_version": "mock-surface_code_generic_v1",
+    "date_utc": "2026-03-24T12:38:54.767469Z"
+  },
+  "notes": "Estimated using surface_code_generic_v1 target profile",
+  "_metadata": {
+    "artifact_path": "01_hubbard/estimates/surface_code_generic_v1_2026-03-24T123854.767469Z.json",
+    "generated_at_utc": "2026-03-24T12:38:54.767469Z"
+  }
+}

@@ -43,8 +43,11 @@ test: classical
 	@echo "Running deterministic baseline checks..."
 	$(PYTHON) python/test_baseline.py
 
-estimate:
-	@echo "Resource estimation pending amplitude amplification implementation."
+ESTIMATOR := $(PYTHON) ../../tooling/estimator/run_estimation.py
+
+estimate: build
+	@echo "Running resource estimation for 15_database_search..."
+	$(ESTIMATOR) --all --problem 15_database_search --targets surface_code_generic_v1,qubit_gate_ns_e3 --mock
 
 sweep:
 	@echo "Parameter sweep tooling not yet implemented."

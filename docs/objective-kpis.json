@@ -28,8 +28,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "02_catalysis",
@@ -55,8 +55,8 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "05_qaoa_maxcut",
@@ -154,8 +154,8 @@
       "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
-      "has_backend_assumptions": false
+      "has_estimator_profile_summary": true,
+      "has_backend_assumptions": true
     },
     {
       "problem": "16_error_correction",

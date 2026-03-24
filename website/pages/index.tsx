@@ -69,10 +69,10 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
             <CaseStudyCard
               title="QAE Risk Analysis (Stage C Complete)"
-              classicalHeadline="Monte Carlo: 18.98% ± 0.39% (10k samples)"
-              classicalDetails="Classical baseline achieves 0% error vs theoretical for tail risk P(Loss > 2.5) on log-normal(0,1) distribution."
+              classicalHeadline="Monte Carlo: 16.1% ± 0.37% (10k samples)"
+              classicalDetails="Classical baseline achieves 0% error vs theoretical for tail risk P(Loss > 2.5) on log-normal(0,1) distribution. Log-normal PDF corrected March 2026."
               quantumHeadline="Canonical QAE: 594k qubits, 6.4s, 965k T-states"
-              quantumDetails="QAE kernel and Stage C evidence artifacts are published, including calibration and runtime mapping outputs."
+              quantumDetails="QAE kernel recalibrated with corrected distribution encoding. Emulator jobs queued on Quantinuum H2-1E for full simulation validation."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk"
             />
             <CaseStudyCard
@@ -84,11 +84,11 @@ export default function Home() {
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/15_database_search"
             />
             <CaseStudyCard
-              title="Hubbard Model (Stage B Complete)"
+              title="Hubbard Model (Azure Validated)"
               classicalHeadline="Exact diagonalization: Δc = 5.66 at U/t = 4"
               classicalDetails="Two-site half-filled Hubbard model with classical baseline achieving perfect accuracy for ground state energy and Mott gap."
-              quantumHeadline="VQE: 79k qubits, 114μs | HHL: 18.7k qubits, 52ms"
-              quantumDetails="Reproducible baselines and scaffolded quantum flows are complete; next target is Stage C evidence gating."
+              quantumHeadline="VQE circuit validated on Quantinuum H2 simulator"
+              quantumDetails="Real VQE ansatz (2-qubit, Ry+CNOT+Rz) submitted to Azure Quantum. Resource estimates generated for surface_code and gate_ns_e3 architectures. Emulator results pending."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard"
             />
           </div>
@@ -187,10 +187,11 @@ export default function Home() {
             <li><strong>✅ CI/CD:</strong> Automated testing and static export ready for GitHub Pages</li>
           </ul>
           <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
-            <h3 style={{ marginTop: 0, color: '#10b981' }}>🎉 Latest Achievement: QAOA MaxCut Promoted to Stage C</h3>
+            <h3 style={{ marginTop: 0, color: '#10b981' }}>Latest: Real Quantum Circuits on Azure Quantum</h3>
             <p style={{ color: '#666', marginBottom: 0 }}>
-              QAOA MaxCut now ships depth/noise evidence, uncertainty-bounded reporting, and quality-gated artifacts at Stage C.
-              Azure smoke audit artifacts are now auto-emitted in JSON/markdown for runbook traceability, and the next scoped step is cross-problem adapter reuse for Microsoft-first Azure execution hardening.
+              VQE (Hubbard), QAOA (MaxCut), and Grover (Database Search) circuits submitted to Quantinuum H2 simulator and emulator.
+              QAE log-normal PDF bug fixed and recalibrated. Resource estimation pipeline expanded to 5 problems with estimator profile summaries.
+              4 new successful Azure Quantum runs recorded on March 24, 2026.
             </p>
           </div>
         </div>

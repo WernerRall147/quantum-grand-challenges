@@ -100,7 +100,7 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
+      "has_estimator_profile_summary": true,
       "has_backend_assumptions": false
     },
     {
@@ -109,7 +109,7 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
+      "has_estimator_profile_summary": true,
       "has_backend_assumptions": false
     },
     {
@@ -118,7 +118,7 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
+      "has_estimator_profile_summary": true,
       "has_backend_assumptions": false
     },
     {
@@ -127,7 +127,7 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
+      "has_estimator_profile_summary": true,
       "has_backend_assumptions": false
     },
     {
@@ -163,7 +163,7 @@
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
-      "has_estimator_profile_summary": false,
+      "has_estimator_profile_summary": true,
       "has_backend_assumptions": false
     },
     {

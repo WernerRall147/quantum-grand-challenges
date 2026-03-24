@@ -10,7 +10,12 @@ TARGETS = ("surface_code_generic_v1", "qubit_gate_ns_e3")
 PROBLEMS = {
     "01_hubbard": "Hubbard VQE",
     "04_linear_solvers": "HHL Linear Solver",
+    "09_factorization": "Shor Factorization",
+    "10_post_quantum_cryptography": "Grover Key Search",
+    "11_quantum_machine_learning": "Swap Test Kernel",
+    "12_quantum_optimization": "QAOA Scheduling",
     "15_database_search": "Grover Database Search",
+    "16_error_correction": "Repetition Code QEC",
 }
 
 

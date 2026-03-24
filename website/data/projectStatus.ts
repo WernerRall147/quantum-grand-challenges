@@ -27,24 +27,24 @@ export const pipelineStages = [
 
 export const activeWorkQueue = [
   {
-    title: '01 Hubbard Model',
+    title: 'Stage C Promotion',
     description:
-      'VQE ansatz validated on Quantinuum H2 simulator. Resource estimates generated. Next: classical optimizer loop and Stage C promotion.',
+      'All 20 problems now have real quantum circuits. Next: generate resource estimates, backend assumptions, and calibration evidence to promote from Stage B to Stage C.',
   },
   {
-    title: '04 Linear Solvers',
+    title: 'Azure Emulator Results',
     description:
-      'HHL circuit complete with resource estimates. Next: solution fidelity validation and Stage C promotion.',
+      '4 circuits executing on Quantinuum H2-1E emulator (Hubbard VQE, QAOA MaxCut, Grover, QAE). Collect results and validate against classical baselines.',
   },
   {
-    title: '15 Database Search',
+    title: 'Resource Estimation Coverage',
     description:
-      'Grover 4-qubit circuit submitted to Quantinuum emulator. Resource estimates generated. Awaiting full simulation results.',
+      'Expand estimator pipeline to all 20 problems. Currently 9 have estimator summaries; target is 20/20.',
   },
   {
-    title: '09 Factorization',
+    title: 'Stage D Evidence Hardening',
     description:
-      'Next implementation target: Shor QPE + modular multiply for N=15 using existing QFT utilities.',
+      'Lock uncertainty thresholds and complete advantage claim contracts for QAE, QAOA, and Grover (current Stage C leaders).',
   },
 ];
 
@@ -64,9 +64,9 @@ export const problemHighlights = [
   },
   {
     title: 'Catalysis Simulation',
-    status: 'Stage B complete',
+    status: 'Quantum circuit implemented',
     description:
-      'Classical Arrhenius baseline and plots are validated; next milestone is Stage C chemistry kernel',
+      'VQE for H2 molecular energy with 2-qubit Pauli decomposition. Estimates H2 ground state energy via variational optimization.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/02_catalysis',
   },
   {
@@ -84,56 +84,56 @@ export const problemHighlights = [
   },
   {
     title: 'High-Frequency Trading',
-    status: 'Stage B complete',
-    description: 'Knowledge-driven moving-average strategy is ready for Stage C quantum upgrades',
+    status: 'Quantum circuit implemented',
+    description: 'Quantum VaR estimation via amplitude encoding and oracle marking for loss state detection',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/06_high_frequency_trading',
   },
   {
     title: 'Drug Discovery',
-    status: 'Stage B complete',
-    description: 'Docking energy scaffold with Q# VQE placeholder awaiting Stage C implementation',
+    status: 'Quantum circuit implemented',
+    description: 'VQE molecular binding energy estimation with 2-qubit Pauli Hamiltonian decomposition',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/07_drug_discovery',
   },
   {
     title: 'Protein Folding',
-    status: 'Stage B complete',
-    description: 'Contact-map scoring with amplitude-encoding Q# stub prepared for Stage C',
+    status: 'Quantum circuit implemented',
+    description: 'QAOA lattice conformation search optimizing pairwise contact energies',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/08_protein_folding',
   },
   {
     title: 'Factorization',
-    status: 'Stage B complete',
-    description: 'Pollard Rho analytics are in place and paving the way for Stage C Shor-style work',
+    status: 'Quantum circuit implemented',
+    description: 'Full Shor period-finding with QPE + controlled modular multiply. Factors 15 = 3 x 5.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/09_factorization',
   },
   {
     title: 'Post-Quantum Cryptography',
-    status: 'Stage B complete',
-    description: 'Attack-cost estimator is ready for Stage C amplitude-amplified sieving studies',
+    status: 'Quantum circuit implemented',
+    description: 'Grover key search attack simulation. 80-92% success on 3-5 qubit keyspaces.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/10_post_quantum_cryptography',
   },
   {
     title: 'Quantum Machine Learning',
-    status: 'Stage B complete',
-    description: 'Kernel ridge benchmark is ready for Stage C quantum feature map experiments',
+    status: 'Quantum circuit implemented',
+    description: 'Swap test kernel estimation (5 qubits). Quantum kernel matrix matches classical.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/11_quantum_machine_learning',
   },
   {
     title: 'Quantum Optimization',
-    status: 'Stage B complete',
-    description: 'Weighted tardiness scheduler is poised for Stage C QAOA upgrades',
+    status: 'Quantum circuit implemented',
+    description: 'QAOA for weighted job scheduling. Found exact optimal with approximation ratio 1.0.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/12_quantum_optimization',
   },
   {
     title: 'Climate Modeling',
-    status: 'Stage B complete',
-    description: 'Diffusion energy balance is ready for Stage C HHL-style solver kernels',
+    status: 'Quantum circuit implemented',
+    description: 'HHL algorithm for thermal diffusion PDE with QPE and eigenvalue inversion',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/13_climate_modeling',
   },
   {
     title: 'Materials Discovery',
-    status: 'Stage B complete',
-    description: 'Surrogate cluster expansion is primed for Stage C quantum spectroscopy work',
+    status: 'Quantum circuit implemented',
+    description: 'VQE band gap estimation for tight-binding models across 3 material types',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/14_materials_discovery',
   },
   {
@@ -144,32 +144,32 @@ export const problemHighlights = [
   },
   {
     title: 'Error Correction',
-    status: 'Stage B complete',
-    description: 'Repetition-code analytics are setting up Stage C and future surface-code progression',
+    status: 'Quantum circuit implemented',
+    description: '3-qubit bit-flip repetition code with syndrome extraction. 100% correction rate.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/16_error_correction',
   },
   {
     title: 'Nuclear Physics',
-    status: 'Stage B complete',
-    description: 'Pionless EFT diagonalization with adiabatic state-prep stub is awaiting Stage C',
+    status: 'Quantum circuit implemented',
+    description: 'VQE for deuteron binding energy with pionless EFT Hamiltonian',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/17_nuclear_physics',
   },
   {
     title: 'Photovoltaics',
-    status: 'Stage B complete',
-    description: 'Shockley-Queisser heuristic with exciton preview in Q# is poised for Stage C',
+    status: 'Quantum circuit implemented',
+    description: 'Discrete quantum walk for exciton transport in organic photovoltaic networks',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/18_photovoltaics',
   },
   {
     title: 'Quantum Chromodynamics',
-    status: 'Stage B complete',
-    description: 'Coarse lattice plaquette baseline with gauge-walk stub is ready for Stage C expansion',
+    status: 'Quantum circuit implemented',
+    description: 'Trotter simulation of 1D lattice gauge theory showing confinement transition',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/19_quantum_chromodynamics',
   },
   {
     title: 'Space Mission Planning',
-    status: 'Stage B complete',
-    description: 'Patched-conic mission baseline with quantum annealing preview is prepared for Stage C',
+    status: 'Quantum circuit implemented',
+    description: 'QAOA trajectory optimization for multi-leg missions. Found exact optimal.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/20_space_mission_planning',
   },
 ];

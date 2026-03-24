@@ -1,45 +1,80 @@
 namespace QuantumGrandChallenges.Photovoltaics {
     open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Math;
 
-    function NormalizeSpectrum(samples : Double[]) : Double[] {
-        mutable total = 0.0;
-        for value in samples {
-            set total += value;
+    /// Discrete-time quantum walk for exciton transport on a 4-site chain.
+    /// Coin qubit controls direction, position register tracks site.
+    operation QuantumWalkStep(coin : Qubit, position : Qubit[], coupling : Double) : Unit is Adj + Ctl {
+        // Coin operation (biased Hadamard based on coupling strength)
+        Ry(2.0 * coupling, coin);
+
+        // Conditional shift: if coin=|0>, shift left; if coin=|1>, shift right
+        within { X(coin); }
+        apply {
+            for i in 0 .. Length(position) - 2 {
+                Controlled SWAP([coin], (position[i], position[i + 1]));
+            }
         }
-        if total <= 1e-12 {
-            return [0.0, size = Length(samples)];
+        for i in 0 .. Length(position) - 2 {
+            Controlled SWAP([coin], (position[Length(position) - 2 - i], position[Length(position) - 1 - i]));
         }
-        let invTotal = 1.0 / total;
-        mutable normalized = [0.0, size = Length(samples)];
-        for idx in 0 .. Length(samples) - 1 {
-            set normalized w/= idx <- samples[idx] * invTotal;
-        }
-        return normalized;
     }
 
-    function PreviewExcitonWalk(layers : Int, baseCoupling : Double) : Double {
-        if layers <= 0 {
-            return 0.0;
+    /// Run exciton quantum walk and measure final position distribution.
+    operation RunExcitonWalk(steps : Int, coupling : Double, shots : Int) : Int[] {
+        let nSites = 2; // 2 position qubits = 4 sites
+        mutable counts = [0, size = 1 <<< nSites];
+
+        for _ in 1 .. shots {
+            use coin = Qubit();
+            use position = Qubit[nSites];
+
+            // Initialize exciton at site 1 (|01>)
+            X(position[1]);
+
+            // Quantum walk steps
+            for _ in 1 .. steps {
+                QuantumWalkStep(coin, position, coupling);
+            }
+
+            // Measure position
+            mutable site = 0;
+            for i in 0 .. nSites - 1 {
+                if (M(position[i]) == One) {
+                    set site += 1 <<< (nSites - 1 - i);
+                }
+            }
+            set counts w/= site <- counts[site] + 1;
+
+            Reset(coin);
+            ResetAll(position);
         }
-        mutable accumulator = 0.0;
-        for idx in 0 .. layers - 1 {
-            let scaling = baseCoupling / (1.0 + IntAsDouble(idx));
-            set accumulator += scaling;
-        }
-        return accumulator;
+        return counts;
     }
 
     @EntryPoint()
-    operation RunPhotovoltaicPrototype() : Unit {
-    Message("Quantum photovoltaics scaffold - integrate exciton network simulation next.");
-        let spectrum = NormalizeSpectrum([0.2, 0.35, 0.45]);
-        Message($"Normalized absorption bins: {spectrum}");
-        let preview = PreviewExcitonWalk(6, 0.9);
-        Message($"Preview coupling strength: {preview}");
-        use ancilla = Qubit();
-        Reset(ancilla);
+    operation RunPhotovoltaics() : Unit {
+        Message("=== Photovoltaics: Quantum Walk Exciton Transport ===");
+        Message("");
+        let couplings = [0.3, 0.6, 0.9];
+        let steps = 4;
+        let shots = 128;
+
+        for coupling in couplings {
+            Message($"--- Coupling strength: {coupling} ---");
+            let counts = RunExcitonWalk(steps, coupling, shots);
+            for site in 0 .. Length(counts) - 1 {
+                let prob = IntAsDouble(counts[site]) / IntAsDouble(shots) * 100.0;
+                Message($"  Site {site}: {counts[site]}/{shots} ({prob}%)");
+            }
+            Message("");
+        }
+
+        Message("Quantum walks model coherent exciton transport in organic photovoltaics,");
+        Message("capturing interference effects that classical random walks miss.");
     }
 }

@@ -1,5 +1,5 @@
 # QAE Risk Analysis Summary Report
-Generated: 2026-03-07 06:43:26.854221
+Generated: 2026-03-24 14:37:24.189838
 
 ## Quantum Amplitude Estimation Results
 ### Result 1: Unknown
@@ -162,40 +162,40 @@ Generated: 2026-03-07 06:43:26.854221
 - Circular phase estimate: 0.000000
 - Runtime: 0 days
 
-### Result 19: TailRisk > 7.0
+### Result 19: TailRisk > 2.5
 - Algorithm: QPEAmplitudeEstimation
-- Logical Qubits: 13
-- Physical Qubits: 13
-- T-count: 384
-- Circular amplitude (phase-averaged): 0.000000
-- Circular phase estimate: 0.000000
+- Logical Qubits: 11
+- Physical Qubits: 11
+- T-count: 2,880
+- Circular amplitude (phase-averaged): 0.000018
+- Circular phase estimate: 0.001368
 - Runtime: 0 days
 
-### Result 20: TailRisk > 7.0
+### Result 20: TailRisk > 2.5
 - Algorithm: QPEAmplitudeEstimation
-- Logical Qubits: 13
-- Physical Qubits: 13
-- T-count: 384
-- Circular amplitude (phase-averaged): 0.000000
-- Circular phase estimate: 0.000000
+- Logical Qubits: 11
+- Physical Qubits: 11
+- T-count: 2,880
+- Circular amplitude (phase-averaged): 0.000645
+- Circular phase estimate: 0.008082
 - Runtime: 0 days
 
-### Result 21: TailRisk > 7.0
+### Result 21: TailRisk > 2.5
 - Algorithm: QPEAmplitudeEstimation
-- Logical Qubits: 13
-- Physical Qubits: 13
-- T-count: 384
-- Circular amplitude (phase-averaged): 0.000000
-- Circular phase estimate: 0.000000
+- Logical Qubits: 11
+- Physical Qubits: 11
+- T-count: 2,880
+- Circular amplitude (phase-averaged): 0.000654
+- Circular phase estimate: 0.008144
 - Runtime: 0 days
 
-### Result 22: TailRisk > 7.0
+### Result 22: TailRisk > 2.5
 - Algorithm: QPEAmplitudeEstimation
-- Logical Qubits: 13
-- Physical Qubits: 13
-- T-count: 384
-- Circular amplitude (phase-averaged): 0.000000
-- Circular phase estimate: 0.000000
+- Logical Qubits: 11
+- Physical Qubits: 11
+- T-count: 2,880
+- Circular amplitude (phase-averaged): 0.000654
+- Circular phase estimate: 0.008144
 - Runtime: 0 days
 
 ## Quantum Ensemble Aggregations
@@ -235,13 +235,17 @@ Generated: 2026-03-07 06:43:26.854221
 - Most frequent outcome across ensemble: 0/16
 - Run artifacts: quantum_estimate_run1.json, quantum_estimate_run2.json, quantum_estimate_run3.json, quantum_estimate_run4.json, quantum_estimate_run5.json, quantum_estimate_run6.json, quantum_estimate_run7.json, quantum_estimate_run8.json, quantum_estimate_run9.json, quantum_estimate_run10.json, quantum_estimate_run11.json, quantum_estimate_run12.json, quantum_estimate_run13.json, quantum_estimate_run14.json, quantum_estimate_run15.json, quantum_estimate_run16.json, quantum_estimate_run17.json, quantum_estimate_run18.json, quantum_estimate_run19.json, quantum_estimate_run20.json
 
-### Ensemble 4: TailRisk > 7.0
-- Completed runs: 20 (requested 20)
-- Ensemble mean amplitude: 0.006000
-- Ensemble standard deviation: 0.006826
-- Ensemble standard error: 0.001526
-- Mean per-run reported std. error: 0.001526
-- Mean deviation from analytic: 0.000000
+### Ensemble 4: TailRisk > 2.5
+- Completed runs: 3 (requested 3)
+- Ensemble mean amplitude: 0.203752
+- Ensemble standard deviation: 0.038978
+- Ensemble standard error: 0.022504
+- Mean per-run reported std. error: 0.036075
+- Mean deviation from analytic: 0.042389
+- Circular amplitude (aggregated): 0.000439
+- Circular phase (aggregated): 0.005864
+- Most frequent outcome across ensemble: 0/64
+- Run artifacts: quantum_estimate_run1.json, quantum_estimate_run2.json, quantum_estimate_run3.json
 
 ## Classical Monte Carlo Results
 ### Threshold = 2.0

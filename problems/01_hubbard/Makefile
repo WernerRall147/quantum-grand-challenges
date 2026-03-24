@@ -21,8 +21,9 @@ build:
 run: build
 	dotnet run --project qsharp/Hubbard.csproj --configuration Release
 
-estimate:
-	@echo "Resource estimation workflow not yet implemented for 01_hubbard"
+estimate: build
+	@echo "Running resource estimation for 01_hubbard..."
+	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 01_hubbard --targets surface_code_generic_v1,qubit_gate_ns_e3 --mock
 
 clean:
 	dotnet clean qsharp/Hubbard.csproj --configuration Release || true

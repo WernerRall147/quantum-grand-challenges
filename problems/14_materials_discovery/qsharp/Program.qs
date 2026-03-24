@@ -1,59 +1,112 @@
 namespace QuantumGrandChallenges.MaterialsDiscovery {
+    open Microsoft.Quantum.Arrays;
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Math;
 
-    function NormalizeCoefficients(coefficients : Double[]) : Double[] {
-        mutable normSquared = 0.0;
-        for value in coefficients {
-            set normSquared += value * value;
-        }
-        if normSquared <= 1e-12 {
-            return [0.0, size = Length(coefficients)];
-        }
-        let scale = 1.0 / Sqrt(normSquared);
-        mutable normalized = [0.0, size = Length(coefficients)];
-        for idx in 0 .. Length(coefficients) - 1 {
-            set normalized w/= idx <- coefficients[idx] * scale;
-        }
-        return normalized;
+    /// VQE ansatz for 2-qubit tight-binding model of a material unit cell.
+    /// Models valence/conduction band orbitals.
+    operation BandGapAnsatz(theta0 : Double, theta1 : Double, theta2 : Double, q0 : Qubit, q1 : Qubit) : Unit {
+        // Reference state: valence band filled |10⟩
+        X(q0);
+
+        // Parameterized rotations (orbital mixing)
+        Ry(theta0, q0);
+        Ry(theta1, q1);
+
+        // Entangling layer (inter-orbital coupling)
+        CNOT(q0, q1);
+        Rz(theta2, q1);
+        CNOT(q0, q1);
     }
 
-    function IncrementalEnergy(coefficients : Double[]) : Double[] {
-        mutable cumulative = [0.0, size = Length(coefficients)];
-        mutable running = 0.0;
-        for idx in 0 .. Length(coefficients) - 1 {
-            set running += coefficients[idx];
-            set cumulative w/= idx <- running;
+    /// Measure Pauli term expectation.
+    operation MeasurePauli(theta0 : Double, theta1 : Double, theta2 : Double, paulis : Pauli[], shots : Int) : Double {
+        mutable sum = 0.0;
+        for _ in 1 .. shots {
+            use register = Qubit[2];
+            BandGapAnsatz(theta0, theta1, theta2, register[0], register[1]);
+            let result = Measure(paulis, register);
+            if (result == Zero) { set sum += 1.0; } else { set sum -= 1.0; }
+            ResetAll(register);
         }
-        return cumulative;
+        return sum / IntAsDouble(shots);
     }
 
-    operation PreviewVqeIteration(coefficients : Double[], angles : Double[]) : Double {
-        let normalized = NormalizeCoefficients(coefficients);
-        mutable energy = 0.0;
-        for idx in 0 .. Length(normalized) - 1 {
-            let angle = angles[MinI(idx, Length(angles) - 1)];
-            set energy += normalized[idx] * Cos(angle);
+    /// Estimate ground state energy via tight-binding Hamiltonian.
+    /// H = ε₁Z₁ + ε₂Z₂ + t(X₁X₂ + Y₁Y₂) + V·Z₁Z₂
+    operation EstimateBandEnergy(theta0 : Double, theta1 : Double, theta2 : Double, onsite1 : Double, onsite2 : Double, hopping : Double, interaction : Double, shots : Int) : Double {
+        let z0 = MeasurePauli(theta0, theta1, theta2, [PauliZ, PauliI], shots);
+        let z1 = MeasurePauli(theta0, theta1, theta2, [PauliI, PauliZ], shots);
+        let zz = MeasurePauli(theta0, theta1, theta2, [PauliZ, PauliZ], shots);
+        let xx = MeasurePauli(theta0, theta1, theta2, [PauliX, PauliX], shots);
+
+        return onsite1 * z0 + onsite2 * z1 + hopping * xx + interaction * zz;
+    }
+
+    /// Estimate band gap = E(conduction) - E(valence) by running VQE twice.
+    operation EstimateBandGap(onsite1 : Double, onsite2 : Double, hopping : Double, interaction : Double, shots : Int) : (Double, Double, Double) {
+        let angles = [0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8];
+
+        // Find ground state (valence band)
+        mutable bestValence = 100.0;
+        mutable bestT0v = 0.0;
+        mutable bestT1v = 0.0;
+        for t0 in angles {
+            for t1 in angles {
+                let e = EstimateBandEnergy(t0, t1, 0.0, onsite1, onsite2, hopping, interaction, shots);
+                if (e < bestValence) {
+                    set bestValence = e;
+                    set bestT0v = t0;
+                    set bestT1v = t1;
+                }
+            }
         }
 
-        use ancilla = Qubit();
-        H(ancilla);
-        // Placeholder: parameterized ansatz and measurement would be inserted here.
-        Reset(ancilla);
+        // Approximate conduction band: use orthogonal ansatz region
+        mutable bestConduction = 100.0;
+        for t0 in angles {
+            for t1 in angles {
+                let e = EstimateBandEnergy(t0, t1, PI(), onsite1, onsite2, hopping, interaction, shots);
+                if (e > bestValence and e < bestConduction) {
+                    set bestConduction = e;
+                }
+            }
+        }
 
-        return energy;
+        let gap = bestConduction - bestValence;
+        return (bestValence, bestConduction, gap);
     }
 
     @EntryPoint()
-    operation RunMaterialsPrototype() : Unit {
-        Message("Quantum materials discovery scaffold – integrate VQE band gap solver next.");
-        let coefficients = [0.9, 1.1, 0.7, 1.3];
-        let angles = [0.4, 0.6, 0.8];
-        let energy = PreviewVqeIteration(coefficients, angles);
-        Message($"Variational energy preview: {energy}");
+    operation RunMaterialsDiscovery() : Unit {
+        Message("=== Materials Discovery: VQE Band Gap Estimation ===");
+        Message("");
 
-        let cumulative = IncrementalEnergy(coefficients);
-        Message($"Cumulative interaction energy: {cumulative}");
+        // Tight-binding parameters for a simple 2-orbital model
+        let materials = [
+            ("Silicon-like", -1.0, -0.5, 0.3, 0.1),
+            ("Wide-gap",     -1.5, -0.3, 0.5, 0.15),
+            ("Narrow-gap",   -0.8, -0.7, 0.15, 0.05)
+        ];
+        let shots = 48;
+
+        for (name, onsite1, onsite2, hopping, interaction) in materials {
+            Message($"--- {name} material ---");
+            Message($"  Parameters: e1={onsite1}, e2={onsite2}, t={hopping}, V={interaction}");
+
+            let (valence, conduction, gap) = EstimateBandGap(onsite1, onsite2, hopping, interaction, shots);
+            Message($"  Valence band energy:    {valence} eV");
+            Message($"  Conduction band energy: {conduction} eV");
+            Message($"  Band gap estimate:      {gap} eV");
+            Message("");
+        }
+
+        Message("=== Quantum Advantage ===");
+        Message("VQE enables accurate band structure calculations for complex materials");
+        Message("where classical DFT fails (strongly correlated systems, defect states).");
+        Message("Key application: screening battery cathode and photovoltaic materials.");
     }
 }

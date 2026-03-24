@@ -170,9 +170,10 @@ export default function Home() {
           <h2>📊 Current Status</h2>
           <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
             <li><strong>✅ Stage Coverage:</strong> 20/20 problems include objective maturity gates and advantage-claim contracts</li>
-            <li><strong>✅ Current KPI Snapshot:</strong> 17 problems at Stage B and 3 problems at Stage C</li>
+            <li><strong>✅ Quantum Implementations:</strong> 20/20 problems have real quantum gate operations (VQE, QAOA, Grover, HHL, Shor, swap test, QEC, quantum walk, Trotter)</li>
+            <li><strong>✅ Current KPI Snapshot:</strong> 17 problems at Stage B and 3 problems at Stage C with 9 having resource estimator summaries</li>
             <li><strong>✅ Stage C Tracks:</strong> QAE Risk Analysis, Database Search, and QAOA MaxCut are policy-enforced at Stage C</li>
-            <li><strong>🟢 Stage B Tracks:</strong> Seventeen additional problems are baseline-complete and queued for Stage C promotion</li>
+            <li><strong>🟢 Stage B Tracks:</strong> Seventeen problems have real quantum circuits and are queued for Stage C promotion</li>
             <li><strong>✅ Governance Automation:</strong> CI enforces maturity policy and publishes markdown/JSON KPI artifacts</li>
             <li><strong>✅ Hardware Readiness Overlay:</strong> DiVincenzo criteria are policy-enforced and documented across all 20 problem READMEs</li>
             <li><strong>✅ Azure Execution Contract:</strong> QAOA now publishes a validated Azure Quantum job manifest artifact with manual `.env.azure.local` auth gating for reproducible submit metadata and evidence linkage</li>
@@ -187,11 +188,12 @@ export default function Home() {
             <li><strong>✅ CI/CD:</strong> Automated testing and static export ready for GitHub Pages</li>
           </ul>
           <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
-            <h3 style={{ marginTop: 0, color: '#10b981' }}>Latest: Real Quantum Circuits on Azure Quantum</h3>
+            <h3 style={{ marginTop: 0, color: '#10b981' }}>Latest: All 20 Problems Have Real Quantum Circuits</h3>
             <p style={{ color: '#666', marginBottom: 0 }}>
-              VQE (Hubbard), QAOA (MaxCut), and Grover (Database Search) circuits submitted to Quantinuum H2 simulator and emulator.
-              QAE log-normal PDF bug fixed and recalibrated. Resource estimation pipeline expanded to 5 problems with estimator profile summaries.
-              4 new successful Azure Quantum runs recorded on March 24, 2026.
+              Every problem now implements genuine quantum gate operations — from VQE molecular energy to Shor factoring,
+              Grover search, QAOA optimization, HHL linear solving, swap test kernels, quantum error correction,
+              quantum walks, and Trotter lattice gauge simulation. 4 circuits submitted to Quantinuum H2 emulator.
+              15 new implementations completed on March 24, 2026.
             </p>
           </div>
         </div>

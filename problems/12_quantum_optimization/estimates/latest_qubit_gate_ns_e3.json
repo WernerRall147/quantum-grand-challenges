@@ -1,0 +1,29 @@
+{
+  "problem_id": "12_quantum_optimization",
+  "algorithm": "qaoa_scheduling",
+  "instance": {
+    "description": "QAOA weighted job scheduling",
+    "parameters": {}
+  },
+  "estimator_target": "qubit_gate_ns_e3",
+  "metrics": {
+    "logical_qubits": 16,
+    "physical_qubits": 35200,
+    "t_count": 65536,
+    "t_depth": 4096,
+    "clifford_count": 262144,
+    "runtime_seconds": 480.0,
+    "runtime_days": 0.005555555555555556
+  },
+  "build": {
+    "commit": "c68e9190eec2d9aebaa45f40b2cf1eb9265111fe",
+    "qdk_version": "mock",
+    "estimator_version": "mock-qubit_gate_ns_e3",
+    "date_utc": "2026-03-24T15:37:13.263724Z"
+  },
+  "notes": "Estimated using qubit_gate_ns_e3 target profile",
+  "_metadata": {
+    "artifact_path": "12_quantum_optimization/estimates/qubit_gate_ns_e3_2026-03-24T153713.263724Z.json",
+    "generated_at_utc": "2026-03-24T15:37:13.263724Z"
+  }
+}

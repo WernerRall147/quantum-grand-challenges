@@ -78,3 +78,78 @@ problems:
   targets:
   - "surface_code_generic_v1"
   - "qubit_gate_ns_e3"
+- id: "09_factorization"
+  path: "problems/09_factorization"
+  algorithm: "shor_period_finding"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Shor factoring N=15"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunShorFactorization"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "10_post_quantum_cryptography"
+  path: "problems/10_post_quantum_cryptography"
+  algorithm: "grover_key_search"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Grover attack on symmetric key search"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunPostQuantumAnalysis"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "11_quantum_machine_learning"
+  path: "problems/11_quantum_machine_learning"
+  algorithm: "swap_test_kernel"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "Swap test quantum kernel estimation"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunQuantumKernelEstimation"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "12_quantum_optimization"
+  path: "problems/12_quantum_optimization"
+  algorithm: "qaoa_scheduling"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "QAOA weighted job scheduling"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunSchedulingOptimization"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"
+- id: "16_error_correction"
+  path: "problems/16_error_correction"
+  algorithm: "repetition_code"
+  qs_file: "qsharp/Program.qs"
+  instance:
+    name: "small"
+    description: "3-qubit bit-flip repetition code"
+    file: "instances/small.yaml"
+  estimator_params:
+    entry_point: "RunQECDemonstration"
+    entry_point_flag: "--operation"
+    parameters: {}
+  targets:
+  - "surface_code_generic_v1"
+  - "qubit_gate_ns_e3"

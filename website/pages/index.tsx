@@ -244,20 +244,20 @@ export default function Home() {
             <li><strong>✅ Stage Coverage:</strong> 20/20 problems include objective maturity gates and advantage-claim contracts</li>
             <li><strong>✅ Quantum Implementations:</strong> 20/20 problems have real quantum gate operations (VQE, QAOA, Grover, HHL, Shor, swap test, QEC, quantum walk, Trotter)</li>
             <li><strong>✅ KPI Coverage:</strong> 20/20 estimator summaries, 20/20 backend assumptions, 20/20 advantage contracts</li>
-            <li><strong>✅ Current KPI Snapshot:</strong> 17 problems at Stage B and 3 problems at Stage C</li>
-            <li><strong>✅ Azure Validated:</strong> 7 QASM circuits validated on Quantinuum H2-1SC trapped-ion simulator</li>
-            <li><strong>✅ Real Gate Counts:</strong> QASM-derived gate decomposition for 6 circuits (replacing mock estimates)</li>
-            <li><strong>✅ Research:</strong> Methodology paper drafted, CITATION.cff added for academic citation</li>
+            <li><strong>✅ Azure Validated:</strong> 20/20 QASM circuits validated on Quantinuum H2-1SC trapped-ion simulator</li>
+            <li><strong>✅ Calibration:</strong> 19/20 problems have multi-run uncertainty bounds (3-5 runs each)</li>
+            <li><strong>✅ DOI:</strong> <a href="https://doi.org/10.5281/zenodo.19222021" style={{color: '#059669'}}>10.5281/zenodo.19222021</a></li>
+            <li><strong>✅ Research:</strong> Methodology paper with 20-circuit validation table, calibration data, and 9 sections</li>
             <li><strong>✅ Azure Successful Runs:</strong> `{azureExecutionStats.totalSuccessfulRuns}` successful live runs recorded across `{azureExecutionStats.systems.length}` quantum systems</li>
             <li><strong>✅ Runnable/Correctness Audit:</strong> `{runnableCorrectnessStats.passed}/{runnableCorrectnessStats.total}` problems pass executable correctness checks ({runnableCorrectnessStats.passRatePercent}%)</li>
             <li><strong>✅ CI/CD:</strong> 7 automated checks on every PR: build, correctness, maturity, integrity, secrets, security</li>
           </ul>
           <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
-            <h3 style={{ marginTop: 0, color: '#10b981' }}>Latest: Methodology Paper + Real Gate Counts</h3>
+            <h3 style={{ marginTop: 0, color: '#10b981' }}>Latest: 20/20 Azure Validated + 19/20 Calibrated</h3>
             <p style={{ color: '#666', marginBottom: 0 }}>
-              Full methodology paper drafted covering framework design, maturity gates, 9 algorithm families, and lessons learned.
-              Real gate counts extracted from QASM circuits: Grover needs 11-78 T-gates while VQE/QAOA need zero.
-              7 circuits validated on Quantinuum H2 trapped-ion simulator via Azure Quantum. CITATION.cff added for academic citation.
+              All 20 QASM circuits validated on Quantinuum H2 trapped-ion simulator (including 8-qubit Shor and 5-qubit HHL).
+              19 problems have multi-run calibration evidence with uncertainty bounds. DOI: 10.5281/zenodo.19222021.
+              Methodology paper updated with full 20-circuit validation table and calibration results.
             </p>
           </div>
         </div>

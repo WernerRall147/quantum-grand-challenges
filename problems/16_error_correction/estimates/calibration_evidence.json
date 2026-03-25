@@ -1,0 +1,22 @@
+{
+  "problem_id": "16_error_correction",
+  "runs": 5,
+  "timestamp": "2026-03-25T15:09:49.745676+00:00",
+  "metrics": {
+    "overall_rate": {
+      "values": [
+        512.0,
+        512.0,
+        512.0,
+        512.0,
+        512.0
+      ],
+      "mean": 512.0,
+      "std_dev": 0.0,
+      "std_error": 0.0,
+      "min": 512.0,
+      "max": 512.0,
+      "n": 5
+    }
+  }
+}

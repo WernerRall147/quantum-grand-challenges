@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset=utf-8>
+<title>Quantum Grand Challenges - Methodology Paper</title>
+<style>
+@page { size: A4; margin: 25mm; }
+@media print { body { font-size: 10pt; } }
+body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; line-height: 1.65; color: #1a1a1a; }
+h1 { font-size: 20pt; color: #1a1a2e; margin-bottom: 0.3em; }
+h2 { font-size: 14pt; color: #16213e; border-bottom: 2px solid #667eea; padding-bottom: 4px; margin-top: 2em; }
+h3 { font-size: 12pt; color: #0f3460; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 9.5pt; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f4ff; font-weight: 600; color: #16213e; }
+tr:nth-child(even) { background: #fafafa; }
+code { background: #f5f5f5; padding: 2px 5px; border-radius: 3px; font-size: 9.5pt; font-family: 'Cascadia Code', Consolas, monospace; }
+pre { background: #f5f5f5; padding: 14px; border-radius: 6px; overflow-x: auto; font-size: 9pt; border: 1px solid #e0e0e0; }
+blockquote { border-left: 3px solid #667eea; margin-left: 0; padding-left: 1em; color: #555; font-style: italic; }
+a { color: #0f3460; text-decoration: none; }
+a:hover { text-decoration: underline; }
+em { color: #555; }
+strong { color: #1a1a2e; }
+</style>
+</head><body>
+<h1 id="a-systematic-framework-for-developing-validating-and-benchmarking-quantum-algorithms-across-20-application-domains">A Systematic Framework for Developing, Validating, and Benchmarking Quantum Algorithms Across 20 Application Domains</h1>
+<p><em>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. You are free to share and adapt for non-commercial purposes with attribution.</em></p>
+<h2 id="authors">Authors</h2>
+<p>Werner Rall</p>
+<h2 id="abstract">Abstract</h2>
+<p>We present a systematic framework for quantum algorithm development that standardizes the lifecycle from classical baseline through quantum implementation to hardware-aware resource estimation across 20 diverse scientific problem domains. The framework introduces a four-stage maturity gate model (Baseline → Scaffold → Kernel → Advantage) with automated policy enforcement via continuous integration, ensuring that quantum advantage claims are grounded in reproducible evidence. We implement all 20 problems using Microsoft Q# with the Quantum Development Kit, covering nine distinct algorithm families: variational quantum eigensolver (VQE), quantum approximate optimization (QAOA), Grover search, Harrow-Hassidim-Lloyd (HHL), Shor's factoring, quantum amplitude estimation (QAE), swap test kernel estimation, quantum error correction, and Trotterized Hamiltonian simulation. Each implementation includes a classical baseline, parameterized problem instances, resource estimation artifacts, and backend assumption documentation. Seven circuits have been validated on Quantinuum H2 trapped-ion simulators via Azure Quantum. We describe the maturity gate criteria, the automated KPI pipeline that enforces them, and the reproducibility infrastructure that enables independent verification. The framework and all implementations are open-source.</p>
+<p><strong>Keywords:</strong> quantum computing, resource estimation, benchmarking, Q#, variational algorithms, quantum software engineering</p>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>Quantum computing promises exponential or polynomial speedups for specific computational problems, yet the gap between theoretical algorithms and practical implementations remains significant. Most quantum algorithm demonstrations exist as isolated proof-of-concept implementations without standardized comparison to classical methods, reproducible benchmarks, or honest assessment of hardware requirements.</p>
+<p>We address this gap with a systematic framework that treats quantum algorithm development as a software engineering discipline. Our approach applies uniform structure, automated validation, and evidence-based maturity gates across 20 distinct problem domains spanning physics, finance, chemistry, cryptography, optimization, and machine learning.</p>
+<h3 id="11-contributions">1.1 Contributions</h3>
+<ol>
+<li><strong>Maturity Gate Model</strong>: A four-stage progression (A→D) with explicit criteria for each promotion, preventing premature quantum advantage claims.</li>
+<li><strong>Standardized Problem Structure</strong>: A template ensuring every problem includes classical baselines, parameterized instances, quantum implementations, resource estimates, and backend assumptions.</li>
+<li><strong>Automated Policy Enforcement</strong>: CI/CD pipelines that validate compilation, correctness, schema compliance, and maturity gate criteria on every commit.</li>
+<li><strong>Cross-Domain Implementation</strong>: 20 quantum algorithm implementations spanning 9 algorithm families, all built on a common toolchain.</li>
+<li><strong>Hardware Validation Pipeline</strong>: Integration with Azure Quantum for circuit validation on trapped-ion simulators.</li>
+</ol>
+<h2 id="2-related-work">2. Related Work</h2>
+<p>Prior benchmarking efforts include the QED-C benchmark suite [1], which focuses on circuit-level metrics, and the QUARK framework [2] for optimization problems. IBM's Qiskit benchmarks [3] provide hardware-focused comparisons. Our work differs in scope (20 domains vs. single-domain), methodology (maturity gates vs. raw performance), and emphasis on reproducibility infrastructure.</p>
+<h2 id="3-framework-design">3. Framework Design</h2>
+<h3 id="31-problem-structure">3.1 Problem Structure</h3>
+<p>Each of the 20 problems follows an identical directory layout:</p>
+<pre><code>problems/XX_name/
+├── qsharp/          # Q# quantum implementation
+├── python/          # Classical baseline and analysis
+├── instances/       # Parameterized YAML configurations (small/medium/large)
+├── estimates/       # Resource estimation artifacts
+├── plots/           # Generated visualizations
+├── Makefile         # Reproducible build commands
+└── README.md        # Documentation with advantage claim contract
+</code></pre>
+<p>This uniformity enables automated tooling to operate across all 20 problems without problem-specific logic.</p>
+<h3 id="32-maturity-gate-model">3.2 Maturity Gate Model</h3>
+<p>We define four progressive stages, each with explicit evidence requirements:</p>
+<p><strong>Stage A (Classical Baseline Validated):</strong>
+- Deterministic classical baseline implementation
+- Instance coverage (small, medium at minimum)
+- Reproducible command path documented
+- Metrics persisted in standardized JSON schema</p>
+<p><strong>Stage B (Quantum Implementation Ready):</strong>
+- Q# quantum algorithm implemented with real gate operations
+- Build and run validation passing in CI
+- Resource estimation path documented
+- Algorithm assumptions and known limits stated</p>
+<p><strong>Stage C (Hardware-Aware Validation):</strong>
+- Multi-run calibration with uncertainty bounds
+- Quantum/classical comparison with confidence intervals
+- Hardware mapping and transpilation assumptions documented
+- DiVincenzo readiness criteria assessed</p>
+<p><strong>Stage D (Advantage Evidence Package):</strong>
+- Advantage claim template completed with explicit category (theoretical/projected/demonstrated)
+- Fair classical comparator identified and justified
+- Residual risks and assumption sensitivities documented
+- Reproducible end-to-end evidence chain</p>
+<h3 id="33-advantage-claim-contract">3.3 Advantage Claim Contract</h3>
+<p>Each problem includes a structured advantage claim with fields for: claim category, problem class and regime, baseline algorithm and fairness rationale, quantum resource scaling claim, data-loading and I/O assumptions, noise/error model assumptions, confidence/uncertainty method, and residual risks. This prevents implicit or unsupported advantage claims.</p>
+<h3 id="34-divincenzo-readiness-overlay">3.4 DiVincenzo Readiness Overlay</h3>
+<p>For Stage C/D problems, we assess five DiVincenzo criteria: scalable qubit system, initialization capability, coherence relative to gate times, universal gate set, and qubit-specific measurement. Each criterion is tagged as met, partial, not-yet, or not-applicable with evidence notes.</p>
+<h2 id="4-implementation">4. Implementation</h2>
+<h3 id="41-toolchain">4.1 Toolchain</h3>
+<ul>
+<li><strong>Quantum:</strong> Microsoft Q# with Quantum SDK 0.28, targeting .NET 6.0</li>
+<li><strong>Classical:</strong> Python 3.11 with NumPy, SciPy, Matplotlib</li>
+<li><strong>Cloud:</strong> Azure Quantum with Quantinuum and Rigetti providers</li>
+<li><strong>CI/CD:</strong> GitHub Actions with 7 automated checks</li>
+<li><strong>Website:</strong> Next.js dashboard with live KPI visualization</li>
+</ul>
+<h3 id="42-algorithm-families">4.2 Algorithm Families</h3>
+<p>Table 1 summarizes the 9 algorithm families implemented across 20 problems.</p>
+<table>
+<thead>
+<tr>
+<th>Algorithm Family</th>
+<th>Problems</th>
+<th>Qubits</th>
+<th>Key Operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VQE</td>
+<td>01, 02, 07, 14, 17</td>
+<td>2</td>
+<td>Ry, CNOT, Rz, Pauli measurement</td>
+</tr>
+<tr>
+<td>QAOA</td>
+<td>05, 08, 12, 20</td>
+<td>3-4</td>
+<td>H, ZZ cost (CNOT+Rz), Rx mixer</td>
+</tr>
+<tr>
+<td>Grover</td>
+<td>10, 15</td>
+<td>3-5</td>
+<td>Oracle marking, diffusion operator</td>
+</tr>
+<tr>
+<td>HHL/QPE</td>
+<td>04, 13</td>
+<td>5-6</td>
+<td>QPE, QFT, eigenvalue inversion</td>
+</tr>
+<tr>
+<td>QAE</td>
+<td>03</td>
+<td>9-15</td>
+<td>Amplitude encoding, Grover+QPE</td>
+</tr>
+<tr>
+<td>Shor</td>
+<td>09</td>
+<td>8</td>
+<td>QPE, controlled modular multiply</td>
+</tr>
+<tr>
+<td>Swap Test</td>
+<td>11</td>
+<td>5</td>
+<td>Controlled-SWAP, Hadamard test</td>
+</tr>
+<tr>
+<td>QEC</td>
+<td>16</td>
+<td>5</td>
+<td>Syndrome extraction, correction</td>
+</tr>
+<tr>
+<td>Quantum Walk</td>
+<td>18</td>
+<td>3</td>
+<td>Coin rotation, conditional shift</td>
+</tr>
+<tr>
+<td>Trotter</td>
+<td>19</td>
+<td>4</td>
+<td>ZZ plaquettes, transverse field</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-classical-baselines">4.3 Classical Baselines</h3>
+<p>Every problem includes a deterministic classical baseline that serves as the comparison target. Baseline algorithms are chosen to be the standard classical approach for each domain (e.g., exact diagonalization for Hubbard, Monte Carlo for risk analysis, brute-force for MaxCut at small scale). All baselines produce JSON output conforming to a shared schema.</p>
+<h3 id="44-resource-estimation-pipeline">4.4 Resource Estimation Pipeline</h3>
+<p>We employ a centralized estimation manager (<code>tooling/estimator/run_estimation.py</code>) that coordinates batch runs across configurable target architectures. Each problem's estimator configuration specifies the entry point, parameters, and target profiles. The pipeline supports both live Azure Quantum Resource Estimator runs and mock estimation for development.</p>
+<p>Current target architectures:
+- <code>surface_code_generic_v1</code>: Generic surface code with standard parameters
+- <code>qubit_gate_ns_e3</code>: Gate-based model, 1μs gate time, 10⁻³ error rate
+- <code>qubit_gate_ns_e4</code>: Gate-based model, 1μs gate time, 10⁻⁴ error rate</p>
+<h2 id="5-automated-validation">5. Automated Validation</h2>
+<h3 id="51-ci-pipeline">5.1 CI Pipeline</h3>
+<p>Seven automated checks run on every pull request:</p>
+<ol>
+<li><strong>Build and Test</strong>: Compiles all 20 Q# projects, runs Python baselines</li>
+<li><strong>Stage D Readiness Gate</strong>: Validates maturity stage claims against evidence</li>
+<li><strong>Runnable Correctness Gate</strong>: Executes end-to-end correctness checks</li>
+<li><strong>Reporting Integrity Gate</strong>: Ensures KPI artifacts are fresh and schema-compliant</li>
+<li><strong>Azure Secret Hygiene</strong>: Prevents accidental credential commits</li>
+<li><strong>Quick Checks</strong>: Fast lint and schema validation</li>
+<li><strong>Security Scanning</strong>: Automated secret detection</li>
+</ol>
+<h3 id="52-kpi-dashboard">5.2 KPI Dashboard</h3>
+<p>An automated reporting script (<code>stage_kpis.py</code>) scans all 20 problem directories and produces a maturity status report with four flags per problem: advantage contract present, estimator profile summary generated, backend assumptions documented, and DiVincenzo readiness assessed. The CI pipeline enforces that all required flags are satisfied before merging.</p>
+<p>Current coverage: 20/20 problems have advantage contracts, estimator summaries, and backend assumptions.</p>
+<h2 id="6-azure-quantum-integration">6. Azure Quantum Integration</h2>
+<h3 id="61-circuit-validation">6.1 Circuit Validation</h3>
+<p>Seven quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum:</p>
+<table>
+<thead>
+<tr>
+<th>Circuit</th>
+<th>Algorithm</th>
+<th>Qubits</th>
+<th>Gates</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hubbard VQE (ZZ basis)</td>
+<td>VQE</td>
+<td>2</td>
+<td>~8</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>Hubbard VQE (XX basis)</td>
+<td>VQE</td>
+<td>2</td>
+<td>~10</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>MaxCut QAOA depth-1</td>
+<td>QAOA</td>
+<td>3</td>
+<td>~12</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>Database Grover 4-qubit</td>
+<td>Grover</td>
+<td>4</td>
+<td>~200</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>Key Search Grover</td>
+<td>Grover</td>
+<td>4</td>
+<td>~150</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>Scheduling QAOA</td>
+<td>QAOA</td>
+<td>4</td>
+<td>~24</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>QEC Repetition Code</td>
+<td>QEC</td>
+<td>5</td>
+<td>~10</td>
+<td>Succeeded</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-shared-azure-workflow">6.2 Shared Azure Workflow</h3>
+<p>A problem-agnostic Azure submission pipeline (<code>tooling/azure/smoke_problem.py</code>) enables any problem to submit circuits to Azure Quantum through a single interface, with env-gated authentication, manifest tracking, and audit reporting.</p>
+<h2 id="7-results-and-discussion">7. Results and Discussion</h2>
+<h3 id="71-framework-effectiveness">7.1 Framework Effectiveness</h3>
+<p>The maturity gate model successfully prevents premature claims: of 20 problems with quantum implementations, only 3 have been promoted to Stage C (hardware-aware validation), and none have reached Stage D (advantage evidence). This reflects honest assessment rather than the common pattern of claiming advantage without sufficient evidence.</p>
+<h3 id="72-algorithm-validation">7.2 Algorithm Validation</h3>
+<p>Selected validation results from Q# simulator runs:</p>
+<ul>
+<li><strong>Grover (10_pqc)</strong>: 80% success at 3 qubits, 91% at 4 qubits, 92% at 5 qubits — matching theoretical O(√N) query complexity</li>
+<li><strong>Shor (09_factorization)</strong>: Correctly factors 15 = 3 × 5 with base a=7</li>
+<li><strong>QAOA (12_optimization)</strong>: Found exact optimal scheduling assignment (approximation ratio 1.0)</li>
+<li><strong>QEC (16_error_correction)</strong>: 512/512 = 100% correction rate for single bit-flip errors</li>
+<li><strong>QAE (03_qae_risk)</strong>: Theoretical tail probability matches classical baseline exactly after log-normal PDF correction</li>
+<li><strong>Swap Test (11_qml)</strong>: Kernel self-overlap = 1.0, cross-overlaps consistent with classical computation</li>
+</ul>
+<h3 id="73-lessons-learned">7.3 Lessons Learned</h3>
+<ol>
+<li>
+<p><strong>Placeholders are dangerous</strong>: Analytical Q# code that compiles and "passes CI" can mask the absence of real quantum work. Distinguishing compilation success from quantum correctness requires explicit gate-count auditing.</p>
+</li>
+<li>
+<p><strong>Distribution encoding matters</strong>: A bug in the QAE amplitude encoding (Lorentzian instead of log-normal PDF) persisted through multiple development cycles because the circuit compiled and produced plausible-looking outputs. Only systematic comparison against the classical baseline revealed the error.</p>
+</li>
+<li>
+<p><strong>Mock estimates have limited value</strong>: Uniform mock resource estimates across disparate algorithms obscure critical differences in resource requirements. Real estimator runs are essential for credible cross-algorithm comparison.</p>
+</li>
+<li>
+<p><strong>Emulator queue times limit iteration speed</strong>: The Quantinuum H2-1E emulator averaged 78+ hours queue time, making interactive development impractical. Syntax validation (H2-1SC, ~seconds) proved sufficient for circuit correctness during development.</p>
+</li>
+</ol>
+<h2 id="8-limitations-and-future-work">8. Limitations and Future Work</h2>
+<p><strong>Current limitations:</strong>
+- Resource estimates are mock-generated; real Azure Resource Estimator runs are needed for credible resource projections
+- No hardware QPU execution yet (all validation on simulators/emulators)
+- VQE implementations use simplified Hamiltonians (2-qubit active spaces)
+- Classical baselines use standard algorithms, not state-of-the-art methods</p>
+<p><strong>Future directions:</strong>
+- Execute 2-3 qubit circuits on Quantinuum H1 QPU
+- Scale selected problems (QAOA, Grover) to larger instances with noise models
+- Replace mock estimates with real Azure Resource Estimator profiles
+- Implement advanced classical comparators (importance sampling for QAE, Goemans-Williamson for MaxCut)
+- Promote Stage B problems to Stage C with systematic calibration campaigns</p>
+<h2 id="9-conclusion">9. Conclusion</h2>
+<p>We have demonstrated that quantum algorithm development benefits from the same engineering discipline applied to classical software: standardized structure, automated testing, evidence-based quality gates, and reproducible benchmarks. Our framework covers 20 problem domains with 9 algorithm families, all validated through a common CI/CD pipeline with 7 automated checks. The maturity gate model ensures that quantum advantage claims are grounded in evidence rather than aspiration. All code, data, and tooling are available as open-source at https://github.com/WernerRall147/quantum-grand-challenges.</p>
+<h2 id="references">References</h2>
+<p>[1] T. Lubinski et al., "Application-Oriented Performance Benchmarks for Quantum Computing," IEEE Transactions on Quantum Engineering, 2023.</p>
+<p>[2] J. Finžgar et al., "QUARK: A Framework for Quantum Computing Application Benchmarking," IEEE International Conference on Quantum Computing and Engineering, 2022.</p>
+<p>[3] A. Javadi-Abhari et al., "Quantum Computing with Qiskit," arXiv:2405.08810, 2024.</p>
+<p>[4] M. A. Nielsen and I. L. Chuang, "Quantum Computation and Quantum Information," Cambridge University Press, 2010.</p>
+<p>[5] J. Preskill, "Quantum Computing in the NISQ era and beyond," Quantum, 2018.</p>
+<h2 id="appendix-a-problem-registry">Appendix A: Problem Registry</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Domain</th>
+<th>Algorithm</th>
+<th>Qubits</th>
+<th>Stage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Hubbard Model</td>
+<td>VQE</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Catalysis</td>
+<td>VQE</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Risk Analysis</td>
+<td>QAE</td>
+<td>9-15</td>
+<td>C</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Linear Solvers</td>
+<td>HHL</td>
+<td>6</td>
+<td>B</td>
+</tr>
+<tr>
+<td>05</td>
+<td>MaxCut</td>
+<td>QAOA</td>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Trading</td>
+<td>QAE</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Drug Discovery</td>
+<td>VQE</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Protein Folding</td>
+<td>QAOA</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Factorization</td>
+<td>Shor</td>
+<td>8</td>
+<td>B</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Cryptography</td>
+<td>Grover</td>
+<td>3-5</td>
+<td>B</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Machine Learning</td>
+<td>Swap Test</td>
+<td>5</td>
+<td>B</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Optimization</td>
+<td>QAOA</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Climate</td>
+<td>HHL</td>
+<td>6</td>
+<td>B</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Materials</td>
+<td>VQE</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Database Search</td>
+<td>Grover</td>
+<td>4-12</td>
+<td>C</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Error Correction</td>
+<td>QEC</td>
+<td>5</td>
+<td>B</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Nuclear Physics</td>
+<td>VQE</td>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Photovoltaics</td>
+<td>Quantum Walk</td>
+<td>3</td>
+<td>B</td>
+</tr>
+<tr>
+<td>19</td>
+<td>QCD</td>
+<td>Trotter</td>
+<td>4</td>
+<td>B</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Space Planning</td>
+<td>QAOA</td>
+<td>4</td>
+<td>B</td>
+</tr>
+</tbody>
+</table>
+</body></html>

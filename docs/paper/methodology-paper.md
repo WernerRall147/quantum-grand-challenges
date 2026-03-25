@@ -1,5 +1,7 @@
 # A Systematic Framework for Developing, Validating, and Benchmarking Quantum Algorithms Across 20 Application Domains
 
+*This work is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You are free to share and adapt for non-commercial purposes with attribution.*
+
 ## Authors
 
 Werner Rall

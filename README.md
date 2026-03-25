@@ -5,6 +5,7 @@
 [![CI/CD](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml)
 [![Website](https://img.shields.io/badge/website-live-blue)](https://wernerrall147.github.io/quantum-grand-challenges/)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19222021.svg)](https://doi.org/10.5281/zenodo.19222021)
 
 ## 🎯 Overview
 

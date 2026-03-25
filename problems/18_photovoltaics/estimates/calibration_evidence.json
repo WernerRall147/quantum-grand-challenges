@@ -1,0 +1,20 @@
+{
+  "problem_id": "18_photovoltaics",
+  "runs": 3,
+  "timestamp": "2026-03-25T15:53:21.011498+00:00",
+  "metrics": {
+    "site_1_pct": {
+      "values": [
+        100.0,
+        100.0,
+        100.0
+      ],
+      "mean": 100.0,
+      "std_dev": 0.0,
+      "std_error": 0.0,
+      "min": 100.0,
+      "max": 100.0,
+      "n": 3
+    }
+  }
+}

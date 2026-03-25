@@ -27,7 +27,7 @@ strong { color: #1a1a2e; }
 <h2 id="authors">Authors</h2>
 <p>Werner Rall</p>
 <h2 id="abstract">Abstract</h2>
-<p>We present a systematic framework for quantum algorithm development that standardizes the lifecycle from classical baseline through quantum implementation to hardware-aware resource estimation across 20 diverse scientific problem domains. The framework introduces a four-stage maturity gate model (Baseline → Scaffold → Kernel → Advantage) with automated policy enforcement via continuous integration, ensuring that quantum advantage claims are grounded in reproducible evidence. We implement all 20 problems using Microsoft Q# with the Quantum Development Kit, covering nine distinct algorithm families: variational quantum eigensolver (VQE), quantum approximate optimization (QAOA), Grover search, Harrow-Hassidim-Lloyd (HHL), Shor's factoring, quantum amplitude estimation (QAE), swap test kernel estimation, quantum error correction, and Trotterized Hamiltonian simulation. Each implementation includes a classical baseline, parameterized problem instances, resource estimation artifacts, and backend assumption documentation. Seven circuits have been validated on Quantinuum H2 trapped-ion simulators via Azure Quantum. We describe the maturity gate criteria, the automated KPI pipeline that enforces them, and the reproducibility infrastructure that enables independent verification. The framework and all implementations are open-source.</p>
+<p>We present a systematic framework for quantum algorithm development that standardizes the lifecycle from classical baseline through quantum implementation to hardware-aware resource estimation across 20 diverse scientific problem domains. The framework introduces a four-stage maturity gate model (Baseline → Scaffold → Kernel → Advantage) with automated policy enforcement via continuous integration, ensuring that quantum advantage claims are grounded in reproducible evidence. We implement all 20 problems using Microsoft Q# with the Quantum Development Kit, covering nine distinct algorithm families: variational quantum eigensolver (VQE), quantum approximate optimization (QAOA), Grover search, Harrow-Hassidim-Lloyd (HHL), Shor's factoring, quantum amplitude estimation (QAE), swap test kernel estimation, quantum error correction, and Trotterized Hamiltonian simulation. Each implementation includes a classical baseline, parameterized problem instances, resource estimation artifacts, and backend assumption documentation. All 20 circuits have been validated on Quantinuum H2 trapped-ion simulators via Azure Quantum, and 19 problems have multi-run calibration evidence with uncertainty bounds. We describe the maturity gate criteria, the automated KPI pipeline that enforces them, and the reproducibility infrastructure that enables independent verification. The framework and all implementations are open-source, with DOI 10.5281/zenodo.19222021.</p>
 <p><strong>Keywords:</strong> quantum computing, resource estimation, benchmarking, Q#, variational algorithms, quantum software engineering</p>
 <h2 id="1-introduction">1. Introduction</h2>
 <p>Quantum computing promises exponential or polynomial speedups for specific computational problems, yet the gap between theoretical algorithms and practical implementations remains significant. Most quantum algorithm demonstrations exist as isolated proof-of-concept implementations without standardized comparison to classical methods, reproducible benchmarks, or honest assessment of hardware requirements.</p>
@@ -250,13 +250,113 @@ strong { color: #1a1a2e; }
 <td>~10</td>
 <td>Succeeded</td>
 </tr>
+<tr>
+<td>Shor N=15 (a=7)</td>
+<td>Shor</td>
+<td>8</td>
+<td>~50</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>HHL Diffusion PDE</td>
+<td>HHL</td>
+<td>5</td>
+<td>~30</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>QAE Simplified</td>
+<td>QAE</td>
+<td>4</td>
+<td>~20</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>Quantum VaR</td>
+<td>QAE</td>
+<td>3</td>
+<td>~10</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>QAOA Protein Folding</td>
+<td>QAOA</td>
+<td>4</td>
+<td>~30</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>VQE Catalysis</td>
+<td>VQE</td>
+<td>2</td>
+<td>~6</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>VQE Drug Binding</td>
+<td>VQE</td>
+<td>2</td>
+<td>~8</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>Swap Test Kernel</td>
+<td>Swap</td>
+<td>5</td>
+<td>~10</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>VQE Band Gap</td>
+<td>VQE</td>
+<td>2</td>
+<td>~6</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>VQE Deuteron</td>
+<td>VQE</td>
+<td>2</td>
+<td>~8</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>Quantum Walk Exciton</td>
+<td>Walk</td>
+<td>3</td>
+<td>~8</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>Trotter Gauge</td>
+<td>Trotter</td>
+<td>4</td>
+<td>~40</td>
+<td>Succeeded</td>
+</tr>
+<tr>
+<td>QAOA Trajectory</td>
+<td>QAOA</td>
+<td>4</td>
+<td>~30</td>
+<td>Succeeded</td>
+</tr>
 </tbody>
 </table>
 <h3 id="62-shared-azure-workflow">6.2 Shared Azure Workflow</h3>
 <p>A problem-agnostic Azure submission pipeline (<code>tooling/azure/smoke_problem.py</code>) enables any problem to submit circuits to Azure Quantum through a single interface, with env-gated authentication, manifest tracking, and audit reporting.</p>
 <h2 id="7-results-and-discussion">7. Results and Discussion</h2>
 <h3 id="71-framework-effectiveness">7.1 Framework Effectiveness</h3>
-<p>The maturity gate model successfully prevents premature claims: of 20 problems with quantum implementations, only 3 have been promoted to Stage C (hardware-aware validation), and none have reached Stage D (advantage evidence). This reflects honest assessment rather than the common pattern of claiming advantage without sufficient evidence.</p>
+<p>The maturity gate model successfully prevents premature claims: of 20 problems with quantum implementations, only 3 have been formally promoted to Stage C (hardware-aware validation), and none have reached Stage D (advantage evidence). However, calibration evidence now exists for 19 of 20 problems, with several showing strong Stage C readiness:</p>
+<ul>
+<li><strong>QAOA Optimization</strong>: approximation ratio 1.0 ± 0.0 (exact optimal every run)</li>
+<li><strong>QEC Repetition Code</strong>: 512/512 = 100% correction rate (zero variance)</li>
+<li><strong>Grover Key Search</strong>: 88.5% ± 0.3% average success rate</li>
+<li><strong>QAOA Protein Folding</strong>: ratio 1.0 ± 0.0</li>
+<li><strong>QAOA Space Planning</strong>: ratio 1.0 ± 0.0</li>
+<li><strong>VQE Nuclear Physics</strong>: -2.104 ± 0.006 MeV</li>
+<li><strong>Wilson Loop (QCD)</strong>: 0.990 ± 0.005 at beta=6</li>
+</ul>
 <h3 id="72-algorithm-validation">7.2 Algorithm Validation</h3>
 <p>Selected validation results from Q# simulator runs:</p>
 <ul>

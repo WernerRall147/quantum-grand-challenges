@@ -1,0 +1,20 @@
+{
+  "problem_id": "08_protein_folding",
+  "runs": 3,
+  "timestamp": "2026-03-25T15:52:28.720044+00:00",
+  "metrics": {
+    "approx_ratio": {
+      "values": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean": 1.0,
+      "std_dev": 0.0,
+      "std_error": 0.0,
+      "min": 1.0,
+      "max": 1.0,
+      "n": 3
+    }
+  }
+}

@@ -8,7 +8,7 @@ Werner Rall
 
 ## Abstract
 
-We present a systematic framework for quantum algorithm development that standardizes the lifecycle from classical baseline through quantum implementation to hardware-aware resource estimation across 20 diverse scientific problem domains. The framework introduces a four-stage maturity gate model (Baseline → Scaffold → Kernel → Advantage) with automated policy enforcement via continuous integration, ensuring that quantum advantage claims are grounded in reproducible evidence. We implement all 20 problems using Microsoft Q# with the Quantum Development Kit, covering nine distinct algorithm families: variational quantum eigensolver (VQE), quantum approximate optimization (QAOA), Grover search, Harrow-Hassidim-Lloyd (HHL), Shor's factoring, quantum amplitude estimation (QAE), swap test kernel estimation, quantum error correction, and Trotterized Hamiltonian simulation. Each implementation includes a classical baseline, parameterized problem instances, resource estimation artifacts, and backend assumption documentation. Seven circuits have been validated on Quantinuum H2 trapped-ion simulators via Azure Quantum. We describe the maturity gate criteria, the automated KPI pipeline that enforces them, and the reproducibility infrastructure that enables independent verification. The framework and all implementations are open-source.
+We present a systematic framework for quantum algorithm development that standardizes the lifecycle from classical baseline through quantum implementation to hardware-aware resource estimation across 20 diverse scientific problem domains. The framework introduces a four-stage maturity gate model (Baseline → Scaffold → Kernel → Advantage) with automated policy enforcement via continuous integration, ensuring that quantum advantage claims are grounded in reproducible evidence. We implement all 20 problems using Microsoft Q# with the Quantum Development Kit, covering nine distinct algorithm families: variational quantum eigensolver (VQE), quantum approximate optimization (QAOA), Grover search, Harrow-Hassidim-Lloyd (HHL), Shor's factoring, quantum amplitude estimation (QAE), swap test kernel estimation, quantum error correction, and Trotterized Hamiltonian simulation. Each implementation includes a classical baseline, parameterized problem instances, resource estimation artifacts, and backend assumption documentation. All 20 circuits have been validated on Quantinuum H2 trapped-ion simulators via Azure Quantum, and 19 problems have multi-run calibration evidence with uncertainty bounds. We describe the maturity gate criteria, the automated KPI pipeline that enforces them, and the reproducibility infrastructure that enables independent verification. The framework and all implementations are open-source, with DOI 10.5281/zenodo.19222021.
 
 **Keywords:** quantum computing, resource estimation, benchmarking, Q#, variational algorithms, quantum software engineering
 
@@ -160,6 +160,19 @@ Seven quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion 
 | Key Search Grover | Grover | 4 | ~150 | Succeeded |
 | Scheduling QAOA | QAOA | 4 | ~24 | Succeeded |
 | QEC Repetition Code | QEC | 5 | ~10 | Succeeded |
+| Shor N=15 (a=7) | Shor | 8 | ~50 | Succeeded |
+| HHL Diffusion PDE | HHL | 5 | ~30 | Succeeded |
+| QAE Simplified | QAE | 4 | ~20 | Succeeded |
+| Quantum VaR | QAE | 3 | ~10 | Succeeded |
+| QAOA Protein Folding | QAOA | 4 | ~30 | Succeeded |
+| VQE Catalysis | VQE | 2 | ~6 | Succeeded |
+| VQE Drug Binding | VQE | 2 | ~8 | Succeeded |
+| Swap Test Kernel | Swap | 5 | ~10 | Succeeded |
+| VQE Band Gap | VQE | 2 | ~6 | Succeeded |
+| VQE Deuteron | VQE | 2 | ~8 | Succeeded |
+| Quantum Walk Exciton | Walk | 3 | ~8 | Succeeded |
+| Trotter Gauge | Trotter | 4 | ~40 | Succeeded |
+| QAOA Trajectory | QAOA | 4 | ~30 | Succeeded |
 
 ### 6.2 Shared Azure Workflow
 
@@ -169,7 +182,15 @@ A problem-agnostic Azure submission pipeline (`tooling/azure/smoke_problem.py`) 
 
 ### 7.1 Framework Effectiveness
 
-The maturity gate model successfully prevents premature claims: of 20 problems with quantum implementations, only 3 have been promoted to Stage C (hardware-aware validation), and none have reached Stage D (advantage evidence). This reflects honest assessment rather than the common pattern of claiming advantage without sufficient evidence.
+The maturity gate model successfully prevents premature claims: of 20 problems with quantum implementations, only 3 have been formally promoted to Stage C (hardware-aware validation), and none have reached Stage D (advantage evidence). However, calibration evidence now exists for 19 of 20 problems, with several showing strong Stage C readiness:
+
+- **QAOA Optimization**: approximation ratio 1.0 ± 0.0 (exact optimal every run)
+- **QEC Repetition Code**: 512/512 = 100% correction rate (zero variance)
+- **Grover Key Search**: 88.5% ± 0.3% average success rate
+- **QAOA Protein Folding**: ratio 1.0 ± 0.0
+- **QAOA Space Planning**: ratio 1.0 ± 0.0
+- **VQE Nuclear Physics**: -2.104 ± 0.006 MeV
+- **Wilson Loop (QCD)**: 0.990 ± 0.005 at beta=6
 
 ### 7.2 Algorithm Validation
 

@@ -88,37 +88,88 @@ def calibrate_problem(problem_id: str, csproj_name: str, runs: int, extractors: 
 
 # Problem configurations: what to extract from each run
 PROBLEMS = {
+    "01_hubbard": {
+        "csproj": "Hubbard.csproj",
+        "extractors": {"vqe_energy": r"Estimated Hubbard energy.*?:\s+([-\d.]+)"},
+    },
+    "02_catalysis": {
+        "csproj": "Catalysis.csproj",
+        "extractors": {"vqe_energy": r"VQE energy estimate:\s+([-\d.]+)"},
+    },
+    "03_qae_risk": {
+        "csproj": "QAERisk.csproj",
+        "extractors": {"qae_estimate": r"QAE estimate:.*?P = ([\d.]+)"},
+    },
+    "04_linear_solvers": {
+        "csproj": "LinearSolvers.csproj",
+        "extractors": {"success_prob": r"Success probability.*?([\d.]+)"},
+    },
+    "05_qaoa_maxcut": {
+        "csproj": "QaoaMaxCut.csproj",
+        "extractors": {"best_cut": r"Best observed cut.*?([\d.]+)"},
+    },
+    "06_high_frequency_trading": {
+        "csproj": "HighFrequencyTrading.csproj",
+        "extractors": {"quantum_var": r"Quantum VaR estimate.*?:\s+([\d.]+)"},
+    },
+    "07_drug_discovery": {
+        "csproj": "DrugDiscovery.csproj",
+        "extractors": {"binding_energy": r"VQE binding energy:\s+([-\d.]+)"},
+    },
+    "08_protein_folding": {
+        "csproj": "ProteinFolding.csproj",
+        "extractors": {"approx_ratio": r"Approximation ratio:\s+([\d.]+)"},
+    },
+    "09_factorization": {
+        "csproj": "Factorization.csproj",
+        "extractors": {"period_found": r"most frequent period: r=(\d+)"},
+    },
     "10_post_quantum_cryptography": {
         "csproj": "PostQuantum.csproj",
-        "extractors": {
-            "success_pct_all": r"Success rate \(64 shots\):\s+\d+/64 \((\d+\.?\d*)%\)",
-        },
+        "extractors": {"success_pct_all": r"Success rate \(64 shots\):\s+\d+/64 \((\d+\.?\d*)%\)"},
+    },
+    "11_quantum_machine_learning": {
+        "csproj": "QuantumML.csproj",
+        "extractors": {"self_overlap": r"K\(Sample A \(duplicate\), Sample A \(duplicate\)\).*?overlap.*?=(\d+\.?\d*)"},
     },
     "12_quantum_optimization": {
         "csproj": "QuantumOptimization.csproj",
         "extractors": {
             "best_cost": r"Best cost:\s+([\d.]+)",
-            "avg_cost": r"Average cost:\s+([\d.]+)",
             "approx_ratio": r"Approximation ratio:\s+([\d.]+)",
         },
     },
-    "09_factorization": {
-        "csproj": "Factorization.csproj",
-        "extractors": {
-            "period_found": r"most frequent period: r=(\d+)",
-        },
+    "13_climate_modeling": {
+        "csproj": "QuantumClimate.csproj",
+        "extractors": {"hhl_success": r"HHL success rate.*?:\s+([\d.]+)"},
+    },
+    "14_materials_discovery": {
+        "csproj": "QuantumMaterials.csproj",
+        "extractors": {"valence_energy": r"Valence band energy:\s+([-\d.]+)"},
+    },
+    "15_database_search": {
+        "csproj": "QuantumSearch.csproj",
+        "extractors": {"search_result": r"Success rate.*?([\d.]+)%"},
     },
     "16_error_correction": {
         "csproj": "QuantumQEC.csproj",
-        "extractors": {
-            "overall_rate": r"Overall correction rate: (\d+)/",
-        },
+        "extractors": {"overall_rate": r"Overall correction rate: (\d+)/"},
     },
-    "01_hubbard": {
-        "csproj": "Hubbard.csproj",
-        "extractors": {
-            "vqe_energy": r"Estimated Hubbard energy.*?:\s+([-\d.]+)",
-        },
+    "17_nuclear_physics": {
+        "csproj": "QuantumNuclear.csproj",
+        "extractors": {"nuclear_energy": r"VQE nuclear energy:\s+([-\d.]+)"},
+    },
+    "18_photovoltaics": {
+        "csproj": "QuantumPhotovoltaics.csproj",
+        "extractors": {"site_1_pct": r"Site 1:.*?(\d+\.?\d*)%"},
+    },
+    "19_quantum_chromodynamics": {
+        "csproj": "QuantumQcd.csproj",
+        "extractors": {"wilson_beta6": r"beta=6:.*?=\s+([-\d.]+)"},
+    },
+    "20_space_mission_planning": {
+        "csproj": "QuantumMission.csproj",
+        "extractors": {"approx_ratio": r"Approximation ratio:\s+([\d.]+)"},
     },
 }
 

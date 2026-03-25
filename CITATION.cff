@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Quantum Grand Challenges: Systematic Quantum Algorithm Development Across 20 Application Domains"
+authors:
+  - family-names: "Rall"
+    given-names: "Werner"
+    orcid: ""
+repository-code: "https://github.com/WernerRall147/quantum-grand-challenges"
+url: "https://wernerrall147.github.io/quantum-grand-challenges/"
+license: MIT
+version: "1.0.0"
+date-released: "2026-03-25"
+abstract: >-
+  A systematic framework for quantum algorithm development covering 20 scientific
+  problem domains with standardized maturity gates, automated validation, resource
+  estimation pipelines, and Azure Quantum integration. Implements 9 algorithm families
+  (VQE, QAOA, Grover, HHL, Shor, QAE, swap test, QEC, Trotter simulation) with
+  classical baselines, parameterized instances, and reproducibility infrastructure.
+keywords:
+  - quantum computing
+  - quantum algorithms
+  - resource estimation
+  - Q#
+  - Azure Quantum
+  - benchmarking
+  - VQE
+  - QAOA
+  - Grover
+  - quantum software engineering

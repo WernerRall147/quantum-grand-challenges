@@ -1,0 +1,15 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "algorithm": "qaoa",
+  "source": "qasm_gate_count",
+  "metrics": {
+    "total_gates": 15,
+    "t_gates": 0,
+    "cx_gates": 6,
+    "h_gates": 3,
+    "rotation_gates": 6,
+    "measurements": 3,
+    "qubits": 3
+  },
+  "timestamp": "2026-03-25T091444Z"
+}

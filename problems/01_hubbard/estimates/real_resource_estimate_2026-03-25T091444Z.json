@@ -1,0 +1,15 @@
+{
+  "problem_id": "01_hubbard",
+  "algorithm": "vqe",
+  "source": "qasm_gate_count",
+  "metrics": {
+    "total_gates": 6,
+    "t_gates": 0,
+    "cx_gates": 2,
+    "h_gates": 0,
+    "rotation_gates": 3,
+    "measurements": 2,
+    "qubits": 2
+  },
+  "timestamp": "2026-03-25T091444Z"
+}

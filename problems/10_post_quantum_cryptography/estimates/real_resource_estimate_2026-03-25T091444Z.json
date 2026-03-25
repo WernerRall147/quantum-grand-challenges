@@ -1,0 +1,15 @@
+{
+  "problem_id": "10_post_quantum_cryptography",
+  "algorithm": "grover",
+  "source": "qasm_gate_count",
+  "metrics": {
+    "total_gates": 59,
+    "t_gates": 11,
+    "cx_gates": 24,
+    "h_gates": 16,
+    "rotation_gates": 0,
+    "measurements": 4,
+    "qubits": 4
+  },
+  "timestamp": "2026-03-25T091444Z"
+}

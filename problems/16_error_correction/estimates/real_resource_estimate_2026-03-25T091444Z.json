@@ -1,0 +1,15 @@
+{
+  "problem_id": "16_error_correction",
+  "algorithm": "qec",
+  "source": "qasm_gate_count",
+  "metrics": {
+    "total_gates": 10,
+    "t_gates": 0,
+    "cx_gates": 8,
+    "h_gates": 0,
+    "rotation_gates": 0,
+    "measurements": 3,
+    "qubits": 5
+  },
+  "timestamp": "2026-03-25T091444Z"
+}

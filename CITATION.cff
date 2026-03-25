@@ -8,7 +8,7 @@ authors:
     orcid: ""
 repository-code: "https://github.com/WernerRall147/quantum-grand-challenges"
 url: "https://wernerrall147.github.io/quantum-grand-challenges/"
-license: MIT
+license: AGPL-3.0-or-later
 version: "1.0.0"
 date-released: "2026-03-25"
 abstract: >-

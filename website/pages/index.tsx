@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
-import { activeWorkQueue, pipelineStages, problemHighlights, qaoaAzureSmokeAudit, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns, runnableCorrectnessStats, runnableCorrectnessFailures, stageDReadinessStats, stageDReadinessCandidates, stageDExpansionQueue } from '../data/projectStatus';
+import { activeWorkQueue, pipelineStages, problemHighlights, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns, runnableCorrectnessStats, runnableCorrectnessFailures, stageDReadinessStats, stageDReadinessCandidates, stageDExpansionQueue } from '../data/projectStatus';
 
 export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
@@ -166,34 +166,98 @@ export default function Home() {
           </div>
         </section>
 
+        <section style={{ marginTop: '3rem', padding: '2rem', background: '#fefce8', borderRadius: '12px' }}>
+          <h2 style={{ marginTop: 0 }}>📐 Real Gate Counts (QASM-Derived)</h2>
+          <p style={{ color: '#713f12' }}>
+            Actual gate decomposition from OpenQASM circuits validated on Quantinuum H2 trapped-ion simulator.
+            These replace mock estimates with real circuit-level resource data.
+          </p>
+          <div style={{ overflowX: 'auto', marginTop: '1rem' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: '8px', overflow: 'hidden' }}>
+              <thead>
+                <tr style={{ background: '#fef08a', color: '#713f12' }}>
+                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Circuit</th>
+                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>Qubits</th>
+                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>Total Gates</th>
+                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>T-gates</th>
+                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>CX</th>
+                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>Rotations</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { name: 'Hubbard VQE', qubits: 2, gates: 6, t: 0, cx: 2, rot: 3 },
+                  { name: 'QAOA MaxCut', qubits: 3, gates: 15, t: 0, cx: 6, rot: 6 },
+                  { name: 'Grover Key Search', qubits: 4, gates: 59, t: 11, cx: 24, rot: 0 },
+                  { name: 'QAOA Scheduling', qubits: 4, gates: 8, t: 0, cx: 6, rot: 1 },
+                  { name: 'Grover DB Search', qubits: 4, gates: 212, t: 78, cx: 61, rot: 0 },
+                  { name: 'QEC Repetition', qubits: 5, gates: 10, t: 0, cx: 8, rot: 0 },
+                ].map((row) => (
+                  <tr key={row.name} style={{ borderTop: '1px solid #e5e7eb' }}>
+                    <td style={{ padding: '0.75rem', color: '#111827' }}>{row.name}</td>
+                    <td style={{ padding: '0.75rem', textAlign: 'right', color: '#374151' }}>{row.qubits}</td>
+                    <td style={{ padding: '0.75rem', textAlign: 'right', color: '#374151' }}>{row.gates}</td>
+                    <td style={{ padding: '0.75rem', textAlign: 'right', color: row.t > 0 ? '#dc2626' : '#374151', fontWeight: row.t > 0 ? 'bold' : 'normal' }}>{row.t}</td>
+                    <td style={{ padding: '0.75rem', textAlign: 'right', color: '#374151' }}>{row.cx}</td>
+                    <td style={{ padding: '0.75rem', textAlign: 'right', color: '#374151' }}>{row.rot}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p style={{ color: '#92400e', fontSize: '0.9rem', marginTop: '0.75rem', marginBottom: 0 }}>
+            Key insight: Grover circuits are T-gate heavy (needed for multi-controlled Z decomposition), while VQE and QAOA use only rotation gates — critical for hardware target selection.
+          </p>
+        </section>
+
+        <section style={{ marginTop: '3rem', padding: '2rem', background: '#f0fdf4', borderRadius: '12px' }}>
+          <h2 style={{ marginTop: 0 }}>📄 Research</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1.5rem' }}>
+              <h3 style={{ marginTop: 0, color: '#166534' }}>Methodology Paper</h3>
+              <p style={{ color: '#374151', fontSize: '0.95rem' }}>
+                &quot;A Systematic Framework for Developing, Validating, and Benchmarking Quantum Algorithms Across 20 Application Domains&quot;
+              </p>
+              <p style={{ color: '#6b7280', fontSize: '0.85rem' }}>
+                Covers: maturity gate model, 9 algorithm families, automated CI validation, Azure Quantum integration, and lessons learned from building real quantum circuits.
+              </p>
+              <a href="https://github.com/WernerRall147/quantum-grand-challenges/blob/main/docs/paper/methodology-paper.md" style={{ color: '#166534', fontWeight: 'bold' }}>Read Draft →</a>
+            </div>
+            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1.5rem' }}>
+              <h3 style={{ marginTop: 0, color: '#166534' }}>Cite This Work</h3>
+              <p style={{ color: '#374151', fontSize: '0.95rem' }}>
+                CITATION.cff is available in the repository root. GitHub shows a &quot;Cite this repository&quot; button automatically.
+              </p>
+              <pre style={{ background: '#f0fdf4', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', overflow: 'auto' }}>{`@software{rall2026quantum,
+  author = {Rall, Werner},
+  title = {Quantum Grand Challenges},
+  year = {2026},
+  url = {https://github.com/WernerRall147/quantum-grand-challenges}
+}`}</pre>
+            </div>
+          </div>
+        </section>
+
         <div style={{ marginTop: '4rem', padding: '2rem', background: '#f8f9fa', borderRadius: '8px' }}>
           <h2>📊 Current Status</h2>
           <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
             <li><strong>✅ Stage Coverage:</strong> 20/20 problems include objective maturity gates and advantage-claim contracts</li>
             <li><strong>✅ Quantum Implementations:</strong> 20/20 problems have real quantum gate operations (VQE, QAOA, Grover, HHL, Shor, swap test, QEC, quantum walk, Trotter)</li>
-            <li><strong>✅ Current KPI Snapshot:</strong> 17 problems at Stage B and 3 problems at Stage C with 9 having resource estimator summaries</li>
-            <li><strong>✅ Stage C Tracks:</strong> QAE Risk Analysis, Database Search, and QAOA MaxCut are policy-enforced at Stage C</li>
-            <li><strong>🟢 Stage B Tracks:</strong> Seventeen problems have real quantum circuits and are queued for Stage C promotion</li>
-            <li><strong>✅ Governance Automation:</strong> CI enforces maturity policy and publishes markdown/JSON KPI artifacts</li>
-            <li><strong>✅ Hardware Readiness Overlay:</strong> DiVincenzo criteria are policy-enforced and documented across all 20 problem READMEs</li>
-            <li><strong>✅ Azure Execution Contract:</strong> QAOA now publishes a validated Azure Quantum job manifest artifact with manual `.env.azure.local` auth gating for reproducible submit metadata and evidence linkage</li>
-            <li><strong>✅ Azure Smoke Audit:</strong> Latest QAOA smoke report is `{qaoaAzureSmokeAudit.status}` in `{qaoaAzureSmokeAudit.mode}` mode (submit `{qaoaAzureSmokeAudit.submitStep}`, collect `{qaoaAzureSmokeAudit.collectStep}`) from `{qaoaAzureSmokeAudit.generatedUtc}` against `{qaoaAzureSmokeAudit.manifestPath}`</li>
+            <li><strong>✅ KPI Coverage:</strong> 20/20 estimator summaries, 20/20 backend assumptions, 20/20 advantage contracts</li>
+            <li><strong>✅ Current KPI Snapshot:</strong> 17 problems at Stage B and 3 problems at Stage C</li>
+            <li><strong>✅ Azure Validated:</strong> 7 QASM circuits validated on Quantinuum H2-1SC trapped-ion simulator</li>
+            <li><strong>✅ Real Gate Counts:</strong> QASM-derived gate decomposition for 6 circuits (replacing mock estimates)</li>
+            <li><strong>✅ Research:</strong> Methodology paper drafted, CITATION.cff added for academic citation</li>
             <li><strong>✅ Azure Successful Runs:</strong> `{azureExecutionStats.totalSuccessfulRuns}` successful live runs recorded across `{azureExecutionStats.systems.length}` quantum systems</li>
-            <li><strong>✅ Systems Used:</strong> {azureExecutionStats.systems.map((item) => `${item.targetId} (${item.runs})`).join(', ') || 'none yet'}</li>
-            <li><strong>✅ Runnable/Correctness Audit:</strong> `{runnableCorrectnessStats.passed}/{runnableCorrectnessStats.total}` problems currently pass executable correctness checks ({runnableCorrectnessStats.passRatePercent}%)</li>
-            <li><strong>✅ Stage D Readiness:</strong> `{stageDReadinessStats.fullyReady}/{stageDReadinessStats.candidateCount}` candidates fully ready with `{stageDReadinessStats.openChecklistItems}` open checklist items and `{stageDReadinessStats.artifactIssueCount}` artifact issues</li>
-            <li><strong>✅ 6 Publication-Quality Visualizations:</strong> Qubit requirements, runtime, T-states, scaling, advantage map, timeline</li>
-            <li><strong>✅ Resource Estimates:</strong> Azure Quantum analysis across 3 architectures (gate_ns_e3, gate_ns_e4, maj_ns_e4)</li>
-            <li><strong>✅ Classical Baselines:</strong> All twenty challenges have reproducible baselines with JSON outputs and plots</li>
-            <li><strong>✅ CI/CD:</strong> Automated testing and static export ready for GitHub Pages</li>
+            <li><strong>✅ Runnable/Correctness Audit:</strong> `{runnableCorrectnessStats.passed}/{runnableCorrectnessStats.total}` problems pass executable correctness checks ({runnableCorrectnessStats.passRatePercent}%)</li>
+            <li><strong>✅ CI/CD:</strong> 7 automated checks on every PR: build, correctness, maturity, integrity, secrets, security</li>
           </ul>
           <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
-            <h3 style={{ marginTop: 0, color: '#10b981' }}>Latest: All 20 Problems Have Real Quantum Circuits</h3>
+            <h3 style={{ marginTop: 0, color: '#10b981' }}>Latest: Methodology Paper + Real Gate Counts</h3>
             <p style={{ color: '#666', marginBottom: 0 }}>
-              Every problem now implements genuine quantum gate operations — from VQE molecular energy to Shor factoring,
-              Grover search, QAOA optimization, HHL linear solving, swap test kernels, quantum error correction,
-              quantum walks, and Trotter lattice gauge simulation. 4 circuits submitted to Quantinuum H2 emulator.
-              15 new implementations completed on March 24, 2026.
+              Full methodology paper drafted covering framework design, maturity gates, 9 algorithm families, and lessons learned.
+              Real gate counts extracted from QASM circuits: Grover needs 11-78 T-gates while VQE/QAOA need zero.
+              7 circuits validated on Quantinuum H2 trapped-ion simulator via Azure Quantum. CITATION.cff added for academic citation.
             </p>
           </div>
         </div>

@@ -1,0 +1,367 @@
+{
+  "analysis": "grover_noise_impact",
+  "timestamp": "2026-03-26T18:59:33.973486+00:00",
+  "note": "Depolarizing noise model. Shows zero-variance noiseless results are meaningless for hardware viability.",
+  "results": [
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 1,
+      "error_rate": 0.0,
+      "noiseless_success": 0.7812,
+      "noisy_success": 0.7852,
+      "circuit_survival": 1.0
+    },
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 1,
+      "error_rate": 0.0001,
+      "noiseless_success": 0.7812,
+      "noisy_success": 0.7836,
+      "circuit_survival": 0.9976
+    },
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 1,
+      "error_rate": 0.001,
+      "noiseless_success": 0.7812,
+      "noisy_success": 0.7697,
+      "circuit_survival": 0.9763
+    },
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 1,
+      "error_rate": 0.005,
+      "noiseless_success": 0.7812,
+      "noisy_success": 0.7112,
+      "circuit_survival": 0.8867
+    },
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 1,
+      "error_rate": 0.01,
+      "noiseless_success": 0.7812,
+      "noisy_success": 0.6452,
+      "circuit_survival": 0.7857
+    },
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 1,
+      "error_rate": 0.02,
+      "noiseless_success": 0.7812,
+      "noisy_success": 0.5339,
+      "circuit_survival": 0.6158
+    },
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 1,
+      "error_rate": 0.05,
+      "noiseless_success": 0.7812,
+      "noisy_success": 0.3122,
+      "circuit_survival": 0.292
+    },
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 1,
+      "error_rate": 0.1,
+      "noiseless_success": 0.7812,
+      "noisy_success": 0.1737,
+      "circuit_survival": 0.0798
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 2,
+      "error_rate": 0.0,
+      "noiseless_success": 0.9084,
+      "noisy_success": 0.9111,
+      "circuit_survival": 1.0
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 2,
+      "error_rate": 0.0001,
+      "noiseless_success": 0.9084,
+      "noisy_success": 0.9057,
+      "circuit_survival": 0.9936
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 2,
+      "error_rate": 0.001,
+      "noiseless_success": 0.9084,
+      "noisy_success": 0.8592,
+      "circuit_survival": 0.938
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 2,
+      "error_rate": 0.005,
+      "noiseless_success": 0.9084,
+      "noisy_success": 0.6808,
+      "circuit_survival": 0.7256
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 2,
+      "error_rate": 0.01,
+      "noiseless_success": 0.9084,
+      "noisy_success": 0.5119,
+      "circuit_survival": 0.5256
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 2,
+      "error_rate": 0.02,
+      "noiseless_success": 0.9084,
+      "noisy_success": 0.2904,
+      "circuit_survival": 0.2745
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 2,
+      "error_rate": 0.05,
+      "noiseless_success": 0.9084,
+      "noisy_success": 0.0916,
+      "circuit_survival": 0.0375
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 2,
+      "error_rate": 0.1,
+      "noiseless_success": 0.9084,
+      "noisy_success": 0.0614,
+      "circuit_survival": 0.0012
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 3,
+      "error_rate": 0.0,
+      "noiseless_success": 0.8969,
+      "noisy_success": 0.8997,
+      "circuit_survival": 1.0
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 3,
+      "error_rate": 0.0001,
+      "noiseless_success": 0.8969,
+      "noisy_success": 0.8895,
+      "circuit_survival": 0.9881
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 3,
+      "error_rate": 0.001,
+      "noiseless_success": 0.8969,
+      "noisy_success": 0.8028,
+      "circuit_survival": 0.8869
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 3,
+      "error_rate": 0.005,
+      "noiseless_success": 0.8969,
+      "noisy_success": 0.5104,
+      "circuit_survival": 0.548
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 3,
+      "error_rate": 0.01,
+      "noiseless_success": 0.8969,
+      "noisy_success": 0.2861,
+      "circuit_survival": 0.2994
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 3,
+      "error_rate": 0.02,
+      "noiseless_success": 0.8969,
+      "noisy_success": 0.1051,
+      "circuit_survival": 0.0885
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 3,
+      "error_rate": 0.05,
+      "noiseless_success": 0.8969,
+      "noisy_success": 0.0316,
+      "circuit_survival": 0.0021
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 3,
+      "error_rate": 0.1,
+      "noiseless_success": 0.8969,
+      "noisy_success": 0.0299,
+      "circuit_survival": 0.0
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 5,
+      "error_rate": 0.0,
+      "noiseless_success": 0.9635,
+      "noisy_success": 0.9651,
+      "circuit_survival": 1.0
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 5,
+      "error_rate": 0.0001,
+      "noiseless_success": 0.9635,
+      "noisy_success": 0.9431,
+      "circuit_survival": 0.9763
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 5,
+      "error_rate": 0.001,
+      "noiseless_success": 0.9635,
+      "noisy_success": 0.7652,
+      "circuit_survival": 0.7865
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 5,
+      "error_rate": 0.005,
+      "noiseless_success": 0.9635,
+      "noisy_success": 0.2958,
+      "circuit_survival": 0.3003
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 5,
+      "error_rate": 0.01,
+      "noiseless_success": 0.9635,
+      "noisy_success": 0.0978,
+      "circuit_survival": 0.0896
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 5,
+      "error_rate": 0.02,
+      "noiseless_success": 0.9635,
+      "noisy_success": 0.022,
+      "circuit_survival": 0.0078
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 5,
+      "error_rate": 0.05,
+      "noiseless_success": 0.9635,
+      "noisy_success": 0.0149,
+      "circuit_survival": 0.0
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 5,
+      "error_rate": 0.1,
+      "noiseless_success": 0.9635,
+      "noisy_success": 0.0149,
+      "circuit_survival": 0.0
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "error_rate": 0.0,
+      "noiseless_success": 0.9999,
+      "noisy_success": 1.0,
+      "circuit_survival": 1.0
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "error_rate": 0.0001,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.9287,
+      "circuit_survival": 0.9261
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "error_rate": 0.001,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.461,
+      "circuit_survival": 0.4638
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "error_rate": 0.005,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.024,
+      "circuit_survival": 0.0213
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "error_rate": 0.01,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0043,
+      "circuit_survival": 0.0004
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "error_rate": 0.02,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0039,
+      "circuit_survival": 0.0
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "error_rate": 0.05,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0039,
+      "circuit_survival": 0.0
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "error_rate": 0.1,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0039,
+      "circuit_survival": 0.0
+    }
+  ]
+}

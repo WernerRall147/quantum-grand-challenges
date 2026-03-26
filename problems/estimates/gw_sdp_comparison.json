@@ -1,0 +1,70 @@
+{
+  "analysis": "maxcut_classical_comparison",
+  "timestamp": "2026-03-26T18:58:34.564135+00:00",
+  "note": "At these small scales, GW and brute-force both find optimal. The 0.878 guarantee matters for large instances where brute-force is infeasible.",
+  "results": [
+    {
+      "graph": "small_triangle",
+      "nodes": 3,
+      "description": "Weighted triangle (3 nodes)",
+      "brute_force_optimal": 2.2,
+      "brute_force_assignment": [
+        0,
+        1,
+        0
+      ],
+      "gw_sdp_cut": 2.2,
+      "gw_sdp_assignment": [
+        0,
+        1,
+        0
+      ],
+      "gw_ratio": 1.0,
+      "gw_theoretical_guarantee": 0.878
+    },
+    {
+      "graph": "medium_4node",
+      "nodes": 4,
+      "description": "Weighted graph (4 nodes)",
+      "brute_force_optimal": 3.0,
+      "brute_force_assignment": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "gw_sdp_cut": 3.0,
+      "gw_sdp_assignment": [
+        0,
+        1,
+        0,
+        1
+      ],
+      "gw_ratio": 1.0,
+      "gw_theoretical_guarantee": 0.878
+    },
+    {
+      "graph": "complete_5",
+      "nodes": 5,
+      "description": "Weighted K5 (5 nodes)",
+      "brute_force_optimal": 5.3,
+      "brute_force_assignment": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "gw_sdp_cut": 5.3,
+      "gw_sdp_assignment": [
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "gw_ratio": 1.0,
+      "gw_theoretical_guarantee": 0.878
+    }
+  ]
+}

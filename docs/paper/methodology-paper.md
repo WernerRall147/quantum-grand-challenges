@@ -212,23 +212,38 @@ Selected correctness validation results:
 
 To illustrate the gap between toy validation and practical utility, we analyze how Grover search resources scale with the keyspace size N = 2ⁿ.
 
-| Qubits (n) | Keyspace (N) | Optimal Iterations | Oracle+Diffusion Gates | Total CX Gates | Circuit Depth |
-|---|---|---|---|---|---|
-| 3 | 8 | 1 | ~20 | ~12 | ~30 |
-| 4 | 16 | 2 | ~80 | ~48 | ~100 |
-| 5 | 32 | 3 | ~180 | ~108 | ~220 |
-| 8 | 256 | 9 | ~1,400 | ~840 | ~1,700 |
-| 10 | 1,024 | 18 | ~5,500 | ~3,300 | ~6,800 |
-| 16 | 65,536 | 142 | ~350,000 | ~210,000 | ~430,000 |
-| 20 | 1,048,576 | 571 | ~5,600,000 | ~3,400,000 | ~6,900,000 |
+| Qubits (n) | Keyspace (N) | Optimal Iterations | Total Gates | CX Gates | T-gates | Speedup |
+|---|---|---|---|---|---|---|
+| 3 | 8 | 1 | 25 | 2 | 0 | 4.0x |
+| 4 | 16 | 2 | 112 | 28 | 32 | 4.0x |
+| 5 | 32 | 3 | 233 | 66 | 72 | 5.3x |
+| 6 | 64 | 5 | 486 | 150 | 160 | 6.4x |
+| 7 | 128 | 8 | 951 | 304 | 320 | 8.0x |
+| 8 | 256 | 12 | 1,664 | 552 | 576 | 10.7x |
 
-The quadratic speedup (O(√N) vs O(N) classical queries) is real in query complexity, but the circuit depth grows as O(√N × n²) when accounting for multi-controlled gate decomposition. For a 20-qubit keyspace (N ≈ 10⁶), the circuit requires ~7 million gates — far beyond current hardware capabilities. **No amount of CI/CD rigor changes these scaling realities.**
+These are **real gate counts from generated OpenQASM circuits**, not theoretical estimates. The gate count growth is dominated by multi-controlled Z decomposition, which requires O(n) Toffoli gates per oracle call, each decomposed into ~7 T-gates.
 
-For cryptographically relevant keyspaces (n=128 for AES), the circuit would require ~10¹⁹ gates, which is not feasible on any foreseeable hardware even with perfect error correction.
+### 7.4 Noise Impact Analysis
 
-### 7.4 Classical Baselines Are Not State-of-the-Art
+To quantify the EVP's observation that "zero-variance results on simulation tell us nothing about noise resilience," we model the impact of depolarizing noise on Grover success rates:
+
+| Qubits | Noiseless Success | p=0.001 | p=0.01 | p=0.05 |
+|---|---|---|---|---|
+| 3 | 78.1% | 77.0% | **64.5%** | 31.2% |
+| 4 | 90.8% | 85.9% | **51.2%** | 9.2% |
+| 5 | 89.7% | 80.3% | **28.6%** | 3.2% |
+| 6 | 96.4% | 76.5% | **9.8%** | 1.5% |
+| 8 | 100.0% | 46.1% | **0.4%** | 0.4% |
+
+At p=0.01 (typical current two-qubit gate error rate), an 8-qubit Grover search that achieves 100% success on a noiseless simulator drops to **0.4% success** — worse than random guessing (0.4% = 1/256). The circuit survival probability (probability that no gate experiences an error) drops to 0.04% for the 8-qubit case.
+
+**This demonstrates precisely why simulator results are sanity checks, not evidence of hardware viability.** The noiseless-to-noisy gap grows exponentially with circuit depth, and no amount of process discipline can change the underlying physics.
+
+### 7.5 Classical Baselines Are Not State-of-the-Art
 
 Our classical baselines use standard textbook algorithms: brute-force enumeration for MaxCut, naive Monte Carlo for risk analysis, trial division for factoring. These are deliberately simple to enable cross-domain standardization, but they significantly underrepresent classical capabilities.
+
+To illustrate: we implemented the Goemans-Williamson SDP relaxation [7] for MaxCut and compared against our QAOA results on three graph instances. At 3-5 nodes, GW finds the exact optimal cut on every instance — identical to brute-force and QAOA. The 0.878 approximation guarantee only becomes interesting at scales where brute-force is infeasible (hundreds or thousands of nodes), which is far beyond what our 3-4 qubit QAOA can address.
 
 For honest advantage assessment, each problem would need comparison against the best-known classical algorithm:
 - **MaxCut**: Goemans-Williamson SDP relaxation (0.878 approximation guarantee)
@@ -295,6 +310,8 @@ All code, data, and tooling are available at https://github.com/WernerRall147/qu
 [5] J. Preskill, "Quantum Computing in the NISQ era and beyond," Quantum, 2018.
 
 [6] R. Babbush et al., "Focus beyond quadratic speedups for error-corrected quantum advantage," PRX Quantum, 2021.
+
+[7] M. X. Goemans and D. P. Williamson, "Improved Approximation Algorithms for Maximum Cut and Satisfiability Problems Using Semidefinite Programming," Journal of the ACM, 1995.
 
 ## Appendix A: Problem Registry
 

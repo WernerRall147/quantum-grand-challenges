@@ -22,23 +22,24 @@ em { color: #555; }
 strong { color: #1a1a2e; }
 </style>
 </head><body>
-<h1 id="a-systematic-framework-for-developing-validating-and-benchmarking-quantum-algorithms-across-20-application-domains">A Systematic Framework for Developing, Validating, and Benchmarking Quantum Algorithms Across 20 Application Domains</h1>
+<h1 id="a-software-engineering-framework-for-reproducible-quantum-algorithm-development-maturity-gates-automated-validation-and-honest-limitations-across-20-problem-domains">A Software Engineering Framework for Reproducible Quantum Algorithm Development: Maturity Gates, Automated Validation, and Honest Limitations Across 20 Problem Domains</h1>
 <p><em>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. You are free to share and adapt for non-commercial purposes with attribution.</em></p>
 <h2 id="authors">Authors</h2>
 <p>Werner Rall</p>
 <h2 id="abstract">Abstract</h2>
-<p>We present a systematic framework for quantum algorithm development that standardizes the lifecycle from classical baseline through quantum implementation to hardware-aware resource estimation across 20 diverse scientific problem domains. The framework introduces a four-stage maturity gate model (Baseline → Scaffold → Kernel → Advantage) with automated policy enforcement via continuous integration, ensuring that quantum advantage claims are grounded in reproducible evidence. We implement all 20 problems using Microsoft Q# with the Quantum Development Kit, covering nine distinct algorithm families: variational quantum eigensolver (VQE), quantum approximate optimization (QAOA), Grover search, Harrow-Hassidim-Lloyd (HHL), Shor's factoring, quantum amplitude estimation (QAE), swap test kernel estimation, quantum error correction, and Trotterized Hamiltonian simulation. Each implementation includes a classical baseline, parameterized problem instances, resource estimation artifacts, and backend assumption documentation. All 20 circuits have been validated on Quantinuum H2 trapped-ion simulators via Azure Quantum, and 19 problems have multi-run calibration evidence with uncertainty bounds. We describe the maturity gate criteria, the automated KPI pipeline that enforces them, and the reproducibility infrastructure that enables independent verification. The framework and all implementations are open-source, with DOI 10.5281/zenodo.19222021.</p>
-<p><strong>Keywords:</strong> quantum computing, resource estimation, benchmarking, Q#, variational algorithms, quantum software engineering</p>
+<p>We present a software engineering framework for organizing quantum algorithm development across multiple problem domains. The framework provides standardized project structure, automated CI/CD validation, and a four-stage maturity gate model that explicitly prevents premature quantum advantage claims. We apply the framework to 20 problem domains using Microsoft Q#, implementing nine algorithm families at toy scale (2-8 qubits) where classical simulation is trivial. <strong>We do not claim quantum advantage for any problem.</strong> All implementations use small, highly structured instances specifically chosen for correctness validation, not for demonstrating quantum utility. Simulator results confirm algorithmic correctness but reveal nothing about noise resilience or practical scalability. The primary contribution is the methodology itself — particularly the maturity gate model that forces honest assessment of what has and has not been demonstrated — not the individual quantum implementations. We include a scaling analysis for Grover search showing the expected O(√N) query complexity alongside the corresponding growth in circuit depth and gate count that would be required for practically relevant problem sizes. The framework and all implementations are open-source (DOI: 10.5281/zenodo.19222021).</p>
+<p><strong>Keywords:</strong> quantum software engineering, development methodology, maturity gates, reproducibility, Q#, CI/CD</p>
 <h2 id="1-introduction">1. Introduction</h2>
-<p>Quantum computing promises exponential or polynomial speedups for specific computational problems, yet the gap between theoretical algorithms and practical implementations remains significant. Most quantum algorithm demonstrations exist as isolated proof-of-concept implementations without standardized comparison to classical methods, reproducible benchmarks, or honest assessment of hardware requirements.</p>
-<p>We address this gap with a systematic framework that treats quantum algorithm development as a software engineering discipline. Our approach applies uniform structure, automated validation, and evidence-based maturity gates across 20 distinct problem domains spanning physics, finance, chemistry, cryptography, optimization, and machine learning.</p>
+<p>The quantum computing community faces a credibility challenge. Claims of quantum advantage have repeatedly been retracted when classical heuristics proved more competitive than initially assumed [5], when constant-factor costs of quantum error correction were properly accounted [6], or when problem structure was exploited by classical algorithms post-hoc. A contributing factor is the absence of standardized development practices that enforce honest assessment at each stage of quantum algorithm development.</p>
+<p>This paper addresses not the algorithms themselves — which are well-established in the literature — but the <strong>software engineering process</strong> of developing, validating, and honestly assessing quantum implementations. We propose a framework that applies the same rigor to quantum development that software engineering applies to classical systems: standardized structure, automated testing, evidence-based quality gates, and reproducible benchmarks.</p>
+<p><strong>Scope and limitations.</strong> Our 20 implementations are toy-scale (2-8 qubits) where classical simulation is trivial. We use standard textbook algorithms applied to small structured instances. We do not advance quantum algorithm theory, discover new speedups, or demonstrate quantum utility. The contribution is purely methodological: a framework that prevents the common failure mode of claiming more than the evidence supports.</p>
 <h3 id="11-contributions">1.1 Contributions</h3>
 <ol>
-<li><strong>Maturity Gate Model</strong>: A four-stage progression (A→D) with explicit criteria for each promotion, preventing premature quantum advantage claims.</li>
-<li><strong>Standardized Problem Structure</strong>: A template ensuring every problem includes classical baselines, parameterized instances, quantum implementations, resource estimates, and backend assumptions.</li>
-<li><strong>Automated Policy Enforcement</strong>: CI/CD pipelines that validate compilation, correctness, schema compliance, and maturity gate criteria on every commit.</li>
-<li><strong>Cross-Domain Implementation</strong>: 20 quantum algorithm implementations spanning 9 algorithm families, all built on a common toolchain.</li>
-<li><strong>Hardware Validation Pipeline</strong>: Integration with Azure Quantum for circuit validation on trapped-ion simulators.</li>
+<li><strong>Maturity Gate Model</strong>: A four-stage procedural framework (A→D) with explicit evidence requirements at each stage, designed to prevent premature quantum advantage claims. This is a process contribution, not a complexity-theoretic one.</li>
+<li><strong>Standardized Problem Structure</strong>: A reproducible template ensuring every problem includes classical baselines, parameterized instances, quantum implementations, and honest limitations documentation.</li>
+<li><strong>Automated Policy Enforcement</strong>: CI/CD pipelines that reject merges when maturity claims are not backed by evidence artifacts.</li>
+<li><strong>Scaling Analysis</strong>: For one representative problem (Grover search), we show how circuit depth, gate count, and resource requirements grow with problem size, illustrating the gap between toy validation instances and practically relevant scales.</li>
+<li><strong>Lessons Learned</strong>: Practical insights from building 20 quantum implementations, including how compiled-but-incorrect code, encoding bugs, and mock estimates can create false confidence.</li>
 </ol>
 <h2 id="2-related-work">2. Related Work</h2>
 <p>Prior benchmarking efforts include the QED-C benchmark suite [1], which focuses on circuit-level metrics, and the QUARK framework [2] for optimization problems. IBM's Qiskit benchmarks [3] provide hardware-focused comparisons. Our work differs in scope (20 domains vs. single-domain), methodology (maturity gates vs. raw performance), and emphasis on reproducibility infrastructure.</p>
@@ -346,62 +347,163 @@ strong { color: #1a1a2e; }
 <h3 id="62-shared-azure-workflow">6.2 Shared Azure Workflow</h3>
 <p>A problem-agnostic Azure submission pipeline (<code>tooling/azure/smoke_problem.py</code>) enables any problem to submit circuits to Azure Quantum through a single interface, with env-gated authentication, manifest tracking, and audit reporting.</p>
 <h2 id="7-results-and-discussion">7. Results and Discussion</h2>
-<h3 id="71-framework-effectiveness">7.1 Framework Effectiveness</h3>
-<p>The maturity gate model successfully prevents premature claims: of 20 problems with quantum implementations, only 3 have been formally promoted to Stage C (hardware-aware validation), and none have reached Stage D (advantage evidence). However, calibration evidence now exists for 19 of 20 problems, with several showing strong Stage C readiness:</p>
-<ul>
-<li><strong>QAOA Optimization</strong>: approximation ratio 1.0 ± 0.0 (exact optimal every run)</li>
-<li><strong>QEC Repetition Code</strong>: 512/512 = 100% correction rate (zero variance)</li>
-<li><strong>Grover Key Search</strong>: 88.5% ± 0.3% average success rate</li>
-<li><strong>QAOA Protein Folding</strong>: ratio 1.0 ± 0.0</li>
-<li><strong>QAOA Space Planning</strong>: ratio 1.0 ± 0.0</li>
-<li><strong>VQE Nuclear Physics</strong>: -2.104 ± 0.006 MeV</li>
-<li><strong>Wilson Loop (QCD)</strong>: 0.990 ± 0.005 at beta=6</li>
-</ul>
-<h3 id="72-algorithm-validation">7.2 Algorithm Validation</h3>
-<p>Selected validation results from Q# simulator runs:</p>
-<ul>
-<li><strong>Grover (10_pqc)</strong>: 80% success at 3 qubits, 91% at 4 qubits, 92% at 5 qubits — matching theoretical O(√N) query complexity</li>
-<li><strong>Shor (09_factorization)</strong>: Correctly factors 15 = 3 × 5 with base a=7</li>
-<li><strong>QAOA (12_optimization)</strong>: Found exact optimal scheduling assignment (approximation ratio 1.0)</li>
-<li><strong>QEC (16_error_correction)</strong>: 512/512 = 100% correction rate for single bit-flip errors</li>
-<li><strong>QAE (03_qae_risk)</strong>: Theoretical tail probability matches classical baseline exactly after log-normal PDF correction</li>
-<li><strong>Swap Test (11_qml)</strong>: Kernel self-overlap = 1.0, cross-overlaps consistent with classical computation</li>
-</ul>
-<h3 id="73-lessons-learned">7.3 Lessons Learned</h3>
+<h3 id="71-what-the-framework-demonstrates-and-what-it-does-not">7.1 What the Framework Demonstrates (and What It Does Not)</h3>
+<p>The maturity gate model successfully enforces honest assessment: of 20 implemented problems, only 3 have reached Stage C (hardware-aware validation), and <strong>none have reached Stage D</strong> (advantage evidence). This is the intended outcome — the framework correctly identifies that toy-scale simulator validation does not constitute evidence of quantum advantage.</p>
+<p><strong>What our results demonstrate:</strong>
+- Algorithmic correctness at small scale (Grover finds marked items, Shor factors 15, QEC corrects single bit-flips)
+- The framework's ability to organize and validate quantum development across multiple problem domains
+- Practical lessons about failure modes in quantum software development</p>
+<p><strong>What our results do NOT demonstrate:</strong>
+- Quantum advantage over classical methods for any problem
+- Noise resilience or hardware viability
+- Scalability to practically relevant problem sizes
+- Superiority over state-of-the-art classical algorithms</p>
+<h3 id="72-simulator-results-are-sanity-checks-not-experiments">7.2 Simulator Results Are Sanity Checks, Not Experiments</h3>
+<p>All validation was performed on noiseless simulators or the Quantinuum H2-1SC syntax checker. Zero-variance results (e.g., 100% QEC correction rate, exact QAOA optimality) confirm correct circuit construction but reveal nothing about performance under realistic noise. A circuit that achieves perfect results on a simulator may fail completely on hardware with 10⁻³ two-qubit gate error rates.</p>
+<p>The H2-1SC syntax checker validates that circuits are well-formed OpenQASM but does not simulate quantum behavior — it returns trivial results. Full emulator (H2-1E) jobs were submitted but experienced 78+ hour queue times, limiting practical use for iterative development.</p>
+<p>Selected correctness validation results:
+- <strong>Grover (10_pqc)</strong>: 80-92% success rate across 3-5 qubit instances on noiseless simulator
+- <strong>Shor (09_factorization)</strong>: Correctly factors 15 = 3 × 5 (a textbook demonstration, not a research contribution)
+- <strong>QEC (16_error_correction)</strong>: 512/512 = 100% correction on simulator (meaningless without noise — the entire point of QEC is noise resilience)</p>
+<h3 id="73-scaling-analysis-grover-search">7.3 Scaling Analysis: Grover Search</h3>
+<p>To illustrate the gap between toy validation and practical utility, we analyze how Grover search resources scale with the keyspace size N = 2ⁿ.</p>
+<table>
+<thead>
+<tr>
+<th>Qubits (n)</th>
+<th>Keyspace (N)</th>
+<th>Optimal Iterations</th>
+<th>Oracle+Diffusion Gates</th>
+<th>Total CX Gates</th>
+<th>Circuit Depth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>8</td>
+<td>1</td>
+<td>~20</td>
+<td>~12</td>
+<td>~30</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>2</td>
+<td>~80</td>
+<td>~48</td>
+<td>~100</td>
+</tr>
+<tr>
+<td>5</td>
+<td>32</td>
+<td>3</td>
+<td>~180</td>
+<td>~108</td>
+<td>~220</td>
+</tr>
+<tr>
+<td>8</td>
+<td>256</td>
+<td>9</td>
+<td>~1,400</td>
+<td>~840</td>
+<td>~1,700</td>
+</tr>
+<tr>
+<td>10</td>
+<td>1,024</td>
+<td>18</td>
+<td>~5,500</td>
+<td>~3,300</td>
+<td>~6,800</td>
+</tr>
+<tr>
+<td>16</td>
+<td>65,536</td>
+<td>142</td>
+<td>~350,000</td>
+<td>~210,000</td>
+<td>~430,000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>1,048,576</td>
+<td>571</td>
+<td>~5,600,000</td>
+<td>~3,400,000</td>
+<td>~6,900,000</td>
+</tr>
+</tbody>
+</table>
+<p>The quadratic speedup (O(√N) vs O(N) classical queries) is real in query complexity, but the circuit depth grows as O(√N × n²) when accounting for multi-controlled gate decomposition. For a 20-qubit keyspace (N ≈ 10⁶), the circuit requires ~7 million gates — far beyond current hardware capabilities. <strong>No amount of CI/CD rigor changes these scaling realities.</strong></p>
+<p>For cryptographically relevant keyspaces (n=128 for AES), the circuit would require ~10¹⁹ gates, which is not feasible on any foreseeable hardware even with perfect error correction.</p>
+<h3 id="74-classical-baselines-are-not-state-of-the-art">7.4 Classical Baselines Are Not State-of-the-Art</h3>
+<p>Our classical baselines use standard textbook algorithms: brute-force enumeration for MaxCut, naive Monte Carlo for risk analysis, trial division for factoring. These are deliberately simple to enable cross-domain standardization, but they significantly underrepresent classical capabilities.</p>
+<p>For honest advantage assessment, each problem would need comparison against the best-known classical algorithm:
+- <strong>MaxCut</strong>: Goemans-Williamson SDP relaxation (0.878 approximation guarantee)
+- <strong>Risk Analysis</strong>: Importance sampling, control variates, stratified sampling
+- <strong>Factoring</strong>: General number field sieve (sub-exponential)
+- <strong>Optimization</strong>: Branch-and-bound, simulated annealing, mixed-integer programming</p>
+<p>We do not make these comparisons because (a) our quantum instances are too small for classical algorithms to struggle, and (b) claiming advantage against weak baselines is a well-documented failure mode in the quantum computing literature.</p>
+<h3 id="75-lessons-learned">7.5 Lessons Learned</h3>
 <ol>
 <li>
-<p><strong>Placeholders are dangerous</strong>: Analytical Q# code that compiles and "passes CI" can mask the absence of real quantum work. Distinguishing compilation success from quantum correctness requires explicit gate-count auditing.</p>
+<p><strong>Compiled code ≠ correct quantum code</strong>: Analytical Q# code that runs classical math with a token qubit allocation compiles, passes CI, and produces plausible output — but performs no quantum computation. Fifteen of our twenty implementations were initially such placeholders. Gate-count auditing is essential.</p>
 </li>
 <li>
-<p><strong>Distribution encoding matters</strong>: A bug in the QAE amplitude encoding (Lorentzian instead of log-normal PDF) persisted through multiple development cycles because the circuit compiled and produced plausible-looking outputs. Only systematic comparison against the classical baseline revealed the error.</p>
+<p><strong>Encoding bugs persist through validation</strong>: A Lorentzian PDF masquerading as a log-normal distribution in the QAE implementation survived multiple development cycles because the circuit compiled and produced numbers in a plausible range. Only systematic comparison against the classical baseline revealed the error.</p>
 </li>
 <li>
-<p><strong>Mock estimates have limited value</strong>: Uniform mock resource estimates across disparate algorithms obscure critical differences in resource requirements. Real estimator runs are essential for credible cross-algorithm comparison.</p>
+<p><strong>Mock estimates create false confidence</strong>: Uniform mock resource estimates across all problems suggested comparable resource requirements, obscuring the 100× range in actual gate counts between a 2-qubit VQE (~6 gates) and a 4-qubit Grover (~200 gates).</p>
 </li>
 <li>
-<p><strong>Emulator queue times limit iteration speed</strong>: The Quantinuum H2-1E emulator averaged 78+ hours queue time, making interactive development impractical. Syntax validation (H2-1SC, ~seconds) proved sufficient for circuit correctness during development.</p>
+<p><strong>Process discipline has value even without quantum advantage</strong>: The standardized structure, automated checks, and maturity gates caught real bugs and prevented inflated claims — which is the framework's actual contribution.</p>
 </li>
 </ol>
-<h2 id="8-limitations-and-future-work">8. Limitations and Future Work</h2>
-<p><strong>Current limitations:</strong>
-- Resource estimates are mock-generated; real Azure Resource Estimator runs are needed for credible resource projections
-- No hardware QPU execution yet (all validation on simulators/emulators)
-- VQE implementations use simplified Hamiltonians (2-qubit active spaces)
-- Classical baselines use standard algorithms, not state-of-the-art methods</p>
-<p><strong>Future directions:</strong>
-- Execute 2-3 qubit circuits on Quantinuum H1 QPU
-- Scale selected problems (QAOA, Grover) to larger instances with noise models
-- Replace mock estimates with real Azure Resource Estimator profiles
-- Implement advanced classical comparators (importance sampling for QAE, Goemans-Williamson for MaxCut)
-- Promote Stage B problems to Stage C with systematic calibration campaigns</p>
-<h2 id="9-conclusion">9. Conclusion</h2>
-<p>We have demonstrated that quantum algorithm development benefits from the same engineering discipline applied to classical software: standardized structure, automated testing, evidence-based quality gates, and reproducible benchmarks. Our framework covers 20 problem domains with 9 algorithm families, all validated through a common CI/CD pipeline with 7 automated checks. The maturity gate model ensures that quantum advantage claims are grounded in evidence rather than aspiration. All code, data, and tooling are available as open-source at https://github.com/WernerRall147/quantum-grand-challenges.</p>
+<h2 id="8-limitations-critical">8. Limitations (Critical)</h2>
+<p>These limitations are fundamental to interpreting this work, not merely areas for improvement:</p>
+<ol>
+<li>
+<p><strong>No quantum advantage is claimed or demonstrated.</strong> All problems are solved trivially by classical computers. The quantum implementations exist to validate the framework methodology, not to demonstrate quantum utility.</p>
+</li>
+<li>
+<p><strong>All results are from noiseless simulation.</strong> Zero-variance results (100% QEC correction, exact QAOA optimality) are artifacts of simulation, not evidence of hardware viability. Real quantum hardware with 10⁻³ to 10⁻² error rates would produce dramatically different results.</p>
+</li>
+<li>
+<p><strong>Classical baselines are deliberately weak.</strong> We use textbook algorithms (brute-force, naive Monte Carlo) for cross-domain standardization. Any comparative statement must acknowledge that state-of-the-art classical methods would perform far better. Quantum advantage claims have repeatedly vanished when classical heuristics were properly benchmarked [6].</p>
+</li>
+<li>
+<p><strong>Resource estimates are not credible for scaling projections.</strong> Mock estimates use uniform placeholder values. Real resource estimation via the Azure Quantum Resource Estimator is needed for any credible hardware projection.</p>
+</li>
+<li>
+<p><strong>Toy instances reveal nothing about asymptotic behavior.</strong> A 2-qubit VQE or 4-qubit QAOA demonstrates circuit correctness but says nothing about how the algorithm behaves at 50, 100, or 1000 qubits. The scaling analysis in Section 7.3 illustrates how rapidly resource requirements grow.</p>
+</li>
+<li>
+<p><strong>The maturity gate model is procedural, not complexity-theoretic.</strong> It enforces process discipline but cannot compensate for unfavorable asymptotic scaling. A problem that passes all four maturity gates may still offer no practical quantum advantage if the constant factors or scaling exponents are prohibitive.</p>
+</li>
+</ol>
+<h2 id="9-future-work">9. Future Work</h2>
+<ul>
+<li>Execute 2-qubit circuits on Quantinuum H1 QPU to compare noisy hardware results against simulator baselines</li>
+<li>Replace at least one classical baseline with a state-of-the-art competitor (Goemans-Williamson for MaxCut, importance sampling for QAE)</li>
+<li>Extend scaling analysis to QAOA and VQE with noise models at different error rates</li>
+<li>Obtain real Azure Quantum Resource Estimator profiles for credible qubit/gate/runtime projections</li>
+<li>Investigate whether the maturity gate model can be extended with complexity-theoretic checks (scaling slope verification, classical hardness evidence requirements)</li>
+</ul>
+<h2 id="10-conclusion">10. Conclusion</h2>
+<p>We have presented a software engineering framework for quantum algorithm development that prioritizes honest assessment over optimistic claims. The framework's primary value is not in the quantum implementations — which are toy-scale and classically trivial — but in the methodology: standardized structure, automated validation, and maturity gates that explicitly prevent claiming more than the evidence supports.</p>
+<p>Of 20 implemented problems, none have reached the "advantage evidence" stage (Stage D), which we consider a success of the framework rather than a failure. The maturity gate model correctly identifies that noiseless simulator results on small instances do not constitute evidence of quantum utility.</p>
+<p>The practical lessons — that placeholders masquerade as implementations, that encoding bugs survive validation, that mock estimates create false confidence — are transferable to any quantum development effort. We hope the framework's insistence on honest self-assessment contributes to healthier practices in the quantum computing community.</p>
+<p>All code, data, and tooling are available at https://github.com/WernerRall147/quantum-grand-challenges (DOI: 10.5281/zenodo.19222021).</p>
 <h2 id="references">References</h2>
 <p>[1] T. Lubinski et al., "Application-Oriented Performance Benchmarks for Quantum Computing," IEEE Transactions on Quantum Engineering, 2023.</p>
 <p>[2] J. Finžgar et al., "QUARK: A Framework for Quantum Computing Application Benchmarking," IEEE International Conference on Quantum Computing and Engineering, 2022.</p>
 <p>[3] A. Javadi-Abhari et al., "Quantum Computing with Qiskit," arXiv:2405.08810, 2024.</p>
 <p>[4] M. A. Nielsen and I. L. Chuang, "Quantum Computation and Quantum Information," Cambridge University Press, 2010.</p>
 <p>[5] J. Preskill, "Quantum Computing in the NISQ era and beyond," Quantum, 2018.</p>
+<p>[6] R. Babbush et al., "Focus beyond quadratic speedups for error-corrected quantum advantage," PRX Quantum, 2021.</p>
 <h2 id="appendix-a-problem-registry">Appendix A: Problem Registry</h2>
 <table>
 <thead>

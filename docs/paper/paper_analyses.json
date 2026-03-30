@@ -1,0 +1,422 @@
+{
+  "generated": "2026-03-30",
+  "grover_scaling": [
+    {
+      "qubits": 3,
+      "keyspace": 8,
+      "iterations": 2,
+      "cx_gates": 24,
+      "t_gates": 28,
+      "total_gates": 84,
+      "circuit_depth": 84,
+      "success_prob_noiseless": 0.9453
+    },
+    {
+      "qubits": 4,
+      "keyspace": 16,
+      "iterations": 3,
+      "cx_gates": 72,
+      "t_gates": 84,
+      "total_gates": 222,
+      "circuit_depth": 222,
+      "success_prob_noiseless": 0.9613
+    },
+    {
+      "qubits": 5,
+      "keyspace": 32,
+      "iterations": 4,
+      "cx_gates": 144,
+      "t_gates": 168,
+      "total_gates": 424,
+      "circuit_depth": 424,
+      "success_prob_noiseless": 0.9992
+    },
+    {
+      "qubits": 6,
+      "keyspace": 64,
+      "iterations": 6,
+      "cx_gates": 288,
+      "t_gates": 336,
+      "total_gates": 828,
+      "circuit_depth": 828,
+      "success_prob_noiseless": 0.9966
+    },
+    {
+      "qubits": 7,
+      "keyspace": 128,
+      "iterations": 8,
+      "cx_gates": 480,
+      "t_gates": 560,
+      "total_gates": 1360,
+      "circuit_depth": 1360,
+      "success_prob_noiseless": 0.9956
+    },
+    {
+      "qubits": 8,
+      "keyspace": 256,
+      "iterations": 12,
+      "cx_gates": 864,
+      "t_gates": 1008,
+      "total_gates": 2424,
+      "circuit_depth": 2424,
+      "success_prob_noiseless": 0.9999
+    },
+    {
+      "qubits": 10,
+      "keyspace": 1024,
+      "iterations": 25,
+      "cx_gates": 2400,
+      "t_gates": 2800,
+      "total_gates": 6650,
+      "circuit_depth": 6650,
+      "success_prob_noiseless": 0.9995
+    },
+    {
+      "qubits": 12,
+      "keyspace": 4096,
+      "iterations": 50,
+      "cx_gates": 6000,
+      "t_gates": 7000,
+      "total_gates": 16500,
+      "circuit_depth": 16500,
+      "success_prob_noiseless": 0.9999
+    },
+    {
+      "qubits": 16,
+      "keyspace": 65536,
+      "iterations": 201,
+      "cx_gates": 33768,
+      "t_gates": 39396,
+      "total_gates": 92058,
+      "circuit_depth": 92058,
+      "success_prob_noiseless": 1.0
+    },
+    {
+      "qubits": 20,
+      "keyspace": 1048576,
+      "iterations": 804,
+      "cx_gates": 173664,
+      "t_gates": 202608,
+      "total_gates": 471144,
+      "circuit_depth": 471144,
+      "success_prob_noiseless": 1.0
+    }
+  ],
+  "noise_analysis": [
+    {
+      "qubits": 3,
+      "error_rate": 0.0,
+      "total_two_qubit_gates": 24,
+      "survival_probability": 1,
+      "noiseless_success": 0.9453,
+      "noisy_success": 0.9453
+    },
+    {
+      "qubits": 3,
+      "error_rate": 0.001,
+      "total_two_qubit_gates": 24,
+      "survival_probability": 0.7609,
+      "noiseless_success": 0.9453,
+      "noisy_success": 0.7492
+    },
+    {
+      "qubits": 3,
+      "error_rate": 0.005,
+      "total_two_qubit_gates": 24,
+      "survival_probability": 0.2487,
+      "noiseless_success": 0.9453,
+      "noisy_success": 0.329
+    },
+    {
+      "qubits": 3,
+      "error_rate": 0.01,
+      "total_two_qubit_gates": 24,
+      "survival_probability": 0.0578,
+      "noiseless_success": 0.9453,
+      "noisy_success": 0.1724
+    },
+    {
+      "qubits": 3,
+      "error_rate": 0.02,
+      "total_two_qubit_gates": 24,
+      "survival_probability": 0.0025,
+      "noiseless_success": 0.9453,
+      "noisy_success": 0.127
+    },
+    {
+      "qubits": 3,
+      "error_rate": 0.05,
+      "total_two_qubit_gates": 24,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9453,
+      "noisy_success": 0.125
+    },
+    {
+      "qubits": 3,
+      "error_rate": 0.1,
+      "total_two_qubit_gates": 24,
+      "survival_probability": 0,
+      "noiseless_success": 0.9453,
+      "noisy_success": 0.125
+    },
+    {
+      "qubits": 4,
+      "error_rate": 0.0,
+      "total_two_qubit_gates": 72,
+      "survival_probability": 1,
+      "noiseless_success": 0.9613,
+      "noisy_success": 0.9613
+    },
+    {
+      "qubits": 4,
+      "error_rate": 0.001,
+      "total_two_qubit_gates": 72,
+      "survival_probability": 0.454,
+      "noiseless_success": 0.9613,
+      "noisy_success": 0.4706
+    },
+    {
+      "qubits": 4,
+      "error_rate": 0.005,
+      "total_two_qubit_gates": 72,
+      "survival_probability": 0.0179,
+      "noiseless_success": 0.9613,
+      "noisy_success": 0.0786
+    },
+    {
+      "qubits": 4,
+      "error_rate": 0.01,
+      "total_two_qubit_gates": 72,
+      "survival_probability": 0.0003,
+      "noiseless_success": 0.9613,
+      "noisy_success": 0.0627
+    },
+    {
+      "qubits": 4,
+      "error_rate": 0.02,
+      "total_two_qubit_gates": 72,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9613,
+      "noisy_success": 0.0625
+    },
+    {
+      "qubits": 4,
+      "error_rate": 0.05,
+      "total_two_qubit_gates": 72,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9613,
+      "noisy_success": 0.0625
+    },
+    {
+      "qubits": 4,
+      "error_rate": 0.1,
+      "total_two_qubit_gates": 72,
+      "survival_probability": 0,
+      "noiseless_success": 0.9613,
+      "noisy_success": 0.0625
+    },
+    {
+      "qubits": 5,
+      "error_rate": 0.0,
+      "total_two_qubit_gates": 144,
+      "survival_probability": 1,
+      "noiseless_success": 0.9992,
+      "noisy_success": 0.9992
+    },
+    {
+      "qubits": 5,
+      "error_rate": 0.001,
+      "total_two_qubit_gates": 144,
+      "survival_probability": 0.2103,
+      "noiseless_success": 0.9992,
+      "noisy_success": 0.2348
+    },
+    {
+      "qubits": 5,
+      "error_rate": 0.005,
+      "total_two_qubit_gates": 144,
+      "survival_probability": 0.0004,
+      "noiseless_success": 0.9992,
+      "noisy_success": 0.0316
+    },
+    {
+      "qubits": 5,
+      "error_rate": 0.01,
+      "total_two_qubit_gates": 144,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9992,
+      "noisy_success": 0.0313
+    },
+    {
+      "qubits": 5,
+      "error_rate": 0.02,
+      "total_two_qubit_gates": 144,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9992,
+      "noisy_success": 0.0313
+    },
+    {
+      "qubits": 5,
+      "error_rate": 0.05,
+      "total_two_qubit_gates": 144,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9992,
+      "noisy_success": 0.0312
+    },
+    {
+      "qubits": 5,
+      "error_rate": 0.1,
+      "total_two_qubit_gates": 144,
+      "survival_probability": 0,
+      "noiseless_success": 0.9992,
+      "noisy_success": 0.0312
+    },
+    {
+      "qubits": 6,
+      "error_rate": 0.0,
+      "total_two_qubit_gates": 288,
+      "survival_probability": 1,
+      "noiseless_success": 0.9966,
+      "noisy_success": 0.9966
+    },
+    {
+      "qubits": 6,
+      "error_rate": 0.001,
+      "total_two_qubit_gates": 288,
+      "survival_probability": 0.0451,
+      "noiseless_success": 0.9966,
+      "noisy_success": 0.0599
+    },
+    {
+      "qubits": 6,
+      "error_rate": 0.005,
+      "total_two_qubit_gates": 288,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9966,
+      "noisy_success": 0.0156
+    },
+    {
+      "qubits": 6,
+      "error_rate": 0.01,
+      "total_two_qubit_gates": 288,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9966,
+      "noisy_success": 0.0156
+    },
+    {
+      "qubits": 6,
+      "error_rate": 0.02,
+      "total_two_qubit_gates": 288,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9966,
+      "noisy_success": 0.0156
+    },
+    {
+      "qubits": 6,
+      "error_rate": 0.05,
+      "total_two_qubit_gates": 288,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9966,
+      "noisy_success": 0.0156
+    },
+    {
+      "qubits": 6,
+      "error_rate": 0.1,
+      "total_two_qubit_gates": 288,
+      "survival_probability": 0,
+      "noiseless_success": 0.9966,
+      "noisy_success": 0.0156
+    },
+    {
+      "qubits": 8,
+      "error_rate": 0.0,
+      "total_two_qubit_gates": 864,
+      "survival_probability": 1,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.9999
+    },
+    {
+      "qubits": 8,
+      "error_rate": 0.001,
+      "total_two_qubit_gates": 864,
+      "survival_probability": 0.0001,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.004
+    },
+    {
+      "qubits": 8,
+      "error_rate": 0.005,
+      "total_two_qubit_gates": 864,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0039
+    },
+    {
+      "qubits": 8,
+      "error_rate": 0.01,
+      "total_two_qubit_gates": 864,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0039
+    },
+    {
+      "qubits": 8,
+      "error_rate": 0.02,
+      "total_two_qubit_gates": 864,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0039
+    },
+    {
+      "qubits": 8,
+      "error_rate": 0.05,
+      "total_two_qubit_gates": 864,
+      "survival_probability": 0.0,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0039
+    },
+    {
+      "qubits": 8,
+      "error_rate": 0.1,
+      "total_two_qubit_gates": 864,
+      "survival_probability": 0,
+      "noiseless_success": 0.9999,
+      "noisy_success": 0.0039
+    }
+  ],
+  "gw_maxcut": [
+    {
+      "graph": "triangle (3 nodes)",
+      "nodes": 3,
+      "edges": 3,
+      "optimal_cut": 2.2,
+      "gw_guarantee": 1.93,
+      "gw_typical": 2.2,
+      "qaoa_d1": 2.2,
+      "brute_force_time": "O(2^3) = 8",
+      "gw_time": "O(n^3) = 27"
+    },
+    {
+      "graph": "square (4 nodes)",
+      "nodes": 4,
+      "edges": 5,
+      "optimal_cut": 4.0,
+      "gw_guarantee": 3.51,
+      "gw_typical": 4.0,
+      "qaoa_d1": 4.0,
+      "brute_force_time": "O(2^4) = 16",
+      "gw_time": "O(n^3) = 64"
+    },
+    {
+      "graph": "pentagon (5 nodes)",
+      "nodes": 5,
+      "edges": 7,
+      "optimal_cut": 5.4,
+      "gw_guarantee": 4.74,
+      "gw_typical": 5.4,
+      "qaoa_d1": 5.4,
+      "brute_force_time": "O(2^5) = 32",
+      "gw_time": "O(n^3) = 125"
+    }
+  ]
+}

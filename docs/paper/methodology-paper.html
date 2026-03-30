@@ -365,88 +365,203 @@ strong { color: #1a1a2e; }
 - <strong>Grover (10_pqc)</strong>: 80-92% success rate across 3-5 qubit instances on noiseless simulator
 - <strong>Shor (09_factorization)</strong>: Correctly factors 15 = 3 × 5 (a textbook demonstration, not a research contribution)
 - <strong>QEC (16_error_correction)</strong>: 512/512 = 100% correction on simulator (meaningless without noise — the entire point of QEC is noise resilience)</p>
-<h3 id="73-scaling-analysis-grover-search">7.3 Scaling Analysis: Grover Search</h3>
-<p>To illustrate the gap between toy validation and practical utility, we analyze how Grover search resources scale with the keyspace size N = 2ⁿ.</p>
+<h3 id="73-scaling-analysis-grover-search-computed">7.3 Scaling Analysis: Grover Search (Computed)</h3>
+<p>To illustrate the gap between toy validation and practical utility, we computed Grover search resource requirements at increasing qubit counts, using standard Toffoli-based decomposition of multi-controlled Z gates (each Toffoli = 6 CX + 7 T gates).</p>
 <table>
 <thead>
 <tr>
 <th>Qubits (n)</th>
 <th>Keyspace (N)</th>
-<th>Optimal Iterations</th>
-<th>Oracle+Diffusion Gates</th>
-<th>Total CX Gates</th>
-<th>Circuit Depth</th>
+<th>Iterations</th>
+<th>CX Gates</th>
+<th>T Gates</th>
+<th>Total Gates</th>
+<th>Success (noiseless)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>3</td>
 <td>8</td>
-<td>1</td>
-<td>~20</td>
-<td>~12</td>
-<td>~30</td>
+<td>2</td>
+<td>24</td>
+<td>28</td>
+<td>84</td>
+<td>94.5%</td>
 </tr>
 <tr>
 <td>4</td>
 <td>16</td>
-<td>2</td>
-<td>~80</td>
-<td>~48</td>
-<td>~100</td>
+<td>3</td>
+<td>72</td>
+<td>84</td>
+<td>222</td>
+<td>96.1%</td>
 </tr>
 <tr>
 <td>5</td>
 <td>32</td>
-<td>3</td>
-<td>~180</td>
-<td>~108</td>
-<td>~220</td>
+<td>4</td>
+<td>144</td>
+<td>168</td>
+<td>424</td>
+<td>99.9%</td>
+</tr>
+<tr>
+<td>6</td>
+<td>64</td>
+<td>6</td>
+<td>288</td>
+<td>336</td>
+<td>828</td>
+<td>99.7%</td>
 </tr>
 <tr>
 <td>8</td>
 <td>256</td>
-<td>9</td>
-<td>~1,400</td>
-<td>~840</td>
-<td>~1,700</td>
+<td>12</td>
+<td>864</td>
+<td>1,008</td>
+<td>2,424</td>
+<td>100%</td>
 </tr>
 <tr>
 <td>10</td>
 <td>1,024</td>
-<td>18</td>
-<td>~5,500</td>
-<td>~3,300</td>
-<td>~6,800</td>
+<td>25</td>
+<td>2,400</td>
+<td>2,800</td>
+<td>6,650</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>12</td>
+<td>4,096</td>
+<td>50</td>
+<td>6,000</td>
+<td>7,000</td>
+<td>16,500</td>
+<td>100%</td>
 </tr>
 <tr>
 <td>16</td>
 <td>65,536</td>
-<td>142</td>
-<td>~350,000</td>
-<td>~210,000</td>
-<td>~430,000</td>
+<td>201</td>
+<td>33,768</td>
+<td>39,396</td>
+<td>92,058</td>
+<td>100%</td>
 </tr>
 <tr>
 <td>20</td>
 <td>1,048,576</td>
-<td>571</td>
-<td>~5,600,000</td>
-<td>~3,400,000</td>
-<td>~6,900,000</td>
+<td>804</td>
+<td>173,664</td>
+<td>202,608</td>
+<td>471,144</td>
+<td>100%</td>
 </tr>
 </tbody>
 </table>
-<p>The quadratic speedup (O(√N) vs O(N) classical queries) is real in query complexity, but the circuit depth grows as O(√N × n²) when accounting for multi-controlled gate decomposition. For a 20-qubit keyspace (N ≈ 10⁶), the circuit requires ~7 million gates — far beyond current hardware capabilities. <strong>No amount of CI/CD rigor changes these scaling realities.</strong></p>
-<p>For cryptographically relevant keyspaces (n=128 for AES), the circuit would require ~10¹⁹ gates, which is not feasible on any foreseeable hardware even with perfect error correction.</p>
-<h3 id="74-classical-baselines-are-not-state-of-the-art">7.4 Classical Baselines Are Not State-of-the-Art</h3>
-<p>Our classical baselines use standard textbook algorithms: brute-force enumeration for MaxCut, naive Monte Carlo for risk analysis, trial division for factoring. These are deliberately simple to enable cross-domain standardization, but they significantly underrepresent classical capabilities.</p>
-<p>For honest advantage assessment, each problem would need comparison against the best-known classical algorithm:
-- <strong>MaxCut</strong>: Goemans-Williamson SDP relaxation (0.878 approximation guarantee)
-- <strong>Risk Analysis</strong>: Importance sampling, control variates, stratified sampling
-- <strong>Factoring</strong>: General number field sieve (sub-exponential)
-- <strong>Optimization</strong>: Branch-and-bound, simulated annealing, mixed-integer programming</p>
-<p>We do not make these comparisons because (a) our quantum instances are too small for classical algorithms to struggle, and (b) claiming advantage against weak baselines is a well-documented failure mode in the quantum computing literature.</p>
+<p>The quadratic speedup (O(√N) queries) is real in query complexity, but total gate count grows as O(√N × n) where n is the number of qubits. For n=20 (N ≈ 10⁶), the circuit requires ~471K gates. For cryptographically relevant keyspaces (n=128 for AES), the circuit would require approximately 10¹⁹ gates, far beyond any foreseeable hardware. <strong>No amount of CI/CD rigor changes these scaling realities.</strong></p>
+<h3 id="731-noise-impact-on-grover-scaling">7.3.1 Noise Impact on Grover Scaling</h3>
+<p>Using a depolarizing noise model where each two-qubit gate has error probability 10× the single-qubit rate, we computed the impact on Grover success probability:</p>
+<table>
+<thead>
+<tr>
+<th>Qubits</th>
+<th>2Q Gates</th>
+<th>Noiseless</th>
+<th>p=0.1%</th>
+<th>p=1%</th>
+<th>p=5%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>24</td>
+<td>94.5%</td>
+<td>76.0%</td>
+<td>17.2%</td>
+<td>12.5%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>72</td>
+<td>96.1%</td>
+<td>49.5%</td>
+<td>6.3%</td>
+<td>6.2%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>144</td>
+<td>99.9%</td>
+<td>24.0%</td>
+<td>3.1%</td>
+<td>3.1%</td>
+</tr>
+<tr>
+<td>6</td>
+<td>288</td>
+<td>99.7%</td>
+<td>5.7%</td>
+<td>1.6%</td>
+<td>1.6%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>864</td>
+<td>100%</td>
+<td>0.4%</td>
+<td>0.4%</td>
+<td>0.4%</td>
+</tr>
+</tbody>
+</table>
+<p>At a realistic two-qubit gate error rate of 1%, Grover success collapses from 96% to 6% at 4 qubits and becomes indistinguishable from random guessing at 6+ qubits. This demonstrates that noiseless simulator results (Section 7.2) reveal nothing about practical viability. Error correction would be required for any non-trivial Grover instance, adding orders of magnitude in qubit overhead.</p>
+<h3 id="74-classical-baseline-honesty-goemans-williamson-vs-qaoa">7.4 Classical Baseline Honesty: Goemans-Williamson vs QAOA</h3>
+<p>To illustrate why our classical baselines are insufficient for advantage claims, we compared QAOA MaxCut against the Goemans-Williamson (GW) SDP relaxation [7]:</p>
+<table>
+<thead>
+<tr>
+<th>Graph</th>
+<th>Nodes</th>
+<th>Optimal Cut</th>
+<th>GW Guarantee (≥0.878×OPT)</th>
+<th>Brute-Force Time</th>
+<th>GW Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Triangle</td>
+<td>3</td>
+<td>2.2</td>
+<td>≥1.93</td>
+<td>O(2³) = 8</td>
+<td>O(3³) = 27</td>
+</tr>
+<tr>
+<td>Square+diag</td>
+<td>4</td>
+<td>4.0</td>
+<td>≥3.51</td>
+<td>O(2⁴) = 16</td>
+<td>O(4³) = 64</td>
+</tr>
+<tr>
+<td>Pentagon+diags</td>
+<td>5</td>
+<td>5.4</td>
+<td>≥4.74</td>
+<td>O(2⁵) = 32</td>
+<td>O(5³) = 125</td>
+</tr>
+</tbody>
+</table>
+<p>At our problem scales (n ≤ 5), brute-force enumeration, GW-SDP, and QAOA all find the optimal cut trivially. The GW 0.878-approximation guarantee only becomes relevant when brute-force is infeasible (n &gt; 30). <strong>Claiming QAOA advantage against brute-force at n=3 is meaningless</strong> — this is precisely the kind of inflated claim that our maturity gate framework is designed to prevent.</p>
 <h3 id="75-lessons-learned">7.5 Lessons Learned</h3>
 <ol>
 <li>
@@ -504,6 +619,7 @@ strong { color: #1a1a2e; }
 <p>[4] M. A. Nielsen and I. L. Chuang, "Quantum Computation and Quantum Information," Cambridge University Press, 2010.</p>
 <p>[5] J. Preskill, "Quantum Computing in the NISQ era and beyond," Quantum, 2018.</p>
 <p>[6] R. Babbush et al., "Focus beyond quadratic speedups for error-corrected quantum advantage," PRX Quantum, 2021.</p>
+<p>[7] M. Goemans and D. Williamson, "Improved approximation algorithms for maximum cut and satisfiability problems using semidefinite programming," JACM, 1995.</p>
 <h2 id="appendix-a-problem-registry">Appendix A: Problem Registry</h2>
 <table>
 <thead>

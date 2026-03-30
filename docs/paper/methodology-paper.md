@@ -208,35 +208,49 @@ Selected correctness validation results:
 - **Shor (09_factorization)**: Correctly factors 15 = 3 × 5 (a textbook demonstration, not a research contribution)
 - **QEC (16_error_correction)**: 512/512 = 100% correction on simulator (meaningless without noise — the entire point of QEC is noise resilience)
 
-### 7.3 Scaling Analysis: Grover Search
+### 7.3 Scaling Analysis: Grover Search (Computed)
 
-To illustrate the gap between toy validation and practical utility, we analyze how Grover search resources scale with the keyspace size N = 2ⁿ.
+To illustrate the gap between toy validation and practical utility, we computed Grover search resource requirements at increasing qubit counts, using standard Toffoli-based decomposition of multi-controlled Z gates (each Toffoli = 6 CX + 7 T gates).
 
-| Qubits (n) | Keyspace (N) | Optimal Iterations | Oracle+Diffusion Gates | Total CX Gates | Circuit Depth |
+| Qubits (n) | Keyspace (N) | Iterations | CX Gates | T Gates | Total Gates | Success (noiseless) |
+|---|---|---|---|---|---|---|
+| 3 | 8 | 2 | 24 | 28 | 84 | 94.5% |
+| 4 | 16 | 3 | 72 | 84 | 222 | 96.1% |
+| 5 | 32 | 4 | 144 | 168 | 424 | 99.9% |
+| 6 | 64 | 6 | 288 | 336 | 828 | 99.7% |
+| 8 | 256 | 12 | 864 | 1,008 | 2,424 | 100% |
+| 10 | 1,024 | 25 | 2,400 | 2,800 | 6,650 | 100% |
+| 12 | 4,096 | 50 | 6,000 | 7,000 | 16,500 | 100% |
+| 16 | 65,536 | 201 | 33,768 | 39,396 | 92,058 | 100% |
+| 20 | 1,048,576 | 804 | 173,664 | 202,608 | 471,144 | 100% |
+
+The quadratic speedup (O(√N) queries) is real in query complexity, but total gate count grows as O(√N × n) where n is the number of qubits. For n=20 (N ≈ 10⁶), the circuit requires ~471K gates. For cryptographically relevant keyspaces (n=128 for AES), the circuit would require approximately 10¹⁹ gates, far beyond any foreseeable hardware. **No amount of CI/CD rigor changes these scaling realities.**
+
+### 7.3.1 Noise Impact on Grover Scaling
+
+Using a depolarizing noise model where each two-qubit gate has error probability 10× the single-qubit rate, we computed the impact on Grover success probability:
+
+| Qubits | 2Q Gates | Noiseless | p=0.1% | p=1% | p=5% |
 |---|---|---|---|---|---|
-| 3 | 8 | 1 | ~20 | ~12 | ~30 |
-| 4 | 16 | 2 | ~80 | ~48 | ~100 |
-| 5 | 32 | 3 | ~180 | ~108 | ~220 |
-| 8 | 256 | 9 | ~1,400 | ~840 | ~1,700 |
-| 10 | 1,024 | 18 | ~5,500 | ~3,300 | ~6,800 |
-| 16 | 65,536 | 142 | ~350,000 | ~210,000 | ~430,000 |
-| 20 | 1,048,576 | 571 | ~5,600,000 | ~3,400,000 | ~6,900,000 |
+| 3 | 24 | 94.5% | 76.0% | 17.2% | 12.5% |
+| 4 | 72 | 96.1% | 49.5% | 6.3% | 6.2% |
+| 5 | 144 | 99.9% | 24.0% | 3.1% | 3.1% |
+| 6 | 288 | 99.7% | 5.7% | 1.6% | 1.6% |
+| 8 | 864 | 100% | 0.4% | 0.4% | 0.4% |
 
-The quadratic speedup (O(√N) vs O(N) classical queries) is real in query complexity, but the circuit depth grows as O(√N × n²) when accounting for multi-controlled gate decomposition. For a 20-qubit keyspace (N ≈ 10⁶), the circuit requires ~7 million gates — far beyond current hardware capabilities. **No amount of CI/CD rigor changes these scaling realities.**
+At a realistic two-qubit gate error rate of 1%, Grover success collapses from 96% to 6% at 4 qubits and becomes indistinguishable from random guessing at 6+ qubits. This demonstrates that noiseless simulator results (Section 7.2) reveal nothing about practical viability. Error correction would be required for any non-trivial Grover instance, adding orders of magnitude in qubit overhead.
 
-For cryptographically relevant keyspaces (n=128 for AES), the circuit would require ~10¹⁹ gates, which is not feasible on any foreseeable hardware even with perfect error correction.
+### 7.4 Classical Baseline Honesty: Goemans-Williamson vs QAOA
 
-### 7.4 Classical Baselines Are Not State-of-the-Art
+To illustrate why our classical baselines are insufficient for advantage claims, we compared QAOA MaxCut against the Goemans-Williamson (GW) SDP relaxation [7]:
 
-Our classical baselines use standard textbook algorithms: brute-force enumeration for MaxCut, naive Monte Carlo for risk analysis, trial division for factoring. These are deliberately simple to enable cross-domain standardization, but they significantly underrepresent classical capabilities.
+| Graph | Nodes | Optimal Cut | GW Guarantee (≥0.878×OPT) | Brute-Force Time | GW Time |
+|---|---|---|---|---|---|
+| Triangle | 3 | 2.2 | ≥1.93 | O(2³) = 8 | O(3³) = 27 |
+| Square+diag | 4 | 4.0 | ≥3.51 | O(2⁴) = 16 | O(4³) = 64 |
+| Pentagon+diags | 5 | 5.4 | ≥4.74 | O(2⁵) = 32 | O(5³) = 125 |
 
-For honest advantage assessment, each problem would need comparison against the best-known classical algorithm:
-- **MaxCut**: Goemans-Williamson SDP relaxation (0.878 approximation guarantee)
-- **Risk Analysis**: Importance sampling, control variates, stratified sampling
-- **Factoring**: General number field sieve (sub-exponential)
-- **Optimization**: Branch-and-bound, simulated annealing, mixed-integer programming
-
-We do not make these comparisons because (a) our quantum instances are too small for classical algorithms to struggle, and (b) claiming advantage against weak baselines is a well-documented failure mode in the quantum computing literature.
+At our problem scales (n ≤ 5), brute-force enumeration, GW-SDP, and QAOA all find the optimal cut trivially. The GW 0.878-approximation guarantee only becomes relevant when brute-force is infeasible (n > 30). **Claiming QAOA advantage against brute-force at n=3 is meaningless** — this is precisely the kind of inflated claim that our maturity gate framework is designed to prevent.
 
 ### 7.5 Lessons Learned
 
@@ -295,6 +309,8 @@ All code, data, and tooling are available at https://github.com/WernerRall147/qu
 [5] J. Preskill, "Quantum Computing in the NISQ era and beyond," Quantum, 2018.
 
 [6] R. Babbush et al., "Focus beyond quadratic speedups for error-corrected quantum advantage," PRX Quantum, 2021.
+
+[7] M. Goemans and D. Williamson, "Improved approximation algorithms for maximum cut and satisfiability problems using semidefinite programming," JACM, 1995.
 
 ## Appendix A: Problem Registry
 

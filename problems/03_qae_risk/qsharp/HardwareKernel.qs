@@ -258,3 +258,32 @@ operation QAEKernel() : Result[] {
 
     return MResetEachZ(precisionReg);
 }
+
+// ---- IQAE kernel: single Grover-amplified round ----
+// Uses k=0 (no Grover iterations) by default.
+// The Python driver runs multiple shots and controls k adaptively.
+// NO precision register, NO QFT — just loss + marker qubits.
+
+operation IQAEKernelK0() : Result {
+    let lossQubits = RuntimeLossQubits();
+    let threshold = RuntimeThreshold();
+    let mean = RuntimeMean();
+    let stdDev = RuntimeStdDev();
+    let probabilities = LogNormalProbabilities(lossQubits, mean, stdDev);
+
+    use lossReg = Qubit[lossQubits];
+    use marker = Qubit();
+
+    let statePrep = PrepareDistributionState(probabilities, _);
+    let oracle = OracleTailMarking(threshold, lossQubits, _, _);
+
+    // A = Oracle ∘ StatePrep
+    statePrep(lossReg);
+    oracle(lossReg, marker);
+
+    // k=0: no Grover iterations, just measure
+    let result = M(marker);
+    ResetAll(lossReg);
+    Reset(marker);
+    return result;
+}

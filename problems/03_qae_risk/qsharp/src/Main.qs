@@ -4,6 +4,7 @@
 // project to the standalone QDK (qsharp.json) project format.
 
 import Std.Convert.IntAsDouble;
+import Std.Measurement.MResetEachZ;
 import Std.Math.*;
 import Std.Canon.ApplyToEachCA;
 import RuntimeConfig.*;
@@ -461,6 +462,37 @@ operation TestQaeUniformHalf() : Unit {
 
     let mean = sumProb / IntAsDouble(repetitions);
     Message($"TestQaeUniformHalf mean={mean}");
+}
+
+/// Hardware-friendly single-shot QAE kernel.
+/// Returns the precision-register measurement as Result[].
+/// All classical post-processing (phase → probability mapping,
+/// statistics over multiple shots) is done in the Python driver.
+/// Compile with Adaptive_RI or Base target profile for Azure submission.
+operation QAEKernel() : Result[] {
+    let lossQubits = RuntimeLossQubits();
+    let threshold = RuntimeThreshold();
+    let mean = RuntimeMean();
+    let stdDev = RuntimeStdDev();
+    let precisionBits = RuntimePrecisionBits();
+
+    let probabilities = LogNormalProbabilities(lossQubits, mean, stdDev);
+
+    use precisionReg = Qubit[precisionBits];
+    use lossReg = Qubit[lossQubits];
+    use marker = Qubit();
+
+    let statePrep = PrepareDistributionState(probabilities, _);
+    let oracle = OracleTailMarking(threshold, lossQubits, _, _);
+
+    QuantumPhaseEstimationQAE(statePrep, oracle, precisionReg, lossReg, marker);
+
+    // Measure and reset ancilla registers first
+    ResetAll(lossReg);
+    Reset(marker);
+
+    // Measure the precision register — this is the phase readout
+    return MResetEachZ(precisionReg);
 }
 
 @EntryPoint()

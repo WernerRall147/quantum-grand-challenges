@@ -1,0 +1,13 @@
+{
+  "problem": "01_hubbard",
+  "physicalQubits": 242100,
+  "runtime": 135180000,
+  "rqops": 3000000,
+  "logicalQubits": 18,
+  "logicalDepth": null,
+  "tCount": 1025,
+  "rotationCount": 1025,
+  "cczCount": 0,
+  "measurementCount": 3072,
+  "numQubits": 5
+}

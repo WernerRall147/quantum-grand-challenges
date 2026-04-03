@@ -1,0 +1,13 @@
+{
+  "problem": "18_photovoltaics",
+  "physicalQubits": 293400,
+  "runtime": 225792000,
+  "rqops": 2000000,
+  "logicalQubits": 12,
+  "logicalDepth": null,
+  "tCount": 0,
+  "rotationCount": 1536,
+  "cczCount": 3072,
+  "measurementCount": 768,
+  "numQubits": 3
+}

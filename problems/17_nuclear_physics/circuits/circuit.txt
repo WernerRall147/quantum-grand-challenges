@@ -4,11 +4,7 @@
   Qubits: 2 | Model: deuteron EFT Hamiltonian
 ===================================================================
 
-q0 ─── X ─── Ry(θ₀) ───── ● ──────────── ● ─── ⟨Pauli⟩
-                           │              │
-q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ── X ─── ⟨Pauli⟩
+Traced gate-level circuit (from QDK simulator):
 
-  Deuteron Hamiltonian (2-body EFT):
-    H = c₀·I + c₁·Z₀ + c₂·Z₁ + c₃·Z₀Z₁ + c₄·X₀X₁ + c₅·Y₀Y₁
-  
-  Ground state energy → deuteron binding energy (2.22 MeV)
+q_0    ────── X ─────── Ry(1.0000) ──── ● ─────────────────── ● ──── |0〉 ──
+q_1    ─ Ry(0.5000) ─────────────────── X ─── Rz(0.3000) ──── X ──── |0〉 ──

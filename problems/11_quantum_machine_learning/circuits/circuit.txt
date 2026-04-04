@@ -4,15 +4,7 @@
   Qubits: 2 (regA) + 2 (regB) + 1 (ancilla) = 5
 ===================================================================
 
-ancilla ─── H ──────── ● ──────── ● ──── H ─── M
-                       │          │
-regA[0] ── Ry(x₀) ── SWAP ────── │ ──────────── 
-regA[1] ── Ry(x₁) ──  │  ─────── │ ────────────
-                       │          │
-regB[0] ── Ry(y₀) ────┘    ──── SWAP ──────────
-regB[1] ── Ry(y₁) ──────── ─────  │  ──────────
+Traced gate-level circuit (from QDK simulator):
 
-  1. Encode feature vectors x, y into amplitudes via Ry
-  2. Controlled-SWAP between registers (conditioned on ancilla)
-  3. Measure ancilla: P(0) = (1 + |⟨x|y⟩|²) / 2
-  4. Kernel value K(x,y) = |⟨x|y⟩|² for SVM/classifier
+q_0    ─ Ry(1.3051) ──── X ─────────────────── ● ─────────────────── ● ──── X ──────────────────────────────────────── ● ─────────────────── ● ──── |0〉 ──────────────────
+q_1    ───── S' ──────── H ─── Rz(0.4636) ──── X ─── Rz(-0.4636) ─── X ──── H ──── S ─── S' ──── H ─── Rz(1.2120) ──── X ─── Rz(-1.2120) ─── X ───── H ───── S ──── |0〉 ──

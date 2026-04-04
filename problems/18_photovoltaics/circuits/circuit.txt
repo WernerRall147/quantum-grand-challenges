@@ -4,15 +4,8 @@
   Qubits: 1 coin + 2 position = 3
 ===================================================================
 
-            ┌── Coin ──┐  ┌──── Shift ────┐
-coin ──── Ry(2g) ──── X ──── ● ──────────── ● ────── × T steps
-                             │              │
-pos[0] ──────────────────── SWAP ────────── │ ──────
-                              │             │ 
-pos[1] ──────────────────────┘──────────── SWAP ────
+Traced gate-level circuit (from QDK simulator):
 
-  1. Coin rotation: Ry(2g) controls L/R probability (coupling strength)
-  2. Conditional shift: SWAP position register based on coin state
-  3. Simulates exciton hopping along a 1D chain
-  4. Quantum walk spreads ballistically: σ ∝ t (vs √t classical)
-  5. Models photon-harvesting efficiency in organic photovoltaics
+q_0    ─ Ry(1.0000) ──── X ──── ● ──── X ─────────── ● ──── |0〉 ───────────
+q_1    ────── ● ─────────────── X ──── ● ──── ● ──── X ───── ● ───── |0〉 ──
+q_2    ────── X ─────────────── ● ──── X ──── X ──── ● ───── X ───── |0〉 ──

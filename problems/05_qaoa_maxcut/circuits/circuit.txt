@@ -4,20 +4,10 @@
   Qubits: 3 (one per vertex) | Depth: p layers
 ===================================================================
 
-                    ┌── Cost Layer (γ) ──┐  ┌── Mixer Layer (β) ──┐
-q0 ─── H ──────── ZZ(γ·w₀₁) ── ZZ(γ·w₀₂) ── Rx(2β) ─── ... ─── M
-                     ╳                        
-q1 ─── H ──────── ZZ(γ·w₀₁) ── ZZ(γ·w₁₂) ── Rx(2β) ─── ... ─── M
-                                   ╳
-q2 ─── H ──────── ZZ(γ·w₀₂) ── ZZ(γ·w₁₂) ── Rx(2β) ─── ... ─── M
+Traced gate-level circuit (from QDK simulator):
 
-  ZZ interaction (per edge):
-    q_i ─── ● ──────────── ● ───
-             │              │
-    q_j ─── X ── Rz(2γw) ── X ───  =  exp(-iγw · Z⊗Z)
-
-  1. Initialize uniform superposition |+⟩^n
-  2. Cost layer: ZZ rotations for each edge (encodes cut value)
-  3. Mixer layer: Rx rotations (drives exploration)
-  4. Repeat p times, measure, evaluate cut value
-  5. Classical optimizer tunes (γ, β)
+q_0    ── H ─── Rzz(1.0000) ── Rzz(1.0000) ── Rx(1.0000) ─────── |0〉 ──────────────
+                     ┆              ┆
+q_1    ── H ─── Rzz(1.0000) ────────┆──────── Rzz(1.0000) ── Rx(1.0000) ──── |0〉 ──
+                                    ┆              ┆
+q_2    ── H ────────────────── Rzz(1.0000) ── Rzz(1.0000) ── Rx(1.0000) ──── |0〉 ──

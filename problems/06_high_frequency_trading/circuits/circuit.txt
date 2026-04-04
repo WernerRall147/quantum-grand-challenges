@@ -4,12 +4,8 @@
   Qubits: 2 register + 1 marker = 3
 ===================================================================
 
-reg[0] ─── Ry(θ₀) ─── X ─── Controlled Ry ─── Controlled Ry ───── ...
-                              │                │
-reg[1] ──────────────────── Ry(θ₁) ─────── Ry(θ₂) ─── ● ──── ...
-                                                        │
-marker ─── |0⟩ ──────────────────────────────────────── X ──── M
+Traced gate-level circuit (from QDK simulator):
 
-  State prep encodes P&L distribution into amplitudes
-  Oracle marks loss states (P&L < threshold)
-  Grover amplification + measurement estimates VaR tail probability
+q_0    ─ Ry(2.3318) ──── X ──── ● ───── X ───── |0〉 ──
+q_1    ────── X ─────────────── ● ───── X ───── |0〉 ──
+q_2    ──────────────────────── X ──── |0〉 ───────────

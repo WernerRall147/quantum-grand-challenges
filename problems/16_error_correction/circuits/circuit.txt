@@ -4,19 +4,8 @@
   Qubits: 3 code + 2 syndrome = 5
 ===================================================================
 
-          ┌─ Encode ──┐  ┌─ Error ─┐  ┌── Syndrome ──┐  ┌ Correct ┐
-data ──── ● ──── ● ─── X(p)? ───── ● ──────── ● ────── X? ──── M
-          │      │                  │           │
-anc1 ──── X ──── │ ──── X(p)? ──── X ── ● ──── │ ────── X? ──── M
-                 │                       │      │
-anc2 ──── ────── X ──── X(p)? ────────── X ──── X ────── X? ──── M
-                                         │      │
-syn0 ──── ─────────────────────────────── M ──── │ ────────────── 
-                                                 │
-syn1 ──── ──────────────────────────────────── M ──────────────
+Traced gate-level circuit (from QDK simulator):
 
-  Encode: CNOT copies logical qubit across 3 physical qubits
-  Error: random bit-flip X with probability p
-  Syndrome: parity checks detect which qubit flipped
-    syn0 = q0 ⊕ q1, syn1 = q1 ⊕ q2
-  Correct: apply X to the identified erroneous qubit
+q_0    ── H ──── ● ──── ● ──── |0〉 ──
+q_1    ───────── X ─────┼───── |0〉 ──
+q_2    ──────────────── X ──── |0〉 ──

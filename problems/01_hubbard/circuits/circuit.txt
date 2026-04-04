@@ -4,14 +4,7 @@
   Qubits: 2 | Params: θ₀, θ₁, θ₂ | Pauli terms: XX, YY, ZI, IZ
 ===================================================================
 
-q0 ─── X ─── Ry(θ₀) ───── ● ──────────── ● ─── ⟨Pauli⟩
-                           │              │
-q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ── X ─── ⟨Pauli⟩
+Traced gate-level circuit (from QDK simulator):
 
-  Step 1: X initializes q0 to |1⟩  (Hartree-Fock reference)
-  Step 2: Ry rotations create parameterized superposition
-  Step 3: CNOT-Rz-CNOT entangles and adds ZZ correlation
-  Step 4: Measure ⟨XX⟩, ⟨YY⟩, ⟨ZI⟩, ⟨IZ⟩ Pauli expectations
-  Step 5: Classical optimizer updates θ₀, θ₁, θ₂
-
-  Energy = -t(⟨XX⟩ + ⟨YY⟩) + U/2(⟨ZI⟩ + ⟨IZ⟩)
+q_0    ────── X ─────── Ry(1.0000) ──── ● ─────────────────── ● ──── |0〉 ──
+q_1    ─ Ry(0.5000) ─────────────────── X ─── Rz(0.3000) ──── X ──── |0〉 ──

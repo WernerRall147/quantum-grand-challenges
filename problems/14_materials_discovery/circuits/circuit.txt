@@ -4,10 +4,7 @@
   Qubits: 2 | Model: tight-binding Hamiltonian
 ===================================================================
 
-q0 ─── X ─── Ry(θ₀) ───── ● ──────────── ● ─── ⟨Pauli⟩
-                           │              │
-q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ── X ─── ⟨Pauli⟩
+Traced gate-level circuit (from QDK simulator):
 
-  Estimates ground/excited state energies of tight-binding model
-  Band gap = E_excited - E_ground (key material property)
-  Critical for photovoltaics, semiconductors, superconductors
+q_0    ────── X ─────── Ry(1.0000) ──── ● ─────────────────── ● ──── |0〉 ──
+q_1    ─ Ry(0.5000) ─────────────────── X ─── Rz(0.3000) ──── X ──── |0〉 ──

@@ -4,13 +4,8 @@
   Qubits: 4 (mission leg assignments)
 ===================================================================
 
-           ┌── Cost(γ): Δv bias + window conflicts ──┐  ┌ Mixer ┐
-q0 ── H ── Rz(2γ·Δv₀) ── ● ──────────────── ● ────── Rx(2β) ── M
-                           │  ZZ(conflict)    │
-q1 ── H ── Rz(2γ·Δv₁) ── X ── Rz(2γw) ── X ── ● ── Rx(2β) ── M
-                                                  │
-q2 ── H ── Rz(2γ·Δv₂) ──────────────── X ── Rz ── X ── Rx(2β) ── M
-q3 ── H ── Rz(2γ·Δv₃) ──────────────────────────── Rx(2β) ── M
+Traced gate-level circuit (from QDK simulator):
 
-  Cost encodes: single-qubit Δv budget + pairwise time window conflicts
-  Finds optimal trajectory assignment minimizing total Δv
+q_0    ── H ─── Rz(-0.5000) ─── ● ─────────────────── ● ──── ● ─────────────────── ● ─── Rx(1.0000) ─────── |0〉 ────────────────────────────────────
+q_1    ── H ─── Rz(0.5000) ──── X ─── Rz(0.2500) ──── X ─────┼─────────────────────┼───────── ● ─────────────────────── ● ─── Rx(1.0000) ──── |0〉 ──
+q_2    ── H ─── Rz(-0.1500) ──────────────────────────────── X ─── Rz(0.2500) ──── X ──────── X ─────── Rz(0.2500) ──── X ─── Rx(1.0000) ──── |0〉 ──

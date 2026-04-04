@@ -1,0 +1,20 @@
+===================================================================
+  Problem 09: Factorization — Shor's Algorithm, N=15 (8-qubit)
+  Algorithm: Quantum Phase Estimation for period finding
+  Qubits: 4 counting + 4 work = 8
+===================================================================
+
+count[0] ─── H ─── Ctrl-U^8 ─────────────────── ┐
+count[1] ─── H ──────── Ctrl-U^4 ────────────── ┤ Inverse
+count[2] ─── H ──────────── Ctrl-U^2 ────────── ┤  QFT    ─── M
+count[3] ─── H ──────────────── Ctrl-U^1 ────── ┘          ─── M
+                                │ │ │ │
+work[0] ──── |0⟩ ──────────── ┤ ├ ┤ ├ ────────────────────
+work[1] ──── |0⟩ ──────────── ┤ U^k(a,N) ├ ────────────────
+work[2] ──── |0⟩ ──────────── ┤ = a^k mod N├ ──────────────
+work[3] ──── |1⟩ ──────────── ┤ (SWAP+CNOT)├ ──────────────
+
+  U|x⟩ = |a·x mod N⟩ for a=7, N=15
+  U^k implemented via controlled SWAP/CNOT permutations  
+  After inverse QFT, count register encodes s/r (period fraction)
+  Classical post-processing: continued fractions → r → factors

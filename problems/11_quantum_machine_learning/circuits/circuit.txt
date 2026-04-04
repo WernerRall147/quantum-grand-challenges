@@ -1,0 +1,18 @@
+===================================================================
+  Problem 11: Quantum ML — Swap Test Kernel (5-qubit)
+  Algorithm: Quantum Kernel Estimation via Swap Test
+  Qubits: 2 (regA) + 2 (regB) + 1 (ancilla) = 5
+===================================================================
+
+ancilla ─── H ──────── ● ──────── ● ──── H ─── M
+                       │          │
+regA[0] ── Ry(x₀) ── SWAP ────── │ ──────────── 
+regA[1] ── Ry(x₁) ──  │  ─────── │ ────────────
+                       │          │
+regB[0] ── Ry(y₀) ────┘    ──── SWAP ──────────
+regB[1] ── Ry(y₁) ──────── ─────  │  ──────────
+
+  1. Encode feature vectors x, y into amplitudes via Ry
+  2. Controlled-SWAP between registers (conditioned on ancilla)
+  3. Measure ancilla: P(0) = (1 + |⟨x|y⟩|²) / 2
+  4. Kernel value K(x,y) = |⟨x|y⟩|² for SVM/classifier

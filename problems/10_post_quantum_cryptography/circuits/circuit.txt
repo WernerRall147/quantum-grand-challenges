@@ -1,0 +1,19 @@
+===================================================================
+  Problem 10: Post-Quantum Crypto — Grover Key Search (n-qubit)
+  Algorithm: Grover's search (brute-force key exhaustion)
+  Qubits: n (keyspace = 2ⁿ) | Tested: n = 3, 4, 5
+===================================================================
+
+         ┌─ H^n ─┐  ┌── Oracle ──┐  ┌── Diffusion ──┐
+q[0] ─── H ──────── X?── Ctrl-Z ── X? ── H ── X ── Ctrl-Z ── X ── H ─── ×⌊π/4·√N⌋
+q[1] ─── H ──────── X?──   │    ── X? ── H ── X ──   │    ── X ── H ──
+ ...      ...          ...  │     ...        ...       │         ...
+q[n-1] ── H ──────── X?── Z ──── X? ── H ── X ── Z ──── X ── H ───
+
+  Oracle: flips phase of |target⟩ via X-gates + multi-controlled Z
+  Diffusion: 2|s⟩⟨s|-I = H·(2|0⟩⟨0|-I)·H
+  Optimal iterations: ⌊π/4 · √(2ⁿ)⌋
+
+  Security implication: reduces n-bit key to √n effective strength
+    AES-128: classical 2^127 → quantum ~2^64 queries
+    AES-256: classical 2^255 → quantum ~2^128 queries

@@ -1,0 +1,16 @@
+===================================================================
+  Problem 12: Quantum Optimization — QAOA Job Scheduling (4-qubit)
+  Algorithm: QAOA for weighted scheduling
+  Qubits: 4 (one per job)
+===================================================================
+
+           ┌ Cost(γ): ZZ for conflicts ┐  ┌ Mixer(β) ┐
+q0 ── H ── ● ──────────────── ● ──────── Rx(2β) ── × p layers ── M
+            │                  │
+q1 ── H ── X ── Rz(2γw) ── X ── ● ────── Rx(2β) ─────────────── M
+                                  │
+q2 ── H ──────────────── X ── Rz ── X ── Rx(2β) ─────────────── M
+q3 ── H ──────────────────────────────── Rx(2β) ─────────────── M
+
+  Encodes job conflict graph as ZZ interactions
+  Minimizes weighted makespan / maximizes throughput

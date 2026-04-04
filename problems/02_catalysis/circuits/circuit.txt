@@ -1,0 +1,17 @@
+===================================================================
+  Problem 02: Catalysis — VQE for H₂ Ground State (2-qubit)
+  Algorithm: Variational Quantum Eigensolver (STO-3G basis)
+  Qubits: 2 | Params: θ₀, θ₁, θ₂
+===================================================================
+
+q0 ─── X ─── Ry(θ₀) ───── ● ──────────── ● ─── ⟨Pauli⟩
+                           │              │
+q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ── X ─── ⟨Pauli⟩
+
+  Same hardware-efficient ansatz as Hubbard (shared 2-qubit structure)
+  
+  H₂ Hamiltonian (STO-3G, R=0.74 Å):
+    H = c₀·I + c₁·Z₀ + c₂·Z₁ + c₃·Z₀Z₁ + c₄·X₀X₁
+  
+  Measures: ⟨Z₀⟩, ⟨Z₁⟩, ⟨Z₀Z₁⟩, ⟨X₀X₁⟩
+  Arrhenius activation energy derived from ground state

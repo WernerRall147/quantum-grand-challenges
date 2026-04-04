@@ -1,0 +1,18 @@
+===================================================================
+  Problem 18: Photovoltaics — Quantum Walk (3-qubit)
+  Algorithm: Discrete-time quantum walk (exciton transport)
+  Qubits: 1 coin + 2 position = 3
+===================================================================
+
+            ┌── Coin ──┐  ┌──── Shift ────┐
+coin ──── Ry(2g) ──── X ──── ● ──────────── ● ────── × T steps
+                             │              │
+pos[0] ──────────────────── SWAP ────────── │ ──────
+                              │             │ 
+pos[1] ──────────────────────┘──────────── SWAP ────
+
+  1. Coin rotation: Ry(2g) controls L/R probability (coupling strength)
+  2. Conditional shift: SWAP position register based on coin state
+  3. Simulates exciton hopping along a 1D chain
+  4. Quantum walk spreads ballistically: σ ∝ t (vs √t classical)
+  5. Models photon-harvesting efficiency in organic photovoltaics

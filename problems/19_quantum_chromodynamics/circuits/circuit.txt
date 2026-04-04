@@ -1,0 +1,20 @@
+===================================================================
+  Problem 19: QCD — Trotterized Lattice Gauge (4-qubit)
+  Algorithm: Hamiltonian simulation (1st order Trotter)
+  Qubits: 4 (lattice sites)
+===================================================================
+
+           ┌──── ZZ plaquettes ────────┐  ┌── Transverse field ──┐
+q[0] ──── ● ──────────────── ──────── ──── Rx(2h) ────────────── × T steps
+           │                               
+q[1] ──── X ── Rz(2β) ── X ── ● ──── ──── Rx(2h) ──────────────
+                                │
+q[2] ──── ────────────── X ── Rz(2β) ── X ── ● ── Rx(2h) ──────
+                                               │
+q[3] ──── ──────────────────────────── X ── Rz(2β) ── X ── Rx(2h)
+
+  H = -β Σᵢ ZᵢZᵢ₊₁ - h Σᵢ Xᵢ   (simplified Z₂ lattice gauge)
+  
+  ZZ interaction: CNOT-Rz-CNOT decomposes exp(-iβ ZZ)
+  Transverse field: Rx(2h) = exp(-ih X)
+  Trotter error: O(Δt²) per step

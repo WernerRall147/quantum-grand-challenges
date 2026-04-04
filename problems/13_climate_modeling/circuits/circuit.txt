@@ -1,0 +1,17 @@
+===================================================================
+  Problem 13: Climate Modeling — HHL for Diffusion PDE (5-qubit)
+  Algorithm: HHL quantum linear solver
+  Qubits: 3 precision + 1 system + 1 ancilla = 5
+===================================================================
+
+prec[0] ── H ──── Ctrl-e^{iHt} ─────────────────────── ┐
+prec[1] ── H ───────── Ctrl-e^{iH·2t} ──────────────── ┤ Inv QFT
+prec[2] ── H ───────────── Ctrl-e^{iH·4t} ──────────── ┘
+                              │                    ┌─────────────┐
+system ── Ry(b) ──────────── Trotter ──────────── │ C-Ry(C/λ)  │
+                                                   └──────┬──────┘
+ancilla ── |0⟩ ────────────────────────────────────────── Ry ── M
+
+  Trotter step: Rz(2t)·Rx(t) (discretized diffusion operator)
+  Solves Ax=b where A encodes spatial diffusion operator
+  Solution encodes temperature/concentration field

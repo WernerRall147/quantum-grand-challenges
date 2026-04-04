@@ -1,0 +1,15 @@
+===================================================================
+  Problem 06: HFT — Amplitude Estimation for VaR (3-qubit)
+  Algorithm: Quantum Amplitude Estimation
+  Qubits: 2 register + 1 marker = 3
+===================================================================
+
+reg[0] ─── Ry(θ₀) ─── X ─── Controlled Ry ─── Controlled Ry ───── ...
+                              │                │
+reg[1] ──────────────────── Ry(θ₁) ─────── Ry(θ₂) ─── ● ──── ...
+                                                        │
+marker ─── |0⟩ ──────────────────────────────────────── X ──── M
+
+  State prep encodes P&L distribution into amplitudes
+  Oracle marks loss states (P&L < threshold)
+  Grover amplification + measurement estimates VaR tail probability

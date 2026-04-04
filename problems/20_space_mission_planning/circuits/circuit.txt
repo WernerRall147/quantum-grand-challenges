@@ -1,0 +1,16 @@
+===================================================================
+  Problem 20: Space Mission — QAOA Trajectory (4-qubit)
+  Algorithm: QAOA for trajectory optimization
+  Qubits: 4 (mission leg assignments)
+===================================================================
+
+           ┌── Cost(γ): Δv bias + window conflicts ──┐  ┌ Mixer ┐
+q0 ── H ── Rz(2γ·Δv₀) ── ● ──────────────── ● ────── Rx(2β) ── M
+                           │  ZZ(conflict)    │
+q1 ── H ── Rz(2γ·Δv₁) ── X ── Rz(2γw) ── X ── ● ── Rx(2β) ── M
+                                                  │
+q2 ── H ── Rz(2γ·Δv₂) ──────────────── X ── Rz ── X ── Rx(2β) ── M
+q3 ── H ── Rz(2γ·Δv₃) ──────────────────────────── Rx(2β) ── M
+
+  Cost encodes: single-qubit Δv budget + pairwise time window conflicts
+  Finds optimal trajectory assignment minimizing total Δv

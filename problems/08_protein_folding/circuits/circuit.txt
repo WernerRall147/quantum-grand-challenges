@@ -1,0 +1,17 @@
+===================================================================
+  Problem 08: Protein Folding — QAOA on Contact Map (4-qubit)
+  Algorithm: QAOA for lattice protein folding
+  Qubits: 4 (residue positions)
+===================================================================
+
+           ┌──── Cost (γ) ────┐  ┌── Mixer (β) ──┐
+q0 ── H ── ● ──────────────── ● ── Rx(2β) ────── ...  ── M
+            │   ZZ(2γw₀₁)     │
+q1 ── H ── X ── Rz ── X ── ● ── Rx(2β) ────── ...  ── M
+                             │   ZZ(2γw₁₂)
+q2 ── H ──────────────── X ── Rz ── X ── ● ── Rx(2β) ── M
+                                          │
+q3 ── H ──────────────────────────── X ── Rz ── X ── Rx(2β) ── M
+
+  Contact energy Hamiltonian: Σ wᵢⱼ ZᵢZⱼ (pairwise residue interactions)
+  Minimizes folding energy = maximizes native contacts

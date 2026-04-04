@@ -1,0 +1,13 @@
+===================================================================
+  Problem 14: Materials Discovery — VQE Band Gap (2-qubit)
+  Algorithm: Variational Quantum Eigensolver
+  Qubits: 2 | Model: tight-binding Hamiltonian
+===================================================================
+
+q0 ─── X ─── Ry(θ₀) ───── ● ──────────── ● ─── ⟨Pauli⟩
+                           │              │
+q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ── X ─── ⟨Pauli⟩
+
+  Estimates ground/excited state energies of tight-binding model
+  Band gap = E_excited - E_ground (key material property)
+  Critical for photovoltaics, semiconductors, superconductors

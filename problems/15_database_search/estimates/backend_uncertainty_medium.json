@@ -25,5 +25,6 @@
   "notes": [
     "This uncertainty artifact is model-projected from instance confidence targets.",
     "Replace with backend measured success counts once repeated execution data is available."
-  ]
+  ],
+  "generated_utc": "2026-03-06T17:36:09.291101+00:00"
 }

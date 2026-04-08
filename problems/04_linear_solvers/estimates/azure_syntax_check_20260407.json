@@ -1,0 +1,11 @@
+{
+  "problem": "04_linear_solvers",
+  "job_id": "604c98f3-3316-11f1-ab3d-f068e3583cd5",
+  "status": "JobStatus.SUCCEEDED",
+  "target": "quantinuum.sim.h2-1sc",
+  "shots": 10,
+  "results": {
+    "[0]": 1.0
+  },
+  "generated_utc": "2026-04-08T06:44:58.446290+00:00"
+}

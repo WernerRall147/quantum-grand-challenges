@@ -1,0 +1,12 @@
+{
+  "problem": "12_quantum_optimization",
+  "job_id": "c0acc864-32a6-11f1-99df-f068e3583cd5",
+  "job_name": "12_quantum_optimization-qdk-sc-20260407",
+  "status": "JobStatus.SUCCEEDED",
+  "target": "quantinuum.sim.h2-1sc",
+  "shots": 10,
+  "results": {
+    "[0, 0, 0, 0]": 1.0
+  },
+  "generated_utc": "2026-04-07T17:25:48.080717+00:00"
+}

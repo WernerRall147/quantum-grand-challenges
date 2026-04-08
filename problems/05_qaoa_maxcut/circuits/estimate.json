@@ -1,0 +1,13 @@
+{
+  "problem": "05_qaoa_maxcut",
+  "physicalQubits": 348936,
+  "runtime": 660960000,
+  "rqops": 1764706,
+  "logicalQubits": 12,
+  "logicalDepth": null,
+  "tCount": 0,
+  "rotationCount": 7200,
+  "cczCount": 0,
+  "measurementCount": 3600,
+  "numQubits": 3
+}

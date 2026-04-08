@@ -63,21 +63,30 @@ install-deps:
 	@echo "Installing Python dependencies..."
 	pip install numpy scipy matplotlib pandas seaborn plotly jupyter pyyaml jsonschema pytest
 
-# Q# build and test
+# Q# build and test (modern QDK — uses qsharp/qdk Python package)
 runtime-config:
 	@echo "Generating Q# runtime config..."
 	cd python && $(PYTHON) write_runtime_config.py --loss-qubits $(LOSS_QUBITS) --threshold $(THRESHOLD) --mean $(MEAN) --std-dev $(STD_DEV) --precision-bits $(PRECISION_BITS) --repetitions $(REPETITIONS) --run-sanity-check $(RUN_SANITY_CHECK)
 
 build: runtime-config
-	@echo "Building Q# project..."
+	@echo "Q# project uses modern QDK (qsharp.json) — no separate build step needed."
+	@echo "The qsharp Python package compiles on-the-fly."
+
+test: runtime-config
+	@echo "Running Q# tests via modern QDK..."
+	cd python && $(PYTHON) -c "from qdk import qsharp; qsharp.init(project_root='../qsharp'); qsharp.run('Main.TestQaeUniformHalf()', 1)"
+
+run: runtime-config
+	@echo "Running Q# QAE risk analysis via modern QDK..."
+	cd python && $(PYTHON) run_qsharp.py
+
+# Legacy targets (require .NET 6.0 + old QAERisk.csproj)
+build-legacy: runtime-config
+	@echo "Building Q# project (legacy .NET SDK)..."
 	cd qsharp && dotnet build --configuration Release
 
-test: build
-	@echo "Running Q# tests..."
-	cd qsharp && dotnet test --verbosity normal
-
-run: build
-	@echo "Running Q# QAE risk analysis..."
+run-legacy: build-legacy
+	@echo "Running Q# QAE risk analysis (legacy .NET SDK)..."
 	cd qsharp && dotnet run --configuration Release
 
 # Resource estimation
@@ -175,7 +184,7 @@ validate-results:
 # Clean up
 clean:
 	@echo "Cleaning build artifacts..."
-	cd qsharp && dotnet clean
+	-cd qsharp && dotnet clean 2>/dev/null || true
 	rm -rf qsharp/bin qsharp/obj
 	rm -rf python/__pycache__
 	rm -rf estimates/temp_*
@@ -204,8 +213,8 @@ full-analysis: build test estimate classical analyze
 check-env:
 	@echo "Development environment check:"
 	@echo "  Python: $$(python3 --version 2>/dev/null || echo 'Not found')"
-	@echo "  .NET: $$(dotnet --version 2>/dev/null || echo 'Not found')"
-	@echo "  Q# compiler: $$(cd qsharp && dotnet build --verbosity quiet > /dev/null 2>&1 && echo 'Available' || echo 'Not available')"
+	@echo "  QDK (qsharp): $$(python3 -c 'import qsharp; print(qsharp.__version__)' 2>/dev/null || echo 'Not installed (pip install qdk)')"
+	@echo "  .NET (legacy): $$(dotnet --version 2>/dev/null || echo 'Not found')"
 	@echo "  Azure CLI: $$(az --version 2>/dev/null | head -1 || echo 'Not found')"
 	@echo "  Quantum extension: $$(az extension list --output table 2>/dev/null | grep quantum || echo 'Not installed')"
 

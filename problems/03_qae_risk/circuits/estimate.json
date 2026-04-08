@@ -1,0 +1,13 @@
+{
+  "problem": "03_qae_risk",
+  "physicalQubits": 591710,
+  "runtime": 8912368000,
+  "rqops": 4605264,
+  "logicalQubits": 35,
+  "logicalDepth": null,
+  "tCount": 180,
+  "rotationCount": 39620,
+  "cczCount": 127000,
+  "measurementCount": 220,
+  "numQubits": 12
+}

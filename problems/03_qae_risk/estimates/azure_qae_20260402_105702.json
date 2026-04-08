@@ -1,0 +1,12 @@
+{
+  "job_id": "cea377e2-2e71-11f1-b299-f068e3583cd5",
+  "job_name": "03_qae-risk-qdk-v2-small",
+  "target": "quantinuum.sim.h2-1sc",
+  "shots": 100,
+  "status": "Succeeded",
+  "results": {
+    "[0, 0]": 1.0
+  },
+  "timestamp": "2026-04-02T10:57:02.875683",
+  "generated_utc": "2026-04-02T10:57:02.875683"
+}

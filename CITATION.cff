@@ -9,19 +9,22 @@ authors:
 repository-code: "https://github.com/WernerRall147/quantum-grand-challenges"
 url: "https://wernerrall147.github.io/quantum-grand-challenges/"
 license: AGPL-3.0-or-later
-version: "1.0.0"
-date-released: "2026-03-25"
+version: "2.0.0"
+date-released: "2026-04-08"
 doi: "10.5281/zenodo.19222021"
 abstract: >-
   A systematic framework for quantum algorithm development covering 20 scientific
   problem domains with standardized maturity gates, automated validation, resource
-  estimation pipelines, and Azure Quantum integration. Implements 9 algorithm families
-  (VQE, QAOA, Grover, HHL, Shor, QAE, swap test, QEC, Trotter simulation) with
-  classical baselines, parameterized instances, and reproducibility infrastructure.
+  estimation pipelines, and Azure Quantum integration. Implements 10 algorithm families
+  (VQE, QAOA, Grover, HHL, Shor, IQAE, swap test, QEC, quantum walk, Trotter simulation)
+  using the modern Microsoft QDK (qsharp 1.27, no .NET dependency), with classical
+  baselines including variance-reduced Monte Carlo, parameterized instances, and
+  reproducibility infrastructure. All 20 problems validated on Quantinuum H2-1SC.
 keywords:
   - quantum computing
   - quantum algorithms
   - resource estimation
+  - IQAE
   - Q#
   - Azure Quantum
   - benchmarking

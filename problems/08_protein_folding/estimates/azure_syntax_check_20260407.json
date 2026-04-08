@@ -1,0 +1,12 @@
+{
+  "problem": "08_protein_folding",
+  "job_id": "7540f294-32a6-11f1-bb11-f068e3583cd5",
+  "job_name": "08_protein_folding-qdk-sc-20260407",
+  "status": "JobStatus.SUCCEEDED",
+  "target": "quantinuum.sim.h2-1sc",
+  "shots": 10,
+  "results": {
+    "[0, 0, 0]": 1.0
+  },
+  "generated_utc": "2026-04-07T17:23:40.597598+00:00"
+}

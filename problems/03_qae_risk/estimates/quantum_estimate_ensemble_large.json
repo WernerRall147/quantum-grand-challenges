@@ -465,5 +465,6 @@
   "notes": [
     "Measured with reduced runtime parameters to avoid simulator stalls.",
     "Overrides: loss_qubits=8, precision_bits=4, repetitions=24, ensemble_runs=20."
-  ]
+  ],
+  "generated_utc": "2026-03-07T04:43:24.558913Z"
 }

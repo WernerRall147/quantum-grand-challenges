@@ -1,0 +1,10 @@
+===================================================================
+  Problem 02: Catalysis — VQE for H₂ Ground State (2-qubit)
+  Algorithm: Variational Quantum Eigensolver (STO-3G basis)
+  Qubits: 2 | Params: θ₀, θ₁, θ₂
+===================================================================
+
+Traced gate-level circuit (from QDK simulator):
+
+q_0    ────── X ─────── Ry(1.0000) ──── ● ─────────────────── ● ──── |0〉 ──
+q_1    ─ Ry(0.5000) ─────────────────── X ─── Rz(0.3000) ──── X ──── |0〉 ──

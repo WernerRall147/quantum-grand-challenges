@@ -1,0 +1,10 @@
+===================================================================
+  Problem 17: Nuclear Physics — VQE Deuteron (2-qubit)
+  Algorithm: Variational Quantum Eigensolver
+  Qubits: 2 | Model: deuteron EFT Hamiltonian
+===================================================================
+
+Traced gate-level circuit (from QDK simulator):
+
+q_0    ────── X ─────── Ry(1.0000) ──── ● ─────────────────── ● ──── |0〉 ──
+q_1    ─ Ry(0.5000) ─────────────────── X ─── Rz(0.3000) ──── X ──── |0〉 ──

@@ -23,8 +23,8 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 - QAE log-normal PDF bug fixed and recalibrated (theoretical: 16.1%, was incorrectly 74% before fix).
 - Real quantum circuits submitted to Azure Quantum: VQE (Hubbard), QAOA (MaxCut), Grover (DB Search) on Quantinuum H2 simulator and emulator.
 - Resource estimation pipeline covers all 20 problems with mock estimator artifacts.
-- Azure execute-mode sweep completed for five representative problems with recorded successful runs:
-  `03_qae_risk`, `05_qaoa_maxcut`, `10_post_quantum_cryptography`, `15_database_search`, `20_space_mission_planning`.
+- Azure execute-mode sweep completed for **all 20 problems** with successful syntax checker runs on Quantinuum H2-1SC.
+  Previously 5/20; now all problems are QIR-compiled and Azure-validated via modern QDK (qsharp 1.27).
   - `docs/platform-target-recommendations.md` (`balanced`)
   - `docs/platform-target-recommendations-hardware-first.md` (`hardware-first`)
   - `docs/platform-target-recommendations-simulator-first.md` (`simulator-first`)
@@ -49,25 +49,21 @@ Execution plan: `docs/planning/completeness-execution-plan-2026-03-10.md`.
 
 ### Prerequisites
 
-- **.NET 6.0 runtime/SDK** (*6.0.x only* – the QDK version we use does **not** support .NET 7/8)
-- **Python 3.11+** with scientific computing stack
-- **Azure CLI** (optional) with the Quantum extension for resource estimation experiments
+- **Python 3.11+** with `qsharp` package (`pip install qsharp`) — no .NET dependency
+- **Azure CLI** (optional) with the Quantum extension for cloud submissions
 
 ### Development Environment
 
 ```bash
 # Option 1: GitHub Codespaces (Recommended)
-# Click "Open in Codespaces" for instant setup (installs .NET 6, Python 3.11, Node 18)
+# Click "Open in Codespaces" for instant setup (installs Python 3.11, Node 18)
 
 # Option 2: Local Development
 git clone https://github.com/WernerRall147/quantum-grand-challenges.git
 cd quantum-grand-challenges
 
-# Verify .NET 6.0 is available (required for any Q# work)
-dotnet --list-runtimes | findstr 6.0
-
-# Optional: install IQ# tooling if you prefer Jupyter integration
-dotnet tool install -g Microsoft.Quantum.IQSharp
+# Install the modern QDK (Q# via Python — no .NET needed)
+pip install qsharp numpy scipy matplotlib pandas
 ```
 
 ### Run a Problem
@@ -80,10 +76,10 @@ cd problems/03_qae_risk
 make classical        # Monte Carlo baseline + writes estimates/classical_baseline.json
 make analyze          # Generates plots/ and a markdown summary
 
-# Q# workflow (requires local .NET 6)
-make build           # dotnet build --configuration Release
-make run             # Runs Program.qs entry point - produces analytical tail probability
-make estimate        # Resource estimator harness (requires successful build)
+# Q# workflow (modern QDK — no .NET required)
+make build           # Validates Q# compilation via qsharp Python package
+make run             # Runs Q# entry point on local sparse-state simulator
+make estimate        # Resource estimator harness
 ```
 
 ### Azure Auth + Run (QAOA, Microsoft Priority)
@@ -262,7 +258,7 @@ See `docs/objective-gates.md` for gate criteria and the required advantage-claim
 
 | Problem | Q# Implementation | Classical Baseline | Resource Estimation | Status |
 |---------|-------------------|--------------------|---------------------|--------|
-| [QAE Risk Analysis](problems/03_qae_risk/) | ✅ **Canonical QAE with Grover + QPE** | ✅ Complete (Monte Carlo + plots) | ✅ Complete | 🟢 **Stage C** |
+| [QAE Risk Analysis](problems/03_qae_risk/) | ✅ **IQAE (iterative, no QPE register)** + canonical QAE | ✅ Complete (MC + VR-MC + CVaR/VaR) | ✅ Complete | 🟢 **Stage C** |
 | [Hubbard Model](problems/01_hubbard/) | ✅ **VQE ansatz** (Ry+CNOT+Rz, Pauli measurements) | ✅ Complete (exact diagonalization) | ✅ Complete | 🟡 Stage B + estimates |
 | [Catalysis Simulation](problems/02_catalysis/) | ✅ **VQE for H₂** (2-qubit Pauli decomposition) | ✅ Complete (Arrhenius rates + plots) | ✅ Complete | 🟡 Stage B + estimates |
 | [Linear Solvers](problems/04_linear_solvers/) | ✅ **HHL algorithm** (QPE + eigenvalue inversion) | ✅ Complete (condition analysis + plots) | ✅ Complete | 🟡 Stage B + estimates |
@@ -340,10 +336,10 @@ problems/XX_problem_name/
 
 ### 🔧 Development Infrastructure
 
-- **Automated CI/CD**: GitHub Actions validates Python baselines, attempts Q# builds under .NET 6, runs JSON schema checks, and publishes the dashboard
+- **Automated CI/CD**: GitHub Actions validates Python baselines, compiles Q# via modern QDK, runs JSON schema checks, and publishes the dashboard
 - **Resource Estimation Ready**: Tooling and nightly workflows are wired for Azure Quantum Resource Estimator profiles once real kernels land
 - **Standardized Schema**: Shared JSON contract enables apples-to-apples comparison across all 20 challenges
-- **Codespaces Ready**: Devcontainer provisions .NET 6, Python 3.11, Node 18, Azure CLI + quantum extension, and Next.js tooling out of the box
+- **Codespaces Ready**: Devcontainer provisions Python 3.11, Node 18, Azure CLI + quantum extension, and Next.js tooling out of the box
 - **Case-Study Dashboard**: The GitHub Pages site now surfaces live highlights, reproducibility commands, and roadmap context
 
 ### 📈 Analysis Pipeline
@@ -541,7 +537,7 @@ This repository leverages AI tools for:
 
 ### Continuous Integration
 
-- **Q# Compilation Attempts**: GitHub Actions restores .NET 6 and attempts to build every placeholder project, surfacing regressions while tolerating known runtime gaps
+- **Q# Compilation**: GitHub Actions compiles all 20 Q# projects via the modern QDK (qsharp Python package), surfacing regressions
 - **Python Tooling**: Pip installs, smoke tests, and JSON schema validation run on each commit
 - **Resource Estimation**: Nightly workflow stubs out estimator artifacts so the pipeline is ready for real hardware profiles
 - **Website**: Next.js static export rebuilds automatically and publishes case studies to GitHub Pages

@@ -1,0 +1,11 @@
+===================================================================
+  Problem 10: Post-Quantum Crypto — Grover Key Search (n-qubit)
+  Algorithm: Grover's search (brute-force key exhaustion)
+  Qubits: n (keyspace = 2ⁿ) | Tested: n = 3, 4, 5
+===================================================================
+
+Traced gate-level circuit (from QDK simulator):
+
+q_0    ── H ─────────── ● ──── H ──── X ────────────────── ● ──── X ──── H ──── |0〉 ───────────
+q_1    ── H ──── X ──── ● ──── X ──── H ──── X ─────────── ● ──── X ──── H ──── |0〉 ───────────
+q_2    ── H ──── H ──── X ──── H ──── H ──── X ──── H ──── X ──── H ──── X ───── H ───── |0〉 ──

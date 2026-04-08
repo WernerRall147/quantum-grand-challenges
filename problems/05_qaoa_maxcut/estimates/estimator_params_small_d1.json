@@ -22,5 +22,6 @@
   "bestBeta": 0.9,
   "bestGamma": 0.1,
   "instance": "small",
-  "sourceQuantumArtifact": "estimates\\quantum_baseline_small_d1.json"
+  "sourceQuantumArtifact": "estimates\\quantum_baseline_small_d1.json",
+  "generated_utc": "2026-03-03T16:00:34.319477+00:00"
 }

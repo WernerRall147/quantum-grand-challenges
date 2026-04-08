@@ -1,0 +1,32 @@
+[
+  {
+    "currentAvailability": "Available",
+    "id": "quantinuum",
+    "targets": [
+      {
+        "averageQueueTime": 4,
+        "currentAvailability": "Available",
+        "id": "quantinuum.sim.h2-1sc",
+        "statusPage": "https://calendar.qapi.quantinuum.com/?target=H2-1SC&key=OMXVEjGJVbYFSLbmj822CthZsMUMCURvJFb1gPM3pV5yjmnmUW"
+      },
+      {
+        "averageQueueTime": 222952,
+        "currentAvailability": "Available",
+        "id": "quantinuum.sim.h2-1e",
+        "statusPage": "https://calendar.qapi.quantinuum.com/?target=H2-1E&key=kvyVp66LBVDsi8jhMjqrB4w0QHodI8dvAOB0fhVEEdPxp1jxKB"
+      }
+    ]
+  },
+  {
+    "currentAvailability": "Available",
+    "id": "rigetti",
+    "targets": [
+      {
+        "averageQueueTime": 5,
+        "currentAvailability": "Available",
+        "id": "rigetti.sim.qvm",
+        "statusPage": "https://rigetti.statuspage.io/"
+      }
+    ]
+  }
+]

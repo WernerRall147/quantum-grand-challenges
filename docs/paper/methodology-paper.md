@@ -91,7 +91,7 @@ For Stage C/D problems, we assess five DiVincenzo criteria: scalable qubit syste
 
 ### 4.1 Toolchain
 
-- **Quantum:** Microsoft Q# with Quantum SDK 0.28, targeting .NET 6.0
+- **Quantum:** Microsoft Q# with modern QDK (qsharp 1.27, Python-hosted, no .NET dependency)
 - **Classical:** Python 3.11 with NumPy, SciPy, Matplotlib
 - **Cloud:** Azure Quantum with Quantinuum and Rigetti providers
 - **CI/CD:** GitHub Actions with 7 automated checks
@@ -107,7 +107,7 @@ Table 1 summarizes the 9 algorithm families implemented across 20 problems.
 | QAOA | 05, 08, 12, 20 | 3-4 | H, ZZ cost (CNOT+Rz), Rx mixer |
 | Grover | 10, 15 | 3-5 | Oracle marking, diffusion operator |
 | HHL/QPE | 04, 13 | 5-6 | QPE, QFT, eigenvalue inversion |
-| QAE | 03 | 9-15 | Amplitude encoding, Grover+QPE |
+| IQAE | 03, 06 | 5 | Iterative: state prep, oracle, Grover^k, measure — no QPE register |
 | Shor | 09 | 8 | QPE, controlled modular multiply |
 | Swap Test | 11 | 5 | Controlled-SWAP, Hadamard test |
 | QEC | 16 | 5 | Syndrome extraction, correction |
@@ -151,7 +151,7 @@ Current coverage: 20/20 problems have advantage contracts, estimator summaries, 
 
 ### 6.1 Circuit Validation
 
-Seven quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum:
+Twenty quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum, compiled from Q# to QIR using the modern QDK (qsharp 1.27):
 
 | Circuit | Algorithm | Qubits | Gates | Status |
 |---|---|---|---|---|
@@ -201,7 +201,7 @@ The maturity gate model successfully enforces honest assessment: of 20 implement
 
 All validation was performed on noiseless simulators or the Quantinuum H2-1SC syntax checker. Zero-variance results (e.g., 100% QEC correction rate, exact QAOA optimality) confirm correct circuit construction but reveal nothing about performance under realistic noise. A circuit that achieves perfect results on a simulator may fail completely on hardware with 10⁻³ two-qubit gate error rates.
 
-The H2-1SC syntax checker validates that circuits are well-formed OpenQASM but does not simulate quantum behavior — it returns trivial results. Full emulator (H2-1E) jobs were submitted but experienced 78+ hour queue times, limiting practical use for iterative development.
+The H2-1SC syntax checker validates that circuits are well-formed QIR (compiled from Q# via the modern QDK) but does not simulate quantum behavior — it returns trivial results. Full emulator (H2-1E) jobs were submitted but experienced 78+ hour queue times, limiting practical use for iterative development.
 
 Selected correctness validation results:
 - **Grover (10_pqc)**: 80-92% success rate across 3-5 qubit instances on noiseless simulator
@@ -318,7 +318,7 @@ All code, data, and tooling are available at https://github.com/WernerRall147/qu
 |---|---|---|---|---|
 | 01 | Hubbard Model | VQE | 2 | B |
 | 02 | Catalysis | VQE | 2 | B |
-| 03 | Risk Analysis | QAE | 9-15 | C |
+| 03 | Risk Analysis | IQAE | 5 | C |
 | 04 | Linear Solvers | HHL | 6 | B |
 | 05 | MaxCut | QAOA | 3 | C |
 | 06 | Trading | QAE | 3 | B |

@@ -8,20 +8,15 @@ Quantum Grand Challenges is a systematic exploration of 20 of the world's most c
 
 ## Critical Dependencies & Compatibility
 
-### .NET Requirements
-- **CRITICAL**: Q# compilation requires **.NET 6.0 runtime** specifically, not .NET 8.0
-- The Microsoft.Quantum.Sdk version 0.28.302812 used in this project only works with .NET 6.0
-- Install .NET 6.0 runtime before attempting any Q# builds:
-  ```bash
-  # Install .NET 6.0 runtime (platform-specific)
-  # Ubuntu 22.04: apt install dotnet-runtime-6.0
-  # Other platforms: download from https://dotnet.microsoft.com/download/dotnet/6.0
-  ```
+### QDK (Quantum Development Kit)
+- **Modern QDK**: Q# programs use `qsharp.json` project format with the `qsharp` Python package (v1.27+)
+- **No .NET dependency**: The legacy Microsoft.Quantum.Sdk / .NET 6.0 toolchain has been fully replaced
+- **Install**: `pip install qsharp` (or `pip install "qdk[azure]"` for Azure Quantum submission)
 
 ### Environment Setup
-- **Python 3.11+** with scientific computing stack
+- **Python 3.11+** with scientific computing stack + `qsharp` package
 - **Node.js 18+** for website development
-- **Azure CLI** for quantum resource estimation (optional)
+- **Azure CLI** for quantum job submission (optional)
 
 ## Working Development Commands
 
@@ -40,16 +35,22 @@ make classical
 make analyze
 ```
 
-### Q# Development (⚠️ REQUIRES .NET 6.0)
+### Q# Development (✅ VALIDATED — Modern QDK)
 ```bash
-# CRITICAL: Verify .NET 6.0 is available first
-dotnet --list-runtimes | grep "6.0"
+# Install the qsharp Python package (one-time)
+pip install qsharp
 
-# If .NET 6.0 is available:
-cd problems/03_qae_risk/qsharp
-dotnet build --configuration Release  # Takes 25 seconds. NEVER CANCEL. Set timeout to 60+ seconds.
-dotnet test                          # Takes 15 seconds if tests exist
-dotnet run                          # Run quantum simulation
+# Compile and run any problem via Python:
+python -c "import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); qsharp.run('Main.RunTwoSiteHubbardAnalysis()', 1)"
+
+# Run all 20 problems (compile + execute):
+python tooling/run_all_qsharp.py      # ~15 seconds total
+
+# Generate resource estimates for all:
+python tooling/generate_estimates.py   # ~30 seconds total
+
+# Generate circuit diagrams:
+python tooling/trace_circuits.py       # ~60 seconds total
 ```
 
 ### Website Development (✅ VALIDATED)
@@ -65,16 +66,15 @@ npm install  # Takes 75 seconds. NEVER CANCEL. Set timeout to 120+ seconds.
 ```bash
 cd problems/03_qae_risk
 
-# Quick working demo (no Q# required) - takes 15 seconds total
+# Quick working demo - takes 15 seconds total
 make classical     # Classical Monte Carlo analysis
-make analyze      # Generate comparison plots (will show warnings but complete)
+make analyze      # Generate comparison plots
 
-# Full analysis (requires .NET 6.0 for Q# parts) - takes 45 seconds total  
-make build        # Build Q# project
-make test         # Run Q# tests
-make estimate     # Resource estimation
-make classical    # Classical baseline
-make analyze      # Generate complete analysis
+# Full quantum analysis via modern QDK - takes ~2 seconds
+make run          # Runs Q# via qsharp Python package (no .NET needed)
+
+# IQAE adaptive analysis (problem 03 only):
+python python/iqae_driver.py --epsilon 0.05 --alpha 0.05
 ```
 
 ## Timing Expectations & Timeouts
@@ -82,7 +82,7 @@ make analyze      # Generate complete analysis
 ### Short Operations (< 30 seconds)
 - `make classical`: 8 seconds
 - `make analyze`: 8 seconds  
-- `dotnet build`: 25 seconds
+- Q# compile + run via `qsharp.run()`: 1-12 seconds per problem
 - Individual Python scripts: 5-10 seconds
 
 ### Medium Operations (30-120 seconds)
@@ -108,15 +108,14 @@ make classical
 # Verify: ../estimates/classical_baseline.json created
 # Verify: ../plots/*.png files generated
 
-# 3. Test Q# compilation (if .NET 6.0 available)
-cd problems/03_qae_risk/qsharp  
-dotnet build
-# Verify: Build succeeds without errors
+# 3. Test Q# compilation
+python3 -c "import qsharp; qsharp.init(project_root='problems/03_qae_risk/qsharp'); print('Q# OK')"
+# Verify: No errors, prints 'Q# OK'
 ```
 
 ### End-to-End Scenario Testing
 ```bash
-# Complete working workflow without Q# dependencies
+# Complete working workflow
 cd problems/03_qae_risk
 make classical && make analyze
 # Expected: Monte Carlo analysis runs, plots generated in ../plots/
@@ -131,9 +130,13 @@ make classical && make analyze
 problems/XX_problem_name/
 ├── README.md              # Problem description and results
 ├── qsharp/               # Q# quantum implementation  
-│   ├── Program.qs        # Main quantum algorithm
-│   ├── *.csproj          # Project configuration
-│   └── bin/              # Compiled executables
+│   ├── qsharp.json       # Modern QDK project file
+│   ├── src/              # Q# source files
+│   │   └── Main.qs       # Main quantum algorithm
+│   └── HardwareKernel.qs # Azure-submittable QIR kernel
+├── circuits/             # Circuit diagrams and resource estimates
+│   ├── circuit.txt       # ASCII circuit diagram
+│   └── estimate.json     # Resource estimation results
 ├── python/               # Classical analysis & visualization
 │   ├── analysis.py       # Performance comparison  
 │   ├── classical_baseline.py  # Classical algorithm baseline
@@ -147,11 +150,12 @@ problems/XX_problem_name/
 ```
 
 ### Current Implementation Status
-- **03_qae_risk**: ✅ Classical analysis + analytical Q# baseline both build. Next milestone is implementing the genuine amplitude estimation circuit.
-- **01_hubbard**: ✅ Classical analytical baseline + matching Q# program scaffolded. Ready for variational/phase-estimation upgrades.
-- **02_catalysis**: ⏳ Planned
-- **04_linear_solvers**: ⏳ Planned
-- **05_qaoa_maxcut**: ⏳ Planned
+- **All 20 problems**: ✅ Migrated to modern QDK (qsharp 1.27), compile, run, Azure syntax-checked
+- **03_qae_risk**: ✅ IQAE algorithm (iterative, no QPE register), adaptive Python driver with Clopper-Pearson CI, variance-reduced MC baseline, CVaR/VaR bisection search
+- **01_hubbard**: ✅ VQE ansatz with Pauli expectation measurement, analytical baseline
+- **02_catalysis**: ✅ VQE for H₂ ground state (STO-3G), Arrhenius rate baseline
+- **04_linear_solvers**: ✅ HHL algorithm with QPE + eigenvalue inversion
+- **05_qaoa_maxcut**: ✅ QAOA with ZZ cost layer + Rx mixer, coordinate-descent optimizer
 
 ## Frequently Used Commands
 
@@ -159,8 +163,7 @@ problems/XX_problem_name/
 ```bash
 # Verify development environment
 python3 --version        # Should be 3.11+
-dotnet --version         # Should show available versions
-dotnet --list-runtimes   # Check for .NET 6.0 specifically
+python3 -c "import qsharp; print('qsharp OK')"  # Modern QDK
 node --version           # Should be 18+
 az --version            # Azure CLI (optional)
 ```
@@ -176,11 +179,11 @@ make help
 # 3. Run quick validation
 make check-env
 
-# 4. Classical development (validated for 01_hubbard and 03_qae_risk)
+# 4. Classical development (validated for all 20 problems)
 make classical
 make analyze
 
-# 5. Q# development (requires .NET 6.0)
+# 5. Q# development (via modern QDK — no .NET required)
 make build
 make test
 make run
@@ -190,9 +193,10 @@ make run
 
 #### Q# Build Fails
 ```bash
-# Check .NET runtime availability
-dotnet --list-runtimes | grep "6.0"
-# If missing: Install .NET 6.0 runtime for your platform
+# Verify qsharp package is installed
+pip install qsharp
+# Test compilation:
+python -c "import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print('OK')"
 ```
 
 #### Python Import Errors  
@@ -213,7 +217,7 @@ az extension list | grep quantum
 ### Always Run These Validation Steps
 1. **Environment check**: `make check-env` in any problem directory
 2. **Classical validation**: `make classical` to verify Python stack
-3. **Build validation**: `make build` to verify Q# compilation (if .NET 6.0 available)
+3. **Build validation**: `make build` to verify Q# compilation
 4. **End-to-end test**: Run complete analysis pipeline on small instance
 
 ### Making Changes
@@ -232,7 +236,6 @@ az extension list | grep quantum
 ## Known Limitations
 
 ### Current Issues
-- **Q# compilation requires .NET 6.0**: Main blocker for quantum development
 - **03_qae_risk Q# project currently fails to build**: Placeholder amplitude estimation in `libs/common/Utils.qs` and `problems/03_qae_risk/qsharp/Program.qs` needs a real implementation.
 - **Azure Quantum extension**: May not install in restricted network environments
 - **Website incomplete**: Missing pages/app directory, build will fail
@@ -255,7 +258,8 @@ az extension list | grep quantum
 ### Generated Outputs
 - `estimates/*.json`: Resource estimation results
 - `plots/*.png`: Analysis visualizations
-- `bin/`: Compiled Q# executables
+- `circuits/circuit.txt`: ASCII circuit diagrams
+- `circuits/estimate.json`: Resource estimation summaries
 - `__pycache__/`: Python bytecode (excluded from git)
 
 Always check these locations after running analysis to verify outputs were generated correctly.

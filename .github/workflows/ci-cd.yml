@@ -109,26 +109,26 @@ jobs:
     
     - name: Validate Q# compilation (modern QDK)
       run: |
-        python -c "
-import qsharp, sys, os
-failed = []
-for d in sorted(os.listdir('problems')):
-    qs_dir = os.path.join('problems', d, 'qsharp')
-    if not os.path.isdir(qs_dir):
-        continue
-    if not os.path.isfile(os.path.join(qs_dir, 'qsharp.json')):
-        continue
-    try:
-        qsharp.init(project_root=qs_dir)
-        print(f'✅ {d}: compilation OK')
-    except Exception as e:
-        print(f'❌ {d}: {str(e)[:200]}')
-        failed.append(d)
-if failed:
-    print(f'\n{len(failed)} problem(s) failed to compile: {failed}')
-    sys.exit(1)
-print(f'\nAll {20 - len(failed)} problems compiled successfully.')
-"
+        python << 'PYEOF'
+        import qsharp, sys, os
+        failed = []
+        for d in sorted(os.listdir('problems')):
+            qs_dir = os.path.join('problems', d, 'qsharp')
+            if not os.path.isdir(qs_dir):
+                continue
+            if not os.path.isfile(os.path.join(qs_dir, 'qsharp.json')):
+                continue
+            try:
+                qsharp.init(project_root=qs_dir)
+                print(f'OK {d}: compilation passed')
+            except Exception as e:
+                print(f'FAIL {d}: {str(e)[:200]}')
+                failed.append(d)
+        if failed:
+            print(f'{len(failed)} problem(s) failed to compile: {failed}')
+            sys.exit(1)
+        print(f'All {20 - len(failed)} problems compiled successfully.')
+        PYEOF
 
     - name: Run Q# entry points
       run: |
@@ -136,19 +136,16 @@ print(f'\nAll {20 - len(failed)} problems compiled successfully.')
     
     - name: Validate JSON schemas
       run: |
-        python -c "
+        python << 'PYEOF'
         import json
         import jsonschema
-        
-        # Validate result schema
+
         with open('tooling/schema/result.json') as f:
             schema = json.load(f)
-        
-        # Basic schema validation
+
         jsonschema.Draft7Validator.check_schema(schema)
-        print('✅ Result schema is valid')
-        
-        # Test with sample data
+        print('Result schema is valid')
+
         sample_result = {
             'problem_id': '01_test',
             'algorithm': 'QAE',
@@ -160,10 +157,10 @@ print(f'\nAll {20 - len(failed)} problems compiled successfully.')
                 'date_utc': '2025-01-01T00:00:00Z'
             }
         }
-        
+
         jsonschema.validate(sample_result, schema)
-        print('✅ Sample result validates against schema')
-        "
+        print('Sample result validates against schema')
+        PYEOF
 
     - name: Run pytest baseline tests
       run: |

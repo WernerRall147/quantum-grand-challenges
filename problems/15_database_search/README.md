@@ -15,7 +15,7 @@ Unstructured database search underpins many cryptographic attacks and combinator
 │   ├── classical_baseline.py        # Exhaustive search complexity and success probability estimates
 │   └── analyze.py                   # Visualization of query budgets and scaling behavior
 └── qsharp/
-    ├── QuantumSearch.csproj         # Q# project configuration
+    ├── qsharp.json            # Modern QDK project file
     ├── Program.qs                   # Canonical Grover implementation
     └── GroverEstimation.qs          # Resource-estimation variant
 ```
@@ -31,9 +31,9 @@ python python/classical_baseline.py
 # Visualize query complexity vs. dataset size
 python python/analyze.py
 
-# Quantum workflow (requires .NET 6)
-dotnet build qsharp/QuantumSearch.csproj
-dotnet run --project qsharp/QuantumSearch.csproj
+# Quantum workflow (uses modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Validation Highlights

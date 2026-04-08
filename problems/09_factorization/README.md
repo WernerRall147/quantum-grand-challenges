@@ -15,7 +15,7 @@ Breaking large RSA-style moduli showcases a flagship quantum advantage through S
 │   ├── classical_baseline.py   # Pollard Rho factoring statistics per modulus
 │   └── analyze.py              # Visualization of iterations / speed trends
 └── qsharp/
-    ├── Factorization.csproj    # Q# project stub for Shor-style order finding
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs              # Placeholder quantum workflow
 ```
 
@@ -31,8 +31,8 @@ python python/classical_baseline.py
 python python/analyze.py
 
 # Quantum placeholder
- dotnet build qsharp/Factorization.csproj
- dotnet run --project qsharp/Factorization.csproj
+ python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

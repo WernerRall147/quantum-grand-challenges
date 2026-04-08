@@ -15,7 +15,7 @@ Accurate climate projections require solving large sparse linear systems arising
 │   ├── classical_baseline.py         # 1D energy balance diffusion solver
 │   └── analyze.py                    # Visualization of temperature evolution and convergence
 └── qsharp/
-    ├── QuantumClimate.csproj         # Q# project placeholder for HHL-inspired routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                    # Stubbed quantum workflow
 ```
 
@@ -30,9 +30,9 @@ python python/classical_baseline.py
 # Plot temperature profiles and convergence diagnostics
 python python/analyze.py
 
-# Quantum placeholder (requires .NET 6)
-dotnet build qsharp/QuantumClimate.csproj
- dotnet run --project qsharp/QuantumClimate.csproj
+# Quantum placeholder (uses modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

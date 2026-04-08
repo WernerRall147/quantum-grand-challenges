@@ -314,13 +314,14 @@ Each problem follows this consistent layout:
 problems/XX_problem_name/
 ├── 📄 README.md             # Problem description & results
 ├── 📁 qsharp/               # Q# quantum implementation
-│   ├── Program.qs           # Main quantum algorithm
-│   ├── *.csproj             # Project configuration
-│   └── bin/                 # Compiled executables
+│   ├── qsharp.json          # Modern QDK project file
+│   ├── src/
+│   │   └── Main.qs          # Main quantum algorithm
+│   └── HardwareKernel.qs    # Azure-submittable QIR kernel
 ├── 📁 python/               # Classical analysis & visualization
 │   ├── analysis.py          # Performance comparison
-│   ├── baseline.py          # Classical algorithm baseline
-│   └── requirements.txt     # Python dependencies
+│   ├── classical_baseline.py # Classical algorithm baseline
+│   └── test_baseline.py     # Deterministic validation tests
 ├── 📁 instances/            # Problem parameter sets
 │   ├── small.yaml           # Development/testing
 │   ├── medium.yaml          # Benchmark instances

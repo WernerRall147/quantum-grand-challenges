@@ -15,7 +15,7 @@ Protein folding encodes how linear amino-acid chains spontaneously organize into
 │   ├── classical_baseline.py   # Knowledge-based scoring of contact maps
 │   └── analyze.py              # Visual analytics for folding metrics
 └── qsharp/
-    ├── ProteinFolding.csproj   # Q# project stub for quantum folding routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs              # Placeholder quantum workflow
 ```
 
@@ -31,8 +31,8 @@ python python/classical_baseline.py
 python python/analyze.py
 
 # Quantum placeholder
- dotnet build qsharp/ProteinFolding.csproj
- dotnet run --project qsharp/ProteinFolding.csproj
+ python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

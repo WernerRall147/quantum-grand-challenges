@@ -15,7 +15,7 @@ Fault-tolerant quantum computing demands error correction codes that suppress no
 │   ├── classical_baseline.py        # Analytical repetition-code logical error model
 │   └── analyze.py                   # Visualization of suppression factors and pseudo-thresholds
 └── qsharp/
-    ├── QuantumQEC.csproj            # Q# project placeholder for stabilizer routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                   # Stubbed quantum workflow
 ```
 
@@ -30,9 +30,9 @@ python python/classical_baseline.py
 # Plot logical error curves and suppression heatmaps
 python python/analyze.py
 
-# Quantum placeholder (requires .NET 6)
-dotnet build qsharp/QuantumQEC.csproj
- dotnet run --project qsharp/QuantumQEC.csproj
+# Quantum placeholder (uses modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

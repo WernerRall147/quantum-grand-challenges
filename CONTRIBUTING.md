@@ -16,9 +16,9 @@ This project aims to systematically explore 20 of the world's most challenging s
 
 ### Prerequisites
 
-1. **.NET 6.0.x runtime/SDK** (strictly 6.0; the Microsoft.Quantum.Sdk version in this repo does *not* support .NET 7/8)
-2. **Python 3.11+** with the scientific computing stack (NumPy, SciPy, matplotlib, pandas, PyYAML, jsonschema)
-3. **Azure CLI** with the optional `quantum` extension for running the Resource Estimator or submitting Azure Quantum jobs
+1. **Python 3.11+** with `qsharp` package (`pip install qsharp`) — no .NET dependency required
+2. **Scientific Python stack**: NumPy, SciPy, matplotlib, pandas, PyYAML, jsonschema
+3. **Azure CLI** (optional) with the `quantum` extension for Resource Estimator or Azure Quantum jobs
 4. **Git** for version control (and optionally GitHub CLI for Codespaces)
 
 ### Quick Setup
@@ -28,15 +28,12 @@ This project aims to systematically explore 20 of the world's most challenging s
 git clone https://github.com/WernerRall147/quantum-grand-challenges.git
 cd quantum-grand-challenges
 
-# Install Q# tools (optional for Jupyter integration)
-dotnet tool install -g Microsoft.Quantum.IQSharp
+# Install Python dependencies + modern QDK
+pip install qsharp numpy scipy matplotlib pandas seaborn plotly jsonschema pyyaml pytest
 
-# Create Python virtual environment
+# Create Python virtual environment (optional)
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install baseline Python dependencies
-pip install numpy scipy matplotlib pandas seaborn plotly jsonschema pyyaml pytest
 
 # Validate the canonical workflow
 cd problems/03_qae_risk
@@ -97,8 +94,10 @@ problems/XX_problem_name/
 │   ├── analyze.py                 # Visualization and report script
 │   └── __init__.py (optional)
 └── qsharp/
-	├── Program.qs                 # Entry-point operation / placeholder circuit
-	├── *.csproj                   # Q# project configuration
+	├── qsharp.json                # Modern QDK project file
+	├── src/
+	│   └── Main.qs                # Main quantum algorithm
+	├── HardwareKernel.qs          # Azure-submittable QIR kernel
 	└── Tests.qs (optional)        # Quantum unit tests when available
 ```
 

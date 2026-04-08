@@ -22,7 +22,7 @@ This problem prepares the groundwork for implementing the Quantum Approximate Op
 cd problems/05_qaoa_maxcut
 make classical      # Exhaustive search baseline for each YAML graph instance
 make analyze        # Generate plots summarizing best cut values
-make build          # Build the Q# project (requires .NET 6.0 runtime)
+make build          # Build the Q# project (uses modern QDK — qsharp Python package)
 make run            # Run depth-configurable QAOA with multi-trial uncertainty summary + JSON output
 make run-all        # Run depth-configurable QAOA for small/medium/large and write quantum artifacts
 make depth-sweep INSTANCE=small DEPTHS=1,2,3 TRIALS=6  # Generate depth-vs-quality evidence artifacts
@@ -52,11 +52,9 @@ make evidence       # One-shot refresh: classical baseline + quantum runs + plot
 If `make` is unavailable on Windows PowerShell, run the equivalent sequence directly:
 
 ```powershell
-dotnet build host/QaoaMaxCut.Driver.csproj --configuration Release
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
 python python/classical_baseline.py
-dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance small --depth 1 --coarse-shots 24 --refined-shots 96 --trials 6
-dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance medium --depth 1 --coarse-shots 24 --refined-shots 96 --trials 6
-dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance large --depth 1 --coarse-shots 24 --refined-shots 96 --trials 6
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print(qsharp.run('Main.RunQaoaAnalysis([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 1, 50, 100)', shots=1))"
 python python/analyze.py
 python python/compare.py
 python python/prepare_estimator_params.py --instance small --depth 1

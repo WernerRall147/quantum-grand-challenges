@@ -13,37 +13,37 @@ from pathlib import Path
 
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 
-# Entry points for each problem (same as run_all_qsharp.py)
+# Entry points for each problem — must match actual Q# operation signatures
 ENTRY_POINTS = {
     "01_hubbard": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 100)",
     "02_catalysis": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 100)",
     "03_qae_risk": "Main.QAEKernel()",
     "04_linear_solvers": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)",
     "05_qaoa_maxcut": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], 50)",
-    "06_high_frequency_trading": "Main.QuantumSpeedupSearch(4, 3, 20)",
-    "07_drug_discovery": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 50)",
-    "08_protein_folding": "Main.EstimateFoldingEnergy(1.0, 0.5, 0.3, 50)",
-    "09_factorization": "Main.SimplifiedPeriodFinding(3, 15, 4)",
+    "06_high_frequency_trading": "Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 20)",
+    "07_drug_discovery": "Main.EstimateBindingEnergy(1.0, 0.5, 0.3, 50)",
+    "08_protein_folding": "Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, 50)",
+    "09_factorization": "Main.ShorPeriodFinding(3, 4)",
     "10_post_quantum_cryptography": "Main.GroverKeySearch(3, 5, 20)",
-    "11_quantum_machine_learning": "Main.QuantumKernelCircuit([1.0, 0.5, 0.3], [0.8, 0.2, 0.6])",
-    "12_quantum_optimization": "Main.QaoaSingleLayer([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 50)",
-    "13_climate_modeling": "Main.SimulateLocalEnergyBalance(1.0, 0.5, 0.3, 50)",
-    "14_materials_discovery": "Main.EstimateMaterialEnergy(1.0, 0.5, 0.3, 50)",
-    "15_database_search": "Main.GroverSearchSingleRun(4, [7], 3)",
-    "16_error_correction": "Main.BitFlipSyndromeMeasurement(0.1)",
+    "11_quantum_machine_learning": "Main.SwapTest([1.0, 0.5, 0.3], [0.8, 0.2, 0.6], 50)",
+    "12_quantum_optimization": "Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, 50)",
+    "13_climate_modeling": "Main.RunHHLClimate(3, 50)",
+    "14_materials_discovery": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 50)",
+    "15_database_search": "Main.GroverSearch([7], 4, 3)",
+    "16_error_correction": "Main.RunRepetitionCodeCycle(false, 0)",
     "17_nuclear_physics": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 50)",
-    "18_photovoltaics": "Main.SimulateBandGap(1.0, 0.5, 0.3, 50)",
-    "19_quantum_chromodynamics": "Main.SimulateLatticeGauge(1.0, 0.5, 0.3, 50)",
-    "20_space_mission_planning": "Main.QaoaMissionSingleLayer([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 20)",
+    "18_photovoltaics": "Main.RunExcitonWalk(10, 0.5, 50)",
+    "19_quantum_chromodynamics": "Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, 50)",
+    "20_space_mission_planning": "Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, 20)",
 }
 
 # Simpler circuit-friendly expressions (avoid operations that need too many shots)
 CIRCUIT_ENTRY_POINTS = {
-    "01_hubbard": "Main.HubbardVQEAnsatz(1.0, 0.5, 0.3, _, _)",
-    "02_catalysis": "Main.ChemistryAnsatz(1.0, 0.5, 0.3, _, _)",
+    "01_hubbard": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 1)",
+    "02_catalysis": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 1)",
     "03_qae_risk": "Main.QAEKernel()",
     "04_linear_solvers": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)",
-    "15_database_search": "Main.GroverSearchSingleRun(4, [7], 3)",
+    "15_database_search": "Main.GroverSearch([7], 4, 3)",
 }
 
 

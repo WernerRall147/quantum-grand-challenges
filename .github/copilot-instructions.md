@@ -57,9 +57,7 @@ python tooling/trace_circuits.py       # ~60 seconds total
 ```bash
 cd website
 npm install  # Takes 75 seconds. NEVER CANCEL. Set timeout to 120+ seconds.
-
-# Note: Website build currently fails - missing pages/app directory
-# npm run build  # Currently broken - needs implementation
+npm run build  # Static export to website/out/. Takes ~15 seconds.
 ```
 
 ### Complete Problem Analysis
@@ -236,10 +234,9 @@ az extension list | grep quantum
 ## Known Limitations
 
 ### Current Issues
-- **03_qae_risk Q# project currently fails to build**: Placeholder amplitude estimation in `libs/common/Utils.qs` and `problems/03_qae_risk/qsharp/Program.qs` needs a real implementation.
 - **Azure Quantum extension**: May not install in restricted network environments
-- **Website incomplete**: Missing pages/app directory, build will fail
 - **Analysis formatting**: Minor string formatting issues in summary reports
+- **QAOA legacy host/**: `problems/05_qaoa_maxcut/host/` still contains a legacy .NET C# driver; Q# runs via modern QDK but the host driver is retained for backward compatibility
 
 ### Workarounds
 - **Use classical analysis** for algorithm validation when Q# unavailable

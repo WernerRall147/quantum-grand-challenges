@@ -39,6 +39,15 @@
       "spin_gap": 0.12310562561766059
     },
     {
+      "hopping": 0.5,
+      "interaction": 12.0,
+      "ground_state_energy": -0.08276253029821934,
+      "upper_singlet_energy": 12.082762530298218,
+      "triplet_energy": 0.0,
+      "charge_gap": 12.165525060596437,
+      "spin_gap": 0.08276253029821934
+    },
+    {
       "hopping": 1.0,
       "interaction": 0.0,
       "ground_state_energy": -2.0,
@@ -73,6 +82,105 @@
       "triplet_energy": 0.0,
       "charge_gap": 8.94427190999916,
       "spin_gap": 0.4721359549995796
+    },
+    {
+      "hopping": 1.0,
+      "interaction": 12.0,
+      "ground_state_energy": -0.32455532033675905,
+      "upper_singlet_energy": 12.32455532033676,
+      "triplet_energy": 0.0,
+      "charge_gap": 12.64911064067352,
+      "spin_gap": 0.32455532033675905
+    },
+    {
+      "hopping": 1.5,
+      "interaction": 0.0,
+      "ground_state_energy": -3.0,
+      "upper_singlet_energy": 3.0,
+      "triplet_energy": 0.0,
+      "charge_gap": 6.0,
+      "spin_gap": 3.0
+    },
+    {
+      "hopping": 1.5,
+      "interaction": 2.0,
+      "ground_state_energy": -2.1622776601683795,
+      "upper_singlet_energy": 4.16227766016838,
+      "triplet_energy": 0.0,
+      "charge_gap": 6.32455532033676,
+      "spin_gap": 2.1622776601683795
+    },
+    {
+      "hopping": 1.5,
+      "interaction": 4.0,
+      "ground_state_energy": -1.6055512754639891,
+      "upper_singlet_energy": 5.60555127546399,
+      "triplet_energy": 0.0,
+      "charge_gap": 7.211102550927979,
+      "spin_gap": 1.6055512754639891
+    },
+    {
+      "hopping": 1.5,
+      "interaction": 8.0,
+      "ground_state_energy": -1.0,
+      "upper_singlet_energy": 9.0,
+      "triplet_energy": 0.0,
+      "charge_gap": 10.0,
+      "spin_gap": 1.0
+    },
+    {
+      "hopping": 1.5,
+      "interaction": 12.0,
+      "ground_state_energy": -0.7082039324993694,
+      "upper_singlet_energy": 12.70820393249937,
+      "triplet_energy": 0.0,
+      "charge_gap": 13.416407864998739,
+      "spin_gap": 0.7082039324993694
+    },
+    {
+      "hopping": 2.0,
+      "interaction": 0.0,
+      "ground_state_energy": -4.0,
+      "upper_singlet_energy": 4.0,
+      "triplet_energy": 0.0,
+      "charge_gap": 8.0,
+      "spin_gap": 4.0
+    },
+    {
+      "hopping": 2.0,
+      "interaction": 2.0,
+      "ground_state_energy": -3.1231056256176606,
+      "upper_singlet_energy": 5.123105625617661,
+      "triplet_energy": 0.0,
+      "charge_gap": 8.246211251235321,
+      "spin_gap": 3.1231056256176606
+    },
+    {
+      "hopping": 2.0,
+      "interaction": 4.0,
+      "ground_state_energy": -2.4721359549995796,
+      "upper_singlet_energy": 6.47213595499958,
+      "triplet_energy": 0.0,
+      "charge_gap": 8.94427190999916,
+      "spin_gap": 2.4721359549995796
+    },
+    {
+      "hopping": 2.0,
+      "interaction": 8.0,
+      "ground_state_energy": -1.6568542494923806,
+      "upper_singlet_energy": 9.65685424949238,
+      "triplet_energy": 0.0,
+      "charge_gap": 11.31370849898476,
+      "spin_gap": 1.6568542494923806
+    },
+    {
+      "hopping": 2.0,
+      "interaction": 12.0,
+      "ground_state_energy": -1.2111025509279782,
+      "upper_singlet_energy": 13.21110255092798,
+      "triplet_energy": 0.0,
+      "charge_gap": 14.422205101855958,
+      "spin_gap": 1.2111025509279782
     }
   ]
 }

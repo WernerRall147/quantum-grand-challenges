@@ -74,7 +74,7 @@ build: runtime-config
 
 test: runtime-config
 	@echo "Running Q# tests via modern QDK..."
-	cd python && $(PYTHON) -c "from qdk import qsharp; qsharp.init(project_root='../qsharp'); qsharp.run('Main.TestQaeUniformHalf()', 1)"
+	cd python && $(PYTHON) -c "import qsharp; qsharp.init(project_root='../qsharp'); qsharp.run('Main.TestQaeUniformHalf()', 1)"
 
 run: runtime-config
 	@echo "Running Q# QAE risk analysis via modern QDK..."

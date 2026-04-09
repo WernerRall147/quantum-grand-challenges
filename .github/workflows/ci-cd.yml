@@ -120,6 +120,12 @@ jobs:
       run: |
         pytest conftest.py -k "test_baseline" --tb=short -q
 
+    - name: Verify matrix freshness
+      run: python tooling/reporting/check_verification_matrix_freshness.py
+
+    - name: Validate website data schema
+      run: python tooling/reporting/validate_website_data_schema.py
+
   # Quick resource estimation on PR
   quick-estimation:
     runs-on: ubuntu-latest

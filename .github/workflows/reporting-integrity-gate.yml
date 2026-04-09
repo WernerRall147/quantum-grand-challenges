@@ -1,12 +1,9 @@
 name: Reporting Integrity Gate
 
 on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - develop
   workflow_dispatch:
+  schedule:
+    - cron: '45 2 * * *'
 
 env:
   PYTHON_VERSION: '3.11'

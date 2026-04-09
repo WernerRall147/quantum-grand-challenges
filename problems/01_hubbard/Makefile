@@ -16,10 +16,10 @@ test: classical
 	cd python && $(PYTHON) test_baseline.py
 
 build:
-	dotnet build qsharp/Hubbard.csproj --configuration Release
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
 
 run: build
-	dotnet run --project qsharp/Hubbard.csproj --configuration Release
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); qsharp.run('Main.RunTwoSiteHubbardAnalysis()', shots=1)"
 
 estimate: build
 	@echo "Running resource estimation for 01_hubbard..."

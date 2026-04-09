@@ -83,11 +83,11 @@ run: runtime-config
 # Legacy targets (require .NET 6.0 + old QAERisk.csproj)
 build-legacy: runtime-config
 	@echo "Building Q# project (legacy .NET SDK)..."
-	cd qsharp && dotnet build --configuration Release
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
 
 run-legacy: build-legacy
 	@echo "Running Q# QAE risk analysis (legacy .NET SDK)..."
-	cd qsharp && dotnet run --configuration Release
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); qsharp.run('Main.RunQAERiskAnalysis()', shots=1)"
 
 # Resource estimation
 estimate: build

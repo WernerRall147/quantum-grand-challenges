@@ -64,8 +64,8 @@ help:
 	@echo "  make clean       Remove generated artifacts"
 
 build:
-	@echo "Building Q# library and host driver..."
-	dotnet build host/QaoaMaxCut.Driver.csproj --configuration Release
+	@echo "Validating Q# compilation (modern QDK)..."
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
 
 run: build
 	@echo "Running QAOA depth $(DEPTH) for instance '$(INSTANCE)'..."
@@ -216,7 +216,7 @@ check-env:
 	@echo "Development environment check:"
 	@echo "  Python: $$(python --version 2>/dev/null || echo 'Not found')"
 	@echo "  .NET: $$(dotnet --version 2>/dev/null || echo 'Not found')"
-	@echo "  Q# build: $$(cd qsharp && dotnet build --verbosity quiet >/dev/null 2>&1 && echo 'Available' || echo 'Unavailable')"
+	@echo "  Q# build: $$($(PYTHON) -c 'import qsharp; qsharp.init(project_root=\"qsharp\"); print(\"Available\")' 2>/dev/null || echo 'Unavailable')"
 
 clean:
 	@echo "Cleaning build artifacts..."

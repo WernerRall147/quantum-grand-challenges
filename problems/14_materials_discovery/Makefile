@@ -20,11 +20,11 @@ help:
 
 build:
 	@echo "Building Q# project..."
-	dotnet build qsharp/QuantumMaterials.csproj --configuration Release
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
 
 run: build
 	@echo "Running quantum placeholder..."
-	dotnet run --project qsharp/QuantumMaterials.csproj
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); qsharp.run('Main.RunMaterialsDiscovery()', shots=1)"
 
 classical:
 	@echo "Evaluating surrogate materials baseline..."
@@ -48,7 +48,7 @@ check-env:
 	@echo "Development environment check:"
 	@echo "  Python: $$(python --version 2>/dev/null || echo 'Not found')"
 	@echo "  .NET: $$(dotnet --version 2>/dev/null || echo 'Not found')"
-	@echo "  Q# build: $$(dotnet build qsharp/QuantumMaterials.csproj --verbosity quiet >/dev/null 2>&1 && echo 'Available' || echo 'Unavailable')"
+	@echo "  Q# build: $$($(PYTHON) -c 'import qsharp; qsharp.init(project_root=\"qsharp\"); print(\"Available\")' 2>/dev/null || echo 'Unavailable')"
 
 clean:
 	@echo "Cleaning build artifacts..."

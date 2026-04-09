@@ -98,8 +98,8 @@ jobs:
 
     - name: QAE runtime config sanity check
       run: |
-        test -f problems/03_qae_risk/qsharp/RuntimeConfig.qs
-        python -c "import qsharp; qsharp.init(project_root='problems/03_qae_risk/qsharp'); print('✅ QAE Q# compilation OK')"
+        test -f problems/03_qae_risk/qsharp/src/RuntimeConfig.qs
+        python -c "import qsharp; qsharp.init(project_root='problems/03_qae_risk/qsharp'); print('QAE Q# compilation OK')"
     
     - name: Install Azure CLI and Quantum extension (non-blocking)
       continue-on-error: true

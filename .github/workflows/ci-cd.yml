@@ -118,7 +118,7 @@ jobs:
 
     - name: Run pytest baseline tests
       run: |
-        pytest problems/ -k "test_baseline" --tb=short -q
+        pytest conftest.py -k "test_baseline" --tb=short -q
 
   # Quick resource estimation on PR
   quick-estimation:

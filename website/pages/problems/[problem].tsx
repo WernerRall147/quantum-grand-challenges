@@ -74,7 +74,6 @@ function statusBg(status: string): string {
 }
 
 export default function ProblemPage({ problem }: ProblemPageProps) {
-  const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
   const algorithm = ALGORITHM_MAP[problem.id] || 'Quantum Algorithm';
   const qubits = QUBIT_MAP[problem.id] || '?';
 
@@ -85,7 +84,7 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
         <meta name="description" content={problem.description} />
       </Head>
       <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-        <Link href={`${basePath}/`} style={{ color: '#0070f3', textDecoration: 'none', fontSize: '0.9rem' }}>
+        <Link href="/" style={{ color: '#0070f3', textDecoration: 'none', fontSize: '0.9rem' }}>
           &larr; Back to Dashboard
         </Link>
 
@@ -153,7 +152,7 @@ make run              # Run Q# entry point`}</code>
         </div>
 
         <footer style={{ marginTop: '4rem', padding: '1.5rem 0', borderTop: '1px solid #ddd', textAlign: 'center', color: '#999' }}>
-          <Link href={`${basePath}/`} style={{ color: '#0070f3', textDecoration: 'none' }}>
+          <Link href="/" style={{ color: '#0070f3', textDecoration: 'none' }}>
             Quantum Grand Challenges Dashboard
           </Link>
         </footer>

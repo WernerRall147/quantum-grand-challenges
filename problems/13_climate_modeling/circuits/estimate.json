@@ -1,13 +1,13 @@
 {
   "problem": "13_climate_modeling",
-  "physicalQubits": 262404,
-  "runtime": 566630400,
-  "rqops": 2647059,
+  "physicalQubits": 130196,
+  "runtime": 2266000,
+  "rqops": 4090910,
   "logicalQubits": 18,
   "logicalDepth": null,
-  "tCount": 384,
-  "rotationCount": 4480,
+  "tCount": 3,
+  "rotationCount": 35,
   "cczCount": 0,
-  "measurementCount": 128,
+  "measurementCount": 1,
   "numQubits": 5
 }

@@ -1,13 +1,13 @@
 {
   "problem": "16_error_correction",
-  "physicalQubits": 4356,
-  "runtime": 6758400,
-  "rqops": 4090910,
+  "physicalQubits": 1764,
+  "runtime": 8400,
+  "rqops": 6428572,
   "logicalQubits": 18,
   "logicalDepth": null,
   "tCount": 0,
   "rotationCount": 0,
   "cczCount": 0,
-  "measurementCount": 1536,
+  "measurementCount": 3,
   "numQubits": 5
 }

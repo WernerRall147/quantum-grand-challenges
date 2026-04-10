@@ -1,13 +1,13 @@
 {
   "problem": "08_protein_folding",
-  "physicalQubits": 368670,
-  "runtime": 1036320000,
-  "rqops": 2205883,
-  "logicalQubits": 15,
+  "physicalQubits": 118098,
+  "runtime": 104400,
+  "rqops": 2500000,
+  "logicalQubits": 9,
   "logicalDepth": null,
   "tCount": 0,
-  "rotationCount": 10800,
+  "rotationCount": 3,
   "cczCount": 0,
-  "measurementCount": 4800,
-  "numQubits": 4
+  "measurementCount": 2,
+  "numQubits": 2
 }

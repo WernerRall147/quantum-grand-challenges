@@ -25,7 +25,7 @@ ENTRY_POINTS = {
     "08_protein_folding": "Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, 50)",
     "09_factorization": "Main.ShorPeriodFinding(3, 4)",
     "10_post_quantum_cryptography": "Main.GroverKeySearch(3, 5, 20)",
-    "11_quantum_machine_learning": "Main.SwapTest([1.0, 0.5, 0.3], [0.8, 0.2, 0.6], 50)",
+    "11_quantum_machine_learning": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 50)",
     "12_quantum_optimization": "Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, 50)",
     "13_climate_modeling": "Main.RunHHLClimate(3, 50)",
     "14_materials_discovery": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 50)",

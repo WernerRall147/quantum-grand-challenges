@@ -1,13 +1,13 @@
 {
   "problem": "04_linear_solvers",
-  "physicalQubits": 132600,
-  "runtime": 4310800,
-  "rqops": 3846154,
-  "logicalQubits": 20,
+  "physicalQubits": 139876,
+  "runtime": 2318800,
+  "rqops": 4090910,
+  "logicalQubits": 18,
   "logicalDepth": null,
-  "tCount": 18,
-  "rotationCount": 59,
+  "tCount": 12,
+  "rotationCount": 37,
   "cczCount": 0,
   "measurementCount": 2,
-  "numQubits": 6
+  "numQubits": 5
 }

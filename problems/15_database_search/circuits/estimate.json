@@ -1,13 +1,13 @@
 {
   "problem": "15_database_search",
-  "physicalQubits": 364432,
-  "runtime": 2694960000,
-  "rqops": 7368422,
-  "logicalQubits": 56,
+  "physicalQubits": 119556,
+  "runtime": 208800,
+  "rqops": 5000000,
+  "logicalQubits": 18,
   "logicalDepth": null,
   "tCount": 0,
   "rotationCount": 0,
-  "cczCount": 117700,
-  "measurementCount": 1500,
-  "numQubits": 21
+  "cczCount": 18,
+  "measurementCount": 4,
+  "numQubits": 5
 }

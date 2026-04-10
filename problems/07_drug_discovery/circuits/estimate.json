@@ -1,13 +1,13 @@
 {
   "problem": "07_drug_discovery",
-  "physicalQubits": 420936,
-  "runtime": 1792588800,
-  "rqops": 1764706,
+  "physicalQubits": 177144,
+  "runtime": 528000,
+  "rqops": 2727273,
   "logicalQubits": 12,
   "logicalDepth": null,
   "tCount": 0,
-  "rotationCount": 21504,
+  "rotationCount": 12,
   "cczCount": 0,
-  "measurementCount": 12288,
+  "measurementCount": 4,
   "numQubits": 3
 }

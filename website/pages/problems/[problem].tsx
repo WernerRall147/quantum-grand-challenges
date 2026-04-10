@@ -2,6 +2,16 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { problemHighlights } from '../../data/projectStatus';
+import resourceEstimates from '../../data/resourceEstimates.json';
+
+interface EstimateData {
+  physicalQubits: number | null;
+  logicalQubits: number | null;
+  tCount: number | null;
+  rotationCount: number | null;
+  runtime: number | null;
+  numQubits: number | null;
+}
 
 interface ProblemPageProps {
   problem: {
@@ -11,6 +21,7 @@ interface ProblemPageProps {
     href: string;
     id: string;
     number: string;
+    estimate: EstimateData | null;
   };
 }
 
@@ -76,6 +87,22 @@ function statusBg(status: string): string {
 export default function ProblemPage({ problem }: ProblemPageProps) {
   const algorithm = ALGORITHM_MAP[problem.id] || 'Quantum Algorithm';
   const qubits = QUBIT_MAP[problem.id] || '?';
+  const est = problem.estimate;
+
+  function fmtNum(n: number | null | undefined): string {
+    if (n == null) return '—';
+    if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+    if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
+    return String(n);
+  }
+
+  function fmtRuntime(ns: number | null | undefined): string {
+    if (ns == null) return '—';
+    if (ns >= 1e9) return `${(ns / 1e9).toFixed(1)}s`;
+    if (ns >= 1e6) return `${(ns / 1e6).toFixed(1)}ms`;
+    if (ns >= 1e3) return `${(ns / 1e3).toFixed(1)}μs`;
+    return `${ns}ns`;
+  }
 
   return (
     <>
@@ -123,6 +150,34 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
             <div style={{ marginTop: '0.5rem', color: '#374151' }}>Modern QDK (qsharp 1.27+)</div>
           </div>
         </section>
+
+        {est && (
+          <section style={{ marginTop: '2rem', padding: '1.5rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '12px', color: 'white' }}>
+            <h2 style={{ marginTop: 0, color: 'white' }}>Resource Estimation (Azure Quantum RE)</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+              <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: '8px', padding: '1rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', color: '#e0e0ff' }}>Physical Qubits</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{fmtNum(est.physicalQubits)}</div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: '8px', padding: '1rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', color: '#e0e0ff' }}>Logical Qubits</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{fmtNum(est.logicalQubits)}</div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: '8px', padding: '1rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', color: '#e0e0ff' }}>T-Gates</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{fmtNum(est.tCount)}</div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: '8px', padding: '1rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', color: '#e0e0ff' }}>Rotations</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{fmtNum(est.rotationCount)}</div>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: '8px', padding: '1rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', color: '#e0e0ff' }}>Runtime</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{fmtRuntime(est.runtime)}</div>
+              </div>
+            </div>
+          </section>
+        )}
 
         <section style={{ marginTop: '2rem' }}>
           <h2>Reproduce It</h2>
@@ -173,6 +228,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     p.href.includes(`/${id}`)
   );
 
+  const rawEstimate = (resourceEstimates as Record<string, Record<string, unknown>>)[id] || null;
+  const estimate = rawEstimate ? {
+    physicalQubits: rawEstimate.physicalQubits ?? null,
+    logicalQubits: rawEstimate.logicalQubits ?? null,
+    tCount: rawEstimate.tCount ?? null,
+    rotationCount: rawEstimate.rotationCount ?? null,
+    runtime: rawEstimate.runtime ?? null,
+    numQubits: rawEstimate.numQubits ?? null,
+  } : null;
+
   return {
     props: {
       problem: {
@@ -182,6 +247,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         status: highlight?.status || 'In Progress',
         description: highlight?.description || '',
         href: highlight?.href || '#',
+        estimate,
       },
     },
   };

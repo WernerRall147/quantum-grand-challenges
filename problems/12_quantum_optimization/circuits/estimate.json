@@ -1,13 +1,13 @@
 {
   "problem": "12_quantum_optimization",
-  "physicalQubits": 422670,
-  "runtime": 1044480000,
-  "rqops": 2205883,
-  "logicalQubits": 15,
+  "physicalQubits": 131544,
+  "runtime": 219600,
+  "rqops": 3333334,
+  "logicalQubits": 12,
   "logicalDepth": null,
   "tCount": 0,
-  "rotationCount": 12000,
+  "rotationCount": 6,
   "cczCount": 0,
-  "measurementCount": 4800,
-  "numQubits": 4
+  "measurementCount": 3,
+  "numQubits": 3
 }

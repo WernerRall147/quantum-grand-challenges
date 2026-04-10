@@ -15,7 +15,7 @@ Designing next-generation battery cathodes requires exploring a vast space of ma
 │   ├── classical_baseline.py         # Surrogate energy/stability scoring for battery materials
 │   └── analyze.py                    # Visualization of Pareto fronts and composition trends
 └── qsharp/
-    ├── QuantumMaterials.csproj       # Q# project placeholder for VQE-style band gap estimation
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                    # Stubbed quantum workflow
 ```
 
@@ -30,9 +30,9 @@ env PYTHONPATH=../../.. python python/classical_baseline.py
 # Visualize stability vs. voltage trends
 python python/analyze.py
 
-# Quantum placeholder (requires .NET 6)
-dotnet build qsharp/QuantumMaterials.csproj
- dotnet run --project qsharp/QuantumMaterials.csproj
+# Quantum placeholder (uses modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

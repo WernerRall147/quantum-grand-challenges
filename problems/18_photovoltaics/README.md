@@ -15,7 +15,7 @@ Maximizing photovoltaic conversion efficiency hinges on balancing light absorpti
 │   ├── classical_baseline.py         # Shockley–Queisser style efficiency estimator
 │   └── analyze.py                    # Visualization of efficiency and voltage trends
 └── qsharp/
-    ├── QuantumPhotovoltaics.csproj   # Q# project placeholder for exciton transport routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                    # Stubbed quantum workflow
 ```
 
@@ -30,9 +30,9 @@ python python/classical_baseline.py
 # Plot efficiency vs. bandgap and temperature trends
 python python/analyze.py
 
-# Quantum placeholder (requires .NET 6)
-dotnet build qsharp/QuantumPhotovoltaics.csproj
- dotnet run --project qsharp/QuantumPhotovoltaics.csproj
+# Quantum placeholder (uses modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

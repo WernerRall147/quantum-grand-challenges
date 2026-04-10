@@ -25,7 +25,7 @@
 │   └── analyze.py            # Plot charge/spin gaps
 └── qsharp/
     ├── Program.qs            # Analytical Q# baseline
-    └── Hubbard.csproj        # Q# project definition
+    └── qsharp.json            # Modern QDK project file
 ```
 
 ## 🚀 Quickstart
@@ -39,13 +39,13 @@ cd problems/01_hubbard
 make classical    # writes estimates/classical_baseline.json
 make analyze      # produces plots/gaps.png
 
-# Quantum analytical baseline (requires .NET 6)
+# Quantum analytical baseline (uses modern QDK — qsharp Python package)
 make build
 make run
 
 # Dedicated CLI modes
-dotnet run --project qsharp/Hubbard.csproj -- analysis            # original report
-dotnet run --project qsharp/Hubbard.csproj -- energy 1.0 4.0 0.785398 1.570796 0.392699 1024  # energy estimate
+python tooling/run_all_qsharp.py  # runs via qsharp Python package
+python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## 📈 Current Results
@@ -62,7 +62,7 @@ Generated artefacts:
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage B complete** (classical baseline validated and Q# analytical scaffold builds/runs under .NET 6).
+- **Current gate**: **Stage B complete** (classical baseline validated and Q# analytical scaffold builds/runs via modern QDK).
 - **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons for quantum kernels).
 
 Stage C exit criteria for this problem:

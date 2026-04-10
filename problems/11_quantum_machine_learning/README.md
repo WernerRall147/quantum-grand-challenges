@@ -15,7 +15,7 @@ Quantum kernel methods map classical data into high-dimensional Hilbert spaces u
 │   ├── classical_baseline.py       # Kernel ridge classification baseline
 │   └── analyze.py                  # Visualization of accuracy and alignment metrics
 └── qsharp/
-    ├── QuantumML.csproj            # Q# project stub for quantum kernel routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                  # Placeholder quantum workflow
 ```
 
@@ -31,8 +31,8 @@ python python/classical_baseline.py
 python python/analyze.py
 
 # Quantum placeholder
- dotnet build qsharp/QuantumML.csproj
- dotnet run --project qsharp/QuantumML.csproj
+ python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

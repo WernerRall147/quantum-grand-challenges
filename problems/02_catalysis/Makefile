@@ -17,10 +17,10 @@ test: classical
 	$(PYTHON) python/test_baseline.py
 
 build:
-	cd qsharp && dotnet build --configuration Release
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
 
 run:
-	cd qsharp && dotnet run
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); qsharp.run('Main.RunCatalysisAnalysis()', shots=1)"
 
 estimate:
 	@echo "Resource estimation not yet implemented for catalysis."

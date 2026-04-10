@@ -1,0 +1,21 @@
+===================================================================
+  Problem 03: QAE Risk — IQAE Kernel (5-qubit)
+  Algorithm: Iterative Quantum Amplitude Estimation
+  Qubits: 4 loss + 1 marker = 5 (no precision register)
+===================================================================
+
+            ┌──────────────────────┐   ┌─────────────────┐
+loss[0] ──┤                        ├──┤                   ├──┤ Q^k ├── ...
+loss[1] ──┤  PrepareDistribution   ├──┤  OracleTailMark  ├──┤     ├── ...
+loss[2] ──┤  (Ry + Controlled Ry   ├──┤  (multi-CNOT on  ├──┤     ├── ...
+loss[3] ──┤   multiplexed rots)    ├──┤   threshold)     ├──┤     ├── ...
+           └──────────────────────┘   └────────┬──────────┘  └──┬──┘
+marker ────────────── |0⟩ ─────────────────── X ──────────────── M
+
+  IQAE Round (k Grover iterations):
+    1. A = Oracle ∘ StatePrep  →  √(1-a)|bad⟩|0⟩ + √a|good⟩|1⟩
+    2. Q^k = (A · S₀ · A† · Sχ)^k  amplifies marked amplitude
+    3. Measure marker: P(1) = sin²((2k+1)θ), sin²(θ) = a
+
+  Classical driver picks k adaptively to narrow confidence interval
+  No QFT or precision register needed — 44% fewer qubits than QPE

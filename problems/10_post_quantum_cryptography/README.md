@@ -15,7 +15,7 @@ Post-quantum cryptography (PQC) must withstand both classical and quantum attack
 │   ├── classical_baseline.py       # Cost estimation for classical / quantum lattice attacks
 │   └── analyze.py                  # Visualization of security margins
 └── qsharp/
-    ├── PostQuantum.csproj          # Q# project stub for amplitude-amplified sieving experiments
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                  # Placeholder quantum workflow
 ```
 
@@ -31,8 +31,8 @@ python python/classical_baseline.py
 python python/analyze.py
 
 # Quantum placeholder
- dotnet build qsharp/PostQuantum.csproj
- dotnet run --project qsharp/PostQuantum.csproj
+ python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

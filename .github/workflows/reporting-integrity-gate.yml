@@ -1,16 +1,12 @@
 name: Reporting Integrity Gate
 
 on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - develop
   workflow_dispatch:
+  schedule:
+    - cron: '45 2 * * *'
 
 env:
   PYTHON_VERSION: '3.11'
-  DOTNET_VERSION: '6.0.x'
 
 jobs:
   verify-reporting-artifacts:
@@ -20,11 +16,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET 6
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -33,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy scipy matplotlib pandas pyyaml jsonschema
+          pip install numpy scipy matplotlib pandas pyyaml jsonschema qsharp
 
       - name: Verify matrix freshness
         run: |

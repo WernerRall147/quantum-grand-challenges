@@ -29,5 +29,6 @@
   "notes": [
     "This artifact combines Azure smoke metadata and noise-sweep degradation proxy.",
     "Upgrade to hardware-calibrated evidence by replacing proxy section with backend readout/coherence measurements."
-  ]
+  ],
+  "generated_utc": "2026-03-06T17:36:06.297364+00:00"
 }

@@ -1,0 +1,11 @@
+===================================================================
+  Problem 16: Error Correction — 3-Bit Repetition Code (5-qubit)
+  Algorithm: Quantum error correction (bit-flip code)
+  Qubits: 3 code + 2 syndrome = 5
+===================================================================
+
+Traced gate-level circuit (from QDK simulator):
+
+q_0    ── H ──── ● ──── ● ──── |0〉 ──
+q_1    ───────── X ─────┼───── |0〉 ──
+q_2    ──────────────── X ──── |0〉 ──

@@ -15,7 +15,7 @@ Drug discovery requires exploring vast chemical design spaces to identify ligand
 │   ├── classical_baseline.py   # Deterministic scoring of ligand poses
 │   └── analyze.py              # Visualization of energy histograms & rankings
 └── qsharp/
-    ├── DrugDiscovery.csproj    # Q# project stub for VQE experiments
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs              # Placeholder quantum workflow
 ```
 
@@ -31,8 +31,8 @@ python python/classical_baseline.py
 python python/analyze.py
 
 # Quantum placeholder
- dotnet build qsharp/DrugDiscovery.csproj
- dotnet run --project qsharp/DrugDiscovery.csproj
+ python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

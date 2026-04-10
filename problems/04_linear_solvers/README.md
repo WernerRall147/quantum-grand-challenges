@@ -21,7 +21,7 @@ This challenge sets up the scaffolding needed to explore quantum linear system a
 cd problems/04_linear_solvers
 make classical      # Solve each YAML instance with dense linear algebra
 make analyze        # Generate plots of condition numbers and residuals
-make build          # Build the Q# project (requires .NET 6.0 runtime)
+make build          # Build the Q# project (uses modern QDK — qsharp Python package)
 make run            # Execute the Q# analytical baseline for the small instance
 make estimate       # (Placeholder) Run resource estimation once quantum kernel lands
 ```

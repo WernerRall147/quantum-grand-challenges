@@ -10,13 +10,15 @@ The QAE workflow for risk estimation consists of the following stages:
 
 1. Encode the loss distribution as amplitudes of a quantum state.
 2. Mark “tail risk” outcomes (loss exceeding a threshold) with an oracle.
-3. Apply amplitude amplification and phase estimation to recover the amplitude of the marked subspace.
+3. Apply **Iterative Quantum Amplitude Estimation (IQAE)**: adaptive rounds of Grover amplification with Clopper-Pearson confidence intervals — no QPE register or QFT needed.
 4. Achieve ε precision using O(1/ε) calls to the oracle, compared with O(1/ε²) samples for classical Monte Carlo.
 
 ## Implementation
 
-- **Q# code**: `qsharp/Program.qs` implements the **canonical QAE algorithm** with Grover operators and quantum phase estimation. ✅ **Stage B complete**
-- **Python tooling**: `python/` contains the Monte Carlo baseline and visualization scripts.
+- **Q# code**: `qsharp/src/Main.qs` implements both **canonical QAE** (QPE-based) and **IQAE** (iterative, no QPE register). IQAE is the recommended default per QAEUpdates2026 guidelines.
+- **IQAE Python driver**: `python/iqae_driver.py` provides the full adaptive IQAE algorithm with Clopper-Pearson confidence intervals, variance-reduced MC baselines, and CVaR/VaR bisection search.
+- **Hardware kernel**: `qsharp/HardwareKernel.qs` contains QIR-compatible kernels for Azure Quantum submission (syntax checker validated).
+- **Python tooling**: `python/` contains Monte Carlo baselines and visualization scripts.
 - **Instances**: `instances/` provides YAML files that parameterize the loss distribution and thresholds.
 - **Estimates**: `estimates/` captures resource estimation outputs produced by Azure Quantum tooling.
 - **Documentation**: See [QAE_IMPLEMENTATION_SUMMARY.md](QAE_IMPLEMENTATION_SUMMARY.md) for comprehensive technical details.

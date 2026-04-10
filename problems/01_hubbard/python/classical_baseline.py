@@ -90,8 +90,39 @@ def save_results(points: Iterable[HubbardPoint], output_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    hoppings = [0.5, 1.0]
-    interactions = [0.0, 2.0, 4.0, 8.0]
+    import argparse
+    import yaml
+
+    parser = argparse.ArgumentParser(description="Classical baseline for two-site Hubbard model")
+    parser.add_argument(
+        "--instance-file",
+        type=str,
+        default=None,
+        help="Path to a YAML instance file (e.g. instances/small.yaml)",
+    )
+    args = parser.parse_args()
+
+    instance_dir = Path(__file__).resolve().parents[1] / "instances"
+
+    if args.instance_file:
+        instance_path = Path(args.instance_file)
+        if not instance_path.is_absolute() and not instance_path.exists():
+            instance_path = instance_dir / instance_path.name
+        with open(instance_path) as f:
+            inst = yaml.safe_load(f)
+        hoppings = inst["hopping"]
+        interactions = inst["interaction"]
+    else:
+        # Default: union of all instance files for backwards compatibility
+        hoppings_set: set[float] = set()
+        interactions_set: set[float] = set()
+        for yaml_file in sorted(instance_dir.glob("*.yaml")):
+            with open(yaml_file) as f:
+                inst = yaml.safe_load(f)
+            hoppings_set.update(inst.get("hopping", []))
+            interactions_set.update(inst.get("interaction", []))
+        hoppings = sorted(hoppings_set) if hoppings_set else [0.5, 1.0]
+        interactions = sorted(interactions_set) if interactions_set else [0.0, 2.0, 4.0, 8.0]
 
     data = generate_grid(hoppings, interactions)
     save_results(data, Path(__file__).resolve().parents[1] / "estimates" / "classical_baseline.json")

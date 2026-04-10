@@ -16,7 +16,6 @@ permissions:
   id-token: write
 
 env:
-  DOTNET_VERSION: '8.0.x'
   PYTHON_VERSION: '3.11'
   NODE_VERSION: '18'
 
@@ -28,13 +27,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          6.0.x
-          ${{ env.DOTNET_VERSION }}
-    
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
@@ -43,7 +35,7 @@ jobs:
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml
+        pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qsharp
 
     - name: Enforce maturity contract policy
       run: |
@@ -106,117 +98,33 @@ jobs:
 
     - name: QAE runtime config sanity check
       run: |
-        test -f problems/03_qae_risk/qsharp/RuntimeConfig.qs
-        cd problems/03_qae_risk/qsharp
-        dotnet build --configuration Release
+        test -f problems/03_qae_risk/qsharp/src/RuntimeConfig.qs
+        python -c "import qsharp; qsharp.init(project_root='problems/03_qae_risk/qsharp'); print('QAE Q# compilation OK')"
     
     - name: Install Azure CLI and Quantum extension (non-blocking)
+      continue-on-error: true
       run: |
-        set +e
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-        AZ_INSTALL_EXIT=$?
-        if [ $AZ_INSTALL_EXIT -ne 0 ]; then
-          echo "⚠️ Azure CLI install failed (continuing): exit code $AZ_INSTALL_EXIT"
-          exit 0
-        fi
-
         az extension add --name quantum
-        AZ_EXT_EXIT=$?
-        if [ $AZ_EXT_EXIT -ne 0 ]; then
-          echo "⚠️ Azure Quantum extension install failed (continuing): exit code $AZ_EXT_EXIT"
-        fi
-        exit 0
     
-    - name: Cache .NET packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-    
-    - name: Build shared libraries
-      run: |
-        if [ -d "libs/common" ]; then
-          echo "Checking for Q# files in libs/common..."
-          if ls libs/common/*.qs 1> /dev/null 2>&1; then
-            echo "Found Q# files in libs/common, attempting build..."
-            cd libs/common
-            if ls *.csproj 1> /dev/null 2>&1; then
-              echo "Found .csproj file, building..."
-              dotnet build || echo "⚠️ Shared library build failed (may be due to .NET version compatibility)"
-            else
-              echo "No .csproj file found in libs/common"
-            fi
-            cd - > /dev/null
-          else
-            echo "No Q# files found in libs/common"
-          fi
-        else
-          echo "libs/common directory does not exist"
-        fi
-    
-    - name: Build and test problems
-      run: |
-        for problem_dir in problems/*/; do
-          if [ -d "$problem_dir/qsharp" ]; then
-            echo "Building $problem_dir"
-            cd "$problem_dir/qsharp"
-            # Check if any .csproj files exist
-            if ls *.csproj 1> /dev/null 2>&1 || [ -f "Program.qs" ]; then
-              # Try to build if project files exist
-              echo "Attempting to build project in $problem_dir"
-              if dotnet build --configuration Release; then
-                echo "✅ Build successful for $problem_dir"
-                # Run tests if test files exist
-                if ls *Tests.qs 1> /dev/null 2>&1 || [ -f "Tests.qs" ]; then
-                  echo "Running tests for $problem_dir"
-                  dotnet test || echo "⚠️ Tests failed for $problem_dir"
-                fi
-              else
-                echo "⚠️ Build failed for $problem_dir (this may be expected if .NET 6.0 runtime is not available)"
-                echo "Checking if this is a .NET version issue..."
-                if grep -q "net6.0" *.csproj 2>/dev/null; then
-                  echo "Project targets .NET 6.0 but only .NET 8.0 is available - this is expected to fail"
-                fi
-              fi
-            else
-              echo "No .csproj or Program.qs found in $problem_dir/qsharp"
-            fi
-            cd - > /dev/null
-          fi
-        done
+    - name: Validate Q# compilation (modern QDK)
+      run: python tooling/ci_validate_qsharp.py
+
+    - name: Run Q# entry points
+      run: python tooling/run_all_qsharp.py
     
     - name: Validate JSON schemas
+      run: python tooling/ci_validate_schema.py
+
+    - name: Run pytest baseline tests
       run: |
-        python -c "
-        import json
-        import jsonschema
-        
-        # Validate result schema
-        with open('tooling/schema/result.json') as f:
-            schema = json.load(f)
-        
-        # Basic schema validation
-        jsonschema.Draft7Validator.check_schema(schema)
-        print('✅ Result schema is valid')
-        
-        # Test with sample data
-        sample_result = {
-            'problem_id': '01_test',
-            'algorithm': 'QAE',
-            'instance': {'description': 'Test instance', 'parameters': {}},
-            'estimator_target': 'surface_code_generic_v1',
-            'metrics': {'logical_qubits': 10},
-            'build': {
-                'commit': '0123456789abcdef0123456789abcdef01234567',
-                'date_utc': '2025-01-01T00:00:00Z'
-            }
-        }
-        
-        jsonschema.validate(sample_result, schema)
-        print('✅ Sample result validates against schema')
-        "
+        pytest conftest.py -k "test_baseline" --tb=short -q
+
+    - name: Verify matrix freshness
+      run: python tooling/reporting/check_verification_matrix_freshness.py
+
+    - name: Validate website data schema
+      run: python tooling/reporting/validate_website_data_schema.py
 
   # Quick resource estimation on PR
   quick-estimation:
@@ -282,18 +190,11 @@ jobs:
     
     - name: Install dependencies
       run: |
-        pip install numpy scipy matplotlib pandas jsonschema pyyaml
+        pip install numpy scipy matplotlib pandas jsonschema pyyaml qsharp
     
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          6.0.x
-          ${{ env.DOTNET_VERSION }}
-    
-    - name: Run automated estimation sweep (mock mode)
+    - name: Run real resource estimation sweep
       run: |
-        python tooling/estimator/run_estimation.py --all --mock --summary-path tooling/estimator/output/nightly_summary.json
+        python tooling/generate_estimates.py
 
     - name: Collect estimation artifacts
       run: |

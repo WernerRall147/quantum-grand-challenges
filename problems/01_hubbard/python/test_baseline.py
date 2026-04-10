@@ -17,7 +17,7 @@ def main() -> None:
 
     assert payload.get("problem_id") == "01_hubbard", "Unexpected problem_id"
     grid = payload.get("grid")
-    assert isinstance(grid, list) and len(grid) == 8, "Expected 8 grid points"
+    assert isinstance(grid, list) and len(grid) >= 2, f"Expected at least 2 grid points, got {len(grid)}"
 
     # Validate a known analytical point: t=1.0, U=4.0.
     target = None

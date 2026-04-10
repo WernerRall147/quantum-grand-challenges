@@ -1,0 +1,13 @@
+{
+  "problem": "09_factorization",
+  "physicalQubits": 245250,
+  "runtime": 42048000,
+  "rqops": 4166667,
+  "logicalQubits": 25,
+  "logicalDepth": null,
+  "tCount": 576,
+  "rotationCount": 288,
+  "cczCount": 384,
+  "measurementCount": 384,
+  "numQubits": 8
+}

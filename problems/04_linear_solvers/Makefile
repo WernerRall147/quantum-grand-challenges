@@ -24,11 +24,11 @@ help:
 
 build:
 	@echo "Building Q# project..."
-	cd qsharp && dotnet build --configuration Release
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
 
 run: build
 	@echo "Running Q# analytical baseline..."
-	cd qsharp && dotnet run
+	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); qsharp.run('Main.RunLinearSolverBaseline()', shots=1)"
 
 test:
 	@echo "No dedicated Q# tests yet; build covers compilation."
@@ -52,7 +52,7 @@ check-env:
 	@echo "Development environment check:"
 	@echo "  Python: $$(python --version 2>/dev/null || echo 'Not found')"
 	@echo "  .NET: $$(dotnet --version 2>/dev/null || echo 'Not found')"
-	@echo "  Q# build: $$(cd qsharp && dotnet build --verbosity quiet >/dev/null 2>&1 && echo 'Available' || echo 'Unavailable')"
+	@echo "  Q# build: $$($(PYTHON) -c 'import qsharp; qsharp.init(project_root=\"qsharp\"); print(\"Available\")' 2>/dev/null || echo 'Unavailable')"
 
 clean:
 	@echo "Cleaning build artifacts..."

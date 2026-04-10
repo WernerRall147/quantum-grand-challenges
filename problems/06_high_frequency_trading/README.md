@@ -21,7 +21,7 @@ This directory contains the first scaffold toward that objective:
 │   ├── classical_baseline.py # Deterministic Monte Carlo + trading metrics
 │   └── analyze.py            # Visualization helpers
 └── qsharp/
-    ├── HighFrequencyTrading.csproj # Q# project stub
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                  # Placeholder quantum workflow
 ```
 
@@ -37,8 +37,8 @@ python python/classical_baseline.py
 python python/analyze.py
 
 # Quantum entry point placeholder
-dotnet build qsharp/HighFrequencyTrading.csproj
-dotnet run --project qsharp/HighFrequencyTrading.csproj
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

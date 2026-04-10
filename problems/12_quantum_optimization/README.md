@@ -15,7 +15,7 @@ Scheduling, routing, and resource allocation problems are notoriously difficult 
 │   ├── classical_baseline.py       # Greedy weighted tardiness scheduler
 │   └── analyze.py                  # Visualization of tardiness, utilization, and makespan
 └── qsharp/
-    ├── QuantumOptimization.csproj  # Q# project stub for QAOA-style routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                  # Placeholder quantum workflow
 ```
 
@@ -31,8 +31,8 @@ python python/classical_baseline.py
 python python/analyze.py
 
 # Quantum placeholder
- dotnet build qsharp/QuantumOptimization.csproj
- dotnet run --project qsharp/QuantumOptimization.csproj
+ python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

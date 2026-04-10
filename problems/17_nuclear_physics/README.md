@@ -15,7 +15,7 @@ Simulating few-nucleon systems requires capturing strong-interaction dynamics go
 │   ├── classical_baseline.py         # Few-body EFT Hamiltonian builder + diagonalization
 │   └── analyze.py                    # Visualization of binding energies and scattering lengths
 └── qsharp/
-    ├── QuantumNuclear.csproj         # Q# project placeholder for adiabatic/Trotter routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                    # Stubbed quantum workflow
 ```
 
@@ -30,9 +30,9 @@ python python/classical_baseline.py
 # Plot binding energies and coupling trends
 python python/analyze.py
 
-# Quantum placeholder (requires .NET 6)
-dotnet build qsharp/QuantumNuclear.csproj
- dotnet run --project qsharp/QuantumNuclear.csproj
+# Quantum placeholder (uses modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

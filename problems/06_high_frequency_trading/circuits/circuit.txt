@@ -1,0 +1,11 @@
+===================================================================
+  Problem 06: HFT — Amplitude Estimation for VaR (3-qubit)
+  Algorithm: Quantum Amplitude Estimation
+  Qubits: 2 register + 1 marker = 3
+===================================================================
+
+Traced gate-level circuit (from QDK simulator):
+
+q_0    ─ Ry(2.3318) ──── X ──── ● ───── X ───── |0〉 ──
+q_1    ────── X ─────────────── ● ───── X ───── |0〉 ──
+q_2    ──────────────────────── X ──── |0〉 ───────────

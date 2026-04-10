@@ -1,0 +1,13 @@
+===================================================================
+  Problem 05: QAOA MaxCut (3-qubit triangle graph)
+  Algorithm: Quantum Approximate Optimization Algorithm
+  Qubits: 3 (one per vertex) | Depth: p layers
+===================================================================
+
+Traced gate-level circuit (from QDK simulator):
+
+q_0    ── H ─── Rzz(1.0000) ── Rzz(1.0000) ── Rx(1.0000) ─────── |0〉 ──────────────
+                     ┆              ┆
+q_1    ── H ─── Rzz(1.0000) ────────┆──────── Rzz(1.0000) ── Rx(1.0000) ──── |0〉 ──
+                                    ┆              ┆
+q_2    ── H ────────────────── Rzz(1.0000) ── Rzz(1.0000) ── Rx(1.0000) ──── |0〉 ──

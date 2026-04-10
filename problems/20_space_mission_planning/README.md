@@ -15,7 +15,7 @@ Designing efficient interplanetary trajectories involves balancing launch window
 │   ├── classical_baseline.py         # Patched-conic delta-v estimator and window feasibility scoring
 │   └── analyze.py                    # Visualization of delta-v breakdowns and schedule slack
 └── qsharp/
-    ├── QuantumMission.csproj         # Q# project placeholder for annealing style routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                    # Stubbed quantum workflow
 ```
 
@@ -30,9 +30,9 @@ python python/classical_baseline.py
 # Plot delta-v budgets and schedule slack
 python python/analyze.py
 
-# Quantum placeholder (requires .NET 6)
-dotnet build qsharp/QuantumMission.csproj
- dotnet run --project qsharp/QuantumMission.csproj
+# Quantum placeholder (uses modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

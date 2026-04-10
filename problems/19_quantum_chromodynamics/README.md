@@ -15,7 +15,7 @@ Nonperturbative quantum chromodynamics (QCD) remains one of the central frontier
 │   ├── classical_baseline.py         # Wilson plaquette energy estimator and string tension proxy
 │   └── analyze.py                    # Visualization of plaquette energy and string tension trends
 └── qsharp/
-    ├── QuantumQcd.csproj             # Q# project placeholder for lattice gauge routines
+    ├── qsharp.json            # Modern QDK project file
     └── Program.qs                    # Stubbed quantum workflow
 ```
 
@@ -30,9 +30,9 @@ python python/classical_baseline.py
 # Plot plaquette energy and string tension behaviour
 python python/analyze.py
 
-# Quantum placeholder (requires .NET 6)
-dotnet build qsharp/QuantumQcd.csproj
- dotnet run --project qsharp/QuantumQcd.csproj
+# Quantum placeholder (uses modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
+ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
 ## Next Quantum Milestones

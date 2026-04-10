@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { activeWorkQueue, pipelineStages, problemHighlights, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns, runnableCorrectnessStats, runnableCorrectnessFailures, stageDReadinessStats, stageDReadinessCandidates, stageDExpansionQueue } from '../data/projectStatus';
 
@@ -492,7 +493,7 @@ export default function Home() {
               commands={[
                 'git clone https://github.com/WernerRall147/quantum-grand-challenges.git',
                 'cd quantum-grand-challenges',
-                'dotnet --list-runtimes | findstr 6.0',
+                'pip install qsharp numpy scipy matplotlib',
               ]}
             />
             <CommandBlock
@@ -590,6 +591,10 @@ function statusBadgeStyle(status: string): { text: string; bg: string; fg: strin
 
 function ProblemCard({ title, status, description, href }: ProblemCardProps) {
   const badge = statusBadgeStyle(status);
+  // Extract problem ID from GitHub href to build local route
+  const match = href.match(/problems\/(\d{2}_[a-z_]+)/);
+  const problemId = match ? match[1] : '';
+  const detailHref = problemId ? `/problems/${problemId}/` : href;
   return (
     <div style={{ 
       padding: '1.5rem', 
@@ -610,9 +615,9 @@ function ProblemCard({ title, status, description, href }: ProblemCardProps) {
       </div>
       <p style={{ color: '#0070f3', fontWeight: '600', margin: '0.5rem 0' }}>{status}</p>
       <p style={{ color: '#666', margin: 0 }}>{description}</p>
-      <a href={href} style={{ display: 'inline-block', marginTop: '0.75rem', color: '#0ea5e9', textDecoration: 'none', fontWeight: 600 }}>
-        Open problem folder →
-      </a>
+      <Link href={detailHref} style={{ display: 'inline-block', marginTop: '0.75rem', color: '#0ea5e9', textDecoration: 'none', fontWeight: 600 }}>
+        View details →
+      </Link>
     </div>
   );
 }

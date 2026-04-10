@@ -1,0 +1,118 @@
+{
+  "problem_id": "01_hubbard",
+  "description": "VQE energy estimate for t=0.5, U=2.0",
+  "entry_point": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 50)",
+  "generated_utc": "2026-04-10T11:57:33.325985Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0031,
+    "std_elapsed_s": 0.0027,
+    "mean_value": 0.877,
+    "std_value": 0.123506,
+    "ci95_half_width": 0.054129,
+    "ci95_lower": 0.822871,
+    "ci95_upper": 0.931129
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[0.8200000000000001]",
+      "elapsed_s": 0.0038
+    },
+    {
+      "run": 2,
+      "raw_result": "[0.88]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 3,
+      "raw_result": "[0.86]",
+      "elapsed_s": 0.0035
+    },
+    {
+      "run": 4,
+      "raw_result": "[1.14]",
+      "elapsed_s": 0.0035
+    },
+    {
+      "run": 5,
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 6,
+      "raw_result": "[1.16]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 7,
+      "raw_result": "[0.76]",
+      "elapsed_s": 0.0035
+    },
+    {
+      "run": 8,
+      "raw_result": "[0.8]",
+      "elapsed_s": 0.0035
+    },
+    {
+      "run": 9,
+      "raw_result": "[0.8400000000000001]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 10,
+      "raw_result": "[0.8600000000000001]",
+      "elapsed_s": 0.0045
+    },
+    {
+      "run": 11,
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.0049
+    },
+    {
+      "run": 12,
+      "raw_result": "[0.8200000000000001]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 13,
+      "raw_result": "[0.78]",
+      "elapsed_s": 0.0065
+    },
+    {
+      "run": 14,
+      "raw_result": "[0.78]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 15,
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 16,
+      "raw_result": "[0.8800000000000001]",
+      "elapsed_s": 0.0082
+    },
+    {
+      "run": 17,
+      "raw_result": "[0.9200000000000002]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 18,
+      "raw_result": "[0.9200000000000002]",
+      "elapsed_s": 0.0091
+    },
+    {
+      "run": 19,
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.001
+    },
+    {
+      "run": 20,
+      "raw_result": "[0.9]",
+      "elapsed_s": 0.0
+    }
+  ]
+}

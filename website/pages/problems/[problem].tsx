@@ -1,8 +1,20 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { problemHighlights } from '../../data/projectStatus';
 import resourceEstimates from '../../data/resourceEstimates.json';
+import calibrationData from '../../data/calibrationData.json';
+
+interface CalibrationStats {
+  num_runs: number;
+  mean_value?: number;
+  std_value?: number;
+  ci95_half_width?: number;
+  ci95_lower?: number;
+  ci95_upper?: number;
+  mean_elapsed_s: number;
+}
 
 interface EstimateData {
   physicalQubits: number | null;
@@ -22,6 +34,7 @@ interface ProblemPageProps {
     id: string;
     number: string;
     estimate: EstimateData | null;
+    calibration: CalibrationStats | null;
   };
 }
 
@@ -179,6 +192,63 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </section>
         )}
 
+        {est && (
+          <section style={{ marginTop: '2rem' }}>
+            <h2>Resource Breakdown</h2>
+            <div style={{ width: '100%', height: 300 }}>
+              <ResponsiveContainer>
+                <BarChart data={[
+                  { name: 'Physical Qubits', value: est.physicalQubits || 0, color: '#667eea' },
+                  { name: 'Logical Qubits', value: est.logicalQubits || 0, color: '#764ba2' },
+                  { name: 'T-Gates', value: est.tCount || 0, color: '#f59e0b' },
+                  { name: 'Rotations', value: est.rotationCount || 0, color: '#10b981' },
+                ].filter(d => d.value > 0)} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip formatter={(value: number) => fmtNum(value)} />
+                  <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                    {[
+                      { name: 'Physical Qubits', value: est.physicalQubits || 0, color: '#667eea' },
+                      { name: 'Logical Qubits', value: est.logicalQubits || 0, color: '#764ba2' },
+                      { name: 'T-Gates', value: est.tCount || 0, color: '#f59e0b' },
+                      { name: 'Rotations', value: est.rotationCount || 0, color: '#10b981' },
+                    ].filter(d => d.value > 0).map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {problem.calibration && problem.calibration.mean_value != null && (
+          <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#f0fdf4', borderRadius: '12px' }}>
+            <h2 style={{ marginTop: 0, color: '#166534' }}>Calibration Evidence (20-Run Ensemble)</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', textAlign: 'center', border: '1px solid #bbf7d0' }}>
+                <div style={{ fontSize: '0.8rem', color: '#166534' }}>Mean Value</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#15803d' }}>{problem.calibration.mean_value.toFixed(3)}</div>
+              </div>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', textAlign: 'center', border: '1px solid #bbf7d0' }}>
+                <div style={{ fontSize: '0.8rem', color: '#166534' }}>95% CI</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#15803d' }}>
+                  &plusmn; {(problem.calibration.ci95_half_width || 0).toFixed(3)}
+                </div>
+              </div>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', textAlign: 'center', border: '1px solid #bbf7d0' }}>
+                <div style={{ fontSize: '0.8rem', color: '#166534' }}>Runs</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#15803d' }}>{problem.calibration.num_runs}</div>
+              </div>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', textAlign: 'center', border: '1px solid #bbf7d0' }}>
+                <div style={{ fontSize: '0.8rem', color: '#166534' }}>Std Dev</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#15803d' }}>{(problem.calibration.std_value || 0).toFixed(3)}</div>
+              </div>
+            </div>
+          </section>
+        )}
+
         <section style={{ marginTop: '2rem' }}>
           <h2>Reproduce It</h2>
           <div style={{ background: '#0f172a', color: '#e2e8f0', borderRadius: '8px', padding: '1.25rem', fontFamily: 'monospace', fontSize: '0.9rem', lineHeight: 1.6 }}>
@@ -238,6 +308,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     numQubits: rawEstimate.numQubits ?? null,
   } : null;
 
+  const rawCal = (calibrationData as Record<string, Record<string, unknown>>)[id] || null;
+  const calibration = rawCal ? {
+    num_runs: (rawCal.num_runs as number) ?? 0,
+    mean_value: typeof rawCal.mean_value === 'number' ? rawCal.mean_value : null,
+    std_value: typeof rawCal.std_value === 'number' ? rawCal.std_value : null,
+    ci95_half_width: typeof rawCal.ci95_half_width === 'number' ? rawCal.ci95_half_width : null,
+    ci95_lower: typeof rawCal.ci95_lower === 'number' ? rawCal.ci95_lower : null,
+    ci95_upper: typeof rawCal.ci95_upper === 'number' ? rawCal.ci95_upper : null,
+    mean_elapsed_s: (rawCal.mean_elapsed_s as number) ?? 0,
+  } : null;
+
   return {
     props: {
       problem: {
@@ -248,6 +329,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         description: highlight?.description || '',
         href: highlight?.href || '#',
         estimate,
+        calibration,
       },
     },
   };

@@ -51,9 +51,9 @@ export const activeWorkQueue = [
 export const problemHighlights = [
   {
     title: 'Hubbard Model',
-    status: 'Stage B complete + Azure validated',
+    status: 'Stage C - Calibrated',
     description:
-      'VQE ansatz (2-qubit) submitted to Quantinuum H2 simulator and emulator. Resource estimates now available for surface_code and gate_ns_e3 targets.',
+      'VQE 2-qubit ansatz with 20-run calibration ensemble (E=0.877 \u00b1 0.054, 95% CI). 177k physical qubits, 12 logical. Azure Quantum validated on Quantinuum H2.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard',
   },
   {
@@ -71,9 +71,9 @@ export const problemHighlights = [
   },
   {
     title: 'Linear Solvers',
-    status: 'Stage B complete + estimates',
+    status: 'Stage C - Calibrated',
     description:
-      'Full HHL circuit implemented (6 qubits). Resource estimates generated for surface_code and gate_ns_e3 targets. Ready for Stage C promotion.',
+      'HHL algorithm (6 qubits) with 20-run calibration ensemble. 140k physical qubits, 18 logical, 12 T-gates. Resource estimates for surface_code and gate_ns_e3.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/04_linear_solvers',
   },
   {
@@ -102,8 +102,9 @@ export const problemHighlights = [
   },
   {
     title: 'Factorization',
-    status: 'Quantum circuit implemented',
-    description: 'Full Shor period-finding with QPE + controlled modular multiply. Factors 15 = 3 x 5.',
+    status: 'Stage C - Calibrated',
+    description:
+      "Shor's algorithm (8 qubits) with 20-run calibration ensemble. Period=7.0 \u00b1 1.96 (95% CI). 77k physical qubits, 25 logical, 6 T-gates.",
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/09_factorization',
   },
   {

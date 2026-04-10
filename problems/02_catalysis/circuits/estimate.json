@@ -1,13 +1,13 @@
 {
   "problem": "02_catalysis",
-  "physicalQubits": 873256,
-  "runtime": 3829760000,
-  "rqops": 1764706,
+  "physicalQubits": 177144,
+  "runtime": 528000,
+  "rqops": 2727273,
   "logicalQubits": 12,
   "logicalDepth": null,
   "tCount": 0,
-  "rotationCount": 43520,
+  "rotationCount": 12,
   "cczCount": 0,
-  "measurementCount": 23040,
+  "measurementCount": 4,
   "numQubits": 3
 }

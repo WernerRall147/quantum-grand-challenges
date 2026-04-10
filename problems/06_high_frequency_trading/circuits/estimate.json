@@ -1,13 +1,13 @@
 {
   "problem": "06_high_frequency_trading",
-  "physicalQubits": 329400,
-  "runtime": 122880000,
-  "rqops": 2000000,
+  "physicalQubits": 60744,
+  "runtime": 57600,
+  "rqops": 3333334,
   "logicalQubits": 12,
   "logicalDepth": null,
   "tCount": 0,
-  "rotationCount": 1280,
-  "cczCount": 512,
-  "measurementCount": 256,
+  "rotationCount": 1,
+  "cczCount": 1,
+  "measurementCount": 1,
   "numQubits": 3
 }

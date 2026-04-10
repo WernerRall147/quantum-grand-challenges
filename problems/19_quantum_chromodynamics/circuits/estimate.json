@@ -1,13 +1,13 @@
 {
   "problem": "19_quantum_chromodynamics",
-  "physicalQubits": 530670,
-  "runtime": 1492736000,
-  "rqops": 2205883,
-  "logicalQubits": 15,
+  "physicalQubits": 131058,
+  "runtime": 320400,
+  "rqops": 2500000,
+  "logicalQubits": 9,
   "logicalDepth": null,
   "tCount": 0,
-  "rotationCount": 22400,
+  "rotationCount": 9,
   "cczCount": 0,
-  "measurementCount": 2560,
-  "numQubits": 4
+  "measurementCount": 2,
+  "numQubits": 2
 }

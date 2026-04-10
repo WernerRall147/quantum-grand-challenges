@@ -11,28 +11,28 @@ from pathlib import Path
 
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 
-# Entry points for resource estimation
+# Entry points for resource estimation — single-shot kernel operations
 ENTRY_POINTS = {
-    "01_hubbard": "Main.RunTwoSiteHubbardAnalysis()",
-    "02_catalysis": "Main.RunCatalysisAnalysis()",
-    "03_qae_risk": "Main.RunQAERiskAnalysis()",
-    "04_linear_solvers": "Main.RunLinearSolverBaseline()",
-    "05_qaoa_maxcut": "Main.RunDefaultQaoa()",
-    "06_high_frequency_trading": "Main.RunHFTAnalysis()",
-    "07_drug_discovery": "Main.RunDrugDiscovery()",
-    "08_protein_folding": "Main.RunProteinFolding()",
-    "09_factorization": "Main.RunShorFactorization()",
-    "10_post_quantum_cryptography": "Main.RunPostQuantumAnalysis()",
-    "11_quantum_machine_learning": "Main.RunQuantumKernelEstimation()",
-    "12_quantum_optimization": "Main.RunSchedulingOptimization()",
-    "13_climate_modeling": "Main.RunClimateModeling()",
-    "14_materials_discovery": "Main.RunMaterialsDiscovery()",
-    "15_database_search": "Main.RunGroverDemonstration()",
-    "16_error_correction": "Main.RunQECDemonstration()",
-    "17_nuclear_physics": "Main.RunNuclearPhysics()",
-    "18_photovoltaics": "Main.RunPhotovoltaics()",
-    "19_quantum_chromodynamics": "Main.RunQCDSimulation()",
-    "20_space_mission_planning": "Main.RunMissionOptimization()",
+    "01_hubbard": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 1)",
+    "02_catalysis": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 1)",
+    "03_qae_risk": "Main.QAEKernel()",
+    "04_linear_solvers": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)",
+    "05_qaoa_maxcut": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], 1)",
+    "06_high_frequency_trading": "Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 1)",
+    "07_drug_discovery": "Main.EstimateBindingEnergy(1.0, 0.5, 0.3, 1)",
+    "08_protein_folding": "Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, 1)",
+    "09_factorization": "Main.ShorPeriodFinding(3, 4)",
+    "10_post_quantum_cryptography": "Main.GroverKeySearch(3, 5, 1)",
+    "11_quantum_machine_learning": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 1)",
+    "12_quantum_optimization": "Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, 1)",
+    "13_climate_modeling": "Main.RunHHLClimate(3, 1)",
+    "14_materials_discovery": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 1)",
+    "15_database_search": "Main.GroverSearch([7], 4, 3)",
+    "16_error_correction": "Main.RunRepetitionCodeCycle(false, 0)",
+    "17_nuclear_physics": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 1)",
+    "18_photovoltaics": "Main.RunExcitonWalk(10, 0.5, 1)",
+    "19_quantum_chromodynamics": "Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, 1)",
+    "20_space_mission_planning": "Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, 1)",
 }
 
 

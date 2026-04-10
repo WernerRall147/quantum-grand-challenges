@@ -1,13 +1,13 @@
 {
   "problem": "14_materials_discovery",
-  "physicalQubits": 841664,
-  "runtime": 12572467200,
-  "rqops": 1578948,
+  "physicalQubits": 401400,
+  "runtime": 59856000,
+  "rqops": 2000000,
   "logicalQubits": 12,
   "logicalDepth": null,
   "tCount": 0,
-  "rotationCount": 129024,
+  "rotationCount": 896,
   "cczCount": 0,
-  "measurementCount": 73728,
+  "measurementCount": 512,
   "numQubits": 3
 }

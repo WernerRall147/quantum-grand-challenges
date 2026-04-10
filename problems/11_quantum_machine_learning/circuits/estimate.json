@@ -1,13 +1,13 @@
 {
   "problem": "11_quantum_machine_learning",
-  "physicalQubits": 496404,
-  "runtime": 974718800,
-  "rqops": 2647059,
+  "physicalQubits": 153396,
+  "runtime": 303600,
+  "rqops": 4090910,
   "logicalQubits": 18,
   "logicalDepth": null,
   "tCount": 0,
-  "rotationCount": 12800,
-  "cczCount": 2560,
-  "measurementCount": 1280,
+  "rotationCount": 10,
+  "cczCount": 2,
+  "measurementCount": 1,
   "numQubits": 5
 }

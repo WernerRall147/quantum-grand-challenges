@@ -1,13 +1,13 @@
 {
   "problem": "10_post_quantum_cryptography",
-  "physicalQubits": 298350,
-  "runtime": 55296000,
-  "rqops": 3833334,
-  "logicalQubits": 23,
+  "physicalQubits": 32536,
+  "runtime": 36400,
+  "rqops": 4285715,
+  "logicalQubits": 12,
   "logicalDepth": null,
   "tCount": 0,
   "rotationCount": 0,
-  "cczCount": 2816,
-  "measurementCount": 768,
-  "numQubits": 7
+  "cczCount": 2,
+  "measurementCount": 3,
+  "numQubits": 3
 }

@@ -1,0 +1,118 @@
+{
+  "problem_id": "09_factorization",
+  "description": "Shor period finding for a=3 mod 15",
+  "entry_point": "Main.ShorPeriodFinding(3, 4)",
+  "generated_utc": "2026-04-10T11:57:33.485564Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0003,
+    "std_elapsed_s": 0.0013,
+    "mean_value": 7.0,
+    "std_value": 4.472136,
+    "ci95_half_width": 1.96,
+    "ci95_lower": 5.04,
+    "ci95_upper": 8.96
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[9]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 2,
+      "raw_result": "[3]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 3,
+      "raw_result": "[4]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 4,
+      "raw_result": "[7]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 5,
+      "raw_result": "[2]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 6,
+      "raw_result": "[4]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 7,
+      "raw_result": "[9]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 8,
+      "raw_result": "[5]",
+      "elapsed_s": 0.0057
+    },
+    {
+      "run": 9,
+      "raw_result": "[2]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 10,
+      "raw_result": "[9]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 11,
+      "raw_result": "[15]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 12,
+      "raw_result": "[0]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 13,
+      "raw_result": "[9]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 14,
+      "raw_result": "[15]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 15,
+      "raw_result": "[9]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 16,
+      "raw_result": "[15]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 17,
+      "raw_result": "[4]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 18,
+      "raw_result": "[5]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 19,
+      "raw_result": "[4]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 20,
+      "raw_result": "[10]",
+      "elapsed_s": 0.0
+    }
+  ]
+}

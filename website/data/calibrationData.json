@@ -1,0 +1,27 @@
+{
+  "01_hubbard": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0031,
+    "std_elapsed_s": 0.0027,
+    "mean_value": 0.877,
+    "std_value": 0.123506,
+    "ci95_half_width": 0.054129,
+    "ci95_lower": 0.822871,
+    "ci95_upper": 0.931129
+  },
+  "04_linear_solvers": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0001,
+    "std_elapsed_s": 0.0003
+  },
+  "09_factorization": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0003,
+    "std_elapsed_s": 0.0013,
+    "mean_value": 7.0,
+    "std_value": 4.472136,
+    "ci95_half_width": 1.96,
+    "ci95_lower": 5.04,
+    "ci95_upper": 8.96
+  }
+}

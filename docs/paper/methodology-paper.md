@@ -120,7 +120,7 @@ Every problem includes a deterministic classical baseline that serves as the com
 
 ### 4.4 Resource Estimation Pipeline
 
-We employ a centralized estimation manager (`tooling/estimator/run_estimation.py`) that coordinates batch runs across configurable target architectures. Each problem's estimator configuration specifies the entry point, parameters, and target profiles. The pipeline supports both live Azure Quantum Resource Estimator runs and mock estimation for development.
+We employ a centralized estimation manager (`tooling/generate_estimates.py`) that runs `qsharp.estimate()` on each problem's kernel operation. All 20 problems now have real Azure Quantum Resource Estimator profiles with surface_code architecture targeting. Physical qubit counts range from 1,764 (3-qubit QEC repetition code) to 401,400 (VQE band gap with nested optimization). The pipeline also supports batch calibration via `tooling/generate_calibration_ensemble.py`, which runs each kernel 20 times to produce ensemble statistics with 95% confidence intervals.
 
 Current target architectures:
 - `surface_code_generic_v1`: Generic surface code with standard parameters
@@ -184,7 +184,7 @@ A problem-agnostic Azure submission pipeline (`tooling/azure/smoke_problem.py`) 
 
 ### 7.1 What the Framework Demonstrates (and What It Does Not)
 
-The maturity gate model successfully enforces honest assessment: of 20 implemented problems, only 3 have reached Stage C (hardware-aware validation), and **none have reached Stage D** (advantage evidence). This is the intended outcome — the framework correctly identifies that toy-scale simulator validation does not constitute evidence of quantum advantage.
+The maturity gate model successfully enforces honest assessment: of 20 implemented problems, all 20 have now reached Stage C (hardware-aware validation with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles), and **none have reached Stage D** (advantage evidence). The progression from 3/20 Stage C (March 2026) to 20/20 Stage C (April 2026) demonstrates the framework's ability to systematically drive evidence generation while still preventing premature advantage claims.
 
 **What our results demonstrate:**
 - Algorithmic correctness at small scale (Grover finds marked items, Shor factors 15, QEC corrects single bit-flips)
@@ -258,7 +258,7 @@ At our problem scales (n ≤ 5), brute-force enumeration, GW-SDP, and QAOA all f
 
 2. **Encoding bugs persist through validation**: A Lorentzian PDF masquerading as a log-normal distribution in the QAE implementation survived multiple development cycles because the circuit compiled and produced numbers in a plausible range. Only systematic comparison against the classical baseline revealed the error.
 
-3. **Mock estimates create false confidence**: Uniform mock resource estimates across all problems suggested comparable resource requirements, obscuring the 100× range in actual gate counts between a 2-qubit VQE (~6 gates) and a 4-qubit Grover (~200 gates).
+3. **Mock estimates previously created false confidence**: Uniform mock resource estimates across all problems suggested comparable resource requirements. Real Azure Quantum Resource Estimator profiles now reveal a 230× range: from 1.8k physical qubits (QEC repetition code) to 401k (VQE band gap with nested optimization). T-gate intensive algorithms (QAE: 15, HHL: 12, Shor: 6) require T-state distillation factories, while VQE/QAOA problems use only rotation gates.
 
 4. **Process discipline has value even without quantum advantage**: The standardized structure, automated checks, and maturity gates caught real bugs and prevented inflated claims — which is the framework's actual contribution.
 
@@ -272,7 +272,7 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 
 3. **Classical baselines are deliberately weak.** We use textbook algorithms (brute-force, naive Monte Carlo) for cross-domain standardization. Any comparative statement must acknowledge that state-of-the-art classical methods would perform far better. Quantum advantage claims have repeatedly vanished when classical heuristics were properly benchmarked [6].
 
-4. **Resource estimates are not credible for scaling projections.** Mock estimates use uniform placeholder values. Real resource estimation via the Azure Quantum Resource Estimator is needed for any credible hardware projection.
+4. **Resource estimates now use real Azure Quantum Resource Estimator profiles.** All 20 problems have been profiled via `qsharp.estimate()` with the surface_code architecture target. Physical qubit counts range from 1,764 (QEC) to 401,400 (Materials Discovery). These are credible lower bounds for fault-tolerant execution, though they apply to toy-scale instances and should not be extrapolated to production problem sizes without careful scaling analysis.
 
 5. **Toy instances reveal nothing about asymptotic behavior.** A 2-qubit VQE or 4-qubit QAOA demonstrates circuit correctness but says nothing about how the algorithm behaves at 50, 100, or 1000 qubits. The scaling analysis in Section 7.3 illustrates how rapidly resource requirements grow.
 
@@ -280,17 +280,18 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 
 ## 9. Future Work
 
+- ~~Obtain real Azure Quantum Resource Estimator profiles~~ (completed April 2026: all 20 problems profiled)
 - Execute 2-qubit circuits on Quantinuum H1 QPU to compare noisy hardware results against simulator baselines
 - Replace at least one classical baseline with a state-of-the-art competitor (Goemans-Williamson for MaxCut, importance sampling for QAE)
 - Extend scaling analysis to QAOA and VQE with noise models at different error rates
-- Obtain real Azure Quantum Resource Estimator profiles for credible qubit/gate/runtime projections
 - Investigate whether the maturity gate model can be extended with complexity-theoretic checks (scaling slope verification, classical hardness evidence requirements)
+- Promote Stage D candidates (QAE, QAOA, Grover) with full advantage evidence packages
 
 ## 10. Conclusion
 
 We have presented a software engineering framework for quantum algorithm development that prioritizes honest assessment over optimistic claims. The framework's primary value is not in the quantum implementations — which are toy-scale and classically trivial — but in the methodology: standardized structure, automated validation, and maturity gates that explicitly prevent claiming more than the evidence supports.
 
-Of 20 implemented problems, none have reached the "advantage evidence" stage (Stage D), which we consider a success of the framework rather than a failure. The maturity gate model correctly identifies that noiseless simulator results on small instances do not constitute evidence of quantum utility.
+Of 20 implemented problems, all have reached Stage C (hardware-aware validation with calibration ensembles and real resource estimates), and none have reached Stage D (advantage evidence), which we consider the appropriate outcome at this scale. The maturity gate model correctly identifies that noiseless simulator results on small instances — even with real resource estimator profiles — do not constitute evidence of quantum utility.
 
 The practical lessons — that placeholders masquerade as implementations, that encoding bugs survive validation, that mock estimates create false confidence — are transferable to any quantum development effort. We hope the framework's insistence on honest self-assessment contributes to healthier practices in the quantum computing community.
 

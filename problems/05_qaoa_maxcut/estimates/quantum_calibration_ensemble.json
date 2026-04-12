@@ -1,0 +1,118 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "description": "QAOA MaxCut triangle graph depth-1",
+  "entry_point": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], 50)",
+  "generated_utc": "2026-04-12T13:54:01.740567Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0019,
+    "std_elapsed_s": 0.0019,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[(0.16, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 2,
+      "raw_result": "[(0.04, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 3,
+      "raw_result": "[(0.08, 2.0, [1, 0, 0])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 4,
+      "raw_result": "[(0.04, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 5,
+      "raw_result": "[(0.16, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 6,
+      "raw_result": "[(0.16, 2.0, [1, 0, 0])]",
+      "elapsed_s": 0.0031
+    },
+    {
+      "run": 7,
+      "raw_result": "[(0.08, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 8,
+      "raw_result": "[(0.2, 2.0, [1, 0, 0])]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 9,
+      "raw_result": "[(0.04, 2.0, [1, 0, 0])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 10,
+      "raw_result": "[(0.0, 0.0, [0, 0, 0])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 11,
+      "raw_result": "[(0.08, 2.0, [1, 0, 1])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 12,
+      "raw_result": "[(0.2, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 13,
+      "raw_result": "[(0.16, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 14,
+      "raw_result": "[(0.04, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.0007
+    },
+    {
+      "run": 15,
+      "raw_result": "[(0.2, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 16,
+      "raw_result": "[(0.32, 2.0, [1, 0, 1])]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 17,
+      "raw_result": "[(0.24, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 18,
+      "raw_result": "[(0.04, 2.0, [1, 0, 1])]",
+      "elapsed_s": 0.0086
+    },
+    {
+      "run": 19,
+      "raw_result": "[(0.08, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 20,
+      "raw_result": "[(0.04, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0
+    }
+  ]
+}

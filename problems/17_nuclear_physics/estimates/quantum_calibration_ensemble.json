@@ -1,0 +1,118 @@
+{
+  "problem_id": "17_nuclear_physics",
+  "description": "VQE deuteron binding energy",
+  "entry_point": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 50)",
+  "generated_utc": "2026-04-12T13:53:48.795728Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0022,
+    "std_elapsed_s": 0.0006,
+    "mean_value": -1.82322,
+    "std_value": 0.055027,
+    "ci95_half_width": 0.024117,
+    "ci95_lower": -1.847337,
+    "ci95_upper": -1.799103
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[-1.7448]",
+      "elapsed_s": 0.0026
+    },
+    {
+      "run": 2,
+      "raw_result": "[-1.7912]",
+      "elapsed_s": 0.0015
+    },
+    {
+      "run": 3,
+      "raw_result": "[-1.6628]",
+      "elapsed_s": 0.0016
+    },
+    {
+      "run": 4,
+      "raw_result": "[-1.798]",
+      "elapsed_s": 0.0031
+    },
+    {
+      "run": 5,
+      "raw_result": "[-1.8596]",
+      "elapsed_s": 0.0016
+    },
+    {
+      "run": 6,
+      "raw_result": "[-1.8992]",
+      "elapsed_s": 0.0033
+    },
+    {
+      "run": 7,
+      "raw_result": "[-1.8444]",
+      "elapsed_s": 0.0022
+    },
+    {
+      "run": 8,
+      "raw_result": "[-1.7932]",
+      "elapsed_s": 0.0023
+    },
+    {
+      "run": 9,
+      "raw_result": "[-1.87]",
+      "elapsed_s": 0.0016
+    },
+    {
+      "run": 10,
+      "raw_result": "[-1.8096]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 11,
+      "raw_result": "[-1.7835999999999999]",
+      "elapsed_s": 0.0021
+    },
+    {
+      "run": 12,
+      "raw_result": "[-1.8232]",
+      "elapsed_s": 0.0021
+    },
+    {
+      "run": 13,
+      "raw_result": "[-1.8244]",
+      "elapsed_s": 0.0021
+    },
+    {
+      "run": 14,
+      "raw_result": "[-1.8492000000000002]",
+      "elapsed_s": 0.0027
+    },
+    {
+      "run": 15,
+      "raw_result": "[-1.878]",
+      "elapsed_s": 0.0016
+    },
+    {
+      "run": 16,
+      "raw_result": "[-1.8856000000000002]",
+      "elapsed_s": 0.0016
+    },
+    {
+      "run": 17,
+      "raw_result": "[-1.7927999999999997]",
+      "elapsed_s": 0.0031
+    },
+    {
+      "run": 18,
+      "raw_result": "[-1.8344]",
+      "elapsed_s": 0.0015
+    },
+    {
+      "run": 19,
+      "raw_result": "[-1.8492]",
+      "elapsed_s": 0.0016
+    },
+    {
+      "run": 20,
+      "raw_result": "[-1.8712000000000002]",
+      "elapsed_s": 0.0031
+    }
+  ]
+}

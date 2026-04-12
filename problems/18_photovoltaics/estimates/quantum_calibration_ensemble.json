@@ -1,0 +1,118 @@
+{
+  "problem_id": "18_photovoltaics",
+  "description": "Quantum walk exciton transport",
+  "entry_point": "Main.RunExcitonWalk(10, 0.5, 50)",
+  "generated_utc": "2026-04-12T13:53:49.065992Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0098,
+    "std_elapsed_s": 0.0078,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0036
+    },
+    {
+      "run": 2,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0062
+    },
+    {
+      "run": 3,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0043
+    },
+    {
+      "run": 4,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0046
+    },
+    {
+      "run": 5,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0047
+    },
+    {
+      "run": 6,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0047
+    },
+    {
+      "run": 7,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0046
+    },
+    {
+      "run": 8,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0096
+    },
+    {
+      "run": 9,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0104
+    },
+    {
+      "run": 10,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.012
+    },
+    {
+      "run": 11,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0102
+    },
+    {
+      "run": 12,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0095
+    },
+    {
+      "run": 13,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0095
+    },
+    {
+      "run": 14,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0107
+    },
+    {
+      "run": 15,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0094
+    },
+    {
+      "run": 16,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0096
+    },
+    {
+      "run": 17,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0112
+    },
+    {
+      "run": 18,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0406
+    },
+    {
+      "run": 19,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0099
+    },
+    {
+      "run": 20,
+      "raw_result": "[[0, 50, 0, 0]]",
+      "elapsed_s": 0.0108
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "problem_id": "06_high_frequency_trading",
+  "description": "Quantum VaR loss probability",
+  "entry_point": "Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 50)",
+  "generated_utc": "2026-04-12T13:53:41.371449Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0009,
+    "std_elapsed_s": 0.0016,
+    "mean_value": 0.645,
+    "std_value": 0.046283,
+    "ci95_half_width": 0.020284,
+    "ci95_lower": 0.624716,
+    "ci95_upper": 0.665284
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[0.66]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 2,
+      "raw_result": "[0.68]",
+      "elapsed_s": 0.0051
+    },
+    {
+      "run": 3,
+      "raw_result": "[0.76]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 4,
+      "raw_result": "[0.58]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 5,
+      "raw_result": "[0.64]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 6,
+      "raw_result": "[0.62]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 7,
+      "raw_result": "[0.64]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 8,
+      "raw_result": "[0.62]",
+      "elapsed_s": 0.0046
+    },
+    {
+      "run": 9,
+      "raw_result": "[0.68]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 10,
+      "raw_result": "[0.7]",
+      "elapsed_s": 0.0008
+    },
+    {
+      "run": 11,
+      "raw_result": "[0.68]",
+      "elapsed_s": 0.0008
+    },
+    {
+      "run": 12,
+      "raw_result": "[0.66]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 13,
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 14,
+      "raw_result": "[0.68]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 15,
+      "raw_result": "[0.58]",
+      "elapsed_s": 0.0034
+    },
+    {
+      "run": 16,
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 17,
+      "raw_result": "[0.64]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 18,
+      "raw_result": "[0.68]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 19,
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 20,
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "problem_id": "02_catalysis",
+  "description": "VQE H2 ground state energy",
+  "entry_point": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 50)",
+  "generated_utc": "2026-04-12T13:53:41.291969Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.002,
+    "std_elapsed_s": 0.0005,
+    "mean_value": -1.189619,
+    "std_value": 0.050774,
+    "ci95_half_width": 0.022253,
+    "ci95_lower": -1.211872,
+    "ci95_upper": -1.167366
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[-1.0443376000000002]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 2,
+      "raw_result": "[-1.2138592000000001]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 3,
+      "raw_result": "[-1.1804640000000002]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 4,
+      "raw_result": "[-1.1534944]",
+      "elapsed_s": 0.0015
+    },
+    {
+      "run": 5,
+      "raw_result": "[-1.1765940000000001]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 6,
+      "raw_result": "[-1.2238616]",
+      "elapsed_s": 0.0015
+    },
+    {
+      "run": 7,
+      "raw_result": "[-1.2085940000000002]",
+      "elapsed_s": 0.0029
+    },
+    {
+      "run": 8,
+      "raw_result": "[-1.2845208]",
+      "elapsed_s": 0.0023
+    },
+    {
+      "run": 9,
+      "raw_result": "[-1.2204028]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 10,
+      "raw_result": "[-1.2085132]",
+      "elapsed_s": 0.0015
+    },
+    {
+      "run": 11,
+      "raw_result": "[-1.1670028]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 12,
+      "raw_result": "[-1.1694888]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 13,
+      "raw_result": "[-1.2215520000000002]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 14,
+      "raw_result": "[-1.0964704]",
+      "elapsed_s": 0.0015
+    },
+    {
+      "run": 15,
+      "raw_result": "[-1.1839228]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 16,
+      "raw_result": "[-1.1967155999999999]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 17,
+      "raw_result": "[-1.2281651999999998]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 18,
+      "raw_result": "[-1.1942296000000001]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 19,
+      "raw_result": "[-1.1895520000000002]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 20,
+      "raw_result": "[-1.2306400000000002]",
+      "elapsed_s": 0.001
+    }
+  ]
+}

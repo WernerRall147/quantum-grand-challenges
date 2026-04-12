@@ -1,0 +1,23 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "stage": "D",
+  "generated_utc": "2026-04-12T16:24:03.927020Z",
+  "claim_category": "theoretical",
+  "problem_class": "Maximum cut in weighted graphs (NP-hard combinatorial optimization)",
+  "instance_regime": "Triangle graph (3 vertices, 3 edges), depth-1 QAOA",
+  "baseline_algorithm": "Brute-force enumeration (optimal for n\u226420); Goemans-Williamson SDP (0.878-approx for large n)",
+  "fairness_rationale": "At n=3, brute-force trivially finds optimal; GW guarantee only relevant at n>30",
+  "quantum_resource_scaling": "QAOA expected ratio approaches optimal as depth p\u2192\u221e; constant-depth advantage unproven for MaxCut",
+  "data_loading_assumptions": "Graph encoded directly as ZZ interactions; no data loading overhead",
+  "noise_model_assumptions": "Noiseless simulator; real QAOA at depth>1 highly sensitive to gate noise",
+  "confidence_method": "20-run calibration ensemble; deterministic optimal found (ratio=1.0) on all runs",
+  "residual_risks": [
+    "No proven quantum advantage for MaxCut QAOA at any constant depth",
+    "Classical GW algorithm achieves 0.878-approximation in polynomial time",
+    "Instance is trivially small (n=3) \u2014 advantage claims meaningless at this scale",
+    "131k physical qubits for a 3-vertex graph; scaling to practical graphs unknown"
+  ],
+  "physical_qubits": 131544,
+  "logical_qubits": 12,
+  "t_gates": 0
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-03-24T13:10:00Z",
+  "updated_utc": "2026-04-12T16:23:00.033665Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -352,6 +352,326 @@
       "duration_seconds": 6.6,
       "cost_usd": 0.0,
       "metrics_status": "available"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:47.748852Z",
+      "problem_id": "01_hubbard",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:47.815002Z",
+      "problem_id": "02_catalysis",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:47.886388Z",
+      "problem_id": "03_qae_risk",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:47.947913Z",
+      "problem_id": "04_linear_solvers",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.013280Z",
+      "problem_id": "05_qaoa_maxcut",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.079373Z",
+      "problem_id": "06_high_frequency_trading",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.132378Z",
+      "problem_id": "07_drug_discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.199152Z",
+      "problem_id": "08_protein_folding",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.265624Z",
+      "problem_id": "09_factorization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.340578Z",
+      "problem_id": "10_post_quantum_cryptography",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.413334Z",
+      "problem_id": "11_quantum_machine_learning",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.489949Z",
+      "problem_id": "12_quantum_optimization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.588001Z",
+      "problem_id": "13_climate_modeling",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.672186Z",
+      "problem_id": "14_materials_discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.749011Z",
+      "problem_id": "15_database_search",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.840649Z",
+      "problem_id": "16_error_correction",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.915653Z",
+      "problem_id": "17_nuclear_physics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:48.995693Z",
+      "problem_id": "18_photovoltaics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:49.074143Z",
+      "problem_id": "19_quantum_chromodynamics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:49.151319Z",
+      "problem_id": "20_space_mission_planning",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:58.407567Z",
+      "problem_id": "01_hubbard",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:58.484536Z",
+      "problem_id": "02_catalysis",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:58.567534Z",
+      "problem_id": "03_qae_risk",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:58.651362Z",
+      "problem_id": "04_linear_solvers",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:58.735192Z",
+      "problem_id": "05_qaoa_maxcut",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:58.815386Z",
+      "problem_id": "06_high_frequency_trading",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:58.884818Z",
+      "problem_id": "07_drug_discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:58.951851Z",
+      "problem_id": "08_protein_folding",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.045873Z",
+      "problem_id": "09_factorization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.138242Z",
+      "problem_id": "10_post_quantum_cryptography",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.234641Z",
+      "problem_id": "11_quantum_machine_learning",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.327140Z",
+      "problem_id": "12_quantum_optimization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.418292Z",
+      "problem_id": "13_climate_modeling",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.498006Z",
+      "problem_id": "14_materials_discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.581033Z",
+      "problem_id": "15_database_search",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.662365Z",
+      "problem_id": "16_error_correction",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.784431Z",
+      "problem_id": "17_nuclear_physics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.867337Z",
+      "problem_id": "18_photovoltaics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:22:59.950730Z",
+      "problem_id": "19_quantum_chromodynamics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-12T16:23:00.033665Z",
+      "problem_id": "20_space_mission_planning",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "succeeded"
     }
   ]
 }

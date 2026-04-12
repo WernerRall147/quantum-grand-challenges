@@ -19,21 +19,106 @@ import qsharp
 
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 
-# Map problem → (entry_point, result_extractor_description)
+# Map problem → (entry_point, description, type)
 CALIBRATION_TARGETS = {
     "01_hubbard": {
         "entry": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 50)",
         "description": "VQE energy estimate for t=0.5, U=2.0",
         "type": "numeric",
     },
+    "02_catalysis": {
+        "entry": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 50)",
+        "description": "VQE H2 ground state energy",
+        "type": "numeric",
+    },
+    "03_qae_risk": {
+        "entry": "Main.QAEKernel()",
+        "description": "QAE single-shot kernel",
+        "type": "result",
+    },
     "04_linear_solvers": {
         "entry": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 4)",
         "description": "HHL single-shot solution measurement",
         "type": "result",
     },
+    "05_qaoa_maxcut": {
+        "entry": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], 50)",
+        "description": "QAOA MaxCut triangle graph depth-1",
+        "type": "numeric",
+    },
+    "06_high_frequency_trading": {
+        "entry": "Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 50)",
+        "description": "Quantum VaR loss probability",
+        "type": "numeric",
+    },
+    "07_drug_discovery": {
+        "entry": "Main.EstimateBindingEnergy(1.0, 0.5, 0.3, 50)",
+        "description": "VQE molecular binding energy",
+        "type": "numeric",
+    },
+    "08_protein_folding": {
+        "entry": "Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, 50)",
+        "description": "QAOA lattice folding energy",
+        "type": "numeric",
+    },
     "09_factorization": {
         "entry": "Main.ShorPeriodFinding(3, 4)",
         "description": "Shor period finding for a=3 mod 15",
+        "type": "numeric",
+    },
+    "10_post_quantum_cryptography": {
+        "entry": "Main.GroverKeySearch(3, 5, 50)",
+        "description": "Grover key search success rate",
+        "type": "numeric",
+    },
+    "11_quantum_machine_learning": {
+        "entry": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 50)",
+        "description": "Swap test kernel overlap",
+        "type": "numeric",
+    },
+    "12_quantum_optimization": {
+        "entry": "Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, 50)",
+        "description": "QAOA scheduling optimization",
+        "type": "numeric",
+    },
+    "13_climate_modeling": {
+        "entry": "Main.RunHHLClimate(3, 50)",
+        "description": "HHL diffusion PDE solver",
+        "type": "numeric",
+    },
+    "14_materials_discovery": {
+        "entry": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 50)",
+        "description": "VQE band gap estimation",
+        "type": "numeric",
+    },
+    "15_database_search": {
+        "entry": "Main.GroverSearch([7], 4, 3)",
+        "description": "Grover search for target=7 in 4-qubit space",
+        "type": "numeric",
+    },
+    "16_error_correction": {
+        "entry": "Main.RunRepetitionCodeCycle(false, 0)",
+        "description": "3-qubit repetition code cycle",
+        "type": "result",
+    },
+    "17_nuclear_physics": {
+        "entry": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 50)",
+        "description": "VQE deuteron binding energy",
+        "type": "numeric",
+    },
+    "18_photovoltaics": {
+        "entry": "Main.RunExcitonWalk(10, 0.5, 50)",
+        "description": "Quantum walk exciton transport",
+        "type": "numeric",
+    },
+    "19_quantum_chromodynamics": {
+        "entry": "Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, 50)",
+        "description": "Trotter lattice gauge simulation",
+        "type": "numeric",
+    },
+    "20_space_mission_planning": {
+        "entry": "Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, 50)",
+        "description": "QAOA trajectory optimization",
         "type": "numeric",
     },
 }

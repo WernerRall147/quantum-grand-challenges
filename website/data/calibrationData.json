@@ -9,10 +9,65 @@
     "ci95_lower": 0.822871,
     "ci95_upper": 0.931129
   },
+  "02_catalysis": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.002,
+    "std_elapsed_s": 0.0005,
+    "mean_value": -1.189619,
+    "std_value": 0.050774,
+    "ci95_half_width": 0.022253,
+    "ci95_lower": -1.211872,
+    "ci95_upper": -1.167366
+  },
+  "03_qae_risk": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0926,
+    "std_elapsed_s": 0.0099
+  },
   "04_linear_solvers": {
     "num_runs": 20,
     "mean_elapsed_s": 0.0001,
     "std_elapsed_s": 0.0003
+  },
+  "05_qaoa_maxcut": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0019,
+    "std_elapsed_s": 0.0019,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
+  },
+  "06_high_frequency_trading": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0009,
+    "std_elapsed_s": 0.0016,
+    "mean_value": 0.645,
+    "std_value": 0.046283,
+    "ci95_half_width": 0.020284,
+    "ci95_lower": 0.624716,
+    "ci95_upper": 0.665284
+  },
+  "07_drug_discovery": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0022,
+    "std_elapsed_s": 0.0017,
+    "mean_value": -0.8632,
+    "std_value": 0.031461,
+    "ci95_half_width": 0.013788,
+    "ci95_lower": -0.876988,
+    "ci95_upper": -0.849412
+  },
+  "08_protein_folding": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0009,
+    "std_elapsed_s": 0.0004,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
   },
   "09_factorization": {
     "num_runs": 20,
@@ -23,5 +78,110 @@
     "ci95_half_width": 1.96,
     "ci95_lower": 5.04,
     "ci95_upper": 8.96
+  },
+  "10_post_quantum_cryptography": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0017,
+    "std_elapsed_s": 0.0022,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
+  },
+  "11_quantum_machine_learning": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0029,
+    "std_elapsed_s": 0.0005,
+    "mean_value": 0.908,
+    "std_value": 0.047418,
+    "ci95_half_width": 0.020782,
+    "ci95_lower": 0.887218,
+    "ci95_upper": 0.928782
+  },
+  "12_quantum_optimization": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0015,
+    "std_elapsed_s": 0.0005,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
+  },
+  "13_climate_modeling": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0065,
+    "std_elapsed_s": 0.0006,
+    "mean_value": 0.025,
+    "std_value": 0.020391,
+    "ci95_half_width": 0.008937,
+    "ci95_lower": 0.016063,
+    "ci95_upper": 0.033937
+  },
+  "14_materials_discovery": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.32,
+    "std_elapsed_s": 0.0641,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
+  },
+  "15_database_search": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0003,
+    "std_elapsed_s": 0.0011,
+    "mean_value": 7.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 7.0,
+    "ci95_upper": 7.0
+  },
+  "16_error_correction": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0,
+    "std_elapsed_s": 0.0002
+  },
+  "17_nuclear_physics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0022,
+    "std_elapsed_s": 0.0006,
+    "mean_value": -1.82322,
+    "std_value": 0.055027,
+    "ci95_half_width": 0.024117,
+    "ci95_lower": -1.847337,
+    "ci95_upper": -1.799103
+  },
+  "18_photovoltaics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0098,
+    "std_elapsed_s": 0.0078,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
+  },
+  "19_quantum_chromodynamics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0029,
+    "std_elapsed_s": 0.0009,
+    "mean_value": 0.47,
+    "std_value": 0.150158,
+    "ci95_half_width": 0.06581,
+    "ci95_lower": 0.40419,
+    "ci95_upper": 0.53581
+  },
+  "20_space_mission_planning": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0034,
+    "std_elapsed_s": 0.0011,
+    "mean_value": 0.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 0.0,
+    "ci95_upper": 0.0
   }
 }

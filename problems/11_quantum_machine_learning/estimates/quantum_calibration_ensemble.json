@@ -1,0 +1,118 @@
+{
+  "problem_id": "11_quantum_machine_learning",
+  "description": "Swap test kernel overlap",
+  "entry_point": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 50)",
+  "generated_utc": "2026-04-12T13:53:41.801116Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0029,
+    "std_elapsed_s": 0.0005,
+    "mean_value": 0.908,
+    "std_value": 0.047418,
+    "ci95_half_width": 0.020782,
+    "ci95_lower": 0.887218,
+    "ci95_upper": 0.928782
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[0.84]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 2,
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0045
+    },
+    {
+      "run": 3,
+      "raw_result": "[0.82]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 4,
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.0019
+    },
+    {
+      "run": 5,
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.0027
+    },
+    {
+      "run": 6,
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.0035
+    },
+    {
+      "run": 7,
+      "raw_result": "[0.88]",
+      "elapsed_s": 0.0027
+    },
+    {
+      "run": 8,
+      "raw_result": "[0.9]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 9,
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.0026
+    },
+    {
+      "run": 10,
+      "raw_result": "[0.86]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 11,
+      "raw_result": "[0.9]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 12,
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.0027
+    },
+    {
+      "run": 13,
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 14,
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.0037
+    },
+    {
+      "run": 15,
+      "raw_result": "[0.84]",
+      "elapsed_s": 0.0032
+    },
+    {
+      "run": 16,
+      "raw_result": "[0.84]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 17,
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.0033
+    },
+    {
+      "run": 18,
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.003
+    },
+    {
+      "run": 19,
+      "raw_result": "[0.9]",
+      "elapsed_s": 0.0025
+    },
+    {
+      "run": 20,
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.0031
+    }
+  ]
+}

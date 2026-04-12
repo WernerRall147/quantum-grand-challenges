@@ -1,0 +1,113 @@
+{
+  "problem_id": "03_qae_risk",
+  "description": "QAE single-shot kernel",
+  "entry_point": "Main.QAEKernel()",
+  "generated_utc": "2026-04-12T13:54:01.610485Z",
+  "statistics": {
+    "num_runs": 20,
+    "mean_elapsed_s": 0.0926,
+    "std_elapsed_s": 0.0099
+  },
+  "runs": [
+    {
+      "run": 1,
+      "raw_result": "[[One, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0865
+    },
+    {
+      "run": 2,
+      "raw_result": "[[One, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0883
+    },
+    {
+      "run": 3,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.088
+    },
+    {
+      "run": 4,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0859
+    },
+    {
+      "run": 5,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0865
+    },
+    {
+      "run": 6,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.092
+    },
+    {
+      "run": 7,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0878
+    },
+    {
+      "run": 8,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.088
+    },
+    {
+      "run": 9,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0878
+    },
+    {
+      "run": 10,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0912
+    },
+    {
+      "run": 11,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0894
+    },
+    {
+      "run": 12,
+      "raw_result": "[[One, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0949
+    },
+    {
+      "run": 13,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0858
+    },
+    {
+      "run": 14,
+      "raw_result": "[[One, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0948
+    },
+    {
+      "run": 15,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0876
+    },
+    {
+      "run": 16,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0927
+    },
+    {
+      "run": 17,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.1297
+    },
+    {
+      "run": 18,
+      "raw_result": "[[One, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.1035
+    },
+    {
+      "run": 19,
+      "raw_result": "[[One, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.1005
+    },
+    {
+      "run": 20,
+      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0916
+    }
+  ]
+}

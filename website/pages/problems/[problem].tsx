@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { problemHighlights } from '../../data/projectStatus';
 import resourceEstimates from '../../data/resourceEstimates.json';
 import calibrationData from '../../data/calibrationData.json';
+import problemReadmes from '../../data/problemReadmes.json';
 
 interface CalibrationStats {
   num_runs: number;
@@ -35,6 +36,7 @@ interface ProblemPageProps {
     number: string;
     estimate: EstimateData | null;
     calibration: CalibrationStats | null;
+    readmeHtml: string | null;
   };
 }
 
@@ -249,6 +251,25 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </section>
         )}
 
+        {problem.readmeHtml && (
+          <section style={{ marginTop: '2rem' }}>
+            <h2>Problem Documentation</h2>
+            <div
+              style={{
+                padding: '1.5rem',
+                background: '#fafafa',
+                borderRadius: '10px',
+                border: '1px solid #e5e7eb',
+                lineHeight: 1.7,
+                fontSize: '0.95rem',
+                color: '#374151',
+                overflow: 'auto',
+              }}
+              dangerouslySetInnerHTML={{ __html: problem.readmeHtml }}
+            />
+          </section>
+        )}
+
         <section style={{ marginTop: '2rem' }}>
           <h2>Reproduce It</h2>
           <div style={{ background: '#0f172a', color: '#e2e8f0', borderRadius: '8px', padding: '1.25rem', fontFamily: 'monospace', fontSize: '0.9rem', lineHeight: 1.6 }}>
@@ -319,6 +340,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     mean_elapsed_s: (rawCal.mean_elapsed_s as number) ?? 0,
   } : null;
 
+  const rawReadme = (problemReadmes as Record<string, Record<string, string>>)[id] || null;
+  const readmeHtml = rawReadme?.html || null;
+
   return {
     props: {
       problem: {
@@ -330,6 +354,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         href: highlight?.href || '#',
         estimate,
         calibration,
+        readmeHtml,
       },
     },
   };

@@ -1,0 +1,23 @@
+{
+  "problem_id": "03_qae_risk",
+  "stage": "D",
+  "generated_utc": "2026-04-12T16:24:03.925019Z",
+  "claim_category": "theoretical",
+  "problem_class": "Tail risk estimation: P(Loss > threshold) for continuous loss distributions",
+  "instance_regime": "Log-normal(0,1) distribution, threshold=2.5, 4-qubit amplitude encoding",
+  "baseline_algorithm": "Classical Monte Carlo with 10,000 samples (\u00b10.39% at 95% CI)",
+  "fairness_rationale": "MC is the standard industry method for tail risk; variance-reduced MC included for comparison",
+  "quantum_resource_scaling": "QAE achieves O(1/\u03b5) vs classical MC O(1/\u03b5\u00b2) \u2014 quadratic speedup in precision",
+  "data_loading_assumptions": "Amplitude encoding via multiplex rotations; exponential circuit depth O(2^n) for n-qubit encoding",
+  "noise_model_assumptions": "Noiseless simulator; real hardware would require error correction for 40+ logical qubits",
+  "confidence_method": "20-run calibration ensemble with 95% Clopper-Pearson confidence intervals",
+  "residual_risks": [
+    "Amplitude encoding circuit depth scales exponentially \u2014 practical advantage requires efficient state preparation",
+    "293k physical qubits required \u2014 beyond current NISQ devices",
+    "No noise model applied; fault-tolerant execution assumed",
+    "Classical importance sampling may close the gap for structured distributions"
+  ],
+  "physical_qubits": 293120,
+  "logical_qubits": 40,
+  "t_gates": 15
+}

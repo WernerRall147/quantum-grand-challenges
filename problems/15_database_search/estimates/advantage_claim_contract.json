@@ -1,0 +1,23 @@
+{
+  "problem_id": "15_database_search",
+  "stage": "D",
+  "generated_utc": "2026-04-12T16:24:03.927020Z",
+  "claim_category": "projected",
+  "problem_class": "Unstructured search in N-element database",
+  "instance_regime": "N=16 (4 qubits), single target (M=1), 3 Grover iterations",
+  "baseline_algorithm": "Classical linear search O(N); expected N/2 queries on average",
+  "fairness_rationale": "Linear search is optimal for unstructured search \u2014 no classical heuristic can beat O(N)",
+  "quantum_resource_scaling": "Grover achieves O(\u221aN) queries \u2014 provably optimal quadratic speedup (BBBV lower bound)",
+  "data_loading_assumptions": "Oracle assumed to be a black-box function; implementation cost O(n) for n-qubit register",
+  "noise_model_assumptions": "Noiseless simulator; Grover amplitude amplification degrades significantly with gate errors",
+  "confidence_method": "20-run calibration ensemble; target found deterministically on all runs (search space N=16)",
+  "residual_risks": [
+    "Quadratic speedup offset by large constant factors in fault-tolerant implementation",
+    "Oracle compilation cost not included \u2014 real oracles may require O(N) gates, eliminating speedup",
+    "119k physical qubits for 4-qubit search; scaling to useful N requires millions of qubits",
+    "Grover is provably optimal but constant-factor overhead may delay practical advantage to N>10^6"
+  ],
+  "physical_qubits": 119556,
+  "logical_qubits": 18,
+  "t_gates": 0
+}

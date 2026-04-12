@@ -58,8 +58,8 @@ export const problemHighlights = [
   },
   {
     title: 'QAE Risk Analysis',
-    status: 'Stage C complete',
-    description: 'Log-normal PDF corrected and QAE recalibrated. Theoretical tail probability now matches classical baseline exactly (16.1%). Emulator jobs queued on Quantinuum H2-1E.',
+    status: 'Stage D - Theoretical advantage claim',
+    description: 'QAE achieves O(1/\u03b5) vs MC O(1/\u03b5\u00b2) \u2014 quadratic speedup. 293k physical qubits, 40 logical, 15 T-gates. 20-run calibration + advantage claim contract filed.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk',
   },
   {
@@ -78,8 +78,8 @@ export const problemHighlights = [
   },
   {
     title: 'QAOA MaxCut',
-    status: 'Stage C complete',
-    description: 'Depth/noise sweeps, uncertainty reports, estimator routing, and env-gated Azure job-manifest validation are complete; next target is Azure submit/collect hardening and portability adapters',
+    status: 'Stage D - Theoretical advantage claim',
+    description: 'QAOA depth-1 on triangle graph. Advantage claim: theoretical (no proven constant-depth advantage for MaxCut). 132k physical qubits. Fairness review: GW 0.878-approx is polynomial-time competitor.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/05_qaoa_maxcut',
   },
   {
@@ -139,8 +139,8 @@ export const problemHighlights = [
   },
   {
     title: 'Database Search',
-    status: 'Stage C complete + Azure validated',
-    description: 'Grover 4-qubit circuit submitted to Quantinuum H2 simulator and emulator. Resource estimates now generated for two architectures.',
+    status: 'Stage D - Projected advantage claim',
+    description: 'Grover O(\u221aN) provably optimal (BBBV). Advantage claim: projected (quadratic speedup, practical at N>10\u2076). 120k physical qubits, 18 logical. Azure validated on Quantinuum H2.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/15_database_search',
   },
   {

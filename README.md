@@ -15,19 +15,16 @@ This repository systematically tackles 20 of the world's most challenging scient
 
 Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 
-## 🏁 Latest Milestone (March 2026)
+## 🏁 Latest Milestone (April 2026)
 
-- **All 20 problems now have real quantum implementations** — VQE, QAOA, Grover, HHL, Shor, swap test, QEC, quantum walk, and Trotter simulation.
+- **All 20 problems at Stage C** with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles (1.8k–401k physical qubits).
+- **3 Stage D advantage candidates** (QAE, QAOA, Grover) with scaling analysis, fairness reviews, and honest residual risk documentation.
+- **90+ Azure Quantum runs** across 3 systems (Quantinuum H2-1SC, H2-1E, Rigetti QVM). Real emulator results: Grover 77% success rate on H2-1E.
+- **Noisy simulation study** across all 20 problems at 3 depolarizing error rates (0.001, 0.01, 0.05). Fidelity range: 0.15–0.99 — identifies noise-resilient vs noise-sensitive algorithms.
 - All KPI flags green: `contract=20/20`, `estimator_summary=20/20`, `backend_assumptions=20/20`.
-- Deterministic validation covers all 20 problems: `build=20/20`, `classical=20/20`, `test=20/20`.
-- QAE log-normal PDF bug fixed and recalibrated (theoretical: 16.1%, was incorrectly 74% before fix).
-- Real quantum circuits submitted to Azure Quantum: VQE (Hubbard), QAOA (MaxCut), Grover (DB Search) on Quantinuum H2 simulator and emulator.
-- Resource estimation pipeline covers all 20 problems with mock estimator artifacts.
-- Azure execute-mode sweep completed for **all 20 problems** with successful syntax checker runs on Quantinuum H2-1SC.
-  Previously 5/20; now all problems are QIR-compiled and Azure-validated via modern QDK (qsharp 1.27).
-  - `docs/platform-target-recommendations.md` (`balanced`)
-  - `docs/platform-target-recommendations-hardware-first.md` (`hardware-first`)
-  - `docs/platform-target-recommendations-simulator-first.md` (`simulator-first`)
+- Deterministic validation: `build=20/20`, `classical=20/20`, `test=20/20` (24 pytest tests).
+- CI consolidated to 6 workflows (was 9). Website live with 20 per-problem detail pages, comparison dashboard, Recharts visualizations.
+- CITATION.cff v3.0.0, methodology paper updated with real data.
 
 Milestone notes: `docs/MILESTONE_2026_03_CLOSEOUT.md`.
 
@@ -258,26 +255,26 @@ See `docs/objective-gates.md` for gate criteria and the required advantage-claim
 
 | Problem | Q# Implementation | Classical Baseline | Resource Estimation | Status |
 |---------|-------------------|--------------------|---------------------|--------|
-| [QAE Risk Analysis](problems/03_qae_risk/) | ✅ **IQAE (iterative, no QPE register)** + canonical QAE | ✅ Complete (MC + VR-MC + CVaR/VaR) | ✅ Complete | 🟢 **Stage C** |
-| [Hubbard Model](problems/01_hubbard/) | ✅ **VQE ansatz** (Ry+CNOT+Rz, Pauli measurements) | ✅ Complete (exact diagonalization) | ✅ Complete | 🟡 Stage B + estimates |
-| [Catalysis Simulation](problems/02_catalysis/) | ✅ **VQE for H₂** (2-qubit Pauli decomposition) | ✅ Complete (Arrhenius rates + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Linear Solvers](problems/04_linear_solvers/) | ✅ **HHL algorithm** (QPE + eigenvalue inversion) | ✅ Complete (condition analysis + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ **QAOA** (ZZ cost + Rx mixer + optimizer) | ✅ Complete (graph cuts + plots) | ✅ Complete | 🟢 **Stage C** |
-| [High-Frequency Trading](problems/06_high_frequency_trading/) | ✅ **Quantum VaR** (amplitude encoding + oracle) | ✅ Complete (portfolio optimization) | ✅ Complete | 🟡 Stage B + estimates |
-| [Drug Discovery](problems/07_drug_discovery/) | ✅ **VQE binding energy** (Pauli Hamiltonian) | ✅ Complete (molecular docking + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Protein Folding](problems/08_protein_folding/) | ✅ **QAOA lattice folding** (contact energy) | ✅ Complete (contact maps + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Factorization](problems/09_factorization/) | ✅ **Shor's algorithm** (QPE + modular multiply, N=15) | ✅ Complete (Pollard's rho + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ **Grover key search** (80-92% success) | ✅ Complete (attack cost analysis) | ✅ Complete | 🟡 Stage B + estimates |
-| [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ✅ **Swap test kernel** (5-qubit circuit) | ✅ Complete (kernel methods + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Quantum Optimization](problems/12_quantum_optimization/) | ✅ **QAOA scheduling** (ratio 1.0 optimal) | ✅ Complete (scheduling + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Climate Modeling](problems/13_climate_modeling/) | ✅ **HHL diffusion** (QPE + Trotter) | ✅ Complete (energy balance + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Materials Discovery](problems/14_materials_discovery/) | ✅ **VQE band gap** (tight-binding model) | ✅ Complete (cluster expansion + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Database Search](problems/15_database_search/) | ✅ **Canonical Grover** (oracle + diffusion) | ✅ Complete (query complexity + plots) | ✅ Complete | 🟢 **Stage C** |
-| [Error Correction](problems/16_error_correction/) | ✅ **3-qubit repetition code** (100% correction) | ✅ Complete (repetition codes + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Nuclear Physics](problems/17_nuclear_physics/) | ✅ **VQE deuteron** (EFT Hamiltonian) | ✅ Complete (EFT diagonalization + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Photovoltaics](problems/18_photovoltaics/) | ✅ **Quantum walk** (exciton transport) | ✅ Complete (Shockley-Queisser + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Quantum Chromodynamics](problems/19_quantum_chromodynamics/) | ✅ **Trotter gauge** (lattice simulation) | ✅ Complete (lattice gauge + plots) | ✅ Complete | 🟡 Stage B + estimates |
-| [Space Mission Planning](problems/20_space_mission_planning/) | ✅ **QAOA trajectory** (exact optimal found) | ✅ Complete (orbital mechanics + plots) | ✅ Complete | 🟡 Stage B + estimates |
+| [QAE Risk Analysis](problems/03_qae_risk/) | ✅ **IQAE (iterative, no QPE register)** + canonical QAE | ✅ Complete (MC + VR-MC + CVaR/VaR) | ✅ 293k qubits, 40 logical | 🟣 **Stage D** (theoretical) |
+| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ **QAOA** (ZZ cost + Rx mixer, optimized γ=0.3 β=1.3) | ✅ Complete (graph cuts + plots) | ✅ 132k qubits, 12 logical | 🟣 **Stage D** (theoretical) |
+| [Database Search](problems/15_database_search/) | ✅ **Canonical Grover** (oracle + diffusion) | ✅ Complete (query complexity + plots) | ✅ 120k qubits, 18 logical | 🟣 **Stage D** (projected) |
+| [Hubbard Model](problems/01_hubbard/) | ✅ **VQE ansatz** (Ry+CNOT+Rz, Pauli measurements) | ✅ Complete (exact diagonalization) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
+| [Catalysis Simulation](problems/02_catalysis/) | ✅ **VQE for H₂** (2-qubit Pauli decomposition) | ✅ Complete (Arrhenius rates + plots) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
+| [Linear Solvers](problems/04_linear_solvers/) | ✅ **HHL algorithm** (QPE + eigenvalue inversion) | ✅ Complete (condition analysis + plots) | ✅ 140k qubits, 18 logical | 🟢 **Stage C** |
+| [High-Frequency Trading](problems/06_high_frequency_trading/) | ✅ **Quantum VaR** (amplitude encoding + oracle) | ✅ Complete (portfolio optimization) | ✅ 61k qubits, 12 logical | 🟢 **Stage C** |
+| [Drug Discovery](problems/07_drug_discovery/) | ✅ **VQE binding energy** (Pauli Hamiltonian) | ✅ Complete (molecular docking + plots) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
+| [Protein Folding](problems/08_protein_folding/) | ✅ **QAOA lattice folding** (contact energy) | ✅ Complete (contact maps + plots) | ✅ 118k qubits, 9 logical | 🟢 **Stage C** |
+| [Factorization](problems/09_factorization/) | ✅ **Shor's algorithm** (QPE + modular multiply, N=15) | ✅ Complete (Pollard's rho + plots) | ✅ 77k qubits, 25 logical | 🟢 **Stage C** |
+| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ **Grover key search** (80-92% success) | ✅ Complete (attack cost analysis) | ✅ 33k qubits, 12 logical | 🟢 **Stage C** |
+| [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ✅ **Swap test kernel** (5-qubit circuit) | ✅ Complete (kernel methods + plots) | ✅ 153k qubits, 18 logical | 🟢 **Stage C** |
+| [Quantum Optimization](problems/12_quantum_optimization/) | ✅ **QAOA scheduling** (ratio 1.0 optimal) | ✅ Complete (scheduling + plots) | ✅ 132k qubits, 12 logical | 🟢 **Stage C** |
+| [Climate Modeling](problems/13_climate_modeling/) | ✅ **HHL diffusion** (QPE + Trotter) | ✅ Complete (energy balance + plots) | ✅ 130k qubits, 18 logical | 🟢 **Stage C** |
+| [Materials Discovery](problems/14_materials_discovery/) | ✅ **VQE band gap** (tight-binding model) | ✅ Complete (cluster expansion + plots) | ✅ 401k qubits, 12 logical | 🟢 **Stage C** |
+| [Error Correction](problems/16_error_correction/) | ✅ **3-qubit repetition code** (100% correction) | ✅ Complete (repetition codes + plots) | ✅ 1.8k qubits, 18 logical | 🟢 **Stage C** |
+| [Nuclear Physics](problems/17_nuclear_physics/) | ✅ **VQE deuteron** (EFT Hamiltonian) | ✅ Complete (EFT diagonalization + plots) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
+| [Photovoltaics](problems/18_photovoltaics/) | ✅ **Quantum walk** (exciton transport) | ✅ Complete (Shockley-Queisser + plots) | ✅ 138k qubits, 12 logical | 🟢 **Stage C** |
+| [Quantum Chromodynamics](problems/19_quantum_chromodynamics/) | ✅ **Trotter gauge** (lattice simulation) | ✅ Complete (lattice gauge + plots) | ✅ 131k qubits, 9 logical | 🟢 **Stage C** |
+| [Space Mission Planning](problems/20_space_mission_planning/) | ✅ **QAOA trajectory** (exact optimal found) | ✅ Complete (orbital mechanics + plots) | ✅ 157k qubits, 12 logical | 🟢 **Stage C** |
 
 ## 🏗️ Repository Structure
 

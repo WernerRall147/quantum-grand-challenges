@@ -8,6 +8,15 @@ import calibrationData from '../../data/calibrationData.json';
 import problemReadmes from '../../data/problemReadmes.json';
 import stageDEvidence from '../../data/stageDEvidence.json';
 import noisySimResults from '../../data/noisySimResults.json';
+import emulatorResults from '../../data/emulatorResults.json';
+
+interface EmulatorData {
+  h2_top: string | null;
+  h2_pct: number | null;
+  rigetti_top: string | null;
+  rigetti_pct: number | null;
+  match: boolean;
+}
 
 interface NoisyData {
   ideal_top: string;
@@ -64,6 +73,7 @@ interface ProblemPageProps {
     readmeHtml: string | null;
     stageD: StageDData | null;
     noisy: NoisyData | null;
+    emulator: EmulatorData | null;
   };
 }
 
@@ -348,6 +358,37 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </section>
         )}
 
+        {problem.emulator && (
+          <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#f5f3ff', borderRadius: '12px', border: '1px solid #ddd6fe' }}>
+            <h2 style={{ marginTop: 0, color: '#5b21b6' }}>Cross-Platform Emulator Results (100 shots)</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #ddd6fe' }}>
+                <div style={{ fontSize: '0.85rem', color: '#5b21b6', fontWeight: 600 }}>Quantinuum H2-1E</div>
+                <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1e1b4b', marginTop: '0.25rem' }}>
+                  {problem.emulator.h2_top || '—'}
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#6b7280' }}>
+                  {problem.emulator.h2_pct != null ? `${problem.emulator.h2_pct}% of shots` : '—'}
+                </div>
+              </div>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #ddd6fe' }}>
+                <div style={{ fontSize: '0.85rem', color: '#5b21b6', fontWeight: 600 }}>Rigetti QVM</div>
+                <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1e1b4b', marginTop: '0.25rem' }}>
+                  {problem.emulator.rigetti_top || '—'}
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#6b7280' }}>
+                  {problem.emulator.rigetti_pct != null ? `${problem.emulator.rigetti_pct}% of shots` : '—'}
+                </div>
+              </div>
+            </div>
+            {problem.emulator.match && (
+              <div style={{ marginTop: '0.75rem', padding: '0.5rem 1rem', background: '#dcfce7', borderRadius: '6px', color: '#166534', fontSize: '0.9rem' }}>
+                ✓ Cross-platform agreement: both simulators find the same dominant outcome
+              </div>
+            )}
+          </section>
+        )}
+
         {problem.readmeHtml && (
           <section style={{ marginTop: '2rem' }}>
             <h2>Problem Documentation</h2>
@@ -467,6 +508,21 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   })() : null;
 
+  const rawEmulator = emulatorResults as unknown as Record<string, Record<string, Record<string, unknown>>>;
+  const h2Data = rawEmulator.quantinuum_h2_1e?.[id] as Record<string, unknown> | undefined;
+  const riData = rawEmulator.rigetti_qvm?.[id] as Record<string, unknown> | undefined;
+  const h2Hist = (h2Data?.histogram as Array<Record<string, unknown>>) || [];
+  const riHist = (riData?.histogram as Array<Record<string, unknown>>) || [];
+  const h2Top = h2Hist[0];
+  const riTop = riHist[0];
+  const emulator = (h2Top || riTop) ? {
+    h2_top: h2Top ? String(h2Top.outcome) : null,
+    h2_pct: h2Top ? Number(h2Top.count) : null,
+    rigetti_top: riTop ? String(riTop.outcome) : null,
+    rigetti_pct: riTop ? Number(riTop.count) : null,
+    match: !!(h2Top && riTop && String(h2Top.outcome) === String(riTop.outcome)),
+  } : null;
+
   return {
     props: {
       problem: {
@@ -481,6 +537,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         readmeHtml,
         stageD,
         noisy,
+        emulator,
       },
     },
   };

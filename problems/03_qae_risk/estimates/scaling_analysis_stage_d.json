@@ -1,0 +1,67 @@
+{
+  "problem_id": "03_qae_risk",
+  "algorithm": "Quantum Amplitude Estimation",
+  "scaling_variable": "precision (\u03b5)",
+  "classical_complexity": "O(1/\u03b5\u00b2) Monte Carlo samples",
+  "quantum_complexity": "O(1/\u03b5) Grover iterations",
+  "theoretical_speedup": "Quadratic",
+  "generated_utc": "2026-04-13T07:12:31.197188Z",
+  "projections": [
+    {
+      "precision_epsilon": 0.1,
+      "precision_bits": 4,
+      "logical_qubits": 11,
+      "physical_qubits_projected": 80608,
+      "classical_mc_samples": 99,
+      "quantum_qae_queries": 7,
+      "quadratic_speedup_factor": 14.1
+    },
+    {
+      "precision_epsilon": 0.05,
+      "precision_bits": 5,
+      "logical_qubits": 13,
+      "physical_qubits_projected": 95264,
+      "classical_mc_samples": 399,
+      "quantum_qae_queries": 15,
+      "quadratic_speedup_factor": 26.6
+    },
+    {
+      "precision_epsilon": 0.01,
+      "precision_bits": 7,
+      "logical_qubits": 17,
+      "physical_qubits_projected": 124576,
+      "classical_mc_samples": 10000,
+      "quantum_qae_queries": 78,
+      "quadratic_speedup_factor": 128.2
+    },
+    {
+      "precision_epsilon": 0.005,
+      "precision_bits": 8,
+      "logical_qubits": 19,
+      "physical_qubits_projected": 139232,
+      "classical_mc_samples": 40000,
+      "quantum_qae_queries": 157,
+      "quadratic_speedup_factor": 254.8
+    },
+    {
+      "precision_epsilon": 0.001,
+      "precision_bits": 10,
+      "logical_qubits": 23,
+      "physical_qubits_projected": 168544,
+      "classical_mc_samples": 1000000,
+      "quantum_qae_queries": 785,
+      "quadratic_speedup_factor": 1273.9
+    },
+    {
+      "precision_epsilon": 0.0001,
+      "precision_bits": 14,
+      "logical_qubits": 31,
+      "physical_qubits_projected": 227168,
+      "classical_mc_samples": 100000000,
+      "quantum_qae_queries": 7853,
+      "quadratic_speedup_factor": 12734.0
+    }
+  ],
+  "crossover_estimate": "\u03b5 \u2248 0.001 (1000 classical samples vs ~785 quantum queries) \u2014 but requires ~100k+ physical qubits",
+  "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions."
+}

@@ -1,0 +1,46 @@
+{
+  "problem_id": "15_database_search",
+  "generated_utc": "2026-04-13T07:12:31.197188Z",
+  "review_type": "Stage D Baseline Fairness Review",
+  "quantum_algorithm": "Grover's Search (oracle + diffusion, O(\u221aN) queries)",
+  "classical_baseline": "Sequential linear search (O(N) expected queries)",
+  "baseline_optimality": "Linear search is provably optimal for unstructured search (information-theoretic lower bound). No classical algorithm can do better than O(N) for a truly unstructured search.",
+  "fairness_assessment": "FAIR \u2014 linear search is the strongest possible classical comparator for unstructured search. This is the rare case where the classical baseline cannot be improved by heuristics.",
+  "instance_analysis": [
+    {
+      "instance": "small",
+      "N": 16,
+      "classical_queries": 8,
+      "grover_queries": 3,
+      "speedup": 2.7,
+      "note": "Trivially small \u2014 no practical significance"
+    },
+    {
+      "instance": "medium",
+      "N": 32,
+      "classical_queries": 16,
+      "grover_queries": 4,
+      "speedup": 4.0,
+      "note": "Still small \u2014 classical is instant"
+    },
+    {
+      "instance": "large",
+      "N": 4096,
+      "classical_queries": 2048,
+      "grover_queries": 50,
+      "speedup": 41.0,
+      "note": "Meaningful speedup but classical is still fast"
+    }
+  ],
+  "oracle_cost_sensitivity": {
+    "description": "The fairness of the comparison critically depends on oracle implementation cost",
+    "naive_oracle": "O(N) gates \u2192 eliminates speedup entirely",
+    "structured_oracle": "O(n) = O(log N) gates \u2192 preserves quadratic speedup",
+    "practical_implication": "Advantage exists only for problems with efficiently implementable oracles (e.g., cryptographic hash verification, SAT checking)"
+  },
+  "residual_unfairness_risks": [
+    "Classical parallel search on k processors achieves O(N/k) \u2014 linear parallelism may close the gap",
+    "Classical cache-friendly memory access patterns provide constant-factor advantages not captured in query complexity",
+    "Grover requires coherent oracle evaluation \u2014 decoherence may require error correction overhead not in the query count"
+  ]
+}

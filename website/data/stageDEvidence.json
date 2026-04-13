@@ -1,0 +1,434 @@
+{
+  "03_qae_risk": {
+    "scaling_analysis_stage_d": {
+      "problem_id": "03_qae_risk",
+      "algorithm": "Quantum Amplitude Estimation",
+      "scaling_variable": "precision (\u03b5)",
+      "classical_complexity": "O(1/\u03b5\u00b2) Monte Carlo samples",
+      "quantum_complexity": "O(1/\u03b5) Grover iterations",
+      "theoretical_speedup": "Quadratic",
+      "generated_utc": "2026-04-13T07:12:31.197188Z",
+      "projections": [
+        {
+          "precision_epsilon": 0.1,
+          "precision_bits": 4,
+          "logical_qubits": 11,
+          "physical_qubits_projected": 80608,
+          "classical_mc_samples": 99,
+          "quantum_qae_queries": 7,
+          "quadratic_speedup_factor": 14.1
+        },
+        {
+          "precision_epsilon": 0.05,
+          "precision_bits": 5,
+          "logical_qubits": 13,
+          "physical_qubits_projected": 95264,
+          "classical_mc_samples": 399,
+          "quantum_qae_queries": 15,
+          "quadratic_speedup_factor": 26.6
+        },
+        {
+          "precision_epsilon": 0.01,
+          "precision_bits": 7,
+          "logical_qubits": 17,
+          "physical_qubits_projected": 124576,
+          "classical_mc_samples": 10000,
+          "quantum_qae_queries": 78,
+          "quadratic_speedup_factor": 128.2
+        },
+        {
+          "precision_epsilon": 0.005,
+          "precision_bits": 8,
+          "logical_qubits": 19,
+          "physical_qubits_projected": 139232,
+          "classical_mc_samples": 40000,
+          "quantum_qae_queries": 157,
+          "quadratic_speedup_factor": 254.8
+        },
+        {
+          "precision_epsilon": 0.001,
+          "precision_bits": 10,
+          "logical_qubits": 23,
+          "physical_qubits_projected": 168544,
+          "classical_mc_samples": 1000000,
+          "quantum_qae_queries": 785,
+          "quadratic_speedup_factor": 1273.9
+        },
+        {
+          "precision_epsilon": 0.0001,
+          "precision_bits": 14,
+          "logical_qubits": 31,
+          "physical_qubits_projected": 227168,
+          "classical_mc_samples": 100000000,
+          "quantum_qae_queries": 7853,
+          "quadratic_speedup_factor": 12734.0
+        }
+      ],
+      "crossover_estimate": "\u03b5 \u2248 0.001 (1000 classical samples vs ~785 quantum queries) \u2014 but requires ~100k+ physical qubits",
+      "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions."
+    },
+    "stage_d_evidence_summary": {
+      "problem_id": "03_qae_risk",
+      "stage": "D",
+      "generated_utc": "2026-04-13T07:12:31.197188Z",
+      "claim_category": "theoretical",
+      "evidence_completeness": {
+        "advantage_claim_contract": true,
+        "fairness_review": true,
+        "scaling_analysis": true,
+        "calibration_ensemble": true,
+        "resource_estimates": true,
+        "azure_quantum_validated": true,
+        "divincenzo_readiness": true
+      },
+      "scaling_summary": {
+        "classical_complexity": "O(1/\u03b5\u00b2) Monte Carlo samples",
+        "quantum_complexity": "O(1/\u03b5) Grover iterations",
+        "theoretical_speedup": "Quadratic",
+        "crossover_estimate": "\u03b5 \u2248 0.001 (1000 classical samples vs ~785 quantum queries) \u2014 but requires ~100k+ physical qubits",
+        "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions."
+      },
+      "physical_qubits": 293120,
+      "recommendation": "Stage D evidence package is complete. All claims are bounded by explicit residual risks and honest assessments. No demonstration of practical quantum advantage is claimed."
+    },
+    "advantage_claim_contract": {
+      "problem_id": "03_qae_risk",
+      "stage": "D",
+      "generated_utc": "2026-04-12T16:24:03.925019Z",
+      "claim_category": "theoretical",
+      "problem_class": "Tail risk estimation: P(Loss > threshold) for continuous loss distributions",
+      "instance_regime": "Log-normal(0,1) distribution, threshold=2.5, 4-qubit amplitude encoding",
+      "baseline_algorithm": "Classical Monte Carlo with 10,000 samples (\u00b10.39% at 95% CI)",
+      "fairness_rationale": "MC is the standard industry method for tail risk; variance-reduced MC included for comparison",
+      "quantum_resource_scaling": "QAE achieves O(1/\u03b5) vs classical MC O(1/\u03b5\u00b2) \u2014 quadratic speedup in precision",
+      "data_loading_assumptions": "Amplitude encoding via multiplex rotations; exponential circuit depth O(2^n) for n-qubit encoding",
+      "noise_model_assumptions": "Noiseless simulator; real hardware would require error correction for 40+ logical qubits",
+      "confidence_method": "20-run calibration ensemble with 95% Clopper-Pearson confidence intervals",
+      "residual_risks": [
+        "Amplitude encoding circuit depth scales exponentially \u2014 practical advantage requires efficient state preparation",
+        "293k physical qubits required \u2014 beyond current NISQ devices",
+        "No noise model applied; fault-tolerant execution assumed",
+        "Classical importance sampling may close the gap for structured distributions"
+      ],
+      "physical_qubits": 293120,
+      "logical_qubits": 40,
+      "t_gates": 15
+    }
+  },
+  "05_qaoa_maxcut": {
+    "scaling_analysis_stage_d": {
+      "problem_id": "05_qaoa_maxcut",
+      "algorithm": "QAOA (Quantum Approximate Optimization)",
+      "scaling_variable": "graph vertices (n)",
+      "classical_complexity": "Brute-force O(2^n); GW SDP O(n\u00b3) with 0.878-approx",
+      "quantum_complexity": "QAOA depth O(n\u00b2) per layer, approximation ratio depends on depth p",
+      "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
+      "generated_utc": "2026-04-13T07:12:31.197188Z",
+      "projections": [
+        {
+          "graph_vertices": 3,
+          "graph_edges": 3,
+          "qaoa_logical_qubits": 3,
+          "qaoa_circuit_depth": 9,
+          "physical_qubits_projected": 131544,
+          "classical_brute_force": 8,
+          "gw_sdp_operations": 27,
+          "brute_force_feasible": true
+        },
+        {
+          "graph_vertices": 5,
+          "graph_edges": 10,
+          "qaoa_logical_qubits": 5,
+          "qaoa_circuit_depth": 25,
+          "physical_qubits_projected": 283037,
+          "classical_brute_force": 32,
+          "gw_sdp_operations": 125,
+          "brute_force_feasible": true
+        },
+        {
+          "graph_vertices": 8,
+          "graph_edges": 28,
+          "qaoa_logical_qubits": 8,
+          "qaoa_circuit_depth": 64,
+          "physical_qubits_projected": 572827,
+          "classical_brute_force": 256,
+          "gw_sdp_operations": 512,
+          "brute_force_feasible": true
+        },
+        {
+          "graph_vertices": 10,
+          "graph_edges": 45,
+          "qaoa_logical_qubits": 10,
+          "qaoa_circuit_depth": 100,
+          "physical_qubits_projected": 800551,
+          "classical_brute_force": 1024,
+          "gw_sdp_operations": 1000,
+          "brute_force_feasible": true
+        },
+        {
+          "graph_vertices": 15,
+          "graph_edges": 105,
+          "qaoa_logical_qubits": 15,
+          "qaoa_circuit_depth": 225,
+          "physical_qubits_projected": 1470706,
+          "classical_brute_force": 32768,
+          "gw_sdp_operations": 3375,
+          "brute_force_feasible": true
+        },
+        {
+          "graph_vertices": 20,
+          "graph_edges": 190,
+          "qaoa_logical_qubits": 20,
+          "qaoa_circuit_depth": 400,
+          "physical_qubits_projected": 2264300,
+          "classical_brute_force": 1048576,
+          "gw_sdp_operations": 8000,
+          "brute_force_feasible": true
+        },
+        {
+          "graph_vertices": 30,
+          "graph_edges": 435,
+          "qaoa_logical_qubits": 30,
+          "qaoa_circuit_depth": 900,
+          "physical_qubits_projected": 4159786,
+          "classical_brute_force": 1073741824,
+          "gw_sdp_operations": 27000,
+          "brute_force_feasible": false
+        },
+        {
+          "graph_vertices": 50,
+          "graph_edges": 1225,
+          "qaoa_logical_qubits": 50,
+          "qaoa_circuit_depth": 2500,
+          "physical_qubits_projected": 8950435,
+          "classical_brute_force": 1125899906842624,
+          "gw_sdp_operations": 125000,
+          "brute_force_feasible": false
+        }
+      ],
+      "crossover_estimate": "Uncertain \u2014 no proven quantum advantage for MaxCut QAOA at any depth",
+      "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit."
+    },
+    "stage_d_evidence_summary": {
+      "problem_id": "05_qaoa_maxcut",
+      "stage": "D",
+      "generated_utc": "2026-04-13T07:12:31.197188Z",
+      "claim_category": "theoretical",
+      "evidence_completeness": {
+        "advantage_claim_contract": true,
+        "fairness_review": true,
+        "scaling_analysis": true,
+        "calibration_ensemble": true,
+        "resource_estimates": true,
+        "azure_quantum_validated": true,
+        "divincenzo_readiness": true
+      },
+      "scaling_summary": {
+        "classical_complexity": "Brute-force O(2^n); GW SDP O(n\u00b3) with 0.878-approx",
+        "quantum_complexity": "QAOA depth O(n\u00b2) per layer, approximation ratio depends on depth p",
+        "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
+        "crossover_estimate": "Uncertain \u2014 no proven quantum advantage for MaxCut QAOA at any depth",
+        "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit."
+      },
+      "physical_qubits": 131544,
+      "recommendation": "Stage D evidence package is complete. All claims are bounded by explicit residual risks and honest assessments. No demonstration of practical quantum advantage is claimed."
+    },
+    "advantage_claim_contract": {
+      "problem_id": "05_qaoa_maxcut",
+      "stage": "D",
+      "generated_utc": "2026-04-12T16:24:03.927020Z",
+      "claim_category": "theoretical",
+      "problem_class": "Maximum cut in weighted graphs (NP-hard combinatorial optimization)",
+      "instance_regime": "Triangle graph (3 vertices, 3 edges), depth-1 QAOA",
+      "baseline_algorithm": "Brute-force enumeration (optimal for n\u226420); Goemans-Williamson SDP (0.878-approx for large n)",
+      "fairness_rationale": "At n=3, brute-force trivially finds optimal; GW guarantee only relevant at n>30",
+      "quantum_resource_scaling": "QAOA expected ratio approaches optimal as depth p\u2192\u221e; constant-depth advantage unproven for MaxCut",
+      "data_loading_assumptions": "Graph encoded directly as ZZ interactions; no data loading overhead",
+      "noise_model_assumptions": "Noiseless simulator; real QAOA at depth>1 highly sensitive to gate noise",
+      "confidence_method": "20-run calibration ensemble; deterministic optimal found (ratio=1.0) on all runs",
+      "residual_risks": [
+        "No proven quantum advantage for MaxCut QAOA at any constant depth",
+        "Classical GW algorithm achieves 0.878-approximation in polynomial time",
+        "Instance is trivially small (n=3) \u2014 advantage claims meaningless at this scale",
+        "131k physical qubits for a 3-vertex graph; scaling to practical graphs unknown"
+      ],
+      "physical_qubits": 131544,
+      "logical_qubits": 12,
+      "t_gates": 0
+    }
+  },
+  "15_database_search": {
+    "scaling_analysis_stage_d": {
+      "problem_id": "15_database_search",
+      "algorithm": "Grover's Search",
+      "scaling_variable": "database size (N)",
+      "classical_complexity": "O(N) queries (optimal for unstructured search)",
+      "quantum_complexity": "O(\u221aN) queries (provably optimal \u2014 BBBV lower bound)",
+      "theoretical_speedup": "Quadratic (provably optimal)",
+      "generated_utc": "2026-04-13T07:12:31.197188Z",
+      "projections": [
+        {
+          "database_size_N": 16,
+          "qubits_n": 4,
+          "classical_expected_queries": 8,
+          "grover_queries": 3,
+          "grover_iterations": 3,
+          "speedup_factor": 2.7,
+          "physical_qubits_projected": 119556,
+          "oracle_gates_naive": 16,
+          "oracle_gates_structured": 40
+        },
+        {
+          "database_size_N": 256,
+          "qubits_n": 8,
+          "classical_expected_queries": 128,
+          "grover_queries": 12,
+          "grover_iterations": 12,
+          "speedup_factor": 10.7,
+          "physical_qubits_projected": 338155,
+          "oracle_gates_naive": 256,
+          "oracle_gates_structured": 80
+        },
+        {
+          "database_size_N": 4096,
+          "qubits_n": 12,
+          "classical_expected_queries": 2048,
+          "grover_queries": 50,
+          "grover_iterations": 50,
+          "speedup_factor": 41.0,
+          "physical_qubits_projected": 621231,
+          "oracle_gates_naive": 4096,
+          "oracle_gates_structured": 120
+        },
+        {
+          "database_size_N": 65536,
+          "qubits_n": 16,
+          "classical_expected_queries": 32768,
+          "grover_queries": 201,
+          "grover_iterations": 201,
+          "speedup_factor": 163.0,
+          "physical_qubits_projected": 956448,
+          "oracle_gates_naive": 65536,
+          "oracle_gates_structured": 160
+        },
+        {
+          "database_size_N": 1000000,
+          "qubits_n": 20,
+          "classical_expected_queries": 500000,
+          "grover_queries": 785,
+          "grover_iterations": 785,
+          "speedup_factor": 636.9,
+          "physical_qubits_projected": 1336676,
+          "oracle_gates_naive": 1000000,
+          "oracle_gates_structured": 200
+        },
+        {
+          "database_size_N": 1000000000,
+          "qubits_n": 30,
+          "classical_expected_queries": 500000000,
+          "grover_queries": 24836,
+          "grover_iterations": 24836,
+          "speedup_factor": 20132.1,
+          "physical_qubits_projected": 2455631,
+          "oracle_gates_naive": 1000000000,
+          "oracle_gates_structured": 300
+        }
+      ],
+      "crossover_estimate": "N \u2248 10^6 with structured oracle; N \u2248 10^12 with naive oracle (due to compilation overhead)",
+      "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage."
+    },
+    "stage_d_evidence_summary": {
+      "problem_id": "15_database_search",
+      "stage": "D",
+      "generated_utc": "2026-04-13T07:12:31.197188Z",
+      "claim_category": "projected",
+      "evidence_completeness": {
+        "advantage_claim_contract": true,
+        "fairness_review": true,
+        "scaling_analysis": true,
+        "calibration_ensemble": true,
+        "resource_estimates": true,
+        "azure_quantum_validated": true,
+        "divincenzo_readiness": true
+      },
+      "scaling_summary": {
+        "classical_complexity": "O(N) queries (optimal for unstructured search)",
+        "quantum_complexity": "O(\u221aN) queries (provably optimal \u2014 BBBV lower bound)",
+        "theoretical_speedup": "Quadratic (provably optimal)",
+        "crossover_estimate": "N \u2248 10^6 with structured oracle; N \u2248 10^12 with naive oracle (due to compilation overhead)",
+        "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage."
+      },
+      "physical_qubits": 119556,
+      "recommendation": "Stage D evidence package is complete. All claims are bounded by explicit residual risks and honest assessments. No demonstration of practical quantum advantage is claimed."
+    },
+    "advantage_claim_contract": {
+      "problem_id": "15_database_search",
+      "stage": "D",
+      "generated_utc": "2026-04-12T16:24:03.927020Z",
+      "claim_category": "projected",
+      "problem_class": "Unstructured search in N-element database",
+      "instance_regime": "N=16 (4 qubits), single target (M=1), 3 Grover iterations",
+      "baseline_algorithm": "Classical linear search O(N); expected N/2 queries on average",
+      "fairness_rationale": "Linear search is optimal for unstructured search \u2014 no classical heuristic can beat O(N)",
+      "quantum_resource_scaling": "Grover achieves O(\u221aN) queries \u2014 provably optimal quadratic speedup (BBBV lower bound)",
+      "data_loading_assumptions": "Oracle assumed to be a black-box function; implementation cost O(n) for n-qubit register",
+      "noise_model_assumptions": "Noiseless simulator; Grover amplitude amplification degrades significantly with gate errors",
+      "confidence_method": "20-run calibration ensemble; target found deterministically on all runs (search space N=16)",
+      "residual_risks": [
+        "Quadratic speedup offset by large constant factors in fault-tolerant implementation",
+        "Oracle compilation cost not included \u2014 real oracles may require O(N) gates, eliminating speedup",
+        "119k physical qubits for 4-qubit search; scaling to useful N requires millions of qubits",
+        "Grover is provably optimal but constant-factor overhead may delay practical advantage to N>10^6"
+      ],
+      "physical_qubits": 119556,
+      "logical_qubits": 18,
+      "t_gates": 0
+    },
+    "fairness_review_stage_d": {
+      "problem_id": "15_database_search",
+      "generated_utc": "2026-04-13T07:12:31.197188Z",
+      "review_type": "Stage D Baseline Fairness Review",
+      "quantum_algorithm": "Grover's Search (oracle + diffusion, O(\u221aN) queries)",
+      "classical_baseline": "Sequential linear search (O(N) expected queries)",
+      "baseline_optimality": "Linear search is provably optimal for unstructured search (information-theoretic lower bound). No classical algorithm can do better than O(N) for a truly unstructured search.",
+      "fairness_assessment": "FAIR \u2014 linear search is the strongest possible classical comparator for unstructured search. This is the rare case where the classical baseline cannot be improved by heuristics.",
+      "instance_analysis": [
+        {
+          "instance": "small",
+          "N": 16,
+          "classical_queries": 8,
+          "grover_queries": 3,
+          "speedup": 2.7,
+          "note": "Trivially small \u2014 no practical significance"
+        },
+        {
+          "instance": "medium",
+          "N": 32,
+          "classical_queries": 16,
+          "grover_queries": 4,
+          "speedup": 4.0,
+          "note": "Still small \u2014 classical is instant"
+        },
+        {
+          "instance": "large",
+          "N": 4096,
+          "classical_queries": 2048,
+          "grover_queries": 50,
+          "speedup": 41.0,
+          "note": "Meaningful speedup but classical is still fast"
+        }
+      ],
+      "oracle_cost_sensitivity": {
+        "description": "The fairness of the comparison critically depends on oracle implementation cost",
+        "naive_oracle": "O(N) gates \u2192 eliminates speedup entirely",
+        "structured_oracle": "O(n) = O(log N) gates \u2192 preserves quadratic speedup",
+        "practical_implication": "Advantage exists only for problems with efficiently implementable oracles (e.g., cryptographic hash verification, SAT checking)"
+      },
+      "residual_unfairness_risks": [
+        "Classical parallel search on k processors achieves O(N/k) \u2014 linear parallelism may close the gap",
+        "Classical cache-friendly memory access patterns provide constant-factor advantages not captured in query complexity",
+        "Grover requires coherent oracle evaluation \u2014 decoherence may require error correction overhead not in the query count"
+      ]
+    }
+  }
+}

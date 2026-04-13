@@ -1,0 +1,24 @@
+{
+  "problem_id": "03_qae_risk",
+  "stage": "D",
+  "generated_utc": "2026-04-13T07:12:31.197188Z",
+  "claim_category": "theoretical",
+  "evidence_completeness": {
+    "advantage_claim_contract": true,
+    "fairness_review": true,
+    "scaling_analysis": true,
+    "calibration_ensemble": true,
+    "resource_estimates": true,
+    "azure_quantum_validated": true,
+    "divincenzo_readiness": true
+  },
+  "scaling_summary": {
+    "classical_complexity": "O(1/\u03b5\u00b2) Monte Carlo samples",
+    "quantum_complexity": "O(1/\u03b5) Grover iterations",
+    "theoretical_speedup": "Quadratic",
+    "crossover_estimate": "\u03b5 \u2248 0.001 (1000 classical samples vs ~785 quantum queries) \u2014 but requires ~100k+ physical qubits",
+    "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions."
+  },
+  "physical_qubits": 293120,
+  "recommendation": "Stage D evidence package is complete. All claims are bounded by explicit residual risks and honest assessments. No demonstration of practical quantum advantage is claimed."
+}

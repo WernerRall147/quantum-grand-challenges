@@ -1,0 +1,93 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "algorithm": "QAOA (Quantum Approximate Optimization)",
+  "scaling_variable": "graph vertices (n)",
+  "classical_complexity": "Brute-force O(2^n); GW SDP O(n\u00b3) with 0.878-approx",
+  "quantum_complexity": "QAOA depth O(n\u00b2) per layer, approximation ratio depends on depth p",
+  "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
+  "generated_utc": "2026-04-13T07:12:31.197188Z",
+  "projections": [
+    {
+      "graph_vertices": 3,
+      "graph_edges": 3,
+      "qaoa_logical_qubits": 3,
+      "qaoa_circuit_depth": 9,
+      "physical_qubits_projected": 131544,
+      "classical_brute_force": 8,
+      "gw_sdp_operations": 27,
+      "brute_force_feasible": true
+    },
+    {
+      "graph_vertices": 5,
+      "graph_edges": 10,
+      "qaoa_logical_qubits": 5,
+      "qaoa_circuit_depth": 25,
+      "physical_qubits_projected": 283037,
+      "classical_brute_force": 32,
+      "gw_sdp_operations": 125,
+      "brute_force_feasible": true
+    },
+    {
+      "graph_vertices": 8,
+      "graph_edges": 28,
+      "qaoa_logical_qubits": 8,
+      "qaoa_circuit_depth": 64,
+      "physical_qubits_projected": 572827,
+      "classical_brute_force": 256,
+      "gw_sdp_operations": 512,
+      "brute_force_feasible": true
+    },
+    {
+      "graph_vertices": 10,
+      "graph_edges": 45,
+      "qaoa_logical_qubits": 10,
+      "qaoa_circuit_depth": 100,
+      "physical_qubits_projected": 800551,
+      "classical_brute_force": 1024,
+      "gw_sdp_operations": 1000,
+      "brute_force_feasible": true
+    },
+    {
+      "graph_vertices": 15,
+      "graph_edges": 105,
+      "qaoa_logical_qubits": 15,
+      "qaoa_circuit_depth": 225,
+      "physical_qubits_projected": 1470706,
+      "classical_brute_force": 32768,
+      "gw_sdp_operations": 3375,
+      "brute_force_feasible": true
+    },
+    {
+      "graph_vertices": 20,
+      "graph_edges": 190,
+      "qaoa_logical_qubits": 20,
+      "qaoa_circuit_depth": 400,
+      "physical_qubits_projected": 2264300,
+      "classical_brute_force": 1048576,
+      "gw_sdp_operations": 8000,
+      "brute_force_feasible": true
+    },
+    {
+      "graph_vertices": 30,
+      "graph_edges": 435,
+      "qaoa_logical_qubits": 30,
+      "qaoa_circuit_depth": 900,
+      "physical_qubits_projected": 4159786,
+      "classical_brute_force": 1073741824,
+      "gw_sdp_operations": 27000,
+      "brute_force_feasible": false
+    },
+    {
+      "graph_vertices": 50,
+      "graph_edges": 1225,
+      "qaoa_logical_qubits": 50,
+      "qaoa_circuit_depth": 2500,
+      "physical_qubits_projected": 8950435,
+      "classical_brute_force": 1125899906842624,
+      "gw_sdp_operations": 125000,
+      "brute_force_feasible": false
+    }
+  ],
+  "crossover_estimate": "Uncertain \u2014 no proven quantum advantage for MaxCut QAOA at any depth",
+  "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit."
+}

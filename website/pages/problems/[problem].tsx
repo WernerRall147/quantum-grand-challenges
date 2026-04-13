@@ -6,6 +6,22 @@ import { problemHighlights } from '../../data/projectStatus';
 import resourceEstimates from '../../data/resourceEstimates.json';
 import calibrationData from '../../data/calibrationData.json';
 import problemReadmes from '../../data/problemReadmes.json';
+import stageDEvidence from '../../data/stageDEvidence.json';
+
+interface ScalingProjection {
+  [key: string]: unknown;
+}
+
+interface StageDData {
+  claimCategory: string;
+  classicalComplexity: string;
+  quantumComplexity: string;
+  theoreticalSpeedup: string;
+  crossoverEstimate: string;
+  honestAssessment: string;
+  projections: ScalingProjection[];
+  residualRisks: string[];
+}
 
 interface CalibrationStats {
   num_runs: number;
@@ -37,6 +53,7 @@ interface ProblemPageProps {
     estimate: EstimateData | null;
     calibration: CalibrationStats | null;
     readmeHtml: string | null;
+    stageD: StageDData | null;
   };
 }
 
@@ -251,6 +268,48 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </section>
         )}
 
+        {problem.stageD && (
+          <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#fef3c7', borderRadius: '12px', border: '2px solid #f59e0b' }}>
+            <h2 style={{ marginTop: 0, color: '#92400e' }}>Stage D: Advantage Evidence Package</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #fde68a' }}>
+                <div style={{ fontSize: '0.8rem', color: '#92400e', fontWeight: 600 }}>Claim Category</div>
+                <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#78350f', textTransform: 'capitalize' }}>{problem.stageD.claimCategory}</div>
+              </div>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #fde68a' }}>
+                <div style={{ fontSize: '0.8rem', color: '#92400e', fontWeight: 600 }}>Theoretical Speedup</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 600, color: '#78350f' }}>{problem.stageD.theoreticalSpeedup}</div>
+              </div>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #fde68a' }}>
+                <div style={{ fontSize: '0.8rem', color: '#92400e', fontWeight: 600 }}>Crossover Estimate</div>
+                <div style={{ fontSize: '0.9rem', color: '#78350f' }}>{problem.stageD.crossoverEstimate}</div>
+              </div>
+            </div>
+            <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #fde68a' }}>
+                <div style={{ fontSize: '0.85rem', color: '#92400e', fontWeight: 600 }}>Classical</div>
+                <div style={{ color: '#374151', marginTop: '0.25rem' }}>{problem.stageD.classicalComplexity}</div>
+              </div>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #fde68a' }}>
+                <div style={{ fontSize: '0.85rem', color: '#92400e', fontWeight: 600 }}>Quantum</div>
+                <div style={{ color: '#374151', marginTop: '0.25rem' }}>{problem.stageD.quantumComplexity}</div>
+              </div>
+            </div>
+            <div style={{ marginTop: '1rem', background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #fde68a' }}>
+              <div style={{ fontSize: '0.85rem', color: '#92400e', fontWeight: 600, marginBottom: '0.5rem' }}>Honest Assessment</div>
+              <p style={{ color: '#374151', margin: 0, lineHeight: 1.6 }}>{problem.stageD.honestAssessment}</p>
+            </div>
+            {problem.stageD.residualRisks.length > 0 && (
+              <div style={{ marginTop: '1rem', background: '#fef2f2', borderRadius: '8px', padding: '1rem', border: '1px solid #fca5a5' }}>
+                <div style={{ fontSize: '0.85rem', color: '#991b1b', fontWeight: 600, marginBottom: '0.5rem' }}>Residual Risks</div>
+                <ul style={{ margin: 0, paddingLeft: '1.2rem', color: '#7f1d1d', lineHeight: 1.6 }}>
+                  {problem.stageD.residualRisks.map((risk, i) => <li key={i}>{risk}</li>)}
+                </ul>
+              </div>
+            )}
+          </section>
+        )}
+
         {problem.readmeHtml && (
           <section style={{ marginTop: '2rem' }}>
             <h2>Problem Documentation</h2>
@@ -343,6 +402,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const rawReadme = (problemReadmes as Record<string, Record<string, string>>)[id] || null;
   const readmeHtml = rawReadme?.html || null;
 
+  const rawStageD = (stageDEvidence as Record<string, Record<string, Record<string, unknown>>>)[id] || null;
+  const stageD = rawStageD ? {
+    claimCategory: String((rawStageD.advantage_claim_contract as Record<string, unknown>)?.claim_category || ''),
+    classicalComplexity: String((rawStageD.scaling_analysis_stage_d as Record<string, unknown>)?.classical_complexity || ''),
+    quantumComplexity: String((rawStageD.scaling_analysis_stage_d as Record<string, unknown>)?.quantum_complexity || ''),
+    theoreticalSpeedup: String((rawStageD.scaling_analysis_stage_d as Record<string, unknown>)?.theoretical_speedup || ''),
+    crossoverEstimate: String((rawStageD.scaling_analysis_stage_d as Record<string, unknown>)?.crossover_estimate || ''),
+    honestAssessment: String((rawStageD.scaling_analysis_stage_d as Record<string, unknown>)?.honest_assessment || ''),
+    projections: ((rawStageD.scaling_analysis_stage_d as Record<string, unknown>)?.projections || []) as ScalingProjection[],
+    residualRisks: ((rawStageD.advantage_claim_contract as Record<string, unknown>)?.residual_risks || []) as string[],
+  } : null;
+
   return {
     props: {
       problem: {
@@ -355,6 +426,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         estimate,
         calibration,
         readmeHtml,
+        stageD,
       },
     },
   };

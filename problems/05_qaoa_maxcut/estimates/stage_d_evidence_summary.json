@@ -1,0 +1,24 @@
+{
+  "problem_id": "05_qaoa_maxcut",
+  "stage": "D",
+  "generated_utc": "2026-04-13T07:12:31.197188Z",
+  "claim_category": "theoretical",
+  "evidence_completeness": {
+    "advantage_claim_contract": true,
+    "fairness_review": true,
+    "scaling_analysis": true,
+    "calibration_ensemble": true,
+    "resource_estimates": true,
+    "azure_quantum_validated": true,
+    "divincenzo_readiness": true
+  },
+  "scaling_summary": {
+    "classical_complexity": "Brute-force O(2^n); GW SDP O(n\u00b3) with 0.878-approx",
+    "quantum_complexity": "QAOA depth O(n\u00b2) per layer, approximation ratio depends on depth p",
+    "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
+    "crossover_estimate": "Uncertain \u2014 no proven quantum advantage for MaxCut QAOA at any depth",
+    "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit."
+  },
+  "physical_qubits": 131544,
+  "recommendation": "Stage D evidence package is complete. All claims are bounded by explicit residual risks and honest assessments. No demonstration of practical quantum advantage is claimed."
+}

@@ -1,0 +1,79 @@
+{
+  "problem_id": "15_database_search",
+  "algorithm": "Grover's Search",
+  "scaling_variable": "database size (N)",
+  "classical_complexity": "O(N) queries (optimal for unstructured search)",
+  "quantum_complexity": "O(\u221aN) queries (provably optimal \u2014 BBBV lower bound)",
+  "theoretical_speedup": "Quadratic (provably optimal)",
+  "generated_utc": "2026-04-13T07:12:31.197188Z",
+  "projections": [
+    {
+      "database_size_N": 16,
+      "qubits_n": 4,
+      "classical_expected_queries": 8,
+      "grover_queries": 3,
+      "grover_iterations": 3,
+      "speedup_factor": 2.7,
+      "physical_qubits_projected": 119556,
+      "oracle_gates_naive": 16,
+      "oracle_gates_structured": 40
+    },
+    {
+      "database_size_N": 256,
+      "qubits_n": 8,
+      "classical_expected_queries": 128,
+      "grover_queries": 12,
+      "grover_iterations": 12,
+      "speedup_factor": 10.7,
+      "physical_qubits_projected": 338155,
+      "oracle_gates_naive": 256,
+      "oracle_gates_structured": 80
+    },
+    {
+      "database_size_N": 4096,
+      "qubits_n": 12,
+      "classical_expected_queries": 2048,
+      "grover_queries": 50,
+      "grover_iterations": 50,
+      "speedup_factor": 41.0,
+      "physical_qubits_projected": 621231,
+      "oracle_gates_naive": 4096,
+      "oracle_gates_structured": 120
+    },
+    {
+      "database_size_N": 65536,
+      "qubits_n": 16,
+      "classical_expected_queries": 32768,
+      "grover_queries": 201,
+      "grover_iterations": 201,
+      "speedup_factor": 163.0,
+      "physical_qubits_projected": 956448,
+      "oracle_gates_naive": 65536,
+      "oracle_gates_structured": 160
+    },
+    {
+      "database_size_N": 1000000,
+      "qubits_n": 20,
+      "classical_expected_queries": 500000,
+      "grover_queries": 785,
+      "grover_iterations": 785,
+      "speedup_factor": 636.9,
+      "physical_qubits_projected": 1336676,
+      "oracle_gates_naive": 1000000,
+      "oracle_gates_structured": 200
+    },
+    {
+      "database_size_N": 1000000000,
+      "qubits_n": 30,
+      "classical_expected_queries": 500000000,
+      "grover_queries": 24836,
+      "grover_iterations": 24836,
+      "speedup_factor": 20132.1,
+      "physical_qubits_projected": 2455631,
+      "oracle_gates_naive": 1000000000,
+      "oracle_gates_structured": 300
+    }
+  ],
+  "crossover_estimate": "N \u2248 10^6 with structured oracle; N \u2248 10^12 with naive oracle (due to compilation overhead)",
+  "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage."
+}

@@ -7,6 +7,15 @@ import resourceEstimates from '../../data/resourceEstimates.json';
 import calibrationData from '../../data/calibrationData.json';
 import problemReadmes from '../../data/problemReadmes.json';
 import stageDEvidence from '../../data/stageDEvidence.json';
+import noisySimResults from '../../data/noisySimResults.json';
+
+interface NoisyData {
+  ideal_top: string;
+  ideal_prob: number;
+  fidelity_001: number | null;
+  fidelity_01: number | null;
+  fidelity_05: number | null;
+}
 
 interface ScalingProjection {
   [key: string]: unknown;
@@ -54,6 +63,7 @@ interface ProblemPageProps {
     calibration: CalibrationStats | null;
     readmeHtml: string | null;
     stageD: StageDData | null;
+    noisy: NoisyData | null;
   };
 }
 
@@ -310,6 +320,34 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </section>
         )}
 
+        {problem.noisy && (
+          <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#eff6ff', borderRadius: '12px', border: '1px solid #bfdbfe' }}>
+            <h2 style={{ marginTop: 0, color: '#1e40af' }}>Noise Resilience (Depolarizing Simulation)</h2>
+            <p style={{ color: '#1e3a5f', fontSize: '0.9rem', marginBottom: '1rem' }}>
+              Ideal outcome: <code>{problem.noisy.ideal_top}</code> ({(problem.noisy.ideal_prob * 100).toFixed(0)}% probability)
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+              {[
+                { label: 'p = 0.001', fid: problem.noisy.fidelity_001, color: '#22c55e' },
+                { label: 'p = 0.01', fid: problem.noisy.fidelity_01, color: '#f59e0b' },
+                { label: 'p = 0.05', fid: problem.noisy.fidelity_05, color: '#ef4444' },
+              ].map((n) => (
+                <div key={n.label} style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #dbeafe' }}>
+                  <div style={{ fontSize: '0.8rem', color: '#1e40af', fontWeight: 600 }}>{n.label}</div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: n.fid != null && n.fid > 0.8 ? '#166534' : n.fid != null && n.fid > 0.5 ? '#92400e' : '#991b1b' }}>
+                    {n.fid != null ? `${(n.fid * 100).toFixed(1)}%` : '—'}
+                  </div>
+                  {n.fid != null && (
+                    <div style={{ marginTop: '0.5rem', background: '#e5e7eb', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
+                      <div style={{ width: `${n.fid * 100}%`, height: '100%', background: n.color, borderRadius: '4px' }} />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         {problem.readmeHtml && (
           <section style={{ marginTop: '2rem' }}>
             <h2>Problem Documentation</h2>
@@ -414,6 +452,21 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     residualRisks: ((rawStageD.advantage_claim_contract as Record<string, unknown>)?.residual_risks || []) as string[],
   } : null;
 
+  const rawNoisy = (noisySimResults as Record<string, unknown>).problems as Record<string, Record<string, unknown>> | undefined;
+  const noisyProblem = rawNoisy?.[id];
+  const noisy = noisyProblem ? (() => {
+    const ideal = (noisyProblem.ideal as Array<Record<string, unknown>>) || [];
+    const top = ideal[0] || {};
+    const noisyData = noisyProblem.noisy as Record<string, Record<string, unknown>> || {};
+    return {
+      ideal_top: String(top.outcome || '?'),
+      ideal_prob: Number(top.probability || 0),
+      fidelity_001: typeof noisyData['0.001']?.fidelity_vs_ideal === 'number' ? noisyData['0.001'].fidelity_vs_ideal as number : null,
+      fidelity_01: typeof noisyData['0.01']?.fidelity_vs_ideal === 'number' ? noisyData['0.01'].fidelity_vs_ideal as number : null,
+      fidelity_05: typeof noisyData['0.05']?.fidelity_vs_ideal === 'number' ? noisyData['0.05'].fidelity_vs_ideal as number : null,
+    };
+  })() : null;
+
   return {
     props: {
       problem: {
@@ -427,6 +480,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         calibration,
         readmeHtml,
         stageD,
+        noisy,
       },
     },
   };

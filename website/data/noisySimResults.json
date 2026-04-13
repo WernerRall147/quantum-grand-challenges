@@ -1,0 +1,3132 @@
+{
+  "generated_utc": "2026-04-13T18:42:38.612881Z",
+  "shots": 100,
+  "noise_model": "DepolarizingNoise",
+  "noise_rates": [
+    0.001,
+    0.01,
+    0.05
+  ],
+  "problems": {
+    "01_hubbard": {
+      "entry_point": "HubbardVQEKernel",
+      "ideal": [
+        {
+          "outcome": "[One, Zero]",
+          "count": 68,
+          "probability": 0.68
+        },
+        {
+          "outcome": "[Zero, Zero]",
+          "count": 27,
+          "probability": 0.27
+        },
+        {
+          "outcome": "[One, One]",
+          "count": 5,
+          "probability": 0.05
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 78,
+              "probability": 0.78
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 19,
+              "probability": 0.19
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 3,
+              "probability": 0.03
+            }
+          ],
+          "fidelity_vs_ideal": 0.9871
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 66,
+              "probability": 0.66
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 18,
+              "probability": 0.18
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            }
+          ],
+          "fidelity_vs_ideal": 0.9367
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 50,
+              "probability": 0.5
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 30,
+              "probability": 0.3
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 14,
+              "probability": 0.14
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 6,
+              "probability": 0.06
+            }
+          ],
+          "fidelity_vs_ideal": 0.9051
+        }
+      }
+    },
+    "02_catalysis": {
+      "entry_point": "CatalysisVQEKernel",
+      "ideal": [
+        {
+          "outcome": "[One, Zero]",
+          "count": 65,
+          "probability": 0.65
+        },
+        {
+          "outcome": "[Zero, Zero]",
+          "count": 17,
+          "probability": 0.17
+        },
+        {
+          "outcome": "[One, One]",
+          "count": 15,
+          "probability": 0.15
+        },
+        {
+          "outcome": "[Zero, One]",
+          "count": 3,
+          "probability": 0.03
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 64,
+              "probability": 0.64
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 18,
+              "probability": 0.18
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 5,
+              "probability": 0.05
+            }
+          ],
+          "fidelity_vs_ideal": 0.9934
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 57,
+              "probability": 0.57
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 26,
+              "probability": 0.26
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 15,
+              "probability": 0.15
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.9808
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 55,
+              "probability": 0.55
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 22,
+              "probability": 0.22
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 11,
+              "probability": 0.11
+            }
+          ],
+          "fidelity_vs_ideal": 0.9601
+        }
+      }
+    },
+    "03_qae_risk": {
+      "entry_point": "QAEKernel",
+      "ideal": [
+        {
+          "outcome": "[Zero, One]",
+          "count": 41,
+          "probability": 0.41
+        },
+        {
+          "outcome": "[One, One]",
+          "count": 30,
+          "probability": 0.3
+        },
+        {
+          "outcome": "[One, Zero]",
+          "count": 25,
+          "probability": 0.25
+        },
+        {
+          "outcome": "[Zero, Zero]",
+          "count": 4,
+          "probability": 0.04
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 36,
+              "probability": 0.36
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 33,
+              "probability": 0.33
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 29,
+              "probability": 0.29
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.9756
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 32,
+              "probability": 0.32
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 29,
+              "probability": 0.29
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 25,
+              "probability": 0.25
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 14,
+              "probability": 0.14
+            }
+          ],
+          "fidelity_vs_ideal": 0.9533
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, One]",
+              "count": 28,
+              "probability": 0.28
+            },
+            {
+              "outcome": "[One, Zero]",
+              "count": 25,
+              "probability": 0.25
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 24,
+              "probability": 0.24
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 23,
+              "probability": 0.23
+            }
+          ],
+          "fidelity_vs_ideal": 0.9014
+        }
+      }
+    },
+    "04_linear_solvers": {
+      "entry_point": "HHLKernel",
+      "ideal": [
+        {
+          "outcome": "[Zero]",
+          "count": 97,
+          "probability": 0.97
+        },
+        {
+          "outcome": "[One]",
+          "count": 3,
+          "probability": 0.03
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 99,
+              "probability": 0.99
+            },
+            {
+              "outcome": "[One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9945
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 89,
+              "probability": 0.89
+            },
+            {
+              "outcome": "[One]",
+              "count": 11,
+              "probability": 0.11
+            }
+          ],
+          "fidelity_vs_ideal": 0.9733
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 68,
+              "probability": 0.68
+            },
+            {
+              "outcome": "[One]",
+              "count": 32,
+              "probability": 0.32
+            }
+          ],
+          "fidelity_vs_ideal": 0.8283
+        }
+      }
+    },
+    "05_qaoa_maxcut": {
+      "entry_point": "QaoaMaxCutKernel",
+      "ideal": [
+        {
+          "outcome": "[One, One, One]",
+          "count": 48,
+          "probability": 0.48
+        },
+        {
+          "outcome": "[Zero, Zero, Zero]",
+          "count": 48,
+          "probability": 0.48
+        },
+        {
+          "outcome": "[Zero, Zero, One]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[One, Zero, Zero]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[One, Zero, One]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[Zero, One, Zero]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, One, One]",
+              "count": 55,
+              "probability": 0.55
+            },
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 39,
+              "probability": 0.39
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9813
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 41,
+              "probability": 0.41
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 40,
+              "probability": 0.4
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.9036
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 29,
+              "probability": 0.29
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 20,
+              "probability": 0.2
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 5,
+              "probability": 0.05
+            }
+          ],
+          "fidelity_vs_ideal": 0.6345
+        }
+      }
+    },
+    "06_high_frequency_trading": {
+      "entry_point": "HFTKernel",
+      "ideal": [
+        {
+          "outcome": "[One]",
+          "count": 72,
+          "probability": 0.72
+        },
+        {
+          "outcome": "[Zero]",
+          "count": 28,
+          "probability": 0.28
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One]",
+              "count": 77,
+              "probability": 0.77
+            },
+            {
+              "outcome": "[Zero]",
+              "count": 23,
+              "probability": 0.23
+            }
+          ],
+          "fidelity_vs_ideal": 0.9967
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One]",
+              "count": 78,
+              "probability": 0.78
+            },
+            {
+              "outcome": "[Zero]",
+              "count": 22,
+              "probability": 0.22
+            }
+          ],
+          "fidelity_vs_ideal": 0.9952
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One]",
+              "count": 61,
+              "probability": 0.61
+            },
+            {
+              "outcome": "[Zero]",
+              "count": 39,
+              "probability": 0.39
+            }
+          ],
+          "fidelity_vs_ideal": 0.9864
+        }
+      }
+    },
+    "07_drug_discovery": {
+      "entry_point": "DrugBindingKernel",
+      "ideal": [
+        {
+          "outcome": "[One, One]",
+          "count": 61,
+          "probability": 0.61
+        },
+        {
+          "outcome": "[Zero, Zero]",
+          "count": 32,
+          "probability": 0.32
+        },
+        {
+          "outcome": "[One, Zero]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[Zero, One]",
+          "count": 3,
+          "probability": 0.03
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, One]",
+              "count": 70,
+              "probability": 0.7
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 24,
+              "probability": 0.24
+            },
+            {
+              "outcome": "[One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9853
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, One]",
+              "count": 60,
+              "probability": 0.6
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 32,
+              "probability": 0.32
+            },
+            {
+              "outcome": "[One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            }
+          ],
+          "fidelity_vs_ideal": 0.9992
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, One]",
+              "count": 47,
+              "probability": 0.47
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 22,
+              "probability": 0.22
+            },
+            {
+              "outcome": "[One, Zero]",
+              "count": 17,
+              "probability": 0.17
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 14,
+              "probability": 0.14
+            }
+          ],
+          "fidelity_vs_ideal": 0.8988
+        }
+      }
+    },
+    "08_protein_folding": {
+      "entry_point": "FoldingQaoaKernel",
+      "ideal": [
+        {
+          "outcome": "[One, One, One]",
+          "count": 30,
+          "probability": 0.3
+        },
+        {
+          "outcome": "[Zero, Zero, Zero]",
+          "count": 30,
+          "probability": 0.3
+        },
+        {
+          "outcome": "[One, One, Zero]",
+          "count": 15,
+          "probability": 0.15
+        },
+        {
+          "outcome": "[Zero, Zero, One]",
+          "count": 8,
+          "probability": 0.08
+        },
+        {
+          "outcome": "[One, Zero, Zero]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[Zero, One, One]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[One, Zero, One]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[Zero, One, Zero]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 34,
+              "probability": 0.34
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 30,
+              "probability": 0.3
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9631
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 35,
+              "probability": 0.35
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 24,
+              "probability": 0.24
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.9213
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, One, One]",
+              "count": 18,
+              "probability": 0.18
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 16,
+              "probability": 0.16
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 15,
+              "probability": 0.15
+            },
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 7,
+              "probability": 0.07
+            }
+          ],
+          "fidelity_vs_ideal": 0.8602
+        }
+      }
+    },
+    "09_factorization": {
+      "entry_point": "ShorKernel",
+      "ideal": [
+        {
+          "outcome": "[Zero, Zero, Zero, Zero]",
+          "count": 59,
+          "probability": 0.59
+        },
+        {
+          "outcome": "[One, One, One, One]",
+          "count": 21,
+          "probability": 0.21
+        },
+        {
+          "outcome": "[One, Zero, Zero, Zero]",
+          "count": 12,
+          "probability": 0.12
+        },
+        {
+          "outcome": "[One, One, Zero, Zero]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[One, Zero, One, One]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[One, Zero, Zero, One]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[One, One, Zero, One]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 50,
+              "probability": 0.5
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 20,
+              "probability": 0.2
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 18,
+              "probability": 0.18
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9168
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 40,
+              "probability": 0.4
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 19,
+              "probability": 0.19
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 17,
+              "probability": 0.17
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.8263
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 3,
+              "probability": 0.03
+            }
+          ],
+          "fidelity_vs_ideal": 0.3779
+        }
+      }
+    },
+    "10_post_quantum_cryptography": {
+      "entry_point": "GroverKeyKernel",
+      "ideal": [
+        {
+          "outcome": "[One, Zero, One]",
+          "count": 75,
+          "probability": 0.75
+        },
+        {
+          "outcome": "[Zero, Zero, Zero]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[Zero, One, One]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[Zero, One, Zero]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[One, One, Zero]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[Zero, Zero, One]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[One, Zero, Zero]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[One, One, One]",
+          "count": 2,
+          "probability": 0.02
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 83,
+              "probability": 0.83
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.9467
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 65,
+              "probability": 0.65
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 3,
+              "probability": 0.03
+            }
+          ],
+          "fidelity_vs_ideal": 0.9669
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 38,
+              "probability": 0.38
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 14,
+              "probability": 0.14
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            }
+          ],
+          "fidelity_vs_ideal": 0.8406
+        }
+      }
+    },
+    "11_quantum_machine_learning": {
+      "entry_point": "SwapTestKernel",
+      "ideal": [
+        {
+          "outcome": "[Zero]",
+          "count": 98,
+          "probability": 0.98
+        },
+        {
+          "outcome": "[One]",
+          "count": 2,
+          "probability": 0.02
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 100,
+              "probability": 1.0
+            }
+          ],
+          "fidelity_vs_ideal": 0.98
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 97,
+              "probability": 0.97
+            },
+            {
+              "outcome": "[One]",
+              "count": 3,
+              "probability": 0.03
+            }
+          ],
+          "fidelity_vs_ideal": 0.999
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 72,
+              "probability": 0.72
+            },
+            {
+              "outcome": "[One]",
+              "count": 28,
+              "probability": 0.28
+            }
+          ],
+          "fidelity_vs_ideal": 0.8369
+        }
+      }
+    },
+    "12_quantum_optimization": {
+      "entry_point": "SchedulingQaoaKernel",
+      "ideal": [
+        {
+          "outcome": "[Zero, Zero, Zero, Zero]",
+          "count": 19,
+          "probability": 0.19
+        },
+        {
+          "outcome": "[One, One, One, One]",
+          "count": 18,
+          "probability": 0.18
+        },
+        {
+          "outcome": "[Zero, Zero, Zero, One]",
+          "count": 11,
+          "probability": 0.11
+        },
+        {
+          "outcome": "[One, One, Zero, Zero]",
+          "count": 10,
+          "probability": 0.1
+        },
+        {
+          "outcome": "[Zero, Zero, One, One]",
+          "count": 9,
+          "probability": 0.09
+        },
+        {
+          "outcome": "[One, Zero, Zero, Zero]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[One, One, One, Zero]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[One, One, Zero, One]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[Zero, One, One, One]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[Zero, One, One, Zero]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[One, Zero, Zero, One]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[One, Zero, One, One]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[One, Zero, One, Zero]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[Zero, One, Zero, One]",
+          "count": 2,
+          "probability": 0.02
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 26,
+              "probability": 0.26
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.8714
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 18,
+              "probability": 0.18
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.8638
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            }
+          ],
+          "fidelity_vs_ideal": 0.836
+        }
+      }
+    },
+    "13_climate_modeling": {
+      "entry_point": "ClimateHHLKernel",
+      "ideal": [
+        {
+          "outcome": "[One, One, One, Zero]",
+          "count": 63,
+          "probability": 0.63
+        },
+        {
+          "outcome": "[Zero, Zero, Zero, Zero]",
+          "count": 13,
+          "probability": 0.13
+        },
+        {
+          "outcome": "[One, Zero, Zero, Zero]",
+          "count": 9,
+          "probability": 0.09
+        },
+        {
+          "outcome": "[Zero, One, One, Zero]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[One, One, One, One]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[Zero, One, Zero, Zero]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[One, Zero, One, Zero]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[Zero, Zero, One, Zero]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 60,
+              "probability": 0.6
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9613
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 27,
+              "probability": 0.27
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 15,
+              "probability": 0.15
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.7467
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.4027
+        }
+      }
+    },
+    "14_materials_discovery": {
+      "entry_point": "MaterialsVQEKernel",
+      "ideal": [
+        {
+          "outcome": "[One, Zero]",
+          "count": 68,
+          "probability": 0.68
+        },
+        {
+          "outcome": "[One, One]",
+          "count": 17,
+          "probability": 0.17
+        },
+        {
+          "outcome": "[Zero, Zero]",
+          "count": 12,
+          "probability": 0.12
+        },
+        {
+          "outcome": "[Zero, One]",
+          "count": 3,
+          "probability": 0.03
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 59,
+              "probability": 0.59
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 24,
+              "probability": 0.24
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 15,
+              "probability": 0.15
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.9881
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 61,
+              "probability": 0.61
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 21,
+              "probability": 0.21
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 7,
+              "probability": 0.07
+            }
+          ],
+          "fidelity_vs_ideal": 0.9875
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, Zero]",
+              "count": 52,
+              "probability": 0.52
+            },
+            {
+              "outcome": "[One, One]",
+              "count": 23,
+              "probability": 0.23
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 15,
+              "probability": 0.15
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 10,
+              "probability": 0.1
+            }
+          ],
+          "fidelity_vs_ideal": 0.963
+        }
+      }
+    },
+    "15_database_search": {
+      "entry_point": "GroverSearchKernel",
+      "ideal": [
+        {
+          "outcome": "[Zero, One, One, One]",
+          "count": 93,
+          "probability": 0.93
+        },
+        {
+          "outcome": "[Zero, One, Zero, One]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[One, Zero, Zero, Zero]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[One, One, Zero, One]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 85,
+              "probability": 0.85
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.8865
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 39,
+              "probability": 0.39
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.4641
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.1474
+        }
+      }
+    },
+    "16_error_correction": {
+      "entry_point": "QECKernel",
+      "ideal": [
+        {
+          "outcome": "[One]",
+          "count": 53,
+          "probability": 0.53
+        },
+        {
+          "outcome": "[Zero]",
+          "count": 47,
+          "probability": 0.47
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 53,
+              "probability": 0.53
+            },
+            {
+              "outcome": "[One]",
+              "count": 47,
+              "probability": 0.47
+            }
+          ],
+          "fidelity_vs_ideal": 0.9964
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 57,
+              "probability": 0.57
+            },
+            {
+              "outcome": "[One]",
+              "count": 43,
+              "probability": 0.43
+            }
+          ],
+          "fidelity_vs_ideal": 0.99
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[Zero]",
+              "count": 54,
+              "probability": 0.54
+            },
+            {
+              "outcome": "[One]",
+              "count": 46,
+              "probability": 0.46
+            }
+          ],
+          "fidelity_vs_ideal": 0.9951
+        }
+      }
+    },
+    "17_nuclear_physics": {
+      "entry_point": "NuclearVQEKernel",
+      "ideal": [
+        {
+          "outcome": "[One, One]",
+          "count": 59,
+          "probability": 0.59
+        },
+        {
+          "outcome": "[Zero, Zero]",
+          "count": 39,
+          "probability": 0.39
+        },
+        {
+          "outcome": "[One, Zero]",
+          "count": 2,
+          "probability": 0.02
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, One]",
+              "count": 52,
+              "probability": 0.52
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 47,
+              "probability": 0.47
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9644
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, One]",
+              "count": 59,
+              "probability": 0.59
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 36,
+              "probability": 0.36
+            },
+            {
+              "outcome": "[One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.9785
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, One]",
+              "count": 46,
+              "probability": 0.46
+            },
+            {
+              "outcome": "[Zero, Zero]",
+              "count": 30,
+              "probability": 0.3
+            },
+            {
+              "outcome": "[Zero, One]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[One, Zero]",
+              "count": 12,
+              "probability": 0.12
+            }
+          ],
+          "fidelity_vs_ideal": 0.8317
+        }
+      }
+    },
+    "18_photovoltaics": {
+      "entry_point": "QuantumWalkKernel",
+      "ideal": [
+        {
+          "outcome": "[One, Zero, Zero]",
+          "count": 96,
+          "probability": 0.96
+        },
+        {
+          "outcome": "[Zero, Zero, Zero]",
+          "count": 4,
+          "probability": 0.04
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 96,
+              "probability": 0.96
+            },
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9604
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 71,
+              "probability": 0.71
+            },
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.8008
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 25,
+              "probability": 0.25
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 17,
+              "probability": 0.17
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 16,
+              "probability": 0.16
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 3,
+              "probability": 0.03
+            }
+          ],
+          "fidelity_vs_ideal": 0.3024
+        }
+      }
+    },
+    "19_quantum_chromodynamics": {
+      "entry_point": "LatticeGaugeKernel",
+      "ideal": [
+        {
+          "outcome": "[Zero, Zero, Zero, Zero]",
+          "count": 51,
+          "probability": 0.51
+        },
+        {
+          "outcome": "[One, Zero, Zero, Zero]",
+          "count": 16,
+          "probability": 0.16
+        },
+        {
+          "outcome": "[Zero, Zero, Zero, One]",
+          "count": 8,
+          "probability": 0.08
+        },
+        {
+          "outcome": "[One, One, Zero, Zero]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[Zero, Zero, One, One]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[Zero, One, One, Zero]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[One, One, One, Zero]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[One, Zero, Zero, One]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[One, Zero, One, Zero]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[Zero, One, Zero, One]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[One, Zero, One, One]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[Zero, One, One, One]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 38,
+              "probability": 0.38
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 20,
+              "probability": 0.2
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 14,
+              "probability": 0.14
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 1,
+              "probability": 0.01
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.8325
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 28,
+              "probability": 0.28
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 19,
+              "probability": 0.19
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 5,
+              "probability": 0.05
+            },
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.7986
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, One, Zero]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, One, Zero, One]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, Zero]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[Zero, Zero, One, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[One, One, One, One]",
+              "count": 8,
+              "probability": 0.08
+            },
+            {
+              "outcome": "[Zero, One, Zero, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, Zero, Zero, One]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[Zero, One, One, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, Zero, Zero, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, One, One, Zero]",
+              "count": 6,
+              "probability": 0.06
+            },
+            {
+              "outcome": "[One, Zero, One, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[One, Zero, Zero, One]",
+              "count": 4,
+              "probability": 0.04
+            },
+            {
+              "outcome": "[Zero, One, One, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[One, One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, One, Zero, Zero]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[One, Zero, One, Zero]",
+              "count": 2,
+              "probability": 0.02
+            }
+          ],
+          "fidelity_vs_ideal": 0.5136
+        }
+      }
+    },
+    "20_space_mission_planning": {
+      "entry_point": "MissionQaoaKernel",
+      "ideal": [
+        {
+          "outcome": "[Zero, Zero, Zero]",
+          "count": 45,
+          "probability": 0.45
+        },
+        {
+          "outcome": "[One, One, One]",
+          "count": 15,
+          "probability": 0.15
+        },
+        {
+          "outcome": "[Zero, Zero, One]",
+          "count": 13,
+          "probability": 0.13
+        },
+        {
+          "outcome": "[One, Zero, Zero]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[One, One, Zero]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[Zero, One, One]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[One, Zero, One]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[Zero, One, Zero]",
+          "count": 2,
+          "probability": 0.02
+        }
+      ],
+      "noisy": {
+        "0.001": {
+          "error_rate": 0.001,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 36,
+              "probability": 0.36
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 15,
+              "probability": 0.15
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 14,
+              "probability": 0.14
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 2,
+              "probability": 0.02
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 1,
+              "probability": 0.01
+            }
+          ],
+          "fidelity_vs_ideal": 0.9587
+        },
+        "0.01": {
+          "error_rate": 0.01,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 31,
+              "probability": 0.31
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 17,
+              "probability": 0.17
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 15,
+              "probability": 0.15
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 13,
+              "probability": 0.13
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 7,
+              "probability": 0.07
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 3,
+              "probability": 0.03
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 3,
+              "probability": 0.03
+            }
+          ],
+          "fidelity_vs_ideal": 0.9654
+        },
+        "0.05": {
+          "error_rate": 0.05,
+          "histogram": [
+            {
+              "outcome": "[Zero, Zero, Zero]",
+              "count": 22,
+              "probability": 0.22
+            },
+            {
+              "outcome": "[One, One, One]",
+              "count": 17,
+              "probability": 0.17
+            },
+            {
+              "outcome": "[One, Zero, One]",
+              "count": 12,
+              "probability": 0.12
+            },
+            {
+              "outcome": "[One, One, Zero]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, One, Zero]",
+              "count": 11,
+              "probability": 0.11
+            },
+            {
+              "outcome": "[Zero, One, One]",
+              "count": 10,
+              "probability": 0.1
+            },
+            {
+              "outcome": "[One, Zero, Zero]",
+              "count": 9,
+              "probability": 0.09
+            },
+            {
+              "outcome": "[Zero, Zero, One]",
+              "count": 8,
+              "probability": 0.08
+            }
+          ],
+          "fidelity_vs_ideal": 0.8898
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-04-12T16:23:00.033665Z",
+  "updated_utc": "2026-04-13T18:36:00.224529Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -672,6 +672,42 @@
       "depth": 1,
       "target_id": "rigetti.sim.qvm",
       "status": "succeeded"
+    },
+    {
+      "recorded_utc": "2026-04-13T18:35:37.381383Z",
+      "problem_id": "01_hubbard",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "f91749a4-4e34-4af9-b839-46aadc85c599"
+    },
+    {
+      "recorded_utc": "2026-04-13T18:35:45.181790Z",
+      "problem_id": "05_qaoa_maxcut",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "a6f89d88-9524-45e8-8758-aa3b8e60b54c"
+    },
+    {
+      "recorded_utc": "2026-04-13T18:35:52.678578Z",
+      "problem_id": "09_factorization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "f8df7859-cd0d-4689-9a0d-4bfd1c413198"
+    },
+    {
+      "recorded_utc": "2026-04-13T18:36:00.207855Z",
+      "problem_id": "16_error_correction",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "ec8d9411-b410-4a9c-a73f-44f02b144148"
     }
   ]
 }

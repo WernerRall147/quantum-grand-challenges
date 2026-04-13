@@ -1,0 +1,545 @@
+{
+  "emulator_results": {
+    "01_hubbard": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1, 0]",
+          "count": 68,
+          "probability": 0.68
+        },
+        {
+          "outcome": "[0, 0]",
+          "count": 22,
+          "probability": 0.22
+        },
+        {
+          "outcome": "[1, 1]",
+          "count": 9,
+          "probability": 0.09
+        },
+        {
+          "outcome": "[0, 1]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ]
+    },
+    "02_catalysis": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1, 0]",
+          "count": 69,
+          "probability": 0.69
+        },
+        {
+          "outcome": "[1, 1]",
+          "count": 20,
+          "probability": 0.2
+        },
+        {
+          "outcome": "[0, 0]",
+          "count": 6,
+          "probability": 0.06
+        },
+        {
+          "outcome": "[0, 1]",
+          "count": 5,
+          "probability": 0.05
+        }
+      ]
+    },
+    "03_qae_risk": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1, 1]",
+          "count": 37,
+          "probability": 0.37
+        },
+        {
+          "outcome": "[0, 1]",
+          "count": 30,
+          "probability": 0.3
+        },
+        {
+          "outcome": "[1, 0]",
+          "count": 27,
+          "probability": 0.27
+        },
+        {
+          "outcome": "[0, 0]",
+          "count": 6,
+          "probability": 0.06
+        }
+      ]
+    },
+    "05_qaoa_maxcut": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[0, 0, 0]",
+          "count": 47,
+          "probability": 0.47
+        },
+        {
+          "outcome": "[1, 1, 1]",
+          "count": 43,
+          "probability": 0.43
+        },
+        {
+          "outcome": "[1, 1, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[0, 1, 1]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 0, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[0, 0, 1]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 0, 1]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[0, 1, 0]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ]
+    },
+    "06_high_frequency_trading": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1]",
+          "count": 81,
+          "probability": 0.81
+        },
+        {
+          "outcome": "[0]",
+          "count": 19,
+          "probability": 0.19
+        }
+      ]
+    },
+    "07_drug_discovery": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1, 1]",
+          "count": 62,
+          "probability": 0.62
+        },
+        {
+          "outcome": "[0, 0]",
+          "count": 28,
+          "probability": 0.28
+        },
+        {
+          "outcome": "[1, 0]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[0, 1]",
+          "count": 3,
+          "probability": 0.03
+        }
+      ]
+    },
+    "08_protein_folding": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1, 1, 1]",
+          "count": 29,
+          "probability": 0.29
+        },
+        {
+          "outcome": "[0, 0, 0]",
+          "count": 27,
+          "probability": 0.27
+        },
+        {
+          "outcome": "[0, 1, 1]",
+          "count": 12,
+          "probability": 0.12
+        },
+        {
+          "outcome": "[1, 0, 0]",
+          "count": 10,
+          "probability": 0.1
+        },
+        {
+          "outcome": "[1, 1, 0]",
+          "count": 8,
+          "probability": 0.08
+        },
+        {
+          "outcome": "[0, 0, 1]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[0, 1, 0]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[1, 0, 1]",
+          "count": 2,
+          "probability": 0.02
+        }
+      ]
+    },
+    "09_factorization": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[0, 0, 0, 0]",
+          "count": 48,
+          "probability": 0.48
+        },
+        {
+          "outcome": "[1, 1, 1, 1]",
+          "count": 23,
+          "probability": 0.23
+        },
+        {
+          "outcome": "[1, 0, 0, 0]",
+          "count": 17,
+          "probability": 0.17
+        },
+        {
+          "outcome": "[1, 0, 1, 1]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[1, 1, 0, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 0, 1, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 1, 0, 1]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[0, 1, 0, 0]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ]
+    },
+    "10_post_quantum_cryptography": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1, 0, 1]",
+          "count": 80,
+          "probability": 0.8
+        },
+        {
+          "outcome": "[1, 1, 1]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[1, 0, 0]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[0, 1, 0]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[0, 1, 1]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[0, 0, 1]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 1, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[0, 0, 0]",
+          "count": 2,
+          "probability": 0.02
+        }
+      ]
+    },
+    "11_quantum_machine_learning": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[0]",
+          "count": 99,
+          "probability": 0.99
+        },
+        {
+          "outcome": "[1]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ]
+    },
+    "12_quantum_optimization": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[0, 0, 0, 0]",
+          "count": 27,
+          "probability": 0.27
+        },
+        {
+          "outcome": "[1, 1, 1, 1]",
+          "count": 17,
+          "probability": 0.17
+        },
+        {
+          "outcome": "[1, 1, 0, 0]",
+          "count": 10,
+          "probability": 0.1
+        },
+        {
+          "outcome": "[0, 0, 0, 1]",
+          "count": 9,
+          "probability": 0.09
+        },
+        {
+          "outcome": "[1, 1, 1, 0]",
+          "count": 7,
+          "probability": 0.07
+        },
+        {
+          "outcome": "[1, 1, 0, 1]",
+          "count": 6,
+          "probability": 0.06
+        },
+        {
+          "outcome": "[0, 1, 1, 1]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[0, 1, 0, 1]",
+          "count": 4,
+          "probability": 0.04
+        },
+        {
+          "outcome": "[1, 0, 1, 1]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[1, 0, 0, 0]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[0, 0, 1, 1]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[0, 0, 1, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 0, 0, 1]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[0, 1, 1, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 0, 1, 0]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ]
+    },
+    "14_materials_discovery": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1, 0]",
+          "count": 70,
+          "probability": 0.7
+        },
+        {
+          "outcome": "[1, 1]",
+          "count": 17,
+          "probability": 0.17
+        },
+        {
+          "outcome": "[0, 0]",
+          "count": 12,
+          "probability": 0.12
+        },
+        {
+          "outcome": "[0, 1]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ]
+    },
+    "15_database_search": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[0, 1, 1, 1]",
+          "count": 77,
+          "probability": 0.77
+        },
+        {
+          "outcome": "[0, 1, 0, 1]",
+          "count": 5,
+          "probability": 0.05
+        },
+        {
+          "outcome": "[0, 0, 0, 0]",
+          "count": 3,
+          "probability": 0.03
+        },
+        {
+          "outcome": "[1, 0, 0, 1]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 0, 1, 1]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 0, 0, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[0, 1, 1, 0]",
+          "count": 2,
+          "probability": 0.02
+        },
+        {
+          "outcome": "[1, 1, 0, 1]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[1, 1, 0, 0]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[0, 0, 0, 1]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[1, 1, 1, 1]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[0, 0, 1, 1]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[1, 1, 1, 0]",
+          "count": 1,
+          "probability": 0.01
+        },
+        {
+          "outcome": "[0, 1, 0, 0]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ]
+    },
+    "16_error_correction": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[0]",
+          "count": 56,
+          "probability": 0.56
+        },
+        {
+          "outcome": "[1]",
+          "count": 44,
+          "probability": 0.44
+        }
+      ]
+    },
+    "17_nuclear_physics": {
+      "target": "quantinuum.sim.h2-1e",
+      "shots": 100,
+      "histogram": [
+        {
+          "outcome": "[1, 1]",
+          "count": 56,
+          "probability": 0.56
+        },
+        {
+          "outcome": "[0, 0]",
+          "count": 43,
+          "probability": 0.43
+        },
+        {
+          "outcome": "[1, 0]",
+          "count": 1,
+          "probability": 0.01
+        }
+      ]
+    }
+  },
+  "generated_utc": "2026-04-13"
+}

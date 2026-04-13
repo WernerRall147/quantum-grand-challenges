@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-04-13T19:00:38.094756Z",
+  "updated_utc": "2026-04-13T19:20:15.505995Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -942,6 +942,132 @@
       "target_id": "quantinuum.sim.h2-1e",
       "status": "submitted",
       "job_id": "0c788f43-376b-11f1-bdaf-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:18:10.692686Z",
+      "problem_id": "02_catalysis",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "7f5c538a-376d-11f1-a881-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:18:20.358260Z",
+      "problem_id": "04_linear_solvers",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "85d17273-376d-11f1-8982-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:18:29.740612Z",
+      "problem_id": "06_high_frequency_trading",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "8b2ce744-376d-11f1-a812-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:18:38.514548Z",
+      "problem_id": "07_drug_discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "90d0a67c-376d-11f1-9b8e-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:18:47.959135Z",
+      "problem_id": "08_protein_folding",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "9650750a-376d-11f1-b834-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:18:56.824826Z",
+      "problem_id": "10_post_quantum_cryptography",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "9bb37ea9-376d-11f1-a103-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:19:06.726736Z",
+      "problem_id": "11_quantum_machine_learning",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "a14952a4-376d-11f1-b707-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:19:16.418259Z",
+      "problem_id": "12_quantum_optimization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "a72c1e02-376d-11f1-bbbc-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:19:25.700219Z",
+      "problem_id": "13_climate_modeling",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "acbe06c1-376d-11f1-b934-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:19:34.711664Z",
+      "problem_id": "14_materials_discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "b2284a86-376d-11f1-8b2a-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:19:43.886670Z",
+      "problem_id": "17_nuclear_physics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "b77cdc80-376d-11f1-89ab-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:19:54.158004Z",
+      "problem_id": "18_photovoltaics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "bd6b7bab-376d-11f1-ad2d-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:20:05.122823Z",
+      "problem_id": "19_quantum_chromodynamics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "c3c796ef-376d-11f1-b184-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:20:15.494582Z",
+      "problem_id": "20_space_mission_planning",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "ca2cbbd5-376d-11f1-8416-f068e3583cd5"
     }
   ]
 }

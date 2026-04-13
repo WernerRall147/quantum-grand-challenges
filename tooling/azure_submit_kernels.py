@@ -37,38 +37,22 @@ def append_to_history(runs):
     HISTORY_PATH.write_text(json.dumps(history, indent=2), encoding="utf-8")
 
 
-def submit_via_cli(problem_id, target_id, qir_data, shots):
-    """Submit QIR to Azure Quantum via az quantum job submit."""
-    import pyqir
+def submit_via_sdk(problem_id, target_id, qir_data, shots):
+    """Submit QIR to Azure Quantum via Python SDK with CLI credential."""
+    from azure.identity import AzureCliCredential
+    from qdk.azure import Workspace
 
-    # QirInputData stores LLVM IR as _ll_str — convert to bitcode (.bc) for Azure
-    if hasattr(qir_data, "_ll_str"):
-        qir_text = qir_data._ll_str
-    else:
-        qir_text = str(qir_data)
+    RESOURCE_ID = "/subscriptions/82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3/resourceGroups/Quantum-Grand-Challenges/providers/Microsoft.Quantum/Workspaces/Quantum-Grand-Challenges"
 
-    # Parse LLVM IR to Module and write bitcode
-    mod = pyqir.Module.from_ir(pyqir.Context(), qir_text)
-    tmp = tempfile.NamedTemporaryFile(suffix=".bc", delete=False)
-    tmp.write(mod.bitcode)
-    tmp.close()
-    qir_path = tmp.name
     try:
-        cmd = (
-            f'az quantum job submit --target-id {target_id}'
-            f' --job-input-file "{qir_path}"'
-            f' --job-input-format qir.v1'
-            f' --shots {shots}'
-            f' --job-name "qgc-{problem_id}"'
-            f' -o json'
-        )
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=60, shell=True)
-        if proc.returncode != 0:
-            return None, proc.stderr[:200]
-        data = json.loads(proc.stdout)
-        return data.get("id", "unknown"), None
-    finally:
-        os.unlink(qir_path)
+        credential = AzureCliCredential(tenant_id="dc692f3e-104b-4247-b52c-23692694684a")
+        workspace = Workspace(resource_id=RESOURCE_ID, location="eastus", credential=credential)
+        target = workspace.get_targets(target_id)
+        job = target.submit(qir_data, f"qgc-{problem_id}", shots=shots)
+        job_id = job.details.id if hasattr(job, "details") else str(job)
+        return job_id, None
+    except Exception as e:
+        return None, str(e)[:200]
 
 
 def main():
@@ -97,7 +81,7 @@ def main():
             print(f"COMPILE FAIL: {str(e)[:120]}"); continue
 
         print("Submitting...", end=" ", flush=True)
-        job_id, err = submit_via_cli(d, target_id, qir, shots)
+        job_id, err = submit_via_sdk(d, target_id, qir, shots)
         if err:
             print(f"FAIL: {err[:100]}")
         else:

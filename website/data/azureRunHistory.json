@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-04-13T18:41:36.131740Z",
+  "updated_utc": "2026-04-13T19:00:38.094756Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -888,6 +888,60 @@
       "target_id": "quantinuum.sim.h2-1sc",
       "status": "succeeded",
       "job_id": "bd681510-24a7-4468-85f3-a6f7a5424034"
+    },
+    {
+      "recorded_utc": "2026-04-13T18:52:19.905510Z",
+      "problem_id": "01_hubbard",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded",
+      "job_id": "d7a07706-41a3-460a-a7a2-0c234d06dbc9"
+    },
+    {
+      "recorded_utc": "2026-04-13T18:59:01.827353Z",
+      "problem_id": "01_hubbard",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1sc",
+      "status": "succeeded",
+      "job_id": "d28b8380-376a-11f1-bbb8-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:00:07.792943Z",
+      "problem_id": "01_hubbard",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "fa1c4a43-376a-11f1-ab13-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:00:17.357607Z",
+      "problem_id": "05_qaoa_maxcut",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "001403bc-376b-11f1-9594-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:00:27.780223Z",
+      "problem_id": "09_factorization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "0608c57e-376b-11f1-93f9-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-13T19:00:38.094152Z",
+      "problem_id": "16_error_correction",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "0c788f43-376b-11f1-bdaf-f068e3583cd5"
     }
   ]
 }

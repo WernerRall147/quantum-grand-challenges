@@ -184,7 +184,9 @@ A problem-agnostic Azure submission pipeline (`tooling/azure/smoke_problem.py`) 
 
 ### 7.1 What the Framework Demonstrates (and What It Does Not)
 
-The maturity gate model successfully enforces honest assessment: of 20 implemented problems, all 20 have now reached Stage C (hardware-aware validation with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles), and **none have reached Stage D** (advantage evidence). The progression from 3/20 Stage C (March 2026) to 20/20 Stage C (April 2026) demonstrates the framework's ability to systematically drive evidence generation while still preventing premature advantage claims.
+The maturity gate model successfully enforces honest assessment: of 20 implemented problems, all 20 have reached Stage C (hardware-aware validation with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles), and **4 have reached Stage D** (advantage evidence with explicit claim contracts). The 4 Stage D candidates (QAE, QAOA MaxCut, Grover DB Search, Grover PQC) each filed honest advantage claim contracts: QAE and QAOA as "theoretical" (no practical advantage demonstrated), Grover variants as "projected" (provably optimal O(√N) speedup, practical at N>10⁶).
+
+Critically, the framework prevented inflated claims: the QAOA MaxCut Stage D contract explicitly states "no proven constant-depth advantage" and identifies the Goemans-Williamson 0.878-approximation as the polynomial-time classical competitor.
 
 **What our results demonstrate:**
 - Algorithmic correctness at small scale (Grover finds marked items, Shor factors 15, QEC corrects single bit-flips)
@@ -201,7 +203,7 @@ The maturity gate model successfully enforces honest assessment: of 20 implement
 
 All validation was performed on noiseless simulators or the Quantinuum H2-1SC syntax checker. Zero-variance results (e.g., 100% QEC correction rate, exact QAOA optimality) confirm correct circuit construction but reveal nothing about performance under realistic noise. A circuit that achieves perfect results on a simulator may fail completely on hardware with 10⁻³ two-qubit gate error rates.
 
-The H2-1SC syntax checker validates that circuits are well-formed QIR (compiled from Q# via the modern QDK) but does not simulate quantum behavior — it returns trivial results. Full emulator (H2-1E) jobs were submitted but experienced 78+ hour queue times, limiting practical use for iterative development.
+The H2-1SC syntax checker validates that circuits are well-formed QIR (compiled from Q# via the modern QDK) but does not simulate quantum behavior. Full emulator (H2-1E) results were collected for all 20 problems (100 shots each), with cross-platform validation on 19 problems via Rigetti QVM. Key finding: **17/19 problems agree on the dominant measurement outcome across both platforms**, providing strong cross-platform consistency evidence. A separate depolarizing noise simulation study at three error rates (p=0.001, 0.01, 0.05) revealed that 2-qubit VQE circuits maintain >90% fidelity even at p=0.05, while deeper circuits (Grover with 3 iterations, 8-qubit Shor) degrade to <40% fidelity — quantifying the noise sensitivity gap that separates near-term and fault-tolerant algorithm classes.
 
 Selected correctness validation results:
 - **Grover (10_pqc)**: 80-92% success rate across 3-5 qubit instances on noiseless simulator
@@ -291,7 +293,7 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 
 We have presented a software engineering framework for quantum algorithm development that prioritizes honest assessment over optimistic claims. The framework's primary value is not in the quantum implementations — which are toy-scale and classically trivial — but in the methodology: standardized structure, automated validation, and maturity gates that explicitly prevent claiming more than the evidence supports.
 
-Of 20 implemented problems, all have reached Stage C (hardware-aware validation with calibration ensembles and real resource estimates), and none have reached Stage D (advantage evidence), which we consider the appropriate outcome at this scale. The maturity gate model correctly identifies that noiseless simulator results on small instances — even with real resource estimator profiles — do not constitute evidence of quantum utility.
+Of 20 implemented problems, all have reached Stage C (hardware-aware validation with calibration ensembles and real resource estimates), and 4 have reached Stage D (advantage evidence with filed claim contracts). No problem claims demonstrated practical quantum advantage — the Stage D contracts are explicitly tagged as "theoretical" or "projected" with documented residual risks. The maturity gate model correctly identifies that emulator results on small instances, even with cross-platform validation, do not constitute evidence of quantum utility.
 
 The practical lessons — that placeholders masquerade as implementations, that encoding bugs survive validation, that mock estimates create false confidence — are transferable to any quantum development effort. We hope the framework's insistence on honest self-assessment contributes to healthier practices in the quantum computing community.
 

@@ -9,11 +9,11 @@ import Std.Measurement.MResetEachZ;
 operation SchedulingQaoaKernel() : Result[] {
     use qs = Qubit[4];
     for q in qs { H(q); }
-    // ZZ cost (job conflicts)
-    CNOT(qs[0], qs[1]); Rz(0.8, qs[1]); CNOT(qs[0], qs[1]);
-    CNOT(qs[1], qs[2]); Rz(0.6, qs[2]); CNOT(qs[1], qs[2]);
-    CNOT(qs[2], qs[3]); Rz(0.4, qs[3]); CNOT(qs[2], qs[3]);
-    // Mixer
-    for q in qs { Rx(1.0, q); }
+    // ZZ cost (job conflicts, gamma=0.7)
+    CNOT(qs[0], qs[1]); Rz(1.4, qs[1]); CNOT(qs[0], qs[1]);
+    CNOT(qs[1], qs[2]); Rz(1.4, qs[2]); CNOT(qs[1], qs[2]);
+    CNOT(qs[2], qs[3]); Rz(1.4, qs[3]); CNOT(qs[2], qs[3]);
+    // Mixer (beta=0.7)
+    for q in qs { Rx(1.4, q); }
     return MResetEachZ(qs);
 }

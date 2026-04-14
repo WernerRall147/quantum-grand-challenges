@@ -16,6 +16,8 @@ interface EmulatorData {
   rigetti_top: string | null;
   rigetti_pct: number | null;
   match: boolean;
+  h2_histogram: Array<{ outcome: string; count: number }>;
+  rigetti_histogram: Array<{ outcome: string; count: number }>;
 }
 
 interface NoisyData {
@@ -386,6 +388,40 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
                 ✓ Cross-platform agreement: both simulators find the same dominant outcome
               </div>
             )}
+            {(problem.emulator.h2_histogram.length > 0 || problem.emulator.rigetti_histogram.length > 0) && (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
+                {problem.emulator.h2_histogram.length > 0 && (
+                  <div>
+                    <div style={{ fontSize: '0.8rem', color: '#5b21b6', fontWeight: 600, marginBottom: '0.5rem' }}>H2-1E Distribution</div>
+                    <div style={{ width: '100%', height: 180 }}>
+                      <ResponsiveContainer>
+                        <BarChart data={problem.emulator.h2_histogram} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                          <XAxis dataKey="outcome" fontSize={9} angle={-30} textAnchor="end" height={50} />
+                          <YAxis fontSize={10} />
+                          <Tooltip />
+                          <Bar dataKey="count" fill="#7c3aed" radius={[3, 3, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                )}
+                {problem.emulator.rigetti_histogram.length > 0 && (
+                  <div>
+                    <div style={{ fontSize: '0.8rem', color: '#5b21b6', fontWeight: 600, marginBottom: '0.5rem' }}>Rigetti QVM Distribution</div>
+                    <div style={{ width: '100%', height: 180 }}>
+                      <ResponsiveContainer>
+                        <BarChart data={problem.emulator.rigetti_histogram} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                          <XAxis dataKey="outcome" fontSize={9} angle={-30} textAnchor="end" height={50} />
+                          <YAxis fontSize={10} />
+                          <Tooltip />
+                          <Bar dataKey="count" fill="#06b6d4" radius={[3, 3, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </section>
         )}
 
@@ -521,6 +557,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     rigetti_top: riTop ? String(riTop.outcome) : null,
     rigetti_pct: riTop ? Number(riTop.count) : null,
     match: !!(h2Top && riTop && String(h2Top.outcome) === String(riTop.outcome)),
+    h2_histogram: h2Hist.slice(0, 6).map(h => ({ outcome: String(h.outcome), count: Number(h.count) })),
+    rigetti_histogram: riHist.slice(0, 6).map(h => ({ outcome: String(h.outcome), count: Number(h.count) })),
   } : null;
 
   return {

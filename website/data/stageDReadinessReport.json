@@ -1,11 +1,11 @@
 {
-  "generated_utc": "2026-03-23T11:13:27Z",
+  "generated_utc": "2026-04-14T12:43:52Z",
   "summary": {
-    "candidate_count": 3,
-    "fully_ready": 0,
-    "avg_readiness_percent": 83.3,
-    "open_checklist_items": 0,
-    "artifact_issue_count": 8
+    "candidate_count": 4,
+    "fully_ready": 3,
+    "avg_readiness_percent": 95.8,
+    "open_checklist_items": 3,
+    "artifact_issue_count": 0
   },
   "candidates": [
     {
@@ -24,25 +24,19 @@
           "path": "estimates/quantum_estimate_ensemble_small.json",
           "exists": true,
           "listed_in_stage_d_file": true,
-          "quality_issues": [
-            "missing_generated_utc"
-          ]
+          "quality_issues": []
         },
         {
           "path": "estimates/quantum_estimate_ensemble_medium.json",
           "exists": true,
           "listed_in_stage_d_file": true,
-          "quality_issues": [
-            "missing_generated_utc"
-          ]
+          "quality_issues": []
         },
         {
           "path": "estimates/quantum_estimate_ensemble_large.json",
           "exists": true,
           "listed_in_stage_d_file": true,
-          "quality_issues": [
-            "missing_generated_utc"
-          ]
+          "quality_issues": []
         },
         {
           "path": "estimates/fairness_review_stage_d.md",
@@ -75,11 +69,11 @@
           "quality_issues": []
         }
       ],
-      "artifact_issue_count": 3,
+      "artifact_issue_count": 0,
       "readiness": {
-        "score": 5,
+        "score": 6,
         "max_score": 6,
-        "percent": 83.3
+        "percent": 100.0
       }
     },
     {
@@ -98,17 +92,13 @@
           "path": "estimates/backend_calibration_stage_d.json",
           "exists": true,
           "listed_in_stage_d_file": true,
-          "quality_issues": [
-            "missing_generated_utc"
-          ]
+          "quality_issues": []
         },
         {
           "path": "estimates/fairness_benchmark_stage_d.json",
           "exists": true,
           "listed_in_stage_d_file": true,
-          "quality_issues": [
-            "missing_generated_utc"
-          ]
+          "quality_issues": []
         },
         {
           "path": "estimates/fairness_benchmark_stage_d.md",
@@ -129,11 +119,11 @@
           "quality_issues": []
         }
       ],
-      "artifact_issue_count": 2,
+      "artifact_issue_count": 0,
       "readiness": {
-        "score": 5,
+        "score": 6,
         "max_score": 6,
-        "percent": 83.3
+        "percent": 100.0
       }
     },
     {
@@ -152,25 +142,19 @@
           "path": "estimates/backend_uncertainty_small.json",
           "exists": true,
           "listed_in_stage_d_file": true,
-          "quality_issues": [
-            "missing_generated_utc"
-          ]
+          "quality_issues": []
         },
         {
           "path": "estimates/backend_uncertainty_medium.json",
           "exists": true,
           "listed_in_stage_d_file": true,
-          "quality_issues": [
-            "missing_generated_utc"
-          ]
+          "quality_issues": []
         },
         {
           "path": "estimates/backend_uncertainty_large.json",
           "exists": true,
           "listed_in_stage_d_file": true,
-          "quality_issues": [
-            "missing_generated_utc"
-          ]
+          "quality_issues": []
         },
         {
           "path": "estimates/oracle_overhead_accounting_stage_d.md",
@@ -197,7 +181,45 @@
           "quality_issues": []
         }
       ],
-      "artifact_issue_count": 3,
+      "artifact_issue_count": 0,
+      "readiness": {
+        "score": 6,
+        "max_score": 6,
+        "percent": 100.0
+      }
+    },
+    {
+      "problem_id": "10_post_quantum_cryptography",
+      "expected_claim": "projected",
+      "current_claim": "projected",
+      "readme_exists": true,
+      "stage_d_file_exists": true,
+      "checklist": {
+        "total": 7,
+        "done": 4,
+        "open": 3
+      },
+      "artifacts": [
+        {
+          "path": "estimates/advantage_claim_contract.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/scaling_analysis_stage_d.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        },
+        {
+          "path": "estimates/stage_d_evidence_summary.json",
+          "exists": true,
+          "listed_in_stage_d_file": true,
+          "quality_issues": []
+        }
+      ],
+      "artifact_issue_count": 0,
       "readiness": {
         "score": 5,
         "max_score": 6,

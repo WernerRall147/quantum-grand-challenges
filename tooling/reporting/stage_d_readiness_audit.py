@@ -63,6 +63,15 @@ CANDIDATES = [
             "estimates/backend_readout_characterization_stage_d.md",
         ],
     ),
+    CandidateSpec(
+        problem_id="10_post_quantum_cryptography",
+        expected_claim="projected",
+        required_artifacts=[
+            "estimates/advantage_claim_contract.json",
+            "estimates/scaling_analysis_stage_d.json",
+            "estimates/stage_d_evidence_summary.json",
+        ],
+    ),
 ]
 
 

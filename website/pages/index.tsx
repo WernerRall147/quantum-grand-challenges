@@ -71,31 +71,31 @@ export default function Home() {
         <section style={{ marginTop: '3rem' }}>
           <h2>📚 Featured Case Studies</h2>
           <p style={{ color: '#666' }}>
-            Stage C implementations now anchor the portfolio while Stage B tracks continue progressing under policy-gated evidence requirements.
+            4 Stage D advantage candidates lead the portfolio. All 20 problems validated on cross-platform emulators (H2-1E + Rigetti QVM).
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
             <CaseStudyCard
-              title="QAE Risk Analysis (Stage C Complete)"
+              title="QAE Risk Analysis (Stage D — Theoretical)"
               classicalHeadline="Monte Carlo: 16.1% ± 0.37% (10k samples)"
-              classicalDetails="Classical baseline achieves 0% error vs theoretical for tail risk P(Loss > 2.5) on log-normal(0,1) distribution. Log-normal PDF corrected March 2026."
-              quantumHeadline="Canonical QAE: 594k qubits, 6.4s, 965k T-states"
-              quantumDetails="QAE kernel recalibrated with corrected distribution encoding. Emulator jobs queued on Quantinuum H2-1E for full simulation validation."
+              classicalDetails="Classical baseline achieves 0% error vs theoretical for tail risk P(Loss > 2.5) on log-normal(0,1) distribution. IQAE adaptive driver with Clopper-Pearson CI."
+              quantumHeadline="Canonical QAE: 293k physical qubits, 40 logical"
+              quantumDetails="Cross-platform emulator validation complete: H2-1E + Rigetti QVM. Stage D advantage claim filed (theoretical — quadratic speedup)."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk"
             />
             <CaseStudyCard
-              title="Database Search (Stage C Complete)"
+              title="Database Search (Stage D — Projected)"
               classicalHeadline="Search baselines: 16, 32, and 4096-item instances"
-              classicalDetails="Classical search and verification harnesses provide reproducible reference outputs for Grover comparisons."
-              quantumHeadline="Canonical Grover: quadratic search behavior"
-              quantumDetails="Multi-target oracle and measurement validation support the Stage C evidence bundle for database search."
+              classicalDetails="Classical exhaustive search with reproducible verification harness across three instance sizes."
+              quantumHeadline="Canonical Grover: 120k physical qubits, 18 logical"
+              quantumDetails="Provably optimal O(√N) speedup. Cross-platform emulator: 77% H2-1E, 94% Rigetti. Noise degrades to 14.7% fidelity at p=0.05 (deep circuit)."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/15_database_search"
             />
             <CaseStudyCard
-              title="Hubbard Model (Azure Validated)"
+              title="Hubbard Model (Stage C — Azure Validated)"
               classicalHeadline="Exact diagonalization: Δc = 5.66 at U/t = 4"
               classicalDetails="Two-site half-filled Hubbard model with classical baseline achieving perfect accuracy for ground state energy and Mott gap."
-              quantumHeadline="VQE circuit validated on Quantinuum H2 simulator"
-              quantumDetails="Real VQE ansatz (2-qubit, Ry+CNOT+Rz) submitted to Azure Quantum. Resource estimates generated for surface_code and gate_ns_e3 architectures. Emulator results pending."
+              quantumHeadline="VQE: 177k physical qubits, 12 logical"
+              quantumDetails="2-qubit VQE ansatz validated on H2-1E emulator (68% dominant outcome) and Rigetti QVM (70%). Noise fidelity: 90.5% at p=0.05."
               linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard"
             />
           </div>

@@ -20,7 +20,7 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 - **All 20 problems at Stage C** with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles (1.8k–401k physical qubits).
 - **4 Stage D advantage candidates** (QAE, QAOA, Grover DB Search, Grover PQC) with scaling analysis, fairness reviews, and honest residual risk documentation.
 - **Cross-platform emulator validation**: All 20 problems run on Quantinuum H2-1E (100 shots) + 19 on Rigetti QVM (100 shots). **17/19 agree on dominant outcome** — strong cross-platform consistency.
-- **130+ Azure Quantum runs** across 3 systems (Quantinuum H2-1SC, H2-1E, Rigetti QVM).
+- **110+ Azure Quantum runs** across 3 systems (Quantinuum H2-1SC, H2-1E, Rigetti QVM).
 - **Noisy simulation study** across all 20 problems at 3 depolarizing error rates (0.001, 0.01, 0.05). Fidelity range: 0.15–0.99.
 - All KPI flags green: `contract=20/20`, `estimator_summary=20/20`, `backend_assumptions=20/20`.
 - Deterministic validation: `build=20/20`, `classical=20/20`, `test=20/20` (24 pytest tests).

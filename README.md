@@ -18,7 +18,7 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 ## 🏁 Latest Milestone (April 2026)
 
 - **All 20 problems at Stage C** with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles (1.8k–401k physical qubits).
-- **3 Stage D advantage candidates** (QAE, QAOA, Grover) with scaling analysis, fairness reviews, and honest residual risk documentation.
+- **4 Stage D advantage candidates** (QAE, QAOA, Grover DB Search, Grover PQC) with scaling analysis, fairness reviews, and honest residual risk documentation.
 - **Cross-platform emulator validation**: All 20 problems run on Quantinuum H2-1E (100 shots) + 19 on Rigetti QVM (100 shots). **17/19 agree on dominant outcome** — strong cross-platform consistency.
 - **130+ Azure Quantum runs** across 3 systems (Quantinuum H2-1SC, H2-1E, Rigetti QVM).
 - **Noisy simulation study** across all 20 problems at 3 depolarizing error rates (0.001, 0.01, 0.05). Fidelity range: 0.15–0.99.
@@ -266,7 +266,7 @@ See `docs/objective-gates.md` for gate criteria and the required advantage-claim
 | [Drug Discovery](problems/07_drug_discovery/) | ✅ **VQE binding energy** (Pauli Hamiltonian) | ✅ Complete (molecular docking + plots) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
 | [Protein Folding](problems/08_protein_folding/) | ✅ **QAOA lattice folding** (contact energy) | ✅ Complete (contact maps + plots) | ✅ 118k qubits, 9 logical | 🟢 **Stage C** |
 | [Factorization](problems/09_factorization/) | ✅ **Shor's algorithm** (QPE + modular multiply, N=15) | ✅ Complete (Pollard's rho + plots) | ✅ 77k qubits, 25 logical | 🟢 **Stage C** |
-| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ **Grover key search** (80-92% success) | ✅ Complete (attack cost analysis) | ✅ 33k qubits, 12 logical | 🟢 **Stage C** |
+| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ **Grover key search** (80-83% cross-platform) | ✅ Complete (attack cost analysis) | ✅ 33k qubits, 12 logical | 🟣 **Stage D** (projected) |
 | [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ✅ **Swap test kernel** (5-qubit circuit) | ✅ Complete (kernel methods + plots) | ✅ 153k qubits, 18 logical | 🟢 **Stage C** |
 | [Quantum Optimization](problems/12_quantum_optimization/) | ✅ **QAOA scheduling** (ratio 1.0 optimal) | ✅ Complete (scheduling + plots) | ✅ 132k qubits, 12 logical | 🟢 **Stage C** |
 | [Climate Modeling](problems/13_climate_modeling/) | ✅ **HHL diffusion** (QPE + Trotter) | ✅ Complete (energy balance + plots) | ✅ 130k qubits, 18 logical | 🟢 **Stage C** |

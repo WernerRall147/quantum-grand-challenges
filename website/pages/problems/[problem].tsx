@@ -124,6 +124,7 @@ const QUBIT_MAP: Record<string, number> = {
 
 function statusColor(status: string): string {
   const s = status.toLowerCase();
+  if (s.includes('stage d')) return '#7c2d12';
   if (s.includes('stage c')) return '#166534';
   if (s.includes('stage b')) return '#1e40af';
   if (s.includes('azure')) return '#5b21b6';
@@ -132,6 +133,7 @@ function statusColor(status: string): string {
 
 function statusBg(status: string): string {
   const s = status.toLowerCase();
+  if (s.includes('stage d')) return '#fff7ed';
   if (s.includes('stage c')) return '#dcfce7';
   if (s.includes('stage b')) return '#dbeafe';
   if (s.includes('azure')) return '#ede9fe';

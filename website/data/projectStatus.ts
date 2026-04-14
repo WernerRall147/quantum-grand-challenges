@@ -109,8 +109,8 @@ export const problemHighlights = [
   },
   {
     title: 'Post-Quantum Cryptography',
-    status: 'Stage C - Calibrated',
-    description: 'Grover key search with 20-run calibration ensemble. 33k physical qubits, 12 logical.',
+    status: 'Stage D - Projected advantage claim',
+    description: 'Grover key search O(\u221aN) provably optimal. 80% H2-1E, 83% Rigetti cross-platform. 33k physical qubits. Practical threat mitigated by NIST key-doubling.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/10_post_quantum_cryptography',
   },
   {

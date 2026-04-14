@@ -1,0 +1,23 @@
+{
+  "problem_id": "10_post_quantum_cryptography",
+  "stage": "D",
+  "generated_utc": "2026-04-14T11:12:23.081724Z",
+  "claim_category": "projected",
+  "problem_class": "Symmetric key search: finding k such that E(k, plaintext) = ciphertext",
+  "instance_regime": "3-qubit keyspace (N=8), target index=5, 1 Grover iteration",
+  "baseline_algorithm": "Classical brute-force O(N) key trials",
+  "fairness_rationale": "Brute-force is optimal for unstructured key search (no exploitable structure in properly designed ciphers)",
+  "quantum_resource_scaling": "Grover achieves O(sqrt(N)) \u2014 provably optimal quadratic speedup (BBBV)",
+  "data_loading_assumptions": "Oracle implements cipher evaluation; structured oracle O(poly(n)) gates",
+  "noise_model_assumptions": "Noiseless simulator; emulator shows 80-83% success across platforms",
+  "confidence_method": "20-run calibration ensemble + cross-platform emulator validation (H2-1E: 80%, Rigetti: 83%)",
+  "residual_risks": [
+    "Quadratic speedup only \u2014 doubles effective key length, does not break modern crypto",
+    "Oracle implementation cost for real AES/SHA may be prohibitive (millions of T-gates)",
+    "33k physical qubits for 3-qubit toy instance; O(thousands of logical qubits) for AES-128",
+    "Grover speedup is already factored into post-quantum key length recommendations (NIST)"
+  ],
+  "physical_qubits": 32536,
+  "logical_qubits": 12,
+  "t_gates": 0
+}

@@ -430,5 +430,107 @@
         "Grover requires coherent oracle evaluation \u2014 decoherence may require error correction overhead not in the query count"
       ]
     }
+  },
+  "10_post_quantum_cryptography": {
+    "advantage_claim_contract": {
+      "problem_id": "10_post_quantum_cryptography",
+      "stage": "D",
+      "generated_utc": "2026-04-14T11:12:23.081724Z",
+      "claim_category": "projected",
+      "problem_class": "Symmetric key search: finding k such that E(k, plaintext) = ciphertext",
+      "instance_regime": "3-qubit keyspace (N=8), target index=5, 1 Grover iteration",
+      "baseline_algorithm": "Classical brute-force O(N) key trials",
+      "fairness_rationale": "Brute-force is optimal for unstructured key search (no exploitable structure in properly designed ciphers)",
+      "quantum_resource_scaling": "Grover achieves O(sqrt(N)) \u2014 provably optimal quadratic speedup (BBBV)",
+      "data_loading_assumptions": "Oracle implements cipher evaluation; structured oracle O(poly(n)) gates",
+      "noise_model_assumptions": "Noiseless simulator; emulator shows 80-83% success across platforms",
+      "confidence_method": "20-run calibration ensemble + cross-platform emulator validation (H2-1E: 80%, Rigetti: 83%)",
+      "residual_risks": [
+        "Quadratic speedup only \u2014 doubles effective key length, does not break modern crypto",
+        "Oracle implementation cost for real AES/SHA may be prohibitive (millions of T-gates)",
+        "33k physical qubits for 3-qubit toy instance; O(thousands of logical qubits) for AES-128",
+        "Grover speedup is already factored into post-quantum key length recommendations (NIST)"
+      ],
+      "physical_qubits": 32536,
+      "logical_qubits": 12,
+      "t_gates": 0
+    },
+    "scaling_analysis_stage_d": {
+      "problem_id": "10_post_quantum_cryptography",
+      "algorithm": "Grover Key Search",
+      "scaling_variable": "key length (bits)",
+      "classical_complexity": "O(2^n) brute-force trials",
+      "quantum_complexity": "O(2^(n/2)) Grover iterations \u2014 provably optimal",
+      "theoretical_speedup": "Quadratic (halves effective key length)",
+      "generated_utc": "2026-04-14T11:12:23.081724Z",
+      "projections": [
+        {
+          "key_bits": 3,
+          "keyspace": 8,
+          "classical_trials": 4,
+          "grover_iterations": 1,
+          "speedup": 4.0,
+          "physical_qubits_proj": 33000
+        },
+        {
+          "key_bits": 8,
+          "keyspace": 256,
+          "classical_trials": 128,
+          "grover_iterations": 12,
+          "speedup": 10.7,
+          "physical_qubits_proj": 50000
+        },
+        {
+          "key_bits": 16,
+          "keyspace": 65536,
+          "classical_trials": 32768,
+          "grover_iterations": 201,
+          "speedup": 163.1,
+          "physical_qubits_proj": 100000
+        },
+        {
+          "key_bits": 64,
+          "keyspace": 18446744073709551616,
+          "classical_trials": 9223372036854775808,
+          "grover_iterations": 4294967296,
+          "speedup": 2147483648,
+          "physical_qubits_proj": 500000
+        },
+        {
+          "key_bits": 128,
+          "keyspace": 340282366920938463463374607431768211456,
+          "classical_trials": 170141183460469231731687303715884105728,
+          "grover_iterations": 18446744073709551616,
+          "speedup": 9223372036854775808,
+          "physical_qubits_proj": 5000000
+        }
+      ],
+      "crossover_estimate": "Key length >= 64 bits with structured oracle; AES-128 requires ~2^64 Grover iterations + millions of logical qubits",
+      "honest_assessment": "Grover quadratic speedup is provably optimal but only halves the effective key length. NIST already recommends doubling key sizes (AES-256 instead of AES-128) to counter Grover. The practical threat to modern cryptography is from Shor (factoring) not Grover (search)."
+    },
+    "stage_d_evidence_summary": {
+      "problem_id": "10_post_quantum_cryptography",
+      "stage": "D",
+      "generated_utc": "2026-04-14T11:12:23.081724Z",
+      "claim_category": "projected",
+      "evidence_completeness": {
+        "advantage_claim_contract": true,
+        "fairness_review": true,
+        "scaling_analysis": true,
+        "calibration_ensemble": true,
+        "resource_estimates": true,
+        "azure_quantum_validated": true,
+        "cross_platform_validated": true,
+        "divincenzo_readiness": true
+      },
+      "scaling_summary": {
+        "classical_complexity": "O(2^n) brute-force trials",
+        "quantum_complexity": "O(2^(n/2)) Grover iterations \u2014 provably optimal",
+        "theoretical_speedup": "Quadratic (halves effective key length)",
+        "crossover_estimate": "Key length >= 64 bits with structured oracle; AES-128 requires ~2^64 Grover iterations + millions of logical qubits",
+        "honest_assessment": "Grover quadratic speedup is provably optimal but only halves the effective key length. NIST already recommends doubling key sizes (AES-256 instead of AES-128) to counter Grover. The practical threat to modern cryptography is from Shor (factoring) not Grover (search)."
+      },
+      "physical_qubits": 32536
+    }
   }
 }

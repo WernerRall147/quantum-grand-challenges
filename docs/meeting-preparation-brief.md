@@ -11,6 +11,7 @@ Financial institutions need to estimate tail risk — the probability that portf
 - **Bug Found & Fixed**: The amplitude encoding used a Lorentzian kernel instead of a true log-normal PDF. This persisted through multiple CI-passing builds because the circuit compiled and produced plausible numbers. Only systematic comparison against the classical baseline caught it — validating the framework's insistence on classical comparison at every stage.
 - **Calibration**: 3-run ensemble with bounded uncertainty. Theoretical tail probability (16.1%) matches classical Monte Carlo exactly after correction.
 - **Azure Validation**: QASM circuit validated on Quantinuum H2-1SC trapped-ion syntax checker.
+- **Live Demo (April 2, 2026)**: Fresh job `03_qae-risk-demo-meeting` submitted and succeeded on Quantinuum H2-1SC (job ID: `584a77f2`, 128 shots, 10s turnaround, $0.00 cost).
 
 ### Results
 | Metric | Classical (Monte Carlo) | Quantum (QAE) |
@@ -127,3 +128,53 @@ Our entire workflow runs on Azure. Q# compiles via .NET, circuits submit to Azur
 - **QAE requires 594K physical qubits for a problem a laptop solves in milliseconds**
 - **0 of 20 problems demonstrate quantum advantage** (this is honest, and the framework correctly identifies this)
 - **DOI: 10.5281/zenodo.19222021** — citable, reproducible, open-source
+
+---
+
+## 6. Live Demo Walkthrough (if time permits)
+
+### Option A: Quick (2 min) — Show Azure Job Completion
+```
+az quantum job show --job-id "584a77f2-1381-4001-9bdf-47baa8086c80" -o table
+```
+Shows: job name, Succeeded status, Quantinuum H2-1SC target, 10s turnaround, $0.00 cost.
+
+### Option B: Medium (5 min) — Run QAE Locally + Azure
+```bash
+# 1. Run Q# locally (shows tail probability estimation)
+cd problems/03_qae_risk
+dotnet run --project qsharp/QAERisk.csproj --configuration Release
+
+# 2. Show the QASM circuit
+cat estimates/qae_simplified_4q.qasm
+
+# 3. Show Azure job history
+az quantum job list -o table
+```
+
+### Option C: Full (10 min) — End-to-End Framework Demo
+```bash
+# 1. Show the repo structure (20 problems, standardized layout)
+ls problems/
+
+# 2. Run classical baseline
+python problems/03_qae_risk/python/classical_baseline.py
+
+# 3. Run quantum implementation
+dotnet run --project problems/03_qae_risk/qsharp/QAERisk.csproj
+
+# 4. Show Azure validation
+az quantum job list -o table | head -10
+
+# 5. Show the website
+# Open: https://wernerrall147.github.io/quantum-grand-challenges/
+
+# 6. Show the KPI report
+python tooling/reporting/stage_kpis.py
+```
+
+### Key URLs to Have Open
+- **GitHub**: https://github.com/WernerRall147/quantum-grand-challenges
+- **Website**: https://wernerrall147.github.io/quantum-grand-challenges/
+- **DOI**: https://doi.org/10.5281/zenodo.19222021
+- **Paper**: docs/paper/methodology-paper.html (open locally in browser)

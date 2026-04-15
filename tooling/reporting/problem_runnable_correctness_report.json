@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-03-10T14:30:39Z",
+  "generated_utc": "2026-04-14T12:44:34Z",
   "environment": {
     "make_available": true,
     "dotnet_available": true,
@@ -18,7 +18,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "cd python && C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/../../.venv/Scripts/python.exe classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\estimates\\classical_baseline.json",
+        "stdout_tail": "cd python && C:/Users/weral/Git/quantum-grand-challenges/problems/01_hubbard/../../.venv/Scripts/python.exe classical_baseline.py\n\u2705 Classical baseline written to C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\01_hubbard\\estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -44,7 +44,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "C:/Users/weral/Git/quantum-grand-challenges/problems/02_catalysis/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "C:/Users/weral/Git/quantum-grand-challenges/problems/02_catalysis/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -70,8 +70,8 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Running classical Monte Carlo baseline...\"\ncd python && C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/../../.venv/Scripts/python.exe classical_baseline.py\n\n=== Analyzing threshold = 2.0 ===\nProbability estimate: 0.244940 \u00c2\u00b1 0.001360\nRuntime: 0.003 seconds\n\n=== Analyzing threshold = 3.0 ===\nProbability estimate: 0.136340 \u00c2\u00b1 0.001085\nRuntime: 0.003 seconds\n\n=== Analyzing threshold = 4.0 ===\nProbability estimate: 0.083390 \u00c2\u00b1 0.000874\nRuntime: 0.003 seconds\n\nResults saved to ..\\estimates\\classical_baseline.json\nPlots saved to ../plots/",
-        "stderr_tail": "C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\python\\classical_baseline.py:150: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\nC:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\python\\classical_baseline.py:206: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()",
+        "stdout_tail": "\"Running classical Monte Carlo baseline...\"\ncd python && C:/Users/weral/Git/quantum-grand-challenges/problems/03_qae_risk/../../.venv/Scripts/python.exe classical_baseline.py\n\n=== Analyzing threshold = 2.0 ===\nProbability estimate: 0.244940 \u00b1 0.001360\nRuntime: 0.005 seconds\n\n=== Analyzing threshold = 3.0 ===\nProbability estimate: 0.136340 \u00b1 0.001085\nRuntime: 0.001 seconds\n\n=== Analyzing threshold = 4.0 ===\nProbability estimate: 0.083390 \u00b1 0.000874\nRuntime: 0.004 seconds\n\nResults saved to ..\\estimates\\classical_baseline.json\nPlots saved to ../plots/",
+        "stderr_tail": "C:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\python\\classical_baseline.py:154: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()\nC:\\Users\\weral\\Git\\quantum-grand-challenges\\problems\\03_qae_risk\\python\\classical_baseline.py:210: UserWarning: FigureCanvasAgg is non-interactive, and thus cannot be shown\n  plt.show()",
         "timed_out": false
       },
       "classical_baseline_json": {
@@ -96,7 +96,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Solving YAML instances with classical dense linear algebra...\"\npython python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Solving YAML instances with classical dense linear algebra...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -122,7 +122,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Running brute-force Max-Cut baselines...\"\npython python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Running brute-force Max-Cut baselines...\"\npython python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -148,7 +148,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Running classical trading baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/06_high_frequency_trading/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Running classical trading baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/06_high_frequency_trading/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -174,7 +174,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Scoring ligand-protein instances...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/07_drug_discovery/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Scoring ligand-protein instances...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/07_drug_discovery/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -200,7 +200,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Scoring protein folding instances with knowledge-based potentials...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/08_protein_folding/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Scoring protein folding instances with knowledge-based potentials...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/08_protein_folding/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -226,7 +226,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Factoring instances with Pollard Rho baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/09_factorization/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Factoring instances with Pollard Rho baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/09_factorization/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -252,7 +252,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Estimating classical and quantum attack costs...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/10_post_quantum_cryptography/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Estimating classical and quantum attack costs...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/10_post_quantum_cryptography/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -278,7 +278,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating kernel ridge baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/11_quantum_machine_learning/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating kernel ridge baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/11_quantum_machine_learning/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -304,7 +304,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating greedy weighted tardiness baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/12_quantum_optimization/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating greedy weighted tardiness baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/12_quantum_optimization/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -330,7 +330,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Simulating finite-difference diffusion baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/13_climate_modeling/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Simulating finite-difference diffusion baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/13_climate_modeling/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -356,7 +356,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating surrogate materials baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/14_materials_discovery/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating surrogate materials baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/14_materials_discovery/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -382,7 +382,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating classical search baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating classical search baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/15_database_search/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -408,7 +408,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating repetition-code baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/16_error_correction/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating repetition-code baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/16_error_correction/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },
@@ -434,7 +434,7 @@
       "classical": {
         "ok": true,
         "returncode": 0,
-        "stdout_tail": "\"Evaluating pionless EFT baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/17_nuclear_physics/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u00e2\u0153\u2026 Classical EFT baseline written to estimates\\classical_baseline.json",
+        "stdout_tail": "\"Evaluating pionless EFT baseline...\"\nC:/Users/weral/Git/quantum-grand-challenges/problems/17_nuclear_physics/../../.venv/Scripts/python.exe python/classical_baseline.py\n\u2705 Classical EFT baseline written to estimates\\classical_baseline.json",
         "stderr_tail": "",
         "timed_out": false
       },

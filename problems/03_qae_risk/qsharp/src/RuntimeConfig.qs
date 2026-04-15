@@ -18,11 +18,11 @@ function RuntimeStdDev() : Double {
 }
 
 function RuntimePrecisionBits() : Int {
-    return 4;
+    return 6;
 }
 
 function RuntimeRepetitions() : Int {
-    return 20;
+    return 120;
 }
 
 function RuntimeRunSanityCheck() : Bool {

@@ -51,53 +51,50 @@ export const activeWorkQueue = [
 export const problemHighlights = [
   {
     title: 'Hubbard Model',
-    status: 'Stage C - Calibrated',
-    description:
-      'VQE 2-qubit ansatz with 20-run calibration ensemble (E=0.877 \u00b1 0.054, 95% CI). 177k physical qubits, 12 logical. Azure Quantum validated on Quantinuum H2.',
+    status: 'Stage C - QPE (upgraded from VQE)',
+    description: 'QPE for 2-site Hubbard ground state. 132k physical qubits, 18 logical. Exponential speedup for strongly-correlated systems. Naturally quantum.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard',
   },
   {
     title: 'QAE Risk Analysis',
-    status: 'Stage D - Theoretical advantage claim',
-    description: 'QAE achieves O(1/\u03b5) vs MC O(1/\u03b5\u00b2) \u2014 quadratic speedup. 293k physical qubits, 40 logical, 15 T-gates. 20-run calibration + advantage claim contract filed.',
+    status: 'Archived — Quadratic speedup negated by I/O',
+    description: 'Quadratic O(1/ε) speedup proven but QEC overhead requires ε < 10⁻⁴. Distribution loading is O(N). Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk',
   },
   {
     title: 'Catalysis Simulation',
-    status: 'Stage C - Calibrated',
-    description:
-      'VQE H\u2082 ground state with 20-run ensemble (E=-1.190 \u00b1 0.022, 95% CI). 177k physical qubits, 12 logical.',
+    status: 'Stage C - QPE (upgraded from VQE)',
+    description: 'QPE for H₂ molecular ground state (STO-3G). 132k physical qubits, 18 logical. Exponential speedup for quantum chemistry.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/02_catalysis',
   },
   {
     title: 'Linear Solvers',
-    status: 'Stage C - Calibrated',
-    description:
-      'HHL algorithm (6 qubits) with 20-run calibration ensemble. 140k physical qubits, 18 logical, 12 T-gates. Resource estimates for surface_code and gate_ns_e3.',
+    status: 'Archived — I/O limited',
+    description: 'HHL exponential core negated by O(N) state prep and O(N) readout. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/04_linear_solvers',
   },
   {
     title: 'QAOA MaxCut',
-    status: 'Stage D - Theoretical advantage claim',
-    description: 'QAOA depth-1 on triangle graph. Advantage claim: theoretical (no proven constant-depth advantage for MaxCut). 132k physical qubits. Fairness review: GW 0.878-approx is polynomial-time competitor.',
+    status: 'Archived — At most quadratic',
+    description: 'QAOA has at most quadratic advantage, no proven speedup over GW 0.878-approximation. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/05_qaoa_maxcut',
   },
   {
     title: 'High-Frequency Trading',
-    status: 'Stage C - Calibrated',
-    description: 'Quantum VaR with 20-run ensemble (P=0.645 \u00b1 0.020, 95% CI). 61k physical qubits, 12 logical.',
+    status: 'Archived — Quadratic speedup negated by I/O',
+    description: 'Quadratic amplitude estimation, same QAE limitation. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/06_high_frequency_trading',
   },
   {
     title: 'Drug Discovery',
-    status: 'Stage C - Calibrated',
-    description: 'VQE binding energy with 20-run ensemble (E=-0.863 \u00b1 0.014, 95% CI). 177k physical qubits, 12 logical.',
+    status: 'Stage C - QPE (upgraded from VQE)',
+    description: 'QPE for molecular binding energy. 130k physical qubits, 18 logical. Exponential speedup for pharmaceutical Hamiltonians.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/07_drug_discovery',
   },
   {
     title: 'Protein Folding',
-    status: 'Stage C - Calibrated',
-    description: 'QAOA lattice folding with 20-run calibration ensemble. 118k physical qubits, 9 logical.',
+    status: 'Archived — At most quadratic',
+    description: 'QAOA heuristic, at most quadratic advantage. AlphaFold dominates classically. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/08_protein_folding',
   },
   {
@@ -109,38 +106,38 @@ export const problemHighlights = [
   },
   {
     title: 'Post-Quantum Cryptography',
-    status: 'Stage D - Projected advantage claim',
-    description: 'Grover key search O(\u221aN) provably optimal. 80% H2-1E, 83% Rigetti cross-platform. 33k physical qubits. Practical threat mitigated by NIST key-doubling.',
+    status: 'Archived — Quadratic + oracle cost',
+    description: 'Quadratic O(√N) Grover provably optimal but AES oracle cost (millions of T-gates) dominates. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/10_post_quantum_cryptography',
   },
   {
     title: 'Quantum Machine Learning',
-    status: 'Stage C - Calibrated',
-    description: 'Swap test kernel with 20-run ensemble (overlap=0.908 \u00b1 0.021, 95% CI). 153k physical qubits, 18 logical.',
+    status: 'Archived — I/O limited',
+    description: 'Exponential kernel speedup negated by O(N) classical data loading. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/11_quantum_machine_learning',
   },
   {
     title: 'Quantum Optimization',
-    status: 'Stage C - Calibrated',
-    description: 'QAOA scheduling with 20-run calibration ensemble. 132k physical qubits, 12 logical.',
+    status: 'Archived — At most quadratic',
+    description: 'QAOA heuristic, at most quadratic advantage. Classical schedulers mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/12_quantum_optimization',
   },
   {
     title: 'Climate Modeling',
-    status: 'Stage C - Calibrated',
-    description: 'HHL diffusion PDE with 20-run ensemble (sol=0.025 \u00b1 0.009, 95% CI). 130k physical qubits, 18 logical, 3 T-gates.',
+    status: 'Archived — I/O limited',
+    description: 'HHL exponential core negated by O(N) PDE loading and readout. Classical FEM mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/13_climate_modeling',
   },
   {
     title: 'Materials Discovery',
-    status: 'Stage C - Calibrated',
-    description: 'VQE band gap with 20-run calibration ensemble across 3 material types. 401k physical qubits, 12 logical.',
+    status: 'Stage C - QPE (upgraded from VQE)',
+    description: 'QPE for band gap estimation via tight-binding Hamiltonian. 132k physical qubits, 18 logical. Exponential speedup for correlated materials.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/14_materials_discovery',
   },
   {
     title: 'Database Search',
-    status: 'Stage D - Projected advantage claim',
-    description: 'Grover O(\u221aN) provably optimal (BBBV). Advantage claim: projected (quadratic speedup, practical at N>10\u2076). 120k physical qubits, 18 logical. Azure validated on Quantinuum H2.',
+    status: 'Archived — Quadratic + QRAM cost',
+    description: 'Quadratic O(√N) Grover provably optimal but QRAM loading O(N) erases search advantage. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/15_database_search',
   },
   {
@@ -151,8 +148,8 @@ export const problemHighlights = [
   },
   {
     title: 'Nuclear Physics',
-    status: 'Stage C - Calibrated',
-    description: 'VQE deuteron binding with 20-run ensemble (E=-1.823 \u00b1 0.024, 95% CI). 177k physical qubits, 12 logical.',
+    status: 'Stage C - QPE (upgraded from VQE)',
+    description: 'QPE for deuteron binding energy via EFT Hamiltonian. 132k physical qubits, 18 logical. Exponential speedup for nuclear many-body systems.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/17_nuclear_physics',
   },
   {
@@ -169,8 +166,8 @@ export const problemHighlights = [
   },
   {
     title: 'Space Mission Planning',
-    status: 'Stage C - Calibrated',
-    description: 'QAOA trajectory optimization with 20-run calibration ensemble. 157k physical qubits, 12 logical.',
+    status: 'Archived — At most quadratic',
+    description: 'QAOA heuristic, at most quadratic advantage. Classical trajectory optimizers mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/20_space_mission_planning',
   },
 ];

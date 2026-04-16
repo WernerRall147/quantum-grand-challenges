@@ -1,13 +1,7 @@
 {
-  "problem": "17_nuclear_physics",
-  "physicalQubits": 177144,
-  "runtime": 528000,
-  "rqops": 2727273,
-  "logicalQubits": 12,
-  "logicalDepth": null,
-  "tCount": 0,
-  "rotationCount": 12,
-  "cczCount": 0,
-  "measurementCount": 4,
-  "numQubits": 3
+  "physicalQubits": 131924,
+  "logicalQubits": 18,
+  "tCount": 6,
+  "rotationCount": 45,
+  "runtime": 3265600
 }

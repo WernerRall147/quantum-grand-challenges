@@ -169,3 +169,49 @@ operation RunTwoSiteHubbardAnalysis() : Unit {
     Message("  - Run Azure Quantum Resource Estimator for circuit resource analysis");
     Message("  - Scale to larger lattices with more sophisticated ansatze");
 }
+
+
+/// QPE for 2-site Hubbard model ground state energy
+/// Uses Trotterized Hamiltonian simulation as the unitary
+/// Phase register encodes eigenvalue of H = -t(XX+YY) + U/2(ZI+IZ)
+operation HubbardQPE(t : Double, u : Double, nPhase : Int, shots : Int) : Double {
+    mutable phaseSum = 0.0;
+    let nShots = shots < 1 ? 1 | shots;
+    for _ in 1..nShots {
+        use phase = Qubit[nPhase];
+        use sys = Qubit[2];
+        // Initial state: half-filling |01>
+        X(sys[0]);
+        // Hadamard on phase register
+        for p in phase { H(p); }
+        // Controlled Trotter steps: U^(2^k) for each phase qubit k
+        for k in 0..nPhase-1 {
+            let power = 1 <<< k;
+            for _ in 1..power {
+                // Hopping: exp(-i*t*(XX+YY))
+                Controlled CNOT([phase[k]], (sys[0], sys[1]));
+                Controlled Rz([phase[k]], (2.0 * t, sys[1]));
+                Controlled CNOT([phase[k]], (sys[0], sys[1]));
+                // Interaction: exp(-i*U/2*(ZI+IZ))
+                Controlled Rz([phase[k]], (u / 2.0, sys[0]));
+                Controlled Rz([phase[k]], (u / 2.0, sys[1]));
+            }
+        }
+        // Inverse QFT
+        for i in 0..nPhase/2-1 { SWAP(phase[i], phase[nPhase-1-i]); }
+        for i in 0..nPhase-1 {
+            for j in 0..i-1 {
+                Controlled R1([phase[j]], (-Std.Math.PI() / IntAsDouble(1 <<< (i - j)), phase[i]));
+            }
+            H(phase[i]);
+        }
+        // Measure phase
+        mutable phaseVal = 0.0;
+        for k in 0..nPhase-1 {
+            if M(phase[k]) == One { set phaseVal += 1.0 / IntAsDouble(1 <<< (k + 1)); }
+        }
+        set phaseSum += phaseVal;
+        ResetAll(phase + sys);
+    }
+    return phaseSum / IntAsDouble(nShots);
+}

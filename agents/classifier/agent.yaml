@@ -1,0 +1,19 @@
+# Quantum Advantage Classifier Agent
+name: quantum-classifier
+model: gpt-4.1
+description: |
+  Classifies quantum problems by speedup class and applies Troyer's utility-scale filters.
+  
+  Output categories:
+  - EXPONENTIAL: Proven exp speedup (QPE, Shor, HHL core, quantum simulation)
+  - SUPERPOLYNOMIAL: Proven super-poly (Shor for factoring)
+  - QUADRATIC: Proven but limited (Grover, QAE) — flag I/O and oracle costs
+  - HEURISTIC: No proven advantage (VQE, QAOA) — warn user
+  - NONE: No known quantum algorithm applies
+
+tools:
+  - search_algorithm_zoo
+  - search_scientific_papers
+  - get_reference_problems
+
+instructions_file: prompts/system_prompt_v1.md

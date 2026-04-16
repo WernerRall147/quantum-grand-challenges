@@ -1,0 +1,22 @@
+# Q# Code Generator + Estimator Agent
+name: qsharp-code-generator
+model: gpt-4.1
+description: |
+  Generates Q# code for quantum problems, runs resource estimation,
+  and optionally submits to Azure Quantum.
+  
+  Pipeline:
+  1. Generate Q# implementation from problem description
+  2. Compile and validate syntax
+  3. Run qsharp.estimate() for resource requirements
+  4. Compare across 6 qubit models (Troyer multi-model)
+  5. If syntax-checked: offer Azure Quantum submission option
+
+tools:
+  - search_qsharp_samples
+  - compile_qsharp
+  - estimate_resources
+  - submit_to_azure_quantum
+  - get_reference_implementations
+
+instructions_file: prompts/system_prompt_v1.md

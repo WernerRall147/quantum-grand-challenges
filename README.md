@@ -1,15 +1,71 @@
-# 🌌 Quantum Grand Challenges
+# 🌌 Quantum Grand Challenges — Quantum Advantage Evaluator
 
-*Systematic exploration of 20 of the world's most challenging scientific problems using quantum computing and AI-assisted development.*
+*An AI-powered platform that evaluates whether your scientific problem is better solved on a quantum computer or Azure HPC — backed by peer-reviewed science, real resource estimation, and honest assessment.*
 
 [![CI/CD](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml)
 [![Website](https://img.shields.io/badge/website-live-blue)](https://wernerrall147.github.io/quantum-grand-challenges/)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19222021.svg)](https://doi.org/10.5281/zenodo.19222021)
 
-## 🎯 Overview
+## 🎯 What This Does
 
-This repository systematically tackles 20 of the world's most challenging scientific problems using **Microsoft Q# quantum computing** and **AI-assisted development**. Each problem follows a standardized structure for reproducible research, automated resource estimation, and comparative analysis with classical methods.
+**Input**: Describe your quantum computing problem in natural language.
+
+**Output**: An honest, science-backed evaluation:
+- ✅ **Verdict**: Quantum advantage / HPC preferred / Inconclusive
+- 📊 **Classification**: Exponential / superpolynomial / quadratic / no proven speedup
+- 🔬 **Fact-check**: Troyer's 5 utility-scale filters applied (I/O, QEC, oracle costs)
+- 💻 **HPC comparison**: What Azure HPC can do today vs. quantum requirements
+- 🔧 **Q# code**: Generated implementation with resource estimates (optional)
+- 📚 **References**: Peer-reviewed arxiv papers backing every claim
+
+## 🏗️ Architecture
+
+```
+Scientist → Chat Interface → Orchestrator Agent
+                                ├── Classifier (speedup class + Troyer filters)
+                                ├── Fact-Checker (peer-reviewed validation)
+                                ├── HPC Comparator (Azure HPC vs quantum)
+                                └── Code Generator (Q# + resource estimation)
+                                        ↓
+                              Knowledge Layer (Cosmos DB + AI Search)
+                                ├── arxiv papers (daily ingestion)
+                                ├── Quantum Algorithm Zoo (400+ algorithms)
+                                ├── GitHub Q# samples (MCP)
+                                └── 9 reference implementations
+```
+
+See [docs/architecture.md](docs/architecture.md) for full architecture details.
+
+## 🔬 Design Principles (from Dr. Matthias Troyer's Architecture Series)
+
+Every evaluation applies **5 utility-scale filters**:
+
+| Filter | Question | What kills advantage |
+|--------|----------|---------------------|
+| **F1** | Proven speedup? | VQE/QAOA: no proven advantage |
+| **F2** | I/O survives? | Data loading O(N) erases speedup |
+| **F3** | QEC survives? | Error correction overhead negates quadratic gains |
+| **F4** | Naturally quantum? | Feynman criterion: is the problem inherently quantum? |
+| **F5** | Crossover feasible? | Realistic problem size where quantum wins? |
+
+## 📊 Reference Implementations
+
+**9 active problems** that pass all Troyer filters:
+
+| Problem | Algorithm | Speedup | Why It Survives |
+|---------|-----------|---------|-----------------|
+| Hubbard Model | **QPE** | Exponential | Naturally quantum Hamiltonian |
+| Catalysis (H₂) | **QPE** | Exponential | Quantum chemistry — Troyer's #1 |
+| Drug Discovery | **QPE** | Exponential | Pharmaceutical Hamiltonians |
+| Factorization | **Shor** | Superpolynomial | Clean utility path (RSA-2048) |
+| Materials | **QPE** | Exponential | Correlated materials beyond DFT |
+| Error Correction | **QEC** | Infrastructure | Enables fault-tolerant computation |
+| Nuclear Physics | **QPE** | Exponential | Many-body nuclear Hamiltonians |
+| Photovoltaics | **Quantum Walk** | Exponential | Naturally quantum transport |
+| QCD Lattice | **Trotter** | Exponential | Sign problem — genuinely hard |
+
+**11 archived problems** with honest archival reasons (quadratic speedup negated by I/O, oracle cost, or QEC overhead).
 
 ## 🌐 Live Dashboard
 

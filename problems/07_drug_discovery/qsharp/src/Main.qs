@@ -62,3 +62,40 @@ operation RunDrugDiscovery() : Unit {
     Message("");
     Message("VQE enables quantum-accurate binding affinity prediction for drug candidates.");
 }
+
+
+/// QPE for molecular binding energy estimation
+/// Trotterized molecular Hamiltonian simulation
+operation BindingQPE(coupling : Double, nPhase : Int, shots : Int) : Double {
+    mutable phaseSum = 0.0;
+    let nShots = shots < 1 ? 1 | shots;
+    for _ in 1..nShots {
+        use phase = Qubit[nPhase];
+        use sys = Qubit[2];
+        X(sys[0]);
+        for p in phase { H(p); }
+        for k in 0..nPhase-1 {
+            let power = 1 <<< k;
+            for _ in 1..power {
+                Controlled CNOT([phase[k]], (sys[0], sys[1]));
+                Controlled Rz([phase[k]], (2.0 * coupling, sys[1]));
+                Controlled CNOT([phase[k]], (sys[0], sys[1]));
+                Controlled Rz([phase[k]], (coupling / 2.0, sys[0]));
+            }
+        }
+        for i in 0..nPhase/2-1 { SWAP(phase[i], phase[nPhase-1-i]); }
+        for i in 0..nPhase-1 {
+            for j in 0..i-1 {
+                Controlled R1([phase[j]], (-Std.Math.PI() / IntAsDouble(1 <<< (i - j)), phase[i]));
+            }
+            H(phase[i]);
+        }
+        mutable phaseVal = 0.0;
+        for k in 0..nPhase-1 {
+            if M(phase[k]) == One { set phaseVal += 1.0 / IntAsDouble(1 <<< (k + 1)); }
+        }
+        set phaseSum += phaseVal;
+        ResetAll(phase + sys);
+    }
+    return phaseSum / IntAsDouble(nShots);
+}

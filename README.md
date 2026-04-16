@@ -17,16 +17,14 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 
 ## 🏁 Latest Milestone (April 2026)
 
-- **All 20 problems at Stage C** with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles (1.8k–401k physical qubits).
-- **4 Stage D advantage candidates** (QAE, QAOA, Grover DB Search, Grover PQC) with scaling analysis, fairness reviews, and honest residual risk documentation.
-- **Cross-platform emulator validation**: All 20 problems run on Quantinuum H2-1E (100 shots) + 19 on Rigetti QVM (100 shots). **17/19 agree on dominant outcome** — strong cross-platform consistency.
+- **9 active problems** after applying Dr. Matthias Troyer's utility-scale filters. 11 problems archived (quadratic speedup negated by I/O, oracle cost, or QEC overhead).
+- **5 VQE→QPE upgrades** (Hubbard, Catalysis, Drug Discovery, Materials, Nuclear) — QPE provides exponential speedup for naturally quantum Hamiltonians.
+- **4 kept as-is**: Shor (superpolynomial, clean utility path), QEC (infrastructure), Photovoltaics (naturally quantum), QCD (sign problem — exponential advantage).
+- **Cross-platform emulator validation**: 20 problems on H2-1E (100 shots) + 19 on Rigetti QVM. 17/19 agree on dominant outcome.
 - **120+ Azure Quantum runs** across 3 systems (Quantinuum H2-1SC, H2-1E, Rigetti QVM).
-- **Multi-model resource estimation**: 160 estimates across 6 qubit technologies × 2 QEC schemes (inspired by Dr. Matthias Troyer's Architecture Series).
-- **Noisy simulation study** across all 20 problems at 3 depolarizing error rates (0.001, 0.01, 0.05). Fidelity range: 0.15–0.99.
-- All KPI flags green: `contract=20/20`, `estimator_summary=20/20`, `backend_assumptions=20/20`.
-- Deterministic validation: `build=20/20`, `classical=20/20`, `test=20/20` (24 pytest tests).
-- CI consolidated to 6 workflows (was 9). Website live with 20 per-problem detail pages, comparison dashboard, emulator results, noise charts.
-- CITATION.cff v3.0.0, methodology paper updated with real data.
+- **Multi-model resource estimation**: 160 estimates across 6 qubit technologies × 2 QEC schemes.
+- **Noisy simulation study** across all 20 problems at 3 depolarizing error rates (0.001, 0.01, 0.05).
+- Website live with Troyer utility-scale classification, multi-model charts, and archived problem badges.
 
 Milestone notes: `docs/MILESTONE_2026_03_CLOSEOUT.md`.
 

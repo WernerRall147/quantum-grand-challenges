@@ -1,29 +1,17 @@
 {
   "01_hubbard": {
-    "problem": "01_hubbard",
-    "physicalQubits": 177144,
-    "runtime": 563200,
-    "rqops": 2727273,
-    "logicalQubits": 12,
-    "logicalDepth": null,
-    "tCount": 0,
-    "rotationCount": 12,
-    "cczCount": 0,
-    "measurementCount": 12,
-    "numQubits": 3
+    "physicalQubits": 131924,
+    "logicalQubits": 18,
+    "tCount": 6,
+    "rotationCount": 45,
+    "runtime": 3291600
   },
   "02_catalysis": {
-    "problem": "02_catalysis",
-    "physicalQubits": 177144,
-    "runtime": 528000,
-    "rqops": 2727273,
-    "logicalQubits": 12,
-    "logicalDepth": null,
-    "tCount": 0,
-    "rotationCount": 12,
-    "cczCount": 0,
-    "measurementCount": 4,
-    "numQubits": 3
+    "physicalQubits": 131924,
+    "logicalQubits": 18,
+    "tCount": 6,
+    "rotationCount": 45,
+    "runtime": 3265600
   },
   "03_qae_risk": {
     "problem": "03_qae_risk",
@@ -78,17 +66,11 @@
     "numQubits": 3
   },
   "07_drug_discovery": {
-    "problem": "07_drug_discovery",
-    "physicalQubits": 177144,
-    "runtime": 528000,
-    "rqops": 2727273,
-    "logicalQubits": 12,
-    "logicalDepth": null,
-    "tCount": 0,
-    "rotationCount": 12,
-    "cczCount": 0,
-    "measurementCount": 4,
-    "numQubits": 3
+    "physicalQubits": 130196,
+    "logicalQubits": 18,
+    "tCount": 6,
+    "rotationCount": 31,
+    "runtime": 2270400
   },
   "08_protein_folding": {
     "problem": "08_protein_folding",
@@ -169,17 +151,11 @@
     "numQubits": 5
   },
   "14_materials_discovery": {
-    "problem": "14_materials_discovery",
-    "physicalQubits": 401400,
-    "runtime": 59856000,
-    "rqops": 2000000,
-    "logicalQubits": 12,
-    "logicalDepth": null,
-    "tCount": 0,
-    "rotationCount": 896,
-    "cczCount": 0,
-    "measurementCount": 512,
-    "numQubits": 3
+    "physicalQubits": 131924,
+    "logicalQubits": 18,
+    "tCount": 6,
+    "rotationCount": 45,
+    "runtime": 3265600
   },
   "15_database_search": {
     "problem": "15_database_search",
@@ -208,17 +184,11 @@
     "numQubits": 5
   },
   "17_nuclear_physics": {
-    "problem": "17_nuclear_physics",
-    "physicalQubits": 177144,
-    "runtime": 528000,
-    "rqops": 2727273,
-    "logicalQubits": 12,
-    "logicalDepth": null,
-    "tCount": 0,
-    "rotationCount": 12,
-    "cczCount": 0,
-    "measurementCount": 4,
-    "numQubits": 3
+    "physicalQubits": 131924,
+    "logicalQubits": 18,
+    "tCount": 6,
+    "rotationCount": 45,
+    "runtime": 3265600
   },
   "18_photovoltaics": {
     "problem": "18_photovoltaics",

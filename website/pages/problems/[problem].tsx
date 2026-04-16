@@ -111,41 +111,43 @@ const PROBLEM_IDS = [
 ];
 
 const ALGORITHM_MAP: Record<string, string> = {
-  '01_hubbard': 'VQE (Variational Quantum Eigensolver)',
-  '02_catalysis': 'VQE for H₂ ground state (STO-3G)',
+  '01_hubbard': 'QPE (Quantum Phase Estimation)',
+  '02_catalysis': 'QPE for H₂ ground state (STO-3G)',
   '03_qae_risk': 'Quantum Amplitude Estimation (IQAE)',
   '04_linear_solvers': 'HHL Algorithm (QPE + eigenvalue inversion)',
   '05_qaoa_maxcut': 'QAOA (Quantum Approximate Optimization)',
   '06_high_frequency_trading': 'Amplitude Estimation for VaR',
-  '07_drug_discovery': 'VQE Molecular Binding Energy',
+  '07_drug_discovery': 'QPE Molecular Binding Energy',
   '08_protein_folding': 'QAOA Lattice Folding',
   '09_factorization': "Shor's Algorithm (QPE + modular multiply)",
   '10_post_quantum_cryptography': 'Grover Key Search',
   '11_quantum_machine_learning': 'Swap Test Kernel',
   '12_quantum_optimization': 'QAOA Job Scheduling',
   '13_climate_modeling': 'HHL for Diffusion PDE',
-  '14_materials_discovery': 'VQE Band Gap Estimation',
+  '14_materials_discovery': 'QPE Band Gap Estimation',
   '15_database_search': "Grover's Search Algorithm",
   '16_error_correction': '3-Qubit Repetition Code',
-  '17_nuclear_physics': 'VQE Deuteron Binding Energy',
+  '17_nuclear_physics': 'QPE Deuteron Binding Energy',
   '18_photovoltaics': 'Quantum Walk (Exciton Transport)',
   '19_quantum_chromodynamics': 'Trotter Lattice Gauge Simulation',
   '20_space_mission_planning': 'QAOA Trajectory Optimization',
 };
 
 const QUBIT_MAP: Record<string, number> = {
-  '01_hubbard': 2, '02_catalysis': 2, '03_qae_risk': 5, '04_linear_solvers': 6,
-  '05_qaoa_maxcut': 3, '06_high_frequency_trading': 3, '07_drug_discovery': 2,
+  '01_hubbard': 5, '02_catalysis': 5, '03_qae_risk': 5, '04_linear_solvers': 6,
+  '05_qaoa_maxcut': 3, '06_high_frequency_trading': 3, '07_drug_discovery': 5,
   '08_protein_folding': 3, '09_factorization': 8, '10_post_quantum_cryptography': 3,
   '11_quantum_machine_learning': 5, '12_quantum_optimization': 4, '13_climate_modeling': 5,
-  '14_materials_discovery': 2, '15_database_search': 4, '16_error_correction': 5,
-  '17_nuclear_physics': 2, '18_photovoltaics': 3, '19_quantum_chromodynamics': 4,
+  '14_materials_discovery': 5, '15_database_search': 4, '16_error_correction': 5,
+  '17_nuclear_physics': 5, '18_photovoltaics': 3, '19_quantum_chromodynamics': 4,
   '20_space_mission_planning': 3,
 };
 
 function statusColor(status: string): string {
   const s = status.toLowerCase();
+  if (s.includes('archived')) return '#991b1b';
   if (s.includes('stage d')) return '#7c2d12';
+  if (s.includes('qpe')) return '#0e7490';
   if (s.includes('stage c')) return '#166534';
   if (s.includes('stage b')) return '#1e40af';
   if (s.includes('azure')) return '#5b21b6';
@@ -154,7 +156,9 @@ function statusColor(status: string): string {
 
 function statusBg(status: string): string {
   const s = status.toLowerCase();
+  if (s.includes('archived')) return '#fef2f2';
   if (s.includes('stage d')) return '#fff7ed';
+  if (s.includes('qpe')) return '#ecfeff';
   if (s.includes('stage c')) return '#dcfce7';
   if (s.includes('stage b')) return '#dbeafe';
   if (s.includes('azure')) return '#ede9fe';

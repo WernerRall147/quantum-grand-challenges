@@ -52,9 +52,9 @@ export default function EvaluatePage() {
     setResult(null);
 
     try {
-      // For now, call the Python orchestrator via a simple API
-      // In production, this would be an Azure Function or App Service endpoint
-      const res = await fetch('/api/evaluate', {
+      // Live API backend on Azure Container Apps
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://qgc-eval-api.jollysea-98a0f8cb.eastus.azurecontainerapps.io';
+      const res = await fetch(`${apiBase}/api/evaluate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ problem: problem.trim() }),

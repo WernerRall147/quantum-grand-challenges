@@ -62,9 +62,12 @@ export default function Home() {
           </div>
         </section>
 
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+        <div style={{ marginTop: '2rem', textAlign: 'center', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link href="/evaluate/" style={{ display: 'inline-block', padding: '0.75rem 2rem', background: '#667eea', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.1rem' }}>
+            Evaluate Your Problem &rarr;
+          </Link>
           <Link href="/compare/" style={{ display: 'inline-block', padding: '0.75rem 2rem', background: '#2563eb', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.1rem' }}>
-            View All 20 Problems Side-by-Side &rarr;
+            Compare All 20 Problems &rarr;
           </Link>
         </div>
 

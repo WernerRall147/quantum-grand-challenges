@@ -1,0 +1,294 @@
+# Quantum Advantage Evaluator — Architecture & Project Plan
+
+## Vision
+
+Transform the Quantum Grand Challenges project from a static portfolio of quantum algorithms into a **live AI-powered platform** that evaluates whether a given scientific problem is better solved on a quantum computer or Azure HPC — backed by peer-reviewed science, real resource estimation, and honest assessment.
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        WEBSITE (Next.js)                           │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │  Chat Interface — "Describe your quantum problem"             │ │
+│  │  → Quantum vs HPC recommendation with confidence rating      │ │
+│  │  → Generated Q# code + resource estimate + HPC comparison    │ │
+│  └───────────────────────────┬───────────────────────────────────┘ │
+└──────────────────────────────┼───────────────────────────────────────┘
+                               │ API
+┌──────────────────────────────▼───────────────────────────────────────┐
+│                   AZURE AI FOUNDRY (Agent Hub)                       │
+│                                                                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
+│  │  ORCHESTRATOR │  │  FACT-CHECKER │  │  CODE-GEN    │              │
+│  │  Agent        │→ │  Agent        │→ │  Agent       │              │
+│  │              │  │              │  │              │              │
+│  │ Routes problem│  │ Theory vs    │  │ Generates Q# │              │
+│  │ to specialist │  │ reality check│  │ + runs RE    │              │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘              │
+│         │                 │                 │                        │
+│  ┌──────▼───────┐  ┌──────▼───────┐  ┌──────▼───────┐              │
+│  │  CLASSIFIER   │  │  HPC-COMPARE │  │  ESTIMATOR   │              │
+│  │  Agent        │  │  Agent        │  │  Agent       │              │
+│  │              │  │              │  │              │              │
+│  │ Quantum class │  │ Azure HPC    │  │ qsharp RE    │              │
+│  │ of advantage  │  │ benchmarks   │  │ + syntax chk │              │
+│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│                                                                      │
+│  GenAIOps: Hot-swappable agents, versioned prompts, eval pipelines  │
+└──────────────────────────────┬───────────────────────────────────────┘
+                               │ MCP / Tools
+┌──────────────────────────────▼───────────────────────────────────────┐
+│                      KNOWLEDGE LAYER                                 │
+│                                                                      │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐     │
+│  │ SCIENTIFIC KB    │  │ ALGORITHM ZOO   │  │ REFERENCE CODE  │     │
+│  │ (Cosmos DB +     │  │ (Indexed from   │  │ (GitHub MCP +   │     │
+│  │  AI Search)      │  │  quantumalgo-   │  │  Q# samples)    │     │
+│  │                 │  │  rithmzoo.org)  │  │                 │     │
+│  │ • arxiv papers  │  │ • 400+ algos    │  │ • microsoft/qsharp│    │
+│  │ • Daily ingest  │  │ • Speedup class │  │ • Proven patterns│     │
+│  │ • Peer-reviewed │  │ • Gate counts   │  │ • Azure samples  │     │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘     │
+│                                                                      │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐     │
+│  │ PROBLEM HISTORY  │  │ MS DOCS MCP     │  │ ARXIV MCP       │     │
+│  │ (Cosmos DB)      │  │ (Azure HPC      │  │ (Daily paper    │     │
+│  │                 │  │  specs, pricing) │  │  ingestion)     │     │
+│  │ • User problems │  │ • VM specs      │  │ • cs.QC, quant-ph│    │
+│  │ • Past results  │  │ • HPC clusters  │  │ • Filtered by   │     │
+│  │ • Algorithm map │  │ • GPU benchmarks│  │   peer review   │     │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘     │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ OUR 9 ACTIVE PROBLEMS — Reference implementations           │    │
+│  │ QPE: Hubbard, Catalysis, Drug, Materials, Nuclear           │    │
+│  │ Kept: Shor, QEC, Photovoltaics, QCD                        │    │
+│  │ + 11 Archived with honest archival reasons                  │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+## Agent Design (GenAIOps Pattern)
+
+### Agent 1: Orchestrator
+- **Model**: GPT-4.1 or latest available in Foundry
+- **Role**: Routes incoming problems, manages conversation flow
+- **Tools**: Calls other agents, accesses problem history
+- **Swappable**: Yes — new routing logic hot-swapped via prompt versioning
+
+### Agent 2: Quantum Advantage Classifier
+- **Role**: Classifies the problem into:
+  - **Proven speedup** (exponential, superpolynomial) — with specific algorithm match
+  - **Quadratic only** — flags I/O and oracle cost limitations (Troyer filters)
+  - **Heuristic/unproven** — warns about VQE/QAOA limitations
+  - **No known advantage** — recommends HPC
+- **Tools**: Scientific KB search, Algorithm Zoo lookup, Problem History
+- **Output**: Classification + confidence + references
+
+### Agent 3: Fact-Checker
+- **Role**: Validates claims against peer-reviewed literature
+- **Checks**:
+  - Does the claimed speedup survive I/O costs? (Troyer filter F2)
+  - Does it survive QEC overhead? (Troyer filter F3)
+  - Is the oracle polynomial? (oracle cost filter)
+  - Is there a better classical algorithm the user didn't consider?
+- **Tools**: arxiv MCP, Algorithm Zoo, MS Docs MCP
+- **Output**: Red flags, debunked claims, honest assessment
+
+### Agent 4: HPC Comparator
+- **Role**: Compares quantum resource estimate against Azure HPC options
+- **Tools**: MS Docs MCP (Azure HPC specs, pricing), Azure VM catalog
+- **Output**: "Your problem needs 132k physical qubits (not yet available) vs. an ND96amsr A100 cluster that can solve it in 3 hours for $X"
+
+### Agent 5: Q# Code Generator + Estimator
+- **Role**: Generates Q# implementation, runs resource estimation, syntax check
+- **Tools**: GitHub MCP (Q# samples), qsharp Python package, Azure Quantum RE
+- **Pipeline**: Generate → Compile → Estimate → Compare → Optional: Submit to Azure
+- **Output**: Q# code, resource estimate, gate counts, qubit requirements
+
+## Knowledge Base Design
+
+### Cosmos DB Collections
+1. **scientific_papers** — arxiv papers (cs.QC, quant-ph), daily ingested
+2. **algorithm_zoo** — Quantum Algorithm Zoo entries with speedup classifications
+3. **problem_history** — User-submitted problems and their evaluations
+4. **reference_implementations** — Our 9 active + 11 archived problems as examples
+
+### Azure AI Search Index
+- Vector embeddings of papers + algorithm descriptions
+- Hybrid search (keyword + semantic) for problem matching
+- Faceted by: speedup class, qubit count range, algorithm family, year
+
+### Daily Ingestion Pipeline
+- **arxiv**: Fetch new cs.QC + quant-ph papers via arxiv API
+- **Filter**: Only peer-reviewed or >10 citations (for preprints)
+- **Embed**: Generate vector embeddings via Azure OpenAI
+- **Index**: Upsert into AI Search + Cosmos DB
+
+## MCP Servers
+
+### 1. Scientific Papers MCP (Custom)
+- `search_papers(query, filters)` — Semantic search over indexed papers
+- `get_paper(arxiv_id)` — Fetch specific paper metadata + abstract
+- `get_related_algorithms(problem_description)` — Find matching quantum algorithms
+- `check_claims(claim_text)` — Validate a quantum advantage claim against literature
+
+### 2. Algorithm Zoo MCP (Custom)
+- `search_algorithms(problem_type)` — Find relevant quantum algorithms
+- `get_algorithm(name)` — Get speedup class, gate counts, I/O requirements
+- `compare_classical(algorithm, problem_size)` — Classical vs quantum complexity
+
+### 3. GitHub MCP (Existing)
+- Search `microsoft/qsharp` samples for reference implementations
+- Ingest well-architected Q# patterns for code generation
+
+### 4. Microsoft Docs MCP (Existing)
+- Azure HPC VM specs, pricing, benchmarks
+- Azure Quantum documentation
+- Resource estimator parameters and qubit models
+
+## Output Format
+
+For each user-submitted problem, the system produces:
+
+```json
+{
+  "problem_summary": "...",
+  "verdict": "QUANTUM_ADVANTAGE" | "HPC_PREFERRED" | "INCONCLUSIVE",
+  "confidence": 0.0-1.0,
+  "advantage_class": "exponential" | "superpolynomial" | "quadratic" | "none",
+  "troyer_filters": {
+    "proven_speedup": true/false,
+    "io_survives": true/false,
+    "qec_survives": true/false,
+    "naturally_quantum": true/false,
+    "crossover_feasible": true/false
+  },
+  "red_flags": ["..."],
+  "quantum_estimate": {
+    "algorithm": "QPE / Shor / Grover / ...",
+    "logical_qubits": N,
+    "physical_qubits": N,
+    "t_gates": N,
+    "runtime_estimate": "..."
+  },
+  "hpc_comparison": {
+    "best_azure_option": "ND96amsr_A100_v4",
+    "estimated_runtime": "...",
+    "estimated_cost": "$X",
+    "classical_algorithm": "..."
+  },
+  "generated_qsharp": "// Q# code...",
+  "references": ["arxiv:2301.12345", "..."],
+  "similar_problems": ["09_factorization", "..."]
+}
+```
+
+## Technology Stack
+
+| Component | Technology | Why |
+|-----------|-----------|-----|
+| Agent Framework | Azure AI Foundry + Agent Framework SDK | GenAIOps, hot-swappable agents |
+| Knowledge Store | Cosmos DB (NoSQL) | Flexible schema, global distribution |
+| Search | Azure AI Search | Vector + keyword hybrid search |
+| Embeddings | Azure OpenAI (text-embedding-3-large) | Best-in-class for scientific text |
+| Agent Model | GPT-4.1 / latest in Foundry | Reasoning over scientific content |
+| Q# Runtime | qsharp Python package (1.27+) | Resource estimation + compilation |
+| Website | Next.js (existing) | Add chat component |
+| MCP Servers | Python (FastAPI + MCP protocol) | Custom scientific + algo zoo servers |
+| Daily Ingest | Azure Functions (timer trigger) | arxiv paper ingestion pipeline |
+| CI/CD | GitHub Actions (later) | Not priority for now |
+
+## Azure Resources Needed
+
+| Resource | Purpose | Estimated Cost |
+|----------|---------|----------------|
+| Azure AI Foundry project | Agent hosting | Included in subscription |
+| Azure OpenAI (GPT-4.1) | Agent model | ~$0.01/1k tokens |
+| Azure OpenAI (embeddings) | Vector embeddings | ~$0.00002/1k tokens |
+| Cosmos DB (serverless) | Knowledge store | ~$0.25/RU + storage |
+| Azure AI Search (Basic) | Hybrid search index | ~$75/month |
+| Azure Functions | Daily ingestion | ~$0/month (consumption) |
+| Existing: Azure Quantum | Q# resource estimation | Already provisioned |
+
+## Directory Structure
+
+```
+quantum-grand-challenges/
+├── agents/                          # NEW: Agent definitions
+│   ├── orchestrator/
+│   │   ├── agent.yaml               # GenAIOps agent definition
+│   │   ├── prompts/                  # Versioned system prompts
+│   │   └── tools.py                  # Tool definitions
+│   ├── classifier/
+│   ├── fact_checker/
+│   ├── hpc_comparator/
+│   └── code_generator/
+├── knowledge/                        # NEW: Knowledge base management
+│   ├── ingest/
+│   │   ├── arxiv_ingester.py        # Daily arxiv paper fetcher
+│   │   ├── algorithm_zoo_parser.py  # Quantum Algorithm Zoo scraper
+│   │   └── cosmos_loader.py         # Cosmos DB uploader
+│   ├── search/
+│   │   ├── index_schema.json        # AI Search index definition
+│   │   └── search_client.py         # Hybrid search wrapper
+│   └── mcp/
+│       ├── scientific_papers_mcp.py # MCP server for papers
+│       └── algorithm_zoo_mcp.py     # MCP server for algorithm zoo
+├── infrastructure/                   # NEW: Azure resource definitions
+│   ├── main.bicep                   # All Azure resources
+│   ├── cosmos.bicep                 # Cosmos DB
+│   ├── search.bicep                 # AI Search
+│   └── foundry.bicep               # AI Foundry project
+├── problems/                         # EXISTING: Reference implementations
+│   ├── 01_hubbard/ (QPE)           # 9 active problems as examples
+│   ├── ...
+│   └── reference_index.json         # Maps problems to algorithm classes
+├── website/                          # EXISTING: Add chat interface
+│   ├── pages/
+│   │   ├── evaluate.tsx             # NEW: Problem evaluation chat page
+│   │   └── ...
+│   └── components/
+│       └── ChatInterface.tsx        # NEW: Embedded agent chat
+├── tooling/                          # EXISTING: Keep estimation tools
+└── docs/
+    ├── architecture.md              # This file
+    └── paper/                       # Existing methodology paper
+```
+
+## Implementation Phases
+
+### Phase 1: Foundation (Current Sprint)
+- [ ] Create project structure (agents/, knowledge/, infrastructure/)
+- [ ] Set up Cosmos DB (serverless) + AI Search (basic)
+- [ ] Build arxiv ingestion pipeline (Azure Function, daily timer)
+- [ ] Parse and index Quantum Algorithm Zoo
+- [ ] Create reference_index.json from our 9 active problems
+
+### Phase 2: Agent Framework
+- [ ] Deploy Azure AI Foundry project
+- [ ] Build Orchestrator agent with GenAIOps pattern
+- [ ] Build Classifier agent (Troyer filters as tools)
+- [ ] Build Fact-Checker agent (paper search + claim validation)
+- [ ] Build HPC Comparator agent (Azure VM specs via MS Docs MCP)
+- [ ] Build Code Generator agent (Q# generation + qsharp.estimate())
+
+### Phase 3: Knowledge Integration
+- [ ] Scientific Papers MCP server
+- [ ] Algorithm Zoo MCP server
+- [ ] GitHub MCP integration for Q# samples
+- [ ] MS Docs MCP for Azure HPC specs
+- [ ] Daily ingestion pipeline live
+
+### Phase 4: Website Integration
+- [ ] Chat interface component (evaluate.tsx)
+- [ ] Agent API endpoint
+- [ ] Problem history display
+- [ ] Result visualization (quantum vs HPC comparison charts)
+
+### Phase 5: Refinement
+- [ ] Evaluation pipeline for agent quality
+- [ ] Prompt versioning and A/B testing
+- [ ] User feedback loop → knowledge base improvements
+- [ ] ML models for optimization recommendations (if proven helpful)

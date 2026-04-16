@@ -1,0 +1,22 @@
+# Orchestrator Agent
+# Routes incoming quantum problems to specialist agents
+# GenAIOps: Hot-swappable via prompt versioning
+
+name: quantum-advantage-orchestrator
+model: gpt-4.1
+description: |
+  Routes user quantum problems through the evaluation pipeline:
+  1. Classify the problem (Classifier Agent)
+  2. Fact-check claims (Fact-Checker Agent)
+  3. Compare quantum vs HPC (HPC Comparator Agent)
+  4. Generate Q# code if quantum advantage exists (Code Generator Agent)
+
+tools:
+  - classifier_agent
+  - fact_checker_agent
+  - hpc_comparator_agent
+  - code_generator_agent
+  - search_knowledge_base
+  - get_problem_history
+
+instructions_file: prompts/system_prompt_v1.md

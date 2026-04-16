@@ -1,0 +1,100 @@
+{
+  "generated_utc": "2026-04-16T00:00:00Z",
+  "description": "Maps our 9 active + 11 archived problems to algorithm classes for agent reference",
+  "active_problems": [
+    {
+      "id": "01_hubbard",
+      "algorithm": "QPE",
+      "algorithm_class": "Quantum Phase Estimation",
+      "speedup_class": "exponential",
+      "naturally_quantum": true,
+      "troyer_verdict": "QUANTUM_ADVANTAGE",
+      "notes": "Strongly-correlated electron systems. QPE provides exponential speedup over FCI for many-body quantum Hamiltonians."
+    },
+    {
+      "id": "02_catalysis",
+      "algorithm": "QPE",
+      "algorithm_class": "Quantum Phase Estimation",
+      "speedup_class": "exponential",
+      "naturally_quantum": true,
+      "troyer_verdict": "QUANTUM_ADVANTAGE",
+      "notes": "Molecular ground state energy. QPE for quantum chemistry is Troyer's primary utility example."
+    },
+    {
+      "id": "07_drug_discovery",
+      "algorithm": "QPE",
+      "algorithm_class": "Quantum Phase Estimation",
+      "speedup_class": "exponential",
+      "naturally_quantum": true,
+      "troyer_verdict": "QUANTUM_ADVANTAGE",
+      "notes": "Pharmaceutical Hamiltonian simulation. Requires >50 orbitals to exceed classical FCI."
+    },
+    {
+      "id": "09_factorization",
+      "algorithm": "Shor",
+      "algorithm_class": "Shor's Algorithm",
+      "speedup_class": "superpolynomial",
+      "naturally_quantum": false,
+      "troyer_verdict": "QUANTUM_ADVANTAGE",
+      "notes": "The only problem with a completely clean utility path. RSA-2048 requires ~4000 logical qubits."
+    },
+    {
+      "id": "14_materials_discovery",
+      "algorithm": "QPE",
+      "algorithm_class": "Quantum Phase Estimation",
+      "speedup_class": "exponential",
+      "naturally_quantum": true,
+      "troyer_verdict": "QUANTUM_ADVANTAGE",
+      "notes": "Band gap estimation for correlated materials. DFT fails for strongly-correlated systems."
+    },
+    {
+      "id": "16_error_correction",
+      "algorithm": "QEC",
+      "algorithm_class": "Quantum Error Correction",
+      "speedup_class": "infrastructure",
+      "naturally_quantum": true,
+      "troyer_verdict": "INFRASTRUCTURE",
+      "notes": "Enabling technology, not an application. Surface code demonstration."
+    },
+    {
+      "id": "17_nuclear_physics",
+      "algorithm": "QPE",
+      "algorithm_class": "Quantum Phase Estimation",
+      "speedup_class": "exponential",
+      "naturally_quantum": true,
+      "troyer_verdict": "QUANTUM_ADVANTAGE",
+      "notes": "Nuclear many-body Hamiltonian. Advantage requires A > 20 nucleons."
+    },
+    {
+      "id": "18_photovoltaics",
+      "algorithm": "Quantum Walk",
+      "algorithm_class": "Quantum Walk (Transport Simulation)",
+      "speedup_class": "exponential",
+      "naturally_quantum": true,
+      "troyer_verdict": "QUANTUM_ADVANTAGE",
+      "notes": "Naturally quantum — simulating exciton transport avoids the I/O problem entirely."
+    },
+    {
+      "id": "19_quantum_chromodynamics",
+      "algorithm": "Trotter",
+      "algorithm_class": "Hamiltonian Simulation (Lattice Gauge Theory)",
+      "speedup_class": "exponential",
+      "naturally_quantum": true,
+      "troyer_verdict": "QUANTUM_ADVANTAGE",
+      "notes": "Sign problem makes classical lattice QCD unable to do real-time dynamics. Strongest long-term case."
+    }
+  ],
+  "archived_problems": [
+    {"id": "03_qae_risk", "reason": "Quadratic speedup + I/O cost", "algorithm": "QAE"},
+    {"id": "04_linear_solvers", "reason": "I/O bottleneck (state prep + readout)", "algorithm": "HHL"},
+    {"id": "05_qaoa_maxcut", "reason": "At most quadratic, no proven advantage", "algorithm": "QAOA"},
+    {"id": "06_high_frequency_trading", "reason": "Quadratic (amplitude estimation) + I/O", "algorithm": "QAE"},
+    {"id": "08_protein_folding", "reason": "QAOA heuristic, at most quadratic", "algorithm": "QAOA"},
+    {"id": "10_post_quantum_cryptography", "reason": "Quadratic + oracle cost dominates", "algorithm": "Grover"},
+    {"id": "11_quantum_machine_learning", "reason": "I/O bottleneck (data loading)", "algorithm": "Swap Test"},
+    {"id": "12_quantum_optimization", "reason": "QAOA heuristic, at most quadratic", "algorithm": "QAOA"},
+    {"id": "13_climate_modeling", "reason": "I/O bottleneck (HHL)", "algorithm": "HHL"},
+    {"id": "15_database_search", "reason": "Quadratic + QRAM cost", "algorithm": "Grover"},
+    {"id": "20_space_mission_planning", "reason": "QAOA heuristic, at most quadratic", "algorithm": "QAOA"}
+  ]
+}

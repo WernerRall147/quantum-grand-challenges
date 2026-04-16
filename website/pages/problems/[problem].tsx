@@ -9,6 +9,8 @@ import problemReadmes from '../../data/problemReadmes.json';
 import stageDEvidence from '../../data/stageDEvidence.json';
 import noisySimResults from '../../data/noisySimResults.json';
 import emulatorResults from '../../data/emulatorResults.json';
+import multiModelEstimates from '../../data/multiModelEstimates.json';
+import troyerAssessment from '../../data/troyerAssessment.json';
 
 interface EmulatorData {
   h2_top: string | null;
@@ -18,6 +20,23 @@ interface EmulatorData {
   match: boolean;
   h2_histogram: Array<{ outcome: string; count: number }>;
   rigetti_histogram: Array<{ outcome: string; count: number }>;
+}
+
+interface MultiModelEntry {
+  qubitLabel: string;
+  qecScheme: string;
+  physicalQubits: number;
+  runtime: number | null;
+  logicalQubits: number | null;
+  family: string;
+}
+
+interface TroyerData {
+  category: string;
+  categoryLabel: string;
+  speedup: string;
+  classicalBest: string;
+  assessment: string;
 }
 
 interface NoisyData {
@@ -76,6 +95,8 @@ interface ProblemPageProps {
     stageD: StageDData | null;
     noisy: NoisyData | null;
     emulator: EmulatorData | null;
+    multiModel: MultiModelEntry[] | null;
+    troyer: TroyerData | null;
   };
 }
 
@@ -427,6 +448,80 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </section>
         )}
 
+        {problem.troyer && (
+          <section style={{ marginTop: '2rem', padding: '1.5rem', background: problem.troyer.category === 'proven_speedup' ? '#f0fdf4' : problem.troyer.category === 'simulation_native' ? '#eff6ff' : '#fefce8', borderRadius: '12px', border: `2px solid ${problem.troyer.category === 'proven_speedup' ? '#22c55e' : problem.troyer.category === 'simulation_native' ? '#3b82f6' : '#f59e0b'}` }}>
+            <h2 style={{ marginTop: 0, color: '#1a1a1a' }}>Troyer Utility-Scale Classification</h2>
+            <div style={{ display: 'inline-block', padding: '0.3rem 0.8rem', borderRadius: '999px', fontSize: '0.85rem', fontWeight: 700, background: problem.troyer.category === 'proven_speedup' ? '#dcfce7' : problem.troyer.category === 'simulation_native' ? '#dbeafe' : '#fef3c7', color: problem.troyer.category === 'proven_speedup' ? '#166534' : problem.troyer.category === 'simulation_native' ? '#1e40af' : '#92400e', marginBottom: '1rem' }}>
+              {problem.troyer.categoryLabel}
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #e5e7eb' }}>
+                <div style={{ fontSize: '0.8rem', color: '#6b7280', fontWeight: 600 }}>Quantum Speedup</div>
+                <div style={{ marginTop: '0.25rem', color: '#1a1a1a' }}>{problem.troyer.speedup}</div>
+              </div>
+              <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #e5e7eb' }}>
+                <div style={{ fontSize: '0.8rem', color: '#6b7280', fontWeight: 600 }}>Classical Competitor</div>
+                <div style={{ marginTop: '0.25rem', color: '#1a1a1a' }}>{problem.troyer.classicalBest}</div>
+              </div>
+            </div>
+            <div style={{ marginTop: '1rem', background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #e5e7eb' }}>
+              <div style={{ fontSize: '0.8rem', color: '#6b7280', fontWeight: 600, marginBottom: '0.5rem' }}>Honest Assessment (Troyer Framework)</div>
+              <p style={{ margin: 0, color: '#374151', lineHeight: 1.6, fontSize: '0.95rem' }}>{problem.troyer.assessment}</p>
+            </div>
+          </section>
+        )}
+
+        {problem.multiModel && problem.multiModel.length > 0 && (
+          <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+            <h2 style={{ marginTop: 0, color: '#0f172a' }}>Multi-Model Resource Comparison</h2>
+            <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1rem' }}>
+              Physical qubit requirements across 6 qubit technologies × 2 QEC schemes (inspired by Troyer Architecture Series, Part 3).
+            </p>
+            <div style={{ width: '100%', height: 300 }}>
+              <ResponsiveContainer>
+                <BarChart data={problem.multiModel} margin={{ top: 5, right: 20, left: 20, bottom: 60 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="qubitLabel" fontSize={9} angle={-35} textAnchor="end" height={80} />
+                  <YAxis fontSize={10} tickFormatter={(v: number) => v >= 1e6 ? `${(v/1e6).toFixed(1)}M` : v >= 1e3 ? `${(v/1e3).toFixed(0)}k` : String(v)} />
+                  <Tooltip formatter={(value: number) => [`${value.toLocaleString()} qubits`, 'Physical Qubits']} />
+                  <Bar dataKey="physicalQubits" radius={[4, 4, 0, 0]}>
+                    {problem.multiModel.map((entry, index) => (
+                      <Cell key={`mm-${index}`} fill={entry.family === 'gate_based' ? (entry.qecScheme === 'surface_code' ? '#667eea' : '#a78bfa') : (entry.qecScheme === 'surface_code' ? '#10b981' : '#34d399')} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', justifyContent: 'center', fontSize: '0.8rem', color: '#64748b' }}>
+              <span>■ Gate-based + Surface (blue)</span>
+              <span style={{ color: '#10b981' }}>■ Majorana + Surface (green)</span>
+              <span style={{ color: '#34d399' }}>■ Majorana + Floquet (light green)</span>
+            </div>
+            <div style={{ marginTop: '1rem', overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+                <thead>
+                  <tr style={{ background: '#f1f5f9' }}>
+                    <th style={{ textAlign: 'left', padding: '0.5rem' }}>Qubit Model</th>
+                    <th style={{ textAlign: 'left', padding: '0.5rem' }}>QEC</th>
+                    <th style={{ textAlign: 'right', padding: '0.5rem' }}>Physical Qubits</th>
+                    <th style={{ textAlign: 'right', padding: '0.5rem' }}>Logical Qubits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {problem.multiModel.map((m, i) => (
+                    <tr key={i} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                      <td style={{ padding: '0.4rem 0.5rem' }}>{m.qubitLabel}</td>
+                      <td style={{ padding: '0.4rem 0.5rem' }}>{m.qecScheme}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 600 }}>{m.physicalQubits.toLocaleString()}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right' }}>{m.logicalQubits ?? '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
         {problem.readmeHtml && (
           <section style={{ marginTop: '2rem' }}>
             <h2>Problem Documentation</h2>
@@ -563,6 +658,39 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     rigetti_histogram: riHist.slice(0, 6).map(h => ({ outcome: String(h.outcome), count: Number(h.count) })),
   } : null;
 
+  // Multi-model estimates
+  const rawMultiModel = (multiModelEstimates as Record<string, unknown>).problems as Record<string, Record<string, unknown>> | undefined;
+  const problemModels = rawMultiModel?.[id] as Record<string, unknown> | undefined;
+  const modelsMap = (problemModels?.models || {}) as Record<string, Record<string, unknown>>;
+  const multiModel = Object.values(modelsMap).map(m => ({
+    qubitLabel: `${String(m.qubitLabel || '')}${m.qecScheme === 'floquet_code' ? ' (Floquet)' : ''}`,
+    qecScheme: String(m.qecScheme || 'surface_code'),
+    physicalQubits: Number(m.physicalQubits || 0),
+    runtime: typeof m.runtime === 'number' ? m.runtime : null,
+    logicalQubits: typeof m.logicalQubits === 'number' ? m.logicalQubits : null,
+    family: String(m.family || 'gate_based'),
+  })).sort((a, b) => a.physicalQubits - b.physicalQubits);
+
+  // Troyer utility-scale assessment
+  const troyerCategories = (troyerAssessment as Record<string, unknown>).categories as Record<string, Record<string, unknown>> | undefined;
+  let troyer: { category: string; categoryLabel: string; speedup: string; classicalBest: string; assessment: string } | null = null;
+  if (troyerCategories) {
+    for (const [catKey, catData] of Object.entries(troyerCategories)) {
+      const problems = (catData.problems || []) as Array<Record<string, string>>;
+      const match = problems.find(p => p.id === id);
+      if (match) {
+        troyer = {
+          category: catKey,
+          categoryLabel: String(catData.label || catKey),
+          speedup: match.speedup || 'Unknown',
+          classicalBest: match.classical_best || 'Unknown',
+          assessment: match.troyer_assessment || '',
+        };
+        break;
+      }
+    }
+  }
+
   return {
     props: {
       problem: {
@@ -578,6 +706,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         stageD,
         noisy,
         emulator,
+        multiModel: multiModel.length > 0 ? multiModel : null,
+        troyer,
       },
     },
   };

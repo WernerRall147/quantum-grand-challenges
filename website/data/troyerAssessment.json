@@ -1,0 +1,176 @@
+{
+  "generated_utc": "2026-04-16T00:00:00Z",
+  "framework": "Troyer Utility-Scale Classification",
+  "reference": "Dr. Matthias Troyer, 'Building the Modern Quantum Architecture' lecture series (2025-2026), quantum.microsoft.com",
+  "categories": {
+    "proven_speedup": {
+      "label": "Proven Speedup",
+      "description": "Algorithms with mathematically proven quantum speedup over the best classical algorithm. These are the strongest candidates for utility-scale quantum advantage.",
+      "problems": [
+        {
+          "id": "03_qae_risk",
+          "algorithm": "Quantum Amplitude Estimation (IQAE)",
+          "speedup": "Quadratic: O(1/ε) vs classical O(1/ε²)",
+          "classical_best": "Monte Carlo sampling",
+          "troyer_assessment": "QAE provides provable quadratic speedup for amplitude estimation. However, the constant-factor overhead of error correction means utility requires problems with ε < 10⁻⁴ where the quadratic advantage overcomes QEC cost.",
+          "utility_threshold": "Requires ~10⁶ logical operations to beat classical; current toy instance has ~40 logical qubits"
+        },
+        {
+          "id": "09_factorization",
+          "algorithm": "Shor's Algorithm",
+          "speedup": "Superpolynomial: O(n³) vs sub-exponential classical (GNFS)",
+          "classical_best": "General Number Field Sieve",
+          "troyer_assessment": "Shor's algorithm is the canonical example of superpolynomial quantum speedup. Utility requires factoring 2048+ bit integers — our 4-bit toy instance demonstrates the algorithm but is far from utility scale.",
+          "utility_threshold": "RSA-2048 factoring requires ~4000 logical qubits and ~10¹⁰ T-gates"
+        },
+        {
+          "id": "10_post_quantum_cryptography",
+          "algorithm": "Grover Key Search",
+          "speedup": "Quadratic: O(√N) vs classical O(N), provably optimal (BBBV)",
+          "classical_best": "Brute-force key enumeration",
+          "troyer_assessment": "Grover's quadratic speedup is provably optimal but only halves effective key length. NIST already recommends doubled key sizes (AES-256). The practical threat is from Shor, not Grover.",
+          "utility_threshold": "AES-128 search requires ~2⁶⁴ Grover iterations + millions of logical qubits for the cipher oracle"
+        },
+        {
+          "id": "15_database_search",
+          "algorithm": "Grover's Search",
+          "speedup": "Quadratic: O(√N) vs classical O(N), provably optimal",
+          "classical_best": "Linear scan",
+          "troyer_assessment": "Provably optimal quadratic speedup, but the QRAM assumption for data loading is critical. Without efficient QRAM, the speedup may be negated by data-access overhead.",
+          "utility_threshold": "Requires N > 10⁶ with efficient oracle; current 4-qubit instance is far below"
+        },
+        {
+          "id": "04_linear_solvers",
+          "algorithm": "HHL Algorithm",
+          "speedup": "Exponential: O(polylog(N)) vs classical O(N·κ) for sparse systems",
+          "classical_best": "Conjugate gradient / LU decomposition",
+          "troyer_assessment": "HHL offers exponential speedup but with critical caveats: (1) requires efficient state preparation, (2) only provides quantum state output (readout bottleneck), (3) condition number κ must be polylog(N). Practical utility requires all three conditions simultaneously.",
+          "utility_threshold": "Utility requires N > 10⁶ with κ = O(polylog N) and efficient I/O"
+        }
+      ]
+    },
+    "heuristic_potential": {
+      "label": "Heuristic / Unproven Advantage",
+      "description": "Variational and approximate algorithms without proven speedup over classical. These rely on empirical performance that may or may not survive scaling. Troyer emphasizes these are the highest-risk category for utility claims.",
+      "problems": [
+        {
+          "id": "01_hubbard",
+          "algorithm": "VQE (Variational Quantum Eigensolver)",
+          "speedup": "None proven; heuristic variational optimization",
+          "classical_best": "DMRG / tensor network / exact diagonalization",
+          "troyer_assessment": "VQE has no proven speedup. Classical tensor network methods (DMRG) can solve 1D Hubbard models with hundreds of sites. Quantum advantage requires strongly-correlated 2D systems beyond tensor network reach — our 2-site instance is trivially classical."
+        },
+        {
+          "id": "02_catalysis",
+          "algorithm": "VQE for H₂ ground state",
+          "speedup": "None proven for small molecules",
+          "classical_best": "Full configuration interaction (FCI) / coupled cluster",
+          "troyer_assessment": "H₂ in STO-3G basis is exactly solvable classically. Quantum advantage in chemistry requires molecules with >50 orbitals where FCI is intractable. This is a pedagogical demonstration, not a utility candidate."
+        },
+        {
+          "id": "05_qaoa_maxcut",
+          "algorithm": "QAOA",
+          "speedup": "None proven; depth-1 QAOA has known classical simulations",
+          "classical_best": "Goemans-Williamson SDP (0.878 approximation ratio)",
+          "troyer_assessment": "No proven quantum advantage for QAOA on MaxCut. The Goemans-Williamson algorithm achieves 0.878-approximation in polynomial time. QAOA at constant depth can be classically simulated. Higher-depth QAOA may offer advantage but this is unproven."
+        },
+        {
+          "id": "07_drug_discovery",
+          "algorithm": "VQE Binding Energy",
+          "speedup": "None proven for current instance size",
+          "classical_best": "Molecular mechanics / DFT / docking algorithms",
+          "troyer_assessment": "Same limitations as catalysis VQE. Drug discovery quantum advantage requires simulating transition states of large molecules (>100 atoms) with strong electron correlation — far beyond current quantum capabilities."
+        },
+        {
+          "id": "08_protein_folding",
+          "algorithm": "QAOA Lattice Folding",
+          "speedup": "None proven",
+          "classical_best": "Monte Carlo / simulated annealing / AlphaFold",
+          "troyer_assessment": "Classical protein folding has been revolutionized by AI (AlphaFold). QAOA for lattice protein models has no proven advantage. The quantum approach would need to handle realistic all-atom models to compete."
+        },
+        {
+          "id": "11_quantum_machine_learning",
+          "algorithm": "Swap Test Kernel",
+          "speedup": "Exponential in specific cases (kernel evaluation)",
+          "classical_best": "Classical kernel methods / random features",
+          "troyer_assessment": "QML speedups depend on data encoding assumptions. If classical data must be loaded into quantum states, the loading cost often negates the kernel speedup. Proven advantages exist only for specific, contrived problem structures."
+        },
+        {
+          "id": "12_quantum_optimization",
+          "algorithm": "QAOA Job Scheduling",
+          "speedup": "None proven",
+          "classical_best": "Branch-and-bound / heuristic schedulers",
+          "troyer_assessment": "Same QAOA limitations as MaxCut. Classical scheduling algorithms are highly optimized for industrial use. No proven quantum advantage for combinatorial optimization at any depth."
+        },
+        {
+          "id": "14_materials_discovery",
+          "algorithm": "VQE Band Gap",
+          "speedup": "None proven for current instance",
+          "classical_best": "DFT / GW approximation",
+          "troyer_assessment": "Band gap estimation with DFT is highly mature. Quantum advantage requires strongly-correlated materials (e.g., high-Tc superconductors) where DFT fails — our tight-binding model is classically trivial."
+        },
+        {
+          "id": "17_nuclear_physics",
+          "algorithm": "VQE Deuteron",
+          "speedup": "None proven",
+          "classical_best": "Nuclear shell model / lattice QCD",
+          "troyer_assessment": "Deuteron binding energy is exactly solvable with 2-body nuclear forces. Quantum advantage requires many-body nuclear systems with >20 nucleons where shell model truncation becomes severe."
+        },
+        {
+          "id": "20_space_mission_planning",
+          "algorithm": "QAOA Trajectory Optimization",
+          "speedup": "None proven",
+          "classical_best": "Dynamic programming / genetic algorithms",
+          "troyer_assessment": "Trajectory optimization is well-served by classical methods. QAOA for routing/scheduling has the same unproven-advantage limitations as other combinatorial optimization problems."
+        }
+      ]
+    },
+    "simulation_native": {
+      "label": "Quantum Simulation (Native Advantage Potential)",
+      "description": "Problems where the quantum system being simulated IS quantum — Feynman's original motivation. These have the strongest theoretical case for utility but require fault-tolerant hardware.",
+      "problems": [
+        {
+          "id": "06_high_frequency_trading",
+          "algorithm": "Amplitude Estimation for VaR",
+          "speedup": "Quadratic (same as QAE)",
+          "classical_best": "Monte Carlo with variance reduction",
+          "troyer_assessment": "Financial QAE inherits the quadratic speedup of amplitude estimation. Utility requires portfolio sizes where the QEC overhead is justified by the quadratic speedup — likely N > 10⁴ assets with complex correlation structures."
+        },
+        {
+          "id": "13_climate_modeling",
+          "algorithm": "HHL for Diffusion PDE",
+          "speedup": "Exponential (same HHL caveats)",
+          "classical_best": "Finite element / finite difference methods",
+          "troyer_assessment": "Climate PDEs are well-suited to HHL if the state preparation and readout problems can be solved. The exponential speedup applies to the linear algebra core but practical utility requires end-to-end advantage including I/O."
+        },
+        {
+          "id": "16_error_correction",
+          "algorithm": "3-Qubit Repetition Code",
+          "speedup": "N/A — infrastructure, not application",
+          "classical_best": "N/A",
+          "troyer_assessment": "QEC is enabling infrastructure, not an application. The repetition code demonstrates error detection but is not a path to utility. Surface codes and beyond are needed for fault-tolerant computation."
+        },
+        {
+          "id": "18_photovoltaics",
+          "algorithm": "Quantum Walk (Exciton Transport)",
+          "speedup": "Potential exponential for transport simulation",
+          "classical_best": "Lindblad master equation / Monte Carlo",
+          "troyer_assessment": "Exciton transport in photosynthetic systems is inherently quantum. Simulating open quantum systems is where quantum computers have the strongest natural advantage — the system IS quantum."
+        },
+        {
+          "id": "19_quantum_chromodynamics",
+          "algorithm": "Trotter Lattice Gauge Simulation",
+          "speedup": "Exponential for real-time dynamics (sign problem)",
+          "classical_best": "Lattice QCD (Euclidean, limited to static properties)",
+          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically — but requires millions of logical qubits for realistic lattice sizes."
+        }
+      ]
+    }
+  },
+  "summary": {
+    "proven_speedup_count": 5,
+    "heuristic_count": 10,
+    "simulation_native_count": 5,
+    "key_insight": "Only 5/20 problems have proven quantum speedups. 10/20 rely on heuristic algorithms (VQE, QAOA) with no proven advantage — these are the highest-risk utility claims. 5/20 are quantum simulation problems with the strongest theoretical case but the highest hardware requirements. Per Troyer's framework, honest assessment of which category each problem falls into is essential for credible quantum advantage claims."
+  }
+}

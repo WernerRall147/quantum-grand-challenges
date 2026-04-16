@@ -3,7 +3,8 @@
 # GenAIOps: Hot-swappable via prompt versioning
 
 name: quantum-advantage-orchestrator
-model: gpt-4.1
+model: model-router
+model_fallback: gpt-5.4-mini
 description: |
   Routes user quantum problems through the evaluation pipeline:
   1. Classify the problem (Classifier Agent)

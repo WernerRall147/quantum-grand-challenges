@@ -1,6 +1,7 @@
 # Quantum Advantage Classifier Agent
 name: quantum-classifier
-model: gpt-4.1
+model: model-router
+model_fallback: gpt-5.4-mini
 description: |
   Classifies quantum problems by speedup class and applies Troyer's utility-scale filters.
   

@@ -1,6 +1,7 @@
 # Fact-Checker Agent
 name: quantum-fact-checker
-model: gpt-4.1
+model: model-router
+model_fallback: gpt-5.4-mini
 description: |
   Validates quantum advantage claims against peer-reviewed literature.
   Applies reality checks: I/O bottleneck, oracle cost, QEC overhead.

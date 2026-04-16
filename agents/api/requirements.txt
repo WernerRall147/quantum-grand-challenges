@@ -1,0 +1,6 @@
+fastapi>=0.115.0
+uvicorn>=0.30.0
+azure-identity>=1.17.0
+azure-cosmos>=4.7.0
+azure-search-documents>=11.6.0
+openai>=1.50.0

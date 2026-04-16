@@ -1,6 +1,7 @@
 # HPC Comparator Agent
 name: hpc-comparator
-model: gpt-4.1
+model: model-router
+model_fallback: gpt-5.4-mini
 description: |
   Compares quantum resource requirements against Azure HPC capabilities.
   Uses Microsoft documentation to find the best classical alternative.

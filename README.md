@@ -298,405 +298,102 @@ tooling\windows\qaoa-maxcut-quick.cmd
 
 ## 📊 Problem Status
 
-Status labels are being migrated to a maturity-gate model so readiness claims stay aligned with validation depth.
+**9 active** | **11 archived** (per Troyer utility-scale filters)
 
-**Maturity Gate Legend**
+### Active Problems (pass all 5 Troyer filters)
 
-- **Stage A**: Classical baseline validated on defined instances.
-- **Stage B**: Quantum scaffold or canonical algorithm implemented and building.
-- **Stage C**: Hardware-aware validation complete (transpilation/mapping + uncertainty-bounded results + calibration evidence).
-- **Stage D**: Advantage evidence package complete (assumptions, fair classical baseline, and claim category).
+| Problem | Algorithm | Speedup | Physical Qubits | Status |
+|---------|-----------|---------|-----------------|--------|
+| [Hubbard Model](problems/01_hubbard/) | **QPE** | Exponential | 132k | 🟢 Active (QPE) |
+| [Catalysis (H₂)](problems/02_catalysis/) | **QPE** | Exponential | 132k | 🟢 Active (QPE) |
+| [Drug Discovery](problems/07_drug_discovery/) | **QPE** | Exponential | 130k | 🟢 Active (QPE) |
+| [Factorization](problems/09_factorization/) | **Shor** | Superpolynomial | 77k | 🟢 Active |
+| [Materials Discovery](problems/14_materials_discovery/) | **QPE** | Exponential | 132k | 🟢 Active (QPE) |
+| [Error Correction](problems/16_error_correction/) | **QEC** | Infrastructure | 1.8k | 🟢 Active |
+| [Nuclear Physics](problems/17_nuclear_physics/) | **QPE** | Exponential | 132k | 🟢 Active (QPE) |
+| [Photovoltaics](problems/18_photovoltaics/) | **Quantum Walk** | Exponential | 138k | 🟢 Active |
+| [QCD Lattice](problems/19_quantum_chromodynamics/) | **Trotter** | Exponential | 131k | 🟢 Active |
 
-See `docs/objective-gates.md` for gate criteria and the required advantage-claim template.
+### Archived Problems (Troyer filter failures)
 
-| Problem | Q# Implementation | Classical Baseline | Resource Estimation | Status |
-|---------|-------------------|--------------------|---------------------|--------|
-| [QAE Risk Analysis](problems/03_qae_risk/) | ✅ **IQAE (iterative, no QPE register)** + canonical QAE | ✅ Complete (MC + VR-MC + CVaR/VaR) | ✅ 293k qubits, 40 logical | 🟣 **Stage D** (theoretical) |
-| [QAOA MaxCut](problems/05_qaoa_maxcut/) | ✅ **QAOA** (ZZ cost + Rx mixer, optimized γ=0.3 β=1.3) | ✅ Complete (graph cuts + plots) | ✅ 132k qubits, 12 logical | 🟣 **Stage D** (theoretical) |
-| [Database Search](problems/15_database_search/) | ✅ **Canonical Grover** (oracle + diffusion) | ✅ Complete (query complexity + plots) | ✅ 120k qubits, 18 logical | 🟣 **Stage D** (projected) |
-| [Hubbard Model](problems/01_hubbard/) | ✅ **VQE ansatz** (Ry+CNOT+Rz, Pauli measurements) | ✅ Complete (exact diagonalization) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
-| [Catalysis Simulation](problems/02_catalysis/) | ✅ **VQE for H₂** (2-qubit Pauli decomposition) | ✅ Complete (Arrhenius rates + plots) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
-| [Linear Solvers](problems/04_linear_solvers/) | ✅ **HHL algorithm** (QPE + eigenvalue inversion) | ✅ Complete (condition analysis + plots) | ✅ 140k qubits, 18 logical | 🟢 **Stage C** |
-| [High-Frequency Trading](problems/06_high_frequency_trading/) | ✅ **Quantum VaR** (amplitude encoding + oracle) | ✅ Complete (portfolio optimization) | ✅ 61k qubits, 12 logical | 🟢 **Stage C** |
-| [Drug Discovery](problems/07_drug_discovery/) | ✅ **VQE binding energy** (Pauli Hamiltonian) | ✅ Complete (molecular docking + plots) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
-| [Protein Folding](problems/08_protein_folding/) | ✅ **QAOA lattice folding** (contact energy) | ✅ Complete (contact maps + plots) | ✅ 118k qubits, 9 logical | 🟢 **Stage C** |
-| [Factorization](problems/09_factorization/) | ✅ **Shor's algorithm** (QPE + modular multiply, N=15) | ✅ Complete (Pollard's rho + plots) | ✅ 77k qubits, 25 logical | 🟢 **Stage C** |
-| [Post-Quantum Cryptography](problems/10_post_quantum_cryptography/) | ✅ **Grover key search** (80-83% cross-platform) | ✅ Complete (attack cost analysis) | ✅ 33k qubits, 12 logical | 🟣 **Stage D** (projected) |
-| [Quantum Machine Learning](problems/11_quantum_machine_learning/) | ✅ **Swap test kernel** (5-qubit circuit) | ✅ Complete (kernel methods + plots) | ✅ 153k qubits, 18 logical | 🟢 **Stage C** |
-| [Quantum Optimization](problems/12_quantum_optimization/) | ✅ **QAOA scheduling** (ratio 1.0 optimal) | ✅ Complete (scheduling + plots) | ✅ 132k qubits, 12 logical | 🟢 **Stage C** |
-| [Climate Modeling](problems/13_climate_modeling/) | ✅ **HHL diffusion** (QPE + Trotter) | ✅ Complete (energy balance + plots) | ✅ 130k qubits, 18 logical | 🟢 **Stage C** |
-| [Materials Discovery](problems/14_materials_discovery/) | ✅ **VQE band gap** (tight-binding model) | ✅ Complete (cluster expansion + plots) | ✅ 401k qubits, 12 logical | 🟢 **Stage C** |
-| [Error Correction](problems/16_error_correction/) | ✅ **3-qubit repetition code** (100% correction) | ✅ Complete (repetition codes + plots) | ✅ 1.8k qubits, 18 logical | 🟢 **Stage C** |
-| [Nuclear Physics](problems/17_nuclear_physics/) | ✅ **VQE deuteron** (EFT Hamiltonian) | ✅ Complete (EFT diagonalization + plots) | ✅ 177k qubits, 12 logical | 🟢 **Stage C** |
-| [Photovoltaics](problems/18_photovoltaics/) | ✅ **Quantum walk** (exciton transport) | ✅ Complete (Shockley-Queisser + plots) | ✅ 138k qubits, 12 logical | 🟢 **Stage C** |
-| [Quantum Chromodynamics](problems/19_quantum_chromodynamics/) | ✅ **Trotter gauge** (lattice simulation) | ✅ Complete (lattice gauge + plots) | ✅ 131k qubits, 9 logical | 🟢 **Stage C** |
-| [Space Mission Planning](problems/20_space_mission_planning/) | ✅ **QAOA trajectory** (exact optimal found) | ✅ Complete (orbital mechanics + plots) | ✅ 157k qubits, 12 logical | 🟢 **Stage C** |
+| Problem | Original Algorithm | Archival Reason |
+|---------|--------------------|-----------------|
+| [QAE Risk](problems/03_qae_risk/) | QAE | Quadratic + I/O cost |
+| [Linear Solvers](problems/04_linear_solvers/) | HHL | I/O bottleneck (state prep + readout) |
+| [QAOA MaxCut](problems/05_qaoa_maxcut/) | QAOA | At most quadratic, no proven advantage |
+| [HFT VaR](problems/06_high_frequency_trading/) | QAE | Quadratic + I/O |
+| [Protein Folding](problems/08_protein_folding/) | QAOA | At most quadratic; AlphaFold dominates |
+| [PQC Grover](problems/10_post_quantum_cryptography/) | Grover | Quadratic + oracle cost dominates |
+| [QML Swap Test](problems/11_quantum_machine_learning/) | Swap Test | I/O bottleneck (data loading) |
+| [Optimization](problems/12_quantum_optimization/) | QAOA | At most quadratic |
+| [Climate HHL](problems/13_climate_modeling/) | HHL | I/O bottleneck |
+| [DB Search](problems/15_database_search/) | Grover | Quadratic + QRAM cost |
+| [Space Mission](problems/20_space_mission_planning/) | QAOA | At most quadratic |
 
 ## 🏗️ Repository Structure
 
 ```text
 quantum-grand-challenges/
-├── 📁 problems/              # Individual quantum challenges
-│   ├── 01_hubbard/          # Strongly correlated systems
-│   ├── 02_catalysis/        # Chemical reaction catalysis
-│   ├── 03_qae_risk/         # ✅ Quantum amplitude estimation
-│   ├── 04_linear_solvers/   # HHL algorithm applications
-│   ├── 05_qaoa_maxcut/      # Quantum approximate optimization
-│   ├── 06_high_frequency_trading/ # Quantum-enhanced market simulation
-│   ├── 07_drug_discovery/   # Quantum chemistry for docking refinement
-│   ├── 08_protein_folding/  # Quantum-assisted folding and conformational search
-│   ├── 09_factorization/    # Shor's algorithm scaffold for RSA-style moduli
-│   ├── 10_post_quantum_cryptography/ # PQC attack surface evaluation
-│   ├── 11_quantum_machine_learning/ # Quantum kernel and hybrid ML benchmarking
-│   └── ...                  # 15 additional challenges
-├── 📁 libs/                 # Shared quantum algorithms
-│   └── common/Utils.qs      # QFT, Grover, state preparation
-├── 📁 tooling/              # Development infrastructure
-│   ├── estimator/           # Azure Quantum resource estimation
-│   ├── schema/              # Standardized result formats
-│   └── ci/                  # Continuous integration scripts
-├── 📁 website/              # Next.js visualization dashboard
-└── 📁 .devcontainer/        # Codespaces development environment
+├── 📁 agents/                # AI agent definitions (GenAIOps)
+│   ├── orchestrator/         # Main evaluator agent + prompts
+│   ├── classifier/           # Troyer filter classifier
+│   ├── fact_checker/         # Peer-review validation
+│   ├── hpc_comparator/       # Azure HPC comparison
+│   └── code_generator/       # Q# code generation
+├── 📁 knowledge/             # Knowledge base management
+│   ├── ingest/               # arxiv + algorithm zoo ingestion
+│   ├── search/               # KB query client (Cosmos + AI Search)
+│   └── data/                 # Algorithm zoo index
+├── 📁 infrastructure/        # Azure resource definitions
+│   ├── main.bicep            # Cosmos DB, AI Search, Functions
+│   └── .env.template         # Endpoint configuration
+├── 📁 problems/              # 9 active + 11 archived quantum problems
+│   ├── 01_hubbard/ (QPE)     # Active: strongly-correlated systems
+│   ├── 09_factorization/     # Active: Shor's algorithm
+│   ├── 03_qae_risk/          # Archived: quadratic + I/O
+│   └── reference_index.json  # Algorithm class mappings
+├── 📁 website/               # Next.js dashboard + evaluator chat
+│   └── pages/evaluate.tsx    # Quantum advantage evaluator UI
+├── 📁 tooling/               # Resource estimation + reporting
+└── 📁 docs/                  # Architecture + methodology paper
 ```
 
-### Standard Problem Structure
+## 🚀 Try the Evaluator
 
-Each problem follows this consistent layout:
+### CLI (requires Azure credentials)
 
-```text
-problems/XX_problem_name/
-├── 📄 README.md             # Problem description & results
-├── 📁 qsharp/               # Q# quantum implementation
-│   ├── qsharp.json          # Modern QDK project file
-│   ├── src/
-│   │   └── Main.qs          # Main quantum algorithm
-│   └── HardwareKernel.qs    # Azure-submittable QIR kernel
-├── 📁 python/               # Classical analysis & visualization
-│   ├── analysis.py          # Performance comparison
-│   ├── classical_baseline.py # Classical algorithm baseline
-│   └── test_baseline.py     # Deterministic validation tests
-├── 📁 instances/            # Problem parameter sets
-│   ├── small.yaml           # Development/testing
-│   ├── medium.yaml          # Benchmark instances
-│   └── large.yaml           # Challenge instances
-├── 📁 estimates/            # Resource estimation results
-│   ├── logical_resources.json
-│   ├── physical_resources.json
-│   └── error_budget.json
-└── 📄 Makefile             # Automated build & analysis
-```
-
-## 🌟 Key Features
-
-### 🔧 Development Infrastructure
-
-- **Automated CI/CD**: GitHub Actions validates Python baselines, compiles Q# via modern QDK, runs JSON schema checks, and publishes the dashboard
-- **Resource Estimation Ready**: Tooling and nightly workflows are wired for Azure Quantum Resource Estimator profiles once real kernels land
-- **Standardized Schema**: Shared JSON contract enables apples-to-apples comparison across all 20 challenges
-- **Codespaces Ready**: Devcontainer provisions Python 3.11, Node 18, Azure CLI + quantum extension, and Next.js tooling out of the box
-- **Case-Study Dashboard**: The GitHub Pages site now surfaces live highlights, reproducibility commands, and roadmap context
-
-### 📈 Analysis Pipeline
-
-Each problem follows this workflow:
-
-1. **Classical Baseline**: Deterministic Python pipeline (`make classical`) produces JSON metrics
-2. **Visualization & Reporting**: `make analyze` emits plots and summaries for the dashboard
-3. **Q# Placeholder / Kernel**: Matching Q# project (`make build`) keeps the quantum interface ready for upgrades
-4. **Resource Estimation**: Azure Quantum profiles (manual today, automated via nightly sweeps tomorrow)
-5. **Website Publication**: CI packages outputs into the Next.js dashboard for reproducibility and storytelling
-
-### 🎯 Objective Maturity Gates
-
-To level up from implementation to evidence-backed outcomes, each problem should pass these gates in order:
-
-1. **Stage A (Classical baseline)**: deterministic baseline, instance coverage, and reproducible metrics.
-2. **Stage B (Quantum implementation)**: compiling Q# kernel/scaffold with documented algorithm assumptions.
-3. **Stage C (Hardware-aware validation)**: topology-aware mapping impact, error/calibration trends, and uncertainty-bounded comparisons.
-4. **Stage D (Advantage evidence)**: explicit claim contract (`theoretical`, `projected`, or `demonstrated`) with fair classical comparator and assumption log.
-
-This gate model keeps roadmap claims honest as we scale from placeholders to production-grade quantum studies.
-
-### 🎲 Problem Instances
-
-Each problem includes parameterized instances:
-
-- **Small**: Development and unit testing
-- **Medium**: Benchmarking and validation
-- **Large**: Challenge instances for future hardware
-
----
-
-## 🔬 Featured Case Studies
-
-Two problems anchor the current roadmap and demonstrate the end-to-end workflow from classical baseline to quantum-readiness.
-
-### QAE Risk Analysis (`problems/03_qae_risk`)
-
-- **Challenge**: Estimate tail risk probabilities P(Loss > threshold) for log-normal loss distributions using quantum amplitude estimation
-- **Classical Baseline**: `make classical` runs 10,000 Monte Carlo samples achieving 18.98% ± 0.39% (theoretical: 18.98%)
-- **Q# Status**: ✅ **Full canonical implementation complete** with:
-  - Grover operator (oracle + diffusion) using phase kickback
-  - Quantum phase estimation with controlled Grover^(2^k) powers
-  - Amplitude encoding state preparation with multiplex rotations
-  - Statistical averaging over 20 repetitions
-- **Resource Requirements**: 
-  - **Optimal**: 594k qubits, 6.4s runtime, 965k T-states (gate_ns_e3)
-  - **Alternatives**: 561k qubits/6.7s (gate_ns_e4), 400k qubits/28.5s (Majorana)
-  - **T-State Breakdown**: 738k from 36.9k rotations (76%), 227k from 56.8k CCZ gates (24%)
-- **Quantum Advantage**: O(1/ε) vs O(1/ε²) complexity—quadratic speedup for precision ε
-- **Comparison**: 31.8× more qubits than HHL, 5.4-12.2× more than VQE (highest T-state count of all three algorithms)
-- **Next Steps**: Algorithm calibration for phase-to-amplitude mapping (current: 74% vs theoretical 18.98%)
-
-### Hubbard Model (`problems/01_hubbard`)
-
-- **Challenge**: Track charge and spin gaps in the two-site half-filled Hubbard model
-- **Classical Baseline**: Closed-form diagonalization sweeps U/t to produce ground-state energy and Mott-gap curves stored in `estimates/classical_baseline.json`
-- **Q# Status**: ✅ **VQE + HHL implementations complete** with comprehensive resource estimates:
-  - **VQE**: 48.5k-110k qubits, 47-182μs runtime, 18 T-gates (8/8 convergence)
-  - **HHL**: 18.7k qubits, 52ms runtime, 903 T-gates, 6 logical qubits
-  - Full documentation in `VQE_IMPLEMENTATION_SUMMARY.md` and `HHL_IMPLEMENTATION_SUMMARY.md`
-- **Next Steps**: Implement quantum phase estimation for energy spectrum and compare with VQE/HHL approaches
-
----
-
-## 🧮 The 20 Grand Challenges
-
-### Quantum computing applications to humanity's most complex scientific problems
-
-### 🔬 **Physics & Materials Science**
-
-**1. Hubbard Model** - Strongly-correlated electron systems  
-*Status: Foundation laid*  
-Q# angle: Hamiltonian simulation + Phase Estimation / qubitization
-
-**2. High-Temperature Superconductivity** - Cooper pair mechanisms  
-*Status: Foundation laid*  
-Q# angle: Multi-orbital models with adiabatic state preparation
-
-**3. Catalysis Simulation** - Chemical reaction pathways  
-*Status: Foundation laid*  
-Q# angle: Electronic structure with VQE → PEA refinement
-
-**4. Topological Quantum Matter** - Non-Abelian anyons  
-*Status: Foundation laid*  
-Q# angle: Tight-binding Hamiltonians with Trotter/qubitization
-
-### 💰 **Finance & Economics**
-
-**5. Financial Risk Modeling** - Portfolio optimization  
-*Status: ✅ Complete implementation*  
-Q# angle: Quantum amplitude estimation for tail risk
-
-**6. High-Frequency Trading** - Market prediction algorithms  
-*Status: Foundation laid*  
-Q# angle: Quantum machine learning for pattern recognition
-
-### 🧬 **Biology & Medicine**
-
-**7. Drug Discovery** - Molecular docking and binding  
-*Status: Foundation laid*  
-Q# angle: Active-space chemistry + VQE/PEA
-
-**8. Protein Folding** - Ab initio structure prediction  
-*Status: Foundation laid*  
-Q# angle: Biomolecular quantum dynamics simulation
-
-### 🔐 **Cryptography & Security**
-
-**9. Factorization** - Shor's algorithm applications  
-*Status: Foundation laid*  
-Q# angle: Resource estimation for cryptographic security
-
-**10. Post-Quantum Cryptography** - Security analysis  
-*Status: Foundation laid*  
-Q# angle: Grover oracle for cipher analysis
-
-### 🧠 **Artificial Intelligence**
-
-**11. Quantum Machine Learning** - Variational algorithms  
-*Status: Foundation laid*  
-Q# angle: Quantum kernel methods and feature maps
-
-**12. Optimization** - NP-hard scheduling problems  
-*Status: Foundation laid*  
-Q# angle: QAOA for constrained optimization
-
-### 🌍 **Climate & Environment**
-
-**13. Climate Modeling** - Large-scale simulations  
-*Status: Foundation laid*  
-Q# angle: HHL algorithm for sparse linear systems
-
-**14. Materials Discovery** - Next-generation batteries  
-*Status: Foundation laid*  
-Q# angle: Band-gap and defect energetics
-
-### 🚀 **Advanced Applications**
-
-**15. Database Search** - Grover's algorithm  
-*Status: Foundation laid*  
-Q# angle: Unstructured search with oracle optimization
-
-**16. Error Correction** - Fault-tolerant computing  
-*Status: Foundation laid*  
-Q# angle: Surface codes with parameter optimization
-
-**17. Nuclear Physics** - Few-nucleon systems  
-*Status: Foundation laid*  
-Q# angle: Lattice gauge theory toy models
-
-**18. Photovoltaic Efficiency** - Light harvesting  
-*Status: Foundation laid*  
-Q# angle: Exciton transport in organic semiconductors
-
-**19. Quantum Chromodynamics** - Strong interactions  
-*Status: Foundation laid*  
-Q# angle: Lattice gauge theory simulations
-
-**20. Space Exploration** - Mission optimization  
-*Status: Foundation laid*  
-Q# angle: Trajectory optimization with quantum annealing
-
----
-
-## 🔬 Research Methodology
-
-### Quantum Advantage Analysis
-
-Each problem includes:
-
-- **Complexity Analysis**: Classical vs. quantum algorithmic complexity
-- **Resource Requirements**: Logical qubits, gate counts, error rates
-- **Practical Thresholds**: When quantum advantage becomes achievable
-
-### Benchmarking Protocol
-
-1. **Small Instances**: Verify correctness against classical solutions
-2. **Medium Instances**: Validate quantum algorithms on simulators
-3. **Large Instances**: Project performance on fault-tolerant hardware
-
----
-
-## 🛠️ Development Workflow
-
-### AI-Assisted Development
-
-This repository leverages AI tools for:
-
-- **Algorithm Design**: Quantum circuit optimization
-- **Code Generation**: Q# implementation patterns
-- **Testing**: Automated unit test creation
-- **Documentation**: Problem analysis and results
-
-### Continuous Integration
-
-- **Q# Compilation**: GitHub Actions compiles all 20 Q# projects via the modern QDK (qsharp Python package), surfacing regressions
-- **Python Tooling**: Pip installs, smoke tests, and JSON schema validation run on each commit
-- **Resource Estimation**: Nightly workflow stubs out estimator artifacts so the pipeline is ready for real hardware profiles
-- **Website**: Next.js static export rebuilds automatically and publishes case studies to GitHub Pages
-
-### 🤖 Agent Workflow (GPT-5 Codex)
-
-1. **Read `.github/copilot-instructions.md` first** – it captures validated commands, timing expectations, and environment constraints (notably the .NET 6 requirement).
-2. **Start with the classical pipeline** – `make classical` then `make analyze` confirm the problem scaffold before touching Q#.
-3. **Keep Q# placeholders building** – run `make build` under .NET 6 to ensure the stub stays healthy while quantum kernels evolve.
-4. **Document every change** – sync per-problem READMEs, the dashboard, and this README whenever capabilities shift.
-5. **Lean on CI** – the `ci-cd.yml` workflow provides immediate feedback on Python, Q#, estimator artifacts, and the website export.
-
----
-
-## 📊 Algorithm Comparison Dashboard
-
-**NEW**: Comprehensive visual comparison of VQE, HHL, and QAE implementations!
-
-📁 **Location**: [`tooling/visualization/`](tooling/visualization/)
-
-**Visualizations Available**:
-- **Physical Qubit Requirements**: HHL (18.7k) vs VQE (79k) vs QAE (594k)
-- **Runtime Comparison**: VQE (114μs) vs HHL (52ms) vs QAE (6.4s)
-- **T-State Breakdown**: Rotation gates dominate all algorithms (76-99%)
-- **Scaling Analysis**: Predictions for larger problem instances
-- **Quantum Advantage Map**: When each algorithm wins over classical
-- **Technology Timeline**: 2027 (HHL) → 2030 (VQE) → 2035 (QAE)
-
-**Generate Plots**:
 ```bash
-cd tooling/visualization
-python generate_comparison_plots.py
+az login --tenant dc692f3e-104b-4247-b52c-23692694684a
+export SEARCH_ADMIN_KEY=$(az search admin-key show --service-name qgcsearcheval --resource-group qgc-evaluator --query primaryKey -o tsv)
+
+python agents/orchestrator/evaluate.py "Simulate the ground state energy of a 50-atom catalyst"
 ```
 
-**Full Analysis**: See [`docs/algorithm-comparison.md`](docs/algorithm-comparison.md) for detailed comparison across 11 dimensions.
+### Website
 
----
+Visit the [Evaluate page](https://wernerrall147.github.io/quantum-grand-challenges/evaluate/) on the live dashboard.
 
-## 📚 Getting Started
+## 🔧 Azure Resources
 
-### 1. Choose Your Problem
-
-Browse the [problems/](problems/) directory to find an interesting challenge.
-
-### 2. Study the Implementation
-
-Each problem includes comprehensive documentation and commented code.
-
-### 3. Run the Analysis
-
-Use the provided Makefiles to execute the complete analysis pipeline.
-
-### 4. Extend the Work
-
-Modify parameters, try different algorithms, or implement variations.
-
-### 5. Compare Algorithms
-
-Use the [visualization dashboard](tooling/visualization/) to understand resource tradeoffs.
-
----
-
-## 🤝 Contributing
-
-We welcome contributions to expand and improve the quantum grand challenges:
-
-- **New Problems**: Implement additional quantum algorithms
-- **Optimizations**: Improve existing Q# implementations
-- **Analysis**: Enhanced classical baselines and visualizations
-- **Documentation**: Clearer explanations and tutorials
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
-
----
+| Resource | Name | Purpose |
+|----------|------|---------|
+| Azure OpenAI | qgc-openai | GPT-5.4-mini + model-router + text-embedding-3-large |
+| Cosmos DB | qgccosmoseval | Knowledge store (papers, algorithms, history) |
+| AI Search | qgcsearcheval | Hybrid vector + keyword search |
+| Azure Quantum | Quantum-Grand-Challenges | Q# resource estimation + emulators |
 
 ## 📖 Resources
 
-### Learning Materials
-
-- [Microsoft Q# Documentation](https://learn.microsoft.com/quantum/)
-- [Azure Quantum Resource Estimator](https://learn.microsoft.com/azure/quantum/overview-resources-estimator)
+- [Architecture Design](docs/architecture.md) — Full system design document
+- [Methodology Paper](docs/paper/methodology-paper.md) (CC BY-NC-SA 4.0)
+- [Troyer Architecture Series](https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series)
+- [Q# Documentation](https://learn.microsoft.com/quantum/)
 - [Quantum Algorithm Zoo](https://quantumalgorithmzoo.org/)
-
-### Research Papers
-
-- Nielsen & Chuang: "Quantum Computation and Quantum Information"
-- Preskill: "Quantum Computing in the NISQ era and beyond"
-- Problem-specific references in each implementation
-
----
 
 ## 📄 License
 
-This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. See [LICENSE](LICENSE) for details.
+**AGPL-3.0** — See [LICENSE](LICENSE). Methodology paper under CC BY-NC-SA 4.0.
 
-The methodology paper (`docs/paper/`) is additionally licensed under **CC BY-NC-SA 4.0** for academic use.
+## 🤝 Contributing
 
----
-
-## 🙏 Acknowledgments
-
-- **Microsoft Quantum Team** for the Q# ecosystem and Azure Quantum platform
-- **AI Research Community** for algorithm design and optimization insights
-- **Open Source Contributors** for tools, libraries, and inspiration
-
----
-
-Ready to tackle humanity's greatest challenges with quantum computing? Start exploring! 🚀
+See [CONTRIBUTING.md](CONTRIBUTING.md).

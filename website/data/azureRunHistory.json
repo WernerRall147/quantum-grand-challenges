@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-04-13T19:20:15.505995Z",
+  "updated_utc": "2026-04-16T13:55:10.918251Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -1068,6 +1068,104 @@
       "target_id": "quantinuum.sim.h2-1e",
       "status": "submitted",
       "job_id": "ca2cbbd5-376d-11f1-8416-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:53:33.735879Z",
+      "problem_id": "08_protein_folding",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "a5603268-399b-11f1-bb18-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:53:42.941168Z",
+      "problem_id": "12_quantum_optimization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "abcb427b-399b-11f1-b1db-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:53:51.932749Z",
+      "problem_id": "20_space_mission_planning",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "b0e81dab-399b-11f1-83ab-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:54:10.668763Z",
+      "problem_id": "08_protein_folding",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "submitted",
+      "job_id": "bc1e76bb-399b-11f1-9e85-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:54:19.090345Z",
+      "problem_id": "12_quantum_optimization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "submitted",
+      "job_id": "c1515f97-399b-11f1-912c-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:54:28.058044Z",
+      "problem_id": "20_space_mission_planning",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "rigetti.sim.qvm",
+      "status": "submitted",
+      "job_id": "c6775740-399b-11f1-9372-f068e3583cd5"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:54:58.168811Z",
+      "problem_id": "03_qae_risk",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "d8517f44-399b-11f1-8549-f068e3583cd5",
+      "shots": 1000,
+      "note": "Stage D higher-confidence resubmission"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:55:02.294092Z",
+      "problem_id": "05_qaoa_maxcut",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "db0e9d05-399b-11f1-9f44-f068e3583cd5",
+      "shots": 1000,
+      "note": "Stage D higher-confidence resubmission"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:55:06.479023Z",
+      "problem_id": "10_post_quantum_cryptography",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "dd81c78c-399b-11f1-a398-f068e3583cd5",
+      "shots": 1000,
+      "note": "Stage D higher-confidence resubmission"
+    },
+    {
+      "recorded_utc": "2026-04-16T13:55:10.918251Z",
+      "problem_id": "15_database_search",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted",
+      "job_id": "e003048d-399b-11f1-aa8e-f068e3583cd5",
+      "shots": 1000,
+      "note": "Stage D higher-confidence resubmission"
     }
   ]
 }

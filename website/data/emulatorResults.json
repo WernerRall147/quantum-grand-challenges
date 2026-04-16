@@ -184,50 +184,42 @@
       ]
     },
     "08_protein_folding": {
-      "target": "quantinuum.sim.h2-1e",
-      "shots": 100,
       "histogram": [
         {
-          "outcome": "[1, 1, 1]",
-          "count": 29,
-          "probability": 0.29
-        },
-        {
           "outcome": "[0, 0, 0]",
-          "count": 27,
-          "probability": 0.27
+          "count": 40
         },
         {
-          "outcome": "[0, 1, 1]",
-          "count": 12,
-          "probability": 0.12
-        },
-        {
-          "outcome": "[1, 0, 0]",
-          "count": 10,
-          "probability": 0.1
+          "outcome": "[1, 1, 1]",
+          "count": 32
         },
         {
           "outcome": "[1, 1, 0]",
-          "count": 8,
-          "probability": 0.08
+          "count": 8
         },
         {
           "outcome": "[0, 0, 1]",
-          "count": 7,
-          "probability": 0.07
+          "count": 6
+        },
+        {
+          "outcome": "[0, 1, 1]",
+          "count": 5
+        },
+        {
+          "outcome": "[1, 0, 0]",
+          "count": 4
         },
         {
           "outcome": "[0, 1, 0]",
-          "count": 5,
-          "probability": 0.05
+          "count": 3
         },
         {
           "outcome": "[1, 0, 1]",
-          "count": 2,
-          "probability": 0.02
+          "count": 2
         }
-      ]
+      ],
+      "shots": 100,
+      "note": "Re-run with optimized QAOA parameters (gamma/beta from 15x15 sweep)"
     },
     "09_factorization": {
       "target": "quantinuum.sim.h2-1e",
@@ -338,85 +330,74 @@
       ]
     },
     "12_quantum_optimization": {
-      "target": "quantinuum.sim.h2-1e",
-      "shots": 100,
       "histogram": [
         {
-          "outcome": "[0, 0, 0, 0]",
-          "count": 27,
-          "probability": 0.27
-        },
-        {
           "outcome": "[1, 1, 1, 1]",
-          "count": 17,
-          "probability": 0.17
+          "count": 12
         },
         {
-          "outcome": "[1, 1, 0, 0]",
-          "count": 10,
-          "probability": 0.1
+          "outcome": "[0, 0, 0, 0]",
+          "count": 10
         },
         {
-          "outcome": "[0, 0, 0, 1]",
-          "count": 9,
-          "probability": 0.09
+          "outcome": "[0, 1, 0, 0]",
+          "count": 9
         },
         {
           "outcome": "[1, 1, 1, 0]",
-          "count": 7,
-          "probability": 0.07
-        },
-        {
-          "outcome": "[1, 1, 0, 1]",
-          "count": 6,
-          "probability": 0.06
-        },
-        {
-          "outcome": "[0, 1, 1, 1]",
-          "count": 5,
-          "probability": 0.05
-        },
-        {
-          "outcome": "[0, 1, 0, 1]",
-          "count": 4,
-          "probability": 0.04
-        },
-        {
-          "outcome": "[1, 0, 1, 1]",
-          "count": 3,
-          "probability": 0.03
-        },
-        {
-          "outcome": "[1, 0, 0, 0]",
-          "count": 3,
-          "probability": 0.03
-        },
-        {
-          "outcome": "[0, 0, 1, 1]",
-          "count": 2,
-          "probability": 0.02
-        },
-        {
-          "outcome": "[0, 0, 1, 0]",
-          "count": 2,
-          "probability": 0.02
-        },
-        {
-          "outcome": "[1, 0, 0, 1]",
-          "count": 2,
-          "probability": 0.02
-        },
-        {
-          "outcome": "[0, 1, 1, 0]",
-          "count": 2,
-          "probability": 0.02
+          "count": 8
         },
         {
           "outcome": "[1, 0, 1, 0]",
-          "count": 1,
-          "probability": 0.01
+          "count": 7
+        },
+        {
+          "outcome": "[0, 0, 1, 1]",
+          "count": 7
+        },
+        {
+          "outcome": "[1, 0, 0, 1]",
+          "count": 7
+        },
+        {
+          "outcome": "[0, 1, 1, 0]",
+          "count": 6
+        },
+        {
+          "outcome": "[0, 0, 0, 1]",
+          "count": 6
+        },
+        {
+          "outcome": "[1, 1, 0, 0]",
+          "count": 6
+        },
+        {
+          "outcome": "[0, 1, 0, 1]",
+          "count": 5
+        },
+        {
+          "outcome": "[1, 0, 0, 0]",
+          "count": 5
+        },
+        {
+          "outcome": "[0, 0, 1, 0]",
+          "count": 4
+        },
+        {
+          "outcome": "[0, 1, 1, 1]",
+          "count": 4
+        },
+        {
+          "outcome": "[1, 0, 1, 1]",
+          "count": 2
+        },
+        {
+          "outcome": "[1, 1, 0, 1]",
+          "count": 2
         }
-      ]
+      ],
+      "shots": 100,
+      "note": "Re-run with optimized QAOA parameters (gamma/beta from 15x15 sweep)"
     },
     "13_climate_modeling": {
       "target": "quantinuum.sim.h2-1e",
@@ -691,50 +672,42 @@
       ]
     },
     "20_space_mission_planning": {
-      "target": "quantinuum.sim.h2-1e",
-      "shots": 100,
       "histogram": [
         {
+          "outcome": "[1, 0, 1]",
+          "count": 35
+        },
+        {
           "outcome": "[0, 0, 0]",
-          "count": 45,
-          "probability": 0.45
+          "count": 21
         },
         {
           "outcome": "[1, 1, 0]",
-          "count": 15,
-          "probability": 0.15
+          "count": 13
         },
         {
           "outcome": "[1, 1, 1]",
-          "count": 15,
-          "probability": 0.15
-        },
-        {
-          "outcome": "[0, 0, 1]",
-          "count": 10,
-          "probability": 0.1
-        },
-        {
-          "outcome": "[1, 0, 0]",
-          "count": 8,
-          "probability": 0.08
-        },
-        {
-          "outcome": "[0, 1, 1]",
-          "count": 5,
-          "probability": 0.05
+          "count": 12
         },
         {
           "outcome": "[0, 1, 0]",
-          "count": 1,
-          "probability": 0.01
+          "count": 11
         },
         {
-          "outcome": "[1, 0, 1]",
-          "count": 1,
-          "probability": 0.01
+          "outcome": "[0, 1, 1]",
+          "count": 4
+        },
+        {
+          "outcome": "[1, 0, 0]",
+          "count": 3
+        },
+        {
+          "outcome": "[0, 0, 1]",
+          "count": 1
         }
-      ]
+      ],
+      "shots": 100,
+      "note": "Re-run with optimized QAOA parameters (gamma/beta from 15x15 sweep)"
     }
   },
   "rigetti_qvm": {

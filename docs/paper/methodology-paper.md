@@ -274,7 +274,9 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 
 3. **Classical baselines are deliberately weak.** We use textbook algorithms (brute-force, naive Monte Carlo) for cross-domain standardization. Any comparative statement must acknowledge that state-of-the-art classical methods would perform far better. Quantum advantage claims have repeatedly vanished when classical heuristics were properly benchmarked [6].
 
-4. **Resource estimates now use real Azure Quantum Resource Estimator profiles.** All 20 problems have been profiled via `qsharp.estimate()` with the surface_code architecture target. Physical qubit counts range from 1,764 (QEC) to 401,400 (Materials Discovery). These are credible lower bounds for fault-tolerant execution, though they apply to toy-scale instances and should not be extrapolated to production problem sizes without careful scaling analysis.
+4. **Resource estimates now use real Azure Quantum Resource Estimator profiles.** All 20 problems have been profiled via `qsharp.estimate()` with the surface_code architecture target. Physical qubit counts range from 1,764 (QEC) to 401,400 (Materials Discovery). These are credible lower bounds for fault-tolerant execution, though they apply to toy-scale instances and should not be extrapolated to production problem sizes without careful scaling analysis. Multi-model estimation across 6 qubit technologies (superconducting ns, trapped ion μs, Majorana) and 2 QEC schemes (surface code, floquet code) reveals physical qubit requirements varying by up to 2,600× depending on hardware assumptions — underscoring that resource estimates are meaningless without specifying the target architecture.
+
+5. **Troyer utility-scale classification.** Following Dr. Matthias Troyer's "Building the Modern Quantum Architecture" framework, we classify all 20 problems into three categories: (a) 5 problems with **proven speedup** (QAE, Shor, Grover ×2, HHL — with caveats), (b) 10 problems with **heuristic/unproven advantage** (VQE ×6, QAOA ×4 — highest-risk claims), and (c) 5 problems with **simulation-native advantage potential** (quantum simulation, QEC, HHL for PDEs). Only category (a) has a clear path to utility-scale quantum advantage; category (b) problems may never achieve it. This classification is displayed on every problem's detail page.
 
 5. **Toy instances reveal nothing about asymptotic behavior.** A 2-qubit VQE or 4-qubit QAOA demonstrates circuit correctness but says nothing about how the algorithm behaves at 50, 100, or 1000 qubits. The scaling analysis in Section 7.3 illustrates how rapidly resource requirements grow.
 
@@ -283,11 +285,12 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 ## 9. Future Work
 
 - ~~Obtain real Azure Quantum Resource Estimator profiles~~ (completed April 2026: all 20 problems profiled)
+- ~~Promote Stage D candidates~~ (completed April 2026: QAE, QAOA, Grover DB, Grover PQC with scaling analysis + fairness reviews)
+- ~~Multi-model resource estimation~~ (completed April 2026: 6 qubit models × 2 QEC schemes = 160 estimates across all 20 problems)
 - Execute 2-qubit circuits on Quantinuum H1 QPU to compare noisy hardware results against simulator baselines
 - Replace at least one classical baseline with a state-of-the-art competitor (Goemans-Williamson for MaxCut, importance sampling for QAE)
 - Extend scaling analysis to QAOA and VQE with noise models at different error rates
 - Investigate whether the maturity gate model can be extended with complexity-theoretic checks (scaling slope verification, classical hardness evidence requirements)
-- Promote Stage D candidates (QAE, QAOA, Grover) with full advantage evidence packages
 
 ## 10. Conclusion
 

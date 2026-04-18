@@ -94,7 +94,8 @@ def seed_algorithm_zoo(cosmos_client, openai_client):
 
     print(f"Seeding {len(algorithms)} algorithms into Cosmos DB...")
     for algo in algorithms:
-        doc_id = algo["name"].lower().replace(" ", "_").replace("'", "").replace("(", "").replace(")", "")
+        import re
+        doc_id = re.sub(r'[^a-z0-9_]', '', algo["name"].lower().replace(" ", "_").replace("'", "").replace("/", "_"))
         text_for_embedding = f"{algo['name']}: {algo['category']}. {algo.get('notes', '')}"
 
         try:
@@ -256,7 +257,8 @@ def index_algorithms_in_search(search_credential, openai_client):
 
     docs = []
     for algo in algorithms:
-        doc_id = algo["name"].lower().replace(" ", "_").replace("'", "").replace("(", "").replace(")", "")
+        import re
+        doc_id = re.sub(r'[^a-z0-9_]', '', algo["name"].lower().replace(" ", "_").replace("'", "").replace("/", "_"))
         content = f"{algo['name']}: {algo['category']}. Speedup: {algo['speedup_class']}. {algo.get('notes', '')} Classical: {algo['classical_best']}"
 
         try:

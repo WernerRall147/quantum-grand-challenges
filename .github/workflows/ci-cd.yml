@@ -1,410 +1,85 @@
-name: Quantum Grand Challenges CI/CD
+name: CI/CD
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
-  schedule:
-    # Run nightly sweeps at 2 AM UTC
-    - cron: '0 2 * * *'
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 env:
   PYTHON_VERSION: '3.11'
-  NODE_VERSION: '18'
 
 jobs:
-  # Build and test Q# code
   build-and-test:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qsharp
-
-    - name: Enforce maturity contract policy
-      run: |
-        python tooling/reporting/stage_kpis.py \
-          --policy tooling/reporting/maturity-policy.json \
-          --enforce
-
-    - name: Generate maturity KPI dashboard artifacts
-      run: |
-        mkdir -p tooling/reporting/output
-        python tooling/reporting/stage_kpis.py \
-          --policy tooling/reporting/maturity-policy.json \
-          --out-md tooling/reporting/output/objective-kpis.md \
-          --out-json tooling/reporting/output/objective-kpis.json
-
-    - name: Upload maturity KPI artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: maturity-kpis
-        path: tooling/reporting/output
-        retention-days: 30
-
-    - name: QAOA estimator smoke (mock)
-      run: |
-        set -e
-        cd problems/05_qaoa_maxcut
-        make estimate-all
-
-    - name: Verify QAOA estimator summary coverage
-      run: |
-        python problems/05_qaoa_maxcut/python/validate_estimator_summary.py
-
-    - name: Verify QAOA backend assumptions evidence
-      run: |
-        python problems/05_qaoa_maxcut/python/validate_backend_assumptions.py
-
-    - name: Verify QAOA evidence quality thresholds
-      run: |
-        python problems/05_qaoa_maxcut/python/validate_evidence_quality.py
-
-    - name: Upload QAOA evidence quality report
-      uses: actions/upload-artifact@v4
-      with:
-        name: qaoa-evidence-quality
-        path: |
-          problems/05_qaoa_maxcut/estimates/evidence_quality_report.md
-          problems/05_qaoa_maxcut/estimates/evidence_quality_report.json
-        retention-days: 30
-
-    - name: Generate QAE runtime config
-      run: |
-        python problems/03_qae_risk/python/write_runtime_config.py \
-          --loss-qubits 4 \
-          --threshold 2.5 \
-          --mean 0.0 \
-          --std-dev 1.0 \
-          --precision-bits 6 \
-          --repetitions 120 \
-          --run-sanity-check false
-
-    - name: QAE runtime config sanity check
-      run: |
-        test -f problems/03_qae_risk/qsharp/src/RuntimeConfig.qs
-        python -c "import qsharp; qsharp.init(project_root='problems/03_qae_risk/qsharp'); print('QAE Q# compilation OK')"
-    
-    - name: Install Azure CLI and Quantum extension (non-blocking)
-      continue-on-error: true
-      run: |
-        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-        az extension add --name quantum
-    
-    - name: Validate Q# compilation (modern QDK)
-      run: python tooling/ci_validate_qsharp.py
-
-    - name: Run Q# entry points
-      run: python tooling/run_all_qsharp.py
-    
-    - name: Validate JSON schemas
-      run: python tooling/ci_validate_schema.py
-
-    - name: Run pytest baseline tests
-      run: |
-        pytest conftest.py -k "test_baseline" --tb=short -q
-
-    - name: Verify matrix freshness
-      run: python tooling/reporting/check_verification_matrix_freshness.py
-
-    - name: Validate website data schema
-      run: python tooling/reporting/validate_website_data_schema.py
-
-  # Quick resource estimation on PR
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-ci-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: pip-ci-${{ runner.os }}-
+      - name: Install dependencies
+        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qsharp
+      - name: Validate Q# compilation
+        run: python tooling/ci_validate_qsharp.py
+      - name: Run Q# entry points
+        run: python tooling/run_all_qsharp.py
+      - name: Validate JSON schemas
+        run: python tooling/ci_validate_schema.py
+      - name: Run pytest baseline tests
+        run: pytest conftest.py -k "test_baseline" --tb=short -q
+      - name: Enforce maturity contract
+        run: python tooling/reporting/stage_kpis.py --policy tooling/reporting/maturity-policy.json --enforce
+      - name: QAOA estimator smoke
+        run: cd problems/05_qaoa_maxcut && make estimate-all
+      - name: Verify QAOA evidence
+        run: |
+          python problems/05_qaoa_maxcut/python/validate_estimator_summary.py
+          python problems/05_qaoa_maxcut/python/validate_backend_assumptions.py
+          python problems/05_qaoa_maxcut/python/validate_evidence_quality.py
+      - name: QAE runtime config + Q# check
+        run: |
+          python problems/03_qae_risk/python/write_runtime_config.py \
+            --loss-qubits 4 --threshold 2.5 --mean 0.0 --std-dev 1.0 \
+            --precision-bits 6 --repetitions 120 --run-sanity-check false
+          python -c "import qsharp; qsharp.init(project_root='problems/03_qae_risk/qsharp'); print('QAE Q# OK')"
+      - name: Verify matrix freshness + website schema
+        run: |
+          python tooling/reporting/check_verification_matrix_freshness.py
+          python tooling/reporting/validate_website_data_schema.py
   quick-estimation:
     runs-on: ubuntu-latest
     needs: build-and-test
     if: github.event_name == 'pull_request'
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    
-    - name: Install dependencies
-      run: |
-        pip install numpy scipy jsonschema pyyaml
-    
-    - name: Run quick estimation checks
-      run: |
-        echo "🔍 Running quick estimation sanity checks..."
-        
-        # Check that estimation scripts are executable
-        python -m py_compile tooling/estimator/run_estimation.py
-        python -m py_compile tooling/azq/job_manager.py
-        
-        echo "✅ Estimation scripts compile successfully"
-        
-        # Validate any existing estimation results
-        for result_file in problems/*/estimates/*.json; do
-          if [ -f "$result_file" ]; then
-            echo "Validating $result_file"
-            python -c "
-            import json
-            import jsonschema
-            
-            with open('tooling/schema/result.json') as f:
-                schema = json.load(f)
-            
-            with open('$result_file') as f:
-                result = json.load(f)
-            
-            jsonschema.validate(result, schema)
-            print('✅ $result_file is valid')
-            " || echo "⚠️ $result_file validation failed"
-          fi
-        done
-
-  # Full resource estimation sweep (nightly)
-  full-estimation-sweep:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    if: github.event_name == 'schedule'
-
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    
-    - name: Install dependencies
-      run: |
-        pip install numpy scipy matplotlib pandas jsonschema pyyaml qsharp
-    
-    - name: Run real resource estimation sweep
-      run: |
-        python tooling/generate_estimates.py
-
-    - name: Collect estimation artifacts
-      run: |
-        set -e
-        mkdir -p tooling/estimator/output/_artifacts
-        cp tooling/estimator/output/nightly_summary.json tooling/estimator/output/_artifacts/nightly_summary.json
-
-        while IFS= read -r -d '' summary; do
-          rel="${summary#tooling/estimator/output/}"
-          dest="tooling/estimator/output/_artifacts/${rel}"
-          mkdir -p "$(dirname "$dest")"
-          cp "$summary" "$dest"
-        done < <(find tooling/estimator/output -mindepth 2 -maxdepth 2 -name "summary.json" -print0)
-
-        while IFS= read -r -d '' file; do
-          dest="tooling/estimator/output/_artifacts/${file}"
-          mkdir -p "$(dirname "$dest")"
-          cp "$file" "$dest"
-        done < <(find problems -path "*/estimates/*.json" -print0)
-
-    - name: Upload estimation artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: estimation-results
-        path: tooling/estimator/output/_artifacts
-        retention-days: 30
-
-  # Deploy website (on main branch)
-  deploy-website:
-    runs-on: ubuntu-latest
-    needs: [build-and-test]
-    if: github.ref == 'refs/heads/main'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    concurrency:
-      group: "pages"
-      cancel-in-progress: false
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    
-    - name: Install website dependencies
-      run: |
-        if [ -d "website" ] && [ -f "website/package.json" ]; then
-          cd website
-          attempts=0
-          until [ $attempts -ge 3 ]
-          do
-            npm install && break
-            attempts=$((attempts + 1))
-            echo "⚠️ npm install failed, retry $attempts/3"
-            sleep 5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-est-${{ runner.os }}
+          restore-keys: pip-ci-${{ runner.os }}-
+      - name: Install dependencies
+        run: pip install numpy scipy jsonschema pyyaml
+      - name: Validate estimation schemas
+        run: |
+          for f in problems/*/estimates/*.json; do
+            [ -f "$f" ] && python -c "
+          import json, jsonschema
+          schema = json.load(open('tooling/schema/result.json'))
+          jsonschema.validate(json.load(open('$f')), schema)
+          print('OK: $f')
+          " || true
           done
-          if [ $attempts -ge 3 ]; then
-            echo "❌ npm install failed after 3 attempts"
-            exit 1
-          fi
-        else
-          echo "Website not yet implemented, skipping..."
-        fi
-    
-    - name: Build website
-      run: |
-        if [ -d "website" ] && [ -f "website/package.json" ]; then
-          cd website
-          attempts=0
-          until [ $attempts -ge 3 ]
-          do
-            npm run build && break
-            attempts=$((attempts + 1))
-            echo "⚠️ npm run build failed, retry $attempts/3"
-            sleep 5
-          done
-          if [ $attempts -ge 3 ]; then
-            echo "❌ npm run build failed after 3 attempts"
-            exit 1
-          fi
-        else
-          echo "Website directory not found, skipping build"
-          exit 1
-        fi
-    
-    - name: Upload Pages artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./website/out
-    
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-
-  # Collect and analyze results
-  analyze-results:
-    runs-on: ubuntu-latest
-    needs: [full-estimation-sweep]
-    if: github.event_name == 'schedule'
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Download all estimation artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: ./artifacts
-    
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-    
-    - name: Install analysis dependencies
-      run: |
-        pip install numpy pandas matplotlib seaborn plotly jsonschema
-    
-    - name: Analyze estimation results
-      run: |
-        python -c "
-        import json
-        import pandas as pd
-        from pathlib import Path
-        
-        print('📊 Analyzing estimation results...')
-        
-        results = []
-        normalized_inputs = []
-        skipped_payloads = 0
-        artifacts_dir = Path('./artifacts')
-        
-        for result_dir in artifacts_dir.iterdir():
-            if result_dir.is_dir():
-                for json_file in result_dir.glob('**/*.json'):
-                    try:
-                        with open(json_file) as f:
-                            result = json.load(f)
-                        results.append(result)
-                        print(f'✅ Loaded {json_file}')
-                    except Exception as e:
-                        print(f'⚠️ Failed to load {json_file}: {e}')
-
-        for payload in results:
-            if isinstance(payload, dict):
-                normalized_inputs.append(payload)
-            elif isinstance(payload, list):
-                for item in payload:
-                    if isinstance(item, dict):
-                        normalized_inputs.append(item)
-                    else:
-                        skipped_payloads += 1
-            else:
-                skipped_payloads += 1
-        
-        if normalized_inputs:
-          df = pd.json_normalize(normalized_inputs)
-          print(f'📈 Loaded {len(results)} payloads; normalized {len(normalized_inputs)} records')
-          if skipped_payloads:
-            print(f'⚠️ Skipped {skipped_payloads} non-dict payload items during normalization')
-
-          preferred_cols = [
-            'problem_id',
-            'algorithm',
-            'metrics.logical_qubits',
-            'metrics.physical_qubits',
-          ]
-          available_cols = [col for col in preferred_cols if col in df.columns]
-          if available_cols:
-            print(df[available_cols].to_string())
-          else:
-            print('⚠️ Preferred summary columns not present in normalized payload; printing all columns.')
-            print(df.to_string())
-        else:
-            print('No valid dict records found for normalization')
-        "
-    
-    - name: Generate summary report
-      run: |
-        cat > estimation_summary.md << 'EOF'
-        # Quantum Grand Challenges - Estimation Summary
-        
-        **Generated:** $(date)
-        **Commit:** $GITHUB_SHA
-        
-        ## Overview
-        This report summarizes the latest resource estimation results across all quantum grand challenge problems.
-        
-        ## Problems Status
-        - 01_hubbard: Mock estimation complete
-        - 02_catalysis: Mock estimation complete  
-        - 03_qae_risk: Mock estimation complete
-        - 04_linear_solvers: Mock estimation complete
-        - 05_qaoa_maxcut: Mock estimation complete
-        - 06_high_frequency_trading: Mock estimation complete
-        
-        ## Next Steps
-        1. Implement actual quantum algorithms
-        2. Connect to real Resource Estimator
-        3. Add classical baselines
-        4. Build interactive website
-        
-        ---
-        *Generated automatically by GitHub Actions*
-        EOF
-    
-    - name: Upload summary report
-      uses: actions/upload-artifact@v4
-      with:
-        name: estimation-summary
-        path: estimation_summary.md

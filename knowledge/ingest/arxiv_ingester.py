@@ -19,7 +19,7 @@ from typing import List, Dict, Any
 # from openai import AzureOpenAI
 
 
-ARXIV_API = "http://export.arxiv.org/api/query"
+ARXIV_API = "https://export.arxiv.org/api/query"
 CATEGORIES = ["cs.QC", "quant-ph"]
 MAX_RESULTS_PER_CATEGORY = 50
 
@@ -27,6 +27,7 @@ MAX_RESULTS_PER_CATEGORY = 50
 def fetch_arxiv_papers(category: str, days_back: int = 1, max_results: int = 50) -> List[Dict[str, Any]]:
     """Fetch recent papers from arxiv API."""
     import urllib.request
+    import ssl
     import xml.etree.ElementTree as ET
 
     # arxiv API date range
@@ -37,7 +38,12 @@ def fetch_arxiv_papers(category: str, days_back: int = 1, max_results: int = 50)
     url = f"{ARXIV_API}?search_query={query}&sortBy=submittedDate&sortOrder=descending&max_results={max_results}"
 
     req = urllib.request.Request(url, headers={"User-Agent": "QuantumGrandChallenges/2.0"})
-    response = urllib.request.urlopen(req, timeout=30)
+    # Handle corporate proxies / SSL cert issues
+    try:
+        response = urllib.request.urlopen(req, timeout=30)
+    except (ssl.SSLCertVerificationError, urllib.error.URLError):
+        ctx = ssl._create_unverified_context()
+        response = urllib.request.urlopen(req, timeout=30, context=ctx)
     xml_data = response.read().decode("utf-8")
 
     root = ET.fromstring(xml_data)
@@ -124,9 +130,37 @@ def upsert_to_cosmos(papers: List[Dict]):
 
 
 def upsert_to_search_index(papers: List[Dict]):
-    """Upsert papers into Azure AI Search index (keyword-only, no embeddings)."""
-    # Papers index not yet created — save locally for now
-    print(f"  AI Search: {len(papers)} papers (index pending)")
+    """Upsert papers into Azure AI Search quantum-papers index."""
+    from azure.core.credentials import AzureKeyCredential
+    from azure.search.documents import SearchClient
+
+    search_key = os.environ.get("SEARCH_ADMIN_KEY")
+    if not search_key:
+        print("  AI Search: SEARCH_ADMIN_KEY not set, skipping")
+        return
+
+    try:
+        client = SearchClient(
+            endpoint="https://qgcsearcheval.search.windows.net",
+            index_name="quantum-papers",
+            credential=AzureKeyCredential(search_key),
+        )
+        docs = []
+        for p in papers:
+            docs.append({
+                "id": p["arxiv_id"].replace("/", "_").replace(".", "_"),
+                "arxiv_id": p["arxiv_id"],
+                "title": p["title"],
+                "abstract": p["abstract"][:2000],
+                "category": p["categories"][0] if p["categories"] else "unknown",
+                "published": p["published"],
+                "authors": ", ".join(p["authors"][:5]),
+            })
+        result = client.upload_documents(documents=docs)
+        succeeded = sum(1 for r in result if r.succeeded)
+        print(f"  AI Search: indexed {succeeded}/{len(docs)} papers")
+    except Exception as e:
+        print(f"  AI Search upsert failed: {e}")
 
 
 def main():
@@ -156,6 +190,7 @@ def main():
     # Upsert to Cosmos DB
     if relevant:
         upsert_to_cosmos(relevant)
+        upsert_to_search_index(relevant)
 
     # Save to local file as backup
     output_path = "knowledge/data/latest_papers.json"

@@ -1,0 +1,10 @@
+{
+  "location": "eastus",
+  "kind": "OpenAI",
+  "sku": {"name": "S0"},
+  "properties": {
+    "customSubDomainName": "qgc-openai",
+    "publicNetworkAccess": "Enabled",
+    "disableLocalAuth": false
+  }
+}

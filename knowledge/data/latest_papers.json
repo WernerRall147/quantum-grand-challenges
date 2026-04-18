@@ -1,0 +1,457 @@
+{
+  "ingested_utc": "2026-04-18T16:17:16.099608+00:00",
+  "count": 26,
+  "papers": [
+    {
+      "arxiv_id": "2604.15307v1",
+      "title": "Heuristic Search for Minimum-Distance Upper-Bound Witnesses in Quantum APM-LDPC Codes",
+      "abstract": "This paper investigates certified upper bounds on the minimum distance of an explicit family of Calderbank-Shor-Steane quantum LDPC codes constructed from affine permutation matrices. All codes considered here have active Tanner graphs of girth eight. Rather than attempting to prove a general lower bound for the full code distance, we focus on constructing low-weight non-stabilizer logical representatives, which yield valid upper bounds once they are verified to lie in the opposite parity-check kernel and outside the stabilizer row space. We develop a unified framework for such witnesses arising from latent row relations, restricted-lift subspaces including block-compressed, selected-fiber, and CRT-stripe constructions, cycle- 8 elementary trapping-set structures, and decoder-failure residuals. In every case, search is used only to generate candidates; the reported bounds begin only after explicit kernel and row-space exclusion tests have been passed. For the latent part, we also identify a block-compression criterion under which the certification becomes exact. Applying these methods to representative APM-LDPC codes sharpens previously reported upper bounds and provides concrete certified values across the explored parameter range.",
+      "authors": [
+        "Kenta Kasai"
+      ],
+      "categories": [
+        "quant-ph",
+        "cs.IT"
+      ],
+      "published": "2026-04-16T17:59:44Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15298v1",
+      "title": "Super-Constant Weight Dicke States in Constant Depth Without Fanout",
+      "abstract": "An $n$-qubit Dicke state of weight $k$, is the uniform superposition over all $n$-bit strings of Hamming weight $k$. Dicke states are an entanglement resource with important practical applications in the NISQ era and, for instance, play a central role in Decoded Quantum Interferometry (DQI). Furthermore, any symmetric state can be expressed as a superposition of Dicke states.   First, we give explicit constant-depth circuits that prepare $n$-qubit Dicke states for all $k \\leq \\text{polylog}(n)$, using only multi-qubit Toffoli gates and single-qubit unitaries. This gives the first $\\text{QAC}^0$ construction of super-constant weight Dicke states. Previous constant-depth constructions for any super-constant $k$ required the FANOUT$_n$ gate, while $\\text{QAC}^0$ is only known to implement FANOUT$_k$ for $k$ up to $\\text{polylog}(n)$. Moreover, we show that any weight-$k$ Dicke state can be constructed with access to FANOUT$_{\\min(k,n-k)}$, rather than FANOUT$_n$. Combined with recent hardness results, this yields a tight characterization: for $k \\leq n/2$, weight-$k$ Dicke states can be prepared in $\\text{QAC}^0$ if and only if FANOUT$_k \\in \\text{QAC}^0$.   We further extend our techniques to show that, in fact, \\emph{any} superposition of $n$-qubit Dicke states of weight at most $k$ can be prepared in $\\text{QAC}^0$ with access to FANOUT$_k$. Taking $k = n$, we obtain the first $O(1)$-depth unitary construction for arbitrary symmetric states. In particular, any symmetric state can be prepared in constant depth on quantum hardware architectures that support FANOUT$_n$, such as trapped ions with native global entangling operations.",
+      "authors": [
+        "Lucas Gretta",
+        "Meghal Gupta",
+        "Malvika Raj Joshi"
+      ],
+      "categories": [
+        "quant-ph",
+        "cs.DS"
+      ],
+      "published": "2026-04-16T17:57:08Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15269v1",
+      "title": "Cloning is as Hard as Learning for Stabilizer States",
+      "abstract": "The impossibility of simultaneously cloning non-orthogonal states lies at the foundations of quantum theory. Even when allowing for approximation errors, cloning an arbitrary unknown pure state requires as many initial copies as needed to fully learn the state. Rather than arbitrary unknown states, modern quantum learning theory often considers structured classes of states and exploits such structure to develop learning algorithms that outperform general-state tomography. This raises the question: How do the sample complexities of learning and cloning relate for such structured classes? We answer this question for an important class of states. Namely, for $n$-qubit stabilizer states, we show that the optimal sample complexity of cloning is $\u0398(n)$. Thus, also for this structured class of states, cloning is as hard as learning. To prove these results, we use representation-theoretic tools in the recently proposed Abelian State Hidden Subgroup framework and a new structured version of the recently introduced random purification channel to relate stabilizer state cloning to a variant of the sample amplification problem for probability distributions that was recently introduced in classical learning theory. This allows us to obtain our cloning lower bounds by proving new sample amplification lower bounds for classes of distributions with an underlying linear structure. Our results provide a more fine-grained perspective on No-Cloning theorems, opening up connections from foundations to quantum learning theory and quantum cryptography.",
+      "authors": [
+        "Nikhil Bansal",
+        "Matthias C. Caro",
+        "Gaurav Mahajan"
+      ],
+      "categories": [
+        "quant-ph",
+        "cs.LG",
+        "math.ST"
+      ],
+      "published": "2026-04-16T17:41:16Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15263v1",
+      "title": "Computing the free energy of quantum Coulomb gases and molecules via quantum Gibbs sampling",
+      "abstract": "We develop a quantum algorithm for estimating the free energy as well as the total Gibbs state of interacting quantum Coulomb gases and molecular systems in dimensions $d \\in \\{2,3\\}$ at finite temperature. These systems lie beyond the reach of existing methods due to their singular interactions and infinite-dimensional Hilbert space structure. First, we show that the free energy of the full many-body Hamiltonian can be approximated by that of the same Hamiltonian with a finite-rank low-energy truncation of the interaction, with an explicit error bound polynomial in the particle number. This reduces the problem to a controlled finite-rank perturbation problem. Second, we introduce a quantum Gibbs sampling scheme tailored to this truncated system, based on a class of quantum Markov semigroups. Our main analytical result establishes that the associated generator has a strictly positive spectral gap for every truncation, implying exponential convergence to the target Gibbs state. This provides, to our knowledge, the first rigorous mixing-time guarantee for Gibbs sampling in a Coulomb interacting continuous-variable quantum system. Finally, we give an explicit quantum circuit implementation of the dynamics and derive an end-to-end complexity bound for approximating the free energy and the Gibbs state itself. Our results provide a mathematically rigorous route to quantum algorithms for free energy estimation in interacting quantum systems, without relying on classical approximations such as the Born-Oppenheimer reduction.",
+      "authors": [
+        "Simon Becker",
+        "Cambyse Rouz\u00e9",
+        "Robert Salzmann"
+      ],
+      "categories": [
+        "quant-ph",
+        "math-ph"
+      ],
+      "published": "2026-04-16T17:38:43Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15258v1",
+      "title": "General framework for anticoncentration and linear cross-entropy benchmarking in photonic quantum advantage experiments",
+      "abstract": "Photonic architectures are one of the leading platforms for demonstrating quantum computational advantage, with Boson Sampling and Gaussian Boson Sampling as the primary schemes. Yet, we lack for these photonic primitives a systematic theoretical understanding of linear cross-entropy benchmarking (LXEB), which is a central tool for testing quantum advantage proposals. In this work, we develop a representation-theoretic framework for the classical computation of average LXEB scores and second moments of output probability distributions, covering a range of quantum advantage experiments based on scattering $n$-photon states through $m$-mode Haar-random interferometers. Our methods apply in any regime, including the saturated regime, where the (expected) number of photons is comparable to the number of optical modes. The same second-moment techniques also allow us to prove anticoncentration for traditional Fock-state Boson Sampling in the saturated regime. Interestingly, for Gaussian Boson Sampling second moments are not sufficient to establish a meaningful anticoncentration statement. The technical core of our approach rests on decomposing two copies of the $n$-particle bosonic space $\\mathrm{Sym}^n(\\mathbb{C}^m)$ into irreducible representations of $\\mathrm{U}(m)$. This reduces two-copy Haar averages to computing purities of initial states after partial traces over particles, highlighting the role that particle entanglement plays for LXEB and anticoncentration.",
+      "authors": [
+        "Zolt\u00e1n Kolarovszki",
+        "\u00c1goston Kaposi",
+        "Zolt\u00e1n Zimbor\u00e1s",
+        "Micha\u0142 Oszmaniec"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T17:35:49Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15248v1",
+      "title": "IQP circuits for 2-Forrelation",
+      "abstract": "The 2-Forrelation problem provides an optimal separation between classical and quantum query complexity and is also the problem used for separating $\\mathsf{BQP}$ and $\\mathsf{PH}$ relative to an oracle. A natural question is therefore to ask what are the minimal quantum resources needed to solve this problem. We show that 2-Forrelation can be solved using Instantaneous Quantum Polynomial-time ($\\mathsf{IQP}$) circuits, a restricted model of quantum computation in which all gates commute. Concretely, two $\\mathsf{IQP}$ circuits with two quantum queries and efficient classical processing suffice. For the signed variant of 2-Forrelation, even a single $\\mathsf{IQP}$ circuit and query suffices. This answers a recent open question of Girish (arXiv:2510.06385) on the power of commuting quantum computations. We use this to show that $(\\mathsf{BPP}^{\\mathsf{IQP}})^O \\not\\subseteq \\mathsf{PH}^O$ relative to an oracle $O$, strengthening the result of Raz and Tal (STOC 2019). Our results show that $\\mathsf{IQP}$ circuits can be used for classically hard decision problems, thus providing a new route for showing quantum advantage with $\\mathsf{IQP}$ circuits, avoiding the verification difficulties associated with sampling tasks. We also prove Fourier growth bounds for $\\mathsf{IQP}$ circuits in terms of the size of their accepting set. The key ingredient is an algebraic identity of the quadratic function $Q(x) = \\sum_{i < j} x_ix_j$ that allows extracting inner-product phases within an $\\mathsf{IQP}$ circuit.",
+      "authors": [
+        "Quentin Buzet",
+        "Andr\u00e9 Chailloux"
+      ],
+      "categories": [
+        "quant-ph",
+        "cs.CC"
+      ],
+      "published": "2026-04-16T17:24:25Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15228v1",
+      "title": "Universal quantum state purification with energy-preserving operations",
+      "abstract": "Quantum state purification, which operates not by identifying and correcting specific errors but by repeatedly projecting multiple noisy copies onto special subspaces, provides a syndrome-free alternative to quantum error correction. Existing purification protocols, however, generally assume unconstrained operations and thus overlook the energetic restrictions inherent in realistic quantum devices. Here, we establish a general framework for universal state purification under energy-conservation constraints for depolarizing noise. We derive a necessary and sufficient condition for the nonexistence of universal energy-preserving purification and, whenever such purification is feasible, analytically determine the optimal performance and the corresponding protocols. We further show how the optimal protocols can be systematically implemented using only energy-preserving operations. Numerical results confirm the effectiveness of the proposed scheme. Our framework recovers the standard purification setting as a special case and naturally extends to scenarios assisted by external energy resources. These results identify fundamental physical limits on state distillation and provide an energy-efficient route to quantum error mitigation.",
+      "authors": [
+        "Xing-Chen Guo",
+        "Benchi Zhao",
+        "Xin Wang"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T17:07:18Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15214v1",
+      "title": "Optimal algorithmic complexity of inference in quantum kernel methods",
+      "abstract": "Quantum kernel methods are among the leading candidates for achieving quantum advantage in supervised learning. A key bottleneck is the cost of inference: evaluating a trained model on new data requires estimating a weighted sum $\\sum_{i=1}^N \u03b1_i k(x,x_i)$ of $N$ kernel values to additive precision $\\varepsilon$, where $\u03b1$ is the vector of trained coefficients. The standard approach estimates each term independently via sampling, yielding a query complexity of $O(N\\lVert\u03b1\\rVert_2^2/\\varepsilon^2)$. In this work, we identify two independent axes for improvement: (1) How individual kernel values are estimated (sampling versus quantum amplitude estimation), and (2) how the sum is approximated (term-by-term versus via a single observable), and systematically analyze all combinations thereof. The query-optimal combination, encoding the full inference sum as the expectation value of a single observable and applying quantum amplitude estimation, achieves a query complexity of $O(\\lVert\u03b1\\rVert_1/\\varepsilon)$, removing the dependence on $N$ from the query count and yielding a quadratic improvement in both $\\lVert\u03b1\\rVert_1$ and $\\varepsilon$. We prove a matching lower bound of $\u03a9(\\lVert\u03b1\\rVert_1/\\varepsilon)$, establishing query-optimality of our approach up to logarithmic factors. Beyond query complexity, we also analyze how these improvements translate into gate costs and show that the query-optimal strategy is not always optimal in practice from the perspective of gate complexity. Our results provide both a query-optimal algorithm and a practically optimal choice of strategy depending on hardware capabilities, along with a complete landscape of intermediate methods to guide practitioners. All algorithms require only amplitude estimation as a subroutine and are thus natural candidates for early-fault-tolerant implementations.",
+      "authors": [
+        "Elies Gil-fuster",
+        "Seongwook Shin",
+        "Sofiene Jerbi",
+        "Jens Eisert",
+        "Maximilian J. Kramer"
+      ],
+      "categories": [
+        "quant-ph",
+        "cs.LG"
+      ],
+      "published": "2026-04-16T16:45:02Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15209v1",
+      "title": "Variational quantum state preparation within an entangle-rotate circuit framework for quantum-enhanced metrology in noisy systems",
+      "abstract": "We investigate the generation of quantum states for precision metrology in noisy two-level systems. These states are obtained by optimizing a variational quantum circuit to maximize the quantum Fisher information (QFI) of the output state for a given decoherence rate and interaction Hamiltonian. The circuit architecture, inspired by twist-and-turn schemes, features a sequence of $n$ entangling layers, each consisting of entangling gates followed by a global rotation. We observe notable improvements in the QFI as the circuit layer depth increases, even for appreciable noise rates, demonstrating that our entangle-rotate architecture expands the accessible state space under realistic noise conditions. Our approach thus provides a general and efficient framework for generating quantum-enhanced sensing states. Our analysis extends to systems of power-law interactions spanning from all-to-all to nearest-neighbor interactions. We also analyze the capabilities of our circuit to prepare states for system sizes greater than $8$ qubits.",
+      "authors": [
+        "Juan C. Zu\u00f1iga Castro",
+        "Jeffrey Larson",
+        "Matt Menickelly",
+        "Sri Hari Krishna Narayanan",
+        "Yicheng Zhang",
+        "Michael A. Perlin",
+        "Robert J. Lewis-Swan"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T16:40:43Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15179v1",
+      "title": "Quantum Metropolis-Hastings via Penalised Qubitized Walks: Spectral Filtering and Circuit Implementation",
+      "abstract": "The Metropolis-Hastings algorithm is a cornerstone of Markov Chain Monte Carlo methods, underpinning a wide range of applications in computational physics, Bayesian inference, and machine learning. Quantum variants of Metropolis-Hastings promise accelerated mixing through quantum walks, but their practical realisation remains challenging. In this work, we construct and simulate an explicit circuit level implementation of a quantum Metropolis-Hastings algorithm based on the framework introduced by Claudon \\emph{et al.} (arXiv:2506.11576). We present the full quantum workflow required to prepare a stationary distribution, including a number of modifications required to make the algorithm implementable in a realistic quantum circuit model. Our results demonstrate that these modifications are essential to recover the correct stationary behaviour and highlight both the potential and current limitations of quantum Metropolis-Hastings algorithms, which are expected to become practically relevant in the fault tolerant quantum computing regime.",
+      "authors": [
+        "Miguel Carrasco-Arango",
+        "Rosa M. Badia",
+        "Artur Garcia-Saez"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T15:59:50Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15132v1",
+      "title": "A minimal implementation of Yang-Mills theory on a digital quantum computer",
+      "abstract": "We present a minimal implementation of SU($N$) pure Yang-Mills theory in $3+1$ dimensions for digital quantum simulation, designed to enable quantum advantage. Building on the orbifold lattice simulation protocol with logarithmic scaling in the local Hilbert-space truncation, we introduce further simplified Hamiltonians. Furthermore, we test simple methods that improve the convergence to the infinite mass limit, thereby removing the requirement of a large scalar mass to obtain the Kogut-Susskind Hamiltonian. For the SU(2) theory, we can cut the resource requirement further by utilizing the embedding of $\\mathrm{SU}(2)\\cong\\mathrm{S}^3$ into $\\mathbb{R}^4$. Monte Carlo simulations of the Euclidean path integral were used to benchmark the accuracy of these new analytical improvements to the theory. These results provide further support for the noncompact-variable-based approach as a practical framework for quantum simulation of non-Abelian gauge theories.",
+      "authors": [
+        "Georg Bergner",
+        "Masanori Hanada",
+        "Emanuele Mendicelli"
+      ],
+      "categories": [
+        "hep-lat",
+        "hep-th",
+        "nucl-th",
+        "quant-ph"
+      ],
+      "published": "2026-04-16T15:14:16Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15111v1",
+      "title": "Constraints on phantom codes from automorphism group bounds",
+      "abstract": "Executing a logical quantum circuit fault-tolerantly incurs a large spacetime overhead. Recent work has proposed and investigated phantom codes, defined by the property that every in-block logical $\\mathrm{CNOT}$ circuit can be implemented with a physical permutation, a property that has the potential to greatly reduce the depth of compiled circuits. Here we show that phantomness comes at the cost of low encoding rate. Specifically, we prove that any binary phantom code encoding $k$ logical qubits into $n$ physical qubits with distance $d\\geq 2$ obeys the bound $k\\leq \\log_2(n+1)$ for all $k\\neq 4$. For $k=4$ we explicitly construct a nonstabiliser $(\\!(8, 2^4, 2)\\!)$ phantom code that violates the bound and has a transversal non-Clifford gate. We further show that, within the class of nontrivial CSS phantom codes with $k\\neq 4$, there is a unique family of codes saturating this bound. In addition, we prove that this logarithmic ceiling cannot be circumvented by permitting additional local unitary gates, or by making use of subsystem codes: any subspace or subsystem code admitting a $\\mathrm{SWAP}$-transversal implementation of every logical $\\mathrm{CNOT}$ circuit is constrained to satisfy the same bound. These bounds follow from a general theorem relating the length of a quantum code to the structure of its automorphism group, a result which may find applications beyond phantom codes.",
+      "authors": [
+        "Arthur S. Morris",
+        "Daniel Malz"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T15:04:53Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15102v1",
+      "title": "Low-rank geometry of two-qubit gates",
+      "abstract": "We present a framework based on the determinantal geometry of two-qubit gates. Combining the Weyl chamber representation with operator Schmidt theory, we interpret gate synthesis as a distance problem to determinantal varieties. This gives an operational geometry to the Weyl chamber, quantifying nonlocal complexity. We show that the square root iSWAP gate is the closest perfect entangler to the variety of local operations, and that no perfect entangler can be approximated by a local gate with average gate fidelity above 79.8%. The three different determinantal costs form a synthesis-adapted coordinate system that encodes nonlocal complexity and generally reconstructs the Weyl chamber.",
+      "authors": [
+        "Lloren\u00e7 Balada Gaggioli"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T14:59:22Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15099v1",
+      "title": "O3LS: Optimizing Lattice Surgery via Automatic Layout Searching and Loose Scheduling",
+      "abstract": "Toward the large-scale, practical realization of quantum computing, quantum error correction is essential. Among various quantum error-correcting codes, the surface code stands out as a leading candidate, and lattice surgery based on surface codes has emerged as a promising technique for fault-tolerant quantum computation (FTQC). However, implementing quantum algorithms using lattice surgery introduces both resource and time overhead. Existing approaches typically focus on large layout designs, with compiler passes aimed primarily at optimizing time overhead. This often overlooks the trade-off between rotation bottlenecks and movement distance, which leads to inefficient resource utilization and prevents further reduction of the quantum computation failure rate.   To address these challenges, we introduce O3LS, a framework for optimizing lattice surgery through automatic layout search and loose scheduling. O3LS achieves an optimal balance by automatically generating squeezed data layouts to reduce space requirements and employing loose scheduling algorithms combined with circuit synthesis techniques to reduce time overhead, thereby effectively minimizing overall logical error rates. Numerical results indicate that O3LS can reduce space overhead by 28.0% over standard layouts and 46.7% over sparse layouts without increasing the number of time steps, leading to suppression of logical error rates by up to 16% relative to larger data layout designs. O3LS can also achieve time overhead reductions of 36.07% and 24.76% in compact and standard data layout designs, respectively. It suppresses logical error rates by up to an order of magnitude compared to prior compilers that focus primarily on maximizing parallelism.",
+      "authors": [
+        "Chenghong Zhu",
+        "Xian Wu",
+        "Jiahan Chen",
+        "Keming He",
+        "Junjie Wu",
+        "Xin Wang",
+        "Lingling Lao"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T14:57:58Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15094v1",
+      "title": "QLLVM: A Scalable Quantum-Classical Co-Compilation Framework based on LLVM",
+      "abstract": "To address the urgent need in the NISQ era for high-performance, scalable quantum compilers and to advance the integration of classical and quantum computing, we present QLLVM, an advanced Quantum-Classical co-compilation framework built on LLVM. To our knowledge, QLLVM delivers an end-to-end, LLVM-based compilation workflow that unifies the build of classical high-performance programs, including CUDA, MPI, and C++, together with quantum programs into a single executable. For quantum program compilation, QLLVM adopts a three-stage design: high-level optimizations are implemented in the MLIR Quantum dialect and then lowered to QIR, an LLVM IR-based representation, for low-level optimization and hardware mapping. Its extensible architecture and seamless interoperability with classical high-performance computing provide an efficient, flexible, industrial-grade compilation infrastructure for future quantum software development. Experimental results show that, on the MQTBench benchmark suite, QLLVM reduces circuit depth and gate counts compared with state-of-the-art compilers and demonstrates clear advantages in compiling hybrid classical-quantum programs.",
+      "authors": [
+        "Yu Zhu",
+        "Qiming Du",
+        "Yuqiong Jin",
+        "Woji He",
+        "Hang Lian",
+        "Xin Zhou",
+        "Jinchen Xu",
+        "Zheng Shan"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T14:53:41Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15043v1",
+      "title": "SyQMA: A memory-efficient, symbolic and exact universal simulator for quantum error correction",
+      "abstract": "The classical simulation of universal quantum circuits is crucial both fundamentally and practically for quantum computation. We propose SyQMA, a simulator with several convenient features, particularly suited for quantum error correction (QEC). SyQMA simulates universal quantum circuits with incoherent Pauli noise and computes exact expectation values and measurement probabilities as symbolic functions of circuit parameters: rotation angles, measurement outcomes, and noise rates. This simulator can sample measurement outcomes, enabling the simulation of dynamic quantum programs where circuit composition depends on prior measurement outputs. For QEC, it performs circuit-level maximum-likelihood decoding, provides exact symbolic expressions for logical error rates, and verifies the fault distance of fault-tolerant (FT) stabiliser and magic state preparation protocols. These features are enabled by an intuitive extension of stabiliser simulators, where each non-Clifford Pauli rotation and incoherent Pauli channel is compactly represented via auxiliary qubits and a modified trace. Representing the state requires only polynomial memory and time, while computing expectation values and measurement probabilities takes exponential time in the number of non-Clifford rotations and deterministic measurements, but only polynomial memory. The FT preparation of stabiliser and magic states, including the first stage of magic state cultivation, is analysed without approximations. We also exactly convert the disjoint error probabilities of a general multi-qubit Pauli channel to independent ones, a key step for creating and sampling from detector error models. The code is publicly available and open-source.",
+      "authors": [
+        "George Umbrarescu",
+        "David Amaro"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T14:10:29Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15029v1",
+      "title": "Entanglement quantification with randomized measurements is maximally difficult",
+      "abstract": "The certification of quantum systems is essential for emerging quantum technologies, particularly in quantum communication, networks, and distributed computing, where maintaining a common reference frame across distant nodes poses significant challenges. Reference frame independent approaches, such as randomized measurement schemes, offer a promising route by reducing experimental demands while granting access to basis-independent quantities, including entanglement. However, the efficiency of such schemes in measuring such local invariants has remained unclear. In this work, we determine the minimal number of measurement settings required to access all two-qubit invariants. We further demonstrate that entanglement certification necessarily involves the most demanding invariants, establishing it as a maximally difficult task. Our results reveal a fundamental hierarchy among invariants, with direct implications for experimental feasibility and theoretical understanding of quantum certification. Finally, we extend our analysis beyond bipartite systems by applying it to the Kempe invariant in three-qubit systems, improving known measurement protocols and providing a first step toward uncovering similar hierarchies in higher dimensions.",
+      "authors": [
+        "Julian Eisfeld",
+        "Nikolai Wyderka"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T13:59:53Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15025v1",
+      "title": "Hidden Quantum Advantage near the Decoding Threshold of Decoded Quantum Interferometry",
+      "abstract": "Where is the true boundary of the quantum advantage region of decoded quantum interferometry (DQI)? The best existing answer is provided by Theorem 10.1 of Jordan et al., yet we show that this answer systematically underestimates the extent of quantum advantage. On the standard partial-win LDPC benchmark instance, there exist 26 consecutive parameter points (l in [642, 667]) at which Jordan's analysis declares no quantum advantage (<s>/m < 0.5), while quantum advantage is in fact present with an approximation ratio reaching 0.66. The root cause is that Jordan's bound penalizes the entire system with the worst-case Hamming-layer decoding failure rate epsilon = max_k epsilon_k, discarding the spectral structure of the DQI tridiagonal matrix. Exploiting the concentration of the Perron eigenvector, we replace the uniform penalty with the weighted average epsilon_bar = sum_k epsilon_k w_k^2 and establish a unified lower bound (Master Theorem) valid over arbitrary finite fields F_q, proving that it strictly improves upon the original bound from three independent sources.",
+      "authors": [
+        "Maoxin Gao",
+        "Yan Chang"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T13:54:29Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.15014v1",
+      "title": "Runtime-efficient zero-noise extrapolation from mixed physical and logical data",
+      "abstract": "Partial quantum error correction and quantum error mitigation are expected to coexist in the pre-fault-tolerant regime, yet the resource advantage of combining them remains insufficiently quantified. We study zero-noise extrapolation constructed from mixed datasets that contain a small number of error-corrected data points together with data obtained without error correction. The low-noise logical points anchor the extrapolation, while the higher-noise physical points enlarge the noise baseline at a much smaller runtime cost. Under a simple model in which error correction suppresses the effective gate error rate from p to $\u03b3$p, we derive the variance of the zero-noise estimator and compare the physical runtime required to reach a target precision. For Richardson extrapolation, the mixed-data strategy reduces variance amplification and can lower the required physical runtime by several orders of magnitude when $\u03b3\\leq 0.1$. As a proof of principle, we apply the method to digital quantum simulation of a six-spin transverse-field Ising model and find that mixed physical/logical datasets yield lower-variance zero-noise estimates and outperform extrapolation based only on error-corrected data in the parameter regime studied here. These results identify hybrid error correction and error mitigation as a practical route to resource-efficient quantum computation before full fault tolerance.",
+      "authors": [
+        "D. V. Babukhin",
+        "W. V. Pogosov"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T13:42:05Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.14959v1",
+      "title": "Ultrafast all-optical quantum teleportation",
+      "abstract": "Light's intrinsic carrier frequency of hundreds of terahertz theoretically enables information processing at terahertz clock rates. In optical quantum computing, continuous-variable quantum teleportation is the fundamental building block for deterministic logic operations. This protocol transfers unknown quantum states between nodes using quantum entanglement and real-time feedforward of measurement outcomes. However, electrical feedforward bottlenecks currently restrict operational bandwidths to approximately 100 megahertz, preventing the exploitation of light's ultimate speed. Here we show 1-terahertz-bandwidth all-optical quantum teleportation, completely bypassing this electronic limitation. By transferring Bell measurement outcomes optically, we successfully teleported vacuum states across the terahertz band and real-time random coherent wavepackets with a 42-picosecond temporal width. Evaluating the intrinsic state transfer quality, we achieved teleportation fidelities of $\\mathcal{F}=0.784$ for the broadband vacuum states and $\\mathcal{F}=0.770$ for the dynamic coherent wavepackets. Both results strictly surpass the classical limit of $\\mathcal{F}=0.5$, demonstrating genuine quantum teleportation at ultrafast speeds. Our results establish that optical quantum processing speeds are constrained solely by the nonlinear medium's 1-picosecond-scale response, rather than classical electrical interfaces. This methodology provides a cornerstone for terahertz-clock quantum computers capable of overcoming Moore's law, and paves the way for a high-capacity, telecom-compatible quantum internet.",
+      "authors": [
+        "Takumi Suzuki",
+        "Takaya Hoshi",
+        "Akito Kawasaki",
+        "Shotaro Oki",
+        "Konhi Ichii",
+        "Hironari Nagayoshi",
+        "Kazuma Takahashi",
+        "Takahiro Kashiwazaki",
+        "Taichi Yamashima",
+        "Asuka Inoue"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T12:54:40Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.14955v1",
+      "title": "Three ways to share a QPU: Scheduling strategies for hybrid Quantum-HPC applications",
+      "abstract": "As quantum computing (QC) technologies mature, their integration into established high-performance computing (HPC) infrastructures is becoming a central objective for next-generation computing systems. However, unlocking the potential of hybrid platforms for computationally demanding workloads remains challenging. The mismatch between quantum and classical programming models, the limited maturity of quantum software stacks, and the scarcity of quantum processing units (QPUs) above all, necessitate scheduling strategies that go beyond standard HPC mechanisms to manage such heterogeneous and constrained resources.   To address this issue, we investigate three distinct methodologies for HPC-QC resource scheduling: time-based multiplexing, dynamic resource management, and workflow decomposition. Experimental validation on production HPC clusters and real quantum hardware demonstrates the effectiveness of these approaches under different workload scenarios. Malleability and workflow strategies significantly optimize classical resource utilization, reducing consumption by up to 45.7% and 64% respectively, proving to be best fitted for hybrid jobs where quantum and classical workloads are evenly balanced. Conversely, time-multiplexing enhances QPU utilization and reduces execution time at the cluster level, making it the optimal strategy for the opposite context, which is characterized by high classical-quantum workload imbalances. These findings underscore the practical viability of tailored scheduling strategies for hybrid HPC-QC environments and highlight their complementarity in building efficient, scalable software stacks for next-generation quantum-accelerated facilities.",
+      "authors": [
+        "Marco Cipollini",
+        "Simone Rizzo",
+        "Sergio Iserte",
+        "Paolo Viviani",
+        "Giacomo Vitali",
+        "Matteo Barbieri",
+        "Gabriella Bettonte",
+        "Elisabetta Boella",
+        "Fulvio Ganz",
+        "Roberto Rocco"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T12:52:45Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.14950v1",
+      "title": "Quantum gravimetry with mechanical qubits",
+      "abstract": "Levitated mesoscopic particles hold the promise of revolutionizing gravity sensing by using quantum effects. However, conventional quantum gravimeters based on such systems fail to harness the intrinsic large-mass advantage of the particles, because their commonly utilized auxiliary quantum systems counteract the role of mass as a resource. To overcome this limitation, we propose a quantum gravimetry by directly using the mechanical qubit (QM) formed by a levitated particle as the gravity sensor. Without resorting to the auxiliary quantum system, our scheme enables a straightforward readout of the particle's motion under gravitational influence. The obtained sensitivity behaves as a $m^{-1/2}$-scaling with the mass $m$. We also generalize our scheme to the \\textit{mechanical cat qubit} as the gravity sensor. The sensitivity further scales as $N^{-1/2}$ with the mean phonon number $N$. In the experimentally realizable parameter regime, a sensitivity on the order of $0.1~ \\text{\\textmu}\\text{Gal}/\\sqrt{\\text{Hz}}$ can be achieved, which outperforms the traditional schemes by two orders of magnitude. Reaching the \\textit{double standard quantum limits} with $m$ and $N$ simultaneously, our scheme provides a feasible route toward compact high-sensitivity quantum gravimetry.",
+      "authors": [
+        "Xiao-Wen Huo",
+        "Jun-Hong An",
+        "Peng-Bo Li"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T12:47:05Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.14931v1",
+      "title": "Learning to Concatenate Quantum Codes",
+      "abstract": "Concatenating quantum error correction codes scales error correction capability by driving logical error rates down double-exponentially across levels. However, the noise structure shifts under concatenation, making it hard to choose an optimal code sequence. We automate this choice by estimating the effective noise channel after each level and selecting the next code accordingly. In particular, we use learning-based methods to tailor small, non-additive encoders when the noise exhibits sufficient structure, then switch to standard codes once the noise is nearly uniform. In simulations, this level-wise adaptation achieves a target logical error rate with far fewer qubits than concatenating stabilizer codes alone--reducing qubit counts by up to two orders of magnitude for strongly structured noise. Therefore, this hybrid, learning-based strategy offers a promising tool for early fault-tolerant quantum computing.",
+      "authors": [
+        "Nico Meyer",
+        "Christopher Mutschler",
+        "Dominik Seu\u00df",
+        "Andreas Maier",
+        "Daniel D. Scherer"
+      ],
+      "categories": [
+        "quant-ph",
+        "cs.LG"
+      ],
+      "published": "2026-04-16T12:20:21Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.14921v1",
+      "title": "Split-Evolution Quantum Phase Estimation for Particle-Conserving Hamiltonians",
+      "abstract": "We present a hardware demonstration and resource analysis of split-evolution quantum phase estimation (SE-QPE) on a Quantinuum System Model H2 quantum computer. SE-QPE is a modification to canonical QPE for particle-conserving Hamiltonians in which controlled time evolution is replaced by CSWAP-based interference between a target register and a reference register. For factorizations of time evolution with a shared eigenbasis, SE-QPE preserves the phase-register outcome distribution of canonical QPE and, unlike with compute--uncompute substitutions, it remains compatible with non-exact eigenstates. The substitution removes controlled-simulation overhead and enables parallel evolution on two registers, reducing the depth of each phase-kickback block. Resource analysis for Trotterized double-factorized chemistry Hamiltonians shows that the substitution becomes increasingly favorable at higher phase powers, as such combining QPE and SE-QPE implementations can be a useful option. Over a range of FeMoco active spaces, SE-QPE reduces time evolution resources, with asymptotic reductions of about 33% in CX count, 25% in $T$ count, and an asymptotic depth ratio of $3/N$ for CX layers. On Quantinuum H2-2, a four-qubit model ethylene demonstration with explicit inverse QFT and repeated phase-kickback steps up to 6 phase bits yields distinct energies and shows the auxiliary registers provide useful error detection filters.",
+      "authors": [
+        "Megan Cerys Rowe",
+        "Carlo A. Gaggioli",
+        "Ludmila Szulakowska",
+        "David Mu\u00f1oz Ramo",
+        "David Zsolt Manrique"
+      ],
+      "categories": [
+        "quant-ph",
+        "physics.comp-ph"
+      ],
+      "published": "2026-04-16T12:05:34Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.14801v1",
+      "title": "Coherence dynamics in quantum algorithm for linear systems of equations",
+      "abstract": "Quantum coherence is a fundamental issue in quantum mechanics and quantum information processing. We explore the coherence dynamics of the evolved states in HHL quantum algorithm for solving the linear system of equation $A\\overrightarrow{x}=\\overrightarrow{b}$. By using the Tsallis relative $\u03b1$ entropy of coherence and the $l_{1,p}$ norm of coherence, we show that the operator coherence of the phase estimation $P$ relies on the coefficients $\u03b2_{i}$ obtained by decomposing $|b\\rangle$ in the eigenbasis of $A$. We prove that the operator coherence of the inverse phase estimation $\\widetilde{P}$ relies on the coefficients $\u03b2_{i}$, eigenvalues of $A$ and the success probability $P_{s}$, and it decreases with the increase of the probability when $\u03b1\\in(1,2]$. Moreover, the variations of coherence deplete with the increase of the success probability and rely on the eigenvalues of $A$ as well as the success probability.",
+      "authors": [
+        "Linlin Ye",
+        "Zhaoqi Wu",
+        "Shao-Ming Fei"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T09:25:22Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    },
+    {
+      "arxiv_id": "2604.14757v1",
+      "title": "Activating entanglement and EPR steering from continuous-variable resources using witness-based measures",
+      "abstract": "We introduce a general witness-based framework for quantifying and operationally activating continuous-variable (CV) resources into discrete-variable (DV) bipartite entanglement or Einstein- Podolsky-Rosen (EPR) steering. For the three standard CV resource theories associated with Wigner negativity (WN), genuine non-Gaussianity (GNG), and standard non-Gaussianity (SNG), we define infinite families of bounded-witness monotones indexed by box constraints on the witness operators. For closed convex free sets, these monotones are faithful, strongly monotonic under free instruments, Lipschitz continuous, and convex. For closed nonconvex free sets, we show that faithfulness requires a two-copy lift and formulate the corresponding strong-monotonicity statement in the lifted theory. We further construct witness-dependent completely positive trace-preserving (CPTP) measure-and-prepare channels whose outputs are two-qubit Werner states. For the representative case n = m = 1, the optimal entanglement and EPR steering attainable within this witness-dependent activation family are exactly proportional to the underlying monotones. We illustrate the framework with odd-parity states, pure-loss single-photon states, and Gottesman- Kitaev-Preskill (GKP) states, and derive explicit lower bounds for pure-state GNG and SNG. More broadly, our results show that closed CV free sets admit witness-based quantifiers with a direct operational interpretation in terms of experimentally accessible DV correlations.",
+      "authors": [
+        "Kaustav Chatterjee",
+        "Ulrik Lund Andersen"
+      ],
+      "categories": [
+        "quant-ph"
+      ],
+      "published": "2026-04-16T08:15:40Z",
+      "ingested_utc": "2026-04-18T16:16:58.340629+00:00",
+      "source": "arxiv"
+    }
+  ]
+}

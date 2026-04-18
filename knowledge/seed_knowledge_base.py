@@ -213,6 +213,39 @@ def create_search_index(search_credential):
     return result.name
 
 
+def create_papers_search_index(search_credential):
+    """Create AI Search index for arxiv papers with vector fields."""
+    index_client = SearchIndexClient(endpoint=SEARCH_ENDPOINT, credential=search_credential)
+
+    fields = [
+        SimpleField(name="id", type=SearchFieldDataType.String, key=True, filterable=True),
+        SearchableField(name="arxiv_id", type=SearchFieldDataType.String, filterable=True),
+        SearchableField(name="title", type=SearchFieldDataType.String, sortable=True),
+        SearchableField(name="abstract", type=SearchFieldDataType.String),
+        SearchableField(name="category", type=SearchFieldDataType.String, filterable=True, facetable=True),
+        SimpleField(name="published", type=SearchFieldDataType.String, filterable=True, sortable=True),
+        SearchableField(name="authors", type=SearchFieldDataType.String),
+        SearchField(
+            name="embedding",
+            type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+            searchable=True,
+            vector_search_dimensions=EMBEDDING_DIMENSIONS,
+            vector_search_profile_name="default-vector-profile",
+        ),
+    ]
+
+    vector_search = VectorSearch(
+        algorithms=[HnswAlgorithmConfiguration(name="default-hnsw")],
+        profiles=[VectorSearchProfile(name="default-vector-profile", algorithm_configuration_name="default-hnsw")],
+    )
+
+    index = SearchIndex(name="quantum-papers", fields=fields, vector_search=vector_search)
+
+    result = index_client.create_or_update_index(index)
+    print(f"AI Search papers index created: {result.name} ({len(fields)} fields, vector-enabled)")
+    return result.name
+
+
 def index_algorithms_in_search(search_credential, openai_client):
     """Push algorithm data into AI Search for hybrid queries."""
     search_client = SearchClient(endpoint=SEARCH_ENDPOINT, index_name="quantum-algorithms", credential=search_credential)
@@ -254,9 +287,10 @@ def main():
     credential = get_credential()
     search_credential = get_search_credential()
 
-    # 1. Create AI Search index
-    print("Step 1: Creating AI Search index...")
+    # 1. Create AI Search indexes
+    print("Step 1: Creating AI Search indexes...")
     create_search_index(search_credential)
+    create_papers_search_index(search_credential)
 
     # 2. Initialize clients
     print("\nStep 2: Connecting to Azure services...")

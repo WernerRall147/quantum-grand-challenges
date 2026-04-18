@@ -51,9 +51,12 @@ class EvaluateResponse(BaseModel):
     confidence: float
     advantage_class: str
     recommended_algorithm: str
+    recommended_platform: str = ""
+    platform_reason: str = ""
     troyer_filters: dict
     red_flags: list
     hpc_alternative: str
+    ai_alternative: str = ""
     explanation: str
     similar_problems: list
     references: list

@@ -31,7 +31,7 @@ ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
 # Toggle model-router (cost-optimized): set QGC_USE_ROUTER=1 once RBAC has propagated.
 USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "0") == "1"
 
-SYSTEM_PROMPT = """You are the Quantum Advantage Evaluator — an expert AI assistant that helps scientists determine whether their computational problem is better solved on a quantum computer or Azure HPC.
+SYSTEM_PROMPT = """You are the Quantum Advantage Evaluator — an expert AI assistant that helps scientists determine whether their computational problem is better solved on a quantum computer, classical AI/ML, or Azure HPC.
 
 You have access to a knowledge base of quantum algorithms with Troyer utility-scale classifications. For each user problem, you must:
 
@@ -42,23 +42,33 @@ You have access to a knowledge base of quantum algorithms with Troyer utility-sc
    - F3: Does the speedup survive quantum error correction overhead?
    - F4: Is the problem naturally quantum (Feynman criterion)?
    - F5: Is there a realistic crossover point where quantum wins?
-3. COMPARE with Azure HPC alternatives honestly
-4. PROVIDE a clear verdict with confidence level
+3. COMPARE with Azure HPC and AI/ML alternatives honestly
+4. RECOMMEND the best platform: quantum, AI/ML, or HPC
+5. PROVIDE a clear verdict with confidence level
+
+PLATFORM RECOMMENDATION RULES:
+- If all 5 Troyer filters pass → recommend QUANTUM with specific algorithm
+- If the problem involves pattern recognition, classification, prediction, NLP, computer vision, generative modeling, or optimization over unstructured data → recommend AI_ML with specific approach (e.g., "GPT-5 fine-tuning", "Azure ML + PyTorch", "Azure AI Foundry agents", "transformer architecture")
+- If the problem involves large-scale numerical simulation, fluid dynamics, molecular dynamics, finite element analysis, linear algebra at scale, or embarrassingly parallel computation → recommend HPC with specific Azure HPC stack (e.g., "Azure HBv4 + MPI", "Azure NDv6 GPU cluster + CUDA", "Azure CycleCloud + SLURM")
+- If the problem could benefit from multiple approaches → recommend the BEST one as primary and mention others as alternatives
+- For hybrid approaches (e.g., quantum-classical variational), be specific about what runs where
 
 HONESTY REQUIREMENTS:
 - NEVER overstate quantum advantage
 - If QAOA or VQE is the only quantum approach → warn: "at most quadratic or no proven advantage"
 - Flag I/O bottlenecks (data loading negates speedup for many problems)
 - Flag oracle costs (millions of T-gates for real implementations)
-- Always mention the best classical/HPC alternative
+- Always mention the best classical/HPC/AI alternative
 - Reference specific algorithms and papers for all claims
 
 OUTPUT FORMAT (JSON):
 {
-  "verdict": "QUANTUM_ADVANTAGE" | "HPC_PREFERRED" | "INCONCLUSIVE",
+  "verdict": "QUANTUM_ADVANTAGE" | "HPC_PREFERRED" | "AI_ML_PREFERRED" | "INCONCLUSIVE",
   "confidence": 0.0-1.0,
   "advantage_class": "exponential" | "superpolynomial" | "quadratic" | "none",
   "recommended_algorithm": "QPE / Shor / Grover / QAOA / VQE / HHL / ...",
+  "recommended_platform": "QUANTUM" | "AI_ML" | "HPC" | "HYBRID",
+  "platform_reason": "1-2 sentence reason for the platform recommendation",
   "troyer_filters": {
     "F1_proven_speedup": true/false,
     "F2_io_survives": true/false,
@@ -68,7 +78,8 @@ OUTPUT FORMAT (JSON):
   },
   "red_flags": ["list of concerns"],
   "hpc_alternative": "description of what Azure HPC can do today",
-  "explanation": "2-3 paragraph honest assessment",
+  "ai_alternative": "description of what AI/ML can do today (e.g., foundation models, Azure AI services, ML frameworks)",
+  "explanation": "2-3 paragraph honest assessment covering quantum, AI, and HPC options",
   "similar_problems": ["reference problem IDs"],
   "references": ["arxiv IDs or algorithm names"]
 }
@@ -162,9 +173,12 @@ Provide your evaluation as JSON following the output format specified in your in
             "confidence": llm_result.get("confidence", kb_result.get("confidence", 0.5)),
             "advantage_class": llm_result.get("advantage_class", kb_result.get("speedup_class", "unknown")),
             "recommended_algorithm": llm_result.get("recommended_algorithm", kb_result.get("best_algorithm", "Unknown")),
+            "recommended_platform": llm_result.get("recommended_platform", "HPC"),
+            "platform_reason": llm_result.get("platform_reason", ""),
             "troyer_filters": llm_result.get("troyer_filters", kb_result.get("filters", {})),
             "red_flags": llm_result.get("red_flags", []),
             "hpc_alternative": llm_result.get("hpc_alternative", ""),
+            "ai_alternative": llm_result.get("ai_alternative", ""),
             "explanation": llm_result.get("explanation", ""),
             "similar_problems": llm_result.get("similar_problems", similar_ids),
             "references": llm_result.get("references", []),

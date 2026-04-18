@@ -16,9 +16,12 @@ interface EvaluationResult {
   confidence: number;
   advantage_class: string;
   recommended_algorithm: string;
+  recommended_platform?: string;
+  platform_reason?: string;
   troyer_filters: TroyerFilters;
   red_flags: string[];
   hpc_alternative: string;
+  ai_alternative?: string;
   explanation: string;
   similar_problems: string[];
   references: string[];
@@ -93,6 +96,7 @@ export default function EvaluatePage() {
   const verdictColor = (v: string) => {
     if (v === 'QUANTUM_ADVANTAGE') return { bg: '#dcfce7', fg: '#166534', icon: '✅' };
     if (v === 'HPC_PREFERRED') return { bg: '#dbeafe', fg: '#1e40af', icon: '💻' };
+    if (v === 'AI_ML_PREFERRED') return { bg: '#f3e8ff', fg: '#6b21a8', icon: '🤖' };
     if (v === 'INCONCLUSIVE') return { bg: '#fef3c7', fg: '#92400e', icon: '🔍' };
     return { bg: '#f3f4f6', fg: '#374151', icon: '❓' };
   };
@@ -187,6 +191,12 @@ export default function EvaluatePage() {
                   Confidence: {(result.confidence * 100).toFixed(0)}% | Algorithm: {result.recommended_algorithm} | Class: {result.advantage_class}
                 </div>
               )}
+              {result.recommended_platform && (
+                <div style={{ marginTop: '0.75rem', padding: '0.5rem 1rem', background: `${vc?.fg}11`, borderRadius: '6px', fontSize: '0.95rem', color: vc?.fg }}>
+                  <strong>Recommended platform:</strong> {result.recommended_platform.replace(/_/g, ' ')}
+                  {result.platform_reason && <span> — {result.platform_reason}</span>}
+                </div>
+              )}
             </div>
 
             {/* Troyer Filters */}
@@ -220,10 +230,18 @@ export default function EvaluatePage() {
               </div>
             )}
 
+            {/* AI/ML Alternative */}
+            {result.ai_alternative && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#faf5ff', borderRadius: '10px', border: '1px solid #e9d5ff' }}>
+                <h3 style={{ marginTop: 0, color: '#6b21a8' }}>🤖 AI/ML Alternative</h3>
+                <p style={{ margin: 0, color: '#581c87', lineHeight: 1.6 }}>{result.ai_alternative}</p>
+              </div>
+            )}
+
             {/* HPC Alternative */}
             {result.hpc_alternative && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#eff6ff', borderRadius: '10px', border: '1px solid #bfdbfe' }}>
-                <h3 style={{ marginTop: 0, color: '#1e40af' }}>Azure HPC Alternative</h3>
+                <h3 style={{ marginTop: 0, color: '#1e40af' }}>💻 Azure HPC Alternative</h3>
                 <p style={{ margin: 0, color: '#1e3a5f', lineHeight: 1.6 }}>{result.hpc_alternative}</p>
               </div>
             )}

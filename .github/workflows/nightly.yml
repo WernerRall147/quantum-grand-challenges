@@ -1,3 +1,177 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # Full resource estimation sweep
+  estimation-sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-nightly-${{ runner.os }}
+          restore-keys: pip-ci-${{ runner.os }}-
+      - name: Install dependencies
+        run: pip install numpy scipy matplotlib pandas jsonschema pyyaml qsharp
+
+      - name: Run resource estimation sweep
+        run: python tooling/generate_estimates.py
+
+      - name: Upload estimation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: estimation-results
+          path: |
+            tooling/estimator/output/nightly_summary.json
+            problems/*/estimates/*.json
+          retention-days: 14
+
+  # KPI + platform recommendations refresh
+  refresh-reports:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-nightly-${{ runner.os }}
+          restore-keys: pip-ci-${{ runner.os }}-
+      - name: Install dependencies
+        run: pip install numpy scipy matplotlib pandas pyyaml jsonschema
+
+      - name: Refresh KPI dashboard
+        run: |
+          python tooling/reporting/stage_kpis.py \
+            --policy tooling/reporting/maturity-policy.json \
+            --out-md docs/objective-kpis.md \
+            --out-json docs/objective-kpis.json
+
+      - name: Audit Azure run-history metrics
+        run: python tooling/reporting/audit_azure_run_history_metrics.py --min-resolved-coverage 0.85 --enforce-threshold
+
+      - name: Generate platform recommendations
+        run: |
+          python tooling/reporting/recommend_platform_targets.py --preference balanced
+          python tooling/reporting/recommend_platform_targets.py \
+            --preference hardware-first \
+            --out-md docs/platform-target-recommendations-hardware-first.md
+          python tooling/reporting/recommend_platform_targets.py \
+            --preference simulator-first \
+            --out-md docs/platform-target-recommendations-simulator-first.md
+
+      - name: Validate website data + matrix freshness
+        run: |
+          python tooling/reporting/validate_website_data_schema.py
+          python tooling/reporting/check_verification_matrix_freshness.py
+
+      - name: Create PR for report updates
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/nightly-reports
+          commit-message: "chore(nightly): refresh KPIs + platform recommendations"
+          title: "chore(nightly): refresh reports"
+          body: "Automated nightly refresh of KPI dashboard and platform recommendations."
+          labels: documentation,reporting
+
+  # Stage D readiness trend
+  stage-d-trend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Baseline + regenerate readiness
+        run: |
+          if [ -f tooling/reporting/stage_d_readiness_report.json ]; then
+            cp tooling/reporting/stage_d_readiness_report.json tooling/reporting/stage_d_readiness_report.baseline.json
+          else
+            python tooling/reporting/stage_d_readiness_audit.py
+            cp tooling/reporting/stage_d_readiness_report.json tooling/reporting/stage_d_readiness_report.baseline.json
+          fi
+          python tooling/reporting/stage_d_readiness_audit.py
+
+      - name: Compute trend + check regression
+        id: trend
+        run: |
+          python tooling/reporting/stage_d_readiness_trend.py \
+            --baseline tooling/reporting/stage_d_readiness_report.baseline.json \
+            --current tooling/reporting/stage_d_readiness_report.json \
+            --out-json tooling/reporting/stage_d_readiness_trend_report.json \
+            --out-md docs/planning/stage-d-readiness-trend.md
+          python -c "
+          import json, os; from pathlib import Path
+          degraded = json.loads(Path('tooling/reporting/stage_d_readiness_trend_report.json').read_text()).get('degraded', False)
+          with Path(os.environ['GITHUB_OUTPUT']).open('a') as f: f.write(f'degraded={str(degraded).lower()}\n')
+          "
+
+      - name: Create regression issue
+        if: steps.trend.outputs.degraded == 'true'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: 'Stage D readiness regression detected'
+          content-filepath: docs/planning/stage-d-readiness-trend.md
+          labels: reporting,regression
+
+  # Runnable/correctness audit (with Q#)
+  runnable-correctness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-nightly-${{ runner.os }}
+          restore-keys: pip-ci-${{ runner.os }}-
+      - name: Install dependencies
+        run: pip install numpy scipy matplotlib pandas pyyaml jsonschema qsharp
+
+      - name: Run correctness audit (Q# included)
+        run: python tooling/reporting/problem_runnable_correctness_audit.py --classical-timeout 180 --qsharp-timeout 300 --include-qsharp
+
+      - name: Enforce all problems pass
+        run: |
+          python -c "
+          import json; from pathlib import Path
+          p = json.loads(Path('tooling/reporting/problem_runnable_correctness_report.json').read_text())
+          s = p.get('summary', {}); total = int(s.get('total', 0)); passed = int(s.get('passed', 0))
+          print(f'Correctness: {passed}/{total}')
+          if passed != total: raise SystemExit(1)
+          "
+
+      - name: Upload correctness report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runnable-correctness-report
+          path: tooling/reporting/problem_runnable_correctness_report.json
+          retention-days: 14
 name: Nightly Reporting
 
 on:

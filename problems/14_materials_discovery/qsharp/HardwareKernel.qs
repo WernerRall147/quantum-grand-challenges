@@ -1,26 +1,36 @@
 // HardwareKernel.qs — Minimal QIR-compatible kernel for Azure Quantum
-// Problem: 14_materials_discovery (VQE band gap estimation)
+// Problem: 14_materials_discovery (QPE band gap estimation)
 // Target profile: Adaptive_RI
 //
-// Tight-binding Hamiltonian: H = ε₁Z₁ + ε₂Z₂ + t(X₁X₂ + Y₁Y₂) + V·Z₁Z₂
-// Default: ε₁=-1.0, ε₂=-0.5, t=0.3, V=0.1 (silicon-like)
-// This kernel measures valence band (XX term for inter-orbital hopping).
+// QPE extracts eigenphase of tight-binding Hamiltonian for band structure.
 
 import Std.Math.*;
 import Std.Measurement.*;
 
 @EntryPoint()
-operation MaterialsVQEKernel() : Result[] {
-    use qs = Qubit[2];
-    // Band gap ansatz: valence band filled |10⟩ reference
-    X(qs[0]);
-    Ry(0.8, qs[0]);   // θ₀: valence orbital rotation
-    Ry(0.6, qs[1]);   // θ₁: conduction orbital mixing
-    CNOT(qs[0], qs[1]);
-    Rz(0.2, qs[1]);   // θ₂: inter-band correlation
-    CNOT(qs[0], qs[1]);
-    // Rotate to X-basis for ⟨X₀X₁⟩ hopping term measurement
-    H(qs[0]);
-    H(qs[1]);
-    return MResetEachZ(qs);
+operation MaterialsQPEKernel() : Result[] {
+    use phase = Qubit[2];
+    use sys = Qubit[2];
+    // Valence band filled reference
+    X(sys[0]);
+    H(phase[0]);
+    H(phase[1]);
+    // Controlled tight-binding Hamiltonian (hopping + on-site)
+    Controlled CNOT([phase[0]], (sys[0], sys[1]));
+    Controlled Rz([phase[0]], (0.6, sys[1]));
+    Controlled CNOT([phase[0]], (sys[0], sys[1]));
+    Controlled Rz([phase[0]], (-1.0, sys[0]));
+    Controlled CNOT([phase[1]], (sys[0], sys[1]));
+    Controlled Rz([phase[1]], (1.2, sys[1]));
+    Controlled CNOT([phase[1]], (sys[0], sys[1]));
+    Controlled Rz([phase[1]], (-2.0, sys[0]));
+    // Inverse QFT
+    SWAP(phase[0], phase[1]);
+    H(phase[0]);
+    Controlled R1([phase[0]], (-PI() / 2.0, phase[1]));
+    H(phase[1]);
+    let r0 = M(phase[0]);
+    let r1 = M(phase[1]);
+    ResetAll(sys);
+    return [r0, r1];
 }

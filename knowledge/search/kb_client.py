@@ -31,17 +31,28 @@ class QuantumKnowledgeBase:
 
     def __init__(self):
         self.credential = DefaultAzureCredential()
-        self.cosmos = CosmosClient(COSMOS_ENDPOINT, credential=self.credential)
-        self.db = self.cosmos.get_database_client(COSMOS_DATABASE)
+        self.cosmos = None
+        self.db = None
+        self.search_client = None
+
+        # Try Cosmos DB — may not exist yet
+        try:
+            self.cosmos = CosmosClient(COSMOS_ENDPOINT, credential=self.credential)
+            self.db = self.cosmos.get_database_client(COSMOS_DATABASE)
+        except Exception:
+            pass
 
         # AI Search — use key if available, otherwise Entra ID
-        search_key = os.environ.get("SEARCH_ADMIN_KEY")
-        search_cred = AzureKeyCredential(search_key) if search_key else self.credential
-        self.search_client = SearchClient(
-            endpoint=SEARCH_ENDPOINT,
-            index_name="quantum-algorithms",
-            credential=search_cred,
-        )
+        try:
+            search_key = os.environ.get("SEARCH_ADMIN_KEY")
+            search_cred = AzureKeyCredential(search_key) if search_key else self.credential
+            self.search_client = SearchClient(
+                endpoint=SEARCH_ENDPOINT,
+                index_name="quantum-algorithms",
+                credential=search_cred,
+            )
+        except Exception:
+            pass
 
     def _get_openai_client(self):
         """Get OpenAI client with fresh token."""
@@ -63,17 +74,28 @@ class QuantumKnowledgeBase:
     def search_algorithms(self, query: str, top: int = 5) -> List[Dict[str, Any]]:
         """Hybrid search over the algorithm zoo (keyword + vector).
 
+        Falls back to keyword-only search if embeddings are unavailable.
         This is the primary tool for the Classifier Agent.
         """
-        embedding = self._embed(query)
-        from azure.search.documents.models import VectorizedQuery
+        if not self.search_client:
+            return []
 
-        results = self.search_client.search(
-            search_text=query,
-            vector_queries=[VectorizedQuery(vector=embedding, k_nearest_neighbors=top, fields="embedding")],
-            top=top,
-            select=["name", "category", "speedup_class", "content", "troyer_verdict", "io_bottleneck", "naturally_quantum"],
-        )
+        # Try hybrid search (keyword + vector), fall back to keyword-only
+        try:
+            embedding = self._embed(query)
+            from azure.search.documents.models import VectorizedQuery
+            results = self.search_client.search(
+                search_text=query,
+                vector_queries=[VectorizedQuery(vector=embedding, k_nearest_neighbors=top, fields="embedding")],
+                top=top,
+                select=["name", "category", "speedup_class", "content", "troyer_verdict", "io_bottleneck", "naturally_quantum"],
+            )
+        except Exception:
+            results = self.search_client.search(
+                search_text=query,
+                top=top,
+                select=["name", "category", "speedup_class", "content", "troyer_verdict", "io_bottleneck", "naturally_quantum"],
+            )
 
         return [
             {
@@ -91,6 +113,8 @@ class QuantumKnowledgeBase:
 
     def get_algorithm(self, name: str) -> Optional[Dict[str, Any]]:
         """Get a specific algorithm by name from Cosmos DB."""
+        if not self.db:
+            return None
         container = self.db.get_container_client("algorithm_zoo")
         doc_id = name.lower().replace(" ", "_").replace("'", "").replace("(", "").replace(")", "")
         try:
@@ -141,6 +165,8 @@ class QuantumKnowledgeBase:
 
         Used by agents to find similar previously-evaluated problems.
         """
+        if not self.db:
+            return []
         container = self.db.get_container_client("problem_history")
         query = f"SELECT * FROM c WHERE c.user_id = 'system_reference' AND c.status = '{status}'"
         items = list(container.query_items(query=query, enable_cross_partition_query=True))
@@ -148,6 +174,8 @@ class QuantumKnowledgeBase:
 
     def find_similar_problems(self, description: str) -> List[Dict[str, Any]]:
         """Find reference problems similar to the given description."""
+        if not self.db:
+            return []
         container = self.db.get_container_client("problem_history")
         # Get all reference problems and do text matching (vector search in Cosmos requires change feed)
         query = "SELECT * FROM c WHERE c.user_id = 'system_reference' AND c.status = 'active'"
@@ -171,6 +199,8 @@ class QuantumKnowledgeBase:
 
     def save_problem(self, problem_id: str, user_id: str, description: str, result: Dict) -> str:
         """Save a user-submitted problem evaluation to history."""
+        if not self.db:
+            return problem_id
         container = self.db.get_container_client("problem_history")
         from datetime import datetime, timezone
         doc = {

@@ -95,16 +95,38 @@ def generate_embeddings(papers: List[Dict], api_key: str, endpoint: str) -> List
     return papers
 
 
-def upsert_to_cosmos(papers: List[Dict], connection_string: str, database: str = "quantum_kb", container: str = "scientific_papers"):
-    """Upsert papers into Cosmos DB."""
-    # Placeholder — will use azure.cosmos.CosmosClient
-    print(f"Would upsert {len(papers)} papers to Cosmos DB {database}/{container}")
+def upsert_to_cosmos(papers: List[Dict]):
+    """Upsert papers into Cosmos DB using Entra ID auth."""
+    from azure.identity import DefaultAzureCredential
+    from azure.cosmos import CosmosClient
+
+    try:
+        credential = DefaultAzureCredential()
+        client = CosmosClient("https://qgccosmoseval.documents.azure.com:443/", credential=credential)
+        container = client.get_database_client("quantum_kb").get_container_client("scientific_papers")
+        for p in papers:
+            doc = {
+                "id": p["arxiv_id"].replace("/", "_").replace(".", "_"),
+                "arxiv_id": p["arxiv_id"],
+                "title": p["title"],
+                "abstract": p["abstract"][:2000],
+                "authors": p["authors"],
+                "categories": p["categories"],
+                "published": p["published"],
+                "category": p["categories"][0] if p["categories"] else "unknown",
+                "ingested_utc": p["ingested_utc"],
+                "source": "arxiv",
+            }
+            container.upsert_item(doc)
+        print(f"  Cosmos DB: upserted {len(papers)} papers")
+    except Exception as e:
+        print(f"  Cosmos DB upsert failed: {e}")
 
 
-def upsert_to_search_index(papers: List[Dict], endpoint: str, api_key: str, index_name: str = "quantum-papers"):
-    """Upsert papers into Azure AI Search index."""
-    # Placeholder — will use azure.search.documents.SearchClient
-    print(f"Would upsert {len(papers)} papers to AI Search index {index_name}")
+def upsert_to_search_index(papers: List[Dict]):
+    """Upsert papers into Azure AI Search index (keyword-only, no embeddings)."""
+    # Papers index not yet created — save locally for now
+    print(f"  AI Search: {len(papers)} papers (index pending)")
 
 
 def main():
@@ -113,7 +135,7 @@ def main():
 
     all_papers = []
     for cat in CATEGORIES:
-        papers = fetch_arxiv_papers(cat, days_back=1, max_results=MAX_RESULTS_PER_CATEGORY)
+        papers = fetch_arxiv_papers(cat, days_back=3, max_results=MAX_RESULTS_PER_CATEGORY)
         print(f"  {cat}: fetched {len(papers)} papers")
         all_papers.extend(papers)
 
@@ -131,16 +153,11 @@ def main():
     relevant = filter_quantum_computing_relevance(unique)
     print(f"Relevant to quantum computing: {len(relevant)}")
 
-    # Generate embeddings (when Azure OpenAI is provisioned)
-    # relevant = generate_embeddings(relevant, api_key=os.environ["AZURE_OPENAI_KEY"], endpoint=os.environ["AZURE_OPENAI_ENDPOINT"])
+    # Upsert to Cosmos DB
+    if relevant:
+        upsert_to_cosmos(relevant)
 
-    # Upsert to Cosmos DB (when provisioned)
-    # upsert_to_cosmos(relevant, connection_string=os.environ["COSMOS_CONNECTION_STRING"])
-
-    # Upsert to AI Search (when provisioned)
-    # upsert_to_search_index(relevant, endpoint=os.environ["SEARCH_ENDPOINT"], api_key=os.environ["SEARCH_KEY"])
-
-    # For now, save to local file
+    # Save to local file as backup
     output_path = "knowledge/data/latest_papers.json"
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:

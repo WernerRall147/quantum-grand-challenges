@@ -24,10 +24,12 @@ sys.path.insert(0, str(ROOT))
 from knowledge.search.kb_client import QuantumKnowledgeBase
 
 # Config
-OPENAI_ENDPOINT = "https://qgc-openai.openai.azure.com/"
-CHAT_DEPLOYMENT = "gpt-54-mini"  # Fallback; model-router preferred when available
-ROUTER_ENDPOINT = "https://admin-mo1q7owo-eastus2.cognitiveservices.azure.com/"
-ROUTER_DEPLOYMENT = "model-router"
+OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
+CHAT_DEPLOYMENT = os.environ.get("QGC_CHAT_DEPLOYMENT", "gpt-54-mini")
+ROUTER_ENDPOINT = os.environ.get("QGC_ROUTER_ENDPOINT", "https://admin-mo1q7owo-eastus2.cognitiveservices.azure.com/")
+ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
+# Toggle model-router (cost-optimized): set QGC_USE_ROUTER=1 once RBAC has propagated.
+USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "0") == "1"
 
 SYSTEM_PROMPT = """You are the Quantum Advantage Evaluator — an expert AI assistant that helps scientists determine whether their computational problem is better solved on a quantum computer or Azure HPC.
 
@@ -81,13 +83,22 @@ class QuantumEvaluator:
         self.kb = QuantumKnowledgeBase()
 
     def _get_chat_client(self):
-        """Get OpenAI chat client with fresh token."""
+        """Get OpenAI chat client with fresh token.
+
+        When QGC_USE_ROUTER=1, returns a client pointing at the model-router
+        deployment (cost-optimized, auto-selects best model for the prompt).
+        Otherwise falls back to the direct gpt-5.4-mini deployment.
+        """
         token = self.credential.get_token("https://cognitiveservices.azure.com/.default")
+        endpoint = ROUTER_ENDPOINT if USE_ROUTER else OPENAI_ENDPOINT
         return AzureOpenAI(
             azure_ad_token=token.token,
-            azure_endpoint=OPENAI_ENDPOINT,
+            azure_endpoint=endpoint,
             api_version="2024-10-21",
         )
+
+    def _get_deployment(self) -> str:
+        return ROUTER_DEPLOYMENT if USE_ROUTER else CHAT_DEPLOYMENT
 
     def evaluate(self, problem_description: str) -> Dict[str, Any]:
         """Full evaluation pipeline for a quantum problem."""
@@ -116,8 +127,9 @@ class QuantumEvaluator:
 
         # Step 4: LLM generates detailed assessment
         client = self._get_chat_client()
+        deployment = self._get_deployment()
         response = client.chat.completions.create(
-            model=CHAT_DEPLOYMENT,
+            model=deployment,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"""Evaluate this quantum computing problem:

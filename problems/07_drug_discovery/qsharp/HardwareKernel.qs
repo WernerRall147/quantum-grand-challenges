@@ -1,24 +1,33 @@
 // HardwareKernel.qs — Minimal QIR-compatible kernel for Azure Quantum
-// Problem: 07_drug_discovery (VQE molecular binding energy)
+// Problem: 07_drug_discovery (QPE molecular binding energy)
 // Target profile: Adaptive_RI
 //
-// Hamiltonian: H = -0.52·I + 0.20·Z₀ - 0.18·Z₁ + 0.12·Z₀Z₁ + 0.06·X₀X₁
-// This kernel measures the ZZ term (inter-orbital correlation).
+// QPE extracts eigenphase of molecular Hamiltonian for binding energy estimation.
 
 import Std.Math.*;
 import Std.Measurement.*;
 
 @EntryPoint()
-operation DrugBindingKernel() : Result[] {
-    use qs = Qubit[2];
-    // Binding ansatz: parameterized unitary for ligand-receptor interaction
-    X(qs[0]);
-    Ry(1.2, qs[0]);   // θ₀: ligand orbital rotation
-    Ry(0.4, qs[1]);   // θ₁: receptor orbital mixing
-    CNOT(qs[0], qs[1]);
-    Rz(0.5, qs[1]);   // θ₂: binding correlation phase
-    CNOT(qs[0], qs[1]);
-    // ZZ-basis measurement: CNOT maps Z₀Z₁ parity onto qubit 1
-    CNOT(qs[0], qs[1]);
-    return MResetEachZ(qs);
+operation DrugBindingQPEKernel() : Result[] {
+    use phase = Qubit[2];
+    use sys = Qubit[2];
+    X(sys[0]);
+    H(phase[0]);
+    H(phase[1]);
+    // Controlled Hamiltonian simulation (binding Hamiltonian)
+    Controlled CNOT([phase[0]], (sys[0], sys[1]));
+    Controlled Rz([phase[0]], (1.0, sys[1]));
+    Controlled CNOT([phase[0]], (sys[0], sys[1]));
+    Controlled CNOT([phase[1]], (sys[0], sys[1]));
+    Controlled Rz([phase[1]], (2.0, sys[1]));
+    Controlled CNOT([phase[1]], (sys[0], sys[1]));
+    // Inverse QFT
+    SWAP(phase[0], phase[1]);
+    H(phase[0]);
+    Controlled R1([phase[0]], (-PI() / 2.0, phase[1]));
+    H(phase[1]);
+    let r0 = M(phase[0]);
+    let r1 = M(phase[1]);
+    ResetAll(sys);
+    return [r0, r1];
 }

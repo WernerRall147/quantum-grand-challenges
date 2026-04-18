@@ -1,27 +1,8 @@
-# Ignore everything not needed for the API
-website/
-.github/
-docs/
-tooling/
-libs/
-plots/
-.git/
-.venv/
-node_modules/
-__pycache__/
-*.pyc
-*.pyo
-website/out/
-website/node_modules/
-website/.next/
-problems/*/plots/
-problems/*/circuits/
-problems/*/python/
-problems/*/instances/
-problems/*/estimates/
-problems/*/qsharp/
-*.png
-*.pdf
-*.html
-_run_baselines.py
-run_inspect.py
+# Whitelist: only include what the Dockerfile needs
+*
+!agents/
+!agents/**
+!knowledge/
+!knowledge/**
+!problems/reference_index.json
+!Dockerfile

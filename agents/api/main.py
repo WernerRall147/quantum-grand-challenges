@@ -43,6 +43,7 @@ app.add_middleware(
 
 class EvaluateRequest(BaseModel):
     problem: str
+    generate_code: bool = False
 
 
 class EvaluateResponse(BaseModel):
@@ -58,10 +59,18 @@ class EvaluateResponse(BaseModel):
     references: list
     model_used: str = ""
     tokens_used: int = 0
+    qsharp_code: str = ""
+    estimation: dict = {}
+
+
+class CodeRequest(BaseModel):
+    problem: str
+    algorithm: str = "QPE"
 
 
 # Lazy-load the evaluator to avoid import overhead on cold start
 _evaluator = None
+_codegen = None
 
 
 def get_evaluator():
@@ -70,6 +79,14 @@ def get_evaluator():
         from agents.orchestrator.evaluate import QuantumEvaluator
         _evaluator = QuantumEvaluator()
     return _evaluator
+
+
+def get_codegen():
+    global _codegen
+    if _codegen is None:
+        from agents.code_generator.generate import QSharpCodeGenerator
+        _codegen = QSharpCodeGenerator()
+    return _codegen
 
 
 @app.get("/")
@@ -88,9 +105,37 @@ def evaluate(request: EvaluateRequest):
     try:
         evaluator = get_evaluator()
         result = evaluator.evaluate(request.problem.strip())
-        return EvaluateResponse(**{k: result.get(k, "") for k in EvaluateResponse.model_fields})
+        if request.generate_code:
+            try:
+                codegen = get_codegen()
+                code_out = codegen.generate_with_estimate(
+                    request.problem.strip(),
+                    algorithm=result.get("recommended_algorithm", "QPE"),
+                )
+                result["qsharp_code"] = code_out.get("qsharp_code", "")
+                result["estimation"] = code_out.get("estimation", {})
+            except Exception as e:  # noqa: BLE001
+                result["qsharp_code"] = ""
+                result["estimation"] = {"error": str(e)[:200]}
+        return EvaluateResponse(**{k: result.get(k, EvaluateResponse.model_fields[k].default)
+                                   for k in EvaluateResponse.model_fields})
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Evaluation failed: {str(e)[:200]}")
+        import traceback, sys
+        traceback.print_exc(file=sys.stderr)
+        sys.stderr.flush()
+        raise HTTPException(status_code=500, detail=f"Evaluation failed: {type(e).__name__}: {str(e)[:400]}")
+
+
+@app.post("/api/generate-code")
+def generate_code(request: CodeRequest):
+    """Generate Q# code for a problem + algorithm, compile, and estimate resources."""
+    if not request.problem.strip():
+        raise HTTPException(status_code=400, detail="Problem description is required")
+    try:
+        codegen = get_codegen()
+        return codegen.generate_with_estimate(request.problem.strip(), request.algorithm)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Code generation failed: {str(e)[:200]}")
 
 
 @app.get("/api/algorithms")

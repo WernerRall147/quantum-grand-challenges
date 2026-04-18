@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "apiVersion": "2024-05-15",
+      "name": "qgccosmoseval",
+      "location": "eastus",
+      "kind": "GlobalDocumentDB",
+      "properties": {
+        "databaseAccountOfferType": "Standard",
+        "capabilities": [{"name": "EnableServerless"}],
+        "locations": [{"locationName": "eastus", "failoverPriority": 0}],
+        "consistencyPolicy": {"defaultConsistencyLevel": "Session"}
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+      "apiVersion": "2024-05-15",
+      "name": "qgccosmoseval/quantum_kb",
+      "dependsOn": ["[resourceId('Microsoft.DocumentDB/databaseAccounts', 'qgccosmoseval')]"],
+      "properties": {
+        "resource": {"id": "quantum_kb"}
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+      "apiVersion": "2024-05-15",
+      "name": "qgccosmoseval/quantum_kb/algorithm_zoo",
+      "dependsOn": ["[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', 'qgccosmoseval', 'quantum_kb')]"],
+      "properties": {
+        "resource": {
+          "id": "algorithm_zoo",
+          "partitionKey": {"paths": ["/speedup_class"], "kind": "Hash"}
+        }
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+      "apiVersion": "2024-05-15",
+      "name": "qgccosmoseval/quantum_kb/scientific_papers",
+      "dependsOn": ["[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', 'qgccosmoseval', 'quantum_kb')]"],
+      "properties": {
+        "resource": {
+          "id": "scientific_papers",
+          "partitionKey": {"paths": ["/category"], "kind": "Hash"}
+        }
+      }
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+      "apiVersion": "2024-05-15",
+      "name": "qgccosmoseval/quantum_kb/problem_history",
+      "dependsOn": ["[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', 'qgccosmoseval', 'quantum_kb')]"],
+      "properties": {
+        "resource": {
+          "id": "problem_history",
+          "partitionKey": {"paths": ["/user_id"], "kind": "Hash"}
+        }
+      }
+    }
+  ]
+}

@@ -22,6 +22,10 @@ interface EvaluationResult {
   explanation: string;
   similar_problems: string[];
   references: string[];
+  model_used?: string;
+  tokens_used?: number;
+  qsharp_code?: string;
+  estimation?: Record<string, unknown>;
 }
 
 const EXAMPLE_PROBLEMS = [
@@ -44,6 +48,7 @@ const FILTER_LABELS: Record<string, string> = {
 export default function EvaluatePage() {
   const [problem, setProblem] = useState('');
   const [loading, setLoading] = useState(false);
+  const [generateCode, setGenerateCode] = useState(false);
   const [result, setResult] = useState<EvaluationResult | null>(null);
 
   const handleEvaluate = async () => {
@@ -57,7 +62,7 @@ export default function EvaluatePage() {
       const res = await fetch(`${apiBase}/api/evaluate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ problem: problem.trim() }),
+        body: JSON.stringify({ problem: problem.trim(), generate_code: generateCode }),
       });
 
       if (!res.ok) {
@@ -127,18 +132,24 @@ export default function EvaluatePage() {
             onFocus={(e) => { e.currentTarget.style.borderColor = '#667eea'; }}
             onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}
           />
-          <button
-            onClick={handleEvaluate}
-            disabled={loading || !problem.trim()}
-            style={{
-              marginTop: '0.75rem', padding: '0.75rem 2rem', fontSize: '1rem',
-              background: loading ? '#9ca3af' : '#667eea', color: 'white',
-              border: 'none', borderRadius: '8px', cursor: loading ? 'wait' : 'pointer',
-              fontWeight: 600,
-            }}
-          >
-            {loading ? 'Evaluating...' : 'Evaluate Problem'}
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.75rem' }}>
+            <button
+              onClick={handleEvaluate}
+              disabled={loading || !problem.trim()}
+              style={{
+                padding: '0.75rem 2rem', fontSize: '1rem',
+                background: loading ? '#9ca3af' : '#667eea', color: 'white',
+                border: 'none', borderRadius: '8px', cursor: loading ? 'wait' : 'pointer',
+                fontWeight: 600,
+              }}
+            >
+              {loading ? 'Evaluating...' : 'Evaluate Problem'}
+            </button>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem', color: '#374151', cursor: 'pointer' }}>
+              <input type="checkbox" checked={generateCode} onChange={(e) => setGenerateCode(e.target.checked)} />
+              Generate Q# code
+            </label>
+          </div>
         </div>
 
         {/* Example problems */}
@@ -225,6 +236,21 @@ export default function EvaluatePage() {
               </div>
             )}
 
+            {/* Q# Code */}
+            {result.qsharp_code && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#1e1e2e', borderRadius: '10px', border: '1px solid #313244' }}>
+                <h3 style={{ marginTop: 0, color: '#cdd6f4' }}>Generated Q# Code</h3>
+                <pre style={{ margin: 0, color: '#a6e3a1', fontSize: '0.85rem', overflow: 'auto', maxHeight: '400px', lineHeight: 1.5 }}>
+                  {result.qsharp_code}
+                </pre>
+                {result.estimation && !('error' in result.estimation) && (
+                  <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: '#313244', borderRadius: '6px', color: '#89b4fa', fontSize: '0.85rem' }}>
+                    Resource Estimate: {JSON.stringify(result.estimation)}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* References */}
             {result.references && result.references.length > 0 && (
               <div style={{ marginBottom: '1.5rem', padding: '1rem', background: '#f8fafc', borderRadius: '8px' }}>
@@ -234,6 +260,13 @@ export default function EvaluatePage() {
                     {ref}
                   </span>
                 ))}
+              </div>
+            )}
+
+            {/* Model info */}
+            {result.model_used && (
+              <div style={{ fontSize: '0.8rem', color: '#9ca3af', textAlign: 'right' }}>
+                Model: {result.model_used}{result.tokens_used ? ` | ${result.tokens_used} tokens` : ''}
               </div>
             )}
           </div>

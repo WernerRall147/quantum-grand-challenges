@@ -117,12 +117,26 @@ class QuantumEvaluator:
         # Step 1: KB classification (fast, no LLM needed)
         kb_result = self.kb.classify_problem(problem_description)
 
+        # Step 1b: Deterministic platform routing
+        from agents.classifier.platform_router import route_platform
+        kb_matches = kb_result.get("matches", [])
+        search_score = kb_matches[0].get("score", 0) if kb_matches else 0
+        routing = route_platform(problem_description, kb_matches, search_score)
+
         # Step 2: Find similar reference problems
         similar = self.kb.find_similar_problems(problem_description)
         similar_ids = [s.get("problem_id", "?") for s in similar]
 
         # Step 3: Build context for LLM
         kb_context = json.dumps({
+            "deterministic_routing": {
+                "platform": routing["platform"],
+                "verdict": routing["verdict"],
+                "confidence": routing["confidence"],
+                "reason": routing["reason"],
+                "keyword_scores": routing["evidence"]["keyword_scores"],
+                "troyer_filters": routing["evidence"]["troyer_filters"],
+            },
             "kb_classification": {
                 "verdict": kb_result["verdict"],
                 "best_algorithm": kb_result.get("best_algorithm", "Unknown"),
@@ -147,6 +161,17 @@ class QuantumEvaluator:
 
 PROBLEM: {problem_description}
 
+DETERMINISTIC PRE-CLASSIFICATION:
+Platform: {routing['platform']} | Verdict: {routing['verdict']} | Confidence: {routing['confidence']}
+Reason: {routing['reason']}
+Troyer filters (from KB data): {json.dumps(routing['evidence']['troyer_filters'])}
+Domain keyword scores: {json.dumps(routing['evidence']['keyword_scores'])}
+
+IMPORTANT: The deterministic routing above is computed from the algorithm database and keyword analysis.
+You MUST agree with the verdict unless you have a specific, well-reasoned scientific argument to override it.
+If the routing says AI_ML_PREFERRED or HPC_PREFERRED, do NOT recommend quantum unless you can cite a specific
+algorithm with proven superpolynomial speedup for this exact problem class.
+
 KNOWLEDGE BASE RESULTS:
 {kb_context}
 
@@ -166,22 +191,26 @@ Provide your evaluation as JSON following the output format specified in your in
                 "explanation": response.choices[0].message.content if response.choices else "Error parsing response",
             }
 
-        # Step 6: Merge KB + LLM results
+        # Step 6: Merge KB + routing + LLM results
+        # Deterministic routing provides troyer_filters and platform;
+        # LLM provides explanation, red_flags, and alternatives.
+        deterministic_filters = routing["evidence"].get("troyer_filters", {})
         result = {
             "problem": problem_description,
-            "verdict": llm_result.get("verdict", kb_result["verdict"]),
-            "confidence": llm_result.get("confidence", kb_result.get("confidence", 0.5)),
+            "verdict": llm_result.get("verdict", routing["verdict"]),
+            "confidence": llm_result.get("confidence", routing["confidence"]),
             "advantage_class": llm_result.get("advantage_class", kb_result.get("speedup_class", "unknown")),
             "recommended_algorithm": llm_result.get("recommended_algorithm", kb_result.get("best_algorithm", "Unknown")),
-            "recommended_platform": llm_result.get("recommended_platform", "HPC"),
-            "platform_reason": llm_result.get("platform_reason", ""),
-            "troyer_filters": llm_result.get("troyer_filters", kb_result.get("filters", {})),
+            "recommended_platform": llm_result.get("recommended_platform", routing["platform"]),
+            "platform_reason": llm_result.get("platform_reason", routing["reason"]),
+            "troyer_filters": deterministic_filters if deterministic_filters else llm_result.get("troyer_filters", {}),
             "red_flags": llm_result.get("red_flags", []),
             "hpc_alternative": llm_result.get("hpc_alternative", ""),
             "ai_alternative": llm_result.get("ai_alternative", ""),
             "explanation": llm_result.get("explanation", ""),
             "similar_problems": llm_result.get("similar_problems", similar_ids),
             "references": llm_result.get("references", []),
+            "routing_evidence": routing["evidence"],
             "evaluated_utc": datetime.now(timezone.utc).isoformat(),
             "model_used": response.model if response else CHAT_DEPLOYMENT,
             "tokens_used": response.usage.total_tokens if response and response.usage else 0,

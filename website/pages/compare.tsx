@@ -89,7 +89,7 @@ export default function ComparePage() {
     <>
       <Head>
         <title>Problem Comparison — Quantum Grand Challenges</title>
-        <meta name="description" content="Side-by-side comparison of all 20 quantum problems with resource estimates" />
+        <meta name="description" content="Side-by-side comparison of all quantum problems with resource estimates" />
       </Head>
       <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
         <Link href="/" style={{ color: '#0070f3', textDecoration: 'none', fontSize: '0.9rem' }}>
@@ -98,7 +98,7 @@ export default function ComparePage() {
 
         <h1 style={{ fontSize: '2.5rem', marginTop: '1rem' }}>Problem Comparison</h1>
         <p style={{ color: '#666', fontSize: '1.1rem' }}>
-          All 20 quantum problems with real Azure Quantum Resource Estimator data. Click column headers to sort.
+          All quantum problems with real Azure Quantum Resource Estimator data. Click column headers to sort.
         </p>
 
         <section style={{ marginTop: '2rem' }}>

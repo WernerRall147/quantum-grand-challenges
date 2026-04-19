@@ -1,743 +1,226 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
-import { activeWorkQueue, pipelineStages, problemHighlights, azureExecutionStats, azureProviderFamilyStats, azureRunTrend, recentAzureRuns, runnableCorrectnessStats, runnableCorrectnessFailures, stageDReadinessStats, stageDReadinessCandidates, stageDExpansionQueue } from '../data/projectStatus';
+import { useState } from 'react';
+import { problemHighlights } from '../data/projectStatus';
 
 export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
   const withBasePath = (path: string) => `${basePath}${path}`;
-  const [trendWindow, setTrendWindow] = useState<'all' | 'last7'>('all');
+  const [showArchived, setShowArchived] = useState(false);
 
-  const displayedTrend = useMemo(() => {
-    if (trendWindow === 'all' || azureRunTrend.length === 0) {
-      return azureRunTrend;
-    }
-
-    const latest = azureRunTrend[azureRunTrend.length - 1]?.date;
-    if (!latest) {
-      return azureRunTrend;
-    }
-
-    const latestDate = new Date(`${latest}T00:00:00Z`);
-    if (Number.isNaN(latestDate.getTime())) {
-      return azureRunTrend;
-    }
-
-    const threshold = new Date(latestDate);
-    threshold.setUTCDate(threshold.getUTCDate() - 6);
-
-    return azureRunTrend.filter((point) => {
-      const pointDate = new Date(`${point.date}T00:00:00Z`);
-      if (Number.isNaN(pointDate.getTime())) {
-        return false;
-      }
-      return pointDate >= threshold && pointDate <= latestDate;
-    });
-  }, [trendWindow]);
+  const active = problemHighlights.filter((p) => !p.status.toLowerCase().includes('archived'));
+  const archived = problemHighlights.filter((p) => p.status.toLowerCase().includes('archived'));
 
   return (
     <>
       <Head>
         <title>Quantum Grand Challenges</title>
-        <meta name="description" content="Systematic exploration of 20 quantum computing challenges" />
+        <meta name="description" content="Systematic exploration of the world's most challenging scientific problems using quantum computing, AI and HPC" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={withBasePath('/favicon.ico')} />
       </Head>
-      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌌 Quantum Grand Challenges</h1>
-        <p style={{ fontSize: '1.25rem', color: '#666', marginBottom: '2rem' }}>
-          Systematic exploration of 20 of the world&apos;s most challenging scientific problems using quantum computing
-        </p>
+      <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif', color: '#1a1a2e' }}>
 
-        <section style={{ padding: '2rem', background: '#f0f4ff', borderRadius: '12px' }}>
-          <h2 style={{ marginTop: 0 }}>🎯 What Success Looks Like</h2>
-          <p style={{ color: '#4b5c79' }}>
-            Every challenge follows the same reproducible pipeline, from Python baselines to fault-tolerant quantum resource forecasts.
+        {/* Hero */}
+        <header style={{ textAlign: 'center', padding: '3rem 0 2rem' }}>
+          <h1 style={{ fontSize: '2.8rem', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
+            Quantum Grand Challenges
+          </h1>
+          <p style={{ fontSize: '1.2rem', color: '#555', maxWidth: '700px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
+            Systematic exploration of the world&apos;s most challenging scientific problems using quantum computing, AI and HPC
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginTop: '1.5rem' }}>
-            {pipelineStages.map((stage) => (
-              <TimelineCard key={stage.title} title={stage.title} description={stage.description} />
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/evaluate/" style={{ padding: '0.8rem 2rem', background: 'linear-gradient(135deg, #667eea, #764ba2)', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.05rem' }}>
+              Evaluate Your Problem &rarr;
+            </Link>
+            <Link href="/compare/" style={{ padding: '0.8rem 2rem', background: '#1e293b', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.05rem' }}>
+              Compare All Problems
+            </Link>
+          </div>
+        </header>
+
+        {/* Troyer Filters */}
+        <section style={{ padding: '1.5rem 2rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+          <h2 style={{ marginTop: 0, fontSize: '1.4rem' }}>Troyer Utility-Scale Filters</h2>
+          <p style={{ color: '#64748b', margin: '0.25rem 0 1rem', fontSize: '0.95rem' }}>
+            Every problem is evaluated against Dr. Matthias Troyer&apos;s 5 filters. Only problems that pass <strong>all five</strong> are classified as active candidates for quantum advantage.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
+            {[
+              { id: 'F1', q: 'Proven speedup?', kill: 'VQE/QAOA fail' },
+              { id: 'F2', q: 'I/O survives?', kill: 'O(N) loading erases gain' },
+              { id: 'F3', q: 'QEC survives?', kill: 'Overhead kills quadratic' },
+              { id: 'F4', q: 'Naturally quantum?', kill: 'Feynman criterion' },
+              { id: 'F5', q: 'Crossover feasible?', kill: 'Realistic problem size' },
+            ].map((f) => (
+              <div key={f.id} style={{ background: 'white', borderRadius: '8px', padding: '0.75rem 1rem', border: '1px solid #e2e8f0' }}>
+                <strong style={{ color: '#334155' }}>{f.id}</strong>
+                <div style={{ fontSize: '0.9rem', color: '#475569', marginTop: '0.25rem' }}>{f.q}</div>
+                <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.15rem' }}>{f.kill}</div>
+              </div>
             ))}
           </div>
         </section>
 
-        <div style={{ marginTop: '2rem', textAlign: 'center', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/evaluate/" style={{ display: 'inline-block', padding: '0.75rem 2rem', background: '#667eea', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.1rem' }}>
-            Evaluate Your Problem &rarr;
-          </Link>
-          <Link href="/compare/" style={{ display: 'inline-block', padding: '0.75rem 2rem', background: '#2563eb', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.1rem' }}>
-            Compare All 20 Problems &rarr;
-          </Link>
-        </div>
-
-        <section style={{ marginTop: '3rem' }}>
-          <h2>📚 Featured Case Studies</h2>
-          <p style={{ color: '#666' }}>
-            4 Stage D advantage candidates lead the portfolio. All 20 problems validated on cross-platform emulators (H2-1E + Rigetti QVM).
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
-            <CaseStudyCard
-              title="QAE Risk Analysis (Stage D — Theoretical)"
-              classicalHeadline="Monte Carlo: 16.1% ± 0.37% (10k samples)"
-              classicalDetails="Classical baseline achieves 0% error vs theoretical for tail risk P(Loss > 2.5) on log-normal(0,1) distribution. IQAE adaptive driver with Clopper-Pearson CI."
-              quantumHeadline="Canonical QAE: 293k physical qubits, 40 logical"
-              quantumDetails="Cross-platform emulator validation complete: H2-1E + Rigetti QVM. Stage D advantage claim filed (theoretical — quadratic speedup)."
-              linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk"
-            />
-            <CaseStudyCard
-              title="Database Search (Stage D — Projected)"
-              classicalHeadline="Search baselines: 16, 32, and 4096-item instances"
-              classicalDetails="Classical exhaustive search with reproducible verification harness across three instance sizes."
-              quantumHeadline="Canonical Grover: 120k physical qubits, 18 logical"
-              quantumDetails="Provably optimal O(√N) speedup. Cross-platform emulator: 77% H2-1E, 94% Rigetti. Noise degrades to 14.7% fidelity at p=0.05 (deep circuit)."
-              linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/15_database_search"
-            />
-            <CaseStudyCard
-              title="Hubbard Model (Stage C — Azure Validated)"
-              classicalHeadline="Exact diagonalization: Δc = 5.66 at U/t = 4"
-              classicalDetails="Two-site half-filled Hubbard model with classical baseline achieving perfect accuracy for ground state energy and Mott gap."
-              quantumHeadline="VQE: 177k physical qubits, 12 logical"
-              quantumDetails="2-qubit VQE ansatz validated on H2-1E emulator (68% dominant outcome) and Rigetti QVM (70%). Noise fidelity: 90.5% at p=0.05."
-              linkHref="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard"
-            />
+        {/* Active Problems */}
+        <section style={{ marginTop: '2.5rem' }}>
+          <h2 style={{ fontSize: '1.4rem' }}>
+            Active Problems
+            <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#64748b', marginLeft: '0.5rem' }}>
+              {active.length} pass all Troyer filters
+            </span>
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+            {active.map((p) => (
+              <ProblemCard key={p.title} {...p} />
+            ))}
           </div>
         </section>
 
-        <section style={{ marginTop: '3rem', padding: '2rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '12px', color: 'white' }}>
-          <h2 style={{ marginTop: 0, color: 'white' }}>🎯 Algorithm Comparison Dashboard</h2>
-          <p style={{ fontSize: '1.1rem', marginBottom: '2rem', color: '#f0f0ff' }}>
-            Comprehensive resource analysis across VQE, HHL, and QAE showing physical qubits, runtime, T-states, and quantum advantage assessment.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
-            <AlgorithmSummary
-              name="VQE (Hubbard)"
-              qubits="79k"
-              runtime="114 μs"
-              tStates="1.6k"
-              advantage="Error-resilient optimization"
-              color="#2E86AB"
-            />
-            <AlgorithmSummary
-              name="HHL (Linear Solver)"
-              qubits="18.7k"
-              runtime="52 ms"
-              tStates="185k"
-              advantage="Most qubit-efficient"
-              color="#A23B72"
-            />
-            <AlgorithmSummary
-              name="QAE (Risk Analysis)"
-              qubits="594k"
-              runtime="6.4 s"
-              tStates="965k"
-              advantage="Quadratic speedup O(1/ε)"
-              color="#F18F01"
-            />
-          </div>
-        </section>
-
-        <section style={{ marginTop: '3rem' }}>
-          <h2>📊 Visualization Gallery</h2>
-          <p style={{ color: '#666' }}>
-            Publication-quality comparisons showing resource requirements, scaling predictions, and quantum advantage assessment.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '2rem', marginTop: '1.5rem' }}>
-            <VisualizationCard
-              title="Physical Qubit Requirements"
-              description="HHL is most efficient (18.7k), QAE requires 31.8× more qubits (594k). T-state factories dominate 93-97% of all qubits."
-              imageSrc={withBasePath('/images/qubit_comparison.png')}
-            />
-            <VisualizationCard
-              title="Runtime Comparison"
-              description="VQE is fastest (114μs), HHL takes 52ms, QAE requires 6.4s. Shows 3 orders of magnitude range across algorithms."
-              imageSrc={withBasePath('/images/runtime_comparison.png')}
-            />
-            <VisualizationCard
-              title="T-State Analysis"
-              description="QAE needs 965k T-states (5.2× more than HHL). Rotation gates dominate costs at 20 T-states per rotation."
-              imageSrc={withBasePath('/images/tstate_comparison.png')}
-            />
-            <VisualizationCard
-              title="Quantum Advantage Map"
-              description="Heatmap assessment: HHL wins near-term viability (2027-2029), VQE wins runtime, QAE wins advantage potential."
-              imageSrc={withBasePath('/images/quantum_advantage_map.png')}
-            />
-            <VisualizationCard
-              title="Scaling Predictions"
-              description="VQE scales linearly, HHL logarithmically, QAE exponentially. Shows practical limits for each algorithm."
-              imageSrc={withBasePath('/images/scaling_analysis.png')}
-            />
-            <VisualizationCard
-              title="Technology Timeline"
-              description="HHL ready by 2027-2029 (50k qubits), VQE by 2028-2030 (100k qubits), QAE by 2033-2035 (1M qubits)."
-              imageSrc={withBasePath('/images/technology_timeline.png')}
-            />
-          </div>
-        </section>
-
-        <section style={{ marginTop: '3rem', padding: '2rem', background: '#fefce8', borderRadius: '12px' }}>
-          <h2 style={{ marginTop: 0 }}>📐 Real Gate Counts (QASM-Derived)</h2>
-          <p style={{ color: '#713f12' }}>
-            Actual gate decomposition from OpenQASM circuits validated on Quantinuum H2 trapped-ion simulator.
-            These replace mock estimates with real circuit-level resource data.
-          </p>
-          <div style={{ overflowX: 'auto', marginTop: '1rem' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: '8px', overflow: 'hidden' }}>
-              <thead>
-                <tr style={{ background: '#fef08a', color: '#713f12' }}>
-                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Circuit</th>
-                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>Qubits</th>
-                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>Total Gates</th>
-                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>T-gates</th>
-                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>CX</th>
-                  <th style={{ textAlign: 'right', padding: '0.75rem' }}>Rotations</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { name: 'Hubbard VQE', qubits: 2, gates: 6, t: 0, cx: 2, rot: 3 },
-                  { name: 'QAOA MaxCut', qubits: 3, gates: 15, t: 0, cx: 6, rot: 6 },
-                  { name: 'Grover Key Search', qubits: 4, gates: 59, t: 11, cx: 24, rot: 0 },
-                  { name: 'QAOA Scheduling', qubits: 4, gates: 8, t: 0, cx: 6, rot: 1 },
-                  { name: 'Grover DB Search', qubits: 4, gates: 212, t: 78, cx: 61, rot: 0 },
-                  { name: 'QEC Repetition', qubits: 5, gates: 10, t: 0, cx: 8, rot: 0 },
-                ].map((row) => (
-                  <tr key={row.name} style={{ borderTop: '1px solid #e5e7eb' }}>
-                    <td style={{ padding: '0.75rem', color: '#111827' }}>{row.name}</td>
-                    <td style={{ padding: '0.75rem', textAlign: 'right', color: '#374151' }}>{row.qubits}</td>
-                    <td style={{ padding: '0.75rem', textAlign: 'right', color: '#374151' }}>{row.gates}</td>
-                    <td style={{ padding: '0.75rem', textAlign: 'right', color: row.t > 0 ? '#dc2626' : '#374151', fontWeight: row.t > 0 ? 'bold' : 'normal' }}>{row.t}</td>
-                    <td style={{ padding: '0.75rem', textAlign: 'right', color: '#374151' }}>{row.cx}</td>
-                    <td style={{ padding: '0.75rem', textAlign: 'right', color: '#374151' }}>{row.rot}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p style={{ color: '#92400e', fontSize: '0.9rem', marginTop: '0.75rem', marginBottom: 0 }}>
-            Key insight: Grover circuits are T-gate heavy (needed for multi-controlled Z decomposition), while VQE and QAOA use only rotation gates — critical for hardware target selection.
-          </p>
-        </section>
-
-        <section style={{ marginTop: '3rem', padding: '2rem', background: '#f0fdf4', borderRadius: '12px' }}>
-          <h2 style={{ marginTop: 0 }}>📄 Research</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
-            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1.5rem' }}>
-              <h3 style={{ marginTop: 0, color: '#166534' }}>Methodology Paper</h3>
-              <p style={{ color: '#374151', fontSize: '0.95rem' }}>
-                &quot;A Systematic Framework for Developing, Validating, and Benchmarking Quantum Algorithms Across 20 Application Domains&quot;
-              </p>
-              <p style={{ color: '#6b7280', fontSize: '0.85rem' }}>
-                Covers: maturity gate model, 9 algorithm families, automated CI validation, Azure Quantum integration, and lessons learned from building real quantum circuits.
-              </p>
-              <a href="https://github.com/WernerRall147/quantum-grand-challenges/blob/main/docs/paper/methodology-paper.md" style={{ color: '#166534', fontWeight: 'bold' }}>Read Draft →</a>
+        {/* Archived Problems */}
+        <section style={{ marginTop: '2.5rem' }}>
+          <button
+            type="button"
+            onClick={() => setShowArchived(!showArchived)}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+              fontSize: '1.4rem', fontWeight: 700, color: '#1a1a2e', display: 'flex', alignItems: 'center', gap: '0.5rem',
+            }}
+          >
+            Archived Problems
+            <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#94a3b8' }}>
+              {archived.length} &mdash; Troyer filter failures
+            </span>
+            <span style={{ fontSize: '0.8rem', color: '#94a3b8', marginLeft: '0.25rem' }}>
+              {showArchived ? '▼' : '▶'}
+            </span>
+          </button>
+          {showArchived && (
+            <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '0.75rem' }}>
+              {archived.map((p) => (
+                <div key={p.title} style={{ padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '8px', background: '#fafafa' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <strong style={{ color: '#374151' }}>{p.title}</strong>
+                    <span style={{ background: '#f1f5f9', color: '#64748b', fontSize: '0.7rem', fontWeight: 600, borderRadius: '999px', padding: '0.15rem 0.5rem' }}>Archived</span>
+                  </div>
+                  <p style={{ color: '#6b7280', fontSize: '0.85rem', margin: '0.4rem 0 0' }}>{p.description}</p>
+                </div>
+              ))}
             </div>
-            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1.5rem' }}>
-              <h3 style={{ marginTop: 0, color: '#166534' }}>Cite This Work</h3>
-              <p style={{ color: '#374151', fontSize: '0.95rem' }}>
-                CITATION.cff is available in the repository root. GitHub shows a &quot;Cite this repository&quot; button automatically.
-              </p>
-              <pre style={{ background: '#f0fdf4', padding: '0.75rem', borderRadius: '6px', fontSize: '0.8rem', overflow: 'auto' }}>{`@software{rall2026quantum,
+          )}
+        </section>
+
+        {/* Key Numbers */}
+        <section style={{ marginTop: '2.5rem', padding: '1.5rem 2rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '12px', color: 'white' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
+            {[
+              { val: '9', label: 'Active problems' },
+              { val: '120+', label: 'Azure Quantum runs' },
+              { val: '160', label: 'Resource estimates' },
+              { val: '47', label: 'Algorithms indexed' },
+              { val: '5', label: 'Troyer filters' },
+            ].map((s) => (
+              <div key={s.label}>
+                <div style={{ fontSize: '2rem', fontWeight: 700 }}>{s.val}</div>
+                <div style={{ fontSize: '0.85rem', color: '#e0e7ff' }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Research */}
+        <section style={{ marginTop: '2.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+          <div style={{ padding: '1.5rem', border: '1px solid #d1fae5', borderRadius: '10px', background: '#f0fdf4' }}>
+            <h3 style={{ marginTop: 0, color: '#166534' }}>Methodology Paper</h3>
+            <p style={{ color: '#374151', fontSize: '0.9rem' }}>
+              Covers the maturity gate model, Troyer utility-scale filters, 9 algorithm families, automated CI validation, and Azure Quantum integration.
+            </p>
+            <a href="https://github.com/WernerRall147/quantum-grand-challenges/blob/main/docs/paper/methodology-paper.md" style={{ color: '#166534', fontWeight: 600, textDecoration: 'none' }}>
+              Read Paper &rarr;
+            </a>
+          </div>
+          <div style={{ padding: '1.5rem', border: '1px solid #d1fae5', borderRadius: '10px', background: '#f0fdf4' }}>
+            <h3 style={{ marginTop: 0, color: '#166534' }}>Cite This Work</h3>
+            <pre style={{ background: '#dcfce7', padding: '0.75rem', borderRadius: '6px', fontSize: '0.75rem', overflow: 'auto', margin: '0.5rem 0 0' }}>{`@software{rall2026quantum,
   author = {Rall, Werner},
   title = {Quantum Grand Challenges},
   year = {2026},
-  url = {https://github.com/WernerRall147/quantum-grand-challenges}
+  doi = {10.5281/zenodo.19222021}
 }`}</pre>
-            </div>
           </div>
         </section>
 
-        <div style={{ marginTop: '4rem', padding: '2rem', background: '#f8f9fa', borderRadius: '8px' }}>
-          <h2>📊 Current Status</h2>
-          <ul style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
-            <li><strong>✅ Stage Coverage:</strong> 20/20 problems include objective maturity gates and advantage-claim contracts</li>
-            <li><strong>✅ Quantum Implementations:</strong> 20/20 problems have real quantum gate operations (VQE, QAOA, Grover, HHL, Shor, swap test, QEC, quantum walk, Trotter)</li>
-            <li><strong>✅ KPI Coverage:</strong> 20/20 estimator summaries, 20/20 backend assumptions, 20/20 advantage contracts</li>
-            <li><strong>✅ Azure Validated:</strong> 20/20 QASM circuits validated on Quantinuum H2-1SC trapped-ion simulator</li>
-            <li><strong>✅ Calibration:</strong> 19/20 problems have multi-run uncertainty bounds (3-5 runs each)</li>
-            <li><strong>✅ DOI:</strong> <a href="https://doi.org/10.5281/zenodo.19222021" style={{color: '#059669'}}>10.5281/zenodo.19222021</a></li>
-            <li><strong>✅ Research:</strong> Methodology paper with 20-circuit validation table, calibration data, and 9 sections</li>
-            <li><strong>✅ Azure Successful Runs:</strong> `{azureExecutionStats.totalSuccessfulRuns}` successful live runs recorded across `{azureExecutionStats.systems.length}` quantum systems</li>
-            <li><strong>✅ Runnable/Correctness Audit:</strong> `{runnableCorrectnessStats.passed}/{runnableCorrectnessStats.total}` problems pass executable correctness checks ({runnableCorrectnessStats.passRatePercent}%)</li>
-            <li><strong>✅ CI/CD:</strong> 7 automated checks on every PR: build, correctness, maturity, integrity, secrets, security</li>
-          </ul>
-          <div style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'white', borderRadius: '8px', border: '2px solid #10b981' }}>
-            <h3 style={{ marginTop: 0, color: '#10b981' }}>Latest: 20/20 Azure Validated + 19/20 Calibrated</h3>
-            <p style={{ color: '#666', marginBottom: 0 }}>
-              All 20 QASM circuits validated on Quantinuum H2 trapped-ion simulator (including 8-qubit Shor and 5-qubit HHL).
-              19 problems have multi-run calibration evidence with uncertainty bounds. DOI: 10.5281/zenodo.19222021.
-              Methodology paper updated with full 20-circuit validation table and calibration results.
-            </p>
+        {/* Quick Start */}
+        <section style={{ marginTop: '2.5rem' }}>
+          <h2 style={{ fontSize: '1.4rem' }}>Quick Start</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+            <CommandBlock title="Setup" commands={[
+              'git clone https://github.com/WernerRall147/quantum-grand-challenges.git',
+              'cd quantum-grand-challenges',
+              'pip install qsharp numpy scipy matplotlib',
+            ]} />
+            <CommandBlock title="Run a Problem" commands={[
+              'cd problems/01_hubbard',
+              'make classical   # baseline',
+              'make build       # Q# compilation',
+              'make run         # execute',
+            ]} />
+            <CommandBlock title="Evaluate" commands={[
+              'pip install azure-cosmos azure-search-documents',
+              'python agents/orchestrator/evaluate.py \\',
+              '  "Simulate ground state of a 50-atom catalyst"',
+            ]} />
           </div>
-        </div>
+        </section>
 
-        <section style={{ marginTop: '3rem', padding: '2rem', background: '#eef6ff', borderRadius: '12px' }}>
-          <h2 style={{ marginTop: 0 }}>🚧 Active Work Queue</h2>
-          <p style={{ color: '#4b5c79' }}>
-            Current promotion queue for moving Stage B tracks into Stage C with benchmarked kernel evidence.
+        {/* Footer */}
+        <footer style={{ marginTop: '4rem', padding: '1.5rem 0', borderTop: '1px solid #e2e8f0', textAlign: 'center', color: '#94a3b8', fontSize: '0.9rem' }}>
+          <p style={{ margin: '0 0 0.5rem' }}>
+            Built with Q#, Python, and Next.js &middot; AGPL-3.0 &middot;{' '}
+            <a href="https://doi.org/10.5281/zenodo.19222021" style={{ color: '#667eea', textDecoration: 'none' }}>DOI: 10.5281/zenodo.19222021</a>
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginTop: '1.25rem' }}>
-            {activeWorkQueue.map((item) => (
-              <TimelineCard key={item.title} title={item.title} description={item.description} />
-            ))}
-          </div>
-        </section>
-
-        <section style={{ marginTop: '3rem', padding: '2rem', background: '#ecfeff', borderRadius: '12px' }}>
-          <h2 style={{ marginTop: 0 }}>🧭 Stage D Readiness</h2>
-          <p style={{ color: '#0e7490' }}>
-            Continuous readiness audit for current Stage D candidates and next expansion queue.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
-              <strong style={{ color: '#155e75' }}>Fully Ready</strong>
-              <div style={{ fontSize: '1.5rem', color: '#0e7490' }}>{stageDReadinessStats.fullyReady}/{stageDReadinessStats.candidateCount}</div>
-            </div>
-            <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
-              <strong style={{ color: '#155e75' }}>Average Readiness</strong>
-              <div style={{ fontSize: '1.5rem', color: '#0e7490' }}>{stageDReadinessStats.avgReadinessPercent}%</div>
-            </div>
-            <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
-              <strong style={{ color: '#155e75' }}>Open Checklist Items</strong>
-              <div style={{ fontSize: '1.5rem', color: '#0e7490' }}>{stageDReadinessStats.openChecklistItems}</div>
-            </div>
-            <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
-              <strong style={{ color: '#155e75' }}>Artifact Issues</strong>
-              <div style={{ fontSize: '1.5rem', color: '#0e7490' }}>{stageDReadinessStats.artifactIssueCount}</div>
-            </div>
-          </div>
-          <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: '8px', overflow: 'hidden' }}>
-              <thead>
-                <tr style={{ background: '#cffafe', color: '#155e75' }}>
-                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Problem</th>
-                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Claim</th>
-                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Readiness</th>
-                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Open Checklist</th>
-                  <th style={{ textAlign: 'left', padding: '0.75rem' }}>Artifact Issues</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stageDReadinessCandidates.map((row) => (
-                  <tr key={row.problemId} style={{ borderTop: '1px solid #e5e7eb' }}>
-                    <td style={{ padding: '0.75rem', color: '#111827' }}>{row.problemId}</td>
-                    <td style={{ padding: '0.75rem', color: '#374151' }}>{row.claim}</td>
-                    <td style={{ padding: '0.75rem', color: '#374151' }}>{row.score}/{row.maxScore} ({row.readinessPercent}%)</td>
-                    <td style={{ padding: '0.75rem', color: '#374151' }}>{row.openChecklist}</td>
-                    <td style={{ padding: '0.75rem', color: '#374151' }}>{row.artifactIssues}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div style={{ background: 'white', border: '1px solid #a5f3fc', borderRadius: '10px', padding: '1rem' }}>
-            <h3 style={{ marginTop: 0, color: '#155e75' }}>Next Candidate Expansion Queue</h3>
-            <ul style={{ marginBottom: 0 }}>
-              {stageDExpansionQueue.map((entry) => (
-                <li key={entry.problemId} style={{ marginBottom: '0.5rem', color: '#374151' }}>
-                  <strong>{entry.problemId}:</strong> {entry.rationale}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section style={{ marginTop: '3rem', padding: '2rem', background: '#f5f3ff', borderRadius: '12px' }}>
-          <h2 style={{ marginTop: 0 }}>☁️ Azure Run Ledger</h2>
-          <p style={{ color: '#5b21b6' }}>
-            Automatic record of successful Azure Quantum executions and the systems used.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
-            <div style={{ background: 'white', border: '1px solid #ddd6fe', borderRadius: '10px', padding: '1rem' }}>
-              <h3 style={{ marginTop: 0, color: '#4c1d95' }}>Provider Families</h3>
-              {azureProviderFamilyStats.length === 0 ? (
-                <p style={{ color: '#6b7280', marginBottom: 0 }}>No successful runs yet.</p>
-              ) : (
-                <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#374151' }}>
-                  {azureProviderFamilyStats.map((item) => (
-                    <li key={item.providerFamily}>{item.providerFamily}: {item.runs}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <div style={{ background: 'white', border: '1px solid #ddd6fe', borderRadius: '10px', padding: '1rem' }}>
-              <h3 style={{ marginTop: 0, color: '#4c1d95' }}>Run Trend (UTC Day)</h3>
-              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                <button
-                  type="button"
-                  onClick={() => setTrendWindow('all')}
-                  style={{
-                    border: trendWindow === 'all' ? '1px solid #7c3aed' : '1px solid #d1d5db',
-                    background: trendWindow === 'all' ? '#ede9fe' : '#ffffff',
-                    color: trendWindow === 'all' ? '#4c1d95' : '#374151',
-                    borderRadius: '999px',
-                    padding: '0.25rem 0.75rem',
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                  }}
-                >
-                  All time
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setTrendWindow('last7')}
-                  style={{
-                    border: trendWindow === 'last7' ? '1px solid #7c3aed' : '1px solid #d1d5db',
-                    background: trendWindow === 'last7' ? '#ede9fe' : '#ffffff',
-                    color: trendWindow === 'last7' ? '#4c1d95' : '#374151',
-                    borderRadius: '999px',
-                    padding: '0.25rem 0.75rem',
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Last 7 days
-                </button>
-              </div>
-              {displayedTrend.length === 0 ? (
-                <p style={{ color: '#6b7280', marginBottom: 0 }}>No successful runs yet.</p>
-              ) : (
-                <div style={{ display: 'grid', gap: '0.5rem' }}>
-                  {displayedTrend.map((point) => (
-                    <div key={point.date} style={{ display: 'grid', gridTemplateColumns: '110px 1fr 36px', alignItems: 'center', gap: '0.5rem' }}>
-                      <span style={{ color: '#6b7280', fontSize: '0.9rem' }}>{point.date}</span>
-                      <div style={{ background: '#ede9fe', borderRadius: '999px', overflow: 'hidden', height: '10px' }}>
-                        <div
-                          style={{
-                            width: `${Math.max(10, point.runs * 18)}px`,
-                            height: '10px',
-                            background: 'linear-gradient(90deg, #8b5cf6, #4f46e5)',
-                          }}
-                        />
-                      </div>
-                      <span style={{ color: '#374151', fontWeight: 600 }}>{point.runs}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-          {recentAzureRuns.length === 0 ? (
-            <p style={{ color: '#6b7280', marginBottom: 0 }}>No successful live runs recorded yet.</p>
-          ) : (
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: '8px', overflow: 'hidden' }}>
-                <thead>
-                  <tr style={{ background: '#ede9fe', color: '#4c1d95' }}>
-                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>Problem</th>
-                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>Instance/Depth</th>
-                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>System</th>
-                    <th style={{ textAlign: 'left', padding: '0.75rem' }}>Recorded UTC</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentAzureRuns.map((run) => (
-                    <tr key={`${run.problemId}-${run.targetId}-${run.instanceId}-${run.depth}-${run.recordedUtc}`} style={{ borderTop: '1px solid #e5e7eb' }}>
-                      <td style={{ padding: '0.75rem', color: '#111827' }}>{run.problemId}</td>
-                      <td style={{ padding: '0.75rem', color: '#374151' }}>{run.instanceId} / d{run.depth}</td>
-                      <td style={{ padding: '0.75rem', color: '#374151' }}>{run.targetId}</td>
-                      <td style={{ padding: '0.75rem', color: '#6b7280' }}>{run.recordedUtc}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
-
-        <section style={{ marginTop: '3rem', padding: '2rem', background: '#eefbf3', borderRadius: '12px' }}>
-          <h2 style={{ marginTop: 0 }}>✅ Runnable And Correctness</h2>
-          <p style={{ color: '#166534' }}>
-            Nightly-style execution audit tracking classical runnability and baseline output validity across all registered problems.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1rem' }}>
-              <strong style={{ display: 'block', color: '#14532d' }}>Pass Count</strong>
-              <span style={{ fontSize: '1.6rem', color: '#166534' }}>{runnableCorrectnessStats.passed}/{runnableCorrectnessStats.total}</span>
-            </div>
-            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1rem' }}>
-              <strong style={{ display: 'block', color: '#14532d' }}>Pass Rate</strong>
-              <span style={{ fontSize: '1.6rem', color: '#166534' }}>{runnableCorrectnessStats.passRatePercent}%</span>
-            </div>
-            <div style={{ background: 'white', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '1rem' }}>
-              <strong style={{ display: 'block', color: '#14532d' }}>Audit Timestamp</strong>
-              <span style={{ fontSize: '0.95rem', color: '#166534' }}>{runnableCorrectnessStats.generatedUtc || 'n/a'}</span>
-            </div>
-          </div>
-          {runnableCorrectnessFailures.length === 0 ? (
-            <p style={{ marginBottom: 0, color: '#15803d' }}>No failing problems in the latest audit.</p>
-          ) : (
-            <div style={{ background: 'white', borderRadius: '10px', border: '1px solid #fecaca', padding: '1rem' }}>
-              <h3 style={{ marginTop: 0, color: '#991b1b' }}>Current Failures</h3>
-              <ul style={{ marginBottom: 0, color: '#7f1d1d' }}>
-                {runnableCorrectnessFailures.map((failure) => (
-                  <li key={failure.problemId}>
-                    <strong>{failure.problemId}</strong> ({failure.problemName}): {failure.reason}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginTop: '3rem' }}>
-          {problemHighlights.map((problem) => (
-            <ProblemCard
-              key={problem.title}
-              title={problem.title}
-              status={problem.status}
-              description={problem.description}
-              href={problem.href}
-            />
-          ))}
-        </div>
-
-        <section style={{ marginTop: '3rem', padding: '2rem', borderRadius: '8px', border: '1px dashed #b0c4de' }}>
-          <h2>🧪 Reproduce It Yourself</h2>
-          <p style={{ color: '#666' }}>Spin up a Codespace or local clone and run the same pipelines that feed this dashboard.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
-            <CommandBlock
-              title="Setup"
-              commands={[
-                'git clone https://github.com/WernerRall147/quantum-grand-challenges.git',
-                'cd quantum-grand-challenges',
-                'pip install qsharp numpy scipy matplotlib',
-              ]}
-            />
-            <CommandBlock
-              title="Run QAE Risk"
-              commands={[
-                'cd problems/03_qae_risk',
-                'make classical',
-                'make analyze',
-              ]}
-            />
-            <CommandBlock
-              title="Run Hubbard Benchmark"
-              commands={[
-                'cd problems/01_hubbard',
-                'make classical',
-                'make build',
-              ]}
-            />
-          </div>
-        </section>
-
-        <footer style={{ marginTop: '4rem', padding: '2rem 0', borderTop: '1px solid #ddd', textAlign: 'center', color: '#666' }}>
-          <p>Built with Q#, Python, and Next.js | MIT License</p>
-          <p style={{ marginTop: '0.5rem' }}>
-            <a href="https://github.com/WernerRall147/quantum-grand-challenges" style={{ color: '#0070f3', textDecoration: 'none' }}>
-              View on GitHub →
-            </a>
-          </p>
+          <a href="https://github.com/WernerRall147/quantum-grand-challenges" style={{ color: '#667eea', textDecoration: 'none' }}>
+            View on GitHub &rarr;
+          </a>
         </footer>
       </main>
     </>
   );
 }
 
-interface ProblemCardProps {
-  title: string;
-  status: string;
-  description: string;
-  href: string;
-}
-
-interface TimelineItem {
-  title: string;
-  description: string;
-}
-
-interface CaseStudyProps {
-  title: string;
-  classicalHeadline: string;
-  classicalDetails: string;
-  quantumHeadline: string;
-  quantumDetails: string;
-  linkHref: string;
-}
-
-interface CommandBlockProps {
-  title: string;
-  commands: string[];
-}
-
-interface AlgorithmSummaryProps {
-  name: string;
-  qubits: string;
-  runtime: string;
-  tStates: string;
-  advantage: string;
-  color: string;
-}
-
-interface VisualizationCardProps {
-  title: string;
-  description: string;
-  imageSrc: string;
-}
-
-function statusBadgeStyle(status: string): { text: string; bg: string; fg: string } {
-  const normalized = status.toLowerCase();
-  if (normalized.includes('stage d')) {
-    return { text: 'Stage D', bg: '#ede9fe', fg: '#5b21b6' };
-  }
-  if (normalized.includes('stage c')) {
-    return { text: 'Stage C', bg: '#dcfce7', fg: '#166534' };
-  }
-  if (normalized.includes('stage b')) {
-    return { text: 'Stage B', bg: '#dbeafe', fg: '#1e40af' };
-  }
-  if (normalized.includes('complete')) {
-    return { text: 'Complete', bg: '#dcfce7', fg: '#166534' };
-  }
-  if (normalized.includes('implemented') || normalized.includes('pending')) {
-    return { text: 'Implemented', bg: '#fef3c7', fg: '#92400e' };
-  }
-  return { text: 'Stage A', bg: '#fef3c7', fg: '#92400e' };
-}
-
-function ProblemCard({ title, status, description, href }: ProblemCardProps) {
-  const badge = statusBadgeStyle(status);
-  // Extract problem ID from GitHub href to build local route
+function ProblemCard({ title, status, description, href }: { title: string; status: string; description: string; href: string }) {
   const match = href.match(/problems\/(\d{2}_[a-z_]+)/);
-  const problemId = match ? match[1] : '';
-  const detailHref = problemId ? `/problems/${problemId}/` : href;
-  return (
-    <div style={{ 
-      padding: '1.5rem', 
-      border: '1px solid #e0e0e0', 
-      borderRadius: '8px',
-      background: 'white',
-      transition: 'box-shadow 0.2s',
-      cursor: 'pointer'
-    }}
-    onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'}
-    onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
-    >
-      <h3 style={{ marginTop: 0, fontSize: '1.5rem' }}>{title}</h3>
-      <div style={{ margin: '0.5rem 0' }}>
-        <span style={{ background: badge.bg, color: badge.fg, fontWeight: 700, fontSize: '0.8rem', borderRadius: '999px', padding: '0.2rem 0.65rem' }}>
-          {badge.text}
-        </span>
-      </div>
-      <p style={{ color: '#0070f3', fontWeight: '600', margin: '0.5rem 0' }}>{status}</p>
-      <p style={{ color: '#666', margin: 0 }}>{description}</p>
-      <Link href={detailHref} style={{ display: 'inline-block', marginTop: '0.75rem', color: '#0ea5e9', textDecoration: 'none', fontWeight: 600 }}>
-        View details →
-      </Link>
-    </div>
-  );
-}
+  const detailHref = match ? `/problems/${match[1]}/` : href;
+  const algo = status.match(/- (\w[\w\s/]+)/)?.[1]?.trim() || '';
 
-function TimelineCard({ title, description }: TimelineItem) {
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '1.25rem', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
-      <h3 style={{ marginTop: 0, fontSize: '1.2rem', color: '#1f3d7a' }}>{title}</h3>
-      <p style={{ color: '#52627b', marginBottom: 0 }}>{description}</p>
-    </div>
-  );
-}
-
-function CaseStudyCard({ title, classicalHeadline, classicalDetails, quantumHeadline, quantumDetails, linkHref }: CaseStudyProps) {
-  return (
-    <div style={{ border: '1px solid #e5e7eb', borderRadius: '10px', padding: '1.5rem', background: 'white' }}>
-      <h3 style={{ marginTop: 0 }}>{title}</h3>
-      <p style={{ color: '#15803d', fontWeight: 600, marginBottom: '0.5rem' }}>{classicalHeadline}</p>
-      <p style={{ color: '#525252', marginTop: 0 }}>{classicalDetails}</p>
-      <p style={{ color: '#1d4ed8', fontWeight: 600, marginBottom: '0.5rem' }}>{quantumHeadline}</p>
-      <p style={{ color: '#525252', marginTop: 0 }}>{quantumDetails}</p>
-      <a href={linkHref} style={{ display: 'inline-block', marginTop: '0.75rem', color: '#0ea5e9', textDecoration: 'none', fontWeight: 600 }}>
-        Explore the repository →
-      </a>
-    </div>
-  );
-}
-
-function CommandBlock({ title, commands }: CommandBlockProps) {
-  return (
-    <div style={{ background: '#0f172a', color: '#e2e8f0', borderRadius: '8px', padding: '1.25rem', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
-      <h3 style={{ marginTop: 0, marginBottom: '0.75rem', fontSize: '1.1rem', color: '#38bdf8' }}>{title}</h3>
-      <code style={{ whiteSpace: 'pre-line', fontSize: '0.95rem' }}>{commands.join('\n')}</code>
-    </div>
-  );
-}
-
-function AlgorithmSummary({ name, qubits, runtime, tStates, advantage, color }: AlgorithmSummaryProps) {
-  return (
-    <div style={{ 
-      background: 'rgba(255,255,255,0.15)', 
-      borderRadius: '10px', 
-      padding: '1.5rem',
-      backdropFilter: 'blur(10px)',
-      border: '1px solid rgba(255,255,255,0.2)'
-    }}>
-      <h3 style={{ marginTop: 0, color, fontSize: '1.3rem' }}>{name}</h3>
-      <div style={{ marginTop: '1rem', display: 'grid', gap: '0.5rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#f0f0ff' }}>Physical Qubits:</span>
-          <strong style={{ color: 'white' }}>{qubits}</strong>
+    <Link href={detailHref} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <div style={{
+        padding: '1.25rem', border: '1px solid #e2e8f0', borderRadius: '10px', background: 'white',
+        transition: 'box-shadow 0.2s', cursor: 'pointer', height: '100%',
+      }}
+      onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'}
+      onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{title}</h3>
+          {algo && (
+            <span style={{ background: '#ede9fe', color: '#5b21b6', fontSize: '0.7rem', fontWeight: 700, borderRadius: '999px', padding: '0.15rem 0.55rem', whiteSpace: 'nowrap' }}>
+              {algo}
+            </span>
+          )}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#f0f0ff' }}>Runtime:</span>
-          <strong style={{ color: 'white' }}>{runtime}</strong>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#f0f0ff' }}>T-States:</span>
-          <strong style={{ color: 'white' }}>{tStates}</strong>
-        </div>
+        <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '0.5rem 0 0', lineHeight: 1.5 }}>{description}</p>
       </div>
-      <div style={{ 
-        marginTop: '1rem', 
-        paddingTop: '1rem', 
-        borderTop: '1px solid rgba(255,255,255,0.2)',
-        color: '#fff',
-        fontStyle: 'italic',
-        fontSize: '0.95rem'
-      }}>
-        {advantage}
-      </div>
-    </div>
+    </Link>
   );
 }
 
-function VisualizationCard({ title, description, imageSrc }: VisualizationCardProps) {
+function CommandBlock({ title, commands }: { title: string; commands: string[] }) {
   return (
-    <div style={{ 
-      border: '1px solid #e5e7eb', 
-      borderRadius: '12px', 
-      overflow: 'hidden',
-      background: 'white',
-      transition: 'transform 0.2s, box-shadow 0.2s',
-      cursor: 'pointer'
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.transform = 'translateY(-4px)';
-      e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.15)';
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.boxShadow = 'none';
-    }}
-    >
-      <Image
-        src={imageSrc}
-        alt={title}
-        width={1200}
-        height={675}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-        style={{
-          width: '100%',
-          height: 'auto',
-          display: 'block',
-          borderBottom: '1px solid #e5e7eb'
-        }}
-      />
-      <div style={{ padding: '1.5rem' }}>
-        <h3 style={{ marginTop: 0, fontSize: '1.3rem', color: '#1f2937' }}>{title}</h3>
-        <p style={{ color: '#6b7280', margin: 0, lineHeight: '1.6' }}>{description}</p>
-      </div>
+    <div style={{ background: '#0f172a', color: '#e2e8f0', borderRadius: '8px', padding: '1.25rem', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' }}>
+      <h3 style={{ marginTop: 0, marginBottom: '0.75rem', fontSize: '1rem', color: '#38bdf8' }}>{title}</h3>
+      <code style={{ whiteSpace: 'pre-wrap', fontSize: '0.85rem', lineHeight: 1.6 }}>{commands.join('\n')}</code>
     </div>
   );
 }

@@ -102,13 +102,17 @@ def generate_embeddings(papers: List[Dict], api_key: str, endpoint: str) -> List
 
 
 def upsert_to_cosmos(papers: List[Dict]):
-    """Upsert papers into Cosmos DB using Entra ID auth."""
-    from azure.identity import DefaultAzureCredential
+    """Upsert papers into Cosmos DB. Uses key if COSMOS_KEY set, otherwise Entra ID."""
     from azure.cosmos import CosmosClient
 
+    endpoint = "https://qgccosmoseval.documents.azure.com:443/"
     try:
-        credential = DefaultAzureCredential()
-        client = CosmosClient("https://qgccosmoseval.documents.azure.com:443/", credential=credential)
+        cosmos_key = os.environ.get("COSMOS_KEY")
+        if cosmos_key:
+            client = CosmosClient(endpoint, credential=cosmos_key)
+        else:
+            from azure.identity import DefaultAzureCredential
+            client = CosmosClient(endpoint, credential=DefaultAzureCredential())
         container = client.get_database_client("quantum_kb").get_container_client("scientific_papers")
         for p in papers:
             doc = {

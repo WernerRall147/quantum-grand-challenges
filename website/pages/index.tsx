@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { problemHighlights } from '../data/projectStatus';
@@ -18,10 +19,16 @@ export default function Home() {
         <meta name="description" content="Systematic exploration of the world's most challenging scientific problems using quantum computing, AI and HPC" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={withBasePath('/favicon.ico')} />
+        <style>{`
+          @media (max-width: 900px) {
+            .qgc-layout { grid-template-columns: 1fr !important; }
+            .qgc-sidebar { position: static !important; order: -1; }
+          }
+        `}</style>
       </Head>
-      <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif', color: '#1a1a2e' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif', color: '#1a1a2e' }}>
 
-        {/* Hero */}
+        {/* Hero — full width */}
         <header style={{ textAlign: 'center', padding: '3rem 0 2rem' }}>
           <h1 style={{ fontSize: '2.8rem', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
             Quantum Grand Challenges
@@ -38,6 +45,10 @@ export default function Home() {
             </Link>
           </div>
         </header>
+
+        {/* Two-column layout: content + sidebar */}
+        <div className="qgc-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '2.5rem', alignItems: 'start' }}>
+        <main>
 
         {/* Troyer Filters */}
         <section style={{ padding: '1.5rem 2rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
@@ -172,6 +183,85 @@ export default function Home() {
             ]} />
           </div>
         </section>
+        </main>
+
+        {/* Contributor Sidebar */}
+        <aside className="qgc-sidebar" style={{ position: 'sticky', top: '2rem', alignSelf: 'start' }}>
+          <div style={{ border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', background: 'white' }}>
+            {/* Profile header */}
+            <div style={{ background: 'linear-gradient(135deg, #667eea, #764ba2)', padding: '1.5rem', textAlign: 'center' }}>
+              <div style={{
+                width: '90px', height: '90px', borderRadius: '50%', border: '3px solid white',
+                margin: '0 auto 0.75rem', overflow: 'hidden', background: '#e2e8f0',
+              }}>
+                <Image src="https://avatars.githubusercontent.com/u/42690440" alt="Werner Rall" width={90} height={90} style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }} unoptimized />
+              </div>
+              <h3 style={{ margin: 0, color: 'white', fontSize: '1.1rem' }}>Werner Rall</h3>
+              <p style={{ margin: '0.25rem 0 0', color: '#e0e7ff', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                Azure, AI, Quantum Computing, DevOps
+              </p>
+            </div>
+
+            {/* Bio */}
+            <div style={{ padding: '1rem 1.25rem', fontSize: '0.82rem', color: '#475569', lineHeight: 1.5 }}>
+              <p style={{ margin: '0 0 0.75rem' }}>
+                Cloud enthusiast who learned computers without the internet, growing up on a farm in South Africa. Today I focus on Azure, AI, Quantum Computing, and DevOps.
+              </p>
+              <p style={{ margin: 0, color: '#64748b', fontSize: '0.78rem' }}>🧠 Neurodivergent</p>
+            </div>
+
+            {/* Quantum Education */}
+            <div style={{ padding: '0 1.25rem 1rem', borderTop: '1px solid #f1f5f9' }}>
+              <h4 style={{ fontSize: '0.8rem', color: '#5b21b6', margin: '0.75rem 0 0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                ⚛ Quantum Education
+              </h4>
+              <ul style={{ margin: 0, padding: '0 0 0 1rem', fontSize: '0.78rem', color: '#374151', lineHeight: 1.6 }}>
+                <li>MITx: Introduction to Quantum Computing</li>
+                <li>MITx: Quantum Algorithms for Cybersecurity, Chemistry, and Optimization</li>
+              </ul>
+            </div>
+
+            {/* Links */}
+            <div style={{ padding: '0 1.25rem 1.25rem', display: 'grid', gap: '0.4rem' }}>
+              {[
+                { label: 'GitHub', href: 'https://github.com/WernerRall147', icon: '💻' },
+                { label: 'LinkedIn', href: 'https://www.linkedin.com/in/werner-rall/', icon: '🔗' },
+                { label: 'X / Twitter', href: 'https://twitter.com/werneragent47', icon: '🐦' },
+                { label: 'YouTube', href: 'https://www.youtube.com/@ralltheory411', icon: '🎬' },
+                { label: 'Blog', href: 'https://aka.ms/wernerrall', icon: '📝' },
+                { label: 'Azure & Quantum Updates', href: 'https://aka.ms/theazureupdate', icon: '🌐' },
+                { label: 'Credly Badges', href: 'https://www.credly.com/users/werner-rall/badges', icon: '🏆' },
+                { label: 'MS Learn', href: 'https://learn.microsoft.com/en-us/users/wernerrall147/', icon: '🎓' },
+                { label: 'Quantum Grand Challenges', href: 'https://aka.ms/quantum-grand-challenges/', icon: '⚛️' },
+              ].map((link) => (
+                <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" style={{
+                  display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.35rem 0.6rem',
+                  background: '#f8fafc', borderRadius: '6px', textDecoration: 'none',
+                  color: '#334155', fontSize: '0.78rem', transition: 'background 0.15s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#e0e7ff'}
+                onMouseLeave={(e) => e.currentTarget.style.background = '#f8fafc'}
+                >
+                  <span>{link.icon}</span>
+                  <span>{link.label}</span>
+                </a>
+              ))}
+            </div>
+
+            {/* Scam Shield */}
+            <div style={{ padding: '0 1.25rem 1.25rem', borderTop: '1px solid #f1f5f9' }}>
+              <a href="https://www.scamshield.co.za" target="_blank" rel="noopener noreferrer" style={{
+                display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.6rem',
+                background: '#fef3c7', borderRadius: '6px', textDecoration: 'none',
+                color: '#92400e', fontSize: '0.78rem',
+              }}>
+                <span>🛡️</span>
+                <span>ScamShield — Protect online users</span>
+              </a>
+            </div>
+          </div>
+        </aside>
+        </div>
 
         {/* Footer */}
         <footer style={{ marginTop: '4rem', padding: '1.5rem 0', borderTop: '1px solid #e2e8f0', textAlign: 'center', color: '#94a3b8', fontSize: '0.9rem' }}>
@@ -183,7 +273,7 @@ export default function Home() {
             View on GitHub &rarr;
           </a>
         </footer>
-      </main>
+      </div>
     </>
   );
 }

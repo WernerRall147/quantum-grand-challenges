@@ -172,166 +172,35 @@ jobs:
           name: runnable-correctness-report
           path: tooling/reporting/problem_runnable_correctness_report.json
           retention-days: 14
-name: Nightly Reporting
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 3 * * *'
-
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
-
-env:
-  PYTHON_VERSION: '3.11'
-  NODE_VERSION: '18'
-
-jobs:
-  # ── KPI dashboard refresh ──────────────────────────────────────────
-  refresh-kpis:
+  # Daily arxiv paper ingestion
+  arxiv-ingestion:
     runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Generate objective KPI snapshots
-        run: |
-          python tooling/reporting/stage_kpis.py \
-            --policy tooling/reporting/maturity-policy.json \
-            --out-md docs/objective-kpis.md \
-            --out-json docs/objective-kpis.json
-
-      - name: Create pull request for KPI updates
-        uses: peter-evans/create-pull-request@v7
+      - name: Cache pip
+        uses: actions/cache@v4
         with:
-          branch: chore/update-objective-kpis
-          commit-message: "chore(reporting): refresh objective KPI dashboard"
-          title: "chore(reporting): refresh objective KPI dashboard"
-          body: "Automated refresh of objective maturity KPI snapshots."
-          labels: documentation,reporting
+          path: ~/.cache/pip
+          key: pip-nightly-${{ runner.os }}
+          restore-keys: pip-ci-${{ runner.os }}-
+      - name: Install dependencies
+        run: pip install azure-cosmos azure-search-documents azure-identity
 
-  # ── Platform target recommendations ────────────────────────────────
-  refresh-platform-targets:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Run arxiv ingestion
+        env:
+          SEARCH_ADMIN_KEY: ${{ secrets.SEARCH_ADMIN_KEY }}
+        run: python -m knowledge.ingest.arxiv_ingester
 
-      - name: Audit Azure run-history metric coverage
-        run: |
-          python tooling/reporting/audit_azure_run_history_metrics.py \
-            --min-resolved-coverage 0.85 \
-            --enforce-threshold
-
-      - name: Generate platform recommendations
-        run: |
-          python tooling/reporting/recommend_platform_targets.py --preference balanced
-          python tooling/reporting/recommend_platform_targets.py \
-            --preference hardware-first \
-            --out-json tooling/reporting/platform_target_recommendations_hardware_first.json \
-            --out-md docs/platform-target-recommendations-hardware-first.md
-          python tooling/reporting/recommend_platform_targets.py \
-            --preference simulator-first \
-            --out-json tooling/reporting/platform_target_recommendations_simulator_first.json \
-            --out-md docs/platform-target-recommendations-simulator-first.md
-
-      - name: Validate website data schema
-        run: python tooling/reporting/validate_website_data_schema.py
-
-      - name: Create pull request for recommendation updates
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: chore/update-platform-target-recommendations
-          commit-message: "chore(reporting): refresh platform target recommendations"
-          title: "chore(reporting): refresh platform target recommendations"
-          body: "Automated refresh of Azure Quantum platform target recommendations."
-          labels: documentation,reporting,azure
-
-  # ── Stage D readiness trend ────────────────────────────────────────
-  stage-d-trend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Preserve baseline readiness report
-        run: |
-          if [ -f tooling/reporting/stage_d_readiness_report.json ]; then
-            cp tooling/reporting/stage_d_readiness_report.json tooling/reporting/stage_d_readiness_report.baseline.json
-          else
-            python tooling/reporting/stage_d_readiness_audit.py
-            cp tooling/reporting/stage_d_readiness_report.json tooling/reporting/stage_d_readiness_report.baseline.json
-          fi
-
-      - name: Regenerate current readiness report
-        run: python tooling/reporting/stage_d_readiness_audit.py
-
-      - name: Compute Stage D trend report
-        run: |
-          python tooling/reporting/stage_d_readiness_trend.py \
-            --baseline tooling/reporting/stage_d_readiness_report.baseline.json \
-            --current tooling/reporting/stage_d_readiness_report.json \
-            --out-json tooling/reporting/stage_d_readiness_trend_report.json \
-            --out-md docs/planning/stage-d-readiness-trend.md
-
-      - name: Check for regression
-        id: trend
-        run: |
-          python -c "
-          import json, os
-          from pathlib import Path
-          payload = json.loads(Path('tooling/reporting/stage_d_readiness_trend_report.json').read_text())
-          degraded = bool(payload.get('degraded', False))
-          with Path(os.environ['GITHUB_OUTPUT']).open('a') as f:
-              f.write(f'degraded={str(degraded).lower()}\n')
-          print(f'degraded={str(degraded).lower()}')
-          "
-
-      - name: Create regression issue
-        if: steps.trend.outputs.degraded == 'true'
-        uses: peter-evans/create-issue-from-file@v5
-        with:
-          title: 'Stage D readiness regression detected'
-          content-filepath: docs/planning/stage-d-readiness-trend.md
-          labels: reporting,stage-d,regression
-
-      - name: Upload trend artifacts
+      - name: Upload ingestion report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage-d-readiness-trend
-          path: |
-            tooling/reporting/stage_d_readiness_trend_report.json
-            docs/planning/stage-d-readiness-trend.md
-          retention-days: 30
+          name: arxiv-ingestion
+          path: knowledge/data/latest_papers.json
+          retention-days: 7
 
-  # ── Diagnostics (Q# smoke, website build, QAOA estimator) ─────────
-  diagnostics:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install dependencies
-        run: pip install qsharp numpy scipy pyyaml
-
-      - name: Q# compilation smoke
-        run: python tooling/ci_validate_qsharp.py
-
-      - name: Website build smoke
-        run: cd website && npm install && npm run build
-
-      - name: QAOA estimator smoke (mock)
-        run: cd problems/05_qaoa_maxcut && make estimate-all

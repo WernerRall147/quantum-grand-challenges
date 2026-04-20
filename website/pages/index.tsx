@@ -194,7 +194,7 @@ export default function Home() {
                 width: '90px', height: '90px', borderRadius: '50%', border: '3px solid white',
                 margin: '0 auto 0.75rem', overflow: 'hidden', background: '#e2e8f0',
               }}>
-                <Image src="https://avatars.githubusercontent.com/u/42690440" alt="Werner Rall" width={90} height={90} style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }} unoptimized />
+                <Image src={withBasePath('/images/profile.jpg')} alt="Werner Rall" width={90} height={90} style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }} unoptimized />
               </div>
               <h3 style={{ margin: 0, color: 'white', fontSize: '1.1rem' }}>Werner Rall</h3>
               <p style={{ margin: '0.25rem 0 0', color: '#e0e7ff', fontSize: '0.8rem', fontStyle: 'italic' }}>

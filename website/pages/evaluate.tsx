@@ -317,6 +317,69 @@ export default function EvaluatePage() {
           </div>
         </section>
 
+        {/* Hybrid Compute Platform — inspired by Microsoft Quantum Architecture Series */}
+        <section style={{ marginTop: '2.5rem', padding: '2rem', background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)', borderRadius: '12px', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.85rem', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.25rem' }}>
+            Microsoft Quantum Architecture
+          </p>
+          <h2 style={{ marginTop: 0, fontSize: '1.4rem', color: '#1a1a2e' }}>
+            These problems will use a <span style={{ fontWeight: 800 }}>hybrid compute platform</span>
+          </h2>
+
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
+            {/* AI */}
+            <div style={{
+              width: '180px', padding: '1.25rem', borderRadius: '12px', background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+              borderTop: '4px solid #e74c8b', textAlign: 'center',
+            }}>
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🧠</div>
+              <div style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#6b7280' }}>Intelligent</div>
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: '#1a1a2e' }}>Artificial Intelligence</div>
+            </div>
+
+            {/* Connectors */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <div style={{ width: '40px', height: '3px', background: '#e74c8b', borderRadius: '2px' }} />
+              <div style={{ width: '40px', height: '3px', background: '#a855f7', borderRadius: '2px' }} />
+              <div style={{ width: '40px', height: '3px', background: '#3b82f6', borderRadius: '2px' }} />
+            </div>
+
+            {/* Quantum */}
+            <div style={{
+              width: '200px', padding: '1.5rem', borderRadius: '50%', background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%)',
+              boxShadow: '0 4px 20px rgba(59,130,246,0.3)', textAlign: 'center',
+              aspectRatio: '1', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+            }}>
+              <div style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#bfdbfe' }}>Fast and Reliable</div>
+              <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'white' }}>Quantum</div>
+            </div>
+
+            {/* Connectors */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <div style={{ width: '40px', height: '3px', background: '#3b82f6', borderRadius: '2px' }} />
+              <div style={{ width: '40px', height: '3px', background: '#a855f7', borderRadius: '2px' }} />
+              <div style={{ width: '40px', height: '3px', background: '#10b981', borderRadius: '2px' }} />
+            </div>
+
+            {/* HPC */}
+            <div style={{
+              width: '180px', padding: '1.25rem', borderRadius: '12px', background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+              borderTop: '4px solid #10b981', textAlign: 'center',
+            }}>
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⚡</div>
+              <div style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#6b7280' }}>Advanced</div>
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: '#1a1a2e' }}>High Performance Compute</div>
+            </div>
+          </div>
+
+          <p style={{ fontSize: '0.8rem', color: '#9ca3af', marginTop: '1.25rem', marginBottom: 0 }}>
+            Based on Dr. Matthias Troyer&apos;s &ldquo;Building the Modern Quantum Architecture&rdquo; series &mdash;{' '}
+            <a href="https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series" target="_blank" rel="noopener noreferrer" style={{ color: '#667eea', textDecoration: 'none' }}>
+              quantum.microsoft.com
+            </a>
+          </p>
+        </section>
+
         <footer style={{ marginTop: '4rem', padding: '1.5rem 0', borderTop: '1px solid #ddd', textAlign: 'center', color: '#999' }}>
           <p style={{ margin: 0 }}>
             Powered by Azure OpenAI (GPT-5.4-mini) + Cosmos DB + AI Search | <Link href="/" style={{ color: '#0070f3', textDecoration: 'none' }}>Dashboard</Link>

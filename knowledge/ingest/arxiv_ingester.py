@@ -90,14 +90,34 @@ def filter_quantum_computing_relevance(papers: List[Dict]) -> List[Dict]:
     return relevant
 
 
-def generate_embeddings(papers: List[Dict], api_key: str, endpoint: str) -> List[Dict]:
+def generate_embeddings(papers: List[Dict]) -> List[Dict]:
     """Generate vector embeddings for paper abstracts using Azure OpenAI."""
-    # Placeholder — will use Azure OpenAI text-embedding-3-large
-    # from openai import AzureOpenAI
-    # client = AzureOpenAI(api_key=api_key, azure_endpoint=endpoint, api_version="2024-10-21")
-    for p in papers:
-        # p["embedding"] = client.embeddings.create(input=p["abstract"], model="text-embedding-3-large").data[0].embedding
-        p["embedding"] = None  # Placeholder until Azure OpenAI is provisioned
+    try:
+        from azure.identity import DefaultAzureCredential
+        from openai import AzureOpenAI
+
+        endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
+        credential = DefaultAzureCredential()
+        token = credential.get_token("https://cognitiveservices.azure.com/.default")
+        client = AzureOpenAI(
+            azure_ad_token=token.token,
+            azure_endpoint=endpoint,
+            api_version="2024-10-21",
+        )
+        # Batch in groups of 16 to stay under token limits
+        batch_size = 16
+        for i in range(0, len(papers), batch_size):
+            batch = papers[i:i + batch_size]
+            texts = [p["abstract"][:2000] for p in batch]
+            resp = client.embeddings.create(input=texts, model="text-embedding-3-large")
+            for j, emb_data in enumerate(resp.data):
+                batch[j]["embedding"] = emb_data.embedding
+        print(f"  Embeddings: generated for {len(papers)} papers")
+    except Exception as e:
+        print(f"  Embeddings failed ({e}), papers will have no vectors")
+        for p in papers:
+            if "embedding" not in p:
+                p["embedding"] = None
     return papers
 
 
@@ -190,6 +210,10 @@ def main():
     # Filter for quantum computing relevance
     relevant = filter_quantum_computing_relevance(unique)
     print(f"Relevant to quantum computing: {len(relevant)}")
+
+    # Generate embeddings
+    if relevant:
+        relevant = generate_embeddings(relevant)
 
     # Upsert to Cosmos DB
     if relevant:

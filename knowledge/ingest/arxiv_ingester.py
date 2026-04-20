@@ -171,7 +171,7 @@ def upsert_to_search_index(papers: List[Dict]):
         )
         docs = []
         for p in papers:
-            docs.append({
+            doc = {
                 "id": p["arxiv_id"].replace("/", "_").replace(".", "_"),
                 "arxiv_id": p["arxiv_id"],
                 "title": p["title"],
@@ -179,7 +179,10 @@ def upsert_to_search_index(papers: List[Dict]):
                 "category": p["categories"][0] if p["categories"] else "unknown",
                 "published": p["published"],
                 "authors": ", ".join(p["authors"][:5]),
-            })
+            }
+            if p.get("embedding"):
+                doc["embedding"] = p["embedding"]
+            docs.append(doc)
         result = client.upload_documents(documents=docs)
         succeeded = sum(1 for r in result if r.succeeded)
         print(f"  AI Search: indexed {succeeded}/{len(docs)} papers")

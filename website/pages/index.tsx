@@ -24,25 +24,80 @@ export default function Home() {
             .qgc-layout { grid-template-columns: 1fr !important; }
             .qgc-sidebar { position: static !important; order: -1; }
           }
+          @keyframes orbit1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+          @keyframes orbit2 { from { transform: rotate(60deg); } to { transform: rotate(420deg); } }
+          @keyframes orbit3 { from { transform: rotate(120deg); } to { transform: rotate(480deg); } }
+          @keyframes pulse { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.15); } }
+          @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         `}</style>
       </Head>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif', color: '#1a1a2e' }}>
 
-        {/* Hero — full width */}
-        <header style={{ textAlign: 'center', padding: '3rem 0 2rem' }}>
-          <h1 style={{ fontSize: '2.8rem', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
-            Quantum Grand Challenges
-          </h1>
-          <p style={{ fontSize: '1.2rem', color: '#555', maxWidth: '700px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
-            Systematic exploration of the world&apos;s most challenging scientific problems using quantum computing, AI and HPC
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/evaluate/" style={{ padding: '0.8rem 2rem', background: 'linear-gradient(135deg, #667eea, #764ba2)', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.05rem' }}>
-              Evaluate Your Problem &rarr;
-            </Link>
-            <Link href="/compare/" style={{ padding: '0.8rem 2rem', background: '#1e293b', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.05rem' }}>
-              Compare All Problems
-            </Link>
+        {/* Hero — quantum-inspired animated background */}
+        <header style={{
+          textAlign: 'center', padding: '4rem 2rem 3rem', borderRadius: '16px', position: 'relative', overflow: 'hidden',
+          background: 'linear-gradient(135deg, #0a0e27 0%, #1a1a4e 30%, #1e3a6e 60%, #0d1b3e 100%)',
+          marginBottom: '1.5rem',
+        }}>
+          {/* Orbital rings */}
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+            {[
+              { size: 280, border: 'rgba(102,126,234,0.2)', dur: '20s', anim: 'orbit1', tilt: 'rotateX(70deg)' },
+              { size: 360, border: 'rgba(118,75,162,0.15)', dur: '28s', anim: 'orbit2', tilt: 'rotateX(70deg) rotateZ(30deg)' },
+              { size: 440, border: 'rgba(59,130,246,0.1)', dur: '36s', anim: 'orbit3', tilt: 'rotateX(70deg) rotateZ(-20deg)' },
+            ].map((ring, i) => (
+              <div key={i} style={{
+                position: 'absolute', width: ring.size, height: ring.size, borderRadius: '50%',
+                border: `1.5px solid ${ring.border}`, transform: ring.tilt,
+                animation: `${ring.anim} ${ring.dur} linear infinite`,
+              }}>
+                {/* Orbiting dot */}
+                <div style={{
+                  position: 'absolute', top: -4, left: '50%', marginLeft: -4,
+                  width: 8, height: 8, borderRadius: '50%',
+                  background: i === 0 ? '#667eea' : i === 1 ? '#a855f7' : '#3b82f6',
+                  boxShadow: `0 0 12px ${i === 0 ? '#667eea' : i === 1 ? '#a855f7' : '#3b82f6'}`,
+                  animation: 'pulse 3s ease-in-out infinite',
+                }} />
+              </div>
+            ))}
+            {/* Center glow */}
+            <div style={{
+              width: 120, height: 120, borderRadius: '50%', position: 'absolute',
+              background: 'radial-gradient(circle, rgba(102,126,234,0.25) 0%, rgba(102,126,234,0.05) 60%, transparent 80%)',
+              animation: 'pulse 4s ease-in-out infinite',
+            }} />
+          </div>
+
+          {/* Hex grid dots */}
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.15 }}>
+            {Array.from({ length: 30 }).map((_, i) => (
+              <div key={i} style={{
+                position: 'absolute',
+                left: `${10 + (i % 10) * 9}%`,
+                top: `${8 + Math.floor(i / 10) * 35 + (i % 2 ? 15 : 0)}%`,
+                width: 3, height: 3, borderRadius: '50%', background: '#667eea',
+                animation: `float ${2 + (i % 3)}s ease-in-out ${(i * 0.2) % 2}s infinite`,
+              }} />
+            ))}
+          </div>
+
+          {/* Content */}
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <h1 style={{ fontSize: '2.8rem', marginBottom: '0.75rem', letterSpacing: '-0.02em', color: 'white' }}>
+              Quantum Grand Challenges
+            </h1>
+            <p style={{ fontSize: '1.2rem', color: '#b4bcd0', maxWidth: '700px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
+              Systematic exploration of the world&apos;s most challenging scientific problems using quantum computing, AI and HPC
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link href="/evaluate/" style={{ padding: '0.8rem 2rem', background: 'linear-gradient(135deg, #667eea, #764ba2)', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.05rem', boxShadow: '0 4px 15px rgba(102,126,234,0.4)' }}>
+                Evaluate Your Problem &rarr;
+              </Link>
+              <Link href="/compare/" style={{ padding: '0.8rem 2rem', background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.05rem', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)' }}>
+                Compare All Problems
+              </Link>
+            </div>
           </div>
         </header>
 

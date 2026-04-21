@@ -28,7 +28,7 @@ Always reference these validated commands. Build times measured on standard deve
 pip install numpy scipy matplotlib pandas seaborn plotly jupyter pyyaml jsonschema pytest
 
 # Run classical analysis - takes 8 seconds
-cd problems/03_qae_risk
+cd problems/archived/03_qae_risk
 make classical
 
 # Generate analysis plots - takes 8 seconds  
@@ -62,7 +62,7 @@ npm run build  # Static export to website/out/. Takes ~15 seconds.
 
 ### Complete Problem Analysis
 ```bash
-cd problems/03_qae_risk
+cd problems/archived/03_qae_risk
 
 # Quick working demo - takes 15 seconds total
 make classical     # Classical Monte Carlo analysis
@@ -101,20 +101,20 @@ Always test these scenarios after making changes to ensure functionality:
 python3 -c "import numpy as np; import matplotlib.pyplot as plt; import scipy; print('All packages working')"
 
 # 2. Run working classical analysis
-cd problems/03_qae_risk
+cd problems/archived/03_qae_risk
 make classical
 # Verify: ../estimates/classical_baseline.json created
 # Verify: ../plots/*.png files generated
 
 # 3. Test Q# compilation
-python3 -c "import qsharp; qsharp.init(project_root='problems/03_qae_risk/qsharp'); print('Q# OK')"
+python3 -c "import qsharp; qsharp.init(project_root='problems/archived/03_qae_risk/qsharp'); print('Q# OK')"
 # Verify: No errors, prints 'Q# OK'
 ```
 
 ### End-to-End Scenario Testing
 ```bash
 # Complete working workflow
-cd problems/03_qae_risk
+cd problems/archived/03_qae_risk
 make classical && make analyze
 # Expected: Monte Carlo analysis runs, plots generated in ../plots/
 # Expected: classical_baseline.json created in ../estimates/

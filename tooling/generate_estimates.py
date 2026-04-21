@@ -11,7 +11,8 @@ from pathlib import Path
 
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 
-# Entry points for resource estimation — single-shot kernel operations
+# Import shared discovery helper
+from discover_problems import discover_all_problems — single-shot kernel operations
 ENTRY_POINTS = {
     "01_hubbard": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 1)",
     "02_catalysis": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 1)",
@@ -39,10 +40,7 @@ ENTRY_POINTS = {
 def main():
     import qsharp
 
-    problem_dirs = sorted(
-        [d for d in PROBLEMS_DIR.iterdir() if d.is_dir() and d.name[:2].isdigit()],
-        key=lambda d: d.name,
-    )
+    problem_dirs = discover_all_problems()
 
     ok = 0
     fail = 0

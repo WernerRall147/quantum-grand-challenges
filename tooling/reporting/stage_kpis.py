@@ -129,13 +129,21 @@ def summarize(records: List[ProblemKpi]) -> Summary:
 
 def collect_problem_kpis(repo_root: Path) -> List[ProblemKpi]:
     problems_dir = repo_root / "problems"
+    archived_dir = problems_dir / "archived"
     records: List[ProblemKpi] = []
 
+    # Collect from both active and archived directories
+    all_dirs = []
     for child in sorted(problems_dir.iterdir()):
-        if not child.is_dir():
-            continue
-        if not re.match(r"^\d{2}_", child.name):
-            continue
+        if child.is_dir() and re.match(r"^\d{2}_", child.name):
+            all_dirs.append(child)
+    if archived_dir.is_dir():
+        for child in sorted(archived_dir.iterdir()):
+            if child.is_dir() and re.match(r"^\d{2}_", child.name):
+                all_dirs.append(child)
+    all_dirs.sort(key=lambda d: d.name)
+
+    for child in all_dirs:
 
         readme = child / "README.md"
         if not readme.exists():

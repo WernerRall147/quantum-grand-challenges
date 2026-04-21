@@ -2,6 +2,35 @@
   "generated_utc": "2026-04-16T00:00:00Z",
   "framework": "Troyer Utility-Scale Classification",
   "reference": "Dr. Matthias Troyer, 'Building the Modern Quantum Architecture' lecture series (2025-2026), quantum.microsoft.com",
+  "lecture_series": [
+    {"part": 1, "title": "Utility-scale quantum applications", "date": "2025-11-10", "url": "https://aka.ms/MTLI1"},
+    {"part": 2, "title": "Utility-scale quantum architecture", "date": "2025-11-17", "url": "https://aka.ms/MTLI2"},
+    {"part": 3, "title": "Quantum Resource Estimation", "date": "2025-12-01", "url": "https://aka.ms/MTLI3"},
+    {"part": 4, "title": "High-performance quantum computing", "date": "2025-12-15", "url": "https://aka.ms/MTLI4"},
+    {"part": 5, "title": "Scalable quantum architecture", "date": "2026-04-14", "url": "https://aka.ms/MTLI5"},
+    {"part": 6, "title": "Balancing the Cost of Utility-Scale Quantum Computing", "date": "coming_soon", "url": null}
+  ],
+  "additional_frameworks": {
+    "divincenzo_criteria": {
+      "description": "DiVincenzo's 5+2 criteria for physical implementation of quantum computing — used as a hardware-realism overlay on maturity stages.",
+      "criteria": ["Scalable physical system with well-characterized qubits", "Initialization to a known state", "Long coherence times relative to gate times", "Universal gate set", "Qubit-specific measurement", "(Optional) Interconversion of stationary and flying qubits", "(Optional) Faithful transmission of flying qubits"],
+      "relevance": "Applied at Stage C/D to validate hardware-readiness assumptions for advantage claims."
+    },
+    "troyer_cost_model": {
+      "description": "Part 6 of the lecture series (upcoming): balancing the cost of utility-scale quantum computing — when does the quantum advantage justify the engineering and economic cost?",
+      "status": "coming_soon"
+    }
+  },
+  "external_knowledge_sources": [
+    {"name": "Quantum Algorithm Zoo", "url": "https://quantumalgorithmzoo.org/", "description": "400+ quantum algorithms indexed by speedup class"},
+    {"name": "Error Correction Zoo", "url": "https://errorcorrectionzoo.org/", "description": "Comprehensive encyclopedia of quantum and classical error-correcting codes. Covers stabilizer, CSS, surface, color, QLDPC, bosonic, and topological codes with code relationships and decoder references."},
+    {"name": "arxiv (cs.QC + quant-ph)", "url": "https://arxiv.org/", "description": "Daily ingestion of peer-reviewed quantum computing papers"}
+  ],
+  "industry_developments": [
+    {"date": "2026-03-24", "source": "Google Quantum AI", "title": "Building superconducting and neutral atom quantum computers", "summary": "Google expands to dual-modality: superconducting (scales in circuit depth) + neutral atoms (scales in qubit count ~10k qubits). Led by Dr. Adam Kaufman at Boulder, CO.", "url": "https://blog.google/innovation-and-ai/technology/research/neutral-atom-quantum-computers/"},
+    {"date": "2026-03-25", "source": "Google Security", "title": "Quantum frontiers may be closer than they appear", "summary": "Google sets 2029 timeline for post-quantum cryptography migration, implying CRQC (Cryptographically Relevant Quantum Computer) expected around end of decade.", "url": "https://blog.google/innovation-and-ai/technology/safety-security/cryptography-migration-timeline/"},
+    {"date": "2026-01-15", "source": "MIT", "title": "Efficient cooling method could enable chip-based trapped-ion quantum computers", "summary": "New cooling technique improves scalability of trapped-ion QC — essential step toward practical utility.", "url": "https://news.mit.edu/2026/efficient-cooling-method-could-enable-chip-based-quantum-computers-0115"}
+  ],
   "categories": {
     "proven_speedup": {
       "label": "Proven Speedup",
@@ -52,125 +81,158 @@
     "heuristic_potential": {
       "label": "Heuristic / Unproven Advantage",
       "description": "Variational and approximate algorithms without proven speedup over classical. These rely on empirical performance that may or may not survive scaling. Troyer emphasizes these are the highest-risk category for utility claims.",
+      "note": "Five problems originally in this category (01_hubbard, 02_catalysis, 07_drug_discovery, 14_materials_discovery, 17_nuclear_physics) were upgraded from VQE to QPE and reclassified to simulation_native. Their QPE implementations target naturally quantum Hamiltonians with exponential speedup.",
       "problems": [
-        {
-          "id": "01_hubbard",
-          "algorithm": "VQE (Variational Quantum Eigensolver)",
-          "speedup": "None proven; heuristic variational optimization",
-          "classical_best": "DMRG / tensor network / exact diagonalization",
-          "troyer_assessment": "VQE has no proven speedup. Classical tensor network methods (DMRG) can solve 1D Hubbard models with hundreds of sites. Quantum advantage requires strongly-correlated 2D systems beyond tensor network reach — our 2-site instance is trivially classical."
-        },
-        {
-          "id": "02_catalysis",
-          "algorithm": "VQE for H₂ ground state",
-          "speedup": "None proven for small molecules",
-          "classical_best": "Full configuration interaction (FCI) / coupled cluster",
-          "troyer_assessment": "H₂ in STO-3G basis is exactly solvable classically. Quantum advantage in chemistry requires molecules with >50 orbitals where FCI is intractable. This is a pedagogical demonstration, not a utility candidate."
-        },
         {
           "id": "05_qaoa_maxcut",
           "algorithm": "QAOA",
           "speedup": "None proven; depth-1 QAOA has known classical simulations",
           "classical_best": "Goemans-Williamson SDP (0.878 approximation ratio)",
-          "troyer_assessment": "No proven quantum advantage for QAOA on MaxCut. The Goemans-Williamson algorithm achieves 0.878-approximation in polynomial time. QAOA at constant depth can be classically simulated. Higher-depth QAOA may offer advantage but this is unproven."
-        },
-        {
-          "id": "07_drug_discovery",
-          "algorithm": "VQE Binding Energy",
-          "speedup": "None proven for current instance size",
-          "classical_best": "Molecular mechanics / DFT / docking algorithms",
-          "troyer_assessment": "Same limitations as catalysis VQE. Drug discovery quantum advantage requires simulating transition states of large molecules (>100 atoms) with strong electron correlation — far beyond current quantum capabilities."
+          "troyer_assessment": "No proven quantum advantage for QAOA on MaxCut. The Goemans-Williamson algorithm achieves 0.878-approximation in polynomial time. QAOA at constant depth can be classically simulated. Higher-depth QAOA may offer advantage but this is unproven.",
+          "archived": true,
+          "archival_reason": "At most quadratic, no proven advantage"
         },
         {
           "id": "08_protein_folding",
           "algorithm": "QAOA Lattice Folding",
           "speedup": "None proven",
           "classical_best": "Monte Carlo / simulated annealing / AlphaFold",
-          "troyer_assessment": "Classical protein folding has been revolutionized by AI (AlphaFold). QAOA for lattice protein models has no proven advantage. The quantum approach would need to handle realistic all-atom models to compete."
+          "troyer_assessment": "Classical protein folding has been revolutionized by AI (AlphaFold). QAOA for lattice protein models has no proven advantage. The quantum approach would need to handle realistic all-atom models to compete.",
+          "archived": true,
+          "archival_reason": "At most quadratic; AlphaFold dominates"
         },
         {
           "id": "11_quantum_machine_learning",
           "algorithm": "Swap Test Kernel",
           "speedup": "Exponential in specific cases (kernel evaluation)",
           "classical_best": "Classical kernel methods / random features",
-          "troyer_assessment": "QML speedups depend on data encoding assumptions. If classical data must be loaded into quantum states, the loading cost often negates the kernel speedup. Proven advantages exist only for specific, contrived problem structures."
+          "troyer_assessment": "QML speedups depend on data encoding assumptions. If classical data must be loaded into quantum states, the loading cost often negates the kernel speedup. Proven advantages exist only for specific, contrived problem structures.",
+          "archived": true,
+          "archival_reason": "I/O bottleneck (data loading)"
         },
         {
           "id": "12_quantum_optimization",
           "algorithm": "QAOA Job Scheduling",
           "speedup": "None proven",
           "classical_best": "Branch-and-bound / heuristic schedulers",
-          "troyer_assessment": "Same QAOA limitations as MaxCut. Classical scheduling algorithms are highly optimized for industrial use. No proven quantum advantage for combinatorial optimization at any depth."
-        },
-        {
-          "id": "14_materials_discovery",
-          "algorithm": "VQE Band Gap",
-          "speedup": "None proven for current instance",
-          "classical_best": "DFT / GW approximation",
-          "troyer_assessment": "Band gap estimation with DFT is highly mature. Quantum advantage requires strongly-correlated materials (e.g., high-Tc superconductors) where DFT fails — our tight-binding model is classically trivial."
-        },
-        {
-          "id": "17_nuclear_physics",
-          "algorithm": "VQE Deuteron",
-          "speedup": "None proven",
-          "classical_best": "Nuclear shell model / lattice QCD",
-          "troyer_assessment": "Deuteron binding energy is exactly solvable with 2-body nuclear forces. Quantum advantage requires many-body nuclear systems with >20 nucleons where shell model truncation becomes severe."
+          "troyer_assessment": "Same QAOA limitations as MaxCut. Classical scheduling algorithms are highly optimized for industrial use. No proven quantum advantage for combinatorial optimization at any depth.",
+          "archived": true,
+          "archival_reason": "At most quadratic"
         },
         {
           "id": "20_space_mission_planning",
           "algorithm": "QAOA Trajectory Optimization",
           "speedup": "None proven",
           "classical_best": "Dynamic programming / genetic algorithms",
-          "troyer_assessment": "Trajectory optimization is well-served by classical methods. QAOA for routing/scheduling has the same unproven-advantage limitations as other combinatorial optimization problems."
+          "troyer_assessment": "Trajectory optimization is well-served by classical methods. QAOA for routing/scheduling has the same unproven-advantage limitations as other combinatorial optimization problems.",
+          "archived": true,
+          "archival_reason": "At most quadratic"
         }
       ]
     },
     "simulation_native": {
       "label": "Quantum Simulation (Native Advantage Potential)",
-      "description": "Problems where the quantum system being simulated IS quantum — Feynman's original motivation. These have the strongest theoretical case for utility but require fault-tolerant hardware.",
+      "description": "Problems where the quantum system being simulated IS quantum — Feynman's original motivation. These have the strongest theoretical case for utility but require fault-tolerant hardware. Includes problems upgraded from VQE to QPE that target naturally quantum Hamiltonians.",
       "problems": [
+        {
+          "id": "01_hubbard",
+          "algorithm": "QPE (upgraded from VQE)",
+          "speedup": "Exponential for strongly-correlated systems",
+          "classical_best": "DMRG / tensor network / exact diagonalization",
+          "troyer_assessment": "Upgraded to QPE targeting 2D Hubbard Hamiltonians — naturally quantum systems where tensor networks fail. QPE provides exponential speedup for strongly-correlated 2D systems. Our 2-site instance is pedagogical; utility requires >50-site 2D lattices beyond DMRG reach.",
+          "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
+          "active": true
+        },
+        {
+          "id": "02_catalysis",
+          "algorithm": "QPE (upgraded from VQE)",
+          "speedup": "Exponential for quantum chemistry",
+          "classical_best": "Full configuration interaction (FCI) / coupled cluster",
+          "troyer_assessment": "Upgraded to QPE for molecular Hamiltonians. Troyer identifies quantum chemistry as the #1 application for quantum computing. QPE provides exponential speedup for molecules with >50 orbitals where FCI is intractable. Current H₂ instance is pedagogical.",
+          "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
+          "active": true
+        },
         {
           "id": "06_high_frequency_trading",
           "algorithm": "Amplitude Estimation for VaR",
           "speedup": "Quadratic (same as QAE)",
           "classical_best": "Monte Carlo with variance reduction",
-          "troyer_assessment": "Financial QAE inherits the quadratic speedup of amplitude estimation. Utility requires portfolio sizes where the QEC overhead is justified by the quadratic speedup — likely N > 10⁴ assets with complex correlation structures."
+          "troyer_assessment": "Financial QAE inherits the quadratic speedup of amplitude estimation. Utility requires portfolio sizes where the QEC overhead is justified by the quadratic speedup — likely N > 10⁴ assets with complex correlation structures.",
+          "archived": true,
+          "archival_reason": "Quadratic + I/O"
+        },
+        {
+          "id": "07_drug_discovery",
+          "algorithm": "QPE (upgraded from VQE)",
+          "speedup": "Exponential for pharmaceutical Hamiltonians",
+          "classical_best": "Molecular mechanics / DFT / docking algorithms",
+          "troyer_assessment": "Upgraded to QPE for molecular binding energy Hamiltonians. Quantum advantage in drug discovery requires simulating transition states of large molecules (>100 atoms) with strong electron correlation. QPE provides the exponential speedup path.",
+          "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
+          "active": true
         },
         {
           "id": "13_climate_modeling",
           "algorithm": "HHL for Diffusion PDE",
           "speedup": "Exponential (same HHL caveats)",
           "classical_best": "Finite element / finite difference methods",
-          "troyer_assessment": "Climate PDEs are well-suited to HHL if the state preparation and readout problems can be solved. The exponential speedup applies to the linear algebra core but practical utility requires end-to-end advantage including I/O."
+          "troyer_assessment": "Climate PDEs are well-suited to HHL if the state preparation and readout problems can be solved. The exponential speedup applies to the linear algebra core but practical utility requires end-to-end advantage including I/O.",
+          "archived": true,
+          "archival_reason": "I/O bottleneck"
+        },
+        {
+          "id": "14_materials_discovery",
+          "algorithm": "QPE (upgraded from VQE)",
+          "speedup": "Exponential for correlated materials",
+          "classical_best": "DFT / GW approximation",
+          "troyer_assessment": "Upgraded to QPE for strongly-correlated materials (e.g., high-Tc superconductors) where DFT fails. QPE provides exponential speedup for Hamiltonian simulation of correlated electron systems.",
+          "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
+          "active": true
         },
         {
           "id": "16_error_correction",
           "algorithm": "3-Qubit Repetition Code",
           "speedup": "N/A — infrastructure, not application",
           "classical_best": "N/A",
-          "troyer_assessment": "QEC is enabling infrastructure, not an application. The repetition code demonstrates error detection but is not a path to utility. Surface codes and beyond are needed for fault-tolerant computation."
+          "troyer_assessment": "QEC is enabling infrastructure, not an application. The repetition code demonstrates error detection but is not a path to utility. Surface codes and beyond are needed for fault-tolerant computation. See errorcorrectionzoo.org for comprehensive code taxonomy.",
+          "error_correction_zoo_ref": "https://errorcorrectionzoo.org/c/surface",
+          "active": true
+        },
+        {
+          "id": "17_nuclear_physics",
+          "algorithm": "QPE (upgraded from VQE)",
+          "speedup": "Exponential for nuclear many-body systems",
+          "classical_best": "Nuclear shell model / lattice QCD",
+          "troyer_assessment": "Upgraded to QPE for nuclear EFT Hamiltonians. Quantum advantage requires many-body nuclear systems with >20 nucleons where shell model truncation becomes severe. QPE provides the exponential speedup path for naturally quantum nuclear forces.",
+          "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
+          "active": true
         },
         {
           "id": "18_photovoltaics",
           "algorithm": "Quantum Walk (Exciton Transport)",
           "speedup": "Potential exponential for transport simulation",
           "classical_best": "Lindblad master equation / Monte Carlo",
-          "troyer_assessment": "Exciton transport in photosynthetic systems is inherently quantum. Simulating open quantum systems is where quantum computers have the strongest natural advantage — the system IS quantum."
+          "troyer_assessment": "Exciton transport in photosynthetic systems is inherently quantum. Simulating open quantum systems is where quantum computers have the strongest natural advantage — the system IS quantum.",
+          "active": true
         },
         {
           "id": "19_quantum_chromodynamics",
           "algorithm": "Trotter Lattice Gauge Simulation",
           "speedup": "Exponential for real-time dynamics (sign problem)",
           "classical_best": "Lattice QCD (Euclidean, limited to static properties)",
-          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically — but requires millions of logical qubits for realistic lattice sizes."
+          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically — but requires millions of logical qubits for realistic lattice sizes.",
+          "active": true
         }
       ]
     }
   },
   "summary": {
     "proven_speedup_count": 5,
-    "heuristic_count": 10,
-    "simulation_native_count": 5,
-    "key_insight": "Only 5/20 problems have proven quantum speedups. 10/20 rely on heuristic algorithms (VQE, QAOA) with no proven advantage — these are the highest-risk utility claims. 5/20 are quantum simulation problems with the strongest theoretical case but the highest hardware requirements. Per Troyer's framework, honest assessment of which category each problem falls into is essential for credible quantum advantage claims."
+    "heuristic_count": 5,
+    "simulation_native_count": 10,
+    "active_count": 9,
+    "archived_count": 11,
+    "vqe_to_qpe_upgrades": ["01_hubbard", "02_catalysis", "07_drug_discovery", "14_materials_discovery", "17_nuclear_physics"],
+    "key_insight": "5/20 problems have proven quantum speedups (QAE, Shor, Grover×2, HHL). 5/20 rely on heuristic algorithms (QAOA×3, Swap Test, QAOA) with no proven advantage — all archived. 10/20 are quantum simulation problems (including 5 upgraded from VQE→QPE) with the strongest theoretical case for utility. 9 problems are active (passing all 5 Troyer filters); 11 archived. Per Troyer's framework, honest assessment is essential for credible quantum advantage claims.",
+    "divincenzo_note": "DiVincenzo's criteria (scalable qubits, initialization, coherence, universal gates, measurement) are applied as a hardware-realism overlay at Stage C/D. Current quantum hardware challenges — limited qubit counts, short coherence times, high error rates — map directly to DiVincenzo gaps that must close before utility-scale advantage is achievable."
   }
 }

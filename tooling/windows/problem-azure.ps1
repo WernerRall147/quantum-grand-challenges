@@ -7,7 +7,7 @@ param(
     [int]$Shots = 256,
     [int]$Trials = 1,
     [string]$TargetId = "microsoft.estimator",
-    [string]$EnvFile = "problems/05_qaoa_maxcut/.env.azure.local",
+    [string]$EnvFile = "problems/archived/05_qaoa_maxcut/.env.azure.local",
     [string]$EvidenceFile = "",
     [string]$JobInputFile = "",
     [string]$JobInputFormat = "qir.v1",

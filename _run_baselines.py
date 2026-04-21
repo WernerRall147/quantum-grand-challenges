@@ -12,9 +12,15 @@ problems = [
     "17_nuclear_physics","18_photovoltaics","19_quantum_chromodynamics","20_space_mission_planning"
 ]
 
+# Archived problems live under problems/archived/
+_ARCHIVED = {"03_qae_risk","04_linear_solvers","05_qaoa_maxcut","06_high_frequency_trading",
+    "08_protein_folding","10_post_quantum_cryptography","11_quantum_machine_learning",
+    "12_quantum_optimization","13_climate_modeling","15_database_search","20_space_mission_planning"}
+
 results = []
 for p in problems:
-    script = f"problems/{p}/python/classical_baseline.py"
+    prefix = "problems/archived" if p in _ARCHIVED else "problems"
+    script = f"{prefix}/{p}/python/classical_baseline.py"
     if not os.path.exists(script):
         results.append((p, "SKIPPED"))
         print(f"{p:40s} SKIPPED", flush=True)

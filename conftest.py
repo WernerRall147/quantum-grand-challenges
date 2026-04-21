@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 _PROBLEMS_DIR = Path(__file__).parent / "problems"
+_ARCHIVED_DIR = _PROBLEMS_DIR / "archived"
 
 
 def _discover_baseline_tests():
@@ -16,6 +17,11 @@ def _discover_baseline_tests():
         script = problem_dir / "python" / "test_baseline.py"
         if script.is_file():
             yield problem_dir.name, script
+    if _ARCHIVED_DIR.is_dir():
+        for problem_dir in sorted(_ARCHIVED_DIR.iterdir()):
+            script = problem_dir / "python" / "test_baseline.py"
+            if script.is_file():
+                yield problem_dir.name, script
 
 
 _BASELINE_TESTS = list(_discover_baseline_tests())

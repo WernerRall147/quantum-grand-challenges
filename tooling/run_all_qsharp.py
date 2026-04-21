@@ -9,6 +9,9 @@ from pathlib import Path
 
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 
+# Import shared discovery helper
+from discover_problems import discover_all_problems
+
 
 def get_entry_point(problem_name: str) -> str:
     """Map problem names to their entry point expressions."""
@@ -40,10 +43,7 @@ def get_entry_point(problem_name: str) -> str:
 def main():
     import qsharp
 
-    problem_dirs = sorted(
-        [d for d in PROBLEMS_DIR.iterdir() if d.is_dir() and d.name[:2].isdigit()],
-        key=lambda d: d.name,
-    )
+    problem_dirs = discover_all_problems()
 
     print(f"Running {len(problem_dirs)} problem entry points...\n")
     results = []

@@ -38,7 +38,7 @@ if (-not (Test-Path $pythonExe)) {
     $pythonExe = "python"
 }
 
-$problemRoot = Join-Path $repoRoot "problems\05_qaoa_maxcut"
+$problemRoot = Join-Path $repoRoot "problems\archived\05_qaoa_maxcut"
 
 $effectiveCoarseShots = $CoarseShots
 $effectiveRefinedShots = $RefinedShots

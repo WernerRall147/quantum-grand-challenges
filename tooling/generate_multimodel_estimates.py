@@ -88,10 +88,11 @@ def main():
     total_failures = 0
     start = time.time()
 
-    problem_dirs = sorted(
-        [d for d in PROBLEMS_DIR.iterdir() if d.is_dir() and d.name[:2].isdigit()],
-        key=lambda d: d.name,
-    )
+    # Import shared discovery helper
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from discover_problems import discover_all_problems
+
+    problem_dirs = discover_all_problems()
 
     for pd in problem_dirs:
         name = pd.name

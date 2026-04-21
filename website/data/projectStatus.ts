@@ -27,31 +27,31 @@ export const pipelineStages = [
 
 export const activeWorkQueue = [
   {
-    title: 'Stage C Promotion',
+    title: 'Evaluator Agent Optimization',
     description:
-      'All 20 problems now have real quantum circuits. Next: generate resource estimates, backend assumptions, and calibration evidence to promote from Stage B to Stage C.',
+      'Primary focus: optimize the evaluation agent to guide users toward the right Azure workspace (Quantum / AI Foundry / HPC) based on Troyer utility-scale assessment, DiVincenzo criteria, and honest resource estimation.',
   },
   {
-    title: 'Azure Emulator Results',
+    title: 'Troyer Assessment Reconciliation',
     description:
-      '4 circuits executing on Quantinuum H2-1E emulator (Hubbard VQE, QAOA MaxCut, Grover, QAE). Collect results and validate against classical baselines.',
+      'Completed: troyerAssessment.json updated to reflect 5 VQE→QPE upgrades. Problems reclassified from heuristic to simulation-native. Error Correction Zoo and industry developments integrated.',
   },
   {
-    title: 'Resource Estimation Coverage',
+    title: 'Stage B→C Promotions (9 Active Problems)',
     description:
-      'Expand estimator pipeline to all 20 problems. Currently 9 have estimator summaries; target is 20/20.',
+      'Generate resource estimates, backend assumptions, and calibration evidence to promote active problems from Stage B to Stage C with DiVincenzo readiness overlay.',
   },
   {
     title: 'Stage D Evidence Hardening',
     description:
-      'Lock uncertainty thresholds and complete advantage claim contracts for QAE, QAOA, and Grover (current Stage C leaders).',
+      '3 candidates ready for Stage D promotion (QAE, QAOA, DB Search at 100% readiness). Lock advantage claim contracts and complete fairness reviews.',
   },
 ];
 
 export const problemHighlights = [
   {
     title: 'Hubbard Model',
-    status: 'Stage C - QPE (upgraded from VQE)',
+    status: 'Stage B - QPE (upgraded from VQE)',
     description: 'QPE for 2-site Hubbard ground state. 132k physical qubits, 18 logical. Exponential speedup for strongly-correlated systems. Naturally quantum.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard',
   },
@@ -59,11 +59,11 @@ export const problemHighlights = [
     title: 'QAE Risk Analysis',
     status: 'Archived — Quadratic speedup negated by I/O',
     description: 'Quadratic O(1/ε) speedup proven but QEC overhead requires ε < 10⁻⁴. Distribution loading is O(N). Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/03_qae_risk',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/03_qae_risk',
   },
   {
     title: 'Catalysis Simulation',
-    status: 'Stage C - QPE (upgraded from VQE)',
+    status: 'Stage B - QPE (upgraded from VQE)',
     description: 'QPE for H₂ molecular ground state (STO-3G). 132k physical qubits, 18 logical. Exponential speedup for quantum chemistry.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/02_catalysis',
   },
@@ -71,23 +71,23 @@ export const problemHighlights = [
     title: 'Linear Solvers',
     status: 'Archived — I/O limited',
     description: 'HHL exponential core negated by O(N) state prep and O(N) readout. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/04_linear_solvers',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/04_linear_solvers',
   },
   {
     title: 'QAOA MaxCut',
     status: 'Archived — At most quadratic',
     description: 'QAOA has at most quadratic advantage, no proven speedup over GW 0.878-approximation. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/05_qaoa_maxcut',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/05_qaoa_maxcut',
   },
   {
     title: 'High-Frequency Trading',
     status: 'Archived — Quadratic speedup negated by I/O',
     description: 'Quadratic amplitude estimation, same QAE limitation. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/06_high_frequency_trading',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/06_high_frequency_trading',
   },
   {
     title: 'Drug Discovery',
-    status: 'Stage C - QPE (upgraded from VQE)',
+    status: 'Stage B - QPE (upgraded from VQE)',
     description: 'QPE for molecular binding energy. 130k physical qubits, 18 logical. Exponential speedup for pharmaceutical Hamiltonians.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/07_drug_discovery',
   },
@@ -95,7 +95,7 @@ export const problemHighlights = [
     title: 'Protein Folding',
     status: 'Archived — At most quadratic',
     description: 'QAOA heuristic, at most quadratic advantage. AlphaFold dominates classically. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/08_protein_folding',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/08_protein_folding',
   },
   {
     title: 'Factorization',
@@ -108,29 +108,29 @@ export const problemHighlights = [
     title: 'Post-Quantum Cryptography',
     status: 'Archived — Quadratic + oracle cost',
     description: 'Quadratic O(√N) Grover provably optimal but AES oracle cost (millions of T-gates) dominates. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/10_post_quantum_cryptography',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/10_post_quantum_cryptography',
   },
   {
     title: 'Quantum Machine Learning',
     status: 'Archived — I/O limited',
     description: 'Exponential kernel speedup negated by O(N) classical data loading. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/11_quantum_machine_learning',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/11_quantum_machine_learning',
   },
   {
     title: 'Quantum Optimization',
     status: 'Archived — At most quadratic',
     description: 'QAOA heuristic, at most quadratic advantage. Classical schedulers mature. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/12_quantum_optimization',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/12_quantum_optimization',
   },
   {
     title: 'Climate Modeling',
     status: 'Archived — I/O limited',
     description: 'HHL exponential core negated by O(N) PDE loading and readout. Classical FEM mature. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/13_climate_modeling',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/13_climate_modeling',
   },
   {
     title: 'Materials Discovery',
-    status: 'Stage C - QPE (upgraded from VQE)',
+    status: 'Stage B - QPE (upgraded from VQE)',
     description: 'QPE for band gap estimation via tight-binding Hamiltonian. 132k physical qubits, 18 logical. Exponential speedup for correlated materials.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/14_materials_discovery',
   },
@@ -138,7 +138,7 @@ export const problemHighlights = [
     title: 'Database Search',
     status: 'Archived — Quadratic + QRAM cost',
     description: 'Quadratic O(√N) Grover provably optimal but QRAM loading O(N) erases search advantage. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/15_database_search',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/15_database_search',
   },
   {
     title: 'Error Correction',
@@ -148,7 +148,7 @@ export const problemHighlights = [
   },
   {
     title: 'Nuclear Physics',
-    status: 'Stage C - QPE (upgraded from VQE)',
+    status: 'Stage B - QPE (upgraded from VQE)',
     description: 'QPE for deuteron binding energy via EFT Hamiltonian. 132k physical qubits, 18 logical. Exponential speedup for nuclear many-body systems.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/17_nuclear_physics',
   },
@@ -168,7 +168,7 @@ export const problemHighlights = [
     title: 'Space Mission Planning',
     status: 'Archived — At most quadratic',
     description: 'QAOA heuristic, at most quadratic advantage. Classical trajectory optimizers mature. Archived per Troyer framework.',
-    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/20_space_mission_planning',
+    href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/20_space_mission_planning',
   },
 ];
 

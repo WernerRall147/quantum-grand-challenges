@@ -40,18 +40,20 @@ jobs:
       - name: Enforce maturity contract
         run: python tooling/reporting/stage_kpis.py --policy tooling/reporting/maturity-policy.json --enforce
       - name: QAOA estimator smoke
-        run: cd problems/05_qaoa_maxcut && make estimate-all
+        run: cd problems/archived/05_qaoa_maxcut && make estimate-all
       - name: Verify QAOA evidence
         run: |
-          python problems/05_qaoa_maxcut/python/validate_estimator_summary.py
-          python problems/05_qaoa_maxcut/python/validate_backend_assumptions.py
-          python problems/05_qaoa_maxcut/python/validate_evidence_quality.py
+          python problems/archived/05_qaoa_maxcut/python/validate_estimator_summary.py
+          python problems/archived/05_qaoa_maxcut/python/validate_backend_assumptions.py
+          python problems/archived/05_qaoa_maxcut/python/validate_evidence_quality.py
       - name: QAE runtime config + Q# check
         run: |
-          python problems/03_qae_risk/python/write_runtime_config.py \
+          python problems/archived/03_qae_risk/python/write_runtime_config.py \
             --loss-qubits 4 --threshold 2.5 --mean 0.0 --std-dev 1.0 \
             --precision-bits 6 --repetitions 120 --run-sanity-check false
-          python -c "import qsharp; qsharp.init(project_root='problems/03_qae_risk/qsharp'); print('QAE Q# OK')"
+          python -c "import qsharp; qsharp.init(project_root='problems/archived/03_qae_risk/qsharp'); print('QAE Q# OK')"
+      - name: Evaluator smoke tests
+        run: pytest agents/tests/test_evaluator_smoke.py -v --tb=short
       - name: Verify matrix freshness + website schema
         run: |
           python tooling/reporting/check_verification_matrix_freshness.py

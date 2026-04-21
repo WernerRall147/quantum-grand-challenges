@@ -31,16 +31,18 @@ AI_ML_KEYWORDS = [
 # HPC domain indicators — if these dominate, recommend HPC
 HPC_KEYWORDS = [
     "fluid dynamics", "cfd", "navier-stokes", "turbulence simulation",
+    "turbulent flow", "turbulence", "mach number", "reynolds number",
     "finite element", "fea", "structural analysis", "stress analysis",
     "molecular dynamics", "classical md", "force field",
     "weather prediction", "climate simulation", "ocean modeling",
     "seismic", "reservoir simulation", "oil and gas",
-    "crash simulation", "aerodynamics", "wind tunnel",
+    "crash simulation", "aerodynamics", "wind tunnel", "aircraft",
     "rendering", "ray tracing", "monte carlo radiation",
     "genome assembly", "sequence alignment", "blast",
     "n-body classical", "gravitational simulation",
     "large linear system", "sparse matrix", "eigenvalue decomposition",
     "signal processing", "fft", "convolution",
+    "combustion", "plasma physics classical", "thermal simulation",
 ]
 
 # Quantum domain indicators — problems naturally suited to quantum

@@ -18,13 +18,27 @@ interface EvaluationResult {
   recommended_algorithm: string;
   recommended_platform?: string;
   platform_reason?: string;
+  workspace_guidance?: {
+    platform?: string;
+    setup_steps?: string[];
+    recommended_resources?: string;
+  };
   troyer_filters: TroyerFilters;
+  divincenzo_assessment?: {
+    scalable_qubits?: string;
+    initialization?: string;
+    coherence?: string;
+    universal_gates?: string;
+    measurement?: string;
+    summary?: string;
+  };
   red_flags: string[];
   hpc_alternative: string;
   ai_alternative?: string;
   explanation: string;
   similar_problems: string[];
   references: string[];
+  error_correction_codes?: string[];
   model_used?: string;
   tokens_used?: number;
   qsharp_code?: string;
@@ -118,7 +132,7 @@ export default function EvaluatePage() {
           Quantum Advantage Evaluator
         </h1>
         <p style={{ color: '#666', fontSize: '1.1rem', marginBottom: '2rem' }}>
-          Describe your computational problem. We&apos;ll evaluate whether it&apos;s better solved on a quantum computer or Azure HPC — backed by peer-reviewed science and Troyer&apos;s utility-scale filters.
+          Describe your computational problem. We&apos;ll evaluate whether it&apos;s better solved on a quantum computer, AI/ML, or Azure HPC — then guide you to the right Azure workspace. Backed by Troyer&apos;s utility-scale filters and DiVincenzo&apos;s hardware-readiness criteria.
         </p>
 
         {/* Input */}
@@ -214,6 +228,60 @@ export default function EvaluatePage() {
                       <span style={{ fontSize: '0.85rem', color: val ? '#166534' : '#991b1b' }}>
                         {FILTER_LABELS[key] || key}
                       </span>
+
+            {/* Workspace Guidance */}
+            {result.workspace_guidance && result.workspace_guidance.platform && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#f0fdf4', borderRadius: '10px', border: '1px solid #bbf7d0' }}>
+                <h3 style={{ marginTop: 0, color: '#166534' }}>🔧 Azure Workspace Setup</h3>
+                <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#166534', marginBottom: '0.5rem' }}>
+                  {result.workspace_guidance.platform}
+                </div>
+                {result.workspace_guidance.setup_steps && result.workspace_guidance.setup_steps.length > 0 && (
+                  <ol style={{ margin: '0.5rem 0 0', paddingLeft: '1.2rem', color: '#374151', lineHeight: 1.8 }}>
+                    {result.workspace_guidance.setup_steps.map((step, i) => <li key={i}>{step}</li>)}
+                  </ol>
+                )}
+                {result.workspace_guidance.recommended_resources && (
+                  <p style={{ margin: '0.5rem 0 0', color: '#6b7280', fontSize: '0.9rem' }}>
+                    <strong>Resources:</strong> {result.workspace_guidance.recommended_resources}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* DiVincenzo Assessment */}
+            {result.divincenzo_assessment && result.divincenzo_assessment.summary && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#fefce8', borderRadius: '10px', border: '1px solid #fde68a' }}>
+                <h3 style={{ marginTop: 0, color: '#92400e' }}>🧱 DiVincenzo Hardware Readiness</h3>
+                <p style={{ margin: '0 0 0.75rem', color: '#78350f', fontSize: '0.95rem' }}>{result.divincenzo_assessment.summary}</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.5rem' }}>
+                  {(['scalable_qubits', 'initialization', 'coherence', 'universal_gates', 'measurement'] as const).map((key) => {
+                    const val = result.divincenzo_assessment?.[key];
+                    if (!val) return null;
+                    const icon = val === 'met' ? '✅' : val === 'partial' ? '🟡' : '❌';
+                    const bg = val === 'met' ? '#dcfce7' : val === 'partial' ? '#fef3c7' : '#fef2f2';
+                    return (
+                      <div key={key} style={{ padding: '0.5rem', borderRadius: '6px', background: bg, fontSize: '0.82rem', textAlign: 'center' }}>
+                        {icon} {key.replace(/_/g, ' ')}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Error Correction Codes */}
+            {result.error_correction_codes && result.error_correction_codes.length > 0 && (
+              <div style={{ marginBottom: '1.5rem', padding: '1rem', background: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                <strong>QEC Codes:</strong>{' '}
+                {result.error_correction_codes.map((code, i) => (
+                  <a key={i} href={`https://errorcorrectionzoo.org/c/${code}`} target="_blank" rel="noopener noreferrer"
+                    style={{ display: 'inline-block', margin: '0.2rem', padding: '0.2rem 0.6rem', background: '#dbeafe', borderRadius: '4px', fontSize: '0.85rem', color: '#1e40af', textDecoration: 'none' }}>
+                    {code}
+                  </a>
+                ))}
+              </div>
+            )}
                     </div>
                   ))}
                 </div>

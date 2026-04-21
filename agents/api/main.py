@@ -53,13 +53,16 @@ class EvaluateResponse(BaseModel):
     recommended_algorithm: str
     recommended_platform: str = ""
     platform_reason: str = ""
+    workspace_guidance: dict = {}
     troyer_filters: dict
+    divincenzo_assessment: dict = {}
     red_flags: list
     hpc_alternative: str
     ai_alternative: str = ""
     explanation: str
     similar_problems: list
     references: list
+    error_correction_codes: list = []
     model_used: str = ""
     tokens_used: int = 0
     qsharp_code: str = ""

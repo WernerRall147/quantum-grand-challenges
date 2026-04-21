@@ -75,7 +75,7 @@ jobs:
         run: pip install numpy scipy jsonschema pyyaml
       - name: Validate estimation schemas
         run: |
-          for f in problems/*/estimates/*.json; do
+          for f in problems/*/estimates/*.json problems/archived/*/estimates/*.json; do
             [ -f "$f" ] && python -c "
           import json, jsonschema
           schema = json.load(open('tooling/schema/result.json'))

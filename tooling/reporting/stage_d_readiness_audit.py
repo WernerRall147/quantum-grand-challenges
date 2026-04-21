@@ -207,6 +207,9 @@ def build_report(root: Path) -> Dict[str, Any]:
 
     for spec in CANDIDATES:
         problem_dir = root / "problems" / spec.problem_id
+        # Check archived directory if not found at top level
+        if not problem_dir.is_dir():
+            problem_dir = root / "problems" / "archived" / spec.problem_id
         readme_path = problem_dir / "README.md"
         stage_d_path = problem_dir / "STAGE_D_ADVANTAGE_EVIDENCE.md"
 

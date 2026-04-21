@@ -20,12 +20,12 @@ interface ProblemRow {
 }
 
 const ALGORITHM_MAP: Record<string, string> = {
-  '01_hubbard': 'VQE', '02_catalysis': 'VQE', '03_qae_risk': 'QAE/IQAE',
+  '01_hubbard': 'QPE', '02_catalysis': 'QPE', '03_qae_risk': 'QAE/IQAE',
   '04_linear_solvers': 'HHL', '05_qaoa_maxcut': 'QAOA', '06_high_frequency_trading': 'Amplitude Est.',
-  '07_drug_discovery': 'VQE', '08_protein_folding': 'QAOA', '09_factorization': 'Shor',
+  '07_drug_discovery': 'QPE', '08_protein_folding': 'QAOA', '09_factorization': 'Shor',
   '10_post_quantum_cryptography': 'Grover', '11_quantum_machine_learning': 'Swap Test',
-  '12_quantum_optimization': 'QAOA', '13_climate_modeling': 'HHL', '14_materials_discovery': 'VQE',
-  '15_database_search': 'Grover', '16_error_correction': 'QEC', '17_nuclear_physics': 'VQE',
+  '12_quantum_optimization': 'QAOA', '13_climate_modeling': 'HHL', '14_materials_discovery': 'QPE',
+  '15_database_search': 'Grover', '16_error_correction': 'QEC', '17_nuclear_physics': 'QPE',
   '18_photovoltaics': 'Quantum Walk', '19_quantum_chromodynamics': 'Trotter',
   '20_space_mission_planning': 'QAOA',
 };

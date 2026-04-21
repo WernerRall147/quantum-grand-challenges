@@ -1,6 +1,6 @@
 # 🌌 Quantum Grand Challenges — Quantum Advantage Evaluator
 
-*An AI-powered platform that evaluates whether your scientific problem is better solved on a quantum computer or Azure HPC — backed by peer-reviewed science, real resource estimation, and honest assessment.*
+*An AI-powered platform that evaluates whether your scientific problem is better solved on a quantum computer, AI/ML, or Azure HPC — then helps you build the right Azure workspace. Backed by peer-reviewed science, Troyer's utility-scale filters, DiVincenzo's hardware-readiness criteria, and honest resource estimation.*
 
 [![CI/CD](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml)
 [![Website](https://img.shields.io/badge/website-live-blue)](https://wernerrall147.github.io/quantum-grand-challenges/)
@@ -12,12 +12,13 @@
 **Input**: Describe your quantum computing problem in natural language.
 
 **Output**: An honest, science-backed evaluation:
-- ✅ **Verdict**: Quantum advantage / HPC preferred / Inconclusive
+- ✅ **Verdict**: Quantum advantage / AI-ML preferred / HPC preferred / Inconclusive
 - 📊 **Classification**: Exponential / superpolynomial / quadratic / no proven speedup
 - 🔬 **Fact-check**: Troyer's 5 utility-scale filters applied (I/O, QEC, oracle costs)
-- 💻 **HPC comparison**: What Azure HPC can do today vs. quantum requirements
-- 🔧 **Q# code**: Generated implementation with resource estimates (optional)
-- 📚 **References**: Peer-reviewed arxiv papers backing every claim
+- 🧱 **Hardware readiness**: DiVincenzo criteria assessment for quantum feasibility
+- 💻 **Platform comparison**: What Azure HPC, AI/ML, and Quantum can do today
+- 🔧 **Workspace guidance**: Recommended Azure workspace setup (Quantum / AI Foundry / CycleCloud)
+- 📚 **References**: Peer-reviewed arxiv papers + Error Correction Zoo codes backing every claim
 
 ## 🏗️ Architecture
 
@@ -31,13 +32,16 @@ Scientist → Chat Interface → Orchestrator Agent
                               Knowledge Layer (Cosmos DB + AI Search)
                                 ├── arxiv papers (daily ingestion)
                                 ├── Quantum Algorithm Zoo (400+ algorithms)
+                                ├── Error Correction Zoo (QEC code taxonomy)
                                 ├── GitHub Q# samples (MCP)
                                 └── 9 reference implementations
 ```
 
 See [docs/architecture.md](docs/architecture.md) for full architecture details.
 
-## 🔬 Design Principles (from Dr. Matthias Troyer's Architecture Series)
+## 🔬 Design Principles
+
+### Troyer Utility-Scale Filters (Dr. Matthias Troyer's Architecture Series)
 
 Every evaluation applies **5 utility-scale filters**:
 
@@ -48,6 +52,35 @@ Every evaluation applies **5 utility-scale filters**:
 | **F3** | QEC survives? | Error correction overhead negates quadratic gains |
 | **F4** | Naturally quantum? | Feynman criterion: is the problem inherently quantum? |
 | **F5** | Crossover feasible? | Realistic problem size where quantum wins? |
+
+### DiVincenzo Criteria (Hardware Readiness)
+
+Quantum recommendations are validated against DiVincenzo's 5 criteria for physical QC implementation:
+
+| Criterion | What It Assesses |
+|-----------|------------------|
+| Scalable qubits | Can the physical system scale to utility-relevant qubit counts? |
+| Initialization | Can qubits be reliably prepared in a known state? |
+| Coherence | Do coherence times exceed gate/measurement times? |
+| Universal gates | Is a universal gate set available with acceptable fidelity? |
+| Measurement | Can individual qubits be measured without disturbing others? |
+
+These map directly to current hardware challenges: limited qubit counts, short coherence times, and high error rates.
+
+### Error Correction Strategy
+
+QEC recommendations reference the [Error Correction Zoo](https://errorcorrectionzoo.org/) — a comprehensive encyclopedia of quantum and classical error-correcting codes covering stabilizer, CSS, surface, color, QLDPC, bosonic, and topological codes.
+
+### Troyer Lecture Series
+
+| Part | Topic | Date |
+|------|-------|------|
+| 1 | Utility-scale quantum applications | Nov 2025 |
+| 2 | Utility-scale quantum architecture | Nov 2025 |
+| 3 | Quantum Resource Estimation | Dec 2025 |
+| 4 | High-performance quantum computing | Dec 2025 |
+| 5 | Scalable quantum architecture | Apr 2026 |
+| 6 | Balancing the Cost of Utility-Scale QC | Coming Soon |
 
 ## 📊 Reference Implementations
 
@@ -73,9 +106,13 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 
 ## 🏁 Latest Milestone (April 2026)
 
-- **9 active problems** after applying Dr. Matthias Troyer's utility-scale filters. 11 problems archived (quadratic speedup negated by I/O, oracle cost, or QEC overhead).
-- **5 VQE→QPE upgrades** (Hubbard, Catalysis, Drug Discovery, Materials, Nuclear) — QPE provides exponential speedup for naturally quantum Hamiltonians.
-- **4 kept as-is**: Shor (superpolynomial, clean utility path), QEC (infrastructure), Photovoltaics (naturally quantum), QCD (sign problem — exponential advantage).
+- **Strategic pivot**: Evaluator agent now guides users to build the right Azure workspace (Quantum / AI Foundry / HPC) based on Troyer assessment.
+- **11 problems archived** to `problems/archived/` with Troyer filter failure reasons.
+- **5 VQE→QPE upgrades** reclassified in Troyer assessment from heuristic to simulation-native.
+- **Troyer assessment reconciled**: `troyerAssessment.json` now reflects current algorithm assignments.
+- **New knowledge sources**: Error Correction Zoo (errorcorrectionzoo.org) integrated.
+- **Industry context tracked**: Google dual-modality QC (superconducting + neutral atoms), Google 2029 PQC timeline, MIT trapped-ion cooling advances.
+- **9 active problems** pass all 5 Troyer utility-scale filters.
 - **Cross-platform emulator validation**: 20 problems on H2-1E (100 shots) + 19 on Rigetti QVM. 17/19 agree on dominant outcome.
 - **120+ Azure Quantum runs** across 3 systems (Quantinuum H2-1SC, H2-1E, Rigetti QVM).
 - **Multi-model resource estimation**: 160 estimates across 6 qubit technologies × 2 QEC schemes.
@@ -122,11 +159,11 @@ pip install qsharp numpy scipy matplotlib pandas
 ### Run a Problem
 
 ```bash
-# Navigate to the currently implemented problem
-cd problems/03_qae_risk
+# Navigate to an active problem
+cd problems/01_hubbard
 
 # Run the validated classical workflow
-make classical        # Monte Carlo baseline + writes estimates/classical_baseline.json
+make classical        # Classical baseline
 make analyze          # Generates plots/ and a markdown summary
 
 # Q# workflow (modern QDK — no .NET required)
@@ -140,7 +177,7 @@ make estimate        # Resource estimator harness
 For Azure-backed QAOA workflows, auth is intentionally manual-gated to avoid accidental cloud submissions.
 
 ```bash
-cd problems/05_qaoa_maxcut
+cd problems/archived/05_qaoa_maxcut
 
 # 1) Prepare env file (manual step)
 cp .env.azure.example .env.azure.local
@@ -179,7 +216,7 @@ Notes:
 
 - `.env.azure.local` is intentionally ignored by git and must be created manually.
 - Placeholder values are rejected by `make validate-azure-env`.
-- Problem-specific details are documented in `problems/05_qaoa_maxcut/README.md`.
+- Problem-specific details are documented in `problems/archived/05_qaoa_maxcut/README.md`.
 
 ### Shared Azure Workflow (All Problems)
 
@@ -187,21 +224,21 @@ QAOA keeps its dedicated runbook, and a shared mechanism now exists for every `p
 
 ```bash
 # Copy template into any problem-local env file
-cp tooling/azure/.env.azure.example problems/03_qae_risk/.env.azure.local
+cp tooling/azure/.env.azure.example problems/archived/03_qae_risk/.env.azure.local
 
 # Run shared dry-run smoke (env + CLI + manifest + submit-preview + report)
 python tooling/azure/smoke_problem.py \
   --problem 03_qae_risk \
   --instance small \
   --depth 1 \
-  --env-file problems/03_qae_risk/.env.azure.local
+  --env-file problems/archived/03_qae_risk/.env.azure.local
 
 # Works the same for other problems
 python tooling/azure/smoke_problem.py \
   --problem 15_database_search \
   --instance small \
   --depth 1 \
-  --env-file problems/15_database_search/.env.azure.local
+  --env-file problems/archived/15_database_search/.env.azure.local
 ```
 
 Shared workflow docs: `tooling/azure/README.md`.
@@ -273,8 +310,8 @@ python tooling/azure/check_secret_hygiene.py
 - Run shared Azure workflow for any problem (single mechanism):
 
 ```powershell
-.\tooling\windows\problem-azure.ps1 -Action smoke -Problem 03_qae_risk -Instance small -Depth 1 -EnvFile problems/03_qae_risk/.env.azure.local
-.\tooling\windows\problem-azure.ps1 -Action smoke -Problem 15_database_search -Instance small -Depth 1 -EnvFile problems/15_database_search/.env.azure.local
+.\tooling\windows\problem-azure.ps1 -Action smoke -Problem 03_qae_risk -Instance small -Depth 1 -EnvFile problems/archived/03_qae_risk/.env.azure.local
+.\tooling\windows\problem-azure.ps1 -Action smoke -Problem 15_database_search -Instance small -Depth 1 -EnvFile problems/archived/15_database_search/.env.azure.local
 ```
 
 `-Quick` lowers default `precision_bits` to `4` and `repetitions` to `24` for faster smoke tests.
@@ -314,21 +351,21 @@ tooling\windows\qaoa-maxcut-quick.cmd
 | [Photovoltaics](problems/18_photovoltaics/) | **Quantum Walk** | Exponential | 138k | 🟢 Active |
 | [QCD Lattice](problems/19_quantum_chromodynamics/) | **Trotter** | Exponential | 131k | 🟢 Active |
 
-### Archived Problems (Troyer filter failures)
+### Archived Problems (Troyer filter failures — `problems/archived/`)
 
 | Problem | Original Algorithm | Archival Reason |
 |---------|--------------------|-----------------|
-| [QAE Risk](problems/03_qae_risk/) | QAE | Quadratic + I/O cost |
-| [Linear Solvers](problems/04_linear_solvers/) | HHL | I/O bottleneck (state prep + readout) |
-| [QAOA MaxCut](problems/05_qaoa_maxcut/) | QAOA | At most quadratic, no proven advantage |
-| [HFT VaR](problems/06_high_frequency_trading/) | QAE | Quadratic + I/O |
-| [Protein Folding](problems/08_protein_folding/) | QAOA | At most quadratic; AlphaFold dominates |
-| [PQC Grover](problems/10_post_quantum_cryptography/) | Grover | Quadratic + oracle cost dominates |
-| [QML Swap Test](problems/11_quantum_machine_learning/) | Swap Test | I/O bottleneck (data loading) |
-| [Optimization](problems/12_quantum_optimization/) | QAOA | At most quadratic |
-| [Climate HHL](problems/13_climate_modeling/) | HHL | I/O bottleneck |
-| [DB Search](problems/15_database_search/) | Grover | Quadratic + QRAM cost |
-| [Space Mission](problems/20_space_mission_planning/) | QAOA | At most quadratic |
+| [QAE Risk](problems/archived/03_qae_risk/) | QAE | Quadratic + I/O cost |
+| [Linear Solvers](problems/archived/04_linear_solvers/) | HHL | I/O bottleneck (state prep + readout) |
+| [QAOA MaxCut](problems/archived/05_qaoa_maxcut/) | QAOA | At most quadratic, no proven advantage |
+| [HFT VaR](problems/archived/06_high_frequency_trading/) | QAE | Quadratic + I/O |
+| [Protein Folding](problems/archived/08_protein_folding/) | QAOA | At most quadratic; AlphaFold dominates |
+| [PQC Grover](problems/archived/10_post_quantum_cryptography/) | Grover | Quadratic + oracle cost dominates |
+| [QML Swap Test](problems/archived/11_quantum_machine_learning/) | Swap Test | I/O bottleneck (data loading) |
+| [Optimization](problems/archived/12_quantum_optimization/) | QAOA | At most quadratic |
+| [Climate HHL](problems/archived/13_climate_modeling/) | HHL | I/O bottleneck |
+| [DB Search](problems/archived/15_database_search/) | Grover | Quadratic + QRAM cost |
+| [Space Mission](problems/archived/20_space_mission_planning/) | QAOA | At most quadratic |
 
 ## 🏗️ Repository Structure
 
@@ -386,9 +423,11 @@ Visit the [Evaluate page](https://wernerrall147.github.io/quantum-grand-challeng
 
 - [Architecture Design](docs/architecture.md) — Full system design document
 - [Methodology Paper](docs/paper/methodology-paper.md) (CC BY-NC-SA 4.0)
-- [Troyer Architecture Series](https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series)
+- [Troyer Architecture Series](https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series) — 6-part utility-scale framework
 - [Q# Documentation](https://learn.microsoft.com/quantum/)
-- [Quantum Algorithm Zoo](https://quantumalgorithmzoo.org/)
+- [Quantum Algorithm Zoo](https://quantumalgorithmzoo.org/) — 400+ quantum algorithms
+- [Error Correction Zoo](https://errorcorrectionzoo.org/) — QEC code taxonomy
+- [DiVincenzo Criteria](https://en.wikipedia.org/wiki/DiVincenzo%27s_criteria) — Hardware readiness criteria
 
 ## 📄 License
 

@@ -61,6 +61,14 @@ def main():
         if os.path.isfile(rp):
             md = open(rp, encoding="utf-8").read()
             readmes[d] = {"html": md_to_html(md)}
+    # Include archived problems
+    archived_dir = os.path.join("problems", "archived")
+    if os.path.isdir(archived_dir):
+        for d in sorted(os.listdir(archived_dir)):
+            rp = os.path.join(archived_dir, d, "README.md")
+            if os.path.isfile(rp):
+                md = open(rp, encoding="utf-8").read()
+                readmes[d] = {"html": md_to_html(md)}
     out_path = os.path.join("website", "data", "problemReadmes.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(readmes, f, indent=2, ensure_ascii=False)
@@ -139,6 +147,14 @@ def main():
         if os.path.isfile(rp):
             md = open(rp, encoding="utf-8").read()
             readmes[d] = {"html": md_to_html(md)}
+    # Include archived problems
+    archived_dir = os.path.join("problems", "archived")
+    if os.path.isdir(archived_dir):
+        for d in sorted(os.listdir(archived_dir)):
+            rp = os.path.join(archived_dir, d, "README.md")
+            if os.path.isfile(rp):
+                md = open(rp, encoding="utf-8").read()
+                readmes[d] = {"html": md_to_html(md)}
 
     out_path = os.path.join("website", "data", "problemReadmes.json")
     with open(out_path, "w", encoding="utf-8") as f:

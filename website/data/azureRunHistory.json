@@ -679,8 +679,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "f91749a4-4e34-4af9-b839-46aadc85c599"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T18:35:45.181790Z",
@@ -688,8 +687,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "a6f89d88-9524-45e8-8758-aa3b8e60b54c"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T18:35:52.678578Z",
@@ -697,8 +695,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "f8df7859-cd0d-4689-9a0d-4bfd1c413198"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T18:36:00.207855Z",
@@ -706,8 +703,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "ec8d9411-b410-4a9c-a73f-44f02b144148"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T18:39:11.724952Z",
@@ -715,8 +711,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "474a2e38-11a2-4439-be47-40ef9024d9ab"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:39:19.476827Z",
@@ -724,8 +719,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "1221781e-f3a5-4671-804b-3e90c0798005"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:39:26.393711Z",
@@ -733,8 +727,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "2bfa647f-8985-454f-80b4-36f8db99d0f2"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:39:34.379534Z",
@@ -742,8 +735,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "c054546e-001d-4974-85f5-b7b3b91618ac"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:39:42.275466Z",
@@ -751,8 +743,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "ebb72436-8b8b-48d2-beca-1d2bb16ab021"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:39:50.292473Z",
@@ -760,8 +751,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "27e5b238-ad8b-4a53-8f3c-3fb21eb9f8b9"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:39:57.026511Z",
@@ -769,8 +759,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "93dd071c-a2cc-4214-a292-867ba60a722e"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:40:05.853808Z",
@@ -778,8 +767,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "7d4ddb58-f76c-45d5-ad06-e057ee0bc567"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:40:13.780748Z",
@@ -787,8 +775,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "d37b8d0e-fa9a-4c38-849e-e02f86c6ae0b"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:40:21.458209Z",
@@ -796,8 +783,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "d0b1bb01-1fa1-4848-ad25-62c70b955882"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:40:28.512948Z",
@@ -805,8 +791,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "662b18d2-7342-4fe4-916d-1257778acc5f"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:40:36.593021Z",
@@ -814,8 +799,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "d227a085-f7b2-4172-abb9-f676883131e6"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:40:43.959389Z",
@@ -823,8 +807,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "63d77e7e-781c-4206-a4db-f36858d15340"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:40:50.891636Z",
@@ -832,8 +815,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "3cd0ea36-73b6-4c84-b09c-bd567870e567"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:40:58.342083Z",
@@ -841,8 +823,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "e14e4531-dc9b-4a4b-a698-92d93f0544f7"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:41:07.701057Z",
@@ -850,8 +831,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "a5368e86-3a28-492b-97e7-e925eb48a6b4"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:41:14.569434Z",
@@ -859,8 +839,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "2e83478e-8283-4adf-b994-6b202503214a"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:41:21.754444Z",
@@ -868,8 +847,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "d5306e7c-af90-4296-a395-8bc4feefa6ed"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:41:28.690895Z",
@@ -877,8 +855,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "feea8277-cb3e-4387-8cbc-bd25d0fc7e69"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:41:36.130618Z",
@@ -886,8 +863,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "bd681510-24a7-4468-85f3-a6f7a5424034"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:52:19.905510Z",
@@ -895,8 +871,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "d7a07706-41a3-460a-a7a2-0c234d06dbc9"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T18:59:01.827353Z",
@@ -904,8 +879,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1sc",
-      "status": "succeeded",
-      "job_id": "d28b8380-376a-11f1-bbb8-f068e3583cd5"
+      "status": "succeeded"
     },
     {
       "recorded_utc": "2026-04-13T19:00:07.792943Z",
@@ -913,8 +887,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "fa1c4a43-376a-11f1-ab13-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:00:17.357607Z",
@@ -922,8 +895,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "001403bc-376b-11f1-9594-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:00:27.780223Z",
@@ -931,8 +903,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "0608c57e-376b-11f1-93f9-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:00:38.094152Z",
@@ -940,8 +911,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "0c788f43-376b-11f1-bdaf-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:18:10.692686Z",
@@ -949,8 +919,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "7f5c538a-376d-11f1-a881-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:18:20.358260Z",
@@ -958,8 +927,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "85d17273-376d-11f1-8982-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:18:29.740612Z",
@@ -967,8 +935,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "8b2ce744-376d-11f1-a812-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:18:38.514548Z",
@@ -976,8 +943,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "90d0a67c-376d-11f1-9b8e-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:18:47.959135Z",
@@ -985,8 +951,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "9650750a-376d-11f1-b834-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:18:56.824826Z",
@@ -994,8 +959,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "9bb37ea9-376d-11f1-a103-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:19:06.726736Z",
@@ -1003,8 +967,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "a14952a4-376d-11f1-b707-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:19:16.418259Z",
@@ -1012,8 +975,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "a72c1e02-376d-11f1-bbbc-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:19:25.700219Z",
@@ -1021,8 +983,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "acbe06c1-376d-11f1-b934-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:19:34.711664Z",
@@ -1030,8 +991,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "b2284a86-376d-11f1-8b2a-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:19:43.886670Z",
@@ -1039,8 +999,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "b77cdc80-376d-11f1-89ab-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:19:54.158004Z",
@@ -1048,8 +1007,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "bd6b7bab-376d-11f1-ad2d-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:20:05.122823Z",
@@ -1057,8 +1015,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "c3c796ef-376d-11f1-b184-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-13T19:20:15.494582Z",
@@ -1066,8 +1023,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "ca2cbbd5-376d-11f1-8416-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-16T13:53:33.735879Z",
@@ -1075,8 +1031,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "a5603268-399b-11f1-bb18-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-16T13:53:42.941168Z",
@@ -1084,8 +1039,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "abcb427b-399b-11f1-b1db-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-16T13:53:51.932749Z",
@@ -1093,8 +1047,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
-      "status": "submitted",
-      "job_id": "b0e81dab-399b-11f1-83ab-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-16T13:54:10.668763Z",
@@ -1102,8 +1055,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "rigetti.sim.qvm",
-      "status": "submitted",
-      "job_id": "bc1e76bb-399b-11f1-9e85-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-16T13:54:19.090345Z",
@@ -1111,8 +1063,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "rigetti.sim.qvm",
-      "status": "submitted",
-      "job_id": "c1515f97-399b-11f1-912c-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-16T13:54:28.058044Z",
@@ -1120,8 +1071,7 @@
       "instance_id": "small",
       "depth": 1,
       "target_id": "rigetti.sim.qvm",
-      "status": "submitted",
-      "job_id": "c6775740-399b-11f1-9372-f068e3583cd5"
+      "status": "submitted"
     },
     {
       "recorded_utc": "2026-04-16T13:54:58.168811Z",
@@ -1130,7 +1080,6 @@
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
       "status": "submitted",
-      "job_id": "d8517f44-399b-11f1-8549-f068e3583cd5",
       "shots": 1000,
       "note": "Stage D higher-confidence resubmission"
     },
@@ -1141,7 +1090,6 @@
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
       "status": "submitted",
-      "job_id": "db0e9d05-399b-11f1-9f44-f068e3583cd5",
       "shots": 1000,
       "note": "Stage D higher-confidence resubmission"
     },
@@ -1152,7 +1100,6 @@
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
       "status": "submitted",
-      "job_id": "dd81c78c-399b-11f1-a398-f068e3583cd5",
       "shots": 1000,
       "note": "Stage D higher-confidence resubmission"
     },
@@ -1163,7 +1110,6 @@
       "depth": 1,
       "target_id": "quantinuum.sim.h2-1e",
       "status": "submitted",
-      "job_id": "e003048d-399b-11f1-aa8e-f068e3583cd5",
       "shots": 1000,
       "note": "Stage D higher-confidence resubmission"
     }

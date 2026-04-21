@@ -19,10 +19,28 @@ import qsharp
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 SHOTS = 100
 
+# Import shared discovery helper
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from discover_problems import discover_all_problems
+
+
+def _find_problem_dir(problem_id):
+    """Resolve a problem_id to its actual directory (active or archived)."""
+    direct = PROBLEMS_DIR / problem_id
+    if direct.is_dir():
+        return direct
+    archived = PROBLEMS_DIR / "archived" / problem_id
+    if archived.is_dir():
+        return archived
+    return None
+
 
 def get_kernel_entry(problem_id):
     """Extract entry point name from HardwareKernel.qs."""
-    kernel_path = PROBLEMS_DIR / problem_id / "qsharp" / "HardwareKernel.qs"
+    pd = _find_problem_dir(problem_id)
+    if pd is None:
+        return None
+    kernel_path = pd / "qsharp" / "HardwareKernel.qs"
     if not kernel_path.exists():
         return None
     code = kernel_path.read_text(encoding="utf-8")
@@ -32,7 +50,8 @@ def get_kernel_entry(problem_id):
 
 def run_kernel(problem_id, entry_fn, noise=None):
     """Run a kernel and return histogram of outcomes."""
-    kernel_path = PROBLEMS_DIR / problem_id / "qsharp" / "HardwareKernel.qs"
+    pd = _find_problem_dir(problem_id)
+    kernel_path = pd / "qsharp" / "HardwareKernel.qs"
     code = kernel_path.read_text(encoding="utf-8")
     qsharp.init()
     qsharp.eval(code)
@@ -70,7 +89,8 @@ def main():
     noise_rates = [0.001, 0.01, 0.05]
     results = {}
 
-    for d in sorted(os.listdir(PROBLEMS_DIR)):
+    for pd in discover_all_problems():
+        d = pd.name
         entry_fn = get_kernel_entry(d)
         if not entry_fn:
             continue

@@ -42,7 +42,7 @@
     },
     {
       "problem": "03_qae_risk",
-      "readme": "problems/03_qae_risk/README.md",
+      "readme": "problems/archived/03_qae_risk/README.md",
       "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -51,7 +51,7 @@
     },
     {
       "problem": "04_linear_solvers",
-      "readme": "problems/04_linear_solvers/README.md",
+      "readme": "problems/archived/04_linear_solvers/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -60,7 +60,7 @@
     },
     {
       "problem": "05_qaoa_maxcut",
-      "readme": "problems/05_qaoa_maxcut/README.md",
+      "readme": "problems/archived/05_qaoa_maxcut/README.md",
       "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -69,7 +69,7 @@
     },
     {
       "problem": "06_high_frequency_trading",
-      "readme": "problems/06_high_frequency_trading/README.md",
+      "readme": "problems/archived/06_high_frequency_trading/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -87,7 +87,7 @@
     },
     {
       "problem": "08_protein_folding",
-      "readme": "problems/08_protein_folding/README.md",
+      "readme": "problems/archived/08_protein_folding/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -105,7 +105,7 @@
     },
     {
       "problem": "10_post_quantum_cryptography",
-      "readme": "problems/10_post_quantum_cryptography/README.md",
+      "readme": "problems/archived/10_post_quantum_cryptography/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -114,7 +114,7 @@
     },
     {
       "problem": "11_quantum_machine_learning",
-      "readme": "problems/11_quantum_machine_learning/README.md",
+      "readme": "problems/archived/11_quantum_machine_learning/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -123,7 +123,7 @@
     },
     {
       "problem": "12_quantum_optimization",
-      "readme": "problems/12_quantum_optimization/README.md",
+      "readme": "problems/archived/12_quantum_optimization/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -132,7 +132,7 @@
     },
     {
       "problem": "13_climate_modeling",
-      "readme": "problems/13_climate_modeling/README.md",
+      "readme": "problems/archived/13_climate_modeling/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -150,7 +150,7 @@
     },
     {
       "problem": "15_database_search",
-      "readme": "problems/15_database_search/README.md",
+      "readme": "problems/archived/15_database_search/README.md",
       "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
@@ -195,7 +195,7 @@
     },
     {
       "problem": "20_space_mission_planning",
-      "readme": "problems/20_space_mission_planning/README.md",
+      "readme": "problems/archived/20_space_mission_planning/README.md",
       "stage": "B",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,

@@ -42,6 +42,14 @@ def main():
         [d for d in PROBLEMS_DIR.iterdir() if d.is_dir() and d.name[:2].isdigit()],
         key=lambda d: d.name,
     )
+    # Also include archived problems
+    archived = PROBLEMS_DIR / "archived"
+    if archived.is_dir():
+        problem_dirs.extend(sorted(
+            [d for d in archived.iterdir() if d.is_dir() and d.name[:2].isdigit()],
+            key=lambda d: d.name,
+        ))
+    problem_dirs.sort(key=lambda d: d.name)
 
     print(f"Testing {len(problem_dirs)} problems...\n")
 

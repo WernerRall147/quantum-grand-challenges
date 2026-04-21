@@ -2,7 +2,25 @@
 
 ## Vision
 
-Transform the Quantum Grand Challenges project from a static portfolio of quantum algorithms into a **live AI-powered platform** that evaluates whether a given scientific problem is better solved on a quantum computer or Azure HPC — backed by peer-reviewed science, real resource estimation, and honest assessment.
+Transform the Quantum Grand Challenges project into a **live AI-powered platform** that helps scientists and engineers determine the optimal compute path for their problem — **Quantum, AI/ML, or HPC** — on Azure. The evaluator applies Troyer's utility-scale filters, DiVincenzo's hardware-readiness criteria, and honest resource estimation to guide users toward building the right Azure workspace.
+
+## Strategic Focus (April 2026)
+
+The primary mission is now **optimizing the Evaluation Agent** to help users:
+1. **Evaluate** their problem using Troyer's 5 utility-scale filters and the Troyer cost model
+2. **Estimate** quantum resource requirements via Q# resource estimation
+3. **Compare** against Azure HPC and AI/ML alternatives with real pricing and benchmarks
+4. **Build** the right Azure workspace — Quantum (Azure Quantum), AI/ML (Azure AI Foundry), or HPC (Azure CycleCloud / NDv6 GPU clusters)
+
+### Key Frameworks Applied
+- **Troyer Utility-Scale Classification** (6-part lecture series, 2025-2026): 5 filters (F1-F5) for honest quantum advantage assessment, plus upcoming cost model (Part 6)
+- **DiVincenzo Criteria** (5+2): Hardware-realism overlay for quantum readiness — scalable qubits, initialization, coherence, universal gates, measurement
+- **Error Correction Zoo** (errorcorrectionzoo.org): Comprehensive code taxonomy for QEC strategy selection (surface, color, QLDPC, bosonic codes)
+
+### Industry Context
+- Google Quantum AI expanding to dual-modality (superconducting + neutral atoms, Mar 2026)
+- Google sets 2029 PQC migration timeline — CRQC expected end of decade
+- MIT efficient trapped-ion cooling advances chip-based QC scalability (Jan 2026)
 
 ## Architecture Overview
 
@@ -64,7 +82,12 @@ Transform the Quantum Grand Challenges project from a static portfolio of quantu
 │  │ OUR 9 ACTIVE PROBLEMS — Reference implementations           │    │
 │  │ QPE: Hubbard, Catalysis, Drug, Materials, Nuclear           │    │
 │  │ Kept: Shor, QEC, Photovoltaics, QCD                        │    │
-│  │ + 11 Archived with honest archival reasons                  │    │
+│  │ + 11 Archived in problems/archived/ with Troyer reasons     │    │
+│  ├─────────────────────────────────────────────────────────────┤    │
+│  │ ADDITIONAL KNOWLEDGE SOURCES                                │    │
+│  │ • Error Correction Zoo (errorcorrectionzoo.org)             │    │
+│  │ • Troyer Lecture Series (6 parts, quantum.microsoft.com)    │    │
+│  │ • DiVincenzo Criteria (hardware-readiness overlay)          │    │
 │  └─────────────────────────────────────────────────────────────┘    │
 └──────────────────────────────────────────────────────────────────────┘
 ```
@@ -259,36 +282,53 @@ quantum-grand-challenges/
 
 ## Implementation Phases
 
-### Phase 1: Foundation (Current Sprint)
-- [ ] Create project structure (agents/, knowledge/, infrastructure/)
-- [ ] Set up Cosmos DB (serverless) + AI Search (basic)
-- [ ] Build arxiv ingestion pipeline (Azure Function, daily timer)
-- [ ] Parse and index Quantum Algorithm Zoo
-- [ ] Create reference_index.json from our 9 active problems
+### Phase 1: Foundation (Completed)
+- [x] Create project structure (agents/, knowledge/, infrastructure/)
+- [x] Set up Cosmos DB (serverless) + AI Search (basic)
+- [x] Build arxiv ingestion pipeline (Azure Function, daily timer)
+- [x] Parse and index Quantum Algorithm Zoo
+- [x] Create reference_index.json from our 9 active problems
+- [x] Move 11 archived problems to problems/archived/ with Troyer reasons
 
-### Phase 2: Agent Framework
-- [ ] Deploy Azure AI Foundry project
-- [ ] Build Orchestrator agent with GenAIOps pattern
-- [ ] Build Classifier agent (Troyer filters as tools)
-- [ ] Build Fact-Checker agent (paper search + claim validation)
-- [ ] Build HPC Comparator agent (Azure VM specs via MS Docs MCP)
-- [ ] Build Code Generator agent (Q# generation + qsharp.estimate())
+### Phase 2: Agent Framework (Completed)
+- [x] Deploy Azure AI Foundry project
+- [x] Build Orchestrator agent with GenAIOps pattern
+- [x] Build Classifier agent (Troyer filters as tools)
+- [x] Build Fact-Checker agent (paper search + claim validation)
+- [x] Build HPC Comparator agent (Azure VM specs via MS Docs MCP)
+- [x] Build Code Generator agent (Q# generation + qsharp.estimate())
 
-### Phase 3: Knowledge Integration
-- [ ] Scientific Papers MCP server
-- [ ] Algorithm Zoo MCP server
-- [ ] GitHub MCP integration for Q# samples
-- [ ] MS Docs MCP for Azure HPC specs
-- [ ] Daily ingestion pipeline live
+### Phase 3: Knowledge Integration (Completed)
+- [x] Scientific Papers MCP server
+- [x] Algorithm Zoo MCP server
+- [x] GitHub MCP integration for Q# samples
+- [x] MS Docs MCP for Azure HPC specs
+- [x] Daily ingestion pipeline live
 
-### Phase 4: Website Integration
-- [ ] Chat interface component (evaluate.tsx)
-- [ ] Agent API endpoint
-- [ ] Problem history display
-- [ ] Result visualization (quantum vs HPC comparison charts)
+### Phase 4: Website Integration (Completed)
+- [x] Chat interface component (evaluate.tsx)
+- [x] Agent API endpoint
+- [x] Problem history display
+- [x] Result visualization (quantum vs HPC comparison charts)
 
-### Phase 5: Refinement
-- [ ] Evaluation pipeline for agent quality
+### Phase 5: Evaluator Optimization (Current — April 2026)
+**Focus: Optimize the agent to guide users to the right Azure workspace**
+- [ ] Integrate Troyer cost model (Part 6, upcoming) into evaluation pipeline
+- [ ] Add Error Correction Zoo references for QEC strategy recommendations
+- [ ] Add DiVincenzo criteria assessment to quantum recommendations
+- [ ] Enhance workspace recommendation engine:
+  - Quantum → Azure Quantum workspace setup guidance + resource estimates
+  - AI/ML → Azure AI Foundry project setup + model selection guidance
+  - HPC → Azure CycleCloud / NDv6 cluster sizing + SLURM configuration
+- [ ] Add Google neutral atom / PQC timeline context to factorization assessments
+- [ ] Integrate MIT trapped-ion advances into hardware roadmap projections
+- [ ] Evaluation pipeline for agent quality (precision, recall, honesty metrics)
 - [ ] Prompt versioning and A/B testing
 - [ ] User feedback loop → knowledge base improvements
-- [ ] ML models for optimization recommendations (if proven helpful)
+
+### Phase 6: Production Hardening
+- [ ] Stage D promotions for 3 ready candidates (QAE, QAOA, DB Search)
+- [ ] Stage B→C promotions for 9 active problems
+- [ ] CI required status checks for reporting integrity
+- [ ] Agent smoke tests with mocked backends in CI
+- [ ] Cost-optimized model routing via model-router deployment

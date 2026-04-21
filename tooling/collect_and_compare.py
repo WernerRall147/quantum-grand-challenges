@@ -61,7 +61,12 @@ def submit_rigetti(problems=None):
     for d in sorted(os.listdir(PROBLEMS_DIR)):
         kernel_path = PROBLEMS_DIR / d / "qsharp" / "HardwareKernel.qs"
         if not kernel_path.exists():
-            continue
+            # Check archived directory
+            archived_path = PROBLEMS_DIR / "archived" / d / "qsharp" / "HardwareKernel.qs"
+            if archived_path.exists():
+                kernel_path = archived_path
+            else:
+                continue
         if problems and d not in problems:
             continue
 

@@ -26,7 +26,7 @@ if (-not (Test-Path $pythonExe)) {
     $pythonExe = "python"
 }
 
-$problemRoot = Join-Path $repoRoot "problems\03_qae_risk"
+$problemRoot = Join-Path $repoRoot "problems\archived\03_qae_risk"
 $pythonDir = Join-Path $problemRoot "python"
 $qsharpDir = Join-Path $problemRoot "qsharp"
 $sanityValue = if ($RunSanityCheck.IsPresent) { "true" } else { "false" }

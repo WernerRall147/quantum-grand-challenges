@@ -41,6 +41,7 @@ jobs:
           path: |
             tooling/estimator/output/nightly_summary.json
             problems/*/estimates/*.json
+            problems/archived/*/estimates/*.json
           retention-days: 14
 
   # KPI + platform recommendations refresh
@@ -86,6 +87,8 @@ jobs:
           python tooling/reporting/check_verification_matrix_freshness.py || echo "::warning::Verification matrix stale (make build requires .NET 6 not available in CI)"
 
       - name: Create PR for report updates
+        id: create-pr
+        continue-on-error: true
         uses: peter-evans/create-pull-request@v7
         with:
           branch: chore/nightly-reports
@@ -93,6 +96,10 @@ jobs:
           title: "chore(nightly): refresh reports"
           body: "Automated nightly refresh of KPI dashboard and platform recommendations."
           labels: documentation,reporting
+
+      - name: Warn if PR creation was not permitted
+        if: steps.create-pr.outcome == 'failure'
+        run: echo "::warning::Could not create PR — enable 'Allow GitHub Actions to create and approve pull requests' in repo Settings > Actions > General."
 
   # Stage D readiness trend
   stage-d-trend:

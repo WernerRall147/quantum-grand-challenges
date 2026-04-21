@@ -118,6 +118,9 @@ def main() -> None:
     for item in registry:
         problem_id = item["id"]
         problem_dir = root / "problems" / problem_id
+        # Check archived directory if not found at top level
+        if not problem_dir.is_dir():
+            problem_dir = root / "problems" / "archived" / problem_id
 
         makefile_exists = (problem_dir / "Makefile").exists()
         classical_cmd = [make_exe, "classical"] if make_exe else []

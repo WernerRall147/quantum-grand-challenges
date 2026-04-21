@@ -162,6 +162,9 @@ def main() -> None:
     for item in registry:
         problem_id = item["id"]
         problem_dir = root / "problems" / problem_id
+        # Check archived directory if not found at top level
+        if not problem_dir.is_dir():
+            problem_dir = root / "problems" / "archived" / problem_id
         build = run_make_target(make_exe, problem_dir, "build", args.build_timeout, env)
         classical = run_make_target(make_exe, problem_dir, "classical", args.classical_timeout, env)
         test = run_make_target(make_exe, problem_dir, "test", args.test_timeout, env)

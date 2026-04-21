@@ -218,7 +218,10 @@ def collect_run_history_evidence(root: Path) -> tuple[Dict[str, Dict[str, Target
 
 
 def collect_smoke_evidence(root: Path, by_problem: Dict[str, Dict[str, TargetEvidence]]) -> None:
-    smoke_paths = sorted(root.glob("problems/*/estimates/azure_smoke_report*.json"))
+    smoke_paths = sorted(
+        list(root.glob("problems/*/estimates/azure_smoke_report*.json"))
+        + list(root.glob("problems/archived/*/estimates/azure_smoke_report*.json"))
+    )
 
     for path in smoke_paths:
         payload = load_json(path)
@@ -325,7 +328,10 @@ def build_report_payload(root: Path, preference: str) -> Dict[str, Any]:
     by_problem, global_successes = collect_run_history_evidence(root)
     collect_smoke_evidence(root, by_problem)
 
-    all_problem_dirs = sorted(root.glob("problems/[0-9][0-9]_*"))
+    all_problem_dirs = sorted(
+        list(root.glob("problems/[0-9][0-9]_*"))
+        + list(root.glob("problems/archived/[0-9][0-9]_*"))
+    )
     all_problem_ids = [path.name for path in all_problem_dirs]
 
     recommendations: List[Dict[str, Any]] = []

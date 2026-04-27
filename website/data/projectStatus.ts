@@ -27,6 +27,11 @@ export const pipelineStages = [
 
 export const activeWorkQueue = [
   {
+    title: 'Bicep Workspace Code Generation',
+    description:
+      'New: BicepWorkspaceGenerator produces ready-to-deploy Azure infrastructure templates for HPC (CycleCloud + Slurm), AI/ML (Foundry hub + project), and Quantum (workspace + multi-provider). Auto-routed by the orchestrator based on Troyer verdict.',
+  },
+  {
     title: 'Evaluator Agent Optimization',
     description:
       'Primary focus: optimize the evaluation agent to guide users toward the right Azure workspace (Quantum / AI Foundry / HPC) based on Troyer utility-scale assessment, DiVincenzo criteria, and honest resource estimation.',
@@ -34,7 +39,7 @@ export const activeWorkQueue = [
   {
     title: 'Troyer Assessment Reconciliation',
     description:
-      'Completed: troyerAssessment.json updated to reflect 5 VQE→QPE upgrades. Problems reclassified from heuristic to simulation-native. Error Correction Zoo and industry developments integrated.',
+      'Completed: troyerAssessment.json updated to reflect 5 VQE→QPE upgrades. Problems reclassified from heuristic to simulation-native. Error Correction Zoo and 7 industry developments integrated (incl. MIT PQC chip Apr 2026, World Quantum Day 2026).',
   },
   {
     title: 'Stage B→C Promotions (9 Active Problems)',

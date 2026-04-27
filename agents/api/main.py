@@ -67,6 +67,10 @@ class EvaluateResponse(BaseModel):
     tokens_used: int = 0
     qsharp_code: str = ""
     estimation: dict = {}
+    bicep_template: str = ""
+    bicep_validation: dict = {}
+    bicep_deploy_commands: str = ""
+    bicep_post_deploy_note: str = ""
 
 
 class CodeRequest(BaseModel):
@@ -74,9 +78,15 @@ class CodeRequest(BaseModel):
     algorithm: str = "QPE"
 
 
+class BicepRequest(BaseModel):
+    problem: str
+    platform: str = "AI_ML"  # HPC | AI_ML | QUANTUM
+
+
 # Lazy-load the evaluator to avoid import overhead on cold start
 _evaluator = None
 _codegen = None
+_bicepgen = None
 
 
 def get_evaluator():
@@ -93,6 +103,14 @@ def get_codegen():
         from agents.code_generator.generate import QSharpCodeGenerator
         _codegen = QSharpCodeGenerator()
     return _codegen
+
+
+def get_bicepgen():
+    global _bicepgen
+    if _bicepgen is None:
+        from agents.code_generator.bicep_generator import BicepWorkspaceGenerator
+        _bicepgen = BicepWorkspaceGenerator()
+    return _bicepgen
 
 
 @app.get("/")
@@ -112,17 +130,35 @@ def evaluate(request: EvaluateRequest):
         evaluator = get_evaluator()
         result = evaluator.evaluate(request.problem.strip())
         if request.generate_code:
-            try:
-                codegen = get_codegen()
-                code_out = codegen.generate_with_estimate(
-                    request.problem.strip(),
-                    algorithm=result.get("recommended_algorithm", "QPE"),
-                )
-                result["qsharp_code"] = code_out.get("qsharp_code", "")
-                result["estimation"] = code_out.get("estimation", {})
-            except Exception as e:  # noqa: BLE001
-                result["qsharp_code"] = ""
-                result["estimation"] = {"error": str(e)[:200]}
+            verdict = result.get("verdict", "").upper()
+            platform = result.get("recommended_platform", "").upper()
+            # Quantum verdicts → generate Q# code
+            if verdict == "QUANTUM_ADVANTAGE" or platform == "QUANTUM":
+                try:
+                    codegen = get_codegen()
+                    code_out = codegen.generate_with_estimate(
+                        request.problem.strip(),
+                        algorithm=result.get("recommended_algorithm", "QPE"),
+                    )
+                    result["qsharp_code"] = code_out.get("qsharp_code", "")
+                    result["estimation"] = code_out.get("estimation", {})
+                except Exception as e:  # noqa: BLE001
+                    result["qsharp_code"] = ""
+                    result["estimation"] = {"error": str(e)[:200]}
+            # Non-quantum verdicts → generate Bicep workspace template
+            elif platform in ("HPC", "AI_ML"):
+                try:
+                    bicepgen = get_bicepgen()
+                    bicep_out = bicepgen.generate_with_validation(
+                        request.problem.strip(), platform=platform,
+                    )
+                    result["bicep_template"] = bicep_out.get("bicep_template", "")
+                    result["bicep_validation"] = bicep_out.get("validation", {})
+                    result["bicep_deploy_commands"] = bicep_out.get("deploy_commands", "")
+                    result["bicep_post_deploy_note"] = bicep_out.get("post_deploy_note", "")
+                except Exception as e:  # noqa: BLE001
+                    result["bicep_template"] = ""
+                    result["bicep_validation"] = {"error": str(e)[:200]}
         return EvaluateResponse(**{k: result.get(k, EvaluateResponse.model_fields[k].default)
                                    for k in EvaluateResponse.model_fields})
     except Exception as e:
@@ -142,6 +178,25 @@ def generate_code(request: CodeRequest):
         return codegen.generate_with_estimate(request.problem.strip(), request.algorithm)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Code generation failed: {str(e)[:200]}")
+
+
+@app.post("/api/generate-bicep")
+def generate_bicep(request: BicepRequest):
+    """Generate a Bicep workspace template for HPC, AI/ML, or Quantum platforms.
+
+    Use this for problems that don't pass Troyer quantum filters but need
+    Azure infrastructure provisioning.
+    """
+    if not request.problem.strip():
+        raise HTTPException(status_code=400, detail="Problem description is required")
+    platform = request.platform.upper()
+    if platform not in ("HPC", "AI_ML", "QUANTUM"):
+        raise HTTPException(status_code=400, detail="platform must be HPC | AI_ML | QUANTUM")
+    try:
+        bicepgen = get_bicepgen()
+        return bicepgen.generate_with_validation(request.problem.strip(), platform=platform)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Bicep generation failed: {str(e)[:200]}")
 
 
 @app.get("/api/algorithms")

@@ -43,6 +43,10 @@ interface EvaluationResult {
   tokens_used?: number;
   qsharp_code?: string;
   estimation?: Record<string, unknown>;
+  bicep_template?: string;
+  bicep_validation?: { validated?: boolean; error?: string; skipped?: boolean; reason?: string };
+  bicep_deploy_commands?: string;
+  bicep_post_deploy_note?: string;
 }
 
 const EXAMPLE_PROBLEMS = [
@@ -165,7 +169,7 @@ export default function EvaluatePage() {
             </button>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem', color: '#374151', cursor: 'pointer' }}>
               <input type="checkbox" checked={generateCode} onChange={(e) => setGenerateCode(e.target.checked)} />
-              Generate Q# code
+              Generate code (Q# for Quantum, Bicep for HPC/AI)
             </label>
           </div>
         </div>
@@ -333,6 +337,49 @@ export default function EvaluatePage() {
                   <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: '#313244', borderRadius: '6px', color: '#89b4fa', fontSize: '0.85rem' }}>
                     Resource Estimate: {JSON.stringify(result.estimation)}
                   </div>
+                )}
+              </div>
+            )}
+
+            {/* Bicep Workspace Template (HPC / AI_ML) */}
+            {result.bicep_template && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#0f172a', borderRadius: '10px', border: '1px solid #1e293b' }}>
+                <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>
+                  🏗️ Generated Azure Workspace Bicep Template
+                </h3>
+                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: '0 0 0.75rem' }}>
+                  Ready-to-deploy Azure infrastructure for your {result.recommended_platform?.replace(/_/g, ' ')} workload.
+                </p>
+                <pre style={{ margin: 0, color: '#7dd3fc', fontSize: '0.82rem', overflow: 'auto', maxHeight: '400px', lineHeight: 1.5, padding: '0.75rem', background: '#020617', borderRadius: '6px' }}>
+                  {result.bicep_template}
+                </pre>
+                {result.bicep_validation?.validated === true && (
+                  <div style={{ marginTop: '0.5rem', padding: '0.4rem 0.8rem', background: '#064e3b', borderRadius: '6px', color: '#6ee7b7', fontSize: '0.85rem' }}>
+                    ✅ Bicep syntax validated
+                  </div>
+                )}
+                {result.bicep_validation?.error && (
+                  <div style={{ marginTop: '0.5rem', padding: '0.4rem 0.8rem', background: '#7f1d1d', borderRadius: '6px', color: '#fca5a5', fontSize: '0.85rem' }}>
+                    ⚠️ Validation issue: {result.bicep_validation.error.slice(0, 200)}
+                  </div>
+                )}
+                {result.bicep_validation?.skipped && (
+                  <div style={{ marginTop: '0.5rem', padding: '0.4rem 0.8rem', background: '#1e293b', borderRadius: '6px', color: '#94a3b8', fontSize: '0.8rem' }}>
+                    ℹ️ Validation skipped: {result.bicep_validation.reason}
+                  </div>
+                )}
+                {result.bicep_deploy_commands && (
+                  <details style={{ marginTop: '0.75rem' }}>
+                    <summary style={{ color: '#cbd5e1', cursor: 'pointer', fontSize: '0.9rem' }}>Deploy commands</summary>
+                    <pre style={{ margin: '0.5rem 0 0', color: '#fbbf24', fontSize: '0.8rem', padding: '0.5rem', background: '#020617', borderRadius: '6px' }}>
+                      {result.bicep_deploy_commands}
+                    </pre>
+                  </details>
+                )}
+                {result.bicep_post_deploy_note && (
+                  <p style={{ marginTop: '0.5rem', color: '#94a3b8', fontSize: '0.82rem', fontStyle: 'italic' }}>
+                    💡 {result.bicep_post_deploy_note}
+                  </p>
                 )}
               </div>
             )}

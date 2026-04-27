@@ -287,10 +287,13 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 - ~~Obtain real Azure Quantum Resource Estimator profiles~~ (completed April 2026: all 20 problems profiled)
 - ~~Promote Stage D candidates~~ (completed April 2026: QAE, QAOA, Grover DB, Grover PQC with scaling analysis + fairness reviews)
 - ~~Multi-model resource estimation~~ (completed April 2026: 6 qubit models × 2 QEC schemes = 160 estimates across all 20 problems)
+- ~~Evaluator agent for honest quantum/HPC/AI platform recommendation~~ (completed April 2026: Troyer 5-filter classifier + DiVincenzo overlay + GPT-5.4-mini orchestrator with deterministic pre-routing)
+- ~~Code generation for recommended platform~~ (completed April 2026: Q# generator for quantum problems, Bicep workspace generator for HPC/AI Foundry/Quantum infrastructure)
 - Execute 2-qubit circuits on Quantinuum H1 QPU to compare noisy hardware results against simulator baselines
 - Replace at least one classical baseline with a state-of-the-art competitor (Goemans-Williamson for MaxCut, importance sampling for QAE)
 - Extend scaling analysis to QAOA and VQE with noise models at different error rates
 - Investigate whether the maturity gate model can be extended with complexity-theoretic checks (scaling slope verification, classical hardness evidence requirements)
+- Integrate Troyer Part 6 cost model when published — adds quantum vs HPC vs AI cost-advantage analysis to evaluator output
 
 ## 10. Conclusion
 

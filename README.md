@@ -1,6 +1,6 @@
 # 🌌 Quantum Grand Challenges — Quantum Advantage Evaluator
 
-*An AI-powered platform that evaluates whether your scientific problem is better solved on a quantum computer, AI/ML, or Azure HPC — then helps you build the right Azure workspace. Backed by peer-reviewed science, Troyer's utility-scale filters, DiVincenzo's hardware-readiness criteria, and honest resource estimation.*
+*An AI-powered platform that evaluates whether your scientific problem is better solved on a quantum computer, AI/ML, or Azure HPC — then **generates Q# code or Bicep templates** to build the right Azure workspace. Backed by peer-reviewed science, Troyer's utility-scale filters, DiVincenzo's hardware-readiness criteria, and honest resource estimation.*
 
 [![CI/CD](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml)
 [![Website](https://img.shields.io/badge/website-live-blue)](https://wernerrall147.github.io/quantum-grand-challenges/)
@@ -18,6 +18,7 @@
 - 🧱 **Hardware readiness**: DiVincenzo criteria assessment for quantum feasibility
 - 💻 **Platform comparison**: What Azure HPC, AI/ML, and Quantum can do today
 - 🔧 **Workspace guidance**: Recommended Azure workspace setup (Quantum / AI Foundry / CycleCloud)
+- 🏗️ **Code generation**: **Q# code** for quantum problems, **Bicep templates** for HPC/AI/ML workspaces
 - 📚 **References**: Peer-reviewed arxiv papers + Error Correction Zoo codes backing every claim
 
 ## 🏗️ Architecture
@@ -27,7 +28,8 @@ Scientist → Chat Interface → Orchestrator Agent
                                 ├── Classifier (speedup class + Troyer filters)
                                 ├── Fact-Checker (peer-reviewed validation)
                                 ├── HPC Comparator (Azure HPC vs quantum)
-                                └── Code Generator (Q# + resource estimation)
+                                ├── Q# Code Generator (quantum problems → Q# + resource estimate)
+                                └── Bicep Code Generator (HPC/AI/ML → Azure workspace template)
                                         ↓
                               Knowledge Layer (Cosmos DB + AI Search)
                                 ├── arxiv papers (daily ingestion)
@@ -106,18 +108,21 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 
 ## 🏁 Latest Milestone (April 2026)
 
+- **Bicep workspace generation**: New `BicepWorkspaceGenerator` produces ready-to-deploy Azure infrastructure templates for HPC (CycleCloud + Slurm), AI/ML (Foundry hub + project), and Quantum (workspace + providers) — complementing the existing Q# code generator.
+- **Agent triage**: Evaluator now auto-routes to Q# generation for quantum advantage problems, Bicep generation for HPC/AI/ML problems.
 - **Strategic pivot**: Evaluator agent now guides users to build the right Azure workspace (Quantum / AI Foundry / HPC) based on Troyer assessment.
 - **11 problems archived** to `problems/archived/` with Troyer filter failure reasons.
 - **5 VQE→QPE upgrades** reclassified in Troyer assessment from heuristic to simulation-native.
-- **Troyer assessment reconciled**: `troyerAssessment.json` now reflects current algorithm assignments.
+- **Troyer assessment reconciled**: `troyerAssessment.json` now reflects current algorithm assignments + 7 industry developments tracked.
 - **New knowledge sources**: Error Correction Zoo (errorcorrectionzoo.org) integrated.
-- **Industry context tracked**: Google dual-modality QC (superconducting + neutral atoms), Google 2029 PQC timeline, MIT trapped-ion cooling advances.
+- **Industry context tracked**: Google dual-modality QC, Google 2029 PQC timeline, MIT trapped-ion cooling, MIT PQC chip for biomedical devices, World Quantum Day 2026.
 - **9 active problems** pass all 5 Troyer utility-scale filters.
 - **Cross-platform emulator validation**: 20 problems on H2-1E (100 shots) + 19 on Rigetti QVM. 17/19 agree on dominant outcome.
 - **120+ Azure Quantum runs** across 3 systems (Quantinuum H2-1SC, H2-1E, Rigetti QVM).
 - **Multi-model resource estimation**: 160 estimates across 6 qubit technologies × 2 QEC schemes.
 - **Noisy simulation study** across all 20 problems at 3 depolarizing error rates (0.001, 0.01, 0.05).
-- Website live with Troyer utility-scale classification, multi-model charts, and archived problem badges.
+- **36 evaluator tests** covering platform routing, API schemas, Troyer data integrity, and Bicep generation.
+- Website live with Troyer utility-scale classification, multi-model charts, archived badges, and Bicep template display.
 
 Milestone notes: `docs/MILESTONE_2026_03_CLOSEOUT.md`.
 

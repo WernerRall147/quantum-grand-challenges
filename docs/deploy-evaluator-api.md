@@ -44,9 +44,12 @@ Configure under **Settings → Environments → `production-api`**:
 
 | Name | Value |
 |------|-------|
-| `AZURE_CLIENT_ID` | App registration / managed identity client ID with `acrPush` + `Container Apps Contributor` |
+| `AZURE_CLIENT_ID` | Service principal client ID with `AcrPush` + `Container Apps Contributor` |
+| `AZURE_CLIENT_SECRET` | Service principal secret |
 | `AZURE_TENANT_ID` | Tenant containing the Container App |
 | `AZURE_SUBSCRIPTION_ID` | Subscription containing the Container App |
+
+> The current setup uses the `qgc-agent-sp` service principal (`072b655f-cf65-4897-951d-38e4735d1303`) which has Owner on subscription `82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3`. Credentials are mirrored locally in `.azure/prod/.env` (gitignored).
 
 **Variables:**
 
@@ -59,18 +62,19 @@ Configure under **Settings → Environments → `production-api`**:
 
 > The workflow uses these defaults if the matching var is unset, so for the existing `qgc-eval-api` deployment in subscription `82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3` (tenant `dc692f3e`) you only need the secrets.
 
-**Federated Identity (recommended over client secrets):**
+**Federated Identity (alternative — more secure than client secret):**
+
+If you prefer OIDC over a long-lived client secret, swap the workflow's `azure/login@v2` step to pass `client-id` / `tenant-id` / `subscription-id` (no `creds`), add `permissions: id-token: write`, and create a federated credential:
 
 ```bash
 # In the tenant hosting the Container App:
 APP_ID=<your app registration client ID>
-SUB=<subject claim, e.g. repo:WernerRall147/quantum-grand-challenges:environment:production-api>
 az ad app federated-credential create \
   --id $APP_ID \
   --parameters '{
     "name": "github-actions-deploy",
     "issuer": "https://token.actions.githubusercontent.com",
-    "subject": "repo:WernerRall147/quantum-grand-challenges:environment:production-api",
+    "subject": "repo:WernerRall147/quantum-grand-challenges:ref:refs/heads/main",
     "audiences": ["api://AzureADTokenExchange"]
   }'
 ```
@@ -78,8 +82,9 @@ az ad app federated-credential create \
 ### Pipeline Steps
 
 1. Checkout repo
-2. Resolve image tag (manual input or short SHA)
-3. Azure OIDC login
+2. Resolve image tag (manual input or `vYYYYMMDD-<sha>`) and resource names (with sensible defaults)
+3. Azure service principal login
+4. `az acr build` — build image inside ACR (no local Docker daemon needed)
 4. `az acr build` — Build image inside ACR (no local Docker daemon needed)
 5. `az containerapp update` — Roll new revision
 6. Wait up to 90s for `GET /` to return 200

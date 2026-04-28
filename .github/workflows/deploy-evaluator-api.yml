@@ -1,0 +1,144 @@
+name: Deploy Evaluator API
+
+# Build and deploy the FastAPI evaluator container to Azure Container Apps.
+#
+# Triggers:
+#   - Manual (workflow_dispatch) — recommended path
+#   - On push to main when API code or Dockerfile changes (auto-deploy)
+#
+# Required secrets/vars (configure in repo Settings):
+#   AZURE_CLIENT_ID         — service principal app id (federated identity preferred)
+#   AZURE_TENANT_ID         — tenant containing the Container App
+#   AZURE_SUBSCRIPTION_ID   — subscription containing the Container App
+#   ACR_NAME                — Azure Container Registry name (e.g. qgcacr)
+#   CONTAINER_APP_NAME      — Container App name (e.g. qgc-eval-api)
+#   CONTAINER_APP_RG        — Resource group containing the Container App
+#
+# Local equivalent (after `az login --tenant <id>`):
+#   az acr build --registry <ACR_NAME> --image qgc-eval-api:<tag> --file Dockerfile .
+#   az containerapp update --name <CONTAINER_APP_NAME> --resource-group <CONTAINER_APP_RG> \
+#       --image <ACR_NAME>.azurecr.io/qgc-eval-api:<tag>
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Image tag (default: short SHA)"
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths:
+      - "agents/api/**"
+      - "agents/orchestrator/**"
+      - "agents/classifier/**"
+      - "agents/code_generator/**"
+      - "knowledge/search/**"
+      - "Dockerfile"
+      - ".dockerignore"
+      - ".github/workflows/deploy-evaluator-api.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-evaluator-api
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: production-api
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve image tag
+        id: tag
+        run: |
+          if [ -n "${{ github.event.inputs.tag }}" ]; then
+            TAG="${{ github.event.inputs.tag }}"
+          else
+            TAG="$(echo ${{ github.sha }} | cut -c1-8)"
+          fi
+          echo "image_tag=${TAG}" >> $GITHUB_OUTPUT
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build container image in ACR
+        run: |
+          az acr build \
+            --registry "${{ vars.ACR_NAME }}" \
+            --image "qgc-eval-api:${{ steps.tag.outputs.image_tag }}" \
+            --image "qgc-eval-api:latest" \
+            --file Dockerfile \
+            .
+
+      - name: Update Container App revision
+        run: |
+          az containerapp update \
+            --name "${{ vars.CONTAINER_APP_NAME }}" \
+            --resource-group "${{ vars.CONTAINER_APP_RG }}" \
+            --image "${{ vars.ACR_NAME }}.azurecr.io/qgc-eval-api:${{ steps.tag.outputs.image_tag }}"
+
+      - name: Wait for revision and health-check
+        run: |
+          set -e
+          FQDN=$(az containerapp show \
+            --name "${{ vars.CONTAINER_APP_NAME }}" \
+            --resource-group "${{ vars.CONTAINER_APP_RG }}" \
+            --query properties.configuration.ingress.fqdn -o tsv)
+          echo "FQDN: $FQDN"
+
+          # Allow up to 90s for revision activation
+          for i in $(seq 1 18); do
+            sleep 5
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://${FQDN}/" || echo "000")
+            echo "Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "API healthy."
+              exit 0
+            fi
+          done
+          echo "::error::API did not return 200 after 90s"
+          exit 1
+
+      - name: Smoke-test new endpoints
+        run: |
+          set -e
+          FQDN=$(az containerapp show \
+            --name "${{ vars.CONTAINER_APP_NAME }}" \
+            --resource-group "${{ vars.CONTAINER_APP_RG }}" \
+            --query properties.configuration.ingress.fqdn -o tsv)
+
+          # OpenAPI should advertise /api/generate-bicep
+          OPENAPI=$(curl -sf "https://${FQDN}/openapi.json" || echo "")
+          if echo "$OPENAPI" | grep -q "/api/generate-bicep"; then
+            echo "/api/generate-bicep endpoint is registered."
+          else
+            echo "::error::/api/generate-bicep not found in OpenAPI spec"
+            exit 1
+          fi
+
+          # Schema check: EvaluateResponse should expose bicep_template
+          if echo "$OPENAPI" | grep -q "bicep_template"; then
+            echo "EvaluateResponse exposes bicep_template field."
+          else
+            echo "::error::bicep_template missing from EvaluateResponse"
+            exit 1
+          fi
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          echo "### Evaluator API Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Image: \`${{ vars.ACR_NAME }}.azurecr.io/qgc-eval-api:${{ steps.tag.outputs.image_tag }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Container App: \`${{ vars.CONTAINER_APP_NAME }}\` in \`${{ vars.CONTAINER_APP_RG }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY

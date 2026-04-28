@@ -6,10 +6,14 @@ name: Deploy Evaluator API
 #   - Manual (workflow_dispatch) — recommended path
 #   - On push to main when API code or Dockerfile changes (auto-deploy)
 #
-# Required secrets/vars (configure in repo Settings):
-#   AZURE_CLIENT_ID         — service principal app id (federated identity preferred)
-#   AZURE_TENANT_ID         — tenant containing the Container App
-#   AZURE_SUBSCRIPTION_ID   — subscription containing the Container App
+# Required secrets (configure in repo Settings -> Secrets and variables -> Actions):
+#   AZURE_CLIENT_ID         — service principal app id (qgc-agent-sp)
+#   AZURE_CLIENT_SECRET     — service principal secret
+#
+# Tenant + subscription IDs are hardcoded below (not sensitive — public identifiers
+# of the Azure tenant/sub the SP belongs to).
+#
+# Optional repo VARIABLES (override defaults if your resources differ):
 #   ACR_NAME                — Azure Container Registry name (default: qgcregistry)
 #   ACR_IMAGE_NAME          — image repository inside the ACR (default: qgc-evaluator)
 #   CONTAINER_APP_NAME      — Container App name (default: qgc-eval-api)
@@ -74,8 +78,8 @@ jobs:
             {
               "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
               "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
-              "tenantId": "${{ secrets.AZURE_TENANT_ID }}",
-              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+              "tenantId": "dc692f3e-104b-4247-b52c-23692694684a",
+              "subscriptionId": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3"
             }
 
       - name: Build container image in ACR

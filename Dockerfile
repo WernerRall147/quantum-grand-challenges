@@ -4,8 +4,9 @@ WORKDIR /app
 
 # Install Azure CLI + Bicep for `az bicep build` validation in BicepWorkspaceGenerator.
 # Uses the Microsoft installer for the slim image footprint.
+# libicu is required by the dotnet runtime that backs `az bicep build`.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl ca-certificates gpg \
+    && apt-get install -y --no-install-recommends curl ca-certificates gpg libicu-dev \
     && curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
     && az bicep install \
     && apt-get purge -y curl gpg \

@@ -101,15 +101,15 @@ param location string = 'eastus'
 @maxLength(5)
 param aiHubName string = 'qgcai'
 
-@description('GPT model deployment name')
-param chatModelName string = 'gpt-4o'
-
 resource storage 'Microsoft.Storage/storageAccounts@2024-01-01' = {
   name: 'st${uniqueString(resourceGroup().id, aiHubName)}'
   location: location
   sku: { name: 'Standard_LRS' }
   kind: 'StorageV2'
-  properties: { allowBlobPublicAccess: false, minimumTlsVersion: 'TLS1_2' }
+  properties: {
+    allowBlobPublicAccess: false
+    minimumTlsVersion: 'TLS1_2'
+  }
 }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {
@@ -136,10 +136,13 @@ resource aiServices 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   kind: 'AIServices'
   sku: { name: 'S0' }
   identity: { type: 'SystemAssigned' }
-  properties: { customSubDomainName: 'cogsvc-${uniqueString(resourceGroup().id, aiHubName)}', publicNetworkAccess: 'Enabled' }
+  properties: {
+    customSubDomainName: 'cogsvc-${uniqueString(resourceGroup().id, aiHubName)}'
+    publicNetworkAccess: 'Enabled'
+  }
 }
 
-resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-10-01' = {
+resource aiHub 'Microsoft.MachineLearningServices/workspaces@2025-12-01' = {
   name: '${aiHubName}-hub'
   location: location
   kind: 'Hub'
@@ -152,7 +155,7 @@ resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-10-01' = {
   }
 }
 
-resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-10-01' = {
+resource aiProject 'Microsoft.MachineLearningServices/workspaces@2025-12-01' = {
   name: '${aiHubName}-proj'
   location: location
   kind: 'Project'
@@ -270,6 +273,15 @@ CRITICAL RULES:
 - Add `output` declarations for important resource IDs and endpoints
 - Include a `deploymentNote` output with next-step guidance
 
+SCHEMA INTEGRITY (avoid linter errors):
+- Do NOT invent resource properties. Only use properties that exist in the reference template or are documented for the API version you target.
+- Do NOT add `tags` to `Microsoft.MachineLearningServices/workspaces` (causes BCP037).
+- Do NOT add `infrastructureEncryption` under `properties.encryption` on AI workspaces (use `keyVaultProperties` + `status` only if you need CMK).
+- Do NOT add a `sku` block to `Microsoft.MachineLearningServices/workspaces` (it is not part of the schema).
+- Do NOT add unnecessary `dependsOn` entries when the reference is implicit through symbolic name use.
+- Do NOT declare parameters you don't reference in resources or outputs (causes no-unused-params warnings).
+- Do NOT redeclare resources from the reference; KEEP the reference structure and only customize names, SKUs, region, descriptions, and add genuinely missing resources.
+
 OUTPUT: Return ONLY the Bicep source code. No markdown fences, no explanations. Just compilable Bicep starting with `// ` comment headers."""
 
 
@@ -376,12 +388,23 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
                 if not has_error_diagnostic:
                     return {
                         "validated": True,
-                        "warnings": stderr[:1500] or None,
+                        "warnings": stderr[:4000] or None,
                     }
+
+            # No output JSON — real compile failure. Show enough context to diagnose.
+            # Truncate from both ends to capture the actual error line which is
+            # often deep in a long warning preamble.
+            combined = stderr or stdout
+            error_lines = [
+                line for line in combined.splitlines()
+                if " : Error " in line or line.strip().startswith("ERROR:")
+            ]
+            error_summary = "\n".join(error_lines)[:2000] if error_lines else None
 
             return {
                 "validated": False,
-                "error": (stderr or stdout)[:1500],
+                "error": combined[:4000],
+                "error_summary": error_summary,
                 "output_produced": output_exists,
             }
 

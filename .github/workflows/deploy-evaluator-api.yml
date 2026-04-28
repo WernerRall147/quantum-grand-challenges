@@ -10,14 +10,15 @@ name: Deploy Evaluator API
 #   AZURE_CLIENT_ID         — service principal app id (federated identity preferred)
 #   AZURE_TENANT_ID         — tenant containing the Container App
 #   AZURE_SUBSCRIPTION_ID   — subscription containing the Container App
-#   ACR_NAME                — Azure Container Registry name (e.g. qgcacr)
-#   CONTAINER_APP_NAME      — Container App name (e.g. qgc-eval-api)
-#   CONTAINER_APP_RG        — Resource group containing the Container App
+#   ACR_NAME                — Azure Container Registry name (default: qgcregistry)
+#   ACR_IMAGE_NAME          — image repository inside the ACR (default: qgc-evaluator)
+#   CONTAINER_APP_NAME      — Container App name (default: qgc-eval-api)
+#   CONTAINER_APP_RG        — Resource group containing the Container App (default: qgc-evaluator)
 #
 # Local equivalent (after `az login --tenant <id>`):
-#   az acr build --registry <ACR_NAME> --image qgc-eval-api:<tag> --file Dockerfile .
-#   az containerapp update --name <CONTAINER_APP_NAME> --resource-group <CONTAINER_APP_RG> \
-#       --image <ACR_NAME>.azurecr.io/qgc-eval-api:<tag>
+#   az acr build --registry qgcregistry --image qgc-evaluator:<tag> --file Dockerfile .
+#   az containerapp update --name qgc-eval-api --resource-group qgc-evaluator \
+#       --image qgcregistry.azurecr.io/qgc-evaluator:<tag>
 
 on:
   workflow_dispatch:
@@ -54,15 +55,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Resolve image tag
+      - name: Resolve image tag and names
         id: tag
         run: |
           if [ -n "${{ github.event.inputs.tag }}" ]; then
             TAG="${{ github.event.inputs.tag }}"
           else
-            TAG="$(echo ${{ github.sha }} | cut -c1-8)"
+            TAG="v$(date -u +%Y%m%d)-$(echo ${{ github.sha }} | cut -c1-7)"
           fi
           echo "image_tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "acr_name=${{ vars.ACR_NAME || 'qgcregistry' }}" >> $GITHUB_OUTPUT
+          echo "image_name=${{ vars.ACR_IMAGE_NAME || 'qgc-evaluator' }}" >> $GITHUB_OUTPUT
+          echo "app_name=${{ vars.CONTAINER_APP_NAME || 'qgc-eval-api' }}" >> $GITHUB_OUTPUT
+          echo "app_rg=${{ vars.CONTAINER_APP_RG || 'qgc-evaluator' }}" >> $GITHUB_OUTPUT
 
       - name: Azure login (OIDC)
         uses: azure/login@v2
@@ -74,25 +79,25 @@ jobs:
       - name: Build container image in ACR
         run: |
           az acr build \
-            --registry "${{ vars.ACR_NAME }}" \
-            --image "qgc-eval-api:${{ steps.tag.outputs.image_tag }}" \
-            --image "qgc-eval-api:latest" \
+            --registry "${{ steps.tag.outputs.acr_name }}" \
+            --image "${{ steps.tag.outputs.image_name }}:${{ steps.tag.outputs.image_tag }}" \
+            --image "${{ steps.tag.outputs.image_name }}:latest" \
             --file Dockerfile \
             .
 
       - name: Update Container App revision
         run: |
           az containerapp update \
-            --name "${{ vars.CONTAINER_APP_NAME }}" \
-            --resource-group "${{ vars.CONTAINER_APP_RG }}" \
-            --image "${{ vars.ACR_NAME }}.azurecr.io/qgc-eval-api:${{ steps.tag.outputs.image_tag }}"
+            --name "${{ steps.tag.outputs.app_name }}" \
+            --resource-group "${{ steps.tag.outputs.app_rg }}" \
+            --image "${{ steps.tag.outputs.acr_name }}.azurecr.io/${{ steps.tag.outputs.image_name }}:${{ steps.tag.outputs.image_tag }}"
 
       - name: Wait for revision and health-check
         run: |
           set -e
           FQDN=$(az containerapp show \
-            --name "${{ vars.CONTAINER_APP_NAME }}" \
-            --resource-group "${{ vars.CONTAINER_APP_RG }}" \
+            --name "${{ steps.tag.outputs.app_name }}" \
+            --resource-group "${{ steps.tag.outputs.app_rg }}" \
             --query properties.configuration.ingress.fqdn -o tsv)
           echo "FQDN: $FQDN"
 
@@ -113,8 +118,8 @@ jobs:
         run: |
           set -e
           FQDN=$(az containerapp show \
-            --name "${{ vars.CONTAINER_APP_NAME }}" \
-            --resource-group "${{ vars.CONTAINER_APP_RG }}" \
+            --name "${{ steps.tag.outputs.app_name }}" \
+            --resource-group "${{ steps.tag.outputs.app_rg }}" \
             --query properties.configuration.ingress.fqdn -o tsv)
 
           # OpenAPI should advertise /api/generate-bicep
@@ -139,6 +144,6 @@ jobs:
         run: |
           echo "### Evaluator API Deployment" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- Image: \`${{ vars.ACR_NAME }}.azurecr.io/qgc-eval-api:${{ steps.tag.outputs.image_tag }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Container App: \`${{ vars.CONTAINER_APP_NAME }}\` in \`${{ vars.CONTAINER_APP_RG }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Image: \`${{ steps.tag.outputs.acr_name }}.azurecr.io/${{ steps.tag.outputs.image_name }}:${{ steps.tag.outputs.image_tag }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Container App: \`${{ steps.tag.outputs.app_name }}\` in \`${{ steps.tag.outputs.app_rg }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY

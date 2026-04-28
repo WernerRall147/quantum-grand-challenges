@@ -340,7 +340,13 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
         return self._strip_fences(code)
 
     def validate_bicep(self, code: str) -> Dict[str, Any]:
-        """Run `az bicep build` to validate syntax. Skips if az CLI not installed."""
+        """Run `az bicep build` to validate syntax. Skips if az CLI not installed.
+
+        The Bicep compiler emits warnings (e.g. unused params, unrecognised
+        types from preview API versions) that cause non-zero exit codes even
+        though it successfully produced the ARM JSON output. We use the presence
+        of the output JSON file as the source of truth for "did this compile?".
+        """
         if not shutil.which("az"):
             return {"validated": False, "skipped": True, "reason": "az CLI not installed"}
 
@@ -354,14 +360,30 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
                     ["az", "bicep", "build", "--file", str(bicep_path), "--outfile", str(json_path)],
                     capture_output=True, text=True, timeout=60,
                 )
-                if result.returncode == 0:
-                    return {"validated": True, "warnings": result.stderr.strip() or None}
-                return {
-                    "validated": False,
-                    "error": (result.stderr.strip() or result.stdout.strip())[:1000],
-                }
             except (subprocess.TimeoutExpired, FileNotFoundError) as e:
                 return {"validated": False, "error": str(e)[:200]}
+
+            stderr = (result.stderr or "").strip()
+            stdout = (result.stdout or "").strip()
+            output_exists = json_path.exists() and json_path.stat().st_size > 0
+
+            # If Bicep produced an output JSON file, the source compiled.
+            # Any non-zero exit + non-empty stderr is then warnings.
+            if output_exists:
+                # Bicep diagnostic lines containing " : Error " indicate real failures
+                # even when output is produced (rare — usually deployment-time issues).
+                has_error_diagnostic = " : Error " in stderr
+                if not has_error_diagnostic:
+                    return {
+                        "validated": True,
+                        "warnings": stderr[:1500] or None,
+                    }
+
+            return {
+                "validated": False,
+                "error": (stderr or stdout)[:1500],
+                "output_produced": output_exists,
+            }
 
     def generate_with_validation(self, problem: str, platform: str = "AI_ML") -> Dict[str, Any]:
         """Full pipeline: generate Bicep + validate syntax + return deploy commands."""

@@ -50,11 +50,14 @@ Configure under **Settings → Environments → `production-api`**:
 
 **Variables:**
 
-| Name | Example | Purpose |
+| Name | Default (override only if different) | Purpose |
 |------|---------|---------|
-| `ACR_NAME` | `qgcacr` | Azure Container Registry name (no `.azurecr.io` suffix) |
+| `ACR_NAME` | `qgcregistry` | Azure Container Registry name (no `.azurecr.io` suffix) |
+| `ACR_IMAGE_NAME` | `qgc-evaluator` | Image repository name inside the ACR |
 | `CONTAINER_APP_NAME` | `qgc-eval-api` | Container App resource name |
 | `CONTAINER_APP_RG` | `qgc-evaluator` | Resource group containing the Container App |
+
+> The workflow uses these defaults if the matching var is unset, so for the existing `qgc-eval-api` deployment in subscription `82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3` (tenant `dc692f3e`) you only need the secrets.
 
 **Federated Identity (recommended over client secrets):**
 
@@ -87,19 +90,22 @@ az ad app federated-credential create \
 If you need to deploy without GitHub Actions (e.g. local hotfix):
 
 ```powershell
-# 1. Login to the tenant where qgc-eval-api lives
-az login --tenant <TENANT_ID>
-az account set --subscription <SUBSCRIPTION_ID>
+# 1. Login as the qgc-agent-sp service principal (.azure/prod/.env contains creds)
+Get-Content .azure\prod\.env | ForEach-Object {
+  if ($_ -match '^([^#=]+)=(.*)$') { Set-Item -Path "env:$($matches[1])" -Value $matches[2] }
+}
+az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID
+az account set --subscription $env:AZURE_SUBSCRIPTION_ID
 
 # 2. Build in ACR (no local Docker required)
-$tag = git rev-parse --short HEAD
-az acr build --registry qgcacr --image "qgc-eval-api:$tag" --image qgc-eval-api:latest --file Dockerfile .
+$tag = "v$(Get-Date -Format yyyyMMdd)-$(git rev-parse --short HEAD)"
+az acr build --registry qgcregistry --image "qgc-evaluator:$tag" --image qgc-evaluator:latest --file Dockerfile .
 
 # 3. Update the Container App
 az containerapp update `
   --name qgc-eval-api `
   --resource-group qgc-evaluator `
-  --image "qgcacr.azurecr.io/qgc-eval-api:$tag"
+  --image "qgcregistry.azurecr.io/qgc-evaluator:$tag"
 
 # 4. Verify
 $fqdn = az containerapp show --name qgc-eval-api --resource-group qgc-evaluator `

@@ -46,15 +46,16 @@ This scaffold keeps the classical baseline reproducible while we iterate toward 
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage B complete** (classical baseline and Q# scaffold/build path are in place).
-- **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons).
+- **Current gate**: **Stage C complete** (hardware-aware validation evidence in place: QPE binding-energy kernel runnable, calibration ensemble across runs, backend assumptions documented, dual-model estimator profile, OpenQASM export for cross-platform validation, Azure smoke validation).
+- **Next gate target**: **Stage D** (advantage evidence package: fairness review against DFT/coupled-cluster baselines, residual risks for naturally-quantum molecular Hamiltonians, claim category locked).
 
-Stage C exit criteria for this problem:
+Stage C evidence references for this problem:
 
-- Execute at least one non-placeholder quantum workflow path tied to the problem objective.
-- Report uncertainty-bounded comparisons between classical and quantum outputs on `small` and `medium` instances.
-- Document transpilation/connectivity and backend assumptions used for reported quantum runs.
-- Add calibration/noise-sensitivity evidence for the reported quantum metrics.
+- Calibration ensemble: `estimates/quantum_calibration_ensemble.json` and `estimates/calibration_evidence.json`.
+- Backend assumptions: `estimates/backend_assumptions.md`.
+- Estimator profile (ns-e3 + surface-code-generic): `estimates/estimator_profile_summary.md`, `estimates/latest_qubit_gate_ns_e3.json`, `estimates/latest_surface_code_generic_v1.json`.
+- Cross-platform OpenQASM export: `estimates/vqe_binding.qasm`.
+- Azure smoke validation: `estimates/azure_smoke_report_small_d1.md`, `estimates/azure_job_manifest_small_d1.json`.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

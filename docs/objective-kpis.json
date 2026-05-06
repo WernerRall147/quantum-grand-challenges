@@ -3,15 +3,15 @@
     "total_problems": 20,
     "stage_counts": {
       "A": 0,
-      "B": 15,
-      "C": 2,
+      "B": 8,
+      "C": 9,
       "D": 3,
       "Unknown": 0
     },
     "stage_pct": {
       "A": 0.0,
-      "B": 75.0,
-      "C": 10.0,
+      "B": 40.0,
+      "C": 45.0,
       "D": 15.0,
       "Unknown": 0.0
     },
@@ -25,7 +25,7 @@
     {
       "problem": "01_hubbard",
       "readme": "problems/01_hubbard/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -79,7 +79,7 @@
     {
       "problem": "07_drug_discovery",
       "readme": "problems/07_drug_discovery/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -142,7 +142,7 @@
     {
       "problem": "14_materials_discovery",
       "readme": "problems/14_materials_discovery/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -160,7 +160,7 @@
     {
       "problem": "16_error_correction",
       "readme": "problems/16_error_correction/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -169,7 +169,7 @@
     {
       "problem": "17_nuclear_physics",
       "readme": "problems/17_nuclear_physics/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -178,7 +178,7 @@
     {
       "problem": "18_photovoltaics",
       "readme": "problems/18_photovoltaics/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -187,7 +187,7 @@
     {
       "problem": "19_quantum_chromodynamics",
       "readme": "problems/19_quantum_chromodynamics/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,

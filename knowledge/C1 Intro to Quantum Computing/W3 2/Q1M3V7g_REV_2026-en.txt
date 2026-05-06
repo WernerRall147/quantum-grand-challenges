@@ -1,0 +1,139 @@
+DAVID RIVAS: Rigetti is a full-stack quantum computing
+company focused on superconducting qubits.
+What that means when we say "full stack"
+is we build everything that we actually have to build a full
+quantum computing system.
+That includes the chips.
+That includes the hardware that goes inside the dilution
+refrigerator.
+That includes the control systems.
+It includes quite a lot of software
+for making the system available to end users.
+We spent an awful lot of time both with architecture
+and tuning process.
+Every little change in almost every component of the system
+can begin to make an impact on the performance.
+So having a captive fab and doing a lot of this work
+ourselves turns out to make a very impactful difference,
+both in the kinds of things we can do
+and the speed within which we can do them.
+Two of the most interesting and important breakthroughs
+that we've made relate to packaging.
+We were the first to do superconducting qubits with full
+3D signaling.
+This enabled us to get denser, which helps with scaling,
+but it also enabled us to put a lot more control in terms
+of the kinds of interactions that we were having
+with the underlying qubits.
+Similarly, we were the first organization
+to ever build out functioning quantum processors
+with multiple dies, achieving entanglement
+across a processor boundaries, fundamentally a packaging issue.
+As we move into an error correction world,
+this concentration on packaging, along with underlying processing
+and qubit architecture, will become more and more important.
+ANDREW BESTWICK: One of the benefits
+of having our own fab is that we can have quantum scientists
+and fabrication experts as part of the same team,
+and there's a frequency and depth of dialogue that can lead
+to interesting breakthroughs.
+A recent example of this is a breakthrough
+we had called alternating bias-assisted annealing.
+One of our scientists had a burst of insight
+one day about how to reduce the variability of the Josephson
+junctions in our chip, which determine
+the frequency of the qubits.
+He grabbed one of our fab gurus.
+He laid out the idea, and this resulted in the ABA process.
+That led to a big breakthrough.
+We were able to cut down on the amount of spread
+in our Josephson junctions, the amount of manufacturing
+variability, by almost a factor of 10, which
+got our frequencies more precise by almost a factor of 5.
+And that led to all kinds of new opportunities
+to really precisely engineer the Hamiltonians of our chips.
+MIKE PIECH: One of the biggest reasons why organizations
+acquire our systems is to carry out
+their own experimentation with quantum computing,
+and in particular playing with the construction of quantum
+computers.
+Entities such as national laboratories and supercomputer
+centers have initiatives around getting
+familiarized with different quantum computing modalities
+and what it takes to set up and operate systems
+based on those modalities.
+There are also some universities that
+don't have the fabrication or other large-scale facilities
+necessary to make all the quantum hardware from scratch,
+but which nevertheless want to expand programs
+in quantum computing.
+MARCO PAINI: The application development
+we see continues to be dominated by use cases that
+have been discussed for many years, quantum
+simulation, optimization, and machine learning.
+Quantum simulation is mostly molecular modeling
+or condensed matter related to discovering new drugs
+or engineering new materials.
+Optimization algorithms are applicable
+in a wide range of domains, from logistics to finance.
+An area where there continues to be exciting development
+is quantum machine learning, for example, quantum feature
+mapping in its combination with classical methods such as kernel
+methods.
+Feature mapping is a transformation
+of the input data into a different form
+in order to improve the performances
+of a downstream learning model.
+Quantum feature mapping is the realization of a feature
+map with quantum circuits.
+An example of the combination is a project
+we did with Moody's and Imperial College London.
+We used a combination of quantum feature maps and signature
+kernels on historic economic data
+to train a model that shows promising improvement
+in predicting recessions when compared
+to classical alternatives.
+This work is ongoing and continues
+to offer promising benefits.
+ANDREW BESTWICK: Most challenges fall
+into two categories, fidelity of each
+of the operations on the chip and scaling,
+how to get as many qubits and operations as possible
+into a single system.
+The fidelity numbers are determined
+by how long the qubits live, what their coherence times are,
+and so we're always trying to make the qubits' materials as
+good as possible, so their lifetimes are as long as
+possible, and find the most advanced ways of operating
+our gates so that the operations are fast and you can get as low
+of an error rate as possible.
+For scaling, one of the obvious challenges
+is getting chips with lots of good qubits on them.
+Our approach is to make small chiplets and to combine them
+together to form coherent quantum circuits.
+There's also lots of challenges with getting signals
+onto the chip.
+We have a 3D integration chip architecture that allows us
+to deliver signals directly vertically down onto a qubit
+through silicon vias that are superconducting.
+We use a flip chip cap bonding process
+to put a whole new layer of electronics right
+on top of the qubit, and we have a superconducting interposer
+approach that allows us to get signals
+onto and off of the top of that chip architecture
+in a way that is coherent and high performance.
+DAVID RIVAS: We're headed towards clearly fully
+fault-tolerant architectures, and more and more,
+it's starting to seem like a 10-year time horizon
+for something like that is well within the means of the doable.
+We at Rigetti believe, however, it
+is the iterations on the years that
+are probably most important.
+We firmly believe that a few hundred, or maybe
+a thousand or two high performing
+qubits made available to application and algorithm
+developers could potentially produce results.
+No machines are ever built unless it's constant iteration
+with the tools that you have.
+And what we're doing here is building the machines
+that we have iteratively and then using them as best we can.

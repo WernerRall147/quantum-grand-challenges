@@ -1,0 +1,133 @@
+
+In this section, we'll take a look at modern cryptography
+schemes and their use in information security today.
+Every day we generate, accumulate, and communicate
+tremendous amounts of data.
+Everything from our personal emails,
+financial transactions, and medical records,
+to a corporation's intellectual property,
+business strategy, and online sales,
+to the daily operation and functioning of our government
+and military organizations.
+In each of these cases we expect, even require,
+that our information is stored and communicated securely such
+that it's available to ourselves and to our intended recipients,
+but to nobody else.
+And in general, information is protected
+through the use of encryption.
+Encryption takes raw data, for example, a message,
+often referred to as plain text, and translates it
+or encodes it into an unrecognizable message called
+a cyphertext.
+It does this by using an algorithm called a cypher.
+A cypher takes as inputs the plaintext being encoded
+and a key, typically a numerical bit string in today's
+cryptography schemes.
+The cypher then combines them into an unreadable cyphertext
+through a prescribed algorithmic protocol based
+on mathematical operations.
+Similarly, a decryption key is used
+with a corresponding decryption protocol
+to reconstruct the plaintext message.
+The most common cryptography schemes historically
+are called symmetric key cryptography
+in which the encryption and decryption keys are the same
+or can be trivially related to one another.
+Examples include the older data encryption standard, DES,
+and the more modern advanced encryption standard, AES.
+The one-time pad that we discussed in course one
+in the context of quantum key distribution
+is another example of a symmetric key cryptography
+scheme.
+Since symmetric keys are used to both encrypt
+and decrypt a message, they must remain private.
+This isn't a serious issue on, say,
+a personal computer where we want to encrypt the hard drive
+and so the keys are stored locally.
+However, it raises a challenge when communicating information.
+When two parties want to communicate securely,
+they either need to meet in advance to secretly share
+the symmetric keys--
+not a very practical option--
+or they need to establish private channels
+to securely distribute the key.
+Now in the future, efficient quantum key distribution
+protocols may provide a quantum enhanced level of security
+when transmitting a secret symmetric key.
+But today, secure communication links
+are generally established through the use
+of public key cryptography based on asymmetric keys.
+Public key cryptography was developed in the 1970s
+by several groups.
+Whitfield Diffie and Martin Hellman
+published the first public key cryptography
+scheme, the Diffie-Hellman key exchange protocol, in 1976.
+And later in 1978, the RSA algorithm
+was published by Ronald Rivest, Adi Shamir, and Len Adleman.
+In fact, researchers at the British General Communications
+Headquarters, GCHQ, had developed
+similar public key cryptography schemes in the early 1970s,
+but only declassified those achievements in 1997.
+Public key cryptography is based on asymmetric keys, that
+is, a public key is used for encryption
+and a separate independent, private key
+is used for decryption.
+The keys are necessarily related to one another mathematically
+and the information security relies
+on it being computationally impractical to determine
+the private key given the public key.
+This is generally possible through the use
+of one-way mathematical functions.
+For example, RSA cryptography is based on the idea
+that it's mathematically easy for a computer
+to multiply two large prime numbers, p and q,
+and obtain their product, N. But it's
+a very hard problem for a computer to do the inverse,
+that is, factor that number, N, into its constituent prime
+factors, p and q.
+So with one-way mathematical functions, ease of use
+is based on the mathematical simplicity
+in the forward direction and security
+is based on mathematical complexity
+in the inverse direction.
+To get an idea for how this works,
+consider the following cartoon.
+Bob wants to communicate a message securely to Alice
+without that message being read by an eavesdropper, Eve.
+To do this, Bob requests a public encryption key
+from Alice.
+Alice then sends a public encryption key,
+but retains her private decryption key.
+We'll represent this by keys with the letter
+E for encryption, D for decryption,
+and a notional open lock.
+During transmission on a public channel,
+in principle, Eve obtains the open lock and the encryption
+key.
+When Bob receives them, he encrypts his plaintext message
+using the encryption key, creating cyphertext,
+and effectively locks the padlock.
+Bob then sends the cyphertext back
+to Alice on a public channel.
+Although Eve can obtain the cyphertext in principle,
+she can't unlock the padlock since she only
+has the public encryption key.
+The security here is based on it being very hard for Eve
+to figure out the decryption key based on what
+she has in her possession.
+Alice, on the other hand, is able to trivially unlock
+the padlock using her decryption key,
+thereby converting the cyphertext to plaintext
+and reading the message.
+This type of public key encryption scheme
+is used ubiquitously today for secure communication.
+In many cases, it's used to establish a private channel
+that provides authentication and enables symmetric keys to be
+exchanged securely.
+This is because the public key approach based
+on asymmetric keys is generally slower to implement
+than symmetric schemes.
+Public key encryption is a foundation
+for our information security today.
+And in the next section, we'll take a more detailed look
+at one specific example, RSA cryptography, and how it works.

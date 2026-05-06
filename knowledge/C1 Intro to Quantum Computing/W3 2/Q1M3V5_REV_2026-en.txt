@@ -1,0 +1,119 @@
+
+In the last section, we discussed
+the promise of quantum communication
+and its potential for quantum advantage.
+That advantage was based on three tenets of quantum
+mechanics, namely quantum-enhanced channel
+capacity, a concept known as superdense coding,
+the no cloning theorem, which forbids
+copying an unknown quantum state,
+and a form of communication non-disturbance, by which
+any attempt to intercept or measure quantum bits
+can be detected.
+We can begin to understand how these tenets enable
+the promise of quantum communication
+by considering the number of participants simultaneously
+participating in that quantum communication.
+The first example is point to point secure communication
+using quantum key distribution.
+Secure communication relies on the use of a private key,
+essentially, a string of bits that's used
+by a cryptographic algorithm.
+Quantum key distribution provides
+a means to securely transmit and share such a secret key.
+The secret key can then be used to encrypt and decrypt
+information.
+Any attempt to intercept that key can be detected,
+and when this happens, the compromised bits
+are simply discarded and replaced
+with additional secure bits.
+In this way, quantum mechanics enables two parties
+to communicate securely.
+In addition, as we'll learn later,
+quantum mechanics can also be used
+to generate true randomness, a resource
+for many cryptographic applications and a step
+above existing classical pseudo-random number
+generators.
+Second are applications involving a few participants.
+One important example is quantum secret sharing amongst, say,
+two or more people.
+Let's say Alice wishes to send a secret to both Bob and Charlie,
+and she would like them to learn that information
+simultaneously, so that neither Bob nor Charlie can
+have an advantage over one another
+by learning the secret first.
+By using quantum communication to distribute
+an entangled state that's shared between Bob and Charlie,
+Alice has created a situation where
+Bob and Charlie must coordinate to uncover what that secret is.
+They can coordinate on an open classical channel,
+but quantum mechanics will ensure that they receive
+the information simultaneously.
+Finally, a third set of applications
+involves multiple distributed participants
+or multiple distributed computing
+nodes that, in concert, perform a quantum algorithm.
+One example is quantum scheduling,
+which uses Grover's algorithm to search for a time
+when n distributed people are available.
+Another example is related to distributed computing systems,
+such as the leader election problem.
+In this application, a unique leader or a master node,
+must be chosen from amongst all of the distributed computing
+nodes.
+In both cases, it's known that quantum communication
+and quantum computing together provide an advantage
+over classical approaches.
+Despite the promise and numerous examples
+of problems where quantum communication gives
+an advantage, there are only a few examples
+of practical applications to date.
+One application that's available now, even commercialized,
+is quantum key distribution or QKD.
+In QKD schemes, Alice and Bob want to share a private key,
+and any attempts by Eve to intercept it can be detected.
+There are demonstrations of QKD using photons
+over 100 kilometers of optical fiber
+and even a demonstration of transmitting signals
+between two points on earth using satellite quantum
+communication.
+In fact, QKD even serves as a foil
+to quantum codebreaking by Shor's algorithm.
+As we've already discussed, Shor's algorithm
+can efficiently break RSA public key encryption.
+In fact, it's also efficient against
+Diffie-Hellman key exchange and elliptic curve
+cryptographic schemes.
+However, messages encrypted using a one time
+pad are, in principle, secure.
+One time pad schemes use each bit in a key
+only once and then discard it.
+They therefore need to be continually renewed,
+and this can be done securely with QKD.
+The main issue with QKD security is
+that, as with most cryptographic schemes,
+there are many channels for attack.
+For example, one must generally control access
+to the hardware that's used to implement a QKD scheme.
+Another limitation is signal attenuation.
+Classical communication links use repeaters to regenerate
+and amplify a signal.
+However, due to the no-cloning theorem,
+this is not so straightforward with quantum communication.
+Instead, as we'll learn later in the course,
+a quantum version of repeaters has
+been proposed that can effectively
+extend communication lengths using quantum teleportation
+and distributed entanglement.
+In conjunction with quantum memory,
+distributed entanglement would enable a quantum communication
+link to be established.
+Other applications that may be useful
+include quantum secret sharing, auctioning or voting
+without attribution, the use of verifiable quantum digital
+signatures, and message authentication.
+For all of these examples, developing robust protocols
+and hardware systems that are immune to compromise
+will be necessary to fully realize the promise of quantum
+communication schemes.

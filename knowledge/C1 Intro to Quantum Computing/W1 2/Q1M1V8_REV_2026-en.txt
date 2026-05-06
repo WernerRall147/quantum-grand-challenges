@@ -1,0 +1,69 @@
+
+There are a couple of different kinds of quantum computers.
+The most general is a Universal Fault Tolerant Quantum
+Computer.
+The gate model algorithm that we discussed earlier runs
+on this type of computer.
+Building a Universal, Fault Tolerant Quantum Computer,
+I think, is one of the greatest scientific and technological
+endeavors today.
+Such a machine, when we build it,
+will have all the power that quantum has to offer.
+A Universal Fault Tolerant Quantum Computer
+is really a holy grail, in some sense,
+as it means we'll be able to program,
+implement, and reliably run complex large scale quantum
+algorithms.
+We use a small set of single and two qubit gates
+to implement universal quantum computation.
+In principle, this computer can run any type of algorithm.
+quantum or classical.
+But there are only certain algorithms
+that are known to exhibit a quantum advantage.
+Something that we'll refer to as quantum speed up.
+One example is Shor's Factoring Algorithm.
+Shor's algorithm is used to break public key cryptography.
+For example, RSA encryption.
+A scheme that's commonly used for secure communications.
+The security of RSA encryption is based on the premise
+that factoring a large integer number into two smaller
+prime numbers is a very difficult computation
+for a classical computer to perform.
+Furthermore, the computational complexity
+scales poorly with the length of the encryption key.
+So for example, if you're dissatisfied
+with your current level of security,
+just double the length of your public key
+and it will become exponentially harder for a classical computer
+to break that encryption scheme.
+In contrast, Shor's algorithm can perform the same tasks
+with only a marginal increase in difficulty
+as the length of the key has increased.
+Other examples include Grover's algorithm
+for searching an unsorted database,
+or sampling solutions to linear equations.
+For these types of algorithms, quantum speed up of some degree
+exists over known classical algorithms
+when run on a universal quantum computer.
+The actual amount of speed up for these algorithms
+is something we'll discuss later in the course.
+The advantage of a Gate Model Quantum computer
+is that it's universal.
+In principle, it can run any algorithm.
+Now, in practice of course, not all algorithms
+are going to exhibit a quantum speedup, but many will.
+The challenge lies in making a computer that
+is both large enough and operates for long enough
+to complete an algorithm and obtain the answer.
+Even though the fundamental building blocks,
+the qubits themselves, are prone to errors.
+In a quantum computer, each operation
+has a probability of being noisy, right?
+That is of adding an error to the computation.
+And we need a way to combat the buildup of all these errors
+so that the output we get out of the algorithm,
+or the computation, is actually reliable.
+As we'll see later in the course,
+such errors can be overcome by something called Quantum Error
+Correction.
+But it will require additional resources to implement it.

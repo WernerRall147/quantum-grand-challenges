@@ -1,0 +1,272 @@
+- Quantum mechanics provides a means
+to enhance information security
+by encoding information in quantum mechanical systems,
+for example qubits.
+And then distributing those qubits
+from point A to point B.
+But how is this done in practice?
+This week we'll introduce quantum communication protocols
+and how they're implemented using single
+and entangled photons.
+To get started, before talking about photons,
+let's first talk about light in general.
+Light is an example of an electromagnetic field
+and electromagnetic fields are responsible
+for the many phenomena we commonly associate
+with electricity and magnetism.
+For example, it's what causes electricity
+to flow through a wire,
+and it's what makes bar magnets
+attract or repel one another.
+And when whether propagating in a material
+or in an empty space,
+the electromagnetic field is a wave that oscillates
+at a given frequency.
+And these oscillations are what we call light.
+Now fundamentally the electromagnetic field
+is quantum mechanical
+and so light, as with all quantum mechanical systems,
+is quantized into discrete quanta called photons.
+The fact that light could be described
+as both a particle and a wave
+is what's known in quantum mechanics
+as wave particle duality.
+And this is why we can talk about
+discrete particle-like photons
+having a particular frequency or a wavelength
+which are both wave-like properties.
+Now like any wave a photon will oscillate
+with a given frequency and in a particular direction.
+So let's take those one at a time.
+In the vernacular use of the word,
+light is generally part
+of the visible electromagnetic spectrum,
+the part which we can see,
+with different colors being different frequencies of light.
+But more generally, light as we're using the term here,
+and its associated photons, can exist at any frequency.
+From the radio frequencies used in radio communication bands
+to microwaves and terahertz, infrared, visible,
+ultraviolet light, and on up through x-rays
+and even gamma rays.
+Photons are the quanta of light
+across this entire electromagnetic spectrum.
+Now in addition to frequency,
+an electromagnetic wave oscillates
+in a particular direction.
+This is called polarization
+and it generally refers to the direction
+that the electric field is oscillating.
+Once that's established, Maxwell's equations
+determine the direction of the magnetic field as well.
+So the direction a photon's electric field oscillates
+is called its polarization.
+And when a photon travels through space
+its electric field can oscillate up and down,
+it can oscillate side to side,
+and it can even oscillate
+in an arbitrary, complex super-position
+of these two directions.
+And I'm saying super-position here deliberately.
+Horizontal and vertical photon polarizations
+are orthogonal quantum states.
+So we can put these polarization states, H and V,
+on the poles of a block sphere
+and treat them as qubit states, zero and one.
+Similarly, on the equator of the block sphere,
+the X axis corresponds to diagonal
+and anti-diagonal linear polarized light, H plus or minus V.
+And as one goes from the north to the south pole
+along the X-Z plane,
+the polarization remains linear
+and rotates from horizontal at the north pole
+to diagonal at plus X,
+to vertical at the south pole,
+anti-diagonal at minus X,
+and back to horizontal again at the north pole.
+Now, the Y axis corresponds
+to right and left circularly polarized light.
+Circular polarization results
+from having a complex coefficient,
+such as H plus or minus I times V.
+And so, the polarization rotates in time
+as the photon propagates.
+Elsewhere on the surface of the block sphere,
+the polarization is neither purely linear
+nor purely circular,
+but instead is generally elliptical.
+And one can think of the linearly and circularly
+polarized light as just special cases
+of a distorted ellipse.
+And, note that in optics,
+they give the sphere a different name.
+They call this a Poincare Sphere.
+And their convention is to swap the Y and Z axes
+so that circularly polarized light is at the poles
+and linearly polarized light is on the equator.
+In any case, we'll use the block convention here.
+The electromagnetic field is quantized into photons
+and the polarization of a single photon
+can be used as a qubit
+with horizontal and vertical polarization
+at the north and south poles.
+Now, we generally don't encounter
+pure, single photon states in everyday life.
+First, there are typically on average
+many more than a single photon from a given source.
+For example, the light coming from
+your computer screen right now
+contains many many billions of photons,
+each with some arbitrary polarization.
+And second, such classical light sources
+are generally statistical combinations or mixtures
+of many different photon number states.
+To implement QKD protocols
+based on single photon polarization,
+we need to find a way to generate single photons
+with a specific polarization state.
+To begin with, a pure quantum state of n photons
+is called a Fock State.
+And it's state with exactly n photons.
+And what we would like to do here
+is generate a one photon Fock State.
+Fock States are called non-classical states of light
+because they generally don't exist
+in the classical world around us.
+At least, not on their own.
+However, there is a form of classical light
+called a Coherent State,
+which comprises an infinite superposition of Fock States.
+Lasers and microwave oscillators,
+for example, create this type of light.
+While a photon Fock State contains a specific
+number of photons,
+a coherent state has a probabilistic
+distribution of photon numbers.
+For a given coherent state alpha,
+the probability of measuring n photons
+is given by a Poisson Distribution
+centered around some average number of photons,
+the magnitude of alpha squared.
+This means that a Coherent State will always
+have some probability of being in a one photon Fock State.
+But its presence is stochastic
+and very unlikely when the average photon number
+is much larger than one.
+Now, a quick and dirty way to produce a single photon
+is to simply attenuate a coherent source.
+If we pass laser light
+through an extremely opaque filter,
+the average photon number decreases
+and the beam gets dimmer.
+As the average photon number decreases,
+our Poisson Distribution shifts
+and the probability of measuring
+a low photon number Fock State increases.
+To make this concrete,
+imagine we attenuate a laser light
+until the average photon number is only 0.1.
+Plugging this into our formula
+for the probability of measuring n photons,
+we find that 90% of the time
+we'll measure zero photons.
+Nine percent of the time, we'll measure one photon.
+And only one percent of the time
+will we measure more than one photon.
+So, with light attenuated to this degree,
+we can say with reasonably high confidence
+that if we have a photon,
+it's very likely to be in
+a single photon state that we need.
+And there's only a one percent chance
+that it's a multi-photon Fock State.
+However, while attenuation is by far
+the simplest way to produce a single photon,
+this procedure is far from ideal.
+After attenuation, our light is still in a Coherent State,
+not the pure single photon Fock State that we really want.
+And moreover, while we exceededed increasing the probability
+of measuring only one photon,
+this came at the expense of lowering the probability
+of measuring any photons at all.
+In the above example,
+nine out of ten times there was no photon.
+And as we further lower the average photon number,
+we'll certainly decrease the chance
+of getting any multi-photon states
+but at the same time,
+we dramatically increase the likelihood
+that we obtained no photons at all.
+Thus, the rate at which we obtain single photons goes down
+and this translates to a lower communication rate.
+A far better scheme for single photon generation
+relies on an intermediary quantum system,
+such as an optically active quantum dot.
+As we saw in course one,
+a quantum dot has a ladder of quantized energy levels.
+Each pair is separated by a unique energy splitting.
+And transitions between energy levels
+is generally associated with the absorption or emission
+of a single photon.
+The idea is to drive the quantum dot
+to a higher excited state
+and then let natural spontaneous emission occur.
+The quantum dot relaxes back into its ground state,
+emitting photons at frequencies
+corresponding to the energy level spacings
+of its transitions.
+Importantly, the final transition
+from the first excited state to the ground state
+is generally unique and emits a photon
+at a specific frequency.
+If we filter the photon emission
+from the quantum dot,
+we can block all frequencies of light
+except the frequency of this final single photon.
+This final single photon passes through our filter
+creating exactly the single photon source we need.
+Although the relaxation process
+is also stochastic in time,
+the timing jitter of the single photon emission
+can be minimized to the extent to the dot relaxes quickly.
+And in more sophisticated sources,
+the emission process may even be mediated
+by a clocked pulse
+to obtain a heralded stream of single photons.
+We can then pass these photons through a polarizing filter
+and prepare the polarization corresponding
+to the qubit state we need for our QKD protocol.
+Now, in addition to a source of single photons,
+we also need a device that can detect single photons
+at the other end of the communication channel.
+The challenge here is to convert the small amount
+of energy stored in a single photon
+into a measurable electrical signal.
+A common example of a single photon detector
+is a geiger mode avalanche photodiode.
+Essentially, a semi-conducting material
+such as silicon with a large external voltage
+applied across it.
+When a photon hits the detector,
+its energy is sufficient to dislodge an electron
+from the semi-conducting material.
+The external voltage then accelerates this electron
+through the bulk semi-conductor
+colliding and dislodging more and more electrons,
+creating an avalanche effect.
+This cascade of dislodged charges generates a large
+measurable electrical current,
+which indicates that a photon was absorbed.
+Other examples of single photon detectors
+include photo multiplier tubes,
+superconducting nanowires,
+and superconducting transition edge sensors.
+In generating or detecting single photons,
+it's desirable that these processes
+be performed with high quantum efficiency.
+For example, a photon is generated on each clock cycle,
+or every photon that's generated is detected without loss.
+And in the coming week, we'll see how
+the source and detector quantum efficiencies
+come into play when implementing
+quantum key distribution protocols.

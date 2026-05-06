@@ -1,0 +1,804 @@
+0
+00:00:00,000 --> 00:00:01,530
+PROFESSOR: In the last section, we
+
+1
+00:00:01,530 --> 00:00:03,360
+introduced modern cryptography schemes
+
+2
+00:00:03,360 --> 00:00:04,860
+and discussed the difference between
+
+3
+00:00:04,860 --> 00:00:07,170
+symmetric and asymmetric keys.
+
+4
+00:00:07,170 --> 00:00:09,270
+We saw that cryptographic algorithms based
+
+5
+00:00:09,270 --> 00:00:11,280
+on symmetric keys have a conundrum when
+
+6
+00:00:11,280 --> 00:00:13,650
+it comes to key distribution namely,
+
+7
+00:00:13,650 --> 00:00:16,530
+how can we securely exchange the keys if we don't yet
+
+8
+00:00:16,530 --> 00:00:18,150
+have them in our possession to encrypt
+
+9
+00:00:18,150 --> 00:00:20,070
+the initial transmission?
+
+10
+00:00:20,070 --> 00:00:23,310
+The answer as we saw, is to use public-key cryptography based
+
+11
+00:00:23,310 --> 00:00:25,860
+on asymmetric keys, that is, using
+
+12
+00:00:25,860 --> 00:00:28,530
+a public key for encryption and a different private key
+
+13
+00:00:28,530 --> 00:00:29,910
+for decryption.
+
+14
+00:00:29,910 --> 00:00:32,310
+The keys are related to one another mathematically
+
+15
+00:00:32,310 --> 00:00:34,650
+and their associated information security
+
+16
+00:00:34,650 --> 00:00:36,240
+relies on it being computationally
+
+17
+00:00:36,240 --> 00:00:38,340
+impractical to determine the private key
+
+18
+00:00:38,340 --> 00:00:40,720
+even when you know the public key.
+
+19
+00:00:40,720 --> 00:00:43,080
+This is achieved through the use of mathematical one-way
+
+20
+00:00:43,080 --> 00:00:46,140
+functions, where the ease of use of the cryptosystem
+
+21
+00:00:46,140 --> 00:00:48,810
+is based on the mathematical simplicity of implementing
+
+22
+00:00:48,810 --> 00:00:50,550
+the function in the forward direction
+
+23
+00:00:50,550 --> 00:00:53,880
+and its security is based on the mathematical complexity
+
+24
+00:00:53,880 --> 00:00:57,460
+of implementing it in the reverse or inverse direction.
+
+25
+00:00:57,460 --> 00:00:59,370
+And so now in this section, we'll
+
+26
+00:00:59,370 --> 00:01:01,980
+take a look at a specific quintessential example
+
+27
+00:01:01,980 --> 00:01:05,099
+of public-key cryptography, the RSA cryptosystem,
+
+28
+00:01:05,099 --> 00:01:07,780
+and discuss the fundamentals of how it works.
+
+29
+00:01:07,780 --> 00:01:09,660
+And again, we'll discuss communication
+
+30
+00:01:09,660 --> 00:01:11,910
+in the context of Alice and Bob in the presence
+
+31
+00:01:11,910 --> 00:01:14,100
+of an eavesdropper, Eve.
+
+32
+00:01:14,100 --> 00:01:16,380
+Bob would like to send a secure message to Alice
+
+33
+00:01:16,380 --> 00:01:19,890
+and so he requests her public key which we'll represent here
+
+34
+00:01:19,890 --> 00:01:23,490
+with the letter E, and he uses it to encrypt his plain text
+
+35
+00:01:23,490 --> 00:01:26,970
+message, which we'll call m and generate an unreadable
+
+36
+00:01:26,970 --> 00:01:31,230
+ciphertext called C. Alice retains her private key
+
+37
+00:01:31,230 --> 00:01:34,740
+D, which she uses to decrypt the ciphertext she receives
+
+38
+00:01:34,740 --> 00:01:36,510
+from Bob, and thereby reconstruct
+
+39
+00:01:36,510 --> 00:01:38,670
+the original plain text message.
+
+40
+00:01:38,670 --> 00:01:42,300
+Although Eve has access to the public key and the ciphertext,
+
+41
+00:01:42,300 --> 00:01:44,790
+she can't decrypt it to reconstruct the plain text
+
+42
+00:01:44,790 --> 00:01:46,890
+message because she doesn't have access
+
+43
+00:01:46,890 --> 00:01:48,790
+to the private decryption key.
+
+44
+00:01:48,790 --> 00:01:50,940
+And because the two keys are mathematically
+
+45
+00:01:50,940 --> 00:01:53,580
+related to one another through a one-way function,
+
+46
+00:01:53,580 --> 00:01:56,520
+computing the private key from what Eve has in hand
+
+47
+00:01:56,520 --> 00:01:59,250
+is by design a very hard problem to solve
+
+48
+00:01:59,250 --> 00:02:01,440
+on a classical computer.
+
+49
+00:02:01,440 --> 00:02:05,040
+The RSA cryptosystem is based on a mathematical concept called
+
+50
+00:02:05,040 --> 00:02:07,200
+modular exponentiation.
+
+51
+00:02:07,200 --> 00:02:09,449
+The basic idea is that one can efficiently
+
+52
+00:02:09,449 --> 00:02:14,160
+define three large positive integers, e, d, and N, such
+
+53
+00:02:14,160 --> 00:02:17,280
+that the following expression is true for all integers m
+
+54
+00:02:17,280 --> 00:02:21,780
+between 0 and N. Namely, n raised to the power e
+
+55
+00:02:21,780 --> 00:02:25,290
+and then raised again to the power d is equal to itself
+
+56
+00:02:25,290 --> 00:02:28,170
+modulo N. And it's very hard for a computer
+
+57
+00:02:28,170 --> 00:02:32,670
+to calculate the number d even when given the numbers e and N.
+
+58
+00:02:32,670 --> 00:02:35,190
+Now, this is a fantastic result because it
+
+59
+00:02:35,190 --> 00:02:37,680
+says that Bob can generate ciphertext
+
+60
+00:02:37,680 --> 00:02:41,100
+by taking a plain text message, converting it to an integer
+
+61
+00:02:41,100 --> 00:02:44,460
+m using an agreed-upon protocol, and then raising m
+
+62
+00:02:44,460 --> 00:02:47,670
+to the power e using the public encryption key.
+
+63
+00:02:47,670 --> 00:02:50,310
+Then Alice can decrypt the ciphertext
+
+64
+00:02:50,310 --> 00:02:54,480
+by raising it to the power d to obtain back the number m modulo
+
+65
+00:02:54,480 --> 00:02:58,270
+N from which she can reconstruct the plain text message.
+
+66
+00:02:58,270 --> 00:03:01,530
+So the public key comprises the numbers e and N
+
+67
+00:03:01,530 --> 00:03:03,690
+and the private key comprises the numbers
+
+68
+00:03:03,690 --> 00:03:08,460
+d and N. Now, strictly speaking, only d needs to be kept private
+
+69
+00:03:08,460 --> 00:03:12,510
+but Alice will need both d and N to do the decryption.
+
+70
+00:03:12,510 --> 00:03:14,760
+With this background, the RSA cryptosystem
+
+71
+00:03:14,760 --> 00:03:17,700
+can be broken into four steps, key generation,
+
+72
+00:03:17,700 --> 00:03:20,820
+key distribution, encryption, and decryption.
+
+73
+00:03:20,820 --> 00:03:24,150
+Let's take them one at a time, key generation starts
+
+74
+00:03:24,150 --> 00:03:28,050
+with finding two distinct prime numbers p and q, a task which
+
+75
+00:03:28,050 --> 00:03:30,570
+can be performed efficiently on a classical computer
+
+76
+00:03:30,570 --> 00:03:34,380
+using mathematical protocols called primality tests.
+
+77
+00:03:34,380 --> 00:03:37,140
+Prime numbers are those that are divisible by only themselves
+
+78
+00:03:37,140 --> 00:03:39,780
+and unity, and importantly, these numbers
+
+79
+00:03:39,780 --> 00:03:41,250
+must be chosen at random.
+
+80
+00:03:41,250 --> 00:03:42,930
+And we'll learn later in the course more
+
+81
+00:03:42,930 --> 00:03:45,300
+about how quantum mechanics can, in principle generate
+
+82
+00:03:45,300 --> 00:03:46,500
+true randomness.
+
+83
+00:03:46,500 --> 00:03:47,970
+For now, though, let's just assume
+
+84
+00:03:47,970 --> 00:03:49,950
+that we use a pseudo-random number generator
+
+85
+00:03:49,950 --> 00:03:52,290
+on a classical computer.
+
+86
+00:03:52,290 --> 00:03:55,530
+Next, the prime numbers p and q are multiplied together
+
+87
+00:03:55,530 --> 00:03:59,110
+to generate the number N. Multiplication, of course,
+
+88
+00:03:59,110 --> 00:04:01,530
+is also efficient on a classical computer.
+
+89
+00:04:01,530 --> 00:04:03,750
+The number N is used as the modulus
+
+90
+00:04:03,750 --> 00:04:05,700
+for both the public and private keys
+
+91
+00:04:05,700 --> 00:04:08,580
+in the performance of modular exponentiation.
+
+92
+00:04:08,580 --> 00:04:11,130
+The next step is to determine the encryption and decryption
+
+93
+00:04:11,130 --> 00:04:13,620
+keys themselves, e and d.
+
+94
+00:04:13,620 --> 00:04:15,780
+This is done using the periodicity property
+
+95
+00:04:15,780 --> 00:04:17,850
+of modular exponentiation.
+
+96
+00:04:17,850 --> 00:04:20,640
+To see this, let's consider a simple example,
+
+97
+00:04:20,640 --> 00:04:25,170
+we'll take the number 3 and its exponents modulo 10, so 3
+
+98
+00:04:25,170 --> 00:04:29,610
+to the i-th power modulo 10, where i is an integer, 1, 2, 3,
+
+99
+00:04:29,610 --> 00:04:30,840
+et cetera.
+
+100
+00:04:30,840 --> 00:04:34,950
+We see that 3 to the first power modulo 10 is 3,
+
+101
+00:04:34,950 --> 00:04:40,200
+3 squared modulo 10 is 9, 3 cubed is 27 and so 3
+
+102
+00:04:40,200 --> 00:04:42,930
+cubed modulo 10 is 7.
+
+103
+00:04:42,930 --> 00:04:47,220
+The modulo 10 is the remainder when dividing 27 by 10.
+
+104
+00:04:47,220 --> 00:04:51,960
+So 27 divided by 10 is 2 with a remainder 7.
+
+105
+00:04:51,960 --> 00:04:56,700
+Next, 3 to the fourth power is 81, which modulo 10 is 1.
+
+106
+00:04:56,700 --> 00:05:01,915
+And continuing on, we see that the numbers repeat 3, 9, 7, 1,
+
+107
+00:05:01,915 --> 00:05:06,310
+3, 9, 7, 1, and so the periodicity here is 4.
+
+108
+00:05:06,310 --> 00:05:10,520
+We'll call this periodicity r, so r equals 4 in this case.
+
+109
+00:05:10,520 --> 00:05:13,330
+Now, there's a relationship between the periodicity r
+
+110
+00:05:13,330 --> 00:05:15,580
+and the prime numbers p and q.
+
+111
+00:05:15,580 --> 00:05:18,130
+Consider a general sequence, x modulo N,
+
+112
+00:05:18,130 --> 00:05:21,760
+x squared modulo N, x cubed modulo N, et cetera.
+
+113
+00:05:21,760 --> 00:05:25,390
+Where N equals p times q and x is a number that
+
+114
+00:05:25,390 --> 00:05:27,610
+is not divisible by p or q.
+
+115
+00:05:27,610 --> 00:05:32,440
+Then the sequence has a period r that evenly divides p minus 1,
+
+116
+00:05:32,440 --> 00:05:34,120
+times q minus 1.
+
+117
+00:05:34,120 --> 00:05:36,730
+Let's see how this plays out in our above example.
+
+118
+00:05:36,730 --> 00:05:39,160
+There the modulus is N equal 10, which
+
+119
+00:05:39,160 --> 00:05:43,750
+has prime factors p equal 2 and q equals 5, 2 times 5 equals
+
+120
+00:05:43,750 --> 00:05:44,860
+10.
+
+121
+00:05:44,860 --> 00:05:48,550
+Then p minus 1 is 1, and q minus 1 is 4,
+
+122
+00:05:48,550 --> 00:05:53,140
+thus the quantity p minus 1, times q minus 1 is 1 times 4,
+
+123
+00:05:53,140 --> 00:05:54,280
+and that equals 4.
+
+124
+00:05:54,280 --> 00:05:57,250
+And this evenly divides the period r equals 4.
+
+125
+00:05:57,250 --> 00:05:58,600
+So that checks.
+
+126
+00:05:58,600 --> 00:06:00,820
+What's important here is that this is essentially
+
+127
+00:06:00,820 --> 00:06:02,290
+our one-way function.
+
+128
+00:06:02,290 --> 00:06:04,450
+If we're given prime numbers p and q,
+
+129
+00:06:04,450 --> 00:06:07,030
+then we can calculate the periodicity r.
+
+130
+00:06:07,030 --> 00:06:08,740
+We won't go into how this is done here,
+
+131
+00:06:08,740 --> 00:06:10,600
+we just note that it can be done efficiently
+
+132
+00:06:10,600 --> 00:06:11,950
+on a classical computer.
+
+133
+00:06:11,950 --> 00:06:15,310
+Again, if we know the prime numbers p and q.
+
+134
+00:06:15,310 --> 00:06:19,000
+However, if we're just given N but we don't know p and q,
+
+135
+00:06:19,000 --> 00:06:21,820
+it's a hard problem to find the periodicity r.
+
+136
+00:06:21,820 --> 00:06:24,880
+And typically the periodicity is a very large number,
+
+137
+00:06:24,880 --> 00:06:26,720
+not like the simple example given here.
+
+138
+00:06:26,720 --> 00:06:30,100
+So a brute force search is not efficient either.
+
+139
+00:06:30,100 --> 00:06:32,650
+So returning to key generation, Alice
+
+140
+00:06:32,650 --> 00:06:35,020
+has prime numbers p and q, she used
+
+141
+00:06:35,020 --> 00:06:37,570
+them to determine the period r and she keeps
+
+142
+00:06:37,570 --> 00:06:39,220
+all of these numbers private.
+
+143
+00:06:39,220 --> 00:06:42,580
+She now uses r to determine the keys e and d.
+
+144
+00:06:42,580 --> 00:06:45,730
+First, she chooses an integer e in the range 3
+
+145
+00:06:45,730 --> 00:06:49,420
+to r that is also co-prime with r, that is, e and r have
+
+146
+00:06:49,420 --> 00:06:52,060
+no common divisor other than 1.
+
+147
+00:06:52,060 --> 00:06:55,540
+Now, often this number is simply chosen so that it's not too big
+
+148
+00:06:55,540 --> 00:06:58,450
+and has mostly 0s to enable efficient encryption.
+
+149
+00:06:58,450 --> 00:07:01,120
+For example, 2 to the 16th power plus 1
+
+150
+00:07:01,120 --> 00:07:06,040
+equals 65,537, which in binary is 1 followed
+
+151
+00:07:06,040 --> 00:07:08,480
+by 15 zeros and another 1.
+
+152
+00:07:08,480 --> 00:07:11,140
+This is the public encryption key e.
+
+153
+00:07:11,140 --> 00:07:14,230
+Then the private decryption key is directly calculated
+
+154
+00:07:14,230 --> 00:07:18,700
+from the expression d times e, equals 1 modulo r.
+
+155
+00:07:18,700 --> 00:07:21,280
+In summary, Alice generated the public encryption
+
+156
+00:07:21,280 --> 00:07:25,480
+key e and the private decryption key d from the periodicity r
+
+157
+00:07:25,480 --> 00:07:28,690
+based on randomly chosen prime numbers p and q
+
+158
+00:07:28,690 --> 00:07:32,080
+which multiply together to yield N. Alice keeps
+
+159
+00:07:32,080 --> 00:07:36,310
+private the integers p, q, and r, which she used to calculate
+
+160
+00:07:36,310 --> 00:07:38,710
+her private decryption key d.
+
+161
+00:07:38,710 --> 00:07:41,680
+In contrast, the encryption key e and the number
+
+162
+00:07:41,680 --> 00:07:43,930
+N can be made public.
+
+163
+00:07:43,930 --> 00:07:45,970
+In the next step, key distribution,
+
+164
+00:07:45,970 --> 00:07:48,610
+Alice sends Bob the public encryption key e
+
+165
+00:07:48,610 --> 00:07:51,400
+and the number N. Bob has a plain text
+
+166
+00:07:51,400 --> 00:07:54,250
+message that he wants to securely transmit to Alice.
+
+167
+00:07:54,250 --> 00:07:56,920
+He first turns his message into an integer N
+
+168
+00:07:56,920 --> 00:08:01,060
+using an agreed-upon reversible protocol called padding scheme.
+
+169
+00:08:01,060 --> 00:08:05,290
+He then computes the ciphertext c using modular exponentiation
+
+170
+00:08:05,290 --> 00:08:10,570
+and the public key, c equals m to the e-th power modulo N.
+
+171
+00:08:10,570 --> 00:08:13,180
+Bob then sends the ciphertext to Alice,
+
+172
+00:08:13,180 --> 00:08:15,340
+Alice then applies for decryption key d
+
+173
+00:08:15,340 --> 00:08:16,690
+to the ciphertext.
+
+174
+00:08:16,690 --> 00:08:20,620
+Using modular exponentiation once more, c to the d-th power,
+
+175
+00:08:20,620 --> 00:08:23,560
+Alice calculates the result, m modulo N.
+
+176
+00:08:23,560 --> 00:08:25,270
+And by reversing the padding scheme
+
+177
+00:08:25,270 --> 00:08:28,300
+Alice recovers the original plain text message.
+
+178
+00:08:28,300 --> 00:08:31,030
+Again, the security of the RSA cryptosystem
+
+179
+00:08:31,030 --> 00:08:33,710
+is based on the use of a one-way function.
+
+180
+00:08:33,710 --> 00:08:36,610
+In this case, the challenge of period finding and modular
+
+181
+00:08:36,610 --> 00:08:38,020
+exponentiation.
+
+182
+00:08:38,020 --> 00:08:42,070
+As we just saw, if one knows the prime factors p and q,
+
+183
+00:08:42,070 --> 00:08:44,830
+then one can efficiently find the modular exponentiation
+
+184
+00:08:44,830 --> 00:08:48,550
+period r and thus generate encryption keys e and d.
+
+185
+00:08:48,550 --> 00:08:51,340
+However, if we're just given the modulus N,
+
+186
+00:08:51,340 --> 00:08:53,500
+there's no known efficient classical algorithm
+
+187
+00:08:53,500 --> 00:08:56,320
+that lets us find its prime factors p and q,
+
+188
+00:08:56,320 --> 00:08:58,930
+and so there's no efficient means to determine the period
+
+189
+00:08:58,930 --> 00:09:00,700
+r under these conditions.
+
+190
+00:09:00,700 --> 00:09:02,740
+Thus, even if we reveal the modulus
+
+191
+00:09:02,740 --> 00:09:05,380
+N and the public encryption key e,
+
+192
+00:09:05,380 --> 00:09:07,270
+there's no known efficient means for Eve
+
+193
+00:09:07,270 --> 00:09:09,670
+to calculate the private key d, that
+
+194
+00:09:09,670 --> 00:09:11,830
+is on a classical computer.
+
+195
+00:09:11,830 --> 00:09:14,350
+In the next section, we'll look at Shor's algorithm
+
+196
+00:09:14,350 --> 00:09:17,230
+and discuss how period finding can be efficiently performed
+
+197
+00:09:17,230 --> 00:09:19,450
+on a quantum computer, thus enabling
+
+198
+00:09:19,450 --> 00:09:22,480
+in principle, an efficient pathway to breaking the RSA
+
+199
+00:09:22,480 --> 00:09:24,630
+cryptosystem.
+
+200
+00:09:24,630 --> 00:09:28,299
+
+

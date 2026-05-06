@@ -1,0 +1,84 @@
+
+In the last section, we introduced a circuit model
+for classical computation.
+This model included an initialization stage
+to set the input bits, a compute stage that implemented
+classical logic gates to compute a function,
+and a measurement stage to extract the output.
+In this section, we'll introduce an analogous circuit
+model for quantum computation.
+The basic structure is the same.
+Initialize, compute, and measure.
+We'll start with an initialization stage
+where the qubits are first reset to state 0
+and then initialized to their input values.
+We'll assume here that the initial state is also 0, 0, 0.
+The initialized qubits are then input to the computation stage
+where a series of quantum logic operations will be performed.
+In general, one of the first steps in this block
+is to create an equal superposition state.
+This is done by applying single qubit Hadamard
+gates to the input register.
+To see how this works, let's first
+consider just a single qubit in state zero.
+The Hadamard gate applied to this qubit takes state 0
+and rotates it to an equal superposition state, 0 plus 1,
+and the normalization constant is 1 over square root of 2.
+Now what happens when we have two qubits each initialized
+in states zero?
+Applying a Hadamard gate to each one
+independently rotates each into an equal superposition state
+0 plus 1.
+And when we take the tensor product effectively multiplying
+out the terms, we find an equal superposition state
+of 2 qubits, 0, 0 plus 0, 1 plus 1, 0 plus 1, 1.
+And now the normalization is the square of 1
+over root 2, which is 1/2.
+Similarly, applying a Hadamard gate to three qubits,
+each initialized in state zero, results
+in an equal superposition state of three qubits.
+As we've seen before, this state comprises eight terms,
+from state 0, 0, 0 all the way to state 1, 1, 1.
+And the normalization is now 1 over root 2 cubed.
+And each coefficient now has this value.
+Creating a large, equal superposition state
+sets the stage for quantum parallelism and quantum
+interference to occur during quantum logic operations.
+The logic operations themselves are the single qubit
+and two qubit gates we discussed earlier.
+For example, a single qubit X gate or another Hadamard gate
+or a two qubit CNOT gate, chosen to implement
+a particular function or algorithm.
+And as we saw in week one, the quantum parallelism and quantum
+interference that occurred during these operations
+changed the values of the coefficients
+in the superposition state.
+And finally, the qubits are then measured
+to determine the answer.
+And as we also saw earlier in the course,
+the measurement process projects the qubits
+onto the measurement basis.
+This effectively collapses the massive superposition state
+onto a single classical state with a probability that's
+the magnitude squared of its coefficient.
+In doing so, the measurement leads
+to a single classical binary result, either a 0 or a 1
+for each qubit.
+Now if we don't perform any logic operations
+and simply measure the equal superposition
+state from the input, each coefficient has the same value
+and we have an equal probability, one eighth,
+of measuring any one of these states.
+Thus as we discussed earlier in the course, to be successful,
+a quantum algorithm is designed such
+that after applying a designated sequence of quantum logic
+gates, ideally, all of the probability amplitude
+resides in one of the coefficients.
+And this coefficient sits in front of the state
+that encodes the answer to our problem.
+Thus when we make a projective measurement,
+the probability is unity that we obtain this result.
+Using this basic quantum circuit model, initialize, compute,
+and measure, we can implement a universal quantum algorithm.
+And in the next section, we'll apply this model
+to a specific example, the Deutsch-Jozsa algorithm.

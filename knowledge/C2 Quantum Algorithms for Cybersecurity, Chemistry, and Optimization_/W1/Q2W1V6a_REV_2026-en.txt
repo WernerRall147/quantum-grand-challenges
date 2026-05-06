@@ -1,0 +1,76 @@
+
+To date there have been a handful
+of prototype demonstrations of Shor's Algorithm
+using different qubit modalities, including
+nuclear spins, photonic qubits, superconducting qubits,
+and trapped ions.
+In this case study, we'll look at two of these demonstrations
+in detail.
+The first is a demonstration of Shor's Algorithm
+using liquid state nuclear magnetic resonance, NMR.
+This was, in fact, the first such experimental demonstration
+and it showed the factorization of 15 into the primes 3 times
+5.
+It used molecules with seven individually
+addressable nuclear spins in liquid solution at room
+temperature, and the algorithm comprised a sequence
+of around 300 pulses.
+We'll hear about this work from TU Delft Professor Lieven
+Vendersypen, who performed these experiments as part of his PhD
+thesis work at Stanford University in collaboration
+with Ike Chuang, then at IBM Almaden.
+The second demonstration is relatively recent
+and it was performed using trapped ions.
+In this case, seven ions were used to again factor the number
+15 into primes 3 and 5.
+In this example, modular multiplication
+was implemented and no simplifications
+that presumed prior knowledge of the result were employed.
+Instead, a concept called qubit recycling
+was used to make up for the fact that seven qubits is
+insufficient to implement the general algorithm.
+Still to date, this demonstration
+constitutes the most realistic implementation
+of Shor's Algorithm.
+And we'll hear from MIT Professor Ike Chuang, who
+participated in this demonstration with Professor
+Rainer Blatt's team at Innsbruck.
+To factor 15 in a straightforward manner,
+it's estimated that one needs about 12 qubits, eight qubits
+in the period register and four qubits
+in the modular multiplication register.
+The demonstrations you'll hear about in this case study
+had fewer than 12 qubits, and so certain simplifications
+had to be made.
+Now in many cases, the simplifications
+were quite reasonable.
+For example, the use of qubit recycling.
+Nonetheless, it's important to understand
+the impact of various types of simplifying assumptions,
+and we'll hear about them from IBM researcher Dr. John Smolin.
+Finally, from a business perspective,
+these prototype demonstrations of Shor's Algorithm
+illustrate that quantum computing is real.
+Although these implementations are not yet at scale,
+they are concrete indications of and steps towards the promise
+of quantum computing.
+From an engineering perspective, these types of demonstrations
+force groups to confront practical realities
+of implementation, from qubit control engineering
+to algorithmic compilation.
+Although not yet at scale, these algorithms
+motivate experimental groups to go
+beyond scientific demonstrations and to meet face-to-face
+with the practical realities that
+will need to be accommodated to enable scalable quantum
+computing.
+And scientifically, these demonstrations
+test our knowledge of system noise and decoherence.
+Lastly, from a technology standpoint,
+these demonstrations serve as a benchmark of progress
+in the field, indicating where the technology currently stands
+and clarifying what needs to be addressed in order to reach
+future milestones.
+And so with that brief introduction,
+let's hear from Professor Lieven Vandersypen, Professor Ike
+Chuang, and Dr. John Smolin.

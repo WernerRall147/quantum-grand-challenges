@@ -1,0 +1,181 @@
+
+Let me now share with you a description
+of the trapped ion quantum computing system employed
+for the demonstration of Shor's quantum factoring algorithm.
+Two energy levels of an atom can be employed as a qubit.
+But it's ordinarily very hard to hold onto a single atom
+and not lose it.
+On the other hand, if an electron
+is removed from the atom it becomes
+a positively charged ion, which is
+much easier to trap and hold.
+Calcium 40 is a common ion which can be trapped in this way
+and employed for quantum computation because
+of its internal level structure.
+The so-called D5/2 and S1/2 levels of calcium 40
+make excellent two-- level systems usable
+as a qubit because of its approximately one
+second lifetime, and because the transition can
+be excited by photons, which is accessible to the solid state
+lasers.
+In reality, however, the atom has other energy levels
+also involved.
+For example, the higher energy P3/2 level
+can connect with the D5/2 level via an 854 nanometer
+optical transition.
+The P3/2 level can also decay to the S1/2 ground
+state via a short wavelength 393 nanometer optical transition.
+This produces a closed cycle, which
+is useful for controlling the ion's motion.
+This cycle and the short wavelength photon emitted
+are also employed to measure the qubit state since this emission
+occurs if the qubit is in the S1/2 state
+but not in the D5/2 state.
+Two additional levels, the P1/2 and D3/2 levels
+also form a closed cycle and provide the primary transitions
+used for laser cooling of the ion.
+How the ion itself is trapped, however,
+only involves its charge.
+Consider a single ion.
+Trapping is accomplished based on the following idea.
+Surround the ion with four electrodes shown here
+in cross-section.
+Two additional end cap electrodes in front and in back
+are not pictured.
+These metal electrodes hold positive and negative charges
+via electrical voltage is applied.
+Opposite charges attract and equal charges repel.
+But if the ion were exactly in the middle,
+all forces would balance.
+More likely than not, an ion would initially
+be off center and thus it would move towards the nearest
+oppositely charged electrode such as the negatively
+charged one on the upper left.
+As the ion moves, we change voltages such
+that the close electrode becomes positive,
+repelling the ion before it reaches the electrode.
+The ion then moves onward, for example,
+to the next closest negative electrode on the bottom left.
+Again, we change voltages to keep the ion dancing around,
+never reaching one of the electrodes, always confined
+within the region defined by the electrodes.
+This idea is at the heart of the physical process
+for which Wolfgang Paul was awarded the 1989 Nobel
+Prize in physics.
+Shown on the left is a picture of an actual four electrode
+quadripolar linear ion guide, which
+can be employed as an ion trap when the end cap electrodes are
+added.
+By applying lasers, which cool the motion of the ion using
+its internal level structure, the trapped ions
+can be made to come to rest at the very center
+of the electrical potential.
+Such trapping and cooling has been demonstrated
+with a wide variety of atomic and molecular ions,
+including strontium, beryllium, ytterbium, barium, magnesium,
+calcium, and others.
+Physical parameters determined by the lasers
+and by the atomic structure determine how cold the ions get
+and how cooling competes with heating processes.
+For scalable quantum computation,
+the quadripolar ion structure can be simplified as follows.
+First, imagine rotating the electrode configuration
+by 90 degrees.
+Next, envision replacing the three lower
+electrodes with three coplanar electrodes beneath the ion.
+The top electrode becomes a top metallic conductor,
+which may be far away or part of the confining vacuum chamber.
+This configuration still traps ions.
+Lasers can be applied from the side
+just as before for cooling and also to perform quantum gates.
+Moreover, the substrate can be cooled, for example,
+to liquid helium temperatures, to allow integration
+with devices such as superconducting electronics.
+This substrate can be micro-fabricated
+with modern semiconductor lithography techniques
+with geometries that include sophisticated patterning
+in the third dimension, such as the segmented structures shown
+here, comoving ions.
+A wide variety of such surface electrode ion traps
+have now been realized in laboratories around the world,
+including six pictured here from research groups
+at the University of Mainz, MIT, Maryland, Sussex, Sandia
+National Lab, and NIST.
+Designs for trapped ion chips include
+ones fabricated using sophisticated modern
+semiconductor line processes such as this one fabricated
+by Lucent Technologies and pictured installed in a vacuum
+chamber at MIT.
+The ion trapped chips have also been
+operated at cryogenic temperatures,
+including this one made of silver
+on quartz used at MIT to trap crystals of strontium ions,
+shown here with one, two, three, four,
+and over 20 individual atomic ions visible in the CCD image.
+The quantum factoring demonstration with trapped ions
+was carried out in this laboratory
+at the University of Innsbruck.
+Pictured here from photos I took during our opening
+collaboration in 2001, the ion trap
+here is a macroscopic hand machined quadripolar trap
+at the center of these magnetic field coils.
+This shows the same setup from another angle showing
+the optical components needed to guide all the laser
+beams to the trapped ions.
+And this is the control computer and electronics
+used to generate the frequency and amplitude controlled laser
+pulses, which perform quantum operations on the ion state.
+I learned the art of ion trapping
+from Professor Dr. Rainer Blatt, shown here in his office
+at the University of Innsbruck in Austria.
+His group and that led by Dr. David Wineland at NIST
+set the standard for the field, as well as
+the character of scientific openness and collaboration
+that shaped the field of trapped ion quantum information science
+today.
+The trapped ion quantum factoring demonstration
+was done with a linear ion chain of five calcium
+ions, each of which has the internal level structure shown
+earlier and reproduced here.
+Recall that the qubit transition is
+between the D5/2 level and the ground state S1/2 level.
+Laser pulses focused on individual ions
+realize single qubit rotations addressed at individual qubits.
+The laser is typically tuned to affect rotations
+about the qubit's z axes.
+Multi-qubit collective gates are realized
+either by applying a monochromatic laser
+beam to multiple ions, which implements
+in parallel many single qubit rotations,
+or by applying two simultaneous laser frequencies tuned such
+that a multi-qubit gate operation is
+realized, known as the Molmer-Sorensen gate,
+after its inventors.
+This is the mathematical form of the gate, which
+you can learn more about in the MITx 8422 xOnline course
+sequence on atomic physics.
+The basic set of Molmer-Sorensen collective spin flip
+and individual light shift operations available
+can be combined to realize arbitrary multi-qubit quantum
+gates.
+For example, the quantum Toffoli gate
+can be realized as this sequence of five collective three
+Molmer-Sorensen and three single qubit light shift gates.
+How well do the traps and gates work in practice?
+Here are performance numbers for the system
+employed for the quantum factoring demonstration.
+The system was demonstrated to reliably trap
+up to 14 ions with state preparation of 99.5%
+fidelity, taking a few milliseconds
+for each preparation, routinely realizing T1 and T2 coherence
+times of one second and five seconds respectively.
+Requiring about 400 microseconds for a quantum state measurement
+when using a photomultiplier tube, and between 20 and 45
+microseconds to realize single and multi-qubit gates,
+which have gate fidelities of over 99%
+for single-qubit operations, and between 99% and 94%
+for two and five ion gates.
+Additional energy levels within the ions
+can also be employed as quantum memories
+with storage fidelity of 99.5% and write times
+of 45 microseconds.

@@ -1,0 +1,134 @@
+In the last section, we
+introduced several algorithms, including
+those like Shor's and Grover's algorithm, that are useful
+now if we can build a quantum computer that's
+large enough and robust enough to run the algorithm.
+We also looked at quantum simulation,
+a very promising set of algorithms which,
+when realized, has the potential for substantial economic impact
+and may even find utility on today's smaller scale
+non-error corrected machines.
+And we looked at a few potentially useful algorithms
+currently under development.
+For each of these examples, let's now
+look at the resource requirements
+for implementing an algorithm on both a classical and a quantum
+computer.
+This will then show the degree of quantum advantage
+one can obtain by using the quantum computer.
+We'll also identify the leading limitations
+as they're currently known for realizing this advantage.
+Let's take them in order of their applicability
+as we see it today.
+In this chart, we show the algorithm in the first column.
+Then columns two and three show the resources
+required to implement the algorithm
+on a classical computer and on a quantum computer.
+Now, more precise scaling functions certainly exist,
+but they generally depend on the specific implementation
+of the algorithm, and as a result,
+they quickly become quite complicated.
+So we'll simply use these ballpark scaling functions here.
+Then the fourth column indicates the degree of quantum advantage.
+And the last column indicates limitations
+as we understand them today.
+At the top of the list is quantum simulation
+with application to quantum chemistry and material science.
+The classical resources scale as 2
+to the N-th power for a simulation of N atoms
+whereas the quantum resources scale as N to a constant power
+C, where C generally ranges from 2 to 6.
+Now, by resources, we basically mean
+both the time required to reach a solution, referred
+to as a temporal resource, and the number of logic or memory
+elements needed to implement the problem,
+often referred to as a spatial resource.
+To quantify the resource requirements,
+we quote a mathematical expression for the scaling law.
+That is, we're looking at how the resource requirements grow
+as the problem gets larger, as parameterized by the size N,
+for example, the number of atoms being simulated.
+Presumably, as N gets larger, the problem gets harder.
+But the question is, how does it get harder?
+Does it require exponentially more resources,
+such as 2 to the N-th power or a polynomial scaling like N
+to an integer power.
+For quantum simulation, we see that the classical resources
+scale exponentially with N whereas the quantum resources
+only scale polynomially.
+This means that there's an exponential advantage
+to using a quantum computer.
+In fact, to simulate the system dynamics for a time t,
+both a classical and a quantum computer
+would require a similar number of time steps.
+For example, if we want to simulate
+the dynamics of a reaction for one second,
+we would divide that one second into a similar number
+of time slices.
+However, the quantum advantage is
+that there's an exponential reduction
+in the amount of memory needed to perform
+the simulation on a quantum computer,
+and so the quantum advantage is exponential.
+The main limitation is in determining
+the mapping of a physical problem
+onto the qubits, their couplings,
+and the gate operations needed to implement a quantum
+simulation.
+Next, factoring and related number theoretic algorithms
+also have an exponential scaling in the number
+of classical resources, going as 2
+to the N-th power and the number of digits being processed.
+In contrast, the quantum resource requirements scale
+polynomially as N to the third power, and so quantum advantage
+is again exponential.
+The main limitation, or perhaps uncertainty,
+is that the best-known classical algorithm has not yet
+been proven to be optimal.
+So there may still be a more efficient classical algorithm
+yet to be discovered.
+And if so, then the degree of quantum advantage
+might also change.
+Sampling solutions to linear systems of equations
+is the next algorithm.
+In this case, we solve linear algebraic problems of the type
+Ax equals b, where A is a matrix, b is a known vector,
+and x is an unknown vector.
+The classical resources scale exponentially as 2
+to the N-th power whereas the quantum resources scale
+only approximately as N, and so this algorithm also
+exhibits exponential advantage.
+The main limitation is related to a variety of restrictions
+on the operating conditions, for example, a requirement
+for a sparse matrix A.
+The classical resources required for optimization problems also
+scale exponentially as 2 to the N-th power, where N is again
+related to the size of the problem.
+However, in this case, the corresponding quantum resources
+and also the quantum advantage are not well defined.
+This is in part because one generally cannot determine
+if the resulting answer is indeed optimal.
+We can only tell if it's better than a solution we've had
+previously.
+Thus, we can only derive empirical evidence
+that a quantum optimization algorithm provides quantum
+advantage, and this is currently the main limitation
+of this algorithm.
+Finally, there's Grover's search algorithm
+for unsorted or unstructured data.
+Here, the classical resources scale
+with the number of data elements N whereas the quantum resources
+go as the square root of N. Thus,
+the quantum advantage is square root
+of N, a polynomial enhancement.
+The main limitation to this type of search algorithm
+is the data loading problem, namely,
+how can we efficiently load in a large amount
+of unsorted or unstructured data that needs to be searched.
+In general, we can see that for many, if not all
+of these algorithms, there can be a substantial quantum
+advantage when the problem size N becomes large.
+And for those with an exponential advantage,
+classical computers and a Moore's law-like scaling
+will never be able to catch the performance of a quantum
+computer.

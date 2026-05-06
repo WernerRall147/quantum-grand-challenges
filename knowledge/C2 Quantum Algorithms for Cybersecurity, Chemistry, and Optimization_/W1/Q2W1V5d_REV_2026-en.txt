@@ -1,0 +1,82 @@
+
+So first I'll do the intuition, and then I'll do the math.
+So it's a geometric sum, and it's
+a whole bunch of points around the unit circle.
+So we start with e to the minus 2 pi i x0.
+Let's plot these points--
+minus 2 pi i x0.
+And now we go r, z over to the 2 to the 2l.
+So the next one we want to plot is y equals 1.
+So we go some distance around the circle.
+And let's plot another point.
+And then we plot another point, another point, another point.
+We keep on going.
+
+And what we get is quite possibly
+points that are nearly exactly uniformly distributed
+over the unit circle, sum close 0.
+Well and next what happens is, here was e to the 2 pi i x0
+2 to the 2l.
+And here is e to the minus 2 pi i x0 plus rz zero over 2
+to the 2l.
+So unless what happens is when we plot the point,
+we move around by the angle 2 pi i rz over 2 to the 2l.
+And suppose this angle is tiny.
+Well, what happens then is we get points
+uniformly distributed.
+Suppose it's tiny enough so that when we add all of these 2
+to the l over r points, we get points that are--
+you know, some kind of an arc, which doesn't even
+go all the way around the unit circle--
+sum is close to--
+
+well, how many points were there?
+There were 2 to the 2l over r.
+And they were all pointing in more or less
+the same direction.
+So an absolute value.
+So there's two cases here.
+
+2 pi i yr--
+If 2 pi i rz over 2 to the 2l is close to 1, which means y--
+rz over 2 to the 2l is close to an integer.
+And let's call that integer d.
+So if this is close to an integer,
+then we get a large probability of seeing this.
+If it's not close to an integer we
+get a tiny probability of seeing it.
+So the geometric sum is 1 minus e to the 2 pi i.
+We want the last term of the sum.
+So that's 2 to the 2l rz over 2 to the 2l.
+
+No, it's y goes from 1 to 2 to the 2l over r.
+So the last term you substitute in 2 to the 2l r over z.
+So something like 2 to the 2l over r.
+I will have to take the floor of that times
+r times z over 2 to the 2l.
+Which really, because of this floor
+could be anywhere on the unit circle.
+But it's always less than 2 in absolute value.
+And we're dividing that by 1 minus e to the 2 pi i rz
+over 2 to the 2l.
+And remember, the sum is really--
+so we're dividing something by something else.
+And it's going to be relatively small, unless the something
+else we're dividing is really really, really close to 0.
+So this is roughly something O of 1 divided by--
+oh, what is this?
+This is roughly rz over 2 to the 2l.
+
+So the probability of seeing a number z is roughly rz over 2
+to the 2l squared minus d because d was our integer.
+So we have d over r is roughly z over 2 to the 2l.
+So what our algorithm does is it output z.
+We know 2 to the 2l, and we need to round it off
+to something like d over r.
+And there is a procedure for rounding
+real numbers of two smaller fractions that is efficient.
+And it's called continuous fractions.
+But it's a classical algorithm.
+So once we get this we can round it to d over r,
+and then we're found r, which was
+the period we were looking for.

@@ -1,0 +1,134 @@
+
+Next we'll look at fabrication of high coherence qubit
+loops and Josephson Junctions.
+Starting from the patterned base metal,
+our next step is to lithographically define
+the region where we will deposit the qubit loops
+and the embedded Josephson Junctions.
+We start by depositing a stack of three layers of material.
+First, we spin on a layer of methyl methacrylate
+resist that we use as a spacer layer.
+Second is a layer of germanium, which we use as a hard mask.
+For our prototyping process on top,
+we coat a layer of ZEP electron beam, or e-beam resist.
+We pattern the ZEP using an electron beam lithography
+system to define the qubit loops.
+At Lincoln Lab we use a Raith e-beam system.
+The 100 kilovolts system has a 50 megahertz
+clock speed, which enables reasonable write times
+of our nanometer scale patterns.
+I say reasonable because we raster an electron beam back
+and forth across the surface of the wafer
+rather than exposing full dye at a time,
+like we would do in photolithography.
+This definitely is a slower process than photolithography,
+but we gain patterning flexibility
+for rapid prototyping.
+Using our e-beam system, we have demonstrated
+patterning lines down to less than 10 nanometers
+on the system.
+And for Josephson Junctions, we routinely
+patterns sub-150 nanometer features.
+Alternately, we also can pattern the qubit loops using stepper
+photolithography.
+For manufacturing scale wafers, at Lincoln Lab,
+we use a 193 nanometer wavelength ASML
+scanner, which enables us to pattern
+features smaller than 100 nanometers.
+Optical lithography enables orders of magnitude speed
+up in write time compared to e-beam lithography,
+since now we are exposing much larger write areas at a time,
+rather than rastering a nanometer scale
+beam across the wafer.
+After the resist is exposed, by either e-beam lithography
+or photolithography, we transfer the pattern
+into the germanium hard mask using a plasma etch.
+We use plasma etching to pattern features
+on a smaller scale than what you can do with wet chemistry.
+You use a gas, an ionized gas, and electric field
+to etch very small metal features,
+silicon features, or oxide features
+to make the layers in your integrated circuit.
+After etching the germanium, we etch
+the spacer methyl methacrylate layer using an oxygen plasma
+etch.
+This exposes the silicon substrate and metal contact
+regions.
+In addition, this oxygen plasma simultaneously
+removes the ZEP top layer of resist.
+In addition to defining the open area for the qubit loops,
+we also pattern small germanium bridges,
+where we'll pattern the Josephson Junctions.
+To release the bridges, we over-etch
+and undercut the methyl methacrylate.
+Zooming in on a cross-sectional view of the freestanding
+germanium bridge, we can schematically
+show the shadow evaporation process
+used to define the Josephson Junctions.
+All of the shadow evaporation steps happen in situ
+within different chambers of the same vacuum system.
+Since we will be making superconducting contact
+between the qubit loop and our underlying base metal
+capacitive shunts, we first have to prepare that base layer
+by removing the metal's native oxide.
+To do this, we sputter away the oxide using argon ions.
+We then transfer the wafer into the deposition module
+and put down the first layer of aluminum.
+Afterwards, we move the wafer into the oxidation chamber,
+flow in oxygen, and allow it to oxidize
+the aluminum for a specific amount of time
+to reach the target oxide thickness.
+The target oxide thickness depends on our desired qubit
+parameter for the Josephson Junction critical current.
+Next, we move the wafer back into the deposition chamber,
+tilt the wafer to the opposite angle,
+and deposit a second layer of aluminum.
+We're now located at the PLASSYS shadow evaporation
+system, which is a tool that we use
+for fabricating one of the critical components
+of our superconducting qubits.
+This is where we deposit our Josephson junctions
+and the associated qubit loops that surround them.
+So what we do in here is four steps.
+First, we load a wafer into our load box.
+Then we load it into our etch chamber
+once it has pumped down to vacuum.
+In this etch chamber, we first ion mill
+the surface as a method to prepare it before we put down
+the Josephson Junction layers.
+Now in this etch chamber, we're preparing that top surface
+by removing the top layer, about a nanometer of aluminum oxide,
+before we come in and deposit these junctions and qubit
+loops.
+So then we move from the etch module
+over to the deposition module.
+In this module, we first put down
+the bottom layer of what will define the Josephson Junctions
+and qubit loops.
+This connects directly to that MBE material.
+From there, we move into our oxidation module.
+This module's job in life is to be
+able to put down very pristine, very uniform aluminum oxide
+layers.
+It flows in oxygen into the chamber when
+we have this exposed aluminum film
+and it oxidizes to a very specific thickness
+that we've tuned.
+From there, we move back into the deposition module.
+And by tilting our stage in a different way,
+we're able to use are e-beam defined shadow mask in order
+to create a small layer of overlap
+between the bottom layer of aluminum
+that's now been oxidized and a top layer of aluminum.
+That layer of overlap is specifically
+the Josephson Junction for our superconducting qubit loop.
+From there, the process is complete
+and we move back out to the load box and take the wafers out.
+After shadow evaporation, we remove the wafer
+from the deposition system and lift off the resist stack
+in a chemical solvent.
+Once the resist is removed, wafer fabrication is complete.
+The completed wafer contains the superconducting qubits
+with integrated Josephson junctions,
+as well as base metal pattern and capacitive
+shunts, the ground plane, and readout and control circuitry.

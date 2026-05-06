@@ -1,0 +1,130 @@
+
+We use individual charged atoms, or atomic ions,
+as quantum information carriers in our development
+of a large-scale quantum information processor.
+Starting with neutral atoms with two electrons
+in the outermost level, we can remove one of these electrons,
+producing an ion with a positive charge
+that we can hold onto very tightly using
+electromagnetic fields.
+In machines like these, we can trap
+individual atoms, the smallest amount of an element--
+in our case, strontium or things like calcium--
+that you can.
+That's one atom.
+That's something like smaller than a tenth of a nanometer.
+And we manipulate them with lasers
+and electromagnetic fields such that we
+can hold onto them for many hours
+and manipulate their quantum states to do things
+like quantum information processing.
+So in an individual trapped ion, the amount of time
+that the quantumness survives, or the coherence time,
+can be made to be very long.
+In systems like this, where people manipulate trapped ions
+on a regular basis, this coherence time
+can be seconds, even minutes.
+And this allows us to do lots of coherent quantum operations
+between larger numbers of qubits in the amount of time
+that you have available to do anything with those quantum
+systems.
+Other advantages are that the error rates in the quantum
+operations that we perform--
+single qubit, double qubit operations
+that are keys to quantum information processing, as well
+as preparation and readout of the quantum states--
+can be done with very low error rate in trapped ion systems.
+Because these atomic systems are very clean, single quantum
+systems that we can control very well,
+we can theoretically predict exactly how
+they're going to behave.
+We know where they are, and we can manipulate their states
+very, very cleanly.
+We've now defined our qubit state within a single ion,
+but how do we hold on to one atom?
+Utilizing the positive charge of the ion,
+we can trap it in a combination of static and dynamic electric
+fields.
+By applying a radio frequency electric field
+to two diametrically opposed rods out
+of a four-rod square configuration,
+we can produce a quadripolar field in two dimensions.
+At any one moment in time, this field
+will tend to push an ion toward the center of the trap in one
+dimension and push it away in the other.
+But since this field oscillates in time,
+for the right combination of frequency and amplitude,
+the ion can effectively be pushed
+toward the center in all directions
+as if it were in a two-dimensional bowl.
+In the third dimension, we can apply
+a combination of static voltages to trap the ion.
+This is the same technology used for mass spectrometry,
+and we see potential offshoots of ion quantum information
+processing in improvement to small sample
+sensing and identification.
+A promising approach to large-scale ion control
+and manipulation is based on chip-based traps,
+as shown here.
+By patterning metal using standard microfabrication
+techniques onto an insulating substrate,
+we can produce a flat version of the four-rod trap
+structure I just described.
+As we'll describe in a bit, ions are trapped in space
+above the center of the trap where the quadripolar trapping
+field is produced.
+To hold onto an individual ion for a long time,
+a very low pressure environment is
+required, as molecules in the air
+have sufficient energy to knock the ions out of the trap.
+Ultra high vacuum conditions with background pressures
+more than 12 orders of magnitude less
+than standard atmospheric pressure
+can be maintained in specialized chambers.
+These extremely low pressures are produced in our laboratory
+by means of cryopumping, in which various surfaces
+in the chamber are made very cold,
+within a few degrees of absolute zero,
+by means of refrigeration.
+Much as water condenses from the air
+onto a cold beverage container on a humid day,
+cryopumping results in condensation of almost all
+of air's constituents, quickly and dramatically
+lowering the pressure in the closed vacuum chamber.
+Ions can be maintained for hours to days in UHV systems
+like this.
+It is important to point out that the ions themselves
+are not cooled in this manner.
+They're cooled to much lower temperatures,
+eventually to only a few tens of millionths of a degree
+above absolute zero, by the use of lasers.
+Perhaps counterintuitively, it is
+possible to remove motional energy from atoms
+by allowing them to absorb light at a very particular frequency,
+after which they re-emit light at a slightly
+higher frequency, leading to a reduction in motional energy.
+This laser cooling process, developed 30 years ago,
+is a key enabling technology for quantum computing
+with atomic systems.
+This animation shows the process by which we get individual ions
+into the trap.
+Inside the vacuum system, we heat up
+a piece of metal to a few hundred degrees Celsius,
+producing hot atomic vapor.
+Using a combination of laser beams and a magnetic field
+gradient, we cool approximately a million neutral atoms
+into what is known as a magneto-optical trap.
+These cold atoms can then be accelerated toward the ion trap
+chip using another laser beam.
+With the radio frequency trapping potential applied
+to the trap electrodes, neutral atoms that are ionized,
+using other lasers within the trapping volume,
+will feel the trapping fields and be
+localized within the trap, where they are cooled
+with yet another set of lasers, these ones
+resonant with transitions in the ion.
+The result is a single atom held in space
+approximately 50 micrometers from the surface of the chip.
+We can image the ions using the light
+they scatter during cooling, producing images
+like that shown here.

@@ -1,0 +1,63 @@
+
+We often say that superconducting qubits
+are artificial atoms.
+What we mean by that is that we can build electrical circuits
+that behave much like the natural atoms
+on the periodic table.
+For these artificial atoms, we can
+design all of their properties-- their energy level
+spacing, their sensitivity to noise, and so on.
+This is quite different than qubits based on natural atoms,
+where we're limited to what we're given by nature.
+And so a key advantage of superconducting qubits
+is that we design these superconducting quantum
+circuits and their properties.
+A second advantage is that superconducting qubits
+are a silicon technology.
+We manufacture superconducting qubits
+on silicon wafers using the same tools--
+photolithography, metal deposition, metal etch--
+that are used by industry to make
+Complementary Metal-Oxide-Semiconductor,
+or CMOS, transistors.
+The active elements we use, Josephson Junctions,
+have thin oxide barriers, just like the thin gates
+of transistors.
+Even the metals we use-- aluminum, titanium nitride,
+niobium--
+are all compatible with CMOS fabrication.
+And so in a very real sense, superconducting qubits
+are a silicon technology.
+And this affords us lithographic scalability.
+It's a straightforward path to increasingly complex circuitry
+with many interconnected qubits.
+There are a few differences related to the specific process
+temperatures and other processing parameters that
+are used for CMOS and for superconducting qubits.
+And this is related primarily to the need for pristine materials
+and fabrication in order to maintain high qubit coherence.
+Superconducting qubits have a variety of ways
+they can lose quantum information,
+or what we call decoherence.
+Several examples of decoherence channels
+are illustrated here, including charges fluctuating
+on the device surface, trapped magnetic vortices,
+and stray magnetic or electrical fields.
+Many of these channels can be enhanced and suppressed
+by the materials and fabrication choices
+we make in manufacturing superconducting qubits,
+as well as by their design.
+Research within the superconducting qubit community
+for the last 20 years has focused
+on identifying and mitigating sources of decoherence
+in order to improve qubit performance
+with tremendous success.
+We've seen more than five orders of magnitude improvement
+in qubit coherence within these 20 years.
+In 2018, multiple major modalities
+of superconducting qubits with unique parameters tuned
+for different applications have achieved coherence times
+that exceed the most lenient thresholds for quantum error
+correction.
+This is one of the reasons superconducting
+qubits are at the forefront of demonstrations today.

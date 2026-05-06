@@ -1,0 +1,205 @@
+
+In the last section, we looked at a specific implementation
+of public key cryptography-- the RSA cryptosystem.
+The security of RSA is based on the use of a one-way function--
+prime factorization--
+which is related to the problem of period finding
+in modular exponentiation.
+As we saw, if one picks two prime numbers, p and q,
+which multiply together to give a modulus N,
+then one can efficiently find the modular exponentiation
+period r, and thus generate a public encryption key e
+and a private decryption key d.
+However, if we're just given the modulus N,
+then we're stuck, because there's
+no known efficient classical algorithm that
+lets us find the prime factors p and q,
+and so there's no efficient means to determine
+the period r.
+Thus, even if we reveal the modulus
+N and the public encryption key e,
+there is no known efficient way for an eavesdropper
+to calculate the private key d on a classical computer.
+However, if Eve has access to a quantum computer
+that can run Shor's Algorithm, then she
+can efficiently find the modular exponentiation period r.
+This is called order finding, and Shor's Algorithm
+finds the order r of a number a with respect
+to the modulus N, where a is the number that
+is raised to integer powers under modular exponentiation.
+With a means to efficiently determine r,
+Eve can calculate the prime numbers p
+and q and then derive the decryption key d,
+thus compromising RSA.
+In this section, we'll walk through Shor's Algorithm
+using the quantum circuit model presented in Course 1.
+We'll then continue with our simple example
+of modular exponentiation to see the connection between order
+finding and factorization.
+Let's begin with the initialization stage.
+We need two registers of qubits for Shor's Algorithm.
+Roughly speaking, Register 1 is used
+to store the results of a period finding
+protocol, which is implemented using the Quantum
+Fourier Transform.
+We'll discuss that one in a moment.
+Register 2 is used to store the values
+of the modular exponentiation.
+This is the function that will apply in the compute section.
+The number of qubits in the first register
+should generate a state space that is at least large enough
+to capture the maximum possible period,
+and do so at least twice to see it repeat.
+Let's define N as twice the maximum period.
+So we need at least L qubits, such that 2 to the L power
+is greater than N.
+Now, in fact, the more qubits we have, the more densely
+we can sample the solution space,
+and thereby reduce the error in determining the period.
+Here, we'll take 2L qubits for the first register.
+And for simplicity, we'll use the same number of qubits
+in the second register.
+By choosing 2L qubits, the number of states--
+2 to the 2L power--
+is greater than N squared.
+This guarantees that there are at least N terms contributing
+to the probability amplitude when estimating the period,
+even as the period r gets exponentially large,
+approaching N over 2.
+We prepare the qubits in state 0,
+which we denote with a superscripted tensor
+product, 2L.
+As we did in Course 1 for the Deutsch-Jozsa algorithm,
+we'll track the register states by color--
+yellow for Register 1, and green for Register 2.
+And we'll track our current position
+within the algorithm using the vertical line.
+Next, at the compute stage, we use Hadamard gates
+to place the Register 1 qubits into an equal superposition
+state.
+We again use the superscripted tensor product notation
+to indicate that we apply a Hadamard
+gate to each of the 2L qubits.
+This puts each qubit into a superposition state, 0 plus 1.
+Multiplying out all 2L of these single qubit superposition
+states results in a single large equal superposition state
+with 2 to the 2L components.
+From a component with 2L qubits in state
+0 to a component with all qubits in state 1,
+and with all combinations in between.
+If we now number these components from 0 to 2
+to the 2L minus 1, we can rewrite the superposition state
+as a sum over x.
+In fact, each decimal number x corresponds
+to one of the binary numbers represented by the 2L qubits.
+Next, the function f is performed.
+f of x implements modular exponentiation, which
+outputs a number a to the x power modulo N.
+We won't present in detail how the modular exponentiation is
+implemented in a real circuit.
+In fact, there are multiple approaches
+to doing it based on reversible computing and multiplication
+algorithms.
+For our purposes here, we just note
+that this function can be implemented
+using ancilla qubits and that it's efficient,
+requiring a number of gates that scales only polynomially
+with the number of qubits.
+Now, the number a is chosen at random,
+and it must be co-prime with N. That
+is, it must have no common factors with N. The resulting
+output values from the function f
+are then stored in the Register 2 qubits.
+Since the values of the power x are taken from the qubits
+in the first register, implementing
+f of x makes a conditional connection
+between the qubits in Register 1 and those in Register 2.
+Although we ultimately won't need
+to measure the qubits in Register 2,
+this step sets the stage for quantum interference
+and quantum parallelism to occur in Register 1
+at the next step, which is the Quantum Fourier Transform.
+The Quantum Fourier Transform is a quantum version
+of the classical discrete time Fourier Transform.
+The classical Fourier Transform takes a vector of numbers, x--
+often a digital sampling of a signal to be analyzed--
+and transforms it to a vector of numbers, y, in the frequency
+domain.
+Periodic behavior in the time domain
+is more easily identified in the transformed frequency domain,
+which is why we do this.
+For example, a sine wave that oscillates in time
+with a specific frequency will transform to a large amplitude
+spike at plus or minus that frequency
+in the transform domain.
+Thus, it's easy to identify the location of the spikes
+and then read off the frequency directly.
+And if we know a signal's frequency,
+then we also know its period, since the frequency
+is 1 over the period.
+Now, the Quantum Fourier Transform
+is essentially the same transformation,
+which is why we'll use it here for period finding.
+It takes a state j and transforms it
+to a superposition state with specific phase factors.
+If we start with a superposition state with coefficients xj,
+the transformed result is also a superposition state
+with coefficients yk, where the probability amplitudes
+yk are the classical discrete time Fourier
+Transform of the probability amplitudes xj.
+And due to quantum parallelism and quantum interference,
+implementing the Quantum Fourier Transform
+is exponentially faster than implementing
+the classical fast Fourier Transform algorithm.
+Now, that sounds great, but there's an important catch
+related to quantum measurement.
+As you know, the measurement of a quantum state
+is probabilistic.
+Although the output of the Quantum Fourier Transform
+is a large superposition state with transformed probability
+amplitudes, we generally can't access those amplitudes.
+Our measurement projects out only a single state,
+and even if we identically prepare the system
+and measure it many times, we only
+learn about the magnitude squared
+of the corresponding coefficients.
+We lose the phase information.
+So we don't have access to the probability amplitudes
+in the quantum computer, and this
+is quite different from the classical Fourier
+Transform where the entire output
+vector of complex numbers can be directly read.
+Thus, the Quantum Fourier Transform
+is most useful in problems where there's
+a unique period or phase that can
+be found with high probability.
+For now, let's return to Shor's Algorithm.
+The Quantum Fourier Transform is applied here
+to the qubits in Register 1, and it
+imparts specific phase factors that
+are related to both x and z.
+That is, they're related to both the coefficients
+of the qubits on Register 1 and the modular exponentiation
+stored on Register 2.
+The phase sampling increment is represented here by omega,
+and it's the phase 2 pi divided by the total number of states--
+2 to the 2L power.
+Here we can see that increasing the number of qubits
+will reduce the step size, and thus the error
+in estimating the actual period.
+Essentially, more qubits will more
+densely sample the phases that represent the period.
+Lastly, we measure the qubits in Register 1.
+The projected state that results is a binary value of z,
+and its decimal value is equal to or an integer multiple of 2
+to the 2Lth power divided by r.
+Thus, it can be used to find the period
+r using a continued fraction expansion of z divided
+by 2 to the 2L.
+You can learn more about the Quantum Fourier
+Transform and related topics in the text
+units following this video.
+And in the next video, we'll take a closer look
+at how the Quantum Fourier Transform mediates
+the quantum interference terms that constructively converge
+to estimates for the period r.

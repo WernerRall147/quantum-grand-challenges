@@ -1,0 +1,127 @@
+
+Patterning superconducting qubits
+requires state of art fabrication technologies.
+For example, at MIT Lincoln Laboratory
+we fabricate superconducting qubits
+in our 70,000 square foot micro-electronics laboratory.
+Within this clean room, we have a full suite
+of 90 nanometers CMOS tools, and we also
+have dedicated superconducting deposition and etch tools.
+These dedicated superconducting tools
+are essential for limiting sources
+of magnetic contamination, which is
+one of the sources of decoherence within qubits.
+When we're fabricating superconducting qubits,
+we first deposit pristine materials.
+And then we work to keep them as pristine
+as possible by minimizing, processing, and choosing
+our parameters carefully.
+Many processing steps have the potential
+to introduce sources of fabrication induced loss,
+and we've systematically studied ways
+to mitigate this potential.
+There are three main steps in our baseline superconducting
+qubit fabrication process.
+First, we prepare substrates and deposit a pristine layer
+of superconductor, often aluminum or titanium nitride.
+Second, we pattern this pristine material
+into essentially everything for our superconducting qubit
+circuit, other than the qubit loop.
+This can include readout and control circuitry,
+such as resonators that interact with the qubit, the device
+ground plane, and shunt capacitors,
+which can store energy from the qubits.
+Third, we add our qubit loops, which
+contain Josephson Junctions.
+Josephson Junctions are thin oxide barriers sandwiched
+between two layers of superconductor.
+We often use aluminum as this qubit loop superconducting material.
+After we fabricate our qubit wafers,
+we conduct extensive testing of the devices.
+And then we wire bonded package some chips from the wafers
+to cool down and measure in our dilution fridges.
+We fabricate our devices on either 200
+millimeter manufacturing style wafers,
+or on smaller 50 millimeter prototyping wafers.
+For our 50 millimeter prototyping wafers,
+we focus on quickly turning around
+new designs for rapid testing.
+For our 200 millimeter manufacturing scale wafers,
+we focus on high yield of defect free complex designs.
+We now will walk through these main process
+steps in more detail, and highlight at each stage
+some of the key considerations, starting with preparation
+of the silicon substrate and deposition of our high quality
+base metal.
+Silicon substrates have a surface native oxide
+that is about 1 and 1/2 nanometers thick.
+The silicon oxide can contain dangling bonds,
+and is a source of loss for superconducting qubits.
+In order to remove this oxide, we first
+do a wet chemical etch, and then we load the wafers immediately
+into our molecular beam epitaxy, or MBE system.
+Using the MBE, we further prepare the silicon surface
+by annealing at high temperature,
+and reconstructing the top monolayers of silicon.
+This is a molecular beam epitaxy deposition system,
+and this is critical in making superconducting qubits
+because it forms a very important part of the qubit,
+the very base metal.
+And the metal we typically use is aluminum.
+This forms the capacitors, and the wiring,
+and the connections to the Josephson junctions, which
+form the qubit itself.
+The aluminum comes from these effusion cells, which
+is a really fancy tool, but all it means
+is that you have a little cone shaped crucible
+where you put your aluminum in, and it's
+melted through these wires around the circuitry.
+And the specific amount of power that goes into it controls
+the temperature of the aluminum down
+to under a tenth of a degree.
+That means we have precise control over the vapor
+pressure of the aluminum, which means
+we control how fast the aluminum film is deposited
+into our tool.
+And we can monitor, in situ, the growth of these aluminum
+films using those high energy RHEED
+gun, which stands for reflective high energy electron
+diffraction What this gives us is
+a two dimensional diffraction view
+of the surface of the wafer.
+So you can see one, the silicon wafer, two,
+the desorption of the hydrogen on the silicon wafer,
+and three, the deposition in real time
+of the aluminum on the wafer.
+Next, we pattern the high quality metal
+into our shunt capacitor's control
+and read out circuitry and ground plane.
+We pattern a layer of optical resist
+onto our superconducting base metal
+to define our features of interest.
+The pattern is transferred into the underlying superconducting
+material using either a wet chemical etch, or a plasma etch
+process.
+Afterwards, we strip the resist mask using a chemical stripper.
+Sources of loss within superconducting qubits
+can be attributed either to the materials on our wafers
+or to our fabrication processing.
+As a proxy for assessing the loss within superconducting
+qubits, we can use coplanar waveguide resonators.
+At Lincoln Lab, we use quarter wave resonators
+that are capacitively coupled to a center feed line.
+We deposit the same metal as our qubit base metal, and pattern,
+and etch using identical processes.
+Our standard chip layout has five resonators
+that are each spaced 200 megahertz apart in frequency
+by varying the length of the resonators.
+When cooled to milli-Kelvin temperatures, which
+has passed the superconducting transition point,
+we can look at loss within these resonators
+as a function of photon number.
+In particular, we assess performance
+at the single photon limit, where on average, a single photon
+is in the resonator cavity.
+As of 2018, we typically see single photon quality factors
+of 500,000 to one million for aluminum and one to 2.3 million
+for titanium nitride.

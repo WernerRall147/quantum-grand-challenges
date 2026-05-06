@@ -1,0 +1,227 @@
+
+ISAAC CHUANG: Shor's quantum factoring algorithm
+has been implemented by a number of physical systems,
+including trapped ions.
+Let us consider what was done and why.
+Perhaps the most important starting point
+is to consider the question, what
+is the smallest meaningful instance of the Shor quantum
+factoring algorithm?
+Recall that the intent of Shor's factoring algorithm
+is to compute the period of this function--
+f of x equals a to the x mod N. In this expression,
+N is a number we wish to factor, x
+is the argument to the function, and a is a random number which
+is chosen that is co-primed to N.
+It shares no prime factors in common with N.
+The period of this function r allows us to find with some
+probability-- a high probability--
+a factor of N which is non-trivial.
+Quantum factoring thus has as a goal finding this period r.
+Solving this problem takes an amount of time,
+or a number of operations, roughly proportional to L
+cubed, where L is the number of digits of the number N.
+Classically, using the best-known algorithm,
+the time required, or number of operations required,
+roughly goes as e to the 2L to the 1 over 3.
+The difficulty of this factoring problem
+is at the root of what secures widely-used cryptosystems
+such as RSA.
+To appreciate what the smallest meaning for instance
+of Shor's quantum factoring algorithm is,
+it is helpful to review the quantum
+circuit for the algorithm.
+Recall that there are two registers-- the top one here,
+which holds the value x in a superposition
+of all possible values, and a bottom
+register where the result of the modular exponentiation is held.
+The top register is then fed through a inverse quantum
+Fourier transform, which returns the result.
+There are three main steps in this procedure.
+First, the input superposition of the top register
+must be created.
+Second, the modular exponentiation--
+a to the x mod N--
+must be computed.
+This is the most difficult part of Shor's quantum factoring
+algorithm because multi-qubit gates are required.
+The third step is the quantum Fourier transform.
+And because the result of the Fourier transform is measured,
+only single-qubit gates--
+some of them controlled by classical results--
+are required in principle.
+After the result is measured, there
+is some classical post-processing.
+And this can be done by essentially
+any classical computer.
+Now, the number we are factoring is N.
+And it is clear that the algorithm is too trivial when
+N is an even number--
+that is, it has a factor which is 2.
+Thus, the smallest meaningful factors are 3 and 5.
+Here is a generic quantum factoring circuit
+for the case of N equal 15, namely 3 times 5.
+What makes this specific for N equal 15
+is the choices available for the random base to be chosen a.
+a must be coprime with N. In other words,
+it must not share any factors with N.
+And furthermore, it must be less than N.
+And therefore, the only two meaningful cases
+are a being 7 and 11.
+Thus, the modular exponentiation circuit in the middle
+reduces to looking like this, where
+we have used repeated squaring, as is common,
+to realize the modular exponentiation.
+Note that each one of these exponentiations
+is calculated mod 15.
+So we began with a controlled multiplication
+by a, then a controlled multiplication by a squared, a
+to the fourth, a to the eighth, a to the 16th,
+and so forth, all the way up to a to the 128th power.
+Of course, the result of each of these multiplications
+is still a number between 0 and 14
+because of the modular multiplication being performed.
+So there are two non-trivial possible values
+of a that may be used in factoring 15.
+I claim that one of these is easy to handle,
+and the other is hard.
+Why is this the case?
+Well, let's see why by working out the two cases explicitly.
+Consider the case of a being equal to 11.
+Now, what we want is to take powers of a modulo 15.
+a to the 1 is clearly equal to 11.
+Now, if we multiply 11 by 11, we get 121.
+That value modulo 15 is simply equal to 1.
+And so the pattern continues to repeat.
+If we multiply again by 11, we get 11 and then
+1 and then 11 and 1.
+So computing 11 to the x modulo 15
+for any value of x is really easy because it only
+requires one bit of x.
+And thus, the quantum circuit looks simply like this.
+Because the period is 2 in this case,
+we find that the quantum circuit required is very simple.
+All it is is a single controlled a multiplication circuit
+with one bit of x involved-- the least significant bit.
+And furthermore, since only two possible values
+of multiplication by a matter--
+11 and 1-- it is really tempting to replace
+this controlled a by just a single controlled NOT gate.
+And thus, this case is the easy one.
+Now, consider the other case of a being equal to 7.
+Here, we find 7 to the 1 is equal to 7.
+7 squared is equal to 49.
+Modulo 15 is equal to 4.
+4 times 7 is 28.
+28 modulo 15 is equal to 13.
+13 times 7 modulo 15 gives us 1.
+And thus, the period here is 4.
+So the quantum circuit required needs two bits of x.
+And thus, we find the quantum circuit is much less trivial.
+It involves a controlled multiplication by 7,
+as well as a controlled multiplication by 49 modulo 15.
+In contrast to the a equal 11 case,
+this circuit is much more complicated,
+and thus, this is known as the hard case.
+From this analysis, it is clear that only seven qubits
+are needed to realize Shor's algorithm for factoring 15.
+Here is the quantum circuit.
+This circuit includes both the easy and the hard cases.
+If we further consider what is needed
+for the controlled multiplication
+by a, as well as the controlled multiplication by a squared
+modulo 15, we find that this sequence of gates suffices.
+This includes two controlled NOT gates
+for the easy case and four additional controlled NOT gates
+and to Toffoli gates for the hard case.
+Altogether, including the quantum Fourier transform
+and the superposition creation Hadamard gates,
+around 20 gates are required.
+Of course, some of these are not elementary gates.
+The Toffoli gates are three-qubit gates, controlled
+controlled NOT gates, and they can
+be very highly nontrivial to realize in a physical system.
+The first realization of Shor's quantum factoring algorithm
+was done with a nuclear magnetic resonance
+system, as you have heard from Professor Lieven Vandersypen.
+The NMR experiment did both the easy and the hard cases
+and required around 200 pulses, each of these pulses realizing
+some elementary operation, a sequence of which,
+for example, realized the Toffoli gate.
+This was done in 2001 at IBM.
+More recently, in 2007, Shor's algorithm
+was also realized using a linear optics setup.
+However, only the easy case was implemented in that experiment,
+thus, only three qubits were required,
+and 13 elementary grades were performed.
+Furthermore, this experiment required post-selection,
+meaning that the results were only correct when
+conditioned on a specific output being in a certain state.
+The first solid-state qubit implementation
+of Shor's algorithm was done with a superconducting qubit
+system in 2012.
+Again, this was for factoring the number 15
+using three qubits and two controlled NOT gates.
+A more complicated case factoring the number 21
+was also done, this using linear optics quantum computing.
+But again, only an easy case was performed,
+with a four-qubit system and 26 gates, in 2011.
+One of the lessons from these experiments
+is that it is incredibly tempting to reduce the quantum
+factoring algorithm into something
+increasingly simple to realize with an experiment.
+And, in fact, factoring almost any number
+using a quantum algorithm can be done trivially
+by choosing an a such that the period r is equal to 2.
+In this case, the quantum circuit for Shor's algorithm
+reduces to a very simple two-qubit circuit, shown here.
+This illustrates the ridiculousness
+of what happens when one compiles the quantum factoring
+algorithm down too far.
+This point is driven home by a beautiful article
+by John Smolin, Graeme Smith, and Alex Vargo,
+which appeared in Nature in 2013,
+titled "Pretending to Factor Large Numbers on a Quantum
+Computer."
+They observed that actually running algorithms
+on such tiny experiments is a somewhat frivolous endeavor
+when such extreme compilation is performed.
+So one has to be very careful in choosing
+a meaningful instance of Shor's algorithm,
+as well as a meaningful rendition of that instance
+in a physical system.
+If this is done, in fact, quantum factoring
+can be a useful test of scalability.
+One of the main points of the trapped ion quantum computing
+realization was to show how Shor's algorithm can provide
+a meaningful and stringent test of the scalability,
+integration, classical control, and quantum control of quantum
+computers.
+In the trapped ion realization of Shor's quantum factoring
+algorithm, there were four main goals.
+First, when doing both the easy and hard cases,
+it is clear that a cascade of multi-qubit gates is required.
+And if each one of these gates fails with a small probability,
+the cascade rapidly fails because
+of the product of those probabilities decreasing
+very fast.
+So to achieve high-fidelity, non-pole selected,
+deterministic output is a challenging goal to realize.
+A second goal of the trapped ion demonstration
+was to demonstrate the feed forward control needed
+for the recipes used in fault-tolerant quantum
+computation.
+A third goal was to perform not just quantum computation
+but also to integrate quantum memory with the quantum
+computation.
+And finally, one of the most important goals
+of building a process for building quantum computers
+is to be able to predict their performance in advance
+of realizing the hardware.
+And thus, one of the goals of the trapped ion demonstration
+of Shor's quantum factoring algorithm
+was to demonstrate such predictive modeling of expected
+system behavior.
+Altogether, this meant that the goal of the trapped ion quantum
+computing realization of Shor's quantum factoring algorithm
+was to use it as a strategic test of scalability elements.

@@ -1,0 +1,109 @@
+Until this point in the course,
+we've generally talked about qubits
+as quantum mechanical two-level systems.
+But how do we physically realize a qubit in practice,
+and what are the leading physical realizations today?
+In this section, we'll have a general introduction
+to several candidate qubit technologies.
+Later, we'll present an in-depth look
+at two of the leading qubit modalities.
+Let's start with electron spin.
+As we saw in the introduction to quantum parallelism and quantum
+interference, the electron spin has two states,
+spin up and spin down.
+The question is, how to isolate a single electron.
+In this first example, the electron spin
+is trapped in a quantum dot, a small region of semiconductor
+material where a single electron can be trapped.
+We start with a two dimensional sheet of electrons, called a two
+dimensional electron gas, or two deg for short, which
+can be realized at the interface of a slab of silicon
+and a slab of silicon germanium.
+Metallic gates are then defined on the surface of the device
+to electrostatically define the quantum dot region,
+and by applying the appropriate gate voltages,
+a single electron spin can be trapped there.
+Combinations of microwaves and baseband pulses
+are then used to implement quantum gates.
+Now, in addition to the single dot shown here,
+there are also more complex designs,
+including double dots, triple dots, and even
+dots based on CMOS devices, each of which
+adds complexity to gain certain advantages.
+In general, the main attraction of quantum dots
+is that, one, they leverage advanced silicon fabrication
+technology.
+Two, they're relatively small in area, and so in principle
+can be integrated to large numbers.
+And three, much like CMOS, they controlled using gate voltages.
+The main challenge is that multiple gates are required
+to define a single qubit.
+And so 3D integration techniques will certainly be required
+to realize large scale circuits.
+Another example of an electron spin qubit
+is in phosphorus doped silicon.
+Here, phosphorus atoms are implanted in the silicon
+substrate, and the spin of its outermost electron
+serves as the qubit.
+And as with quantum dots, electrostatic gates
+are used to control the qubits, using
+a combination of baseband, RF, and microwave pulses.
+The main advantages of phosphorus doped silicon
+are that it also leverages silicon fabrication
+technologies, and the electron spin qubit
+has very long coherence times.
+The primary challenge is that the dopants
+must be in very close proximity to one
+another, around 10 nanometers, in order
+to have a sufficiently large two qubit coupling
+to implement a two qubit gate.
+This makes it extremely challenging
+to place the gates and route the wires required
+to control the qubits.
+It also means that crosstalk between control lines and qubits
+will be significant.
+Again, 3D integration will be required here.
+A second challenge is that the phosphorus dopants must
+be implanted in the silicon with very high precision,
+and this remains an outstanding challenge.
+Phosphorus dopants also have a nuclear spin
+that can be used as a qubit, which is controlled using
+radio frequency or RF pulses.
+The main advantage of nuclear spin qubits
+is their extremely long coherence times,
+which arise because the spins are largely decoupled
+from their environment.
+The trade off, though, is that the gate times are rather slow.
+A second system that affords both an electron
+spin and a nuclear spin is the nitrogen vacancy center
+in diamond.
+Diamond is formed from a tetrahedral lattice
+of carbon atoms.
+Occasionally, however, a defect interrupts this lattice,
+and one example is called a nitrogen vacancy,
+in which a nitrogen atom is injected into the lattice
+and causes the carbon vacancy to form.
+The result is an extra pair of electrons,
+which form a spin system whose lowest two spin levels can
+be used as the qubit.
+Alternatively, the nuclear spin of the nitrogen atom
+or of the surrounding carbon atoms
+may also be used as a qubit.
+The electron spin is addressed by a combination of microwave
+pulses to implement the quantum control and lasers to initialize
+and measure the qubit.
+The nuclear spin has a magnetic field dependent splitting
+that is controlled at radio frequencies,
+and in fact, although they can be used as qubits,
+NV centers really shine as quantum sensors
+of magnetic fields due to this sensitivity.
+The advantage of NV centers is that they are rather well suited
+to the interconversion and communication of quantum
+information, and they also have reasonably long coherence times.
+They can even be operated at room temperature,
+albeit with some lower coherence.
+The primary challenge for NV centers is their scalability.
+While few qubit spin clusters, local to a single NV center,
+have been demonstrated, currently it's
+not possible to place high coherence nitrogen
+vacancies in precise locations to create large qubit arrays.

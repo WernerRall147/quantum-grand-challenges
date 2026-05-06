@@ -1,0 +1,150 @@
+
+I want to illustrate the simulation challenge to you
+today with one very specific thing,
+and this specific thing has to do with a well-known task known
+as nitrogen fixation.
+And nitrogen fixation is a process
+that happens in nature that involves
+taking gaseous nitrogen from the atmosphere
+and then combining that with protons,
+typically from water, and then producing
+as a result of this two molecules of ammonia.
+Of course, in natural systems, in biological systems,
+this is not usually ammonia but probably ammonium.
+And yet, this is one of the most important processes
+to biological systems, including your life and my life
+because it is the rate of this nitrogen fixation process
+that limits the production, for example, of food.
+The reason this is such an important and interesting
+reaction can be illustrated by looking at the reaction
+diagram of the process.
+So let this be a reaction coordinate--
+so progress as the reaction proceeds from the left hand
+side to the right hand side of this equation.
+And the fact is that the reactants coming in
+have a certain kind of energy, and let me not be
+too specific about that, but they
+have to overcome an enormous activation energy
+barrier before being able to exit the reaction as a product,
+the ammonia that we have here.
+This energy difference here is on the order of 50 kilojoules
+per mole of the reactants.
+This energy activation barrier here
+is much higher, on the order of 400 kilojoules per mole.
+And so although it's desirable to be
+able to fixate the nitrogen and produce ammonia,
+you have to at least, if you have no other recourse,
+supply a great deal of energy before you
+can get this recovery of energy since this
+is an endothermic reaction.
+
+Many of you may not know, but we have a lot of nitrogens
+in our body--
+50% of the nitrogens in your body,
+according to an article in Nature in the early 2000s,
+comes from a single chemical process.
+And it's remarkable for me to realize and appreciate
+that so much of ourselves, our bodies, our nitrogen,
+is dependent on this process known
+as the Haber-Bosch process circa 1911.
+And Fritz Haber and Bosch won Nobel prizes for their work
+in this area.
+This is a process, which creates high ammonia from nitrogen
+and steam by cracking it.
+And so it utilizes metal catalyst
+at a very high temperature and pressure, 200 megapascals,
+and something like 450 degrees Celsius in a very large scale
+industrial process to be able to generate ammonia.
+And what is the ammonia then used for?
+It turns out that it is used for fertilizer, and that fertilizer
+that goes into you, the human body,
+and we can estimate that it probably
+is responsible for something on the order
+of the sustenance of maybe 40% of the world's population.
+Enormous industrial scale production.
+And at the same time, the cost is between 1% and 2%
+of the world's energy.
+Now this is fascinating.
+It's a strange place perhaps to be
+talking about starting a lecture on quantum computation.
+But here's the idea--
+nitrogen fixation is not done by nature
+using the Haber-Bosch process, using
+this very high temperature, very high pressure
+industrial process.
+Instead, nature does it with catalysts, not metal catalysts,
+but biological catalysts, which are enzymes,
+for example in bacteria, at room temperature
+and at room pressure.
+And it does it remarkably different way, which
+we do not understand today.
+And the example of how this is done
+is with a special enzyme known as nitrogenease.
+And this is a bacteria enzyme, one of many different kinds
+of enzymes, which are able to fixate nitrogen
+from the atmosphere and turn it into ammonium and ammonia.
+But what is remarkable about this enzyme
+is that we do not understand today how and why it works.
+Maybe on the order of a dozen other kinds
+of varieties of biological enzymes
+have been manufactured or extracted
+to accomplish the same task that the Haber-Bosch process does,
+but none of them are quite stable and efficient
+and long running as what happens in biology today.
+Now, the reason we don't understand this
+is because this is all happening in a complex molecule.
+The actual reaction, which I wrote over there,
+involves much more than just nitrogen and two molecules
+of water or hydrogen coming in.
+Let's balance our reaction over here.
+There are many other things that are happening
+inside these processes.
+For example, there are 8 protons and 8 electrons that
+come in typically, and this may also involve a proton pump
+with adenosine triphosphate, losing phosphorus
+to become on the other side, 16 ADP and 16 phosphorus
+like this.
+So nature uses a very small amount of energy
+to be able to catalyze this and take this nitrogen fixation
+reaction over the activation energy barrier.
+Now why is this possible?
+It turns out there is this amazing center
+inside this nitrogenease called the iron molyhydenum complex,
+and it has on the order of a 100 kilodaltons of atoms
+inside this, so we're talking on the order of maybe 1,000 carbon
+atoms.
+And they're all shaped in various ways
+with alpha helices and beta sheets.
+And these shapes then allow of the nitrogen and the hydrogen
+coming in to dock in a certain way,
+and then because of where they are docked,
+they can react and do so much more efficiently than they
+are able to do in this heterogeneous type
+of catalytic reaction that's industrially done.
+So we would love to, in quantum chemistry,
+synthesize molecules which have such functionality
+because you could catalyze all sorts of other reactions.
+We cannot understand why this is happening from a fundamental
+standpoint today because we do not know what is happening
+in a quantum mechanical way with this molecule.
+Only very recently was even the structure
+of the molecule understood like with X-ray crystallography
+and the like.
+So we, in principle, could do so.
+In fact, in principle, we can write down--
+in principle, we can write down all
+we need in order to figure out what's
+happening in this because the system is actually
+a very simple Hamiltonian in principle.
+There is a kinetic energy of a nucleons,
+there's a kinetic energy of the electrons,
+and then there are interaction terms between the nucleons
+and nucleons, between the nucleons and the electrons,
+and electrons and electrons.
+And I'll expand into this Hamiltonian in a little bit
+to show you concretely what this means.
+But suffice to say that we can write down
+a very accurate description of the system.
+What we cannot do, what we do not know how to do,
+is to solve for things like the reaction rate and even more
+simply, just the ground state of the system.

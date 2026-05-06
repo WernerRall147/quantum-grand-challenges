@@ -1,0 +1,243 @@
+
+We've talked about the promise of quantum computers
+and their potential for quantum advantage.
+Clearly, some problems are very hard to compute
+on a classical computer, and for some of these problems
+a quantum computer is much more efficient.
+But what makes a problem hard in the first place?
+You've probably heard of problems being categorized
+as P or NP, NP-complete.
+But what do these categories mean, and how
+do computer scientists classify a problem as an easy problem
+or a hard one?
+In this deep dive, we'll hear from Professors Ike
+Chuang and Peter Shor about the computational complexity
+of classical computing, how it's defined,
+and how problems are classified, including a discussion
+of several standard problems that are classified as P,
+and NP, and NP-complete.
+Let me describe a little bit about universality
+in the language of the circuit model of computation,
+because that's what we naturally know best,
+and also is what we will build quantum computation upon
+as a language.
+So in the circuit model, for example,
+we may have AND gates and NOT gates.
+And I want to claim that all Boolean circuits, circuits
+that compute Boolean functions, can be composed of AND and NOT.
+And this is fairly easy to see, but first
+let's look at the family of Boolean functions.
+They will be functions that take,
+if there are n bits of input, say x0 to xn minus 1,
+and the result of this is going to be either 0 or 1.
+OK, so for example, in the notation
+I will say that we may have f of x1x2 be x1x2.
+And this product represents an AND gate.
+Or for example, f of x is equal to x-bar.
+And this is how I will represent a NOT gate.
+OK?
+Now, the question of universality
+dovetails with another question.
+And I haven't finished the universality description yet,
+but I want you to keep this in mind of complexity,
+because it's not terribly useful if I say something
+about universality without saying how much cost it
+takes to accomplish something.
+So here, the key idea which we will not have time
+to go into much depth on, but I hope you already
+know something about, which is that some math problems are
+harder than others, apparently.
+And I don't mean it's hard to multiply
+two million-digit numbers, and that's harder than multiplying
+two 10-digit numbers.
+No, that's not the point.
+The point is they're scaling with respect
+to the size of the problem.
+And this leads to a statement which I hope that all of you
+already know of in some form, which
+is called the Strong Church-Turing Thesis.
+And I'll write this up for you, because I
+think the words of this are very useful in understanding
+the perspective.
+So we say, any model of computation
+can be simulated on a specific kind of machine.
+And the machine and model I would choose
+will be this one here, the Turing machine.
+But I'm going to choose a specific variant of it,
+the probabilistic Turing machine.
+And I need to say something about the cost
+of this kind of simulation.
+And the essence of that thesis is that this simulation cost
+comes with, at most, a polynomial increase
+in the number of elementary operations required.
+It's an extraordinary thesis.
+It defines an equivalence between models, whether they
+be electrical and optical or electrical and DNA or quantum
+and DNA or quantum and classical.
+And for even that to be possible conceptually is remarkable.
+And I haven't defined a lot of the technical terms
+in this, like simulation and the overhead costs,
+but I hope you'll get to appreciate that as we go along.
+OK.
+So now, in order to highlight this statement of equivalence,
+let me make sure you are aware of one of the greatest
+motivating factors for quantum computing, which
+is the difference between two of the most important classes
+of mathematical problems.
+And for this, I'll use this fact that many problems can be
+expressed as decision problems.
+So for example, is the number M prime?
+And the answer to this is yes or no.
+Is this a hard problem or an easy problem?
+This actually was not known for many years.
+It was then realized that you could answer this question
+with some randomness.
+You wouldn't know it for certain.
+This is Rabin's primality testing algorithm.
+And then some 15 years ago, somebody in India
+proved that you could do it deterministically.
+So it moved from this probabilistic model,
+which people had to use previously for this question,
+to something which did not need probability.
+So today, there is a deterministic primality testing
+algorithm.
+And this problem is called primality.
+OK, so that's one example.
+Here's another one.
+It's called factoring.
+Given a composite integer m, but not
+just the number that we're going to try to factor, also
+and a number l, an integer l, which is less than m,
+does m have a factor that's non-trivial
+which is less than l?
+So we need to bound the sides of the range of numbers
+we're going to consider as being answers to the problem.
+And again, this is a yes or no question.
+And we have this distinction.
+If the time taken to answer this question,
+needed to answer this question, is
+polynomial in the size of the question--
+and here, for example, for factoring,
+this is the number of bits of m, the number of digits
+in the number, OK-- it's not just the number itself--
+then we say that the problem is polynomial in complexity.
+So we say it's in this class that we'll call P.
+Now, let me break down the class of whether this is something
+answered by a yes or by a no.
+
+If the yes instances of the problem are easily checked--
+and I'll use the word verified as a technical term--
+with the aid of a witness, which is a short description
+piece of information that enables
+somebody else who's not terribly skilled
+at the arts but can be very reliable,
+to verify your claim.
+Sometimes, we talk about a Merlin and an Arthur.
+We say that the Merlin is somebody who's very clever
+and can come up with proofs, but you
+need the Arthur, who is not terribly clever
+but can be very, very reliable to take that proof
+and verify the claim.
+So there are two parties to this, the verifier
+and the prover.
+And the verifier takes this witness.
+Then we say, if this is true, then the problem,
+even if it is very difficult, the fact
+that we can verify the proof of it
+means that we will say that the problem is
+in this class called NP.
+And in some senses, I want to say this is non-polynomial,
+but the main point of this is the distinction
+between P and NP.
+And for sake of completeness, we have another parallel to this,
+which is the mirror image.
+If no instances-- so this is the answer is yes,
+and this is the answer is no--
+with exactly the same language, then we
+say that the problem is in a different class called co-NP.
+
+And I do this not because I want to say anything
+more about P versus Co-NP or NP versus Co-NP,
+but just to share with you a trivial fact in a moment.
+
+So the reason I show this is because so
+much of the motivation for computation today,
+and much of quantum computation comes from this question of NP
+versus P. We think that the P problems are easy
+and the NP problems are the hard ones and meaningful ones to do.
+And there's this plot that you can
+make which shows that, if this is
+the space of all mathematical problems,
+then P is a subset of something we might say is NP,
+but there's also this extra area over here, which is
+the hardest of the NP problems.
+And we call these the NP-complete problems.
+And they're defined as such because,
+if you can solve any of the problems that are NP-complete,
+then it gives you a polynomial time algorithm
+to solve any of the other problems in the NP regime.
+So where's quantum computation in all of this map?
+Well, I'm not going to answer that for you today,
+but I hope that, through the course
+of this class and this semester, you'll
+start to appreciate where quantum computation is
+relative to this landscape of the field of all problems
+and their complexities.
+Quantum computation sits kind of differently in this landscape.
+It has a complexity class, typically of something
+we call BQP.
+And part of the reason for that is
+because the model is slightly different, and doesn't
+fit directly into either of these classes,
+because sometimes the output is quantum mechanical.
+There are errors involved, and some things
+we'll come to later.
+Good.
+So I hope many of you already knew about most of this,
+but I also hope that it starts to connect some things for you.
+An example of an NP-complete problem--
+and now I'm going to go back to the concept of universality--
+is-- so an example is a problem called 3-SAT.
+And this is about the satisfiability
+of Boolean functions, which looks something like this.
+So suppose you have, again, a function of bits
+x0 through xn minus 1.
+And the formulas that are involved in 3-SAT look
+something like x1 plus x3 plus x9, OR’d together,
+AND’d with--
+there's a multiplication here--
+another term, like x4 plus x7-bar plus x11,
+and so forth and so on, where each one of these terms just
+has three bits, and your goal is to say,
+does there exist an assignment of zeros and ones
+to the x inputs such that the output is equal to 1?
+Seems very simple.
+It's very easy to write this problem on the board.
+But if you can solve this problem fast in time
+that’s polynomial with n here, then
+it turns out you can solve all the rest of these problems
+fast.
+And in fact, if you can solve this problem fast,
+you can solve problems like the optimal way
+to pack boxes into a FedEx truck,
+or the optimal way to route a packet in for information
+from San Francisco to Boston.
+You know, it's really remarkable how powerful
+such a simple problem can be.
+And yet, I can show that, in practice, you can't really
+solve most of the instances of this problem
+as well as we would like to.
+Yes, please.
+Are there simple problems that are neither P nor NP?
+Are there simple problems that are neither P nor NP?
+Yes.
+Another interesting class that sits outside of this
+is the class of counting the number of solutions
+to a problem.
+That's the class called sharp-P. And so on and so forth,
+because you might count the number of things to count
+the number--
+OK.
+But you know, this is how you get
+a career as a theoretical computer scientist.
+It's very effective.

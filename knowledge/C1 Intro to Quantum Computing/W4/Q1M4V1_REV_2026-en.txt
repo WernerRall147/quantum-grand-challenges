@@ -1,0 +1,69 @@
+
+This week, we're going to run an actual quantum
+algorithm, the Deutsch Jozsa algorithm,
+on a real quantum computer.
+And of course, we'll first discuss in detail
+how that works.
+To do this, we'll need to introduce
+the algorithm using a circuit model of quantum computation.
+But before we do that, let's first
+look at an example of a circuit model
+in the context of classical computation.
+The circuit model for classical computation
+begins with input data prepared at the initialization stage.
+We can think of the computational bits in the input
+register being reset to all zeros
+and then set to the initial values that
+will be input to the computer.
+Now, this reset step may not be absolutely
+necessary in a classical computer.
+But we'll include it here for comparison
+with the quantum circuit model that we'll discuss later.
+The initialized bits are then input to a computational stage.
+Here, a series of logical operations
+are implemented using classical Boolean logic gates to compute
+a series of functions.
+And once this is complete, the output for this stage
+encodes the result of the computation.
+For example, let's consider a full adder circuit
+comprising a series of Boolean logic gates.
+The full adder takes as inputs the bits B1 through B3.
+Where B1 and B2 are the binary numbers we want to add
+and B3 holds any carry in that we may have
+from a previous calculation.
+Here we don't have a carry forward so its value is zero.
+An output of this circuit is the sum, B1 plus B2 modulo 2,
+where the modulo 2 arises because this
+is binary arithmetic.
+The second output is the arithmetic
+carry out that may result from the addition.
+These two values are then assigned to bits B4 and B5
+and stored in the output register.
+In this case, we add 1 plus 1, which
+is of course 2 with decimal numbers.
+And for the binary addition performed by this circuit,
+the addition is modulo 2, 1 plus 1 equals 0, and has
+a carry forward of 1.
+Finally, the results from this addition problem
+are obtained in a measurement stage, where
+the values of bits B4 and B5 are the binary representation
+of the answer, which may be then converted back
+to a decimal result.
+This type of initialized, compute and measure process
+is the foundation for a universal classical machine.
+To access this machine, a user interface
+provides the input data and the program instruction
+set that will calculate a desired function.
+This instruction set is then applied
+to the physical hardware using a controller layer.
+This layer takes the input data, sets the input bits,
+implements the physical logic gates
+according to the instruction set, measures the output,
+and then sends the resulting data
+back to the user interface.
+This computational model illustrates the basic building
+blocks that we'll need to implement an algorithm using
+a quantum circuit model.
+The main distinction will be the role of quantum mechanics
+and its impact on the initialization, compute
+and measurement stages.

@@ -1,0 +1,106 @@
+
+Let's now take a deeper dive into the fabrication
+of the superconducting TSV interposer wafer.
+First, we fabricate the TSVs, fill them
+with superconducting material, and pattern the metal
+on the wafer surface.
+Next, we mount the interposer wafer to a temporary carrier
+wafer, flip over the TSV wafer, and remove the excess wafer
+thickness down to the TSVs.
+Afterwards, we add metal to this revealed surface.
+And fabricate control circuitry or qubits onto that surface.
+This revealed side is the surface that ultimately will
+be near the qubit layer qubits.
+After all the processing is complete, we dice the wafer
+and release the individual chips from the temporary carrier
+wafer.
+At the end, the chips are available for bump bonding
+into the three stack.
+After the wafers are fabricated, but before we dice and release
+them, we do extensive room temperature
+and cold temperature testing to confirm that the TSVs are
+superconducting.
+Here, we see a 200 millimeter TSV wafer,
+which has 52 identical die.
+On each die, we have a number of TSV test structures
+in addition to the active circuits that we're
+using for our qubit stacks.
+We use our process control monitor
+chips to assess the individual metal properties,
+as well as four-point probe structures to look
+at both single TSVs and chains of TSVs.
+As one example, we have links of 400 TSVs in series
+that we can probe to assess the resistance.
+When we look at the room temperature resistance
+of these 400 TSV chains, we see that on average we have
+37 ohms of resistance per link.
+Of even more interest to us at room
+temperature is that we see the standard deviation is only
+two ohms, which tells us that there
+is a high degree of uniformity across the wafer.
+Afterwards, we took a subset of these devices
+and cooled them down in our dilution fridge
+to assess the superconducting transition temperature.
+We saw that the devices go superconducting
+around 1.6 Kelvin, and that the midpoint is 3.1 Kelvin.
+This is well above our millikelvin operational
+temperature.
+In advance of having the full three
+stack available for testing, in 2016 and 2017,
+we also conducted a number of experiments
+looking at components of the eventual three stack.
+Since qubits are so sensitive to materials and processes,
+the first experiment we did was to take
+a regular single-chip qubit and design a flip chip
+version of it where all the inductors and capacitors had
+the same values, but the qubit chip was flipped and bonded
+to another chip.
+We wanted to make sure that the extra processing
+and the presence of another chip bonded to the qubit chip
+didn't affect the coherence time.
+Here's what the circuit looked like for our single-chip qubit.
+The chip has six superconducting flux qubits, each of which
+is coupled to a bias line and a readout resonator.
+For the flip chip version, we took all the control
+and readout circuitry and moved it to another chip.
+The only things left on the qubit chip
+were the qubits themselves.
+Then we bonded the two chips together.
+The figure on the right shows an infrared image
+looking through both chips and showing
+that structures on one chip are well aligned
+to those on the other chip.
+We found that the relaxation and coherence
+times of the single chip and flipped chip qubits
+were virtually identical.
+This is interesting for a couple of reasons.
+First, it shows that 3D integration
+doesn't significantly degrade qubit performance, which
+is important.
+Second, we've demonstrated that we can move all the control
+and readout circuitry to another chip, which
+is one of the things we're planning to do for the full 3D
+integration scheme.
+Of course, in this experiment, we
+stuck with the same general design
+because we wanted to isolate the effect of 3D integration.
+In future work, we're planning on shrinking
+the resonator and other components
+so they can fit under or between qubits in a 2D array.
+We're excited to be continuing to develop
+further and further demonstrations using this three
+stack scalable architecture.
+Within both digital quantum computers and simulators,
+as well as analog quantum systems,
+there's a strong need for high connectivity between qubits
+as well as for significant control
+and read out complexity.
+Although there are differences between digital and analog
+quantum algorithms, both systems have
+similar 3D scalability needs that
+are requiring significant engineering developments.
+We are planning to use this three stack
+hardware to scale to test beds with 100 qubits or more.
+We'll then use what we learn from these systems
+as stepping stones to future larger scale demonstrations
+of quantum computers.

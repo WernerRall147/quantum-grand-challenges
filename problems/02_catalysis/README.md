@@ -43,15 +43,16 @@ The Q# entry point `RunAnalyticalCatalysisBaseline` reports the same values, con
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage B complete** (classical baseline and Q# scaffold/build path are in place).
-- **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons).
+- **Current gate**: **Stage C complete** (hardware-aware validation evidence in place: QPE chemistry kernel runnable, calibration ensemble across runs, backend assumptions documented, estimator profile produced for both ns-e3 superconducting and surface-code-generic models).
+- **Next gate target**: **Stage D** (advantage evidence package hardening: fairness review against best-known classical baseline, residual risks quantified, claim category locked).
 
-Stage C exit criteria for this problem:
+Stage C evidence references for this problem:
 
-- Execute at least one non-placeholder quantum workflow path tied to the problem objective.
-- Report uncertainty-bounded comparisons between classical and quantum outputs on `small` and `medium` instances.
-- Document transpilation/connectivity and backend assumptions used for reported quantum runs.
-- Add calibration/noise-sensitivity evidence for the reported quantum metrics.
+- Calibration ensemble: `estimates/quantum_calibration_ensemble.json` and `estimates/calibration_evidence.json`.
+- Backend assumptions: `estimates/backend_assumptions.md`.
+- Estimator profile (ns-e3 + surface-code-generic): `estimates/estimator_profile_summary.md`, `estimates/latest_qubit_gate_ns_e3.json`, `estimates/latest_surface_code_generic_v1.json`.
+- Azure smoke validation: `estimates/azure_smoke_report_small_d1.md`, `estimates/azure_job_manifest_small_d1.json`.
+- Reproducible quantum kernel: `qsharp/src/Main.qs` runnable via `qsharp.run('Main.RunCatalysisAnalysis()', 1)`.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

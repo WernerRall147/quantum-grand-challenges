@@ -1,0 +1,27 @@
+
+In this case study, we'll hear from
+several leading industrial and start-up efforts targeting
+quantum computing.
+We approached several companies, and we asked them
+for their perspectives on the business, engineering, science,
+and technology of quantum computing.
+To get the discussion started, we
+asked a number of baseline questions.
+First, what technological approach
+are you employing to realize quantum computers, and why?
+Second, what is the business application
+you have in mind for the quantum computing systems
+you are developing?
+Third, what are the major technical hurdles
+you're facing?
+Fourth, how will your approach contribute to the advancement
+of scientific knowledge?
+And fifth, what other industries are either vertically
+or horizontally integrated with respect to your own efforts?
+We also invited these companies to add
+in other perspectives and thoughts not captured
+in these questions.
+The results are very interesting and informative.
+And so with that brief introduction,
+let's hear directly from several of the major commercial players
+in quantum computing today.

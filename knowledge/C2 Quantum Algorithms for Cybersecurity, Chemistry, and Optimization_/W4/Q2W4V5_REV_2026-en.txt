@@ -1,0 +1,144 @@
+
+Some students ask me about D-wave after the class,
+so I think I should say something about D-wave.
+It certainly is an interesting story,
+so maybe I'll put a timeline.
+In 1999, D-wave was founded.
+And presumably they didn't come out of nowhere.
+The founders must have been doing some work before in 1999.
+In 2000, Fahri, Goldstone, Gutmann, and Sipser
+write a paper what propose adiabatic quantum computation.
+And a couple of years later, Aharanov--
+
+unfortunately, I did not look up the exact date before this.
+A couple of years later, Aharanov et. al.
+Show it's universal.
+And in 2007, D-wave announces first a 16-bit prototype
+adiabatic quantum computer.
+And there is a lot of skepticism about this.
+So Scott Aaronson goes on a tirade in his blog
+and launches a crusade against them, maybe,
+saying they couldn't possibly--
+saying the things are saying couldn't possibly be true.
+And that's-- well, there's a couple of questions here.
+When they were founded, adiabatic quantum computation
+didn't exist.
+So presumably they were founded to some other kind
+of quantum computation.
+And at some point, you decide adiabatic quantum computation
+was way to go.
+And also sometime between 2007 and today,
+I couldn't figure out when, D-wave now
+says they do quantum annealing.
+So what's the difference?
+Well, adiabatic quantum computation,
+you're in the ground state and you
+would like to operate at a temperature low enough
+to stay in ground state.
+So what is this temperature?
+We call quantum adiabatic computing ground state.
+Let's have a first excited state.
+And this is what's known as an avoided crossing, where really
+this line and this line have roughly
+the same structure of the quantum state,
+as do this line and this line.
+And you get a super position of these two structures
+right here.
+And the more these two structures differ,
+the smaller the energy gap is between them.
+So that's really an oversimplification
+and waving my hands, but it is something like that.
+Yeah?
+Can you evolve your Hamiltonian quite quickly most of the time,
+and then just slow down that evolution,
+when you're going past--
+You can, you know where the gaps are,
+or rather, if you know where these things are,
+you can evolve it quickly most of the time.
+And in fact in Grover's algorithm,
+you can get a square root speed up by adiabatic computing,
+or a square root speed up over the classical search
+by adiabatic computing.
+But the way to do that, is in Grover's algorithm,
+there is one spot where you have an avoided crossing,
+which is I think 1 over square root of n.
+Anyway, to get the speed up, you have
+to go quickly most of the time, then slow down right
+before the avoided crossing.
+And then speed up right after it.
+
+So yeah.
+Of course, if you don't know where these points where they
+come close are, it's going to be hard to speed up and slow down
+your evolution to account for them.
+Anyway, the temperature means that one of your qubits
+might get excited, but if you excite this state, it's not
+going to go to this state, because the state
+and this state are structurally quite
+different with excited qubit in this state,
+and I go up to this state.
+So the temperature is bigger than the smallest gap.
+OK.
+So gaps account for energy, and energy converts to temperature
+by thermodynamics.
+So right temperature is probably going to be bigger
+than the smallest gap.
+But it is still small.
+Anyway, D-wave does not operate at a temperature small enough
+to avoid thermal excitations.
+And that's not because they don't operate at a small temp--
+they operated in extremely low temperature.
+It's just that the structure of their ships
+allows for thermal excitations, even at that temperature.
+
+So people were arguing with them about whether they could really
+call this quantum adiabatic computation.
+So they decided to call it quantum annealing instead.
+So what does that mean?
+Well, if it was quantum adiabatic computation,
+there would be a proof that the quantum computer was universal,
+which means that theoretically it
+could solve any problem that any quantum computer can.
+Although there is the problem of blowing up
+the size by a polynomial factor converting from the gate model
+to the adiabatic computation model and back.
+So if it really was a quantum adiabatic computer,
+they would have a good reason to claim that it could do things
+that classical computers can't.
+Well, they have a quantum annealing computer.
+it is certainly using quantum processes
+and operating in the quantum [INAUDIBLE],,
+but is it more powerful?
+
+And I want to say no theoretical results.
+
+So there are chips that you can program the Hamiltonian,
+and you can program a Hamiltonian to slowly change
+from one Hamiltonian to another Hamiltonian.
+And you can put the starting Hamiltonian
+into the ground state.
+And you're operating at a temperature too large
+to not have thermal excitations.
+So presumably you could take this process
+and construct some mathematical model of it.
+Although you might have to worry about what
+the right temperature for this mathematical model is.
+And then you can ask, does this mathematical model
+let you do anything that you can't
+do on classical computers?
+
+And I don't know.
+Nobody knows.
+
+And the other problem is that they have experiments
+that they claim show that the computer does things better
+than classical computers, but is it
+really an exponential speed up?
+Or is it just that their computer has electrical--
+it has a Hamiltonian trying to find its ground state,
+and it does this reasonably fast.
+And maybe there's a constant factor better
+than classical computers that is letting it find the ground
+state better than classical computers can,
+because physics processes can be really fast.
+So we don't really know whether D-wave is more powerful.

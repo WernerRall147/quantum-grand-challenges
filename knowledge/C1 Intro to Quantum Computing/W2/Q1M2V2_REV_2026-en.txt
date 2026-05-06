@@ -1,0 +1,137 @@
+
+The DiVincenzo criteria articulated the requirements
+that a qubit technology must have in order
+to be a viable candidate for the physical implementation
+of a quantum computer.
+In this section, we'll build on two of those criteria, related
+to qubit robustness and quantum gates,
+in order to define metrics that will
+allow us to compare qubit modalities with one another.
+To do this, let's first look, in more detail,
+at the qubit coherence time, the analog of the mean time
+to failure for a transistor.
+Quantum computers, like classical computers,
+must be built from robust elements.
+The coherence time is one metric that
+quantifies the robustness of a quantum bit.
+Essentially, it's the amount of time,
+on average, that a qubit state’s maintained before the quantum
+state is lost.
+As an illustration, let's consider a qubit
+that we set into a quantum state psi,
+and consider what happens to that qubit over time.
+At first, the state is well-defined,
+we just put it in that state, we're
+confident that we did a good job,
+and so we know what the state is.
+Over time, however, the qubit begins
+to interact with its environment.
+And when it does so, the qubit experiences
+noise that alters the qubit state in ways
+that we didn't anticipate.
+Intuitively, we can imagine that the state begins to blur.
+And as time goes on, and the qubit
+is subject to more of this environmental noise,
+eventually, we can no longer recognize the state,
+and the quantum information is fully lost.
+Now of course, the qubit is still there,
+but it's no longer in the state that we
+would have expected it to be in after this amount of time.
+The noise has altered the behavior of the qubit,
+and it's now in some other state.
+Let's now look in more detail at how
+we quantify qubit lifetimes, by looking
+at errors on the Bloch Sphere.
+There are two fundamental ways in which a qubit
+loses quantum information.
+The first is energy relaxation.
+Imagine that we put the qubit in its excited state, state 1.
+Unfortunately, it probably won't stay there,
+due to noise at the qubit frequency, the qubit will,
+at some point, lose its energy to the environment
+and return to the ground state.
+This loss of energy is called energy relaxation,
+and on average, it occurs after a time called t-1.
+The second way a qubit can lose quantum information
+is through a loss of phase coherence.
+Imagine that we intentionally set the qubit at one point
+on the equator of the Bloch Sphere.
+It likely won't stay in that direction forever,
+due to interactions with the environment.
+And there are two ways that phase coherence can be lost.
+First, the qubit state may move around on the equator,
+due to the environmental noise.
+If we repeat the experiment many times,
+sometimes the noise will drive the Bloch vector east
+along the equator, sometimes to the west, and over time,
+the Bloch vector fans out more and more.
+It does this until, eventually, we
+can no longer tell which direction,
+or equivalently, which phase, the Bloch vector has.
+And the average time it takes for this to happen
+is called the pure dephasing time, t-phi.
+Now there's another way things can go wrong on the equator.
+Remember that, on the equator, the qubit
+is in a superposition state of 0 and 1,
+with 1 being the excited state.
+If that component of the superposition state
+loses its energy to the environment,
+then the 1 state flips to 0, and the superposition state
+is lost.
+Essentially, the qubit's relaxed from the equator
+to the north pole.
+Energy relaxation is also a phase breaking process,
+since once the Bloch vector points to the north pole,
+we can no longer tell which way it had been pointing
+on the equator, that phase information
+is lost to the environment.
+Thus, the average amount of time that a qubit remains coherent
+is related to both the dephasing time, t-phi, and the energy
+relaxation time, t-1, which together, give a time t-2,
+over which phase coherence is lost.
+Thus, a qubit loses its quantum information
+by two mechanisms, energy relaxation and loss of phase
+coherence, characterized, respectively,
+by the times t-1 and t-2.
+Now another important metric for quantum computers,
+just as with classical computers,
+is the clock speed, the time required
+to perform a quantum operation.
+This is called the gate time, and although it generally
+differs for single and two qubit gates,
+we can use a typical time, or conservatively,
+use the slowest gate time, to define the clock
+speed with which we can operate the quantum computer.
+And as with all computers, faster is better.
+Even if we have an exponential speed
+up from a quantum algorithm, it still takes some time
+to perform that algorithm, and all else being equal,
+a faster clock speed will translate
+to obtaining the answer more quickly.
+A key figure of merit, then, is the number
+of gates one can perform within the qubit lifetime.
+The more gates one can implement before an error occurs,
+the larger an algorithm one can run.
+This metric also illustrates an interesting trade off
+with qubits.
+In general, qubits with long lifetimes
+have less interaction with their environment.
+That's good, because they have less sensitivity to noise.
+But the trade off is that they also respond more slowly,
+even when we intentionally try to control them.
+This is because they're not just weakly interacting
+with their environment, they're also weakly interacting
+with our control fields.
+Similarly, qubits that more strongly interact
+with their environment may have shorter coherence times,
+but they generally also respond faster.
+In fact, the number of gates one can perform, on average,
+before an error occurs may not differ
+much between these two cases.
+However, one of these qubit modalities
+may have a much faster clock speed than the other one,
+and that's a good thing.
+This figure of merit, the average number of gates one
+can perform before an error occurs,
+is a proxy for a more general and rigorous concept, called
+gate fidelity, which we'll discuss next.

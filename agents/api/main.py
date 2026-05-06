@@ -71,6 +71,7 @@ class EvaluateResponse(BaseModel):
     bicep_validation: dict = {}
     bicep_deploy_commands: str = ""
     bicep_post_deploy_note: str = ""
+    cost_analysis: dict = {}
 
 
 class CodeRequest(BaseModel):

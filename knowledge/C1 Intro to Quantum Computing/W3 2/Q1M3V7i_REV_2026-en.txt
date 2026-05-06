@@ -1,0 +1,152 @@
+YONATAN COHEN: There was a time when
+using machines to perform complex calculations
+was a revolutionary idea.
+Fast forward to today, controlling billions
+of classical bits has become second nature, integrated
+into every processor and computer,
+affecting every bit of our life.
+But now, with the emerging technology of quantum computing,
+we're basically back to square one.
+Quantum bits, or qubits, which are the quantum
+counterparts of classical bits, are a whole new challenge.
+They're delicate, they're error prone,
+yet they're capable of astonishing computational power.
+However, we live in the classical world,
+so none of this quantum computation
+would be possible without creating an interface that
+transforms classical information to quantum operations and vice
+versa.
+And this is precisely the role of the quantum control system.
+It's a set of tools that interact with quantum objects
+and make information processing benefit from the wonders
+of quantum mechanics.
+To appreciate the crucial role of quantum control,
+let's briefly examine the quantum computing stack.
+At the foundation level, we have the quantum processing unit,
+the QPU.
+This is where the qubits reside.
+Above this in the stack, we find the control and readout systems,
+which manipulate and measure the qubits.
+They do this by sending and receiving
+a sequence of very accurate electromagnetic signals.
+Next, we have the control software and firmware
+translating high-level instructions
+into qubit operations at the control pulses level.
+At the top of the stack, we have, of course, the application
+layer, where quantum algorithms are developed and run.
+So quantum control, our focus today,
+acts as the critical bridge between the classical and
+quantum worlds.
+It translates abstract quantum algorithms
+into the precise physical operations
+that manipulate the qubits.
+MICHAELA EICHINGER: Controlling qubits is incredibly delicate,
+like writing on a soap bubble without popping it.
+To ensure qubits operate correctly,
+we must generate precise and carefully timed
+electromagnetic pulses.
+Even the tiniest error in these pulses
+can cause the qubit to end up in the wrong state,
+derailing the entire computation.
+Our control system is like the orchestra playing
+music to the qubits, which dance in response.
+Each pulse is a musical note, carefully composed
+to guide the qubits' movements.
+So how do we manage this composition?
+A quantum controller acts like the conductor
+of this intricate quantum orchestra.
+It's a classical processing machine
+responsible for generating and managing the control
+signals that make qubits dance.
+Key functions of such a controller are--
+it generates precise pulses to manipulate qubits,
+it reads out qubit states after operations,
+it synchronizes all quantum operations,
+it processes data and performs calculations in real time,
+and it makes split second decisions,
+adapting the control flow as needed.
+YONATAN COHEN: At quantum machines,
+we've pioneered a new approach to quantum control
+with our pulse processing unit, the PPU.
+So traditional systems, memory-based systems,
+are like pre-recorded music.
+They're limited to fixed sequences that take very long
+to communicate with the control system,
+and also cannot respond to what's happening in the quantum
+processor in real time.
+We moved from memory-based control system
+to a processor-based one.
+Our pulse processing unit, it's kind of like a live conductor
+capable of making real-time decisions and corrections
+on the fly.
+This is crucial if you want your quantum program
+to really respond to what's actually
+happening with your qubits.
+Moreover, we embedded classical compute engines inside our pulse
+processing unit.
+So now you can interleave quantum and classical operations
+in the same code and then run them from the same hardware.
+As the field progresses, the realization
+that every quantum program is actually
+a hybrid quantum classical program
+strengthens and strengthens.
+And so such tight integration between quantum and classical
+becomes crucial.
+This technology powers our OPX system, a comprehensive control
+and measurement solution for quantum processors,
+which embodies our vision of tight quantum
+classical integration.
+The PPU's multi-core architecture
+allows for parallel signal generation, acquisition,
+and processing, enabling the OPX to manage complex quantum tasks
+at very high scales with unparalleled speeds
+and precision on many, many, many qubits.
+MICHAELA EICHINGER: Calibration is
+one of the biggest challenges in quantum computing.
+Consider the 2 qubit gate, a fundamental operation
+in quantum computing.
+In traditional systems, this can take a long time to calibrate,
+and this calibration process has to be repeated for many qubits,
+ending up in a process that takes hours.
+Our OPX system can perform embedded calibration protocols
+that significantly reduce this time.
+We've seen QPU calibrations reduce from 8 hours
+to just 30 minutes, and we expect
+this to be reduced further to a matter of seconds.
+Beyond calibration, quantum error correction
+is crucial for enabling longer, more complex quantum
+computations.
+Yet the sheer amount of data processing
+required for this is staggering.
+To meet this challenge, we've partnered with NVIDIA.
+We're combining our pulse processing units
+real-time capabilities with GPU parallel processing connected
+by an ultra low-latency interface.
+This integrated system tackles the intense computational
+demands of large-scale quantum error correction,
+and with this, leads the way for powerful quantum
+computers and a seamless quantum classical interface.
+YONATAN COHEN: As we look to the future,
+the challenges lie in scaling up quantum systems
+from tens and hundreds of qubits to thousands
+and tens of thousands of qubits, and beyond.
+Our technology is designed with this future in mind,
+providing the flexible and powerful control
+necessary to manage such large-scale quantum systems.
+The impact of our work goes beyond scaling.
+We're opening new possibilities for
+efficient hybrid quantum classical algorithms
+and workflows.
+This tight integration creates the fluid interface
+between two powerful and complementary platforms--
+the quantum processing unit, the QPU,
+and the classical computing layer,
+which is really the entire data center, boosting performance
+to an uncharted and exciting regime.
+In conclusion, at Quantum Machines,
+we're building more than just control systems.
+We're creating the vital link that
+will allow quantum computers to reach their full potential.
+Our technology is at the forefront
+of bridging the gap between classical and quantum computing,
+driving the next generation of computational breakthroughs.

@@ -1,0 +1,131 @@
+
+Let's go back to the concept of adiabatic evolution,
+but let's be a little bit more specific now.
+So I want to imagine that we want
+to find the minimum of a cost function, which
+is defined over bit strings.
+And that cost function is the sum of terms, each of which
+depends on a subset of the bits and has a value of 1,
+let's say, on certain assignments of those bits
+in the subset and has the value 0 on other assignments.
+For example, if an individual term might look at 2 bits
+and it'll say, if the 2 bits agree in their value,
+we're going to give it the value 1, but if they disagree,
+the function has the value of 0.
+So now, I want to imagine that my optimization problem is
+to find the minimum of a function, which
+is a sum of terms, each of which acts on a few bits.
+And finding the minimum of such a function in general,
+is what we call NP hard.
+It's not believed that there's any kind of classical time
+algorithm that can in polynomial time
+solve that problem in general.
+But nonetheless, we're going to attempt our quantum approach
+to it.
+So the first thing we're going to do
+is to find what I told you before
+was the problem Hamiltonian.
+And the problem Hamiltonian we're
+going to take to be diagonal in the computational basis,
+so when the problem Hamiltonian acts on a ket with the string
+z in it, it will give the value of the cost
+function times the ket.
+So it's diagonal in the computational basis.
+And note that the minimum of the string that
+achieves the minimum value of the cost
+function we can view as the ground
+state of this particular quantum Hamiltonian,
+because it's diagonal in the computational basis.
+Now, we need to take a beginning Hamiltonian too.
+And from that we typically use is a magnetic field
+in the x direction.
+If you have a magnetic field on a single spin a half particle
+and it's pointing in the x direction,
+it's represented by the operator.
+I'll take it to be minus sigma x,
+so that the state that's in the x direction
+is the minimum with the value minus 1.
+So the Hamiltonian we're going to take for the beginning
+Hamiltonian is the sum, a minus in front,
+the sum of the sigma x is one for each qubit.
+That's a very simple Hamiltonian.
+And it's very easy to initialize a quantum state as the ground
+state of that Hamiltonian, because all we have to do
+is take our spins and line them up in the x direction.
+Then we're automatically in the ground state of the beginning
+Hamiltonian.
+So now for all full evolution, we're
+going to take a Hamiltonian that it interpolates
+between the beginning Hamiltonian I prescribed
+and the problem Hamiltonian.
+So that's all very simple to write down.
+And not only is it simple to write down,
+it's easy to imagine even implementing such a thing
+in the lab or on a quantum computer,
+because the terms in the problem Hamiltonian
+are a sum of local terms diagonal
+in the computational basis.
+And the beginning Hamiltonian is just a magnetic field
+in the x direction.
+So we can imagine actually building this thing.
+And of course, that's what the D Wave company did do,
+is build a machine that runs this algorithm.
+And they actually chose to implement
+the quantum adiabatic algorithm, because it
+was simple to imagine building a device that could do that.
+And of course, the way I've discussed it,
+it's kind of an all purpose minimizer.
+So we now have gone as far as to see
+that we can have a specific implementation
+of the adiabatic algorithm.
+So what's the killer here?
+What slows it down?
+What's the thing that makes it hard to implement this
+in reality and maybe means that it's hard to show the algorithm
+works all the time?
+And that has to do with how slowly you
+have to go in order to be guaranteed
+that you're going to go to the place you want to end up at.
+And that slowness is actually determined by something
+we call the minimum gap.
+In the beginning Hamiltonian, we have a magnetic field
+in the x direction.
+If I flip a single spin, the energy
+of that single spin goes from let's say minus 1 to plus 1.
+So the energy difference is 2.
+That's a big energy difference between the ground state
+and the first excited state.
+In the problem Hamiltonian, I told you
+that all my terms were zeros and ones,
+because the cost function, the way I happened to define it,
+was a sum of terms, which were all 0 or 1.
+So that means that the energy difference between the ground
+state and the first excited state is let's
+say, 1 or 2 maybe, but it's going to be an integer.
+But as the system evolves, we can
+track the ground state energy and the energy of the first
+excited state.
+And what we find in these situations is that as you
+move along, the two approach each other,
+coming very, very close.
+And then they're going to spread out back to that integer
+at the end.
+And the question is, what's that value which
+is the smallest energy difference
+between the first excited state and the ground state?
+We call that the gap.
+And the runtime of the algorithm is determined by the gap.
+In fact, the minimum runtime of the algorithm scales like 1
+over the minimum gap squared.
+That's just a little math fact, which we could establish.
+So the whole issue from a physics point
+of view in the adiabatic algorithm is, does the system,
+as it evolve, does the energy difference
+between the ground state and the first excited state
+get too small?
+Because if it's too small, the run time
+required to stay in the ground state is too big.
+So one of the things we have to study
+when we think about adiabatic algorithms
+is the gap between the first excited state and the ground
+state as the system evolves.

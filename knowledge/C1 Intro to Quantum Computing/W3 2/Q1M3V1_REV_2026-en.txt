@@ -1,0 +1,96 @@
+
+This week, we'll take a look at quantum algorithms and quantum
+communication.
+We'll start by considering the promise of these technologies,
+what is needed to realize that promise, how to get there
+and where we are today.
+Let's begin with quantum algorithms and the promise
+of quantum computers.
+As we discussed earlier, quantum computers
+are not smaller, faster versions of classical computers,
+nor are they an incremental step in the evolution
+of Moore's law.
+Rather, quantum computing represents
+a fundamentally new approach to processing information.
+And it's the only computing model we know of today
+that's qualitatively different from existing computers.
+This difference and the potential promise of a quantum
+computer is reflected in the fact
+that simulating a quantum computer
+using a classical computer requires exponential overhead.
+This means that, as we add one qubit to our quantum computer,
+the size of the classical computer required to
+simulate it will grow exponentially.
+Now we don't often experience exponential growth
+in our everyday lives, and so, to gain
+an intuition for how powerful it can be
+you may remember the old riddle where your employer asks you
+how would you like to be paid this month,
+and you have two choices.
+Either I'll start you with one penny,
+and then each day for one month I'll
+double the number of pennies, and you can keep the pennies
+from the last day.
+Or you can have $1 million.
+Now, it's quite normal to think through the first few days
+of pennies.
+For example, two pennies on day one, four pennies on day two,
+double that to eight pennies on day three.
+And you begin to think that $1 million
+is starting to look pretty good.
+But in fact, if you take that $1 million,
+you've lost a lot of money because the number of pennies
+is growing exponentially as 2 to the n-th power,
+where n is the number of days.
+So on the 31st day, the last day of the month,
+you have 2 to the 31 pennies.
+And that's equivalent to about $21 million.
+That's the power of exponential growth.
+Returning to computing, if we consider the amount of memory
+we would need to store all of the available states
+in the state space of a quantum computer
+we'll similarly see the immensity
+of exponential growth.
+For example, representing all of the quantum states of just 30
+qubits would require at least a very powerful laptop.
+Increase that to just 40 qubits and now you
+need a supercomputer.
+Double that to just 80 qubits and you
+would need all of the classical computers we have on Earth.
+And then double that again to 160 qubits,
+and now you need all of the silicon atoms on Earth.
+Even small increases in the number of qubits
+translates to exponential growth in the amount of memory
+required to represent all 2 to the n numbers
+that n qubits can store.
+So there's clearly a big difference
+between classical and quantum computers.
+And this suggests the potential for substantial quantum
+advantage.
+But what is needed to realize this in practice?
+Basically, to realize a quantum advantage,
+we need to identify the intersection
+of three key requirements.
+First, we'd like to identify a useful problem, one
+that has practical importance.
+Second, this problem shouldn't have
+a known fast classical algorithm to solve it.
+Otherwise we might as well just use a classical computer.
+And then third, the problem must have a known fast quantum
+algorithm, one that offers a substantial speed up.
+Now, this sounds great, but in fact, this promise
+has been largely empty, except for a small area of overlap
+that we know about today.
+Nonetheless, there are useful problems with a quantum
+advantage, and this improvement can
+be quantified using a mathematical expression.
+One place is in the prefactor of that expression,
+and one place is in the exponential.
+The prefactor A can be a large fixed number
+or it can scale polynomially with the number of qubits n.
+The exponential scaling of a problem of size n
+is in the exponential factor.
+Either of these two types of improvement
+can indicate quantum advantage.
+And in the following sections, we'll
+compare several algorithms and their respective speedup.

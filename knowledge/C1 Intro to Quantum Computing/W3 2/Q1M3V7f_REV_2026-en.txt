@@ -1,0 +1,99 @@
+
+ROBERT SCHOELKOPF: Quantum information
+is a fascinating and exciting field.
+It's a completely new paradigm for how we store and process
+information.
+And it has the promise to address
+certain kinds of problems that could never be solved
+on conventional computers.
+We've come an incredibly long way
+in the last couple of decades.
+When we started in the 1990s, there weren't even qubits.
+At Yale, we've helped pioneer the field of circuit quantum
+electrodynamics.
+This is a way in which we can have
+artificial, man-made elements that
+behave like individual atoms and photons.
+And with this approach, we can access all the special features
+of the quantum domain, like superposition and entanglement.
+This approach has allowed new explorations
+in quantum optics, quantum measurement and quantum control.
+And today, it's an emerging technology
+with multiple machines available on the cloud which
+allow you to log on and run your own quantum computations.
+The challenge for the field today
+is to scale in a useful way, and thereby
+realize truly revolutionary computing power.
+This requires making our computations
+more robust through the magic of quantum error correction.
+Here at Quantum Circuits, we focus
+on the problem of detecting and correcting the inevitable errors
+at the hardware level.
+We do so with hardware-efficient approach
+that involves having error detection built into the qubits.
+In the rest of this video, we'll explain to you
+how this unique approach works.
+ANDREI PETRENKO: At Quantum Circuits,
+we follow the circuit QED approach to quantum computing
+With superconducting qubits, we use both transmons and unique
+element, that is the 3D cavity.
+3D cavities are great because they're high-coherence elements,
+and they enable us to do high-fidelity gates.
+And we actually use them, in addition,
+to build these things called dual-rail qubits, which
+have been around in the industry for a while, typically
+in the context of photonics.
+But what we do is we build them as kind of novel units
+that have a number of components in them, including transmons.
+We make them the physical qubits in our quantum computers.
+Now, what this enables us to do is,
+given the fact that single-photon loss is
+the dominant error mechanism in cavities, way
+beyond any other error like dephasing or bit flips or phase
+flips, we can convert single-photon loss
+into erasures.
+And erasures are a really interesting type of error
+because you know when and where that error occurred
+in the circuit.
+And what that allows us to do is perform things
+like error detection.
+And with that error detection, that gives us some novel tools
+to take us down the path toward error correction
+in New and interesting ways and leverage both existing codes
+and think about new codes that will give us
+new paths toward greater efficiency.
+There are a number of challenges that we're
+going to have to overcome, both as quantum circuits,
+but also as an industry, to get to successful quantum computing.
+So as you heard me talk about error correction before,
+that's a really key topic in the industry.
+That's one of the reasons we've been focusing on error detection
+as a key stepping stone and milestone toward that end
+with dual-rail qubits.
+We're providing low-level access to erasure data in our devices
+that doesn't get abstracted away.
+We think this could be useful for researchers, in particular,
+to understand more about noise models, error models,
+and thinking about error correction codes
+using photon loss and erasures as the basis.
+We put out a publication in 2022 about random walk phase
+estimation.
+It was co-published with Microsoft's team,
+and it was based on theoretical work
+by Nathan Wiebe and Cassandra Granade.
+It highlighted how real-time control can really yield
+benefits in quantum algorithms.
+We're really looking to extend those results to see
+how they can benefit from quantum error detection going
+forward.
+We're not specializing in any single industry today.
+And to take a couple of concrete examples,
+we have optimizing cargo loads on airplanes or even portfolio
+optimization with, let's say, Monte Carlo methods in finance.
+All of those have really important implications
+for how we function as a society.
+And that's really going to make an impact on us
+over the next 5, 10, 15 years.
+So thank you for listening to the course.
+Thank you for being a part of this journey
+and for listening to our industry perspective.

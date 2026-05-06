@@ -1,0 +1,75 @@
+
+Let's work through something concrete.
+First, I would like to show you the example of a particle
+in a one-dimensional well.
+This is entry-level quantum mechanics.
+And I start at this point because you're
+very familiar with it, and it will
+let me illustrate the first two steps in a quantum simulation
+process.
+Imagine that you have a particle located
+on a one-dimensional axis, and there
+is some potential, V of x.
+The somewhere delocalized in here.
+Let the scale of this heat from minus d to plus d or so.
+And the particle is governed by a Hamiltonian,
+which is of the form p squared over 2m plus V of x.
+So this is the energy of a free particle, the kinetic energy.
+This is he potential energy.
+This is the set of T terms, and this is the set of V terms
+that are canonical in a molecule as well.
+This is a very simplistic scenario,
+but it's not all that far away from the more complicated
+molecular Hamiltonian.
+And the first step that one employs
+in simulating the dynamics of this physical system
+is to discretize.
+So normally, we'll have some continuous set
+over the infinite one-dimensional axis.
+So you can imagine that these are some coefficients
+that you have.
+So this has now expanded into eigen basis of position x.
+And the natural thing for us to do
+is to replace this with something discrete, like k
+delta x, so that this is in some way now going
+to be a sum over some coefficients,
+C sub k of k delta x where we choose the delta x
+to be sufficiently small and defined over
+this discrete interval from minus d to d.
+So many of you have done this, especially
+if you're doing a computer simulation of such
+a particle in a potential.
+It should be very comfortable.
+The second thing that you do is to be
+able to simulate the Hamiltonian.
+So you evolve the system.
+Now, how does one evolve a system under a Hamiltonian?
+The problem is that this Hamiltonian here
+is comprised of two parts, H1 and H2, and they don't commute.
+Just let my evolution, e to the minus i h t--
+I cannot simply let this be e to the minus i h1 t e to the minus
+i h2 t.
+I cannot evolve with one Hamiltonian then evolve with
+a second Hamiltonian, even though they're added here,
+because they do not commute with each other.
+And this should be something you're very familiar with.
+And therefore, we have to apply an approximation.
+The approximation we apply in order
+to simulate this some of the Hamiltonians
+is the Lie Product formula, which says that in the limit
+as I take an infinite number of partitions of e
+to the i h1 t divided by n, e to the minus i
+h2 t divided by n, where I evolve
+by the first Hamiltonian for a small sliver of time,
+t divided by n, then the second one for another small sliver
+of time.
+Repeat this many times, taking the slivers
+to become smaller and smaller.
+This gives us an equality, which is the sum of the two
+Hamiltonians.
+Now, this is a beautiful mathematical fact.
+Unfortunately, when we do our actual simulation,
+we have to truncate it at some point,
+and errors start to pop in.
+And when we truncate it at a certain point
+this method is called Trotterization.

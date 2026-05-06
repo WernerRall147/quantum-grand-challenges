@@ -1,0 +1,101 @@
+
+We have taken H.
+We have modeled it with some simplified h prime.
+Then the two pathways the community has taken,
+which are rather distinct, is first to utilize
+what you've already learned in this class, which is the phase
+estimation algorithm.
+And this will give you the ground state
+and the energy of the ground state approximately.
+The second approach does something different
+and is known as a variational quantum eigensolver.
+And you will now find the literature replete with people
+talking about the VQE algorithm.
+And I want you to know what it is because there's
+a lot of talk about that.
+And this will give you a state psi,
+which might be if you're lucky close
+to the ground state, and an energy,
+which might be if you're lucky, the ground state
+but has a certain guarantee that this energy will
+be no smaller than the ground state energy
+that you're looking for.
+So let's look at these two different routes one at a time.
+
+The first approach, phase estimation,
+is very simple to understand as I described
+because it is no more than the application of phase
+estimation.
+
+We start with registered qubits, where
+you're going to store the eigen energy.
+So this is determined by the imprecision
+that you want the number of qubits.
+You start out also with a state psi, which
+is some approximation of the ground state,
+but you don't know how good.
+So it's the ground state plus epsilon
+times some other component, which is
+orthogonal to the ground state.
+And allow me that you have prepare this somehow.
+And you may prepare it badly.
+That's still OK.
+What you do is you perform--
+remember this is going to be some sum over all values k.
+You perform a controlled h to the k operation over here.
+This is feasible because I've shown you how to trotterize.
+But this is really, really painful
+because you now have to trod right
+and also trod right to the kth power.
+So now you have to rerun that [? troderization ?]
+an exponentially large number of a span of energy, for example.
+But allow me this.
+And we know from the phase estimation algorithm
+that what you get as the output of this
+is going to be a sum over energy eigenstates and then phases,
+which are on the order of some constant over e sub k.
+So these are going to give you the energies of the system.
+This is the top register, and this is the bottom register.
+And there are some coefficients.
+And when you measure this top register after the quantum
+Fourier transform, you collapse into an eigenstate down here.
+And if your initial overlap is sufficiently large,
+so epsilon is small, then you get the ground state
+that you desire.
+And you will have a measure, which is the energy eigenstate.
+But by the way, this is exactly Shor's algorithm.
+This is a quantum factoring algorithm also being
+used for quantum simulation.
+It's actually not accidental that all known exponentially
+fast algorithms today, quantum algorithms
+are essentially the structure of Shore's factoring algorithm.
+You put something in superposition.
+You do control something to a higher power
+based on the superposition.
+You do the inverse quantum Fourier transform.
+So if you know Shore's factoring algorithm,
+you essentially know this whole route to quantum simulation.
+Why is this challenging?
+Well, first it's good because you
+get the eigenstate and eigen energy, the ground state,
+right away.
+But the challenge is that you need a perfect quantum computer
+with long coherence times.
+There's a beautiful analysis of the requirements by Matthias
+Troyer and company from [INAUDIBLE] now at Microsoft,
+where he shows that if one uses this phase estimation approach,
+one has a chance of simulating nitrogenase exactly what I
+started today's lecture on.
+If you can run the quantum computer
+for about a day with a relatively fast clock cycle
+as well, the longest coherence time
+we have for many of our quantum bits like in superconductors
+is on the order of a millisecond.
+And for ions, it's perhaps tens of seconds.
+So a day's a bit of a stretch right now.
+And this might need something on the order of a million qubits
+as well, whereas in our actual deliverable common computers,
+companies are talking about maybe 50 qubits today.
+So that gives you an idea of the gap
+between the ideal system needed and that
+which is actually available.

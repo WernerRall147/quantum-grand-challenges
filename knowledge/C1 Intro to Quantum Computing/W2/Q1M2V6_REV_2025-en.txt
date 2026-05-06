@@ -1,0 +1,79 @@
+In this case study, we'll
+take a 360 look at the trapped ion qubit modality.
+Trapped ions were the first qubit technology,
+and this is primarily due to their historical use
+in atomic clocks and precision measurements.
+Ions start as neutral atoms, the chemical elements
+in the periodic table.
+For example, we'll hear about strontium in this case study.
+A strontium ion is formed when its outermost
+electron is removed, a process called ionization.
+With one less electron, the atom now has a net-positive charge,
+so it's no longer charge neutral,
+and we'll call this an ion.
+Because the ion's charged, it can be trapped or held
+in place using oscillatory electromagnetic fields.
+Although these fields used to be applied
+using large electrodes arranged in a three-dimensional
+configuration, today they're implemented
+using surface traps, electrodes manufactured
+on silicon wafers that hold the ions just above the wafer
+surface.
+Trapped ion qubits are one of the leading modalities being
+developed to realize a quantum computer,
+and it has a number of advantages.
+From a business perspective, trapped ions
+are attractive because they leverage
+a substantial existing technology
+base, one that goes back three decades
+to the development of atomic clocks and mass spectrometers.
+In addition, trapped ions today are fundamentally
+a silicon-based technology.
+The surface traps themselves are fabricated on silicon wafers,
+and they use standard semiconductor fabrication tools
+and techniques.
+In addition, all of the key control and readout circuitry
+can be integrated with existing CMOS electronics.
+For example, the electrode voltages
+used to hold and move the ions or the integrated photonic
+waveguides and gratings used to optically control the ions
+and even the photodetectors used to read out the ions
+are all compatible with existing CMOS foundries and materials.
+And in this sense, they're lithographically
+scalable to large numbers of qubits.
+Today, there are a growing number
+of commercial efforts pursuing and supporting
+the development of trapped ion qubits,
+including companies like IonQ, Quantinuum, Alpine Quantum
+Technologies, and Oxford Ionics.
+From an engineering perspective, the surface traps
+used to capture and hold ions are
+designed using standard CAD software and layout tools.
+The electrode control electronics are CMOS circuits,
+and they're designed in the same way as conventional CMOS
+electronics.
+Similarly, the photonic waveguides and couplers
+are designed and integrated directly into the silicon.
+Scientifically, state of the art trapped ion quantum processors
+have demonstrated several prototype quantum algorithms,
+such as Shor's algorithm at the 10 qubit level,
+and larger scale circuits at the several tens of qubits level
+have been used to encode logical qubits
+and even perform certain logical operations.
+Although trapped ions operate more slowly than superconducting
+qubits, they've demonstrated a larger degree of connectivity
+between the ions, and this may help
+to offset the relatively slow speed by making problem
+embedding more efficient.
+And finally, from a technology standpoint, trapped ion qubits
+leverage both microwave and data communications technology.
+The lasers used in trapped ion experiments
+have application to atomic clocks, precision navigation,
+even biology and optogenetics.
+Developing compact instrumentation,
+for example, size, weight, power, even cost,
+will benefit an array of technologies,
+even beyond trapped ions.
+And so, with that brief introduction,
+let's now hear from the experts, who
+will present a 360 view of trapped ion qubits.

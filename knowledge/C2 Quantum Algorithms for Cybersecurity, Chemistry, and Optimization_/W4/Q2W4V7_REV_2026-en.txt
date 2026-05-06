@@ -1,0 +1,216 @@
+
+In this section, we'll take a look at Grover's algorithm.
+And as we've done previously with Deutsch-Jozsa and Shor's
+algorithm, we'll do it in the context of the quantum circuit
+model.
+And by the end of the week, you'll
+implement it for yourselves on a real cloud-based quantum
+computer.
+Grover's algorithm is often described
+in the context of searching an unstructured database.
+Here though, let's generalize the search problem
+to the related problem of function inversion.
+Consider a function, f of x, which
+can take on the value 0 or 1, depending on the argument x.
+For example, for x equals 10, the function f of 10 equals 1,
+and it's 0 for all other x values.
+Now, the function inversion problem is the following.
+Given f of x equals 1, can we find
+the value of x or a value of x if there
+is more than one solution.
+Classically, one has little choice
+but to try different x-values and test the function.
+So for n total x-values of which M satisfy f of x equals 1,
+it will take on the order of N divided by M tries
+to succeed with high probability.
+However, on a quantum computer, the same task
+succeeds with high probability in only square root of N
+over M tries, a quadratic improvement
+over classical computing.
+And while a quadratic improvement may not
+seem like a lot, it does become practically significant
+for problems with large N.
+To implement Grover's algorithm, we
+need an operational block that can
+recognize if a test value of x satisfies our function or not.
+This operation is called an oracle.
+And it's a key part of each trial, which
+we'll call a Grover iteration.
+Now, it may seem challenging or even
+cheating to define an oracle that represents, for example,
+our database.
+After all, in loading such a database into our quantum
+computer, haven't we already searched it?
+Now, that's certainly true, but this isn't how an oracle works.
+Again, it's worthwhile to think in terms
+of a mathematical function.
+The oracle doesn't need to know in advance every answer
+to every function call, nor does it
+need to have a ledger of all the input and output values.
+Rather, it just needs to be able to calculate the function
+and recognize when a particular condition is satisfied.
+And conceptually, we can program different functions
+into our oracle while keeping the underlying
+machinery in place.
+We won't discuss in detail how this is done,
+as it's obviously problem-dependent.
+But we just note that this type of oracle
+can be designed using reversible logic approaches.
+The idea behind Grover's algorithm is the following.
+We start with an index register of values x running from 0
+to n minus 1.
+The oracle takes a test value x, calculates the function
+f of x, and performs modulo-2 addition
+of f of x with a helper qubit, which
+we'll call the oracle qubit.
+The oracle qubit is prepared in a superposition state
+0 minus 1, and it plays a similar role
+as the helper qubit did in the Deutsch-Jozsa algorithm studied
+in course 1.
+If f of x equals 0, then the modulo-2 addition
+leaves the superposition state unchanged.
+However, if f of x equals 1, then there
+is a sign change on the oracle qubit.
+0 minus 1 becomes 1 minus 0.
+And by pulling out this minus sign,
+we get back to the original superposition state, 0 minus 1
+but with a minus sign in front.
+And as we saw with the Deutsch-Jozsa algorithm,
+this minus sign can be written as minus 1 to the f of x power.
+And so the minus 1 is realized when f of x equals 1, that is,
+when a particular value of x is a solution to the search
+problem.
+This is how the oracle marks a quantum
+state when it recognizes a satisfied condition.
+To implement Grover's algorithm, we
+start with the initialization stage of the quantum circuit
+model.
+Since there are n possible values of x,
+we'll choose q qubits for register 1.
+And register 2 will hold a single qubit,
+which is the oracle qubit.
+Register 1 qubits are prepared in state 0 and the oracle qubit
+in state 1.
+And as before, we'll associate register one with yellow
+and register 2 with green to help keep track
+as the algorithm unfolds.
+In the compute stage, the first step
+is to create a large equal superposition
+state of register 1 qubits using q Hadamard gates.
+This state has n equals 2 the qth power components.
+And as we did before, we'll replace the 2 to the qth power
+binary combinations of q qubits with their decimal equivalence
+x equals 0 to n minus 1.
+The oracle qubit is placed into the superposition state
+0 minus 1 using a single Hadamard gate.
+The next step is to implement a Grover iteration, which we'll
+call G, and we'll do this on the order of square root of n times
+to obtain a solution with order unit probability.
+Each G contains the oracle operator O,
+which with the help of the oracle qubit,
+will leave a minus 1 on the register 1 states
+for values x which satisfy f of x equals 1.
+And as we'll see in a moment, the oracle operation
+has a geometric interpretation.
+It's a reflection operation.
+We'll come back to that in a moment.
+Now, the remainder of the Grover iteration
+is a conditional phase shift nestled between Hadamard gates.
+The conditional phase shift leaves state 0 alone
+and, otherwise, places a minus 1 phase shift
+in front of all other states x.
+This can be written in terms of an equal superposition state,
+just like the one we started with.
+And we'll call this state CI.
+I encourage you to work this out for yourselves.
+And again, as we'll see in a moment,
+this set of three operations can also
+be viewed as a reflection, this time, across the vector psi.
+Together with the oracle, these two reflections
+in the Grover iteration serve to rotate the quantum state
+by an angle theta.
+We'll look at the geometric picture in a moment.
+But for now, let's continue with the circuit model.
+To see how the Grover iteration acts on register 1,
+let's rewrite the sum over x as two terms.
+One term will be the sum over all x-values that
+are not solutions, that is, give f of x equals 0.
+And the second term will be the remaining
+x-values that are a solution and give f of x equal 1.
+This, in turn, can be written in terms of normalized states,
+alpha and beta.
+We then run the Grover iteration on the order
+of square root of n times.
+Let's assume there are k iterations, with each iteration
+imparting a phase shift theta.
+The net result is cosine of 2k plus 1 over 2
+in front of state alpha, which are not solutions,
+and sine 2k plus 1 over 2 in front of state beta, which
+are the solutions.
+And the oracle qubit remains unchanged throughout.
+Starting from a small angle theta, much less than pi
+over 2, we see that as k increases,
+the cosine term goes to 0 suppressing
+the amplitude of the wrong answers
+and the sine term towards 1, enhancing the amplitude
+of the correct answers.
+Then a measurement is made, and one
+of the x-value solutions in the state beta
+is measured with high probability.
+Let's now look at the geometric interpretation
+to see how repeated Grover iterations lead
+to the correct solution.
+The state CI is in the register 1
+equals superposition state with end components.
+And we write it in terms of the states alpha and beta, where
+alpha are all the x-values that are not solutions,
+and beta represent the single x-value or multiple end values
+that are solutions yielding f of x equals 1.
+The state's alpha and beta are orthogonal,
+and we can represent them as orthogonal vectors.
+Since the state CI is normalized to 1,
+we can also write state CI in terms
+of the cosine and sine theta over 2.
+And the state CI makes an angle theta over 2
+with the alpha axis.
+, Now since we start with all x-values equally likely,
+and we assume there's only one or a few solutions,
+the vector CI is close to the alpha axis.
+The oracle acts first, and it places a minus sign
+in front of the state beta, which
+represents the valid solutions.
+This is a reflection over the alpha axis.
+Next, the remainder of the Grover iteration,
+the conditional phase shifts nestled between Hadamard gates,
+is a reflection over the state CI.
+The result from a single Grover iteration
+is then to move the state CI and angle
+theta towards the beta axis.
+Essentially, the amplitudes of the solutions
+are being enhanced, while the amplitudes of the remaining
+states are being suppressed.
+The Grover iteration is then repeated k times,
+where k is on the order of square root of N.
+The iterative reflections continue
+to push the vector toward the beta axis,
+increasing the likelihood that when a measurement is made,
+the state will be projected into a value of x
+that satisfies f of x equal 1.
+Lastly, we can show that the number of iterations R
+is of the order square root of n.
+The state CI is an angle gamma away from the beta axis,
+where gamma equals arccosine square root of M over N.
+and we know that each iteration pushes us an angle
+theta toward the beta axis.
+So the number of repetitions we need
+is the closest integer to the ratio of gamma over theta.
+We want to rotate the state CI at least pass pi over 4
+from the alpha axis so that the probability of measuring
+a beta solution is greater than a 1/2,
+In fact, we can place an upper bound on the number R,
+and it's pi/4 times the square root of M divided by N. This
+shows that Grover's algorithm will
+find a solution with high probability
+for only order square root of n iterations,
+whereas, it'll take a classical computer on the order of n
+queries.

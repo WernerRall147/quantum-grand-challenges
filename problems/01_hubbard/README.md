@@ -62,15 +62,17 @@ Generated artefacts:
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage B complete** (classical baseline validated and Q# analytical scaffold builds/runs via modern QDK).
-- **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons for quantum kernels).
+- **Current gate**: **Stage C complete** (hardware-aware validation evidence in place: VQE Hubbard kernel runnable, calibration ensemble across runs, backend assumptions documented, dual-model estimator profile across instance sizes, OpenQASM exports for cross-platform validation, real Azure resource estimate captured).
+- **Next gate target**: **Stage D** (advantage evidence package: fairness review against tensor-network/DMRG baseline, residual risks for naturally-quantum 2D regimes, claim category locked).
 
-Stage C exit criteria for this problem:
+Stage C evidence references for this problem:
 
-- Replace analytical Q# placeholder with at least one executable quantum kernel path (for example VQE or phase-estimation component).
-- Report uncertainty-bounded comparisons between classical and quantum outputs on `small` and `medium` instances.
-- Document transpilation and connectivity assumptions used for hardware-aware or estimator-backed runs.
-- Include calibration or validation artifacts that quantify drift/sensitivity of reported quantum metrics.
+- Calibration ensemble: `estimates/quantum_calibration_ensemble.json` and `estimates/calibration_evidence.json`.
+- Backend assumptions: `estimates/backend_assumptions.md`.
+- Estimator profile (multi-instance, dual-model): `estimates/estimator_profile_summary.md`, `estimates/latest_qubit_gate_ns_e3_{small,medium,large}.json`, `estimates/latest_surface_code_generic_v1_{small,medium,large}.json`.
+- Real Azure resource estimate: `estimates/real_resource_estimate_2026-03-25T091444Z.json`.
+- Cross-platform OpenQASM exports: `estimates/hubbard_vqe_xx.qasm`, `estimates/hubbard_vqe_zz.qasm` with Azure result captures.
+- Azure smoke validation: `estimates/azure_smoke_report_small_d1.md`, `estimates/azure_job_manifest_small_d1.json`.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

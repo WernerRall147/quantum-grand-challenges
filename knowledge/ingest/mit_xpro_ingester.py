@@ -199,6 +199,15 @@ def generate_embeddings(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return records
 
 
+_ID_SAFE_RE = re.compile(r"[^A-Za-z0-9_\-=]")
+
+
+def _safe_doc_id(doc_id: str) -> str:
+    """Convert a doc_id like 'mit-xpro:Q1M1V6_REV_2026-en (1):chunk1' to a key
+    that AI Search accepts (only letters, digits, underscore, dash, equals)."""
+    return _ID_SAFE_RE.sub("_", doc_id)
+
+
 def upsert_to_search(records: List[Dict[str, Any]]) -> int:
     """Upsert into the quantum-papers AI Search index. Returns count succeeded."""
     from azure.core.credentials import AzureKeyCredential
@@ -218,7 +227,7 @@ def upsert_to_search(records: List[Dict[str, Any]]) -> int:
     docs: List[Dict[str, Any]] = []
     for r in records:
         doc = {
-            "id": r["doc_id"].replace("/", "_").replace(".", "_").replace(":", "_"),
+            "id": _safe_doc_id(r["doc_id"]),
             "arxiv_id": r["doc_id"],  # reuse arxiv_id field for the citation handle
             "title": r["title"],
             "abstract": r["abstract"],

@@ -1,0 +1,95 @@
+
+So let's reflect on what made this experiment successful.
+The first is that the coherence times,
+the t2’s in this specially designed molecule
+were extremely long-- all in excess of 1 second.
+We have to compare, of course, the coherence time
+to the time scale of the operations that
+for a single qubit-shaped pulses here varied
+between 0.2 and 2 milliseconds.
+And we also have to compare to the value of the coupling
+strings between the spins in the molecule.
+They varied from about a hertz, which was too low to be usable,
+to about 200 hertz.
+In total, the longest sequences we
+had to run to implement Shor’s Algorithm
+lasted about 700 milliseconds.
+The second success factor is that in these experiments
+we used liquid state NMR based on ensembles
+of many copies of a molecule--
+making the detection trivially easy,
+almost, compared to the great challenge
+of trying to work with individual
+spins as is done today.
+Furthermore, the liquid state NMR Hamiltonian
+is actually relatively transparent and simple.
+All the terms in the Hamiltonian commute with each other.
+Single qubit terms have to form omega times sigma z.
+And the two qubit interactions have
+to form J times sigma z on one qubit and sigma z
+on another qubit.
+Scaling this approach, however, is hard.
+First, I've already commented on the difficulty
+in finding a suitable molecule with seven spins.
+And finding molecules with larger numbers of qubits,
+with larger numbers of suitable spins,
+to solve more complex problems quickly gets
+extremely difficult. But there is
+a more fundamental and severe limitation to the liquid state
+NMR approach and it is that even though we
+work in large magnetic fields, the fact that we
+use liquid states pushes us to work at relatively
+large temperatures.
+In fact, we operated at room temperature.
+And nuclear spins in a magnetic field at room temperature
+are in a highly mixed state, that
+is to say the probability for a spin
+to start off in the up state or the down state are almost
+equal.
+We used techniques developed in our community
+to prepare so-called effectively pure states.
+These are states that produce a signal that
+is proportional to that of a pure state,
+but the cost of this technique is
+that the signal is halved for every qubit that we add.
+And so this obviously induces exponential cost
+that offsets any exponential gain
+that we hope to get from the quantum algorithms.
+The NMR experiments, and in particular the short
+experiment, had really been great fun.
+And I think we learned a great deal from it that also benefit
+and still benefits, today, the community.
+But certainly I wanted to move to technology
+where the potential for scaling was better.
+I decided to move from nuclear spins to electron spins
+and from molecules to artificial molecules.
+The artificial molecules we make use of
+are built from Silicon quantum dots
+in which we can find individual electrons
+and use their spins as qubits.
+Similar to the NMR molecules, these electron spins in
+silicon offer really long coherence times,
+but the devices are much more scalable
+and the control, in the end, can take us much further.
+Matthias Stephan, instead, made
+a choice to work on superconducting qubits and he
+was one of the early members of the IBM team working
+on superconducting qubits, a very large and successful
+program today.
+Ike Chuang finally, decided
+to move to trapped ions.
+He set up a lab at MIT and in collaboration
+with the group of Reiner Blatt Some years later,
+they redid the factoring experiments--
+a beautiful experiment implementing the factoring
+of 15 on trapped ions.
+As for the silicon spins that I work on myself,
+we set the state of the art earlier this year
+in implementing for the first time, in this type of system,
+again, a two qubit algorithm.
+For me this brought back great memories from '98.
+But different from the NMR approach and these early
+memories, my expectation is that with our group at QuTech
+in Delft and in close collaboration with Intel,
+with the silicon spin qubits, we can go all the way--
+much beyond factoring 15.

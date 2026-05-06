@@ -1,0 +1,112 @@
+
+In the previous video, we discussed the quantum
+simulation of a particle in a box,
+and towards the end of the video,
+we previewed an important technique
+for quantum simulation called Trotterization.
+In this video, we're going to take a closer
+look at Trotterization and see why
+it's such an important tool for quantum simulations.
+Now, as we've already seen, the first step
+in quantum simulation is to write down
+the Hamiltonian, which governs the dynamics of the system we
+want to simulate.
+And the Hamiltonian's generally separated into different terms
+corresponding to the different types of energy in the system--
+for example, the kinetic and potential energies.
+Or for systems of many qubits, we
+might instead use a sum of single qubit energies
+plus terms which correspond to qubit-qubit interactions.
+However we define the Hamiltonian,
+the goal of our quantum simulation
+is to take an initial quantum state psi at time t0
+and find out where it ends up at a later time t.
+And as we introduced in the "What is a Hamiltonian?"
+video, the state psi at time t results from the initial state
+psi 0 acted upon by the operator e to the iHt
+where H is the Hamiltonian.
+Now, e to the iHt is a unitary operator
+and, in principle, it can be decomposed
+into a series of qubit gates and placed
+into a block in the circuit diagram.
+However, these operations may be hard to realize in practice.
+Alternatively, we can break our Hamiltonian
+into pieces that are more tractable to implement,
+such as single-qubit rotations and elementary two-qubit gates.
+To get started, let's say we have
+a Hamiltonian H that can be broken into two terms, H0
+and H1.
+And while H is very difficult to implement,
+H0 and H1 are much easier.
+So how can we use these simpler terms to implement
+the total Hamiltonian H?
+Now, you might think that we can simply implement these two
+terms as two sequential time evolutions,
+each acting on the system for the total time t,
+and then we're done.
+However, unfortunately, this doesn't work.
+While it's certainly true that H equals H0 plus H1,
+it's not necessarily true that e to the iHt equals
+e to the iH0t times e to the iH1t.
+This is because, in general, the operators H0 and H1 do not
+commute with one another.
+Commutation is a mathematical concept
+that we take for granted in basic arithmetic.
+Basically, we can multiply numbers in any order
+and still get the same answer.
+For example, 3 times 6 is equal to 6 times 3.
+The order in which we multiply doesn't matter.
+Because we can rearrange the numbers
+on either side of the multiplication sign,
+we say that multiplication of scalar numbers is commutative
+and that these numbers commute.
+Now, it turns out, this statement is not always true
+for quantum operators.
+As we saw in course 1, we can represent quantum operators
+as unitary matrices.
+To check if multiplication still commutes,
+let's consider two elementary quantum operators, the z and x
+operators.
+When we multiply these matrices, it's
+clear that z times x does not equal x times z.
+Therefore, in general, operator matrix multiplication
+does not obey the commutative property,
+and we say that the operators z and x do not
+commute with one another.
+This means that order matters when we apply
+these operators to qubits.
+Change the order, and you get a different outcome.
+Now, returning to our Hamiltonian problem,
+we see that implementing H0 first and then H1
+will give us a different result than if we first
+implemented H1 and then H0.
+So how can we take advantage of the simpler terms, H0 and H1,
+and simulate the full Hamiltonian?
+This is where the concept called Trotterization comes in.
+The Suzuki-Trotter method, or Trotterization for short,
+takes advantage of a clever decomposition of matrices which
+allows us to simulate the action of a Hamiltonian
+using only its constituent pieces.
+Instead of just breaking our Hamiltonian into two terms
+and evolving each for the full time t,
+we'll also break the time evolution into n small pieces
+and run each evolution for a small fraction t
+over n of the total time t.
+We'll then repeatedly implement this smaller
+interleaved evolution a total of n times
+such that, by the end of the protocol,
+the system is evolved for the full time t.
+And as we make n larger and larger--
+that is, as we make the stepwise evolution smaller and smaller,
+the Trotterization procedure becomes
+equivalent to evolving the original Hamiltonian
+H for the full time t.
+This remarkable relationship is known as the Trotter equation.
+By breaking the Hamiltonian time evolution into small pieces
+and toggling between each term of the Hamiltonian,
+Trotterization enables us to simulate the full Hamiltonian
+evolution using only its constituent
+terms, even if those terms don't commute with one another.
+And as a result, this concept is a powerful, almost universally
+applicable, approach to the simulation of quantum systems
+and their dynamical evolution.

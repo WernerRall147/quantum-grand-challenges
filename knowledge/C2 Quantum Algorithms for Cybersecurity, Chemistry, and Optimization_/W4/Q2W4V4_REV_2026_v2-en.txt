@@ -1,0 +1,244 @@
+GABRIEL SAMACH: In the previous videos this week,
+we discussed a paradigm of quantum computing known
+as adiabatic quantum computation.
+In this video, we're going to introduce
+another related quantum computing paradigm called
+quantum annealing.
+As we'll see, quantum annealing bears many similarities
+to adiabatic quantum computation,
+though with a few key differences.
+First, recall that adiabatic quantum computation is a form
+of analog quantum computing.
+That is, rather than digitizing our computation
+into discrete gates, AQC relies on the continuous transition
+of a quantum system from the ground state of one Hamiltonian
+to the ground state of another.
+While it's true that adiabatic quantum computation is
+a provably viable method of universal quantum computation,
+AQC presents a serious practical challenge.
+In order for the computation to succeed,
+the system must remain in the ground state for the duration
+of the computation.
+If the evolution is not truly adiabatic
+and the system ends up in an excited
+state at the end of the protocol, the computation fails.
+Unfortunately, this is an extremely hard condition
+to avoid in any realistic quantum computer.
+To see this, let's consider what the energy levels of our system
+might look like as we perform our computation.
+In particular, let's focus on the energy gap
+between the ground state of our system and its first excited
+state.
+As the Hamiltonian of the system changes
+over the course of the computation,
+the gap between our ground and excited states
+also changes, and in general, it can become very small.
+This is where the trouble starts.
+For any physical system at a finite temperature,
+the environment around our qubits
+will generate thermal photons with energy proportional
+to the temperature of the environment.
+When these photons encounter our qubits, their energy is absorbed
+and our system has some probability
+of being excited to a higher state.
+The smaller the gap with respect to the photon energy,
+the higher the probability that an excitation will occur.
+If we want to reduce the probability of an excitation
+occurring for a fixed gap size, we need a cooler system
+to a temperature much lower than the energy gap
+between our qubit states.
+This is precisely why we operate superconducting qubits
+in a dilution refrigerator, cooled
+to a temperature of around 10 millikelvin.
+For typical superconducting qubits,
+the gap between the states of our bare qubits
+is on the order of 5 gigahertz, which
+corresponds to a temperature of around 250 millikelvin.
+By operating our qubits in an environment in order
+of magnitude colder than this, we dramatically
+reduce the probability of an unintentional excitation
+occurring during a computation.
+Unfortunately, as we change the Hamiltonian
+during an adiabatic quantum computation,
+new avoided crossings will open up
+between our states, which can be much
+smaller than the energy gaps between our bare qubit states.
+If we want to avoid transitioning
+across these small gaps in the case,
+say, of a superconducting annealer,
+we would need to engineer a refrigerator which
+operates much colder than 10 millikelvin, which
+is not practical given current cryogenic technology.
+And this type of problem generalizes for other qubit
+technologies as well.
+Furthermore, there's a second problem.
+As we evolve our computer through a small gap region,
+if we sweep through the gap too quickly,
+we can effectively jump to the excited state.
+This is called a Landau-Zener transition.
+So even if we could operate our computer at 0 temperature,
+we would need to evolve the system sufficiently slowly
+to accommodate smaller and smaller gaps,
+and thereby increase the time to solution.
+So although adiabatic quantum computation can in principle
+be universal, it has major drawbacks
+related to the small gap sizes that
+occur at larger problem sizes.
+Given this reality, it's natural to ask,
+what happens if we allow the computer to leave the ground
+state during the evolution?
+Can it return back to the ground state, or even a lower excited
+state through quantum tunneling and relaxation processes?
+And more importantly, is leaving the ground state
+consistent with quantum enhanced operation?
+In fact, quantum annealing is basically an adiabatic quantum
+computer that has left its ground state at some point
+during the evolution.
+And conceptually, a combination of quantum tunneling
+and relaxation processes are leveraged to allow the computer
+to return to its ground state, or at the very
+least, a lower energy state.
+However, to date, there is no proof or evidence
+that the quantum and dissipative dynamics
+present in quantum annealing could
+afford a quantum enhancement for a general class of problems.
+This remains an open research question.
+Much like AQC, the principle of quantum annealing
+involves evolving a quantum state
+according to some time-dependent Hamiltonian,
+such that the state of the system
+at the end of the computation encodes the result
+of the problem of interest.
+However, unlike AQC, which is universal and can
+in principle implement any quantum algorithm,
+quantum annealing is designed to only solve
+a particular class of computations
+known as classical optimization problems.
+We deal with classical optimization
+problems in every industry and throughout our daily lives.
+For example, what's the best portfolio
+of stocks to maximize return on investment?
+What's the best fighter jet designed to minimize drag?
+Or to use a more mundane example, what's
+the best path home from work?
+The key to an optimization problem
+is that there are many potentially viable answers
+to a given problem.
+For example, there are many paths which will take you home
+from your office.
+The goal of an optimization problem
+is to find the most efficient solution from amongst all
+the possible solutions.
+We quantify this by introducing a cost function, which
+tells us the relative efficiency of each solution.
+For our commute home, our cost function
+could be the time it takes to get home if we
+followed a particular route.
+Or alternatively, it could be the amount of gas we use.
+Whatever we are optimizing against,
+the optimal solution tells us the one that
+minimizes our cost function.
+And although there may be a truly optimal solution,
+it's very often the case that there
+are several nearly optimal solutions that
+are all in practice very good.
+Commutes that differ by a few meters on 10 kilometers,
+or differ by a few drops of gas on a liter
+are essentially interchangeable.
+And the hope is for these kinds of problems,
+leaving the ground state may be OK,
+provided we end up in a reasonably low energy state.
+To map an optimization problem onto a quantum annealing
+problem, we make use of a particular Hamiltonian
+known as an Ising Hamiltonian.
+The Ising Hamiltonian was first formulated
+in the context of quantum magnetism between atomic spins.
+For a system of physical spin 1/2 particles,
+the Ising Hamiltonian tells us the energy of the spins as they
+interact with external magnetic fields,
+plus the energy of the magnetic interactions between pairs
+of spins.
+So how can this physics problem be used for optimization?
+As it turns out, we can use the Ising Hamiltonian
+to encode so-called classical optimization problems.
+By choosing the right combination
+of interaction strings between spins,
+we can mimic the cost function of the problem
+we're interested in.
+When we encode this optimization problem into our Ising
+Hamiltonian, we then find that the energy levels
+of our Hamiltonian correspond to the different possible solutions
+to our optimization problem, with the energy of each level
+corresponding to the value of the cost function
+for that particular solution.
+Higher energies incur higher penalties.
+The goal of quantum annealing is to engineer a system of qubits
+with an Ising Hamiltonian, corresponding
+to the optimization problem of interest.
+We then want to evolve this system such
+that it ends up in a lower energy
+eigenstate of this Hamiltonian at the end of the computation.
+The lower the energy of this final state,
+the more optimal the solution.
+To perform this evolution, we start
+by initializing our system in the ground state
+of a much simpler Hamiltonian.
+Conventionally, this Hamiltonian is the sum of the x operator
+acting on every qubit, which is analogous to having an array
+of spin 1/2 particles in a global magnetic field pointing
+transverse to the spins.
+When you work out the math, you find
+that the ground state of this Hamiltonian is straightforward.
+It's the state where all the qubits
+are in the plus x state on the equator of the Bloch sphere,
+which is a relatively easy state to initialize our system in.
+Once we prepare our system in the ground
+state of this initial Hamiltonian,
+we gradually reduce the strength of this initial Hamiltonian
+and turn on the Hamiltonian, which encodes our optimization
+problem.
+In the ideal case, our system evolves adiabatically
+and remains in the ground state throughout the evolution.
+This would be an adiabatic quantum computer simulating
+an Ising Hamiltonian.
+Ideally, at the end of the evolution,
+our system would still be in the ground state of our problem
+Hamiltonian, corresponding to the solution which
+minimizes our cost function.
+In other words, we would find the absolute shortest route
+home.
+However, as we discussed at the beginning of this video,
+it's very unlikely that we will remain in the ground state
+throughout the computation.
+This doesn't necessarily ruin our computation,
+because every energy state of our problem Hamiltonian
+corresponds to a possible solution.
+Even if we exit the ground state and end up
+in an excited state at the end of the computation,
+this excited state may still give us a useful answer
+to our optimization problem.
+The question is, how good is this answer?
+Unfortunately, while quantum annealing relaxes the constraint
+that we stay in the ground state,
+it makes no guarantees that the result we arrive at
+is any more optimal, or any more efficiently found
+than the result we might calculate
+on a classical computer.
+As such, unlike AQC, quantum annealing
+can make no provable claim to either universality or quantum
+enhancement, and there is no demonstration
+to date of quantum enhancement for a class of optimization
+problems.
+That said, even if a quantum annealer ends up scaling
+with problem size like a classical computer,
+it may still be useful if it offers
+a significant advantage over existing classical computing
+alternatives.
+However, this also has yet to be demonstrated.
+Nonetheless, there is tremendous interest in quantum annealers
+because optimization problems are ubiquitous.
+As work gets underway to design the next generation of quantum
+annealers, it remains an open question
+if systems with higher quantum coherence and more
+sophisticated qubit connectivity might demonstrate a truly
+conclusive quantum enhancement.

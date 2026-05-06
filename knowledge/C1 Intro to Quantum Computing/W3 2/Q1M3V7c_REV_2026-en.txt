@@ -1,0 +1,145 @@
+
+JACK HIDARY: Hi, my name is Jack Hidary.
+I'm Founder and CEO of SandboxAQ.
+When I was recruited to Alphabet about seven years ago, what
+we realized is that advanced compute was good not just
+for solving search, but we can now
+train our eyes on so many of the large problems in the world.
+With our growing success, we realized
+that we can have deep impact at scale, deep impact in areas
+such as health care and drug development,
+hitting major diseases; deep impact in the energy
+sector, automotive and aerospace;
+deep impact in navigating without GPS, which
+is a critical issue in the world today;
+deep impact in cybersecurity, protecting the world's data
+from the threats of both AI and quantum.
+We realized that both AI and quantum
+would be two critical tools in solving these challenges.
+When we think about AI, we can go beyond just large language
+models into new models that are actually quantitative in nature.
+This takes us beyond the kind of GPTs
+that you see out there to large quantitative models,
+LQMs, models that understand physics and chemistry
+and biology.
+These models are very, very different
+than the models you see out there on the internet,
+but they're really the right tools
+to use to develop new treatments for diseases like Parkinson's
+and Alzheimer's and cancer.
+They're the right tools to think about new battery chemistry
+to store energy.
+They're the right tools for the new materials
+we need to solve key issues in our world.
+And so when we started developing these kinds of tools,
+we started getting more and more success.
+We realized that we can work on real pharmaceutically relevant
+molecules.
+We can start to work on materials
+that would affect and impact the automotive area,
+the aerospace area, and other key industries.
+And so we decided to spin out the company
+as an independent company to grow faster and further.
+So how does SandboxAQ accomplish these key goals?
+How do we impact drug discovery and development?
+How do we impact energy storage and generation?
+How do we impact material science
+for so many critical industries?
+Well, it starts with understanding the need
+to combine AI with physics.
+Our world is governed by physics.
+And we need to train AI in that physics
+if we want to impact that world.
+I'm sure you've all heard about large language models
+and tried some of those online.
+We have that here on the slide in the green--
+AI for language and graphics and videos,
+a lot of interesting use cases there, such as marketing copy,
+interactive customer service applications, software coding.
+It definitely helps with that.
+But when it comes to the real world, when
+it comes to the physical world, when
+it comes to quantitative finance,
+we need a different kind of AI, an AI that's
+combined with quantum physics and other key tool sets
+to understand how to make stuff for that world,
+and also to optimize portfolios and other applications.
+As you see on the slide, the largest sectors of our economy--
+the largest sectors, including financial services, biopharma,
+auto and aerospace, chemicals, energy and materials,
+these are the ones where there's some application for language
+models.
+But really, what we need are quantitative models, models that
+understand the equations of quantum physics,
+models that understand the equations that
+govern so many key areas and sectors of our society.
+These are the models that SandboxAQ focuses on.
+We are the global pacesetter in these areas
+and develop models now for each of the sectors
+that you see on the slide.
+So what does the future of computing look like?
+As you see on this slide, it looks
+like a combination, a mesh, of both the work
+that we do today on GPUs, from NVIDIA and many other companies,
+as well as the interaction with QPUs, quantum processing units.
+In this course, you've heard about different ways
+of building quantum computers and using quantum computers.
+But they will exist in a mesh in a hybridized format
+with the classical computing of today.
+There's a role for both of these as we move forward,
+and much of that will be in the cloud.
+Quantum computing is one of the first innovations that
+is cloud-native, born in the cloud.
+99% of how people interact with quantum computers
+today and tomorrow will be via the cloud.
+And those same clouds is where we host
+most of the GPUs of the world.
+And so when you write a program that
+is meant to look at drug discovery, part of that program
+will run on the GPUs, and part of that code
+will run on the QPUs.
+They'll be integrated into one mesh, resulting in a solution
+that neither alone could produce.
+Let's look at an example in practice.
+On the screen now, you're looking
+at a molecular interaction.
+The small molecule in purple is going
+through thousands, perhaps millions, of permutations
+to fit into a larger molecule, in this case, a protein.
+This is very typical of the kind of work we do in drug chemistry.
+And these interactions are molecular in nature
+and therefore quantum in nature.
+This is the kind of work that is accelerating drug chemistry
+by many, many years and providing leapfrog innovation
+in this particular sector.
+Let's now look at another sector, navigation.
+What happens in navigation when you don't have GPS?
+We all rely upon GPS in our phones
+and our cars and, of course, planes also rely upon GPS.
+But what if GPS is jammed?
+What if it's spoofed?
+And that's happening right now.
+Russia is jamming GPS over much of Europe.
+China's jamming GPS over much of the Pacific area,
+particularly over Taiwan.
+And Iran is jamming GPS in the Middle East.
+What if you have to navigate in these areas?
+Well, it turns out you can navigate.
+And the inspiration, of course, comes from the animal kingdom.
+Birds and whales and many other animals
+have the ability to navigate via the magnetic field of the Earth.
+And now, thanks to this innovation, humans do as well,
+this innovation where we're applying quantitative AI
+to look at the magnetic field of the Earth.
+We're using quantum-based sensors
+to pick up the small changes from one area of the Earth
+to the next, similar to our fingerprints,
+unique every single different spot.
+And we're using this MagNav, magnetic navigation,
+to help that plane navigate even when there's no GPS.
+So this is another example where AI and quantum interact
+to provide a new solution that was not possible before.
+And so these two case studies, both in drug chemistry
+and in AQNav, provide examples of the leapfrog innovation
+that happens when you bring AI and quantum together.
+Thank you.

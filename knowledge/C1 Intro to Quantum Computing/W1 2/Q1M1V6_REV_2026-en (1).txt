@@ -1,0 +1,91 @@
+
+Classical computers can perform arbitrary Boolean logic
+with a small set of single-bit and two-bit gates.
+For example, the NOT gate, in combination with the AND gate,
+is considered universal in that it can, in principle, implement
+any classical algorithm that uses binary logic.
+Similarly, quantum algorithms can
+be run on quantum computers using a small, universal set
+of single and two-qubit gates.
+Let's begin with an example of a single-qubit gate called
+the X-gate and its classical analog, the NOT gate.
+A NOT gate takes one bit as its input and it inverts it.
+For example, a 0 at the input is inverted to state 1,
+and a 1 at the input is inverted to state 0.
+The quantum analog of this gate is
+called the X-gate, which takes a quantum state as its input,
+in this case state 0, and rotates it to state 1
+or it takes state 1 and rotates it to state 0.
+We can represent this operation on the Bloch Sphere
+with state 0 at the North Pole and state 1 at the South Pole.
+On the right, we see an envelope of the pulse
+that we're using to drive the X-gate.
+We call this a pi pulse, because it will rotate the Bloch
+vector representing the state of the qubit from the North Pole
+to the South Pole, a rotation of 180 degrees.
+The red arrow that comes in and out of the screen of the Bloch
+Sphere represents the envelope of the pulse
+that we're using to drive this operation.
+And visually, much like the spokes of an umbrella
+will rotate around the umbrella's central axis
+when you twist its handle, the Bloch vector
+rotates around the axis to which we're applying the pulse.
+In this case, since this pulse is
+applied along the x-axis of the Bloch Sphere,
+this is why we call the operation an X-gate.
+Now as we show it here, we're rotating from the North Pole
+to the South Pole from state 0 to state 1.
+In this configuration, this is simply a classical operation,
+but the X-gate can do much more.
+The X-gate can take as its input any superposition state, that
+is any starting point on the Bloch Sphere
+and rotate it around the x-axis by 180 degrees.
+This is a quantum mechanical operation.
+The qubit starts in a superposition state,
+and it ends in a superposition state.
+And what the X-gate essentially does is take the input quantum
+state, alpha 0 plus beta 1, and swaps
+the coefficients to generate an output
+state, beta 0 plus alpha 1.
+The X-gate is one of a handful of standard single-qubit gates
+that rotate the qubit state around a few different axes
+on the Bloch Sphere.
+Let's now consider an example of a two-qubit gate,
+the controlled NOT gate, or CNOT-gate,
+and its classical analog, the exclusive OR, or the XOR-gate.
+XOR takes two bits as inputs, bit x and y.
+We'll call bit x the control bit and bit y the target bit.
+The truth table for XOR shows the output states
+of all four possible input state combinations.
+For example, when the control bit x is in its 0 state,
+the target bit y, whether a 0 or a 1, remains unchanged
+and its value is just passed to the output.
+However, when control bit x is set to state 1,
+the target bit y is inverted.
+0 becomes 1 and 1 becomes 0.
+The quantum analog of this gate is the CNOT-gate,
+and it takes as inputs qubit x and qubit y.
+Again, we'll call x the control bit and y the target bit.
+When qubit x is in state 0, qubit y remains unchanged.
+But when qubit x is in state 1, qubit y
+undergoes a pi rotation, a rotation of 180 degrees.
+This means that the rotation of qubit y
+depends on the state of qubit x.
+We can consider an interesting example
+where x, the control qubit, is in an equal superposition of 0
+and 1 and y, the target qubit, is in state 0.
+To determine the output, let's take it one piece at a time.
+When x is in state 0, y remains unchanged.
+And when x is in state 1, the qubit y
+undergoes a rotation of 180 degrees
+that flips state 0 to state 1.
+The resulting output state, 0, 0, plus 1, 1,
+is a very interesting state because it cannot be factorized
+into an x component  cross a y component.
+This type of state is entangled, and an entangled state
+is a manifestly quantum mechanical state.
+Universal quantum computation can
+be built from a small subset of these types
+of single and two-qubit gates, and a universal gate set
+allows us to perform any type of quantum algorithm
+on a gate model quantum computer.

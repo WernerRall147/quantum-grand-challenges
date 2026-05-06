@@ -1,0 +1,136 @@
+
+The third thing we need to do with our ions
+is to measure or read out their quantum states.
+As explained earlier, this is done
+by counting photons that are emitted from the ions
+when they are illuminated by a readout laser.
+This readout needs to be done fast,
+and the speed is determined by the number of photons
+you can collect from the ion, and how quickly and efficiently
+the photon detector can give you a click when
+the photon hits it.
+Ions emit light isotropically, or in all directions,
+so it's not very easy to collect it all.
+For few-ion systems, light collection
+is typically done with a very large lens,
+which, due to its size, is located outside the vacuum
+chamber.
+This can collect a few percent of the total emitted light
+and send it to a detector, such as a photomultiplier tube that
+converts individual arriving photons
+into short electrical pulses that we
+can count with electronics.
+This works well because you only have
+to collect from a very small region in space
+where the few ions reside.
+For large arrays of ions, this technique
+is highly inefficient.
+Instead, we are now working to eliminate the large collection
+lens and integrate the photon detectors into the ion trap
+chips with a detector right below each ion.
+Since the detector is located only a few tens of micrometers
+away from the ion, they can be made very small
+and still collect the same amount of light
+as a big lens placed far away.
+At the same time, these detectors
+can be arrayed around the ion trap chip in very large numbers
+to match the size and pitch of the ion qubit array.
+This can, in principle, be a very efficient and scalable way
+to collect and detect light in a trapped ion quantum processor.
+The detectors that we are using for this purpose
+are known as Avalanche Photodiodes, or APDs.
+They are routinely fabricated by academic research groups
+and by industry using the same facilities and techniques that
+are utilized for microchip technology.
+And there is therefore a clear path to incorporating them
+in our ion traps.
+Indeed, at Lincoln Laboratory and MIT,
+we've already demonstrated that we
+can detect photons emitted from trapped ions
+using these integrated APDs.
+The fourth thing we need to do with our ions
+is move them around.
+We call this shuttling, and it provides
+a capability that is quite unique to the ion qubit
+modality.
+You have to find some way to move and distribute
+quantum information around your quantum computer in order
+to create the large entangled states required
+for practical quantum algorithms.
+Ions can be shuttled by changing the voltages applied
+to the trap electrodes.
+The voltages are typically generated
+with electronics located outside the vacuum system,
+and brought to the electronics via long wires
+that are connected to the chip around the edges.
+This is done routinely, and is fairly
+straightforward for few-ion systems,
+because there aren't that many electrodes
+and corresponding voltage sources required
+for such a small scale.
+However, for large arrays of ions,
+we will require lots of electrodes,
+and therefore lots of voltages and wires.
+Think about 10 per ion.
+Once again, we lean on integration
+to solve this scalability problem.
+At Lincoln Laboratory, we've begun
+to develop tunable voltage sources that
+are integrated into ion traps, with an individual voltage
+source below each electrode and connected
+through on-chip wiring.
+We can use commercial CMOS foundry facilities
+to fabricate these integrated electronic devices because they
+are built from the same transistor technology that
+is used in classical computer chips.
+These individual voltage sources, called Digital
+to Analog Converters, or DACs, can all
+be programmed and varied at high speed
+with digital signals that come down just a few wires
+connected to the trap chip, similar to
+the USB communication protocol.
+I'd also like to point out that, as we go forward,
+there are other electronic devices that we can think
+about integrating, things like circuits that
+detect the electrical pulses from our photon counters,
+or even classical computing processors that
+can store and manipulate classical information.
+As you might expect, we ultimately
+need to integrate these different control
+and measurement technologies together into one chip.
+This means that we need to use a fabrication process that
+is compatible with it all.
+This is not a trivial concern, since the performance
+of the required devices is very sensitive to the fabrication
+techniques and to the particular materials used.
+We keep this important constraint in mind
+as we develop our scalable technology,
+and make sure we are keeping everything compatible.
+In particular, all of the technologies I've discussed
+are completely compatible with advanced CMOS fabrication
+techniques and materials.
+This means that we are truly poised
+to take advantage of all of the incredible scalable
+technology that has been developed
+for classical computers, propelled by billions
+of dollars of investment over decades for our quantum
+computer.
+This animation is our vision of what a scalable trapped ion
+quantum computer will look like.
+Ions are trapped above the plane of a surface electrode ion trap
+chip.
+They're individually addressed and controlled
+with laser light delivered by integrated photonics,
+and light emitted by the ions is detected
+with integrated single-photon APDs below the trap electrodes.
+The ions are shuttled around by varying the voltages
+on these trap electrodes using integrated electronic circuits.
+The movie shows a particular quantum computing algorithm,
+and you may think to yourself, this
+doesn't look like a computer.
+To that I would say that we are trying
+to build something that computes in a fundamentally
+different and transformative way.
+And with this in mind, I would argue
+that we shouldn't expect it to look
+like anything we've ever seen.

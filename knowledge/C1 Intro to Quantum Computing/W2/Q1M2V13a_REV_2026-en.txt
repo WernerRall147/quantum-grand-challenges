@@ -1,0 +1,139 @@
+
+So far people have been working with small arrays of qubits,
+up to around a few tens of qubits.
+At some point, however, we run into a very basic problem
+of where to put everything.
+We want a large number of qubits that are coupled together.
+But if we look back at our picture,
+we can see that the actual qubit is only a small portion of what
+needs to go on our chips.
+We have bias lines, control lines, read out resonators,
+for example.
+And those can all be bigger than the qubit.
+Now, you can imagine making some of these smaller.
+But eventually, if you have a large array of qubits,
+it's going to be hard to even get wiring
+to the qubits in the center if you're
+working in two dimensions.
+And this is why most of the demonstrations to date
+have been limited to geometries where
+you can access the qubits laterally
+on the surface of a chip.
+This problem is not unique to superconducting qubits.
+In fact, many applications have this same issue.
+Consider, for example, a large scale imager
+with lots of pixels.
+You need to be able to get your signals out of the pixels.
+But you also want to be able to put a lot of pixels
+on a chip to fill a 2D array.
+One way industry has solved this issue
+is to move to 3D integration, where
+signals are brought in vertically
+instead of laterally.
+We think it's necessary to move to 3D integration
+to make large scale superconducting qubit circuits.
+But we need to be careful when doing so,
+because our qubits are affected by things
+that aren't an issue with classical electronics, which
+is what 3D integration was developed for.
+For example, one way to efficiently route wires in 3D
+is to build up a multi-layer stack of metal,
+with dielectric in between so wiring on different layers
+can cross each other.
+But we know that having lossy dielectric materials
+near a qubit can cause it to lose its quantum state.
+So we've developed a new idea for how
+to get the benefits of 3D integration,
+the efficient wiring and ability to bring in signals vertically
+without affecting the qubit.
+Here's our proposed scheme, which
+has three separate silicon chips that are held together
+with indium bump bonds.
+Within the three stack, each of the layers
+is fabricated separately.
+We've seen that there are process incompatibilities
+between the processes in separate layers of this three
+stack.
+For example, we must stay at a relatively low temperature
+once we've deposited shadow evaporated Josephson Junctions
+on the qubit layer, the interposer layer.
+However, we need to have processes
+at higher temperature for the read outs
+and interconnect wafer.
+By separately fabricating each layer,
+and combining them at the end of the process,
+we have the flexibility to combine our best processes,
+and optimize the capabilities of the full stack.
+The top layer of the three stack contains our qubits.
+Here we show two examples, capacitively shunted flux
+qubits, that we use for quantum annealing applications,
+and transmons, another type of qubit
+that we use for gate based quantum computing.
+As of 2018, state of art single qubit coherence times
+for each of these styles are on the order
+of 50 to 100 microseconds.
+At Lincoln Lab we are simultaneously
+working to further increase qubit coherence,
+and to retain that coherence as we
+move into the third dimension with increasing
+interconnect complexity.
+The second tier in the three stack
+is the interposer wafer, where Through Silicon Vias, or TSVs,
+that are lined with superconducting metal,
+route signals between the two sides of the wafer.
+The interposer provides three key benefits.
+First, it provides an isolated mode
+volume for each of the high coherence
+qubits in order to retain coherence
+times comparable to those in a planar device geometry.
+Second, the interposer provides a nearby surface
+for inductive or capacitive coupling
+across the vacuum gap between the qubit plane
+and the interposer plane.
+This interposer surface can be used for control
+and read out circuitry, or for coupling qubits
+that bridge two devices on the qubit plane.
+The third benefit of the interposer
+is that it connects the qubits with the read outs
+and interconnect multi-layer wafer on the bottom layer
+of the three stack, while still having the qubits keep
+a healthy distance from the lossy dielectrics
+on that multi-layer interconnect module.
+Moving down to the multi-layer read out and interconnect
+layer, here we are leveraging previous work
+we've done at Lincoln Lab on niobium devices.
+We previously fabricated tri-layer Josephson
+Junctions for superconducting qubits,
+which turned out to have lower coherence than the aluminum
+shadow evaporated Josephson Junctions that we use today.
+We also currently fabricate fully planarized
+multi-layer niobium devices with integrated tri-layer
+Josephson Junctions for both Single Flux Quantum, or SFQ circuits,
+as well as near quantum limited traveling
+wave parametric amplifiers, or TWPAs.
+For the three stack configuration
+we envision embedding Josephson Junctions
+within the multi-layer niobium wiring
+that could be used for active circuit components,
+such as on chip TWPAs.
+Last, after fabrication of each of these three separate wafers,
+we need to assemble the complete circuit.
+To do this, we're developing a double bump bonding
+approach with indium thermal compression bonding.
+Indium, which is superconducting at our milliKelvin operational
+temperatures, can be used both for mechanical stability
+of the wafer stack and for electrical connectivity.
+We align the chips using a precision bump bonder system.
+We use feature in feature alignment marks, where
+part of the alignment structure is on each wafer,
+both during alignment, and as a check afterwards of how well we
+align the two surfaces.
+We have seen that we routinely achieve better than one micron
+alignment between our chips.
+In addition to lateral alignment,
+tilt control also is critical in order
+to have consistent inductive or capacitive
+coupling across the vacuum gap.
+Using multiple techniques, we have
+demonstrated tilt control between wafers
+of less than 250 micro radians.

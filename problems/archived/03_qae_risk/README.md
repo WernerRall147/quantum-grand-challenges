@@ -96,14 +96,17 @@ Current repository instances include `small` and `medium`.
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage C complete** (hardware-aware validation baseline in place with uncertainty-bounded calibration evidence).
-- **Next gate target**: **Stage D** (advantage evidence package hardened for promotion from `projected` to `demonstrated` claim category).
+- **Current gate**: **Stage D complete** (advantage evidence package hardened with calibrated backend assumptions, uncertainty methodology, fairness review, and `projected` claim category locked).
+- **Next gate target**: Maintenance — monitor Stage D readiness audit and promote `projected` → `demonstrated` once hardware execution evidence is in place.
 
-Stage C evidence references for this problem:
+Stage D evidence references for this problem:
 
-- Uncertainty-bounded estimates: `estimates/quantum_estimate_ensemble.json` and run-level samples in `estimates/quantum_estimate_run*.json`.
-- Calibration trend history: `estimates/quantum_calibration_history.json`.
-- Runtime mapping and execution assumptions: `qsharp/RuntimeConfig.qs` generated via `python/write_runtime_config.py`; layout overhead and estimator assumptions documented in this README and `QAE_IMPLEMENTATION_SUMMARY.md`.
+- Advantage claim package: `estimates/advantage_claim_stage_d.md` (claim category, baseline fairness, scaling claim, I/O assumptions, noise model, residual risks).
+- Variance and overhead methodology: `estimates/variance_and_overhead_stage_d.md` + `estimates/variance_and_overhead_stage_d.json`.
+- Backend readout characterization: `estimates/backend_readout_characterization_stage_d.md` + `.json`.
+- Fairness review against best-known classical baseline: `estimates/fairness_review_stage_d.md`.
+- Multi-instance ensemble estimates: `estimates/quantum_estimate_ensemble_{small,medium,large}.json`.
+- Stage C evidence remains valid: `estimates/quantum_estimate_ensemble.json`, `estimates/quantum_calibration_history.json`, runtime mapping in `qsharp/RuntimeConfig.qs`.
 - Validation-oriented claim language synchronized in `README.md`, this problem README, and `docs/QAE_PROJECT_COMPLETION.md`.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)

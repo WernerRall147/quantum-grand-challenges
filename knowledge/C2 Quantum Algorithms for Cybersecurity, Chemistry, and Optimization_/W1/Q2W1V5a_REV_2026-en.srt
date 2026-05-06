@@ -1,0 +1,348 @@
+0
+00:00:00,000 --> 00:00:00,500
+
+
+1
+00:00:00,500 --> 00:00:03,890
+How do you get factoring from order finding?
+
+2
+00:00:03,890 --> 00:00:08,570
+So first, let me say the second fastest classical algorithm is
+
+3
+00:00:08,570 --> 00:00:10,340
+the quadratic sieve.
+
+4
+00:00:10,340 --> 00:00:13,470
+So I’d say most classical algorithms…
+
+5
+00:00:13,470 --> 00:00:20,810
+So suppose you have N equals P times Q. Actually, they
+
+6
+00:00:20,810 --> 00:00:23,240
+work in more general cases, but we'll just worry
+
+7
+00:00:23,240 --> 00:00:28,700
+about the case of two products.
+
+8
+00:00:28,700 --> 00:00:32,030
+So the first step, really the only step,
+
+9
+00:00:32,030 --> 00:00:36,140
+the trick is to find x squared congruent to y
+
+10
+00:00:36,140 --> 00:00:43,740
+squared mod N x not congruent to plus or minus y mod N.
+
+11
+00:00:43,740 --> 00:00:46,670
+So suppose you're trying to factor 21.
+
+12
+00:00:46,670 --> 00:00:52,970
+You get 4 is congruent to 25 mod 21, right?
+
+13
+00:00:52,970 --> 00:00:58,550
+Because 25 minus 4 is a multiple of 21.
+
+14
+00:00:58,550 --> 00:01:01,310
+So 4, these are both squares.
+
+15
+00:01:01,310 --> 00:01:05,900
+And now we have 5 minus 2 times 5 plus 2
+
+16
+00:01:05,900 --> 00:01:09,140
+is congruent to zero mod 21.
+
+17
+00:01:09,140 --> 00:01:13,270
+And whenever this happens, one of these
+
+18
+00:01:13,270 --> 00:01:19,970
+contains P and the other contains Q.
+
+19
+00:01:19,970 --> 00:01:28,610
+Or rather, whenever neither of these is 0,
+
+20
+00:01:28,610 --> 00:01:32,930
+you have a product of two numbers, which is zero mod 21.
+
+21
+00:01:32,930 --> 00:01:37,850
+And so we know that the product has to contain three somewhere,
+
+22
+00:01:37,850 --> 00:01:40,550
+and it has to contain [INAUDIBLE] somewhere.
+
+23
+00:01:40,550 --> 00:01:44,810
+And if neither of these factors is 0 mod 21,
+
+24
+00:01:44,810 --> 00:01:49,400
+3 has to be contained in one factor and 7 in the other.
+
+25
+00:01:49,400 --> 00:01:56,360
+And then what you can do is you can use Euclid's algorithm
+
+26
+00:01:56,360 --> 00:02:03,560
+for gcd to get P and Q.
+
+27
+00:02:03,560 --> 00:02:08,060
+So whenever you get two squares, which are equal to each other,
+
+28
+00:02:08,060 --> 00:02:10,039
+you're essentially done.
+
+29
+00:02:10,039 --> 00:02:13,500
+And this is how the quadratic sieve works.
+
+30
+00:02:13,500 --> 00:02:15,970
+And that's the second fastest classical factoring algorithm
+
+31
+00:02:15,970 --> 00:02:18,210
+known.
+
+32
+00:02:18,210 --> 00:02:23,180
+How do we find x squared y squared?
+
+33
+00:02:23,180 --> 00:02:33,080
+Well, let's look at the function f of x equals g to the x mod N.
+
+34
+00:02:33,080 --> 00:02:41,990
+So this is periodic because if g to the r is congruent to 1,
+
+35
+00:02:41,990 --> 00:02:52,160
+then g to the x plus r is congruent to g to the x mod N.
+
+36
+00:02:52,160 --> 00:02:55,850
+Because if g to the r plus is congruent to 1,
+
+37
+00:02:55,850 --> 00:02:59,090
+then g to the x plus r congruent to g to the x--
+
+38
+00:02:59,090 --> 00:03:02,000
+because it's just multiplying both sides of this by g
+
+39
+00:03:02,000 --> 00:03:03,230
+to the x.
+
+40
+00:03:03,230 --> 00:03:08,980
+So that says that f of x is periodic.
+
+41
+00:03:08,980 --> 00:03:12,230
+I mean, it has to start repeating some time
+
+42
+00:03:12,230 --> 00:03:17,820
+because there are only N possible things here.
+
+43
+00:03:17,820 --> 00:03:19,540
+And whenever it starts repeating,
+
+44
+00:03:19,540 --> 00:03:22,780
+you get a g to the x plus r congruent to g to the x.
+
+45
+00:03:22,780 --> 00:03:26,590
+And that means g to the r is congruent to 1.
+
+46
+00:03:26,590 --> 00:03:30,845
+g to the r over 2 squared is congruent to 1
+
+47
+00:03:30,845 --> 00:03:34,730
+squared if r is even.
+
+48
+00:03:34,730 --> 00:03:36,930
+So let's do an example.
+
+49
+00:03:36,930 --> 00:03:40,230
+Suppose we're trying to factor 21.
+
+50
+00:03:40,230 --> 00:03:43,930
+So 2 to the 0, 2 to the first, 2 squared, et cetera.
+
+51
+00:03:43,930 --> 00:03:49,580
+So this is 1, 2, 4, 8, 16, 32.
+
+52
+00:03:49,580 --> 00:03:54,850
+32 minus 21 is 11, so the next column then is 11.
+
+53
+00:03:54,850 --> 00:03:58,070
+And 22 minus 21 is 1.
+
+54
+00:03:58,070 --> 00:04:00,600
+1.
+
+55
+00:04:00,600 --> 00:04:09,200
+So 2 to the sixth is congruent to 1 mod 21.
+
+56
+00:04:09,200 --> 00:04:14,990
+That means 2 cubed minus 1 minus times 2 cubed plus 1 is
+
+57
+00:04:14,990 --> 00:04:18,579
+congruent to 0 mod 21.
+
+58
+00:04:18,579 --> 00:04:22,340
+And this is 7 and this is 9.
+
+59
+00:04:22,340 --> 00:04:29,400
+And 7 contains the factor 7, 9 contains the factor 3.
+
+60
+00:04:29,400 --> 00:04:32,190
+So the question is how can this go wrong?
+
+61
+00:04:32,190 --> 00:04:37,700
+And well, there's a couple of things that could go wrong.
+
+62
+00:04:37,700 --> 00:04:40,320
+We could have started with 4.
+
+63
+00:04:40,320 --> 00:04:42,690
+4, 16.
+
+64
+00:04:42,690 --> 00:04:48,970
+16 squared, well, we know 2 to the sixth is congruent to 1 mod
+
+65
+00:04:48,970 --> 00:04:49,470
+21.
+
+66
+00:04:49,470 --> 00:04:54,230
+So 4 cubed is congruent to 1 mod 21.
+
+67
+00:04:54,230 --> 00:05:02,100
+So we get 4 cubed is congruent to 1 mod 21.
+
+68
+00:05:02,100 --> 00:05:07,790
+4 to the 3/2 doesn't exist.
+
+69
+00:05:07,790 --> 00:05:11,280
+Well, we can't compute it.
+
+70
+00:05:11,280 --> 00:05:14,510
+So this shows that 4 could go wrong.
+
+71
+00:05:14,510 --> 00:05:18,420
+The only thing that could go wrong is we could do this.
+
+72
+00:05:18,420 --> 00:05:24,890
+And when we look at the middle element, it's minus 1.
+
+73
+00:05:24,890 --> 00:05:29,180
+And that would be a problem because then we
+
+74
+00:05:29,180 --> 00:05:35,990
+have x is equal to minus y mod N.
+
+75
+00:05:35,990 --> 00:05:41,740
+And we can't use that, we can't use this trick then.
+
+76
+00:05:41,740 --> 00:05:46,310
+So some things can go wrong, but the great theorem
+
+77
+00:05:46,310 --> 00:05:53,440
+is probability of success with g to the xth
+
+78
+00:05:53,440 --> 00:06:00,320
+is greater than or equal to 1/2 for a random g between 0
+
+79
+00:06:00,320 --> 00:06:05,150
+or a random g less than N.
+
+80
+00:06:05,150 --> 00:06:08,570
+So you choose a random g less than N.
+
+81
+00:06:08,570 --> 00:06:13,220
+You do this repeated squaring.
+
+82
+00:06:13,220 --> 00:06:22,830
+And the probability this will work is at least 1/2.
+
+83
+00:06:22,830 --> 00:06:25,530
+And if it doesn't work, you choose another random g.
+
+84
+00:06:25,530 --> 00:06:28,980
+So eventually, with high probability,
+
+85
+00:06:28,980 --> 00:06:33,050
+you will get a g which lets you factor.
+
+86
+00:06:33,050 --> 00:06:39,019
+
+

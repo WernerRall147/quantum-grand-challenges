@@ -1,0 +1,131 @@
+
+So now we come to the second approach.
+The point of this second approach, VQE,
+is to get by with a much poorer, worse quantum computer
+by not asking for quite as much, and you'll
+see how that works by my describing the algorithm.
+The point of this argument is to rely
+upon the variational principle, which in this context
+says that if I'm given some state, psi, which is not
+the ground state, and I measure the expectation
+value of the Hamiltonian, this full total Hamiltonian
+with respect to that state, I will get some expectation value
+average energy, which is no smaller than the energy
+of the ground state.
+So therefore, I might do something like introduce
+a bunch of parameters here.
+Let's call these theta.
+So theta 1, theta 2, theta 3, and say
+I use the thetas to manipulate the degrees of freedom I
+have in the input state to this expectation value.
+
+Then again, it will also be no smaller than that.
+So I might define this thing as an expectation value of H
+parameterized by some thetas.
+You can do this on a classical computer,
+but the hardest part about the classical computation
+is preparing this state and then computing this matrix element
+of H with that state.
+And the VQE algorithm proposes to do those two
+steps on a quantum computer.
+And the rest, it does with a classical computer.
+So here are the steps.
+Prepare psi of theta, where theta
+it is controlled by a classical algorithm,
+and this is done on a quantum computer.
+easure this H of theta, and there are many ways
+of doing this measurement.
+One of which I will describe in a moment,
+if we have time on a quantum computer.
+And then third, take this classical measurement result
+that you now have, and run a optimization algorithm.
+
+For example, the Nelder-Mead simplex algorithm,
+or stochastic gradient descent, or you
+choose your favorite optimization algorithm,
+changing theta to minimize each of theta.
+
+And go back to the beginning, and this is
+done on a classical computer.
+So now we have a hybrid, where we
+have a quantum computer executing some steps,
+and a classical computer executing some other steps.
+And in fact, you can show that this kind
+of a variational expectation value
+is true even if you have a natty density matrix here, instead
+of a pure state.
+So if your quantum computer starts to devolve and go not
+so quantum on you half way through,
+it still cannot give you an expectation value that's better
+than the ground state.
+And there are various versions of these sets of theorems,
+which apply to variances in other quantities
+that you might want to measure.
+And so, one can try to assert, although it's largely
+done without proof today, that this argument will still
+work reasonably OK on a noisy quantum computer with not so
+good quantum bits.
+And therefore, companies can deliver to you a product which
+is a quantum computer with poor quantum bits,
+and still expect you to pay a lot of money
+for it because it could run this algorithm
+and give you some result. There are not many proofs
+that it will do so, but it is a very compelling argument
+and a very interesting direction.
+And there are now experimental results
+showing small one and two gigabit quantum computers
+doing exactly these steps, the variational quantum
+eigensolver.
+So the challenge of this, there are two,
+I would point out most.
+First, does this expectation value converge?
+
+You have to rely upon this classical optimization
+algorithm to get you better and better values.
+But you don't have a proof that you actually
+got the lowest possible value, or the desired ground state.
+Second, this state preparation.
+It's unclear how this state is actually prepared.
+There are some ideas of how to prepare this.
+
+For example, with adiabatic quantum computation.
+You start with a beginning Hamiltonian,
+which you can create, and try to construct an end
+Hamiltonian whose ground state is this state that you
+want to create.
+And since you have this parametrized in principle,
+you have some means by which you can do that.
+This parameter, by the way, could be things, for example,
+like the adiabatic path that you use in the quantum computer.
+OK.
+And related to this first challenge is how you measure H.
+And one way people have done this
+is to measure the terms of H.
+So you can say this is actually equal
+to the average expectation value of H1 plus plus H2,
+plus all the way up to however many terms there are in here.
+So you can measure, in principle, the expectation
+value turn by turn in the Hamiltonian.
+And if the Hamiltonian terms are simple, like polymatrices,
+then you have a feasible way of doing it.
+Unfortunately, that means that you also now added the error
+from each one of these expectation values,
+and so the error can grow very, very rapidly as you're
+trying to estimate the expectation value this way.
+Still, the variational quantum eigensolver is different.
+We haven't looked at any kind of algoritm
+like that in class in this semester.
+How do you utilize a system which
+has a quantum computer and a classical computer
+together, so that you can get something of the best of both
+of the systems?
+How can you make them work in concert, so that one hands off
+information to the other one so that now you
+can feedback, and try to speed up,
+while only have a limited amount of quantum coherence
+and a limited number of qubits at your disposal?
+I think this is a fascinating topic.
+I want to leave you with that challenge,
+and I want to also leave you with the challenge of thinking
+about how you can relate Hamiltonians and quantum
+algorithms.

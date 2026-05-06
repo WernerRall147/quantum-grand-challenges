@@ -1,0 +1,150 @@
+In the last section, we
+saw the promise of quantum computing
+and its potential for quantum advantage.
+But although a quantum computer can
+do anything a classical computer can do,
+it often doesn't know better.
+And in fact, we only have a small set of useful algorithms
+at our disposal today.
+So what can we do to realize the promise of quantum computing?
+Quantum advantage starts with having useful quantum
+algorithms, and developing new algorithms is very challenging,
+in large part because quantum computers
+are based on quantum mechanics.
+And so developing an algorithm for a quantum computer
+is quite different than doing so on a classical computer.
+To understand how quantum algorithms work
+and what they can do, there are currently
+a couple different approaches.
+One is to develop algorithms based on mathematical theorems
+and their proofs.
+Shor's algorithm and Grover's algorithm
+are both good examples.
+Based on either intuition or insight into the problem,
+a quantum algorithm is first proposed,
+and then it's theoretically determined if the algorithm is
+efficient or not.
+For example, proving that an n bit number
+can be factored with high probability in a time
+that scales polynomially with the size of that n bit number,
+rather than exponentially.
+Again, this type of development generally
+requires insight into a particular structure
+of the problem that lends itself to enhancement on a quantum
+computer.
+A second approach is to use classical computers
+to simulate the behavior of quantum computers,
+to glean some insight into algorithmic primitives that
+can then be used to realize quantum enhancement in larger
+systems.
+Now, as you might imagine, simulating a quantum
+computer with a classical computer is not very efficient.
+After all, if we could easily simulate a quantum computer,
+then we wouldn't need to build one.
+Currently, classical supercomputers
+with significant effort can simulate about 50 qubits.
+And various probabilistic and Monte Carlo
+techniques have been developed that can further
+increase the qubit number in exchange
+for accuracy or completeness in the solution.
+Again, these kinds of classical simulations
+can provide insights into how a quantum algorithm works
+at small scales, so it can be leveraged in quantum
+algorithms run on larger scale quantum computers.
+To go beyond small scale simulations,
+a third approach is to just throw caution to the wind,
+build a quantum system, and see what happens.
+The D-Wave system is a great example of this approach.
+D-Wave's built a quantum annealer with more than 5,000
+qubits, a fantastic engineering achievement.
+And although there is as yet no indisputable theoretical or
+experimental evidence pointing to a quantum
+enhancement in quantum annealers,
+there's a lot that we don't know.
+And as we discussed in week one, because optimization problems
+are so important, there's a tremendous application pool
+to develop quantum enhanced optimization tools.
+And so getting a real machine into the hands of engineers,
+computer scientists, and algorithm designers
+is a great way to start learning what
+is and is not possible with the various quantum computing
+approaches.
+So developing quantum algorithms is very challenging,
+and tremendous efforts have been applied to their development.
+And it's because of this that we have useful or potentially
+useful algorithms today.
+Examples in the useful now category
+are Shor's factoring algorithm and Grover's search algorithm.
+Shor's algorithm can be used to break public key cryptosystems
+and affords an exponential speedup
+over known classical algorithms.
+Doing so at a meaningful scale requires a medium-sized quantum
+computer with thousands of logical qubits.
+Although we don't have such quantum computers yet,
+they are foreseeable, and as such, research today is oriented
+towards developing new quantum resistant
+public key cryptography standards,
+as well as a new generation of quantum algorithms
+to break them.
+Grover's algorithm is related to a general class of search,
+collision, and optimization algorithms
+that afford quantum advantage over known classical algorithms.
+However, currently, more research
+is needed to help make these algorithms practical.
+There are a couple of reasons for this.
+One is the data-loading problem.
+For example, how efficiently we can load large amounts of data
+into a quantum computer so it can be efficiently searched.
+In addition, there's currently a rather limited range
+of problem sizes that admit benefit,
+namely problems that are large enough
+to make use of the quantum advantage,
+and yet, not so large that it becomes practically
+prohibitive to operate on a human time scale.
+For example, a quantum enhancement
+that reduces the runtime from a few thousand years
+to a few decades is obviously a fantastic improvement,
+but very few people would find that useful.
+Although Shor's and Grover's algorithms are perhaps
+the most well-known examples of a quantum algorithm,
+it's widely anticipated that quantum simulation
+will have the greatest economic impact in the future.
+Simulation would apply broadly to a range of problems,
+from solid state and nuclear physics to material science
+and chemistry, and these are problems of importance
+to both science and industry.
+Classical simulations of quantum systems
+are generally limited to very small problem sizes or an array
+of simplifying assumptions, such as no entanglement
+or semiclassical dynamics.
+Exact solutions are generally intractable because the number
+of variables needed to describe a fully quantum system
+grows exponentially with the problem size.
+It's been shown that quantum simulations are
+able to efficiently model quantum systems,
+and the hope is that some of these problems
+may see quantum advantage on smaller scale or even error
+prone quantum computers.
+Whether or not this is achievable remains
+an open question.
+Other quantum algorithms in the maybe useful category
+include sampling solutions to linear equations,
+adiabatic optimization problems, and machine learning.
+In these cases, the ultimate degree of quantum advantage
+will depend on a number of factors,
+including input/output complexity, such as the loading
+problem I mentioned earlier, and making a meaningful connection
+to applications.
+In addition, to offer useful advantage,
+these algorithms must also outperform
+existing heuristics-- classical computing
+methods that, while not guaranteed
+to give an exact or optimal answer,
+do give very high quality solutions,
+and that's often sufficient for many applications.
+So in summary, developing quantum
+algorithms that exhibit quantum advantage
+is at the heart of realizing the promise of a quantum computer.
+And in the next video, we'll take a look
+at the degree and type of quantum enhancement
+these algorithms provide.

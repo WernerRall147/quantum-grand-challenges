@@ -1,0 +1,83 @@
+
+Bell's inequality may seem just like an interesting experiment
+you can do and something to learn about
+in your first quantum course, but not something that has
+any real world applications.
+However in 2010, researchers show
+that you can take the base machinery for demonstrating
+Bell's inequality and use it to make
+a remarkable type of quantum random number generator--
+one that is certified by the violation of Bell's inequality
+under some basic assumptions.
+They showed that they could use the violation
+of Bell's inequality to bound the entropy
+of the outputs of their RNG.
+Here's how it works.
+Alice and Bob start out with a string of zeros and ones
+that is used to select one measurement basis or the other.
+Each time they run the experiment choosing
+one basis or the other, each gets out a 0 or 1,
+depending on which detector clicked.
+They repeat the experiment many times
+and use the input and output strings
+to compute the Bell inequality function.
+This tells them how much entropy is in the output string,
+and they can then use classical techniques
+to extract the randomness.
+The amazing thing here is that all
+you need to know to know how much entropy is in the system
+is the violation of Bell's inequality.
+So there's no need to continuously characterize
+each and every component in your system
+to make sure it's working properly.
+You have one number that you get out
+of your system that tells you if it's working properly.
+Again, something can always break,
+and this doesn't guarantee that nothing will go wrong
+in your black box.
+But if something goes wrong, either because something broke
+or because an adversary is hacking the system,
+you see it reflected in the violation of Bell's inequality.
+This concept is called device independence or black box
+security.
+We've talked here about using this for random number
+generation, but people have demonstrated black box security
+proofs for other applications, such as
+quantum key distribution.
+In these protocols, it's important to close
+the loopholes in Bell's inequality,
+because those could provide a way for an adversary
+to compromise the system, for example, by blinding detectors.
+The verifiable or certifiable random number generator
+was first demonstrated using trapped ions in 2010.
+The locality loophole wasn't closed,
+but the two halves of the experiment
+were spatially separated and thought to be not interacting.
+Of course, the only way to know for sure
+is to close the locality loophole,
+and in 2018, some of the same people that
+showed they could close the loopholes in Bell's inequality
+tests then used their system to make
+a certifiable random number generator.
+I'd like to close by pointing out the timeline for device
+independent applications.
+It all started back in the '30s when Einstein, Podolsky,
+and Rosen wrote a paper on what they viewed
+as a paradox and a reason that quantum mechanics was
+incomplete-- this concept that they rejected
+called spooky action at a distance.
+Then nearly 30 years later, John Bell
+realized that there's an experiment you could do
+to shed light on this paradox.
+People did the first experiments demonstrating the violation
+of Bell's inequality in the '80s,
+and more than 20 years later, they
+came up with an idea of device independence
+and demonstrated it in a real system.
+Perhaps, someday we'll have black box applications
+on a chip.
+If so, this would be an amazing story
+about how something that started out
+as a scientific curiosity, something that addressed
+a question mainly of philosophical interest
+ended up having profound effects on security.

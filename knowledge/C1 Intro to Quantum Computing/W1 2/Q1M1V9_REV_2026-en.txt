@@ -1,0 +1,64 @@
+
+Another type of quantum computer is a quantum simulator,
+a processor that simulates the behavior
+of a physical system, a chemical reaction,
+or a biological process.
+Simulations can be implemented using
+single- and two-qubit gates as on a universal quantum
+computer, and we'll call these digital simulations.
+Alternatively, the qubits themselves,
+the way that they connect to one another,
+and the strengths of those connections
+can be designed to emulate a system's behavior.
+We'll call this an analog simulator.
+There are also examples of hybrid simulators
+that use aspects of both digital and analog approaches.
+Nature is quantum mechanical.
+So with quantum computers, we get this ability
+to take a step closer to being able to actually
+computationally model aspects of physical systems.
+So I think this is a pretty amazing
+potential first application of quantum computers.
+As the first business application,
+with the knowledge of today, I would
+say the simulation of molecules in materials
+is the most likely, which, in turn, can
+have a really broad impact in science and technology
+and in society.
+One example is the simulation of chemical reaction mechanisms.
+It's estimated that somewhere between 1% and 2%
+of worldwide energy production is used to produce ammonia
+for agricultural fertilizer.
+The key step is a process called nitrogen fixation.
+In industry, nitrogen fixation is
+performed using the Haber Bosch process, which
+requires both high pressure and high temperature.
+In contrast, there exist bacteria
+which use an enzyme called molybdenum nitrogenase, which,
+even at room temperature, can catalyze atmospheric nitrogen
+into ammonia.
+How do the bacteria do it?
+Well, we don't really know precisely.
+We do know the key component is an iron molybdenum cofactor,
+a chemical compound that acts as a helper
+molecule for the enzyme.
+However, it's not known how the reaction works in detail.
+Simulations with classical computers, of course,
+exist but only provide approximate answers.
+If we could actually study that process and understand it,
+then we could potentially engineer a catalyst that
+makes this reaction efficient.
+Now to study this with classical computers,
+this is lifetime of the universe time scale
+to get a solution.
+On the other hand, a quantum simulation
+of the chemical reaction steps would
+provide the reaction energies that are involved
+in the nitrogen fixation.
+This type of quantum chemistry simulation
+has many applications.
+For example, developing new pharmaceutical drugs
+or tailoring a material to have unique properties.
+For these types of simulations, it's
+been shown that a quantum speedup can exist over known
+classical algorithms.

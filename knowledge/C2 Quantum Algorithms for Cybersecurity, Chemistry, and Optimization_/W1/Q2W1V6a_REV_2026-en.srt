@@ -1,0 +1,308 @@
+0
+00:00:00,000 --> 00:00:00,210
+
+
+1
+00:00:00,210 --> 00:00:01,620
+To date there have been a handful
+
+2
+00:00:01,620 --> 00:00:04,170
+of prototype demonstrations of Shor's Algorithm
+
+3
+00:00:04,170 --> 00:00:06,150
+using different qubit modalities, including
+
+4
+00:00:06,150 --> 00:00:09,240
+nuclear spins, photonic qubits, superconducting qubits,
+
+5
+00:00:09,240 --> 00:00:10,890
+and trapped ions.
+
+6
+00:00:10,890 --> 00:00:13,830
+In this case study, we'll look at two of these demonstrations
+
+7
+00:00:13,830 --> 00:00:15,280
+in detail.
+
+8
+00:00:15,280 --> 00:00:17,370
+The first is a demonstration of Shor's Algorithm
+
+9
+00:00:17,370 --> 00:00:20,970
+using liquid state nuclear magnetic resonance, NMR.
+
+10
+00:00:20,970 --> 00:00:23,850
+This was, in fact, the first such experimental demonstration
+
+11
+00:00:23,850 --> 00:00:27,450
+and it showed the factorization of 15 into the primes 3 times
+
+12
+00:00:27,450 --> 00:00:28,560
+5.
+
+13
+00:00:28,560 --> 00:00:30,960
+It used molecules with seven individually
+
+14
+00:00:30,960 --> 00:00:33,870
+addressable nuclear spins in liquid solution at room
+
+15
+00:00:33,870 --> 00:00:36,750
+temperature, and the algorithm comprised a sequence
+
+16
+00:00:36,750 --> 00:00:38,790
+of around 300 pulses.
+
+17
+00:00:38,790 --> 00:00:41,530
+We'll hear about this work from TU Delft Professor Lieven
+
+18
+00:00:41,530 --> 00:00:45,030
+Vendersypen, who performed these experiments as part of his PhD
+
+19
+00:00:45,030 --> 00:00:47,940
+thesis work at Stanford University in collaboration
+
+20
+00:00:47,940 --> 00:00:50,700
+with Ike Chuang, then at IBM Almaden.
+
+21
+00:00:50,700 --> 00:00:53,070
+The second demonstration is relatively recent
+
+22
+00:00:53,070 --> 00:00:55,440
+and it was performed using trapped ions.
+
+23
+00:00:55,440 --> 00:00:58,590
+In this case, seven ions were used to again factor the number
+
+24
+00:00:58,590 --> 00:01:01,680
+15 into primes 3 and 5.
+
+25
+00:01:01,680 --> 00:01:03,900
+In this example, modular multiplication
+
+26
+00:01:03,900 --> 00:01:06,090
+was implemented and no simplifications
+
+27
+00:01:06,090 --> 00:01:09,300
+that presumed prior knowledge of the result were employed.
+
+28
+00:01:09,300 --> 00:01:12,150
+Instead, a concept called qubit recycling
+
+29
+00:01:12,150 --> 00:01:14,760
+was used to make up for the fact that seven qubits is
+
+30
+00:01:14,760 --> 00:01:17,610
+insufficient to implement the general algorithm.
+
+31
+00:01:17,610 --> 00:01:19,680
+Still to date, this demonstration
+
+32
+00:01:19,680 --> 00:01:22,110
+constitutes the most realistic implementation
+
+33
+00:01:22,110 --> 00:01:23,640
+of Shor's Algorithm.
+
+34
+00:01:23,640 --> 00:01:26,370
+And we'll hear from MIT Professor Ike Chuang, who
+
+35
+00:01:26,370 --> 00:01:28,800
+participated in this demonstration with Professor
+
+36
+00:01:28,800 --> 00:01:31,440
+Rainer Blatt's team at Innsbruck.
+
+37
+00:01:31,440 --> 00:01:33,510
+To factor 15 in a straightforward manner,
+
+38
+00:01:33,510 --> 00:01:36,540
+it's estimated that one needs about 12 qubits, eight qubits
+
+39
+00:01:36,540 --> 00:01:38,490
+in the period register and four qubits
+
+40
+00:01:38,490 --> 00:01:40,950
+in the modular multiplication register.
+
+41
+00:01:40,950 --> 00:01:43,260
+The demonstrations you'll hear about in this case study
+
+42
+00:01:43,260 --> 00:01:46,320
+had fewer than 12 qubits, and so certain simplifications
+
+43
+00:01:46,320 --> 00:01:47,240
+had to be made.
+
+44
+00:01:47,240 --> 00:01:49,470
+Now in many cases, the simplifications
+
+45
+00:01:49,470 --> 00:01:50,560
+were quite reasonable.
+
+46
+00:01:50,560 --> 00:01:53,220
+For example, the use of qubit recycling.
+
+47
+00:01:53,220 --> 00:01:55,020
+Nonetheless, it's important to understand
+
+48
+00:01:55,020 --> 00:01:58,170
+the impact of various types of simplifying assumptions,
+
+49
+00:01:58,170 --> 00:02:02,700
+and we'll hear about them from IBM researcher Dr. John Smolin.
+
+50
+00:02:02,700 --> 00:02:04,860
+Finally, from a business perspective,
+
+51
+00:02:04,860 --> 00:02:07,530
+these prototype demonstrations of Shor's Algorithm
+
+52
+00:02:07,530 --> 00:02:10,139
+illustrate that quantum computing is real.
+
+53
+00:02:10,139 --> 00:02:12,990
+Although these implementations are not yet at scale,
+
+54
+00:02:12,990 --> 00:02:16,980
+they are concrete indications of and steps towards the promise
+
+55
+00:02:16,980 --> 00:02:18,840
+of quantum computing.
+
+56
+00:02:18,840 --> 00:02:22,080
+From an engineering perspective, these types of demonstrations
+
+57
+00:02:22,080 --> 00:02:24,330
+force groups to confront practical realities
+
+58
+00:02:24,330 --> 00:02:26,700
+of implementation, from qubit control engineering
+
+59
+00:02:26,700 --> 00:02:28,830
+to algorithmic compilation.
+
+60
+00:02:28,830 --> 00:02:30,990
+Although not yet at scale, these algorithms
+
+61
+00:02:30,990 --> 00:02:32,715
+motivate experimental groups to go
+
+62
+00:02:32,715 --> 00:02:36,000
+beyond scientific demonstrations and to meet face-to-face
+
+63
+00:02:36,000 --> 00:02:37,560
+with the practical realities that
+
+64
+00:02:37,560 --> 00:02:39,990
+will need to be accommodated to enable scalable quantum
+
+65
+00:02:39,990 --> 00:02:41,400
+computing.
+
+66
+00:02:41,400 --> 00:02:44,040
+And scientifically, these demonstrations
+
+67
+00:02:44,040 --> 00:02:47,520
+test our knowledge of system noise and decoherence.
+
+68
+00:02:47,520 --> 00:02:50,040
+Lastly, from a technology standpoint,
+
+69
+00:02:50,040 --> 00:02:52,560
+these demonstrations serve as a benchmark of progress
+
+70
+00:02:52,560 --> 00:02:55,980
+in the field, indicating where the technology currently stands
+
+71
+00:02:55,980 --> 00:02:58,440
+and clarifying what needs to be addressed in order to reach
+
+72
+00:02:58,440 --> 00:03:00,250
+future milestones.
+
+73
+00:03:00,250 --> 00:03:02,220
+And so with that brief introduction,
+
+74
+00:03:02,220 --> 00:03:05,030
+let's hear from Professor Lieven Vandersypen, Professor Ike
+
+75
+00:03:05,030 --> 00:03:07,880
+Chuang, and Dr. John Smolin.
+
+76
+00:03:07,880 --> 00:03:13,280
+
+

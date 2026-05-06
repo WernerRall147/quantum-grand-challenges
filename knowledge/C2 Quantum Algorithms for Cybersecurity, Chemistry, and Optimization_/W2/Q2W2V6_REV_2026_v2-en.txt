@@ -1,0 +1,127 @@
+
+There are various forms of quantum key distribution or QKD
+described by different protocols.
+They all make use of quantum mechanical properties
+to establish shared lists of random numbers
+that can be used for encryption.
+You have heard about the BB84 QKD protocol
+where one user, Alice, prepares a specific state that she
+sends to another user, Bob.
+Bob then measures the state, and Alice and Bob
+then perform sifting by comparing the preparation
+basis and the measurement basis, and then
+follow several classical postprocessing steps
+to establish secure encryption keys.
+Protocols of this sort, which make
+use of quantum superposition where one party prepares
+a state and the other party measures it,
+are called prepare and measure QKD protocols.
+An alternative set of protocols are
+called entanglement-based protocols,
+and they make use of entanglement.
+Two common and related entanglement-based protocols
+are the BBM92 protocol, named for its inventors
+Bennett, Brassard, and Merman, and for its invention year of 1992,
+and E91 or Ekert protocol, invented by Artur Ekert
+in 1991.
+In both of these protocols, a transmitter
+consisting of an entanglement source
+generates a two-photon entangled state
+known as a maximally entangled Bell
+state, with one photon being sent to Alice
+and the other photon being sent to Bob.
+The photons are sent across quantum communication channels
+that can reliably transmit the single-photon states
+and preserve their entanglement.
+The relevant property of Bell states
+is that the photons are correlated
+in multiple measurement bases, including the basis consisting
+of the horizontal and vertical photon polarizations
+and the 45-degree rotated basis consisting
+of the diagonal and the antidiagonal polarizations.
+For an ideal transmission across the channel,
+if Alice and Bob choose the same measurement basis,
+their measurement results will be perfectly
+correlated between the measurement devices,
+but individual measurements at each side will look random.
+Alternately, if Alice chooses the horizontal-vertical basis
+and Bob chooses the diagonal-antidiagonal
+measurement basis, the measurements
+will not be correlated at all.
+And for intermediate basis choices,
+their measurements will be partly correlated.
+In the BBM92 protocol, Alice and Bob
+received their entangled photon, and both
+choose either the horizontal-vertical
+or the diagonal-antidiagonal measurement basis.
+They both record their basis choice
+and what the actual measurement result is.
+They repeat this many times, and they now
+have long lists of chosen measurement bases
+and measurement results.
+The remaining protocol steps are identical to the previously
+described BB84 protocol, namely Alice and Bob
+use a classical communication channel
+to announce their chosen measurement
+bases to sift out only the instances of them choosing
+the same basis.
+They then compare a random subset of measurement results
+to determine how well the quantum channel performed.
+And if the determined error rate is below 20%,
+they perform classical postprocessing
+to erase any information that a potential eavesdropper could
+have discovered and to correct for remaining
+errors between Alice and Bob.
+The benefit of the BBM92 protocol
+is that the protocol does not require
+that we trust the source that prepares and sends the state.
+The protocol ensures that there is no way for a malicious actor
+to take control of the source and spoof Alice
+and Bob without them detecting it
+by observing lower correlation strengths and thus higher error
+rates than are required to form a secure key.
+The other entanglement-based protocol, the Ekert protocol,
+is similar but adds an interesting twist.
+In this protocol, the same sort of state
+is generated and distributed between Alice and Bob.
+Now, Alice randomly chooses between one
+of three measurement bases--
+the horizontal-vertical basis, the 45-degree rotated
+diagonal-antidiagonal basis, and an intermediate basis
+rotated by 22 and 1/2 degrees.
+Bob also randomly chooses between three bases--
+the horizontal-vertical basis, the intermediate 22
+and 1/2-degree rotated basis, and a final basis rotated by 67
+and 1/2 degrees.
+The measurement bases and the measurement results
+are recorded.
+Alice and Bob repeat this many times
+and again announce their chosen measurement bases
+over a public classical communication channel.
+The instances where they have chosen the same basis
+are used for the key-generation process.
+The instances where they have chosen different bases
+are used to determine the performance of the channel.
+For these instances, the measurement results
+are, in fact, announced publicly and are
+used in a Bell inequality to determine
+how well the channel transmission has preserved
+entanglement.
+This allows Alice and Bob to have
+an entanglement-based measurement
+of the maximum amount of information
+a potential eavesdropper could have obtained.
+Alice and Bob then perform classical postprocessing
+to erase any information an eavesdropper could have
+discovered and to correct for remaining errors between Alice
+and Bob.
+That is how entanglement can be used
+to establish encryption keys, to eliminate the need
+to trust the system transmitter, and to check the security
+of the encryption keys.
+There are various other QKD protocols
+with differing benefits and tradeoffs
+that may be of interest in specific scenarios.
+However, the important point is that they all
+make use of the same basic ideas and concepts
+that I have described here.

@@ -1,0 +1,59 @@
+
+In this case study, we'll
+take a closer look at superconducting qubits.
+Superconducting qubits are electrical circuits
+built from inductors, capacitors, and Josephson tunnel
+junctions that, when cooled to millikelvin temperatures,
+exhibit quantum mechanical behavior.
+In fact, it's often said that superconducting qubits
+are artificial atoms.
+And what's meant by that is that these circuits can
+be designed to have properties similar to atoms.
+For example, the energy level separation
+between state 0 and state 1, or their sensitivity
+to environmental noise, can all be determined by design.
+And this is quite different than qubits based on elements
+that we find in the periodic table,
+where you basically have to go with what nature provides.
+Today, superconducting qubits are
+one of the leading modalities being developed
+to realize a quantum computer, and there
+are a number of advantages.
+From a business perspective, superconducting qubits
+are attractive because they leverage a substantial existing
+technology base.
+For example, superconducting qubits
+are fundamentally a silicon technology.
+They're fabricated on silicon wafers.
+They use standard semiconductor fabrication tools
+and techniques.
+And the materials, like aluminum or titanium nitride,
+are fully compatible with CMOS foundries.
+In this sense, they're lithographically
+scalable to large numbers of qubits.
+From an engineering perspective, superconducting qubits
+are designed in much the same way
+as classical transistor-based circuits.
+They use the same kinds of CAD software
+for layout and simulation, and have
+many of the same considerations as larger scale computer chips.
+For example, when routing wires to and from the devices.
+Scientifically, state of the art superconducting quantum
+processors are pushing 1,000 qubits,
+and this is at a level where even the largest foreseeable
+classical computers, let alone the ones we have today,
+simply would not be able to simulate that quantum computers
+behavior or its output.
+When this happens, we'll have reached
+a point that's often referred to as quantum supremacy,
+a point where a quantum computer has performed
+a task that could not be calculated exactly
+on a classical computer.
+And finally, from a technology standpoint,
+superconducting qubits leverage and rely
+on existing technologies, such as microwave control electronics
+and microwave packaging, often using the same frequency bands
+used in cell phone electronics.
+And so, with that brief introduction,
+let's now hear from the experts, who'll
+present a 360 view of superconducting qubits.

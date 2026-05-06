@@ -1,0 +1,94 @@
+
+So how is a quantum computer different?
+We can begin to answer that question by comparing it
+with a classical computer.
+Classical computers are the computing devices
+that, of course, we use everyday at work and at home,
+and they process information using
+transistors, each of which can store one bit of information.
+We'll call this a classical bit.
+A classical bit is binary.
+It can take on one of two states.
+It can either be in state 0, let's say the absence
+of a voltage on the transistor gate,
+or it can be in state 1, the presence
+of a voltage on that gate.
+These are discrete, robust states,
+and when we measure the state of that transistor,
+we'll see either a 0 or a 1, depending
+on where that bit was set.
+We can contrast that with a quantum computer which
+is built from logical elements called qubits, which
+is short for quantum bits.
+A qubit is binary in the sense that it's
+realized using a quantum coherent two-state system,
+and so of course, it can be set in state 0 or state 1,
+but because it's quantum mechanical,
+it can do much more.
+A qubit can also be at a quantum superposition state.
+It's a single state, but it carries aspects of both state 0
+and state 1 simultaneously, and this
+is a manifestly quantum mechanical effect.
+We can represent a qubit state on what's
+called a Bloch Sphere, which for the purposes
+of this discussion, we can think of as the planet Earth, where
+state 0 is at the North Pole and state 1 is at the South Pole.
+In this representation, a classical bit
+can be either at the North Pole or at the South Pole,
+but that's it.
+In contrast, a qubit can exist anywhere on its surface.
+Now, of course, a qubit can also be at the North
+Pole or the South Pole.
+That's fine, but when it's anywhere else,
+the qubit is in a superposition state, again, a single state
+that takes on aspects of state 0 and state 1 simultaneously,
+as shown in the notation here.
+
+Superposition states result in probabilistic measurements,
+meaning that if we had say an equal superposition of 0 and 1,
+and we measure the qubit, we have a 50/50
+chance of measuring in state 0 and a 50/50
+chance of getting state 1.
+If we identically prepare that same state
+and measure it, and do that over and over again,
+half of the time we'll get to 0 and half of the time we'll
+get to 1.
+As a result, quantum computers rely on encoding information
+in fundamentally different ways than classical computers.
+So on a classical computer N classical bits
+represent a single N-bit state.
+For example, if N equals 3, we have 3 classical bits,
+and they can represent the state 000 or 001,
+all the way up to 111.
+There are eight different combinations,
+but the three classical bits can represent only one of them
+at a time.
+
+And so when we want to process information
+on a classical computer, we pick one
+of those states as the input, we process the information,
+and we get a result as an output.
+But if we also want to process information
+using a different input state, we basically have two choices.
+We can either process in parallel,
+using additional copies of the hardware,
+or with additional time, we can process sequentially
+on the same piece of hardware.
+This is classical parallelism, and in both cases,
+we needed additional resources, either more hardware
+or more time.
+The qubits in a quantum computer, on the other hand,
+can be set into a single superposition state that
+simultaneously carries aspects of all of these 2
+to the N components.
+So for example, with three qubits,
+a quantum computer can represent aspects
+of all eight different components in a single quantum
+superposition state, and so as a consequence,
+we have a quantum version of parallelism,
+and importantly, we also have quantum interference
+between those constituent components.
+Quantum parallelism and quantum interference
+are what make a quantum computer different,
+and in the next section, we'll give
+examples of how they work in a quantum processor.

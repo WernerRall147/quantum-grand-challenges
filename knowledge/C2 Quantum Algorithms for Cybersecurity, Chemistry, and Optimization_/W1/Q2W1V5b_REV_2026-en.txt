@@ -1,0 +1,102 @@
+
+I discovered the factoring algorithm
+after seeing Simon's algorithm before before Simon's algorithm
+actually got published.
+And I'm going to show you--
+write down a circuit diagram so you can see the similarity.
+So Simon's algorithm, remember, we started with n qubits
+in the plus.
+And then we went, and here is a black box
+that computes 0 to the n.
+From x, it computes f of x.
+And then we did a Hadamard transform
+to the n, which is just the  quantum Fourier transform over
+the group of two elements  to the n-th power.
+So n copies of the group of two elements.
+So this is just binary strings under addition without carries.
+And after that, I believe you measured this register,
+and then did classical post-processing.
+So what is factoring?
+So what we're not going to do directly
+is a quantum algorithm  for factoring.
+We're going to do a quantum algorithm for order finding--
+quantum algorithm  for periodicity.
+So suppose we have  a function over
+integers, f of x is equal to f of x plus c for some c.
+And here you can  see that f of x 2c
+equals f of x plus 3c, et cetera.
+So it's a periodic  function, and a period is--
+well, I'm calling it C right now,
+but at some point during this lecture,
+I'm going to start calling it r because that's
+what I'm used to calling it.
+Find c.
+
+Now you might  think this is easy.
+You just start with f of 0, f of 1, f of 2, f of 3,
+and keep on going until  f starts repeating.
+So even if period is exponentially long.
+And that means that if you want to try
+to find a period of length r, we can do this length polynomial
+and log of r.
+
+So we can find the period.
+And on the classical computer, if you have a black box
+function, the best you can do  is just keep on testing values
+until it starts repeating.
+So that means the best you can do is period r.
+And in quantum mechanics,  quantum computing,
+you can do log r.
+So it's going to be exponentially long in a period
+of a number, we want to factor.
+But if we're just finding period--
+
+find period in time O of log c.
+
+So we will be able to find the period and time--
+well, that's actually going to be quicker than log c if we
+really want to do it quicker.
+Log c squared if we want to do  it quicker because we can not
+use the exact quantum Fourier transform,
+but the approximate quantum Fourier transform,
+which has like log c, log log c gates..
+But here, so we want  to find a period.
+We have a black box function for f.
+And f has some period of c.
+So what is the quantum algorithm for this?
+Well, we're going to do exactly the same thing here.
+We're going to start at plus to the c, 0, the n here.
+
+And here we have a  black box function,
+which if you put in  x, it computes f of x.
+Or actually, it computes--
+well, remember this took x, t to x, t xr f of x.
+We can assume this does the same thing.
+x, t to x t xr f of x.
+And now here's the only difference, really,
+between the circuits.
+We use the quantum for each transform over 2 to the--
+actually, let's do this right.
+There's 2n.
+We want 2n qubits here, n qubits here.
+Quantum Fourier transform over 2 to the n.
+And then we measure.
+And then we do classical  post-processing.
+So it looks very similar.
+
+So let's go into the detail--
+yeah?
+In both these cases, what happens to the bottom branch?
+We do nothing to the bottom branch.
+I mean, if we want to, we  could measure the bottom branch
+and throw away the results.
+Or we don't have to.
+Because if you measure something and throw away the results,
+it doesn't matter whether or not you measure it.
+But we do need to compute it.
+Because if you don't compute  it, what have we done?
+We've taken the Hadamard transform of x to the n.
+That's just all 0's.
+So if you don't compute f of x, it
+destroys the interference in the upper half.
+Again, action in a quantum  circuit has back action.

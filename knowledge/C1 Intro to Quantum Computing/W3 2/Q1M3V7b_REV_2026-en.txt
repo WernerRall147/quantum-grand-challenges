@@ -1,0 +1,195 @@
+
+JERRY CHOW: Computers are everywhere and in everything.
+They touch every aspect of our lives.
+And there doesn't seem to be a limit to their power.
+But the truth is, there are some very hard problems
+that even our most powerful classical supercomputers
+will never be able to solve.
+We believe that quantum computers
+will be able to start tackling some
+of these problems in a few short years.
+Here's an example.
+Today, improving battery technology
+is incredibly time and labor intensive.
+Researchers believe that quantum computers will soon
+be able to run much more powerful chemistry
+simulations, which we hope can be used to radically improve
+battery efficiency.
+Imagine an electric car that only needs to be charged once
+a month, not once a week, not once every few days,
+or machine learning.
+A 2023 Nielsen report found that credit card fraud
+cost the financial industry $33 billion globally.
+Quantum machine learning algorithms
+could extend our ability to perform
+the higher-dimensional data processing that
+would allow us to improve fraud detection by reducing
+false positives, which are very costly.
+Right now there isn't a quantum computer
+on the planet that can beat all classical methods
+at these kinds of problems.
+But we think that's about to change.
+Looking ahead, our work is really
+focused on building the devices and software
+tools that let us run larger and larger circuits that
+are comprised of more qubits and more logical gates.
+In 2016, IBM became the first organization
+to take quantum computers out of the research lab
+and put them in the cloud.
+The first offering provided free access to a 5-qubit IBM quantum
+Canary processor for anyone with an internet connection.
+Now, less than a decade later, in 2023,
+an IBM experiment showed that exact classical methods could
+not simulate a circuit comprising just over 100 qubits
+and just under 3,000 gates.
+Classical computers can only approximate that level
+of complexity.
+So how do we make this journey from 5-qubit processors
+to the 100-plus-qubit processors of today?
+Well, back in 2016, we had no guarantee that we'd ever cross
+the 100-qubit threshold.
+But we knew that if we wanted to get there,
+we'd have to make a lot of progress
+on three key metrics, scale, quality, and speed.
+Scale is the number of qubits in our processors
+and in the quantum chips that we run.
+Now, quality is determined by the error rates
+that we see in our quantum logic gates and that act
+on two qubits at once.
+These underlying 2-qubit gates have an enormous impact
+on performance across a large quantum device.
+This quality actually determines the size of the quantum circuits
+that we can execute faithfully.
+Now, speed has to do with the number of circuits
+that a quantum computer can run per unit of time.
+Fastest circuit runs gives us more space to handle errors
+and makes it more practical for researchers
+to actually incorporate quantum into their workflows.
+In addition to improving the scale, quality,
+and speed of our systems, we also
+knew that we would need to begin working on new quantum
+algorithms to make the best use of our evolving systems.
+This is a big job.
+And we've enlisted the help of the entire quantum community.
+But there's still a lot of work to do.
+At IBM, we've built a tool to help
+us think about what comes next.
+We call it the IBM Quantum Roadmap.
+The IBM Quantum Development Roadmap map
+shows how our systems will grow in terms of qubit count
+and the size of the quantum circuits they can run,
+which we measure by the number of gates
+that we can execute accurately.
+Here you can see where we started, with the launch
+of the IBM Quantum Experience.
+You can see some of the small systems that
+were available during those first few years,
+like the Canary and the Albatross.
+In 2021, we crossed the 100-qubit barrier with Eagle.
+And then in 2023, we broke the 1,000-qubit barrier with Condor.
+From 2023 to 2024, we also debuted two versions
+of the IBM quantum Herron chip.
+Now, Herron doesn't have as many qubits as Condor,
+but it's the first to be capable of returning accurate results
+on a quantum circuit all the way out to 5,000-qubic gates,
+an important milestone.
+And it demonstrates a significant improvement
+in the underlying quality through using
+a novel tunable coupler architecture.
+Then we have the IBM quantum flamingo,
+which are largely based on modularity scalability
+of quantum processors.
+It's actually made up of two Herron chips joined together
+by four connectors, which we call L couplers.
+We're going to continue to iterate on Flamingo, improving
+its underlying performance.
+From there, we'll introduce Starling in 2029
+and then Blue Jay in 2033.
+These systems open up a whole new world of potential quantum
+applications because they'll be our first quantum
+processors to actually demonstrate full quantum error
+correction.
+Quantum processors create incredibly delicate quantum
+states that are really susceptible to errors
+that can be caused by noise in the environment.
+Today, we have error handling methods such as quantum error
+mitigation, to extract useful data from noisy outputs.
+But true quantum error correction
+will be much more powerful.
+By using error correction codes, where
+we encode qubit information into a larger set of qubits,
+we expect that we'll be able to suppress logically-encoded error
+rates to significantly lower levels.
+Now, in 2023, our quantum error correction theory team
+devised a highly efficient and effective new code,
+beating other leading approaches by an order of magnitude
+in terms of needed physical resources.
+This led us to mark our targets in our roadmap for Starlink
+and Blue Jay to achieve 200 qubits and 100 million gates
+by 2029 and 2,000 qubits and 1 billion gates by 2033.
+But quantum computing is about more than just hardware.
+2017 we launched the Qiskit SDK, our open-source software
+development kit.
+In those early years, execution for quantum computers was slow.
+So in 2021, we introduced Qiskit Runtime, a cloud-enabled runtime
+environment to enable more efficient workloads
+with higher throughput.
+In 2024, we introduced Qiskit Code Assistant and the Qiskit
+Functions Catalog.
+The code assistant helps developers quickly generate
+high quality quantum code, while the functions catalog gives us
+a collection of pre-built services
+that allow users to abstract away parts of the quantum
+software development workflow.
+We plan to continue growing the collection of services
+available in the Qiskit Functions Catalog.
+We launched scalable circuit knitting.
+Circuit knitting is a technique that breaks down one quantum
+circuit into multiple smaller circuits
+and then runs them in parallel on multiple quantum processors.
+And this will all be put together
+in a new paradigm, which we call quantum centric supercomputing,
+where we leverage high-performance classical
+computing systems, to help partition and also reconstruct
+larger quantum circuits.
+This all sets the stage for us to succeed
+in building Starlink and Blue Jay in the later years.
+Now, despite the achievements of the past few years,
+we haven't yet found a problem that quantum computers can solve
+cheaper, faster, or more accurately
+beyond all classical approximation methods.
+And this is a milestone that we call quantum advantage.
+So why are enterprise research organizations, government
+agencies, and academic institutions all investing
+in working with IBM quantum today?
+Well, by 2035, McKinsey & Company
+predicts that quantum computing technology
+will create as much as $2 trillion in value.
+And a report by Boston Consulting Group
+indicates that as much as 90% of that value
+will go to the early adopters.
+That's why research organizations are starting now.
+There's a steep learning curve.
+So an early start on learning and experimentation
+can provide a substantial competitive advantage.
+Organizations work with quantum service providers,
+like IBM, not only to gain access to our systems,
+but also to gain access to our technical and managerial
+expertise.
+All of our clients and partners are helping us as well.
+When quantum advantage is first achieved on our system,
+it will likely not be done by our own researchers,
+but more likely by domain experts
+at one of those partner organizations.
+We couldn't possibly dream up every experiment
+that's worth trying.
+We need our wider quantum research community
+to help us explore the potential of large-scale quantum computers
+from all these different angles.
+And it's why a big part of what we offer
+is also open access to our systems.
+It's why we've built the Qiskit software development
+kit as an open-source tool that anyone can use for free.
+We want to ensure that these resources are
+accessible to anyone in the quantum community.
+And we all have to work together to pursue quantum advantage.

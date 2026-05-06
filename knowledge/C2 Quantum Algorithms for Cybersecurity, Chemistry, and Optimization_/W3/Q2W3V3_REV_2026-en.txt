@@ -1,0 +1,212 @@
+
+In the previous video, we introduced several ideas
+and issues at play when implementing
+quantum simulations on a quantum computer.
+Simulation begins with a representation
+of the system being simulated, and once we
+have this representation we can then choose how to simulate it.
+Quantum systems are generally defined
+in terms of a mathematical representation called
+a Hamiltonian.
+And with a Hamiltonian in hand, as you learned in course one,
+one can simulate the Hamiltonian dynamics using universal gates.
+This is called a digital simulator.
+Alternatively, one can use the qubits and the couplings
+to mimic the system and its Hamiltonian directly.
+This is called an analog simulator or an emulator.
+In either case, we need to define the simulation problem
+in terms of a Hamiltonian, which characterizes
+our system of interest.
+And so that leads us to the subject of this video, what
+is a Hamiltonian?
+A Hamiltonian is a mathematical construct
+that can be used to describe the time evolution of a system.
+Now these systems can be classical,
+like a ball rolling off a table, or they
+can be quantum mechanical, like the qubits We've been looked
+at throughout the course.
+This sounds pretty abstract, so let's take a look
+at how to use a Hamiltonian more concretely.
+If you've taken a high school physics class,
+you might remember how to predict
+the motion of an object using Newton's laws.
+First you write down all the forces acting on your system,
+taking note both the strength and direction of each force.
+We can keep track of all these forces using a free body
+diagram, like the one shown here.
+Once we've written down all the forces,
+we can invoke one of the fundamental laws of physics.
+Newton's second law of motion tells us
+that the sum of all the forces acting on a system
+is equal to the mass of the system multiplied
+by its acceleration.
+Now this equation is extremely powerful.
+Recall that acceleration is the rate of change of velocity
+with respect to time, like your car going from 0 to 60 miles
+an hour on the highway.
+Meanwhile, velocity is simply the rate
+of change in an object's position with respect to time.
+So we can rewrite our acceleration
+as the second derivative of the system's position with respect
+to time.
+When we make the substitution to Newton's second law,
+we see that we now have a differential equation, which
+relates the second time derivative of position
+to the sum of the forces acting on our system.
+These forces can be constant or they
+can be some function of the position of our system.
+When we solve this differential equation,
+we get an equation x of t, which tells us
+the position of our system at any arbitrary time.
+OK.
+So we've used the forces acting on our system to figure out
+how it moves in time.
+As it turns out, this isn't the only method
+we can use to arrive at the exact same result.
+Now instead of thinking of the forces acting on our system,
+let's focus on the energy of our system.
+Generally, a system has two types
+of energy, kinetic energy, the energy that
+comes from a system's motion, and potential energy,
+the latent energy stored in the system waiting
+to be converted into motion.
+Let's write down each of these energies as equations.
+A systems kinetic energy is equal to its momentum
+squared divided by 2 times its mass.
+Momentum, you might remember, is related to an object's speed.
+So the faster an object moves, the more kinetic energy it has.
+A systems potential energy depends on the forces
+that it is experiencing.
+So we need to know exactly what forces we're dealing with
+and order to write down an exact equation.
+However, in general, we can say that our potential energy
+is some function of our systems position,
+just like our forces were.
+OK.
+So we have two types of energy, one
+which depends on the system's momentum,
+and one which depends on its position.
+Let's add these two energies together
+to get an expression for the total energy stored
+in our system.
+This expression for the total energy in our system
+is called its Hamiltonian.
+And as you can see, the Hamiltonian
+depends on two parameters, position and momentum.
+These two parameters have a special role in physics
+and we call them the canonical coordinates of our system.
+So why is the Hamiltonian important?
+As it turns out, just as we previously used Newton's laws
+to find the motion of our system in time from a set of forces,
+we can use our Hamiltonian to arrive
+at the exact same result.
+To do this, we invoke two extremely elegant equations
+known as Hamilton's equations.
+The first equation tells us that the rate
+of change of our systems' position in time
+will be equal to the derivative of its Hamiltonian
+with respect to momentum.
+Symmetrically, the second equation
+then tells us that the rate of change of our systems
+momentum in time is equal to the derivative of its Hamiltonian
+with respect to position.
+Just like Newton's laws, these are differential equations,
+and if we solve these equations, we
+arrive at expressions which tell us how our systems position
+and momentum change in time.
+With these expressions in hand, we can see where our system is
+and how fast it's moving at any arbitrary time.
+To summarize, as long as we have the Hamiltonian of our system
+and an initial set of conditions,
+we can calculate exactly how the system will evolve in time.
+OK.
+So far everything we just discussed
+has referred to classical systems.
+What about quantum systems?
+The formalism of Hamiltonian physics
+is the architecture of quantum mechanics.
+Just like in classical mechanics,
+we can write down the total energy of our quantum system
+as a Hamiltonian.
+This Hamiltonian is simply the sum
+of our systems kinetic and potential energies as
+in the classical case.
+However, note one minor difference.
+Whereas in the classical case, our Hamiltonian
+was a scalar function of our systems momentum and position,
+in quantum mechanics, our Hamiltonian
+takes on the form of a quantum operator, which
+acts on a given quantum state.
+We now invoke a fundamental relationship
+of quantum mechanics.
+The operation of a Hamiltonian on a given quantum state
+is equal to the rate of change of that state in time.
+This relationship is called Schrodinger's equation,
+and it tells us that if we know the operator
+responsible for the energy of our system, that
+is our Hamiltonian, we can solve for the evolution
+of that state in time.
+For this reason, we often say that the Hamiltonian
+generates the dynamics of a quantum system.
+Let's look at how to use our Hamiltonian more
+concretely in quantum mechanics.
+Imagine that our quantum system is a single qubit.
+We can write the state of our qubit as a vector with two
+entries, A and B, which correspond
+to the probability of measuring the system, either at a 0 or 1
+state at a given time.
+Just like in our classical example,
+the exact form of our Hamiltonian
+depends entirely on what forces that are acting on our qubit.
+However, in general, we can always
+write the Hamiltonian of a qubit as a two
+by two Hermitian matrix.
+A Hermitian matrix is a special type
+of square matrix, which is equal to its own conjugate transpose.
+When we plug our state vector and Hamiltonian matrix
+into Schrodinger's equation, we get
+two linearly independent differential equations,
+which can be solved to find the values of A and B
+at any arbitrary time.
+Now when we solve these differential equations,
+we find that for an arbitrary Hamiltonian,
+an initial state, psi 0, the quantum state at time,
+t, will be equal to the complex exponential, e to the iHt time
+our initial state, psi 0.
+Recall that I just said our Hamiltonian is a Hermitian
+matrix.
+When you work out the math, you can show that e to the iHt
+is a new matrix, which is unitary.
+By this point in the course, we're
+already intimately familiar with unitary operators,
+like x, y, and z rotations or Hadamard gates.
+We can now see where these gates physically come from.
+To implement a particular qubit gate,
+we must engineer a qubit with the correct Hamiltonian,
+and apply it for the right amount of time, such
+that the evolution of our state produces the unitary operator
+that we need.
+So we just showed how to solve for the dynamics
+of a single qubit.
+Let's see how this problem scales
+when we try solving for the dynamics of many qubits.
+To represent a system of n qubits,
+we need a state vector with 2 to the n entries,
+corresponding to each of the possible states
+we might measure the system in.
+To generate the dynamics of this quantum state,
+we need a Hamiltonian matrix with 2 to the n by 2
+to the n entries.
+Indeed, as we add more qubits to our system,
+the number of matrix elements that we need to keep
+track of in our Hamiltonian scales exponentially.
+To make matters worse, if we actually
+want to solve for the dynamics of our system,
+we then need to exponentiate this massive matrix, which
+is an extremely computationally demanding operation.
+As we can see, solving for the dynamics of an arbitrary
+quantum state is an exponential hard problem classically.
+This observation has profound consequences,
+and as we'll see throughout this week,
+provides the primary motivation for quantum simulation
+on a quantum computer.

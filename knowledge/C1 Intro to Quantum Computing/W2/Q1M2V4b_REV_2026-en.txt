@@ -1,0 +1,59 @@
+Another qubit technology
+is based on the internal states of atoms, or neutral atoms,
+as they're called, to contrast them with the ions
+that we'll discuss next.
+Neutral atoms can be trapped by cross-propagating optical beams,
+which combine to form an egg carton-like potential.
+The qubit states are hyperfine states,
+resulting from an interaction between the electron
+spin and the nuclear spin.
+Such hyperfine transitions are driven
+at very well defined microwave frequencies, commonly used
+for atomic clocks.
+These are highly stable qubits, and as such, their coherence
+times are very long.
+Thus, the gate fidelity in neutral atoms
+is generally limited by control errors.
+The main advantage of neutral atoms
+is their long coherence times and the ability
+to trap these neutral atoms in two-dimensional and even
+three-dimensional arrays.
+Arrays with up to 1,000 qubits have been demonstrated,
+and many hundreds of atoms can be controlled with just a single
+laser using an acousto optic modulator.
+Another advantage is that the neutral atoms
+can be moved around in real time, which
+increases the achievable connectivity beyond just nearest
+neighbors.
+There are a few challenges, however.
+One is the large laser power required
+to trap and control these neutral atoms.
+Another is that loading the trap is a stochastic process.
+Atom rearrangement can later be made to fill in the gaps,
+but it requires extra steps.
+And third, neutral atoms will require integrated optics
+to ultimately be scalable, something that's not yet
+been implemented, although concepts
+exist for its implementation.
+The next example, trapped ions, are a leading qubit
+modality today.
+Trapped ions have been used as atomic clocks for decades,
+and these systems are stable and very well characterized.
+Ion qubits generally start as atoms,
+with two electrons in their outermost shell,
+and then one of those electrons is removed through ionization.
+The qubit is realized as either an optical transition
+between orbital states of this outermost electron
+or a microwave transition between hyperfine states.
+A primary advantage is that many of the DiVincenzo criteria
+are satisfied for trapped ion qubits.
+To date, arrays of 30 to 50 trapped ion qubits
+have been demonstrated, and surface traps in silicon
+are now being developed and used to both capture
+and control these ions in a scalable manner.
+The primary challenge is the 3D integration of optical
+and electrical technologies into the surface traps to make them
+scalable.
+We'll learn more about trapped ions
+and their relative advantages and challenges in the case study
+at the end of this week.

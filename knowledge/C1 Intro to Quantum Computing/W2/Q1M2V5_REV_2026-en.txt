@@ -1,0 +1,102 @@
+In this section, we'll
+compare the different qubit modalities
+that we just discussed.
+We'll first do this in the context of the DiVincenzo
+criteria and then compare the gate fidelity and the clock
+rate for single-qubit and two-qubit gates.
+Let's begin with a stoplight chart and the DiVincenzo
+criteria.
+Now, this is certainly going to be a subjective assessment.
+And with all of the ongoing rapid technology development,
+the actual coloring will certainly change over time.
+Still, it's useful to take a snapshot of the current state
+of the art to gain insight into the relative strengths
+and challenges that different modalities face.
+And that's our purpose here.
+Our stoplight chart assigns colors to indicate progress.
+Green will indicate that a modality has made the requisite
+demonstrations and has sufficiently matured
+to the point that we can envision it proceeding
+to 100-plus qubits.
+Yellow indicates that concepts or first demonstrations may
+exist but that the technology is not quite ready to scale
+to the 100-qubit level.
+Red indicates that no realistic concepts are currently
+known that would enable reaching 100 qubits.
+However, we're not going to consider
+any of these qubit modalities, as they're still too
+nascent for our purposes here.
+So you won't be seeing any red.
+Starting with the first DiVincenzo criteria, D1,
+scalable systems, the most mature or neutral atoms,
+trapped ions, and superconducting qubits all have
+demonstrated systems of 10 to tens of qubits,
+with 50-qubit prototypes coming online in the near future.
+Silicon, germanium, and doped silicon qubits
+are yellow because they'll require high wire
+counts to address their qubits, and those wires
+need to be routed with high density due to the relatively
+small qubit geometries.
+All of these issues will need to be addressed with 3D
+integration, which is only just beginning to be conceived
+for these modalities.
+In addition, both doped silicon and NV centers are currently
+limited by the inability to implant high coherence dopants
+or defects with the precision required to reach the 100-qubit
+level.
+Next, for initialization, D2, most technologies
+are doing pretty well.
+The one exception is NV centers, where
+the strong laser used to initialize the qubit
+will occasionally remove an electron.
+This makes the defect charge neutral, effectively destroying
+the qubit until it's reset.
+For measurement, D3, the measurement of neutral atoms
+is extremely slow and would certainly
+limit the ultimate clock speed of an error-corrected system.
+That's why this one is colored yellow.
+In terms of D4, universal gates, the doped silicon community
+has not yet reported a two-qubit gate fidelity.
+For neutral atoms and silicon germanium qubits,
+although their two-qubit gates have been demonstrated,
+they still have a relatively low fidelity, around 80%
+And that's why these are colored yellow.
+In terms of coherence, D5, all of these technologies, in fact,
+grade fairly well.
+For D6 and D7, the interconversion
+and communication of quantum information,
+there's been no published work yet for silicon, germanium,
+or doped silicon approaches, although it's
+anticipated that a conversion to microwave photons
+should follow from the same approach
+as used for superconducting qubits.
+Now, as we can see, both trapped ions and superconducting qubits
+have made significant progress toward meeting the DiVincenzo
+criteria.
+This is one reason they are viewed today
+as leading candidates.
+Let's turn now to the gate fidelity and gate
+speed of these modalities.
+The number of operations before an error occurs
+is directly related to the fidelity,
+and they're plotted here against the gate speed
+for single and two-qubit gates.
+The upper right corner represents the best performance.
+Additionally, it's desirable to be above the dashed red line,
+which is representative of the most lenient threshold
+for quantum error correction.
+What we see is that trapped ions have the highest
+single-qubit fidelity.
+On the other hand, they are about 500 times slower
+than a superconducting qubit gate.
+For two-qubit gates, superconducting qubits
+and trapped ions have similar levels of gate fidelity,
+but again, the superconducting qubit gate is about 1,000 times
+faster than the ion traps.
+Some technologies, like doped silicon,
+have measured and reported single-qubit gate fidelities,
+but they're still working on their two-qubit gate fidelities.
+Again, we can see that both trapped ions and superconducting
+qubits are leading modalities today.
+And in the case studies, we'll take a detailed look
+at each of these technologies.

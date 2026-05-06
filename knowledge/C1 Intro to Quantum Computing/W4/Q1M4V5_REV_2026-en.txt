@@ -1,0 +1,184 @@
+
+I think one of the most exciting developments in quantum
+computing in recent years has been the ubiquitous access
+to real quantum devices.
+Just a couple of years ago in a course like this,
+students would learn about concepts and quantum
+information and quantum computation
+without any real means for hands on experimentation.
+But in 2016 with the launch of the IBM Q Experience,
+the first generation of quantum computers came online.
+They've generated a lot of excitement,
+with nearly 80,000 unique users running more than three
+million experiments.
+And this video, I would like to introduce you
+to some of the resources that will help you get started
+with quantum programming.
+Let's start by looking at the composer, which
+is a simple graphical user interface for building
+and executing quantum programs.
+This space has two parts.
+In the top part, you see information
+about the devices that are available for experiments.
+On the left, you see a schematic of the chip
+where each white square is one of the qubits.
+And right next to that is a diagram of how the qubits
+are connected to each other.
+This connectivity diagram influences the operations
+that you're able to do on this device,
+as we'll see in a moment.
+One important thing that we have to get
+used to when working with quantum computers
+is that they're always noisy and imperfect.
+So on the right, you see a lot of information
+about the level of noise on each of these qubits
+and each of the gates.
+In fact, you don't have to believe these numbers.
+You can design and run certain experiments
+that will let you measure the exact errors.
+There's a lot more interesting data about each of these chips.
+For example, you see that this particular one
+is sitting in a dilution refrigerator
+with a temperature of around 21 milliKelvin, which is colder
+than the surface of Pluto.
+At the bottom of the page is the composer itself.
+You can see there are five wires, each representing
+one of the qubits in our quantum computer.
+And on the panel on the right, we
+have the gates that are available for building
+our quantum circuit.
+As you know, the circuit model is a simple, yet powerful model
+for quantum computation.
+A quantum circuit is basically a recipe
+for how to transform the state of a number of qubits
+by applying various gates to them.
+It can be shown that any quantum computation can
+be done by just operating on one or two qubits at a time.
+And the very small set of gates is enough for universal quantum
+computation.
+So as simple as this interface seems,
+you can do quite complex computations with it.
+So let's do a simple entanglement experiment.
+All of the qubits initially start out
+as being in the zero state.
+To create an entangled pair of qubits,
+we first put one of the qubits in a superposition state
+by applying a Hadamard gate to it.
+Next, we toggle the second qubit conditioned on the first qubit
+by applying a CNOT gate.
+This leaves the qubits to go in a state of 0, 0 plus 1, 1,
+a state that cannot be described in terms of the state of each
+qubit individually.
+This is an entangled state.
+But how can we know what state the qubits are in?
+The qubit's state space is inaccessible to us.
+And the only way we can get any information
+is to measure the qubits.
+So let's add two final measurement operations
+to this circuit.
+
+But each time we measure the qubits,
+we read a normal classical bitstream, such as 0, 0 or 1,
+1.
+So to be able to infer the state of the qubits right
+before the measurement, we have to repeat this experiment
+many times and thus approximate the probability
+distribution that existed with the entangled states.
+So now that we're done building our circuit, let's execute it.
+You see that you have the option of either sending
+your circuit to a simulator or to real hardware.
+First, let's do a simulation to make
+sure our circuit is working as expected.
+And here is what we get, a histogram
+of all the measurement outcomes.
+By default in the IBM Q Experience,
+each circuit will be executed about 1,000 times.
+As we expected, roughly 50% of the time
+we measured both qubits in state 0.
+And the other 50% of the time, we
+measured both qubits in state 1.
+This is an indication of the state correlations
+that arise as a result of quantum entanglement.
+Now let's submit the circuit to a real quantum computer.
+By clicking Run, your circuit will
+be sent to the IBM Research Labs in New York where
+they will be translated to the language
+of qubit manipulations, namely control pulses.
+After we receive the measurement results,
+we see that, indeed, the same outcome is achieved.
+However, there are some imperfections here
+in the result.
+And this is exactly due to the noisy qubits and gates
+that I talked about earlier.
+The composer is a great tool for just playing around
+and visualizing your circuits.
+However, you may prefer to build or alter
+your circuits more quickly.
+You can do this by switching to the QASM
+Editor, which gives you a textual representation
+of the circuit.
+You can also import QASM from file.
+QASM, or quantum assembly, is a circuit description language.
+In fact, the graphical interface we were using previously
+was being translated to QASM code under the hood.
+QASM is a hardware agnostic language,
+meaning it can be translated to any physical chip or even
+a different quantum computing technology altogether.
+It expresses data dependencies without explicit timings
+for the instructions, which will be decided at a later stage.
+Here we see the same circuit we just built written in QASM.
+The first line imports a standard library
+of gates for us to use.
+This is exactly akin to the menu of gates we had previously.
+The next two lines define the qubits
+in the form of a quantum register of size 5
+and the classical bits, which will
+be used to hold our final measurement results.
+Finally, we have the Hadamard, CNOT,
+and measurement operations.
+Let's suppose that we want to repeat our entangling
+experiment, but this time on two different qubits,
+let's say qubit 2 and 3.
+This seems trivial.
+We just change the indices on Q and C.
+However, we get an error message saying that a CNOT is not
+allowed from Q2 to Q3.
+That's right.
+This is due to the connectivity graph of the qubits
+in this particular chip.
+We see that in order to do a CNOT operation
+between these two qubits, we need
+to designate Q3 as a control and Q2 as a target.
+Luckily, there is an easy transformation that
+can be used to flip a CNOT.
+This circuit identity is achieved
+by sandwiching the CNOT that we have
+between two layers of Hadamards, giving us the flipped CNOT.
+Now we repeat the experiment on the real chip again.
+We see the same result as we expected.
+If you look closely, however, you
+see that the accuracy of the results
+are a little bit degraded compared
+to our previous experiment.
+This is because our new circuit uses more gates
+and this leads to a higher chance of errors accumulating
+in the circuit.
+To conclude, it's pretty easy to use the IBM Q Experience
+to program a quantum computer.
+All the many layers of technology
+that goes into building a working quantum computing stack
+is conveniently abstracted away.
+Quantum information science is no longer only done in the lab.
+Now you can control a real quantum computer remotely.
+While these devices are still small and noisy, in a way,
+they force us to be more clever in using them.
+For example, we have to take into account the connectivity
+of the qubits and try to use fewer gates in order
+to preserve information fidelity.
+If you visit the IBM Q Experience user guide,
+you'll see many more interesting examples of quantum information
+science, each one accompanied it with its composer circuit
+and QASM code.
+And I also encourage you to get involved in the Community
+Forum, which is a great place to discuss anything related
+to quantum computing and learning from each other.

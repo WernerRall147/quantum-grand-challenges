@@ -1,0 +1,99 @@
+ELICA KYOSEVA: It is a pleasure to be here today
+and to tell you how NVIDIA is pioneering
+the future of quantum computing with AI supercomputing.
+To start, I would like to clarify one thing.
+NVIDIA is not building a quantum computer or any other type
+of quantum hardware.
+What NVIDIA is doing is building all accelerated quantum
+supercomputers.
+The way that this will work is that NVIDIA supercomputers
+will integrate quantum computers as co-processors.
+These quantum computers can have different qubit modalities
+and be manufactured by different QPU providers.
+NVIDIA's solution is actually de-risking the quantum industry
+by being hardware agnostic because for us, it
+doesn't matter who produces the quantum computer.
+We work with everyone to integrate their solutions
+with our quantum supercomputers.
+So what are the challenges that quantum computing is facing?
+All applications will be running part
+of their workload on a classical supercomputers,
+and only part of the problem will be
+solved on quantum algorithms.
+So we need better hybrid algorithms.
+We need also better developer tools,
+and we need workforce development
+in order to lower the barrier of entry
+to domain experts that need to integrate quantum
+computing as part of their workloads
+at the moment of solving industry applications.
+We need also better error correction codes
+and also implementing quantum error correction
+that requires very low latency between the quantum hardware
+and the classical hardware.
+And we also need infrastructure enabling
+the tight integration between QPUs
+and classical supercomputers.
+And NVIDIA's GPUs are able to solve all of those problems.
+GPUs will be used for quantum computing
+research and development.
+These include application development, circuit design,
+dynamical simulations of quantum hardware,
+which will enable better construction and better hardware
+design.
+GPUs will be used also for running quantum computers,
+and their role will be in the readout in the calibration
+of quantum computers, in fixing and decoding
+errors that are detected during the operations of that quantum
+computers in modularity where we need to couple tightly
+quantum computers with classical supercomputers
+and also in scheduling the power consumption of quantum
+computers.
+Hybrid applications will be using GPUs and QPUs and NVIDIA's
+CUDA-Q programming framework allows for seamless applications
+programming, where what is needed to be run on the QPU
+is seamlessly programmed there while the rest is run
+on a classical supercomputer.
+CUDA-Q is designed to be used by QPU vendors,
+by enterprises, by academics, and by anyone else that
+would like to learn how to program the quantum
+supercomputers of the future.
+CUDA-Q includes libraries, programming model, tools,
+and infrastructure.
+What we could use CUDA-Q for is simulation
+where the back end of CUDA-Q uses cuquantum,
+which is an accelerated simulation library of quantum
+computers which can provide state vector and tensor network
+simulations, and also we can use CUDA-Q to program
+actual quantum hardware.
+CUDA-Q is already very highly adopted in the industry,
+and we already have over 150 quantum partners.
+Over 90% of the largest quantum computing startups use CUDA-Q,
+and over 75% of QPUs are integrating NVIDIA software.
+15 out of the 17 largest quantum computing
+frameworks are accelerated with CUDA-Q. NVIDIA quantum
+and CUDA-Q are open source, and we work
+with everyone in the industry.
+We work with quantum hardware providers, with cloud service
+providers, with research centers around the world,
+with quantum software providers, systems builders, and also
+quantum simulation frameworks.
+Quantum computing is supposed to have a broad impact
+across many industries.
+These include chemistry, drug discovery and pharmaceuticals,
+logistics, finance, physics, modeling materials,
+nitrogen fixation, and AI and machine learning.
+All of these have in common very hard computational problems
+for which we have proved that quantum algorithms will
+be able to provide a solution that
+is not possible to be obtained with classical methods.
+For example, I would like to highlight a recent supercomputer
+based on NVIDIA's GPUs called Gefion, which was purchased
+by the Novo Nordisk Foundation to do research
+in quantum computing for health applications
+and to use the latest AI supercomputing
+approaches to solve these problems.
+We believe that accelerating everyone's solutions
+is what is required in order to enable the future quantum
+computing revolution and to realize the quantum
+supercomputers of the future.

@@ -1,0 +1,88 @@
+
+One of the neat things about superconducting qubits
+is that they are macroscopic things,
+but they act a lot like atoms.
+They have discrete energy levels and you
+can couple them to cavities just like you can with atoms.
+With atoms you have cavity quantum electrodynamics,
+or cavity QED, that describes how light in a cavity
+interacts with atoms.
+And with superconducting qubits you
+have circuit QED, which describes how light in a cavity
+interacts with superconducting circuits.
+The math is basically the same.
+But unlike with atoms where you're
+limited to whatever's on the periodic table,
+with superconducting qubits you can engineer the energy levels
+to be whatever you want by changing
+the values of the capacitors and the sizes and numbers
+of the Josephson Junctions.
+This is why superconducting circuits are sometimes
+called artificial atoms.
+Because they're like atoms but you
+can engineer their energy levels.
+Here's a picture of a fabricated superconducting qubit.
+The two squares of metal make up the capacitor.
+In between them is a loop of superconducting material
+that has JJs in it.
+In this type of qubit it's easiest to think
+of the information being encoded in currents moving
+clockwise and counterclockwise.
+To control the qubit we can send in a pulse of microwave energy
+at the qubit's frequency.
+The phase and length of the control pulse
+will determine how much the qubit rotates around the x
+and y-axes of the block sphere.
+So this instrument is called an arbitrary waveform generator.
+And this you can think of as essentially the central command
+for the experiments.
+So these are what we're going to load
+our qubit pulses, our entangling pulses, and our readout pulses
+in.
+So it's going to send, for example, your INQ signals
+to your qubit.
+It could also send an and INQ signal to your readouts.
+So this would be sufficient to control
+at minimum, a single qubit.
+By multiplexing, that is by sending signals
+at multiple frequencies down the same lines,
+we can actually use a unit like this
+to control multiple qubits at the same time.
+Typical single qubit control pulses
+are tens of nanoseconds, which is very short compared
+to the best coherence times of 100 microseconds
+and fidelities greater than 99.9% have been achieved.
+Now, we also need to be able to do two qubit gates between two
+superconducting qubits.
+There are lots of ways to couple of superconducting qubits
+to each other, including coupling them directly
+to each other through a capacitive, or inductive
+interaction, or mediating the coupling with a resonator
+or another qubit.
+In many coupling schemes, it's necessary to change the energy
+levels of the qubits, which we can
+do by changing the magnetic flux through the loop.
+To qubit gate times range from tens
+to hundreds of nanoseconds.
+And gate fidelities greater than 99% have been demonstrated.
+Now, at some point in our quantum algorithm
+we also need to be able to get information out of the qubit.
+One common way of doing this is to couple it
+to a linear resonator, like the harmonic oscillator
+we talked about before.
+In this picture, we see a qubit coupled to a readout resonator.
+Previously, we talked about using
+an inductor and a capacitor to make a resonator.
+But in this case, we're just taking a microwave transmission
+line that has a distributed inductance and capacitance
+and is also a resonator.
+The qubit interacts with a resonator
+just like an atom interacts with a cavity.
+And we end up shifting the resonator frequency
+by a different amount if the qubit is in the zero
+state or the one state.
+So by sending a pulse of microwave energy
+to interrogate the resonator, we can
+learn the state of the qubit.
+Readout times vary but can be as short
+as hundreds of nanoseconds.

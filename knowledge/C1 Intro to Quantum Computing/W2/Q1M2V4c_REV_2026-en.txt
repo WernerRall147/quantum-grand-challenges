@@ -1,0 +1,78 @@
+
+The next example, superconducting qubits,
+are manufactured artificial atoms.
+Unlike the previous examples based on spins
+in naturally occurring atoms, superconducting qubits
+are electrical circuits that behave like atoms.
+Essentially, superconducting qubits
+are nonlinear oscillators built from inductors and capacitors.
+The inductor is realized by a Josephson junction, a nonlinear
+inductor that makes the resonator anharmonic.
+As we'll learn in the following case study,
+anharmonic oscillators feature an addressable two level system
+that we'll call the qubit.
+The qubit states can either be states
+of phase across the Josephson junction,
+flux in a superconducting loop, or even charge on a junction
+island.
+The main advantages of superconducting qubits
+are that the gates are fast compared with the other qubits,
+and they're manufactured on silicon wafers
+using materials and tools common to CMOS foundries.
+To date, arrays of up to 1,000 qubits have been demonstrated
+at IBM.
+And Google Quantum AI used a 200-qubit array to demonstrate
+the scaling of quantum error correction to larger and larger
+codes.
+The main challenge is the integration
+of control and readout technologies
+that maintain qubit coherence even
+at millikelvin temperatures.
+We'll learn more about these challenges, advantages,
+and the current state of the art in the following case study.
+Finally, there are several other qubit modalities
+being pursued that are at various stages of development
+and maturity.
+The most developed and mature include linear optics
+quantum computing, where the presence or absence of a photon
+constitutes the qubit.
+Quantum information is processed using linear optical components
+like beam splitters, phase shifters, mirrors,
+and interferometers.
+Effective nonlinear interactions are
+achieved through the use of single photon sources,
+photodetectors, and the like.
+The main challenge with linear optical quantum computing
+is that it's very hard to make photons interact with one
+another.
+In addition, high fidelity memory is a big challenge,
+and many schemes rely on probabilistic sources and gates
+to process information.
+Another type of quantum computer based on neutral atoms
+is a quantum emulator.
+A quantum emulator uses Rydberg atoms,
+or Bose-Einstein condensates to emulate a condensed matter
+or atomic system through the use of tailored atomic energies
+and coupling terms.
+A more exotic qubit modality that
+is generating significant interest today
+is based on something called a Majorana fermion, a fermion
+that is its own antiparticle.
+Several efforts worldwide are trying
+to realize a Majorana qubit, using a combination
+of superconducting and semiconducting
+materials, which feature a strong spin orbit interaction.
+If successfully realized, Majorana qubits
+have been theoretically shown to exhibit topological protection,
+a resilience to noise that's not unlike the resilience afforded
+by quantum error correction.
+The challenge is that they're extremely difficult to realize,
+and to date, there's been no definitive demonstration
+of a Majorana qubit featuring this topological protection.
+Other qubit candidates include molecular ions,
+which are trapped and controlled in a manner
+similar to atomic ions, and electrons
+on liquid helium, which are basically free electrons that
+form an electron lattice on the surface of liquid helium
+and can be controlled using electron spin resonance
+techniques.

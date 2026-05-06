@@ -226,6 +226,15 @@ Provide your evaluation as JSON following the output format specified in your in
         # Deterministic routing provides troyer_filters and platform;
         # LLM provides explanation, red_flags, and alternatives.
         deterministic_filters = routing["evidence"].get("troyer_filters", {})
+
+        # Step 7: Compute cost-advantage analysis (Troyer Part 6 placeholder).
+        # Heuristic order-of-magnitude estimates from agents/classifier/cost_model.py.
+        cost_analysis = self._compute_cost_analysis(
+            platform=llm_result.get("recommended_platform", routing["platform"]),
+            algorithm=llm_result.get("recommended_algorithm", kb_result.get("best_algorithm", "")),
+            kb_match=(kb_result.get("matches") or [{}])[0],
+        )
+
         result = {
             "problem": problem_description,
             "verdict": llm_result.get("verdict", routing["verdict"]),
@@ -241,6 +250,7 @@ Provide your evaluation as JSON following the output format specified in your in
             "explanation": llm_result.get("explanation", ""),
             "similar_problems": llm_result.get("similar_problems", similar_ids),
             "references": llm_result.get("references", []),
+            "cost_analysis": cost_analysis,
             "routing_evidence": routing["evidence"],
             "evaluated_utc": datetime.now(timezone.utc).isoformat(),
             "model_used": response.model if response else CHAT_DEPLOYMENT,
@@ -248,6 +258,65 @@ Provide your evaluation as JSON following the output format specified in your in
         }
 
         return result
+
+    @staticmethod
+    def _compute_cost_analysis(platform: str, algorithm: str, kb_match: Dict[str, Any]) -> Dict[str, Any]:
+        """Compute order-of-magnitude cost comparison between quantum and classical alternatives.
+
+        Uses heuristic resource estimates derived from KB algorithm metadata.
+        This is a Troyer Part 6 placeholder until the formal framework lands.
+        """
+        try:
+            from agents.classifier.cost_model import (
+                estimate_quantum_cost,
+                estimate_hpc_cost,
+                cost_advantage_ratio,
+                COST_MODEL_STATUS,
+                TROYER_PART_6_STATUS,
+            )
+        except ImportError:
+            return {"status": "cost_model_unavailable"}
+
+        platform_upper = (platform or "").upper()
+
+        # Pull resource estimate hints from the matched KB algorithm record.
+        # Typical fields: physical_qubits, runtime_ns, t_count.
+        physical_qubits = int(kb_match.get("physical_qubits") or 100_000)
+        runtime_ns = int(kb_match.get("runtime_ns") or 10_000_000_000)  # 10 s default
+
+        # Quantum-only path: pick a representative target by algorithm class.
+        # Quantinuum H2 for QPE/Shor (chemistry/factoring). IonQ Aria for variational.
+        target = "azure_quantum_quantinuum_h2"
+        if algorithm and any(a in algorithm.upper() for a in ("VQE", "QAOA", "SWAP")):
+            target = "azure_quantum_ionq_aria"
+
+        quantum = estimate_quantum_cost(
+            physical_qubits=min(physical_qubits, 1_000_000),  # clamp wild estimates
+            runtime_ns=runtime_ns,
+            target_platform=target,
+            shots=1000,
+        )
+
+        # HPC equivalent: rough rule of thumb — assume an HPC alternative would
+        # solve the same problem in O(seconds-to-minutes) on an A100 cluster
+        # (an over-optimistic comparison favouring HPC).
+        hpc_hours = max(0.1, runtime_ns / 3.6e12)  # ns -> hours
+        hpc = estimate_hpc_cost(compute_hours=hpc_hours, platform="azure_hpc_nd96amsr_a100")
+
+        ratio = cost_advantage_ratio(quantum, hpc)
+
+        return {
+            "status": COST_MODEL_STATUS,
+            "troyer_part_6": TROYER_PART_6_STATUS,
+            "recommended_quantum_target": target,
+            "quantum_estimate": quantum,
+            "hpc_estimate": hpc,
+            "comparison": ratio,
+            "caveat": (
+                "Order-of-magnitude estimate based on Azure list pricing. "
+                "Production deployments must validate with az pricing API and full Resource Estimator."
+            ),
+        }
 
 
 def main():

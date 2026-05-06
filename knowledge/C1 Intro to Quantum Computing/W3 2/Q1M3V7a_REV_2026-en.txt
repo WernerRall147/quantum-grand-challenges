@@ -1,0 +1,155 @@
+STEFAN NATU: Now, at AWS, in 2019, we
+made the decision to launch a quantum computing program based
+on the industry consensus at the time
+that near-term quantum devices, or NISQ devices,
+may provide commercial value.
+We launched our quantum computing strategy
+with two major threads.
+The first is a focus on building our own hardware.
+And that's a long-range effort that's
+focused on error correction.
+And the second is a cloud service
+to provide customers access to near-term quantum
+hardware from third-party quantum hardware providers.
+And that's called Amazon Braket.
+Now, the goals of Braket are to engage customers early
+and prepare customers for the arrival
+of these fault-tolerant quantum machines.
+In the long run, we will be hosting quantum computers
+in our data centers and give customers
+access to quantum computing resources
+alongside on-demand elastic and scalable
+CPUs and GPUs via the cloud.
+Over the past four years since we launched Braket,
+thousands of customers have executed
+many billions of circuits on real quantum computers.
+So you might be wondering, what have we
+learned from all these experiments?
+Today I want to tell you about four key learnings.
+The first one is that it's too early to call winners.
+Now, in this course, you have no doubt
+learned about the different modalities of quantum computing.
+It is too early to predict today which of these modalities
+is ultimately going to deliver advantage
+for commercially relevant problems
+over existing classical techniques.
+Each of these devices have unique characteristics
+that make them suitable for certain workloads.
+For instance, superconductors are fast,
+whereas trapped ions have all-to-all connectivity.
+And that's why our strategy at AWS
+is to reduce technology risk by providing access
+to a diverse range of hardware devices.
+Similarly, today, when customers try
+to experiment with different hardware,
+they're often required to learn the software stack
+of the providers separately.
+This slows down innovation and experimentation.
+And so on Braket, you can experiment
+on multiple machines with as few lines of code change
+as possible.
+The second learning is that disruptive technologies
+demand incremental innovation.
+When fault-tolerant quantum computers arrive,
+everyone's expecting a sort of ChatGPT moment
+when the industry is just going to take off.
+But the reality is that innovation is incremental.
+The first experiments on using neural nets
+for large-scale image recognition tasks
+occurred in 2012, and OpenAI released ChatGPT in 2022.
+So from 2012 to 2022, tens of thousands of developers
+were building novel neural net architectures
+and training and iterating ML algorithms
+that have made today's GenAI innovation possible.
+And we see a similar trajectory for quantum.
+Application development needs to happen hand in hand
+with hardware technology improvements,
+as developers need to build the software
+stack and the tools that are needed to enable
+those end-user applications.
+What this means is that there's opportunities for you
+to innovate up and down the stack,
+get a firsthand sense of the state of play of the industry,
+and determine what the potential applications that might
+be disrupted by quantum and what are the limitations of today's
+devices that need to be overcome before they become useful.
+It's essential to get started with exploring
+the nuances of the hardware and the software stack
+that's needed to program these quantum computers.
+As the hardware improves, what they are capable of
+is going to change.
+And you all have the opportunity to be that change agent.
+So today, you can go and get a digital badge
+by taking a free online training course on quantum on AWS.
+Once you do that, you can go ahead and apply for an AWS Cloud
+Credits for Research grant to get
+going with using quantum hardware on AWS.
+The third learning that I want to talk about
+is that quantum is not going to develop in a vacuum.
+Just like a GPU today works in tandem with CPUs,
+a QPU, or a Quantum Processing Unit,
+will work in tandem with many GPUs and CPUs
+to run industry-relevant applications,
+whether those are material science simulations
+or optimization problems and so on.
+And it's highly likely that the earliest applications of quantum
+computing may require large amounts of classical code
+processing power.
+So it's super important that when
+you're selecting a platform to experiment on,
+to ensure that you think about this holistic picture and not
+just think about the QPU itself.
+At AWS, that was a question we debated for a very long time.
+Should we launch Braket as a standalone service outside
+of AWS, or should we make it an integral part of the AWS
+platform?
+We decided to go with the latter.
+Because when quantum computers are
+working as an integral component in a hybrid HPC infrastructure,
+customers that are running those business-critical applications
+will care about the security, the networking infrastructure,
+the encryption of their data at rest and in transit,
+and ensuring that the proper permissions and guardrails exist
+around who accesses that data and ensuring that their quantum
+infrastructure provider is compliant
+with the various compliance attestations
+that they need to meet.
+So you can say that in some sense,
+our goal is to make quantum as boring as possible,
+meaning that you can just focus on building that end
+application.
+Our fourth learning is that ecosystems
+play an essential role.
+On EC2 today, which is our compute service in the cloud,s
+we offer customers a choice of hardware, from Intel, AMD,
+NVIDIA, and our own.
+And we envision the same to happen in quantum computing.
+So our role is to enable you to push the innovation forward,
+break down those barriers for you to do so,
+and cultivate the ecosystem.
+Today, there are dozens of quantum software partners
+who are building middleware technologies, such as error
+mitigation, and exploring early applications with enterprise
+customers.
+We actively encourage these partners
+to build on top of our service.
+They have application-specific expertise
+that enables them to understand the potential benefits
+and pitfalls of quantum computers
+for use cases that are relevant to industry.
+Today, the most prominent use cases for quantum
+are in materials science, chemistry,
+such as molecular simulation, financial services,
+such as portfolio optimization, logistics, and machine learning.
+Some of these are more near term than others,
+but they are being actively explored
+by many of the partners who are on our ecosystem.
+So what can you do?
+Like I said, this is all about experimentation.
+It's about moving the ball forward
+with incremental improvements and keeping a close eye
+on the state of the art.
+We firmly believe at AWS that quantum will one day
+solve problems that are forever out of reach
+of classical computers.
+And I'm excited to be a part of that journey.

@@ -1,0 +1,169 @@
+
+ERIC HOLLAND: Welcome.
+I'm Dr. Eric Holland, the General Manager
+for Keysight's quantum engineering solutions group.
+You may not be familiar with Keysight,
+but likely you are with the company we spun out from,
+Hewlett-Packard.
+More than 80 years ago, Bill and Dave
+used their engineering skills to design a product that
+would help our first customer and Walt Disney Studios
+not only record Fantasia in stereo sound,
+but also be the first movie studio ever
+to roll out stereo sound nationwide in movie theaters.
+At Keysight, we are not building our own quantum computer,
+and we haven't married ourselves to any one quantum technology.
+The core of our company is design, test, and validation.
+So by circumstance, our capabilities naturally
+gravitated towards manufactured quantum technologies
+such as superconducting qubits, spin qubits, quantum dots,
+or photonic quantum processors.
+So how do we fit in?
+On the design side, we have software tools
+to lay out and simulate the performance of quantum
+processors and quantum limited amplifiers.
+For test, we provide room temperature and cryogenic wafer
+test and probing tools that are popular with foundries
+and semiconductor organizations.
+We also have network analysis tools
+to understand cryogenic calibration and anomalous two
+level systems.
+On the validation side, we provide a wide array
+of telecom products that are attractive to photonic quantum
+processors, such as lasers and optical power attenuators,
+while for superconducting and spin qubits,
+we provide the quantum to classical interface,
+the room temperature control electronics,
+and quantum operating system.
+We are agnostic on the first quantum computing
+application for business.
+Honestly, we're rooting across the board for quantum advantage,
+because when the field wins, we win.
+We do not expect to be the ones with the idea
+for some novel algorithmic implementation that massively
+changes how material design is approached in HPC.
+Our goal is to provide the tools so that scientists and engineers
+can focus on pursuing quantum advantage.
+All quantum technologies have major hurdles
+that they must overcome to implement a fault tolerant
+quantum computer.
+We believe that across the board,
+the major challenges that must be addressed
+are first, performance.
+High fidelity single and multi qubit gates,
+as well as develop robust real time protocols
+to navigate noise.
+Second, speed.
+The wall clock time of the quantum computer
+must be fast enough to address change
+the world applications on timescales
+relevant to industry applications.
+The algorithm execution timescales cannot take decades,
+centuries, nor millennia.
+Third, scale.
+A quantum computer implementing change the world applications
+likely will have hundreds of thousands or millions
+of physical qubits.
+Great advancements in manufacturing
+at scale for quantum processors must
+be made across the entire supply chain, as well
+as the miniaturization of key components
+from a system design perspective so that the quantum computer is
+of a manageable size as well as easy
+to maintain for high uptime.
+This is essentially swap C for quantum computing.
+We hope that by and large, quantum computers
+contribute to the good of humanity
+as well as substantially advance our scientific knowledge.
+We intend to contribute to the democratization of quantum
+computing by providing software tools such as device design
+simulation, as well as consistently improving
+the quantum to classical interfaces
+to foster a global community of quantum innovation.
+Our hope is that by lowering the bar
+to innovation, everyone benefits, not just a select few.
+To date, the major vertical industries
+integrating our quantum computing tools
+are in the advanced computing domain.
+Whether they are hyperscalers, high performance computing,
+or systems integrators for end customers
+such as national laboratories or general government.
+We also support university efforts,
+but their aim is typically different.
+Either they are focused on the fundamental primitives
+of the three major technological hurdles
+and/or workforce development for the next generation
+of scientists and engineers.
+In addition, we have other aspects
+we would like to include, which you might want to contribute to,
+including quantum to classical interface,
+classical electronics that control quantum computers,
+software stack.
+The quantum to classical interface
+is where the rubber meets the road
+in quantum computing, and all the engineering implementation
+details matter.
+The entire quantum to classical system
+must enact the faithful and reliable execution
+of quantum circuits, which are compiled down
+into instruction sets for the underlying physical hardware.
+Each quantum technology has its own unique requirements
+for the quantum to classical interface.
+Also, in every quantum to classical converter,
+there are FPGAs that provide real time digital signal
+processing on the output, input, or both.
+Finally, the way in which all of this instrumentation in FPGA IP
+is orchestrated together to enact quantum operations
+is specific to the underlying quantum technology
+it is interfacing with.
+The quantum to classical interface
+is a fantastic systems integration and systems design
+problem for the coming decades.
+If you look at the history of high performance computing,
+the decades of the '70s, '80s, and '90s were dominated by major
+architectural paradigms that enabled the next breakthrough.
+We have made great progress in the last five years
+on the quantum to classical interface,
+but it is still very much in its early infancy.
+No one at present has developed a platform
+that can be trivially expanded from a SWOPSI perspective
+to serve as the front end to a fault tolerant quantum
+computer demonstrating quantum advantage.
+As the field progresses forward, I
+expect more ASICs to be developed specifically
+to facilitate the quantum to classical interface.
+My general expectation for the quantum to classical interface
+is for it to become a larger engineering effort
+over the next 5 to 10 years.
+That will facilitate a transition from generalized
+to specialized knowledge with cultivated expertise
+in this area, and consequently for it
+to become a long term career field.
+As a quantum leader inside a large company or institution,
+it is best to recognize that part of your role
+is to provide the vision for how and why quantum fits in.
+In one sense, the business challenges
+Keysight faced when deciding whether or not
+to enter quantum computing are typical of what one might expect
+of any well-established company considering entering
+into quantum computing.
+Few, if any, large companies inherently
+have quantum technologies as something
+that was core to their company's previous success.
+Typical questions and concerns from the executive team as well
+as the shareholders are, does this make sense for our company?
+Is this something we can make meaningful contributions to?
+Why us and not someone else?
+What is our moat?
+My experience has been that it is best
+to acknowledge that quantum computing is still
+in its infancy, and that we must make calculated risks based
+on our underlying technology assumptions.
+My concluding thought here is that before technology arrives,
+there is uncertainty on its future success.
+Being at a company like Keysight that for 80 years
+has been at the forefront of innovation,
+we've accumulated a certain amount of risk tolerance
+to the idea that the technology may arrive before the market is
+ready, but our experience is that innovation rarely
+goes to waste.

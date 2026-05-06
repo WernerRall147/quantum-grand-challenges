@@ -1,0 +1,207 @@
+
+So far this week we've introduced single photon
+sources and detectors and seen how single photons can
+be used to encode and transfer quantum information
+across a communication channel, for example, to distribute
+a cryptographic key.
+In this section, we'll discuss the generation
+in detection of entangled pairs of photons.
+And later this week, we'll learn how entangled photons may also
+be used for quantum key distribution,
+as well as for quantum teleportation and random number
+generation.
+As we saw in Course 1, an entangled state is a manifestly
+quantum mechanical multi-qubit state that cannot be written
+as a product of single qubit states in any basis.
+Let's start with a counter-example.
+We've seen through of Course 1 and Course 2
+that if we apply Hadamard gates to 2 qubits,
+each prepared in state zero, then
+we obtain the 2 qubit equal superposition state, 0, 0
+plus 0, 1 plus 1, 0, plus 1, 1.
+Now, while it might appear that this state can't be factored
+into single qubit states, we know
+that it must be possible because we generated it by applying
+Hadamards to single qubits.
+And as we've seen, this state is the tensor product
+of the single qubit superposition state 0 plus 1.
+Thus, it's not an entangled state,
+because we can write it in terms of the single qubit states; 0
+plus 1 for qubit A, tensor product 0 plus 1 for qubit B.
+In fact, 0 plus or minus 1 are the excited and ground states
+along the x-axis of the block sphere.
+Thus, we can write this as the plus and minus state
+in the x spaces.
+In contrast, we can see that the state 0, 0 plus 1,
+1 cannot be written as a tensor product of single qubit states.
+And it's an entangled state of 2 qubits called a Bell state.
+And even when we perform a transformation to the x basis,
+we still get a state that can't be factored into single qubit
+states A, tensor product B.
+This is a property of entangled states.
+They remain untangled even in different bases.
+And looking at the circuit model,
+we see that we needed a conditional 2 qubit gate
+to generate the entanglement.
+Single qubit gates alone were not enough.
+We'll return to Bell states in a moment.
+Now, recall from earlier this week
+that single photons have a polarization, for example,
+horizontal and vertical.
+And since vertical and horizontal polarizations
+are orthogonal quantum states, we
+choose to put them at the poles of the block sphere
+and call this our qubit.
+For single photon QKD protocols, like BB84, this is sufficient.
+Bob preparers a single photon in a particular qubit state, that
+is a particular polarization state,
+and then sends it along the communication channel to Alice.
+However, as we'll see in the next couple of videos, using
+entangled photons enables certain alternative types
+of QKD protocols, as well as a means
+to generate random numbers in teleport quantum information.
+And so the question is, how do we generate and detect
+entangled photons?
+The most common method for producing entangled photons
+is through a process called spontaneous parametric
+downconversion.
+Parametric downconversion is essentially a frequency
+conversion process, where a photon at frequency 2f
+is converted into two individual photons whose frequencies
+together add to 2f and conserve energy,
+for example, each photon having a frequency, f.
+Now, linear time invariant systems, by definition,
+do not convert frequencies.
+That is if we take a sine wave and pass it
+through a linear system, its amplitude and phase may change,
+but its frequency remains the same.
+This is essentially a statement that a plane wave
+e to the i omega t is an eigenfunction
+of a linear system.
+Thus, to take a photon at one frequency
+and convert into two photons at a different frequency,
+we need a material with strong non-linear optical properties.
+And a common example of such a crystal
+is beta barium borate, or BBO.
+When a strong pump beam passes through a BBO crystal,
+there's a small probability that one of its photons
+will convert into two photons, one
+called a signal and the other called an idler.
+This is just convention.
+Now, due to energy conservation, the signal and idler
+frequencies are each half of the pump frequency.
+And due to momentum conservation,
+the signal and idler photons will
+leave the crystal in correlated spatial directions.
+Additionally, these two photons will also
+have correlated polarizations.
+Depending on the type of crystal we
+use, the two downconverted photons will either
+have the same polarization, which we call a Type 1 Crystal,
+or they have opposite polarizations
+from a type 2 Crystal.
+BBO is a Type 2 Crystal, and we see
+that the two downconverted photons exit
+the crystal in directions that form a cone, one having
+horizontal polarization and one having vertical polarization.
+The locations of the photons on the cones
+are correlated, equidistant from the original beam
+trajectory, again, due to momentum conservation.
+For example, the colored dots on the polarization cones
+indicate the correlated spatial positions
+of the emitted photons.
+Now, crucially for the two photons to be polarization
+entangled, their direction of emission cannot indicate which
+photon is vertically polarized and which is horizontally
+polarized.
+Therefore, we use an iris to selectively keep
+only photons that arise from positions where the two
+polarization cones cross.
+Thus, whether the signal and idler photons
+travel left or right once they exit the crystal,
+one will have polarization h and the other polarization v. But
+which is which is not known.
+In other words, the direction of propagation
+does not label the polarization.
+Under these conditions, the state of the two
+downconverted photons is polarization entangled
+and it's all of the form H, V plus e to i phi V, H.
+The phase phi can be made 0 degrees
+by choosing the correct phase matching
+conditions, crystal thickness, et cetera,
+or using a phase shifter.
+Thus, one has the state H, V plus V,
+H. This is one of the four Bell states.
+And from this, the other Bell states
+can be generated by changing the phase phi
+and swapping the polarizations H and V, using a half wave plate.
+Now that we're able to generate all four entangled Bell states,
+let's see how to detect these states.
+We first need to introduce an optical device called
+a polarization beam splitter.
+A polarization beam splitter will transmit or reflect
+a photon depending on its polarization, H or V.
+And at each output of the beam splitter
+is a single photon detector.
+By seeing which detector clicks, we
+can determine whether the photon had horizontal
+or vertical polarization.
+To see how this works, let's try a test case.
+We begin with a photon polarized in the vertical direction.
+We also show here for completeness a polarization
+rotator, a device that changes the polarization
+of incoming photons.
+For now, however, we just set it so that it passes photons
+without making any changes.
+Now, if we send in a vertically polarized photon,
+it reflects off the polarization beam splitter,
+and it's detected by the single photon
+detector in the reflection arm.
+On the other hand, if we send in a horizontally polarized
+photon, it's transmitted by the polarization beam splitter
+and detected using the single photon detector
+in the transmission arm.
+Thus, we can determine the photon polarization
+by seeing which detector clicks.
+So, what happens if we have entangled photons?
+Let's take the H, V plus V, H entangled state.
+Photon A travels to the left polarization beam splitter
+and Photon B travels to the right polarization
+being splitter.
+And what we'll observe are correlated detection events.
+That is if Photon A's polarization analyzer indicates
+horizontal polarization, then the Photon B analyzer indicates
+vertical polarization.
+Similarly, if Photon A is measured
+to have a vertical polarization, then Photon B
+must have horizontal polarization.
+These are correlated detection events.
+Now, the presence of correlation suggests
+polarization entanglement, but it's not proof of entanglement.
+After all, our source may just randomly send out
+classical states of either H, V or V,
+H, which would give the same results,
+but it's not an entangled quantum state H, V plus V, H.
+To test for entanglement, one needs
+to measure the entanglement in different polarization bases.
+As we saw earlier, changing the bases
+does not change the entanglement.
+And so the measured correlations will be retained
+in any measurement basis.
+In practice, rather than changing the measurement
+hardware, one may instead rotate the polarization
+of the input state.
+This is experimentally more straightforward,
+and this is the role of the polarization rotator.
+With correlation measurements made in different polarization
+bases, one can compare the measured results
+with the classical probability model assuming
+there's no entanglement.
+This type of test is called a Bell's inequality test.
+And it's used to determine the degree of entanglement
+of a quantum state within certain assumptions, called
+loopholes.
+You'll learn more about Bell state measurements,
+test the Bell's inequality and loopholes
+later in the week, as well as the application of Bell state
+measurements to the problem of random number generation.

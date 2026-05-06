@@ -1,0 +1,86 @@
+
+Just as quantum mechanics can dramatically
+enhance the way we process information,
+it also has the potential to enhance the way
+we communicate information.
+So in this section let's take a look
+at the promise of quantum communication.
+Communication broadly defined is the conveyance of information,
+and it encompasses both sending that information
+as well as receiving it.
+It certainly refers to verbal communication between people
+as well as nonverbal forms such as written text and signatures.
+And it often comes in an encoded form.
+For example, the digital zeros and ones
+that are created by sampling our voices on a cell phone
+or representing the words of an email that are then routed
+from one computer to another.
+In fact, even information on a chip
+must be shuttled around, communicated
+between a processor and its memory.
+And this concept can even be extended
+to include several spatially distributed
+computing nodes, all of which are available to attack
+a particular problem, but must be coordinated and therefore
+require communication between these different nodes.
+All of these are examples of classical communication.
+But quantum communication is different,
+and it represents a fundamentally different means
+to encode, convey, and authenticate information.
+These differences and the potential promise
+of quantum communication are reflected in three basic facts
+or theorems.
+The first is that classical information encoded in qubits
+can be transmitted two times faster than by classical means.
+This is achieved using a concept known as superdense coding,
+and it's a provable quantum enhancement.
+Basically, two bits of classical information
+can be transmitted using a single qubit when
+that qubit is part of an entangled pair of qubits called
+a bell state.
+Now, that's, of course, two qubits,
+but I only needed to transmit one of them
+to send two classical bits.
+That's superdense coding.
+The second is that quantum bits cannot be copied or cloned.
+And it's, again, a provable consequence
+of quantum mechanics.
+Now, of course, if I prepared a qubit in a given state,
+I know that state and so I can prepare a second qubit
+in the same state.
+But if I have a qubit in an unknown state,
+I can't make an exact copy of it,
+and that's called the no cloning theorem.
+The third fact is that attempts to intercept or measure quantum
+bits can be detected.
+Clearly, those bits cannot be duplicated by the no cloning
+theorem.
+And so an eavesdropper must make some kind of measurement
+in order to glean any information.
+And it's the measurement process that
+always leaves a signature that's detectable in some way.
+So what is needed to leverage these three facts
+and realize the promise of quantum communication
+in practice?
+Well, to realize quantum advantage we
+need to identify problems at the intersection of three
+key applications.
+The first is to find a problem that
+can leverage the enhanced capacity to encode information
+that's enabled by quantum mechanics.
+Second, there are problems related to authentication.
+The ability to confirm the identity of an individual
+or the truth of a particular attribute.
+And third are problems associated with collaboration,
+collaboration between people or agents such as secret sharing
+or game theory.
+For example, enhance means to auction
+or to vote without attribution.
+Or using quantum mechanics to verifiably share
+public goods in a way that avoids
+certain rational yet self-destructive tendencies
+such as the tragedy of the commons.
+Realizing the promise of quantum communication
+will require finding problems that exhibit quantum advantage.
+And in the next section, we'll take a look
+at several such problems.

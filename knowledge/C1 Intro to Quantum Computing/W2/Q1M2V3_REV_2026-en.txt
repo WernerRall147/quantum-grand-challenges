@@ -1,0 +1,180 @@
+
+In the last section, we focused on two
+of the DiVincenzo criteria, qubit coherence, and quantum
+gates.
+We developed an intuitive figure of merit, the average number
+of gate operations, that can be performed
+before an error occurs.
+Such metrics are important, because they
+allow us to compare different qubit modalities,
+even when those modalities have remarkably different
+properties.
+However, the definition we introduced only
+accounted for errors due to qubit decoherence.
+That's fine for qubits that are dominated by decoherence,
+but some qubit modalities are limited
+by other sources of errors.
+For example, control errors, imperfections in the pulses
+that are used to drive a gate operation.
+For these qubits, even if their coherence times
+were practically infinite, their gates
+would still be subject to control errors.
+So what we need is a more rigorous way
+to characterize the robustness of a gate operation, one
+that's sensitive to a broad set of error sources.
+And that leads us to the subject of this section, a more general
+concept, called gate fidelity.
+Gate fidelity is a rigorous means
+to define how well a gate operation works.
+Essentially, it's a measure of how closely our actual gate
+operation matches, on average, a theoretically ideal version
+of that operation.
+For example, if we apply an X gate
+to a qubit prepared in state 0, how much do we get to state 1?
+Now intuitively, errors could occur along
+any direction of the Bloch Sphere
+and so we need to check for errors along all directions,
+after the operation is complete.
+Until this point in the course, we've
+only measured the qubit along the Z direction.
+But in principle, we can choose to measure the qubit
+along any axis that passes through the center of the Bloch
+Sphere, including the x-axis or the y-axis.
+In addition, gate errors may be manifest differently,
+depending on the starting point of the qubit,
+so we need to check how the gate performs
+against different initial states,
+and not just the north pole, for example.
+Now at this point, you may be asking yourself,
+how is this even feasible?
+The qubit state can be anywhere on the surface of the Bloch
+Sphere, and that represents an infinite number
+of possible initial and final states.
+How can we possibly check them all?
+Well in fact, we don't have to.
+And that's because we can define a basis set that spans
+the entire qubit state space.
+To draw an analogy, think of global positioning.
+Our position anywhere on the globe
+can be represented by projecting it onto a convenient basis,
+in this case, a coordinate system that spans the globe.
+We often use latitude and longitude,
+but we could equally well use Cartesian coordinates, x, y,
+and z.
+Similarly, we can define a basis that
+spans the entire qubit state space,
+and then use it to specify any qubit state at the input.
+We can also use it to characterize any state
+at the output, by projecting back onto this basis.
+This works, because quantum mechanics
+is described by linear algebra.
+It's enough to understand projections
+to and from the basis set to know what will happen globally.
+And in fact, as we'll see later in the course,
+such projective measurement plays a crucial role
+in the digitization of errors, and our ability
+to correct them.
+Although the coefficients of a superposition state
+will dictate the probability of obtaining a 0 or 1
+when measurement is done, for any given measurement,
+we will get a 0 or a 1.
+In this way, quantum states and their errors,
+which appear to be analog, can in fact
+be digitized through projective measurement.
+Now we saw previously that n qubits can represent 2
+to the n states.
+Here, the basis can be represented
+in a matrix form, and the number of matrix elements
+that spans the state space is the square
+of the number of states.
+So 2 to the n, quantity squared.
+For a single qubit, n equals 1, and we need four elements.
+For two qubits n equals 2, and the number quickly
+increases to 16.
+So determining the gate fidelity is essentially
+a standard black box type problem.
+We have a gate operation, and theoretically, we
+know how it should perform.
+However, due to errors, its actual operation
+isn't precisely known. That's the black box.
+And so we need to characterize, on average, how well our gate
+operation actually performs.
+To do this, we probe the gate operation using the input basis
+states, perform the actual gate operation,
+and then, for each input, project the resulting output
+state onto the entire basis set.
+We then compare our results to what
+we would expect from a theoretically ideal operation
+to determine the gate fidelity.
+The approach just described is called process tomography,
+and it represents a complete description of the errors
+during a gate operation.
+It also requires a large number of steps to implement,
+as the product of input and output elements
+is 2 the 4 n-th power.
+Now although there are 2 to the 2 n-th constraints,
+due to the properties of these matrices,
+this only reduces the total number
+of measurements by a small amount, thus, implementing
+process tomography scales very poorly
+with the number of qubits, and becomes
+impractical as n gets large.
+This is an issue, because although our gates only
+act on one or two qubits, the errors
+may cause leakage to other nearby qubits,
+qubit 3, qubit 4, qubit 5, et cetera.
+And so to account for this, the basis we choose
+must encompass all n qubits.
+In addition, process tomography is sensitive to all errors,
+including initialization errors, when
+preparing the input state, and measurement
+errors at the output, which although certainly real errors,
+are unrelated to the quality of the gate operation itself.
+As a result, an alternative approach,
+called randomized benchmarking, has also been developed.
+Randomized benchmarking essentially
+interleaves the gate operation being
+characterized with a random assortment of other gate
+operations.
+Although half of the gates are chosen at random,
+we know what they are, and so we can predict the expected output
+state, assuming all of the gates were ideal.
+This is then compared to the same experiment,
+but with only the random assortment of gates,
+to see how much the error rate has changed when
+adding the interleaved gate.
+This change in error rate is then
+attributed to the interleave gate itself.
+This approach is then repeated for increasing numbers
+of pulses, in order to obtain a refined estimate
+for the average error per gate, and thereby, the gate fidelity.
+Randomized benchmarking is much more efficient
+than process tomography, and it's also
+insensitive to initialize and measurement errors.
+However, it only provides a net error rate,
+without revealing specific error channels.
+However it's measured, a gate fidelity of 100%
+means that our actual operation perfectly
+matches the ideal operation.
+For example, no matter where our qubit starts on the Bloch
+Sphere, our actual x-gate would perfectly
+rotate the input state to the correct output state.
+Now, as you might expect, it's generally not
+possible to achieve a perfect gate fidelity.
+There will always be some level of error,
+whether due to qubit decoherence during the operation,
+imperfections in the control pulse itself, et cetera.
+The goal, then, is to see how many
+nines, two nines, 99%, three nines, 99.9%, that one
+can achieve.
+The higher the fidelity, the closer
+it comes to an ideal gate.
+And as we'll see later in the course, achieving high fidelity
+is critical, because it translates directly
+to two important aspects of quantum error correction.
+First, the fidelity must at least reach a minimum value,
+called the threshold, in order for the error correction
+to give us a net improvement in the error rate.
+And second, once above this threshold,
+the higher the fidelity, the less the resource overhead
+required to implement the error correction.

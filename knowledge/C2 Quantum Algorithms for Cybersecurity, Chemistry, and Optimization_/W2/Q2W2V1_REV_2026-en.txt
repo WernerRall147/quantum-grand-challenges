@@ -1,0 +1,56 @@
+
+Last week, we introduced the basics of modern cryptography
+schemes with a focus on public key encryption based
+on one-way mathematical functions.
+We discussed the RSA cryptosystem in detail
+and showed that its security is based
+on prime number factorization and the related
+problem of period finding.
+Period finding is a hard problem for a classical computer.
+And we showed how it could be efficiently
+performed on a universal quantum computer running
+Shor's algorithm.
+We also discussed the topic of key distribution,
+namely the conundrum that arises when using symmetric keys
+for encryption and decryption.
+How can we securely exchange symmetric keys
+when we don't yet have the encryption
+keys in our possession for the first transmission?
+The answer was to use public key encryption
+based on asymmetric keys, like the RSA cryptosystem.
+However, as we just noted, RSA is
+vulnerable to attack by a quantum computer running
+Shor's algorithm.
+But where quantum figuratively closes one door,
+it can also open another.
+This week, we'll show that quantum mechanics not only
+gives us the tools to compromise secure communication protocols,
+it also provides the resources to enhance secure communication
+through the use of quantum key distribution or QKD.
+In course one, we briefly discussed QKD in the context
+of a one-time pad--
+that is, distributing symmetric keys continuously
+to provide fresh secure keys that can then be used
+continually to encrypt data.
+Here, we'll introduce two general classes of QKD.
+One is based on single photon sources and detectors.
+And the other is based on entangled photons and Bell
+state measurements.
+Both rely on many of the quantum concepts
+you learned in course one, such as entanglement,
+projective measurement, and the no-cloning theorem.
+This week, we'll expand on those concepts.
+We'll also discuss the importance of randomness
+in implementing QKD.
+Pseudo random number generators output sequences of numbers
+with properties that are approximately random.
+But because it's based on an algorithm that
+uses an initial value, called a seed,
+the sequences are never truly random.
+This has implication for cryptography schemes,
+since ideally a current bitstream should not in any way
+be predictable from the previous bitstream.
+On the other hand, the randomness
+of projective measurement is believed to be truly random.
+And this concept, in conjunction with distributed entanglement,
+is a foundation for quantum random number generators.

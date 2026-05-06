@@ -1,0 +1,139 @@
+
+We're all familiar with the laptop computers,
+desktop computers, even servers in the cloud
+that we interact with on a daily basis.
+In this course we'll refer to these as classical computers
+to contrast them with the quantum computers
+we'll be discussing in detail later in the course.
+Classical computers use transistor-based integrated
+circuits-- computer chips--
+to process information and solve problems, whether for
+implementing a financial transaction,
+simulating a weather pattern, developing a CAD design,
+or even just drafting an email to a colleague.
+But it's important to remember that there
+are many alternative ways in which one
+can process information.
+So before we get started, let's hear
+from Professor Ike Chuang about what constitutes a computer
+and computation.
+There are many models of classical computation,
+and what I'd like to do is to illustrate
+a wide variety of models, some of which
+you might find unexpected.
+One model is actually mechanical.
+So for example, the thermostats on the walls, at least at MIT,
+are driven by pneumatic pressure,
+and they actuate a little switch.
+So they're a little kind of computer
+that controls temperature, but it's an analog computer.
+So mechanical computers do not need to be digital.
+They can come in all kinds of shapes and forms.
+And the one that's perhaps the most famous in history
+is Babbage's difference engine.
+We can have electrical circuits, which
+are ways of building a universal classical computer.
+We can also have optical computers
+that are made out of information carriers that
+are photons and not electrons.
+Biological.
+In many ways you and I are walking, talking computers.
+And this idea of biology and biological systems as computers
+is currently going through a renaissance because
+of the notions of neural networks and deep learning
+and these kinds of networks of neurons
+that act as computation.
+I also want to make a distinction
+between these models and some conceptual models.
+These are models by which you might realize computation,
+and these are the conceptual models which
+you might want to realize, one of them
+which is the Turing machine.
+It is a machine that has a head and a tape
+and the tape has slots on it which may have ones and zeros.
+And it is something which has an extent to left and right
+which goes off, in principle, to infinity.
+And the tape is a kind of memory.
+And the thing which is ostensibly
+doing the computation is a head that can read and write
+to this tape, but the only thing inside this head
+is a finite state machine.
+So there are different states and there
+are transitions between the states which happen
+depending on what is read at what
+time and the previous state that it used to exist in.
+And Turing machines like this come in many different flavors.
+There are probabilistic Turing machines,
+and there are universal Turing machines.
+So given a certain kind of structure of a finite state
+machine here, you find that this Turing machine, then,
+is capable of simulating any other Turing machine.
+Here's another model-- cellular automata.
+And here, the model of computation
+is a world which is a grid in two dimensions-- in n
+dimensions-- where the point is that you have
+some kind of state in a local cell of this grid,
+and it undergoes transitions based
+on the state of its neighbors.
+And you may have a local Cartesian neighborhood.
+You may have super Cartesian, but depending
+on what you're surrounded by you change your state.
+You change yourself to becoming empty or filled
+or a different color and so forth.
+And these rules of patterns and pattern changes
+can give rise to computation.
+There's the Von Neumann architecture.
+It is, again, a conceptual model of computation.
+And here the idea is to split memory from something
+which does arithmetic.
+So we have an arithmetic logic unit,
+for example, maybe some registers.
+Memory reads out data and feeds it into this ALU.
+Then the ALU feeds data back into the memory,
+and this is, by and large, the model that's
+used by all processors today, including
+the ones on all of your phones.
+There are DNA-based computation.
+This is the idea that maybe you have strands of bases--
+AGCT-- and then, A and T associate each other,
+and this is called ligation.
+And then G and C also ligate together.
+And, therefore, when you have two different strands of DNA,
+they will pattern match other strands in the right locations
+to produce base-pair ligations.
+And this has been shown to allow a kind of computation
+using polymerase chain reaction tools.
+So that if you have a beaker, for example, with just one
+DNA strand, with PCR you can amplify
+the number of DNA strands there so you
+can detect the existence of a certain sequence of DNA.
+And so it's really neat that you can
+think of using such tools to do computation.
+And I want you to be open to such kinds of models
+of computation, especially today because we are now
+starting to reconsider what it means to do computation.
+In many ways we are at the end of the road of silicon today.
+We cannot rely on Moore's Law much longer to provide
+an increasing scaling that's exponential of capability
+and size and power and weight to build our computers.
+We need to look at different physical mechanisms
+to build computation.
+And that's why all of these different approaches,
+where you represent information in different ways,
+is so appealing to think about because,
+maybe, the next thing beyond silicon
+could be something different-- very different--
+that utilizes these ideas.
+And maybe what we might discover is
+that it's already happening all around us, or within us,
+if we only know how to think about it in the right way.
+So although this class is about quantum computation,
+ostensibly, what I want you to think about
+is how we're also thinking about a broader question of what
+is the physics of computation?
+How do you think of physical mechanisms
+as doing computation?
+And how do you think you might be
+able to exploit physical mechanisms
+and biological mechanisms that exist
+to realize the computations that you want to achieve?

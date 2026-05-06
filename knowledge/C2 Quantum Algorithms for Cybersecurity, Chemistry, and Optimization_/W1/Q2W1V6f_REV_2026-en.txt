@@ -1,0 +1,173 @@
+
+Let us now go in-depth into the actual experimental
+demonstration of quantum factoring with trapped ions.
+Recall that this demonstration has four strategic goals.
+First, to demonstrate fast feed-forward control,
+the capability needed for quantum error correction
+used in fault tolerant quantum computation.
+Second, to integrate quantum memory
+with quantum computation, noting that data memory
+is a vital component of modern classical computation.
+Third, to cascade a sizable number
+of multi-qubit quantum gates deterministically
+and with high fidelity.
+And fourth, to demonstrate predictive modeling
+of the system behavior allowing extrapolation to large scale
+system performance.
+These four goals are challenged by the following four issues.
+First, the Quantum Fourier Transform
+and the modular exponentiation circuit for the hard case
+naively requires over 200 gates.
+And even if the fidelity of each is around 99%,
+the product of these is expected to have a fidelity lower
+than 10%.
+Second, multi-qubit gates, measurement,
+and state initialization can be slow,
+meaning that the total time required can exceed
+a millisecond, which approaches the available quantum coherence
+time.
+Third, multi-qubit gate fidelities
+typically decrease inversely with the number of qubits.
+Fourth, measurement readout causes ions to fluoresce,
+and this scattered light can decohere near ion qubits.
+This experiment brings two main new ideas
+to address these challenges.
+These are a new way to use additional magnetic sub-levels
+of electronic states as a quantum memory
+and an algorithmic structure for the Quantum Fourier
+Transform originally developed by Alexei Kitaev, which reduces
+the number of qubits required.
+We now go through the challenge for each
+of the four goals starting with the first
+to demonstrate feed-forward control.
+For this, we employ Kitaev's version of the Quantum Fourier
+Transform, which replaces the multi-qubit circuit
+by a serial single-qubit circuit based on the fact
+that the outputs are measured.
+This example is for the 3-qubit QFT,
+which is what we need for the factoring demonstration.
+The trapped ion system is suitable for demonstrating
+Kitaev's QFT because of the ability
+to read out single qubits and to re-initialize and reset
+qubit states, all within a given computation which
+continues onward.
+We test Kitaev's QFT using this 3-qubit circuit
+with three different inputs.
+Shown here are the experimental results in red
+and the expected theoretical results in blue
+for the three input states.
+The expected outputs match the experimental data
+with classical squared statistical output
+fidelity of 95%.
+This is much better than the full three ion qubit QFT
+fidelity, due to the quantum memory performance
+being higher than that of multi-qubit gates.
+The second challenge goal to integrate quantum memory
+with quantum computation is tested
+by implementing the quantum order-finding algorithm.
+Recall, this takes a permutation of N objects as input,
+and finds the power r such that the permutation returns
+to identity.
+The quantum phase estimation circuit shown here
+solves the problem with an exponential speed
+up over the classical algorithm compared
+by counting the number of uses of the permutation operation.
+
+For permutations of N equal 4 objects,
+this is the required quantum circuit.
+And it simplifies to this 3-qubit quantum
+circuit using Kitaev's Quantum Fourier Transform.
+The experimental implementation of quantum order-finding
+tested these four possible permutations
+and produced these results shown in red,
+which matched theoretical expectations shown in blue,
+with fidelities of the 80% level.
+The third challenge goal is to implement
+both the easy and hard cases of Shor's quantum factoring
+algorithm.
+Recall that this algorithm is essentially
+a special case of order-finding, where
+the permutation is defined by this modular multiplication
+function.
+Shor's Algorithm begins with a random choice of a number a,
+and the algorithm finds the order of a to the x mod N.
+For factoring 15, there are two non-trivial choices
+of a, namely 11 and 7, as we have seen.
+The a equal 11 case is easy because it has a power of 2,
+while the a equals 7 cases hard because it
+has a longer period of 4.
+We employ the Kitaev version of the QFT for the factoring
+algorithm with 5 qubits, an extra quantum memory qubit
+state and feed-forward control.
+And observe that for the a equal 11 easy case,
+only the controlled a multiplication need
+be implemented, and that requires only two CNOT gates
+realized using 16 laser pulses.
+For the a equals 7 hard case, both the
+controlled a and controlled a squared multiplications
+must be implemented.
+And after peephole compilation, which
+only uses local information and is blind to the final result,
+the circuits required involve two 3-qubit quantum Fredkin
+gates and two CNOT gates, altogether needing 52 laser
+pulses.
+Such complex 3-qubit gates had not
+been realized with trapped ion systems before this experiment.
+Here are the experimental results
+for the easy and hard cases of Shor's Algorithm.
+The data shown in blue and the ideal noiseless
+theoretical expectations shown in red agree to over 90%
+for both cases.
+Incidentally, this is an improvement
+over the NMR implementation from 15 years ago,
+which had much worse performance for the hard case
+compared with the easy case.
+The fourth challenge is to be able to predict
+the actual results, taking into consideration
+all known imperfections and noise
+sources without fine tuning.
+We developed a tool for this, known as TIQC-SPICE,
+inspired by the similarly-named SPICE
+tool important in simulating integrated electronic circuits.
+TIQC-SPICE compiles quantum algorithms into laser pulses,
+simulates the resulting ion internal and motional state
+from the pulses, and analyzes performance
+to produce the same metrics as obtained from the experiment.
+Shown here, our experimental in red, ideal theoretical in blue,
+and TIQC-SPICE simulated results in green for the easy and hard
+cases of the quantum factoring demonstration.
+The TIQC-SPICE results accurately
+predict the experimental results to within error bars, including
+four sources of major errors, namely addressing
+of individual ions by laser beams, dephasing of ion states
+due to fluctuations in the laser or magnetic field,
+the spontaneous emission lifetime of the ion qubits,
+and measurement and gate times.
+In conclusion, the trapped ion demonstration
+of quantum factoring provides a meaningful test of scalability
+by demonstrating fast feed-forward control,
+quantum memory interleaved with quantum computation,
+multiple cascaded and deterministic
+multi-qubit gates, and predictive simulation
+of outputs using TIQC-SPICE.
+These results indicate that scalability is largely
+limited by technical and not fundamental issues.
+For the future, we now understand
+how modular multiplication circuits
+can be realized using an algorithm known as the Quantum
+Fourier Montgomery Multiplier as an elementary building block,
+such that the factoring of an N bit number
+would require 2n plus 2 qubits.
+And on the order of N squared gates,
+of which less than 3N and are 3-qubit
+Toffoli gates, the hard ones to implement.
+A feasible future experiment could thus
+demonstrate the factoring of N equal 21
+for which the hard case has a period of 6.
+Using the Quantum Fourier Montgomery Multiplier circuit,
+this would require 7 ions and 52 Molmer-Sorensen laser pulses.
+
+Altogether, this experiment, while tiny compared with those
+needed to break cryptographic codes,
+shows how meaningful conclusions and serious extrapolations
+can be drawn from this scientific endeavor.

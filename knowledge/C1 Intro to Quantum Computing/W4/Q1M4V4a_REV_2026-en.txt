@@ -1,0 +1,113 @@
+
+Like classical computers, quantum computers
+have a software stack used in the development of programs,
+analysis of designs, and testing of constructive programs
+and circuits.
+The function and examples of these quantum software tools
+is a topic of this section.
+Let's start by contrasting quantum software tools
+to classical ones to perform similar types of functions.
+To create a classical circuit design,
+one may use a schematic capture CAD tool.
+A quantum analog to this is the circuit composer
+from IBM's quantum experience.
+For program based designs, for example,
+HDL circuit designs written in VHDL or Verilog,
+or high level computer programs written in a language like c++,
+one uses a compiler to translate the program to a lower level
+format.
+Numerous quantum compilers exist that perform the same function.
+Some examples include Quipper developed
+by Dalhousie University and Q sharp from Microsoft.
+These quantum compilers typically
+produce an intermediate format known as QASM,
+or quantum assembly language.
+Finally, to translate a program or circuit to a format
+that a machine can execute, one uses an assembler.
+A similar function is required for quantum circuits.
+Each hardware platform will have specific gates
+that it can execute, and the connectivity that it provides
+is specific to the topology constraints of the technology.
+Mapping from QASM programs to hardware
+is something that IBM's QISKit software
+performs, in this case, for superconductor
+based technology.
+For classical circuit designs, a circuit simulation tool
+like Spice is commonly used to determine circuit properties
+like power consumption, timing, and to verify
+correctness of the circuit.
+For quantum circuits, one of the main concerns
+is how noise or errors impact the operation of the circuit.
+Quantum simulation tools exist at multiple levels
+of abstraction that model air in the operation
+of quantum circuits.
+Quantum assimilation tools are also
+used to calculate the fidelity of gates operating
+under the control of control waveforms,
+and to verify correctness of circuits.
+The last category of tools are those used
+for testing of fabricated chips, PCBs, et cetera.
+For classical chips, one may use hardware and software tools,
+such as JTAG and boundary scan to verify
+the operation of a chip.
+For quantum circuits, quantum characterization, validation,
+and verification, or QCVV tools provide a similar function.
+These tools evaluate results obtained from experimental runs
+to calculate the Fidelity devices
+and to verify their correctness.
+Let's now talk about the main steps
+one would use to program a quantum computer.
+Program generation, hardware specific circuit mapping,
+and hardware control and execution.
+The program generation phase is hardware agnostic,
+whereas the other two phases deal
+with aspects that are specific to the architecture
+of the hardware platform.
+Another difference between quantum computing systems
+and classical ones is that the control and processing
+systems are typically separate.
+There is a classical system for control,
+and a quantum device for processing.
+In many cases, these two systems are physically separated.
+For example, a superconducting quantum computer
+may use room temperature instruments for control,
+whereas the quantum circuits require millikelvin
+temperatures, and must be located within a dilution
+refrigerator.
+Let's now look at the three main methods
+for program generation, the first being schematic capture.
+One of the front ends to IBM's quantum experience,
+the composer tool is an example of a schematic capture
+tool, where one uses a GUI to construct a circuit consisting
+of one and two qubit gates and measurements.
+The tool knows of underlying hardware constraints,
+and prevents the user from violating these.
+In many cases, it is more convenient to specify
+the quantum circuit as a program, which
+allows for the specification of larger scale circuits.
+This leads to the motivation behind the second method
+for program generation, high level quantum languages.
+Examples of this are tools like Quipper, Q Sharp, and Scaffold.
+High level programs written in these languages
+are compiled into QASM circuits, or can be
+displayed as circuit diagrams.
+The last method for program generation that we will discuss
+is problem specific generation.
+Google's Open Fermion software tool
+is an example of this method.
+This particular package is designed specifically
+for formulating simulations of quantum chemistry.
+An advantage of this approach is that it
+incorporates the steps and the known methods used
+for the particular class of problems,
+without requiring the user to know detailed domain knowledge
+or the methods used to solve these problems.
+A user specifies a problem at a high level,
+and the package generates a quantum circuit
+that can be mapped to a hardware specific platform or simulation systems.
+And so we have seen the type of software tools
+that are commonly used to program a quantum computer,
+and how these tools are similar to tools
+used for classical computers.
+In the next section, we'll look at other types of software
+used in the control, design, and testing of quantum computers.

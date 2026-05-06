@@ -1,0 +1,3491 @@
+{
+  "ingested_utc": "2026-05-06T09:39:04.615388+00:00",
+  "chunk_count": 387,
+  "succeeded": 187,
+  "embeddings": "skipped (text-only ingest; BM25 search retains coverage)",
+  "documents": [
+    {
+      "id": "mit-xpro:Q1M1V10_REV_2026_v2-en:chunk1",
+      "title": "QCFx1 W1 2: Q1M1V10_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V10_REV_2026_v2-en",
+      "char_count": 1725
+    },
+    {
+      "id": "mit-xpro:Q1M1V10_REV_2026_v2-en:chunk2",
+      "title": "QCFx1 W1 2: Q1M1V10_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V10_REV_2026_v2-en",
+      "char_count": 1705
+    },
+    {
+      "id": "mit-xpro:Q1M1V10_REV_2026_v2-en:chunk3",
+      "title": "QCFx1 W1 2: Q1M1V10_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V10_REV_2026_v2-en",
+      "char_count": 1698
+    },
+    {
+      "id": "mit-xpro:Q1M1V1_REV_2026_v3-en:chunk1",
+      "title": "QCFx1 W1 2: Q1M1V1_REV_2026_v3-en \u2014 Foundations of Quantum Computing (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V1_REV_2026_v3-en",
+      "char_count": 1781
+    },
+    {
+      "id": "mit-xpro:Q1M1V1_REV_2026_v3-en:chunk2",
+      "title": "QCFx1 W1 2: Q1M1V1_REV_2026_v3-en \u2014 Foundations of Quantum Computing (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V1_REV_2026_v3-en",
+      "char_count": 1671
+    },
+    {
+      "id": "mit-xpro:Q1M1V1_REV_2026_v3-en:chunk3",
+      "title": "QCFx1 W1 2: Q1M1V1_REV_2026_v3-en \u2014 Foundations of Quantum Computing (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V1_REV_2026_v3-en",
+      "char_count": 1732
+    },
+    {
+      "id": "mit-xpro:Q1M1V1_REV_2026_v3-en:chunk4",
+      "title": "QCFx1 W1 2: Q1M1V1_REV_2026_v3-en \u2014 Foundations of Quantum Computing (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V1_REV_2026_v3-en",
+      "char_count": 909
+    },
+    {
+      "id": "mit-xpro:Q1M1V2_REV_2026_v2-en:chunk1",
+      "title": "QCFx1 W1 2: Q1M1V2_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V2_REV_2026_v2-en",
+      "char_count": 1650
+    },
+    {
+      "id": "mit-xpro:Q1M1V2_REV_2026_v2-en:chunk2",
+      "title": "QCFx1 W1 2: Q1M1V2_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V2_REV_2026_v2-en",
+      "char_count": 1603
+    },
+    {
+      "id": "mit-xpro:Q1M1V2_REV_2026_v2-en:chunk3",
+      "title": "QCFx1 W1 2: Q1M1V2_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V2_REV_2026_v2-en",
+      "char_count": 1650
+    },
+    {
+      "id": "mit-xpro:Q1M1V2_REV_2026_v2-en:chunk4",
+      "title": "QCFx1 W1 2: Q1M1V2_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V2_REV_2026_v2-en",
+      "char_count": 1734
+    },
+    {
+      "id": "mit-xpro:Q1M1V3_REV_2026_v2-en:chunk1",
+      "title": "QCFx1 W1 2: Q1M1V3_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 1/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V3_REV_2026_v2-en",
+      "char_count": 1756
+    },
+    {
+      "id": "mit-xpro:Q1M1V3_REV_2026_v2-en:chunk2",
+      "title": "QCFx1 W1 2: Q1M1V3_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 2/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V3_REV_2026_v2-en",
+      "char_count": 1677
+    },
+    {
+      "id": "mit-xpro:Q1M1V3_REV_2026_v2-en:chunk3",
+      "title": "QCFx1 W1 2: Q1M1V3_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 3/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V3_REV_2026_v2-en",
+      "char_count": 1798
+    },
+    {
+      "id": "mit-xpro:Q1M1V3_REV_2026_v2-en:chunk4",
+      "title": "QCFx1 W1 2: Q1M1V3_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 4/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V3_REV_2026_v2-en",
+      "char_count": 1697
+    },
+    {
+      "id": "mit-xpro:Q1M1V3_REV_2026_v2-en:chunk5",
+      "title": "QCFx1 W1 2: Q1M1V3_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 5/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V3_REV_2026_v2-en",
+      "char_count": 1361
+    },
+    {
+      "id": "mit-xpro:Q1M1V4_REV_2026_v2-en:chunk1",
+      "title": "QCFx1 W1 2: Q1M1V4_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V4_REV_2026_v2-en",
+      "char_count": 1694
+    },
+    {
+      "id": "mit-xpro:Q1M1V4_REV_2026_v2-en:chunk2",
+      "title": "QCFx1 W1 2: Q1M1V4_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V4_REV_2026_v2-en",
+      "char_count": 1769
+    },
+    {
+      "id": "mit-xpro:Q1M1V4_REV_2026_v2-en:chunk3",
+      "title": "QCFx1 W1 2: Q1M1V4_REV_2026_v2-en \u2014 Foundations of Quantum Computing (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V4_REV_2026_v2-en",
+      "char_count": 855
+    },
+    {
+      "id": "mit-xpro:Q1M1V5_REV_2026-en:chunk1",
+      "title": "QCFx1 W1 2: Q1M1V5_REV_2026-en \u2014 Foundations of Quantum Computing (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V5_REV_2026-en",
+      "char_count": 1757
+    },
+    {
+      "id": "mit-xpro:Q1M1V5_REV_2026-en:chunk2",
+      "title": "QCFx1 W1 2: Q1M1V5_REV_2026-en \u2014 Foundations of Quantum Computing (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V5_REV_2026-en",
+      "char_count": 1795
+    },
+    {
+      "id": "mit-xpro:Q1M1V5_REV_2026-en:chunk3",
+      "title": "QCFx1 W1 2: Q1M1V5_REV_2026-en \u2014 Foundations of Quantum Computing (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V5_REV_2026-en",
+      "char_count": 1437
+    },
+    {
+      "id": "mit-xpro:Q1M1V6_REV_2026-en (1):chunk1",
+      "title": "QCFx1 W1 2: Q1M1V6_REV_2026-en (1) \u2014 Foundations of Quantum Computing (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V6_REV_2026-en (1)",
+      "char_count": 1797
+    },
+    {
+      "id": "mit-xpro:Q1M1V6_REV_2026-en (1):chunk2",
+      "title": "QCFx1 W1 2: Q1M1V6_REV_2026-en (1) \u2014 Foundations of Quantum Computing (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V6_REV_2026-en (1)",
+      "char_count": 1783
+    },
+    {
+      "id": "mit-xpro:Q1M1V6_REV_2026-en (1):chunk3",
+      "title": "QCFx1 W1 2: Q1M1V6_REV_2026-en (1) \u2014 Foundations of Quantum Computing (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V6_REV_2026-en (1)",
+      "char_count": 1091
+    },
+    {
+      "id": "mit-xpro:Q1M1V7_REV_2026-en",
+      "title": "QCFx1 W1 2: Q1M1V7_REV_2026-en \u2014 Foundations of Quantum Computing",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V7_REV_2026-en",
+      "char_count": 1752
+    },
+    {
+      "id": "mit-xpro:Q1M1V8_REV_2026-en:chunk1",
+      "title": "QCFx1 W1 2: Q1M1V8_REV_2026-en \u2014 Foundations of Quantum Computing (part 1/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V8_REV_2026-en",
+      "char_count": 1756
+    },
+    {
+      "id": "mit-xpro:Q1M1V8_REV_2026-en:chunk2",
+      "title": "QCFx1 W1 2: Q1M1V8_REV_2026-en \u2014 Foundations of Quantum Computing (part 2/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V8_REV_2026-en",
+      "char_count": 1451
+    },
+    {
+      "id": "mit-xpro:Q1M1V9_REV_2026-en:chunk1",
+      "title": "QCFx1 W1 2: Q1M1V9_REV_2026-en \u2014 Foundations of Quantum Computing (part 1/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V9_REV_2026-en",
+      "char_count": 1712
+    },
+    {
+      "id": "mit-xpro:Q1M1V9_REV_2026-en:chunk2",
+      "title": "QCFx1 W1 2: Q1M1V9_REV_2026-en \u2014 Foundations of Quantum Computing (part 2/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W1 2",
+      "video_id": "Q1M1V9_REV_2026-en",
+      "char_count": 1157
+    },
+    {
+      "id": "mit-xpro:Q1M2V10_REV_2026_v2-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V10_REV_2026_v2-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V10_REV_2026_v2-en",
+      "char_count": 1701
+    },
+    {
+      "id": "mit-xpro:Q1M2V10_REV_2026_v2-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V10_REV_2026_v2-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V10_REV_2026_v2-en",
+      "char_count": 1066
+    },
+    {
+      "id": "mit-xpro:Q1M2V11a_REV_2026_v2-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V11a_REV_2026_v2-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V11a_REV_2026_v2-en",
+      "char_count": 1778
+    },
+    {
+      "id": "mit-xpro:Q1M2V11a_REV_2026_v2-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V11a_REV_2026_v2-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V11a_REV_2026_v2-en",
+      "char_count": 1733
+    },
+    {
+      "id": "mit-xpro:Q1M2V11a_REV_2026_v2-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V11a_REV_2026_v2-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V11a_REV_2026_v2-en",
+      "char_count": 1782
+    },
+    {
+      "id": "mit-xpro:Q1M2V11a_REV_2026_v2-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V11a_REV_2026_v2-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V11a_REV_2026_v2-en",
+      "char_count": 804
+    },
+    {
+      "id": "mit-xpro:Q1M2V11b_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V11b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V11b_REV_2026-en",
+      "char_count": 1759
+    },
+    {
+      "id": "mit-xpro:Q1M2V11b_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V11b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V11b_REV_2026-en",
+      "char_count": 1789
+    },
+    {
+      "id": "mit-xpro:Q1M2V11b_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V11b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V11b_REV_2026-en",
+      "char_count": 577
+    },
+    {
+      "id": "mit-xpro:Q1M2V12a_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V12a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12a_REV_2026-en",
+      "char_count": 1696
+    },
+    {
+      "id": "mit-xpro:Q1M2V12a_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V12a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12a_REV_2026-en",
+      "char_count": 1171
+    },
+    {
+      "id": "mit-xpro:Q1M2V12b_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V12b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12b_REV_2026-en",
+      "char_count": 1702
+    },
+    {
+      "id": "mit-xpro:Q1M2V12b_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V12b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12b_REV_2026-en",
+      "char_count": 1694
+    },
+    {
+      "id": "mit-xpro:Q1M2V12b_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V12b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12b_REV_2026-en",
+      "char_count": 1787
+    },
+    {
+      "id": "mit-xpro:Q1M2V12b_REV_2026-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V12b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12b_REV_2026-en",
+      "char_count": 983
+    },
+    {
+      "id": "mit-xpro:Q1M2V12c_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V12c_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12c_REV_2026-en",
+      "char_count": 1770
+    },
+    {
+      "id": "mit-xpro:Q1M2V12c_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V12c_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12c_REV_2026-en",
+      "char_count": 1719
+    },
+    {
+      "id": "mit-xpro:Q1M2V12c_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V12c_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12c_REV_2026-en",
+      "char_count": 1732
+    },
+    {
+      "id": "mit-xpro:Q1M2V12c_REV_2026-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V12c_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12c_REV_2026-en",
+      "char_count": 1200
+    },
+    {
+      "id": "mit-xpro:Q1M2V12d_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V12d_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12d_REV_2026-en",
+      "char_count": 1650
+    },
+    {
+      "id": "mit-xpro:Q1M2V12d_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V12d_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V12d_REV_2026-en",
+      "char_count": 1409
+    },
+    {
+      "id": "mit-xpro:Q1M2V13a_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V13a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V13a_REV_2026-en",
+      "char_count": 1741
+    },
+    {
+      "id": "mit-xpro:Q1M2V13a_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V13a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V13a_REV_2026-en",
+      "char_count": 1774
+    },
+    {
+      "id": "mit-xpro:Q1M2V13a_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V13a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V13a_REV_2026-en",
+      "char_count": 1771
+    },
+    {
+      "id": "mit-xpro:Q1M2V13a_REV_2026-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V13a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V13a_REV_2026-en",
+      "char_count": 1357
+    },
+    {
+      "id": "mit-xpro:Q1M2V13b_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V13b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V13b_REV_2026-en",
+      "char_count": 1709
+    },
+    {
+      "id": "mit-xpro:Q1M2V13b_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V13b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V13b_REV_2026-en",
+      "char_count": 1762
+    },
+    {
+      "id": "mit-xpro:Q1M2V13b_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V13b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V13b_REV_2026-en",
+      "char_count": 1531
+    },
+    {
+      "id": "mit-xpro:Q1M2V1_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V1_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V1_REV_2026-en",
+      "char_count": 1650
+    },
+    {
+      "id": "mit-xpro:Q1M2V1_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V1_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V1_REV_2026-en",
+      "char_count": 1719
+    },
+    {
+      "id": "mit-xpro:Q1M2V1_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V1_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V1_REV_2026-en",
+      "char_count": 878
+    },
+    {
+      "id": "mit-xpro:Q1M2V2_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V2_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V2_REV_2026-en",
+      "char_count": 1694
+    },
+    {
+      "id": "mit-xpro:Q1M2V2_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V2_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V2_REV_2026-en",
+      "char_count": 1751
+    },
+    {
+      "id": "mit-xpro:Q1M2V2_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V2_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V2_REV_2026-en",
+      "char_count": 1780
+    },
+    {
+      "id": "mit-xpro:Q1M2V2_REV_2026-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V2_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V2_REV_2026-en",
+      "char_count": 1320
+    },
+    {
+      "id": "mit-xpro:Q1M2V3_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V3_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V3_REV_2026-en",
+      "char_count": 1787
+    },
+    {
+      "id": "mit-xpro:Q1M2V3_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V3_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V3_REV_2026-en",
+      "char_count": 1651
+    },
+    {
+      "id": "mit-xpro:Q1M2V3_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V3_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V3_REV_2026-en",
+      "char_count": 1682
+    },
+    {
+      "id": "mit-xpro:Q1M2V3_REV_2026-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V3_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V3_REV_2026-en",
+      "char_count": 1750
+    },
+    {
+      "id": "mit-xpro:Q1M2V3_REV_2026-en:chunk5",
+      "title": "QCFx1 W2: Q1M2V3_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 5/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V3_REV_2026-en",
+      "char_count": 1725
+    },
+    {
+      "id": "mit-xpro:Q1M2V4a_REV_02_2026_FINAL-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V4a_REV_02_2026_FINAL-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V4a_REV_02_2026_FINAL-en",
+      "char_count": 1747
+    },
+    {
+      "id": "mit-xpro:Q1M2V4a_REV_02_2026_FINAL-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V4a_REV_02_2026_FINAL-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V4a_REV_02_2026_FINAL-en",
+      "char_count": 1750
+    },
+    {
+      "id": "mit-xpro:Q1M2V4a_REV_02_2026_FINAL-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V4a_REV_02_2026_FINAL-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V4a_REV_02_2026_FINAL-en",
+      "char_count": 1785
+    },
+    {
+      "id": "mit-xpro:Q1M2V4b_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V4b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V4b_REV_2026-en",
+      "char_count": 1766
+    },
+    {
+      "id": "mit-xpro:Q1M2V4b_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V4b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V4b_REV_2026-en",
+      "char_count": 1045
+    },
+    {
+      "id": "mit-xpro:Q1M2V4c_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V4c_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V4c_REV_2026-en",
+      "char_count": 1748
+    },
+    {
+      "id": "mit-xpro:Q1M2V4c_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V4c_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V4c_REV_2026-en",
+      "char_count": 1555
+    },
+    {
+      "id": "mit-xpro:Q1M2V4c_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V4c_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V4c_REV_2026-en",
+      "char_count": 509
+    },
+    {
+      "id": "mit-xpro:Q1M2V5_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V5_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V5_REV_2026-en",
+      "char_count": 1761
+    },
+    {
+      "id": "mit-xpro:Q1M2V5_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V5_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V5_REV_2026-en",
+      "char_count": 1689
+    },
+    {
+      "id": "mit-xpro:Q1M2V5_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V5_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V5_REV_2026-en",
+      "char_count": 1525
+    },
+    {
+      "id": "mit-xpro:Q1M2V6_REV_2025-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V6_REV_2025-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V6_REV_2025-en",
+      "char_count": 1591
+    },
+    {
+      "id": "mit-xpro:Q1M2V6_REV_2025-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V6_REV_2025-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V6_REV_2025-en",
+      "char_count": 1683
+    },
+    {
+      "id": "mit-xpro:Q1M2V6_REV_2025-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V6_REV_2025-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V6_REV_2025-en",
+      "char_count": 721
+    },
+    {
+      "id": "mit-xpro:Q1M2V7a_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V7a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V7a_REV_2026-en",
+      "char_count": 1768
+    },
+    {
+      "id": "mit-xpro:Q1M2V7a_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V7a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V7a_REV_2026-en",
+      "char_count": 1784
+    },
+    {
+      "id": "mit-xpro:Q1M2V7a_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V7a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V7a_REV_2026-en",
+      "char_count": 1683
+    },
+    {
+      "id": "mit-xpro:Q1M2V7a_REV_2026-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V7a_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V7a_REV_2026-en",
+      "char_count": 979
+    },
+    {
+      "id": "mit-xpro:Q1M2V7b_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V7b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V7b_REV_2026-en",
+      "char_count": 1738
+    },
+    {
+      "id": "mit-xpro:Q1M2V7b_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V7b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V7b_REV_2026-en",
+      "char_count": 1659
+    },
+    {
+      "id": "mit-xpro:Q1M2V7b_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V7b_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V7b_REV_2026-en",
+      "char_count": 1715
+    },
+    {
+      "id": "mit-xpro:Q1M2V8_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V8_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V8_REV_2026-en",
+      "char_count": 1531
+    },
+    {
+      "id": "mit-xpro:Q1M2V8_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V8_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V8_REV_2026-en",
+      "char_count": 1750
+    },
+    {
+      "id": "mit-xpro:Q1M2V8_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V8_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V8_REV_2026-en",
+      "char_count": 1745
+    },
+    {
+      "id": "mit-xpro:Q1M2V8_REV_2026-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V8_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V8_REV_2026-en",
+      "char_count": 1511
+    },
+    {
+      "id": "mit-xpro:Q1M2V9_REV_2026-en:chunk1",
+      "title": "QCFx1 W2: Q1M2V9_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V9_REV_2026-en",
+      "char_count": 1787
+    },
+    {
+      "id": "mit-xpro:Q1M2V9_REV_2026-en:chunk2",
+      "title": "QCFx1 W2: Q1M2V9_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V9_REV_2026-en",
+      "char_count": 1789
+    },
+    {
+      "id": "mit-xpro:Q1M2V9_REV_2026-en:chunk3",
+      "title": "QCFx1 W2: Q1M2V9_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V9_REV_2026-en",
+      "char_count": 1591
+    },
+    {
+      "id": "mit-xpro:Q1M2V9_REV_2026-en:chunk4",
+      "title": "QCFx1 W2: Q1M2V9_REV_2026-en \u2014 Qubit Modalities & DiVincenzo Criteria (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W2",
+      "video_id": "Q1M2V9_REV_2026-en",
+      "char_count": 1269
+    },
+    {
+      "id": "mit-xpro:Q1M3V1_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V1_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V1_REV_2026-en",
+      "char_count": 1674
+    },
+    {
+      "id": "mit-xpro:Q1M3V1_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V1_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V1_REV_2026-en",
+      "char_count": 1759
+    },
+    {
+      "id": "mit-xpro:Q1M3V1_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V1_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V1_REV_2026-en",
+      "char_count": 1073
+    },
+    {
+      "id": "mit-xpro:Q1M3V2_REV_2026_v2-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V2_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 1/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V2_REV_2026_v2-en",
+      "char_count": 1739
+    },
+    {
+      "id": "mit-xpro:Q1M3V2_REV_2026_v2-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V2_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 2/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V2_REV_2026_v2-en",
+      "char_count": 1722
+    },
+    {
+      "id": "mit-xpro:Q1M3V2_REV_2026_v2-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V2_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 3/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V2_REV_2026_v2-en",
+      "char_count": 1764
+    },
+    {
+      "id": "mit-xpro:Q1M3V2_REV_2026_v2-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V2_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 4/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V2_REV_2026_v2-en",
+      "char_count": 1602
+    },
+    {
+      "id": "mit-xpro:Q1M3V2_REV_2026_v2-en:chunk5",
+      "title": "QCFx1 W3 2: Q1M3V2_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 5/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V2_REV_2026_v2-en",
+      "char_count": 731
+    },
+    {
+      "id": "mit-xpro:Q1M3V3_REV_2026_v2-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V3_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V3_REV_2026_v2-en",
+      "char_count": 1618
+    },
+    {
+      "id": "mit-xpro:Q1M3V3_REV_2026_v2-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V3_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V3_REV_2026_v2-en",
+      "char_count": 1619
+    },
+    {
+      "id": "mit-xpro:Q1M3V3_REV_2026_v2-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V3_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V3_REV_2026_v2-en",
+      "char_count": 1723
+    },
+    {
+      "id": "mit-xpro:Q1M3V3_REV_2026_v2-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V3_REV_2026_v2-en \u2014 Quantum Gates & Circuits (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V3_REV_2026_v2-en",
+      "char_count": 1607
+    },
+    {
+      "id": "mit-xpro:Q1M3V4_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V4_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V4_REV_2026-en",
+      "char_count": 1766
+    },
+    {
+      "id": "mit-xpro:Q1M3V4_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V4_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V4_REV_2026-en",
+      "char_count": 1744
+    },
+    {
+      "id": "mit-xpro:Q1M3V4_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V4_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V4_REV_2026-en",
+      "char_count": 544
+    },
+    {
+      "id": "mit-xpro:Q1M3V5_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V5_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V5_REV_2026-en",
+      "char_count": 1599
+    },
+    {
+      "id": "mit-xpro:Q1M3V5_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V5_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V5_REV_2026-en",
+      "char_count": 1794
+    },
+    {
+      "id": "mit-xpro:Q1M3V5_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V5_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V5_REV_2026-en",
+      "char_count": 1678
+    },
+    {
+      "id": "mit-xpro:Q1M3V5_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V5_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V5_REV_2026-en",
+      "char_count": 577
+    },
+    {
+      "id": "mit-xpro:Q1M3V6_REV_2026-en",
+      "title": "QCFx1 W3 2: Q1M3V6_REV_2026-en \u2014 Quantum Gates & Circuits",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V6_REV_2026-en",
+      "char_count": 1086
+    },
+    {
+      "id": "mit-xpro:Q1M3V7a_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7a_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7a_REV_2026-en",
+      "char_count": 1688
+    },
+    {
+      "id": "mit-xpro:Q1M3V7a_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7a_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7a_REV_2026-en",
+      "char_count": 1483
+    },
+    {
+      "id": "mit-xpro:Q1M3V7a_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7a_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7a_REV_2026-en",
+      "char_count": 1769
+    },
+    {
+      "id": "mit-xpro:Q1M3V7a_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V7a_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7a_REV_2026-en",
+      "char_count": 1654
+    },
+    {
+      "id": "mit-xpro:Q1M3V7a_REV_2026-en:chunk5",
+      "title": "QCFx1 W3 2: Q1M3V7a_REV_2026-en \u2014 Quantum Gates & Circuits (part 5/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7a_REV_2026-en",
+      "char_count": 1056
+    },
+    {
+      "id": "mit-xpro:Q1M3V7b_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7b_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7b_REV_2026-en",
+      "char_count": 1688
+    },
+    {
+      "id": "mit-xpro:Q1M3V7b_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7b_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7b_REV_2026-en",
+      "char_count": 1735
+    },
+    {
+      "id": "mit-xpro:Q1M3V7b_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7b_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7b_REV_2026-en",
+      "char_count": 1797
+    },
+    {
+      "id": "mit-xpro:Q1M3V7b_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V7b_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7b_REV_2026-en",
+      "char_count": 1744
+    },
+    {
+      "id": "mit-xpro:Q1M3V7b_REV_2026-en:chunk5",
+      "title": "QCFx1 W3 2: Q1M3V7b_REV_2026-en \u2014 Quantum Gates & Circuits (part 5/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7b_REV_2026-en",
+      "char_count": 1638
+    },
+    {
+      "id": "mit-xpro:Q1M3V7b_REV_2026-en:chunk6",
+      "title": "QCFx1 W3 2: Q1M3V7b_REV_2026-en \u2014 Quantum Gates & Circuits (part 6/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7b_REV_2026-en",
+      "char_count": 1155
+    },
+    {
+      "id": "mit-xpro:Q1M3V7c_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7c_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7c_REV_2026-en",
+      "char_count": 1753
+    },
+    {
+      "id": "mit-xpro:Q1M3V7c_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7c_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7c_REV_2026-en",
+      "char_count": 1781
+    },
+    {
+      "id": "mit-xpro:Q1M3V7c_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7c_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7c_REV_2026-en",
+      "char_count": 1736
+    },
+    {
+      "id": "mit-xpro:Q1M3V7c_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V7c_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7c_REV_2026-en",
+      "char_count": 1644
+    },
+    {
+      "id": "mit-xpro:Q1M3V7c_REV_2026-en:chunk5",
+      "title": "QCFx1 W3 2: Q1M3V7c_REV_2026-en \u2014 Quantum Gates & Circuits (part 5/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7c_REV_2026-en",
+      "char_count": 376
+    },
+    {
+      "id": "mit-xpro:Q1M3V7e_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7e_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7e_REV_2026-en",
+      "char_count": 1633
+    },
+    {
+      "id": "mit-xpro:Q1M3V7e_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7e_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7e_REV_2026-en",
+      "char_count": 1668
+    },
+    {
+      "id": "mit-xpro:Q1M3V7e_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7e_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7e_REV_2026-en",
+      "char_count": 1484
+    },
+    {
+      "id": "mit-xpro:Q1M3V7e_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V7e_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7e_REV_2026-en",
+      "char_count": 1182
+    },
+    {
+      "id": "mit-xpro:Q1M3V7f_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7f_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7f_REV_2026-en",
+      "char_count": 1767
+    },
+    {
+      "id": "mit-xpro:Q1M3V7f_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7f_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7f_REV_2026-en",
+      "char_count": 1737
+    },
+    {
+      "id": "mit-xpro:Q1M3V7f_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7f_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7f_REV_2026-en",
+      "char_count": 1306
+    },
+    {
+      "id": "mit-xpro:Q1M3V7g_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7g_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7g_REV_2026-en",
+      "char_count": 1772
+    },
+    {
+      "id": "mit-xpro:Q1M3V7g_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7g_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7g_REV_2026-en",
+      "char_count": 1757
+    },
+    {
+      "id": "mit-xpro:Q1M3V7g_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7g_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7g_REV_2026-en",
+      "char_count": 1761
+    },
+    {
+      "id": "mit-xpro:Q1M3V7g_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V7g_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7g_REV_2026-en",
+      "char_count": 1600
+    },
+    {
+      "id": "mit-xpro:Q1M3V7h_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7h_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7h_REV_2026-en",
+      "char_count": 1708
+    },
+    {
+      "id": "mit-xpro:Q1M3V7h_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7h_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7h_REV_2026-en",
+      "char_count": 1762
+    },
+    {
+      "id": "mit-xpro:Q1M3V7h_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7h_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7h_REV_2026-en",
+      "char_count": 1484
+    },
+    {
+      "id": "mit-xpro:Q1M3V7i_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7i_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7i_REV_2026-en",
+      "char_count": 1732
+    },
+    {
+      "id": "mit-xpro:Q1M3V7i_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7i_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7i_REV_2026-en",
+      "char_count": 1751
+    },
+    {
+      "id": "mit-xpro:Q1M3V7i_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7i_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7i_REV_2026-en",
+      "char_count": 1772
+    },
+    {
+      "id": "mit-xpro:Q1M3V7i_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V7i_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7i_REV_2026-en",
+      "char_count": 1750
+    },
+    {
+      "id": "mit-xpro:Q1M3V7i_REV_2026-en:chunk5",
+      "title": "QCFx1 W3 2: Q1M3V7i_REV_2026-en \u2014 Quantum Gates & Circuits (part 5/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7i_REV_2026-en",
+      "char_count": 451
+    },
+    {
+      "id": "mit-xpro:Q1M3V7j_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7j_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7j_REV_2026-en",
+      "char_count": 1792
+    },
+    {
+      "id": "mit-xpro:Q1M3V7j_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7j_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7j_REV_2026-en",
+      "char_count": 1666
+    },
+    {
+      "id": "mit-xpro:Q1M3V7j_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7j_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7j_REV_2026-en",
+      "char_count": 1713
+    },
+    {
+      "id": "mit-xpro:Q1M3V7j_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V7j_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7j_REV_2026-en",
+      "char_count": 1782
+    },
+    {
+      "id": "mit-xpro:Q1M3V7j_REV_2026-en:chunk5",
+      "title": "QCFx1 W3 2: Q1M3V7j_REV_2026-en \u2014 Quantum Gates & Circuits (part 5/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7j_REV_2026-en",
+      "char_count": 1355
+    },
+    {
+      "id": "mit-xpro:Q1M3V7k_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V7k_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7k_REV_2026-en",
+      "char_count": 1621
+    },
+    {
+      "id": "mit-xpro:Q1M3V7k_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V7k_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7k_REV_2026-en",
+      "char_count": 1654
+    },
+    {
+      "id": "mit-xpro:Q1M3V7k_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V7k_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7k_REV_2026-en",
+      "char_count": 1741
+    },
+    {
+      "id": "mit-xpro:Q1M3V7k_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V7k_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7k_REV_2026-en",
+      "char_count": 1778
+    },
+    {
+      "id": "mit-xpro:Q1M3V7k_REV_2026-en:chunk5",
+      "title": "QCFx1 W3 2: Q1M3V7k_REV_2026-en \u2014 Quantum Gates & Circuits (part 5/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7k_REV_2026-en",
+      "char_count": 1691
+    },
+    {
+      "id": "mit-xpro:Q1M3V7k_REV_2026-en:chunk6",
+      "title": "QCFx1 W3 2: Q1M3V7k_REV_2026-en \u2014 Quantum Gates & Circuits (part 6/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V7k_REV_2026-en",
+      "char_count": 1248
+    },
+    {
+      "id": "mit-xpro:Q1M3V8_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V8_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/7)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V8_REV_2026-en",
+      "char_count": 1693
+    },
+    {
+      "id": "mit-xpro:Q1M3V8_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V8_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/7)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V8_REV_2026-en",
+      "char_count": 1758
+    },
+    {
+      "id": "mit-xpro:Q1M3V8_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V8_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/7)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V8_REV_2026-en",
+      "char_count": 1697
+    },
+    {
+      "id": "mit-xpro:Q1M3V8_REV_2026-en:chunk4",
+      "title": "QCFx1 W3 2: Q1M3V8_REV_2026-en \u2014 Quantum Gates & Circuits (part 4/7)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V8_REV_2026-en",
+      "char_count": 1691
+    },
+    {
+      "id": "mit-xpro:Q1M3V8_REV_2026-en:chunk5",
+      "title": "QCFx1 W3 2: Q1M3V8_REV_2026-en \u2014 Quantum Gates & Circuits (part 5/7)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V8_REV_2026-en",
+      "char_count": 1794
+    },
+    {
+      "id": "mit-xpro:Q1M3V8_REV_2026-en:chunk6",
+      "title": "QCFx1 W3 2: Q1M3V8_REV_2026-en \u2014 Quantum Gates & Circuits (part 6/7)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V8_REV_2026-en",
+      "char_count": 1613
+    },
+    {
+      "id": "mit-xpro:Q1M3V8_REV_2026-en:chunk7",
+      "title": "QCFx1 W3 2: Q1M3V8_REV_2026-en \u2014 Quantum Gates & Circuits (part 7/7)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V8_REV_2026-en",
+      "char_count": 1086
+    },
+    {
+      "id": "mit-xpro:Q1M3V9_REV_2026-en:chunk1",
+      "title": "QCFx1 W3 2: Q1M3V9_REV_2026-en \u2014 Quantum Gates & Circuits (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V9_REV_2026-en",
+      "char_count": 1717
+    },
+    {
+      "id": "mit-xpro:Q1M3V9_REV_2026-en:chunk2",
+      "title": "QCFx1 W3 2: Q1M3V9_REV_2026-en \u2014 Quantum Gates & Circuits (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V9_REV_2026-en",
+      "char_count": 1744
+    },
+    {
+      "id": "mit-xpro:Q1M3V9_REV_2026-en:chunk3",
+      "title": "QCFx1 W3 2: Q1M3V9_REV_2026-en \u2014 Quantum Gates & Circuits (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W3 2",
+      "video_id": "Q1M3V9_REV_2026-en",
+      "char_count": 667
+    },
+    {
+      "id": "mit-xpro:Q1M4V1_REV_2026-en:chunk1",
+      "title": "QCFx1 W4: Q1M4V1_REV_2026-en \u2014 Algorithms & Software Stack (part 1/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V1_REV_2026-en",
+      "char_count": 1795
+    },
+    {
+      "id": "mit-xpro:Q1M4V1_REV_2026-en:chunk2",
+      "title": "QCFx1 W4: Q1M4V1_REV_2026-en \u2014 Algorithms & Software Stack (part 2/2)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V1_REV_2026-en",
+      "char_count": 1353
+    },
+    {
+      "id": "mit-xpro:Q1M4V2_REV_2026-en:chunk1",
+      "title": "QCFx1 W4: Q1M4V2_REV_2026-en \u2014 Algorithms & Software Stack (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V2_REV_2026-en",
+      "char_count": 1708
+    },
+    {
+      "id": "mit-xpro:Q1M4V2_REV_2026-en:chunk2",
+      "title": "QCFx1 W4: Q1M4V2_REV_2026-en \u2014 Algorithms & Software Stack (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V2_REV_2026-en",
+      "char_count": 1638
+    },
+    {
+      "id": "mit-xpro:Q1M4V2_REV_2026-en:chunk3",
+      "title": "QCFx1 W4: Q1M4V2_REV_2026-en \u2014 Algorithms & Software Stack (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V2_REV_2026-en",
+      "char_count": 850
+    },
+    {
+      "id": "mit-xpro:Q1M4V3_REV_2026-en:chunk1",
+      "title": "QCFx1 W4: Q1M4V3_REV_2026-en \u2014 Algorithms & Software Stack (part 1/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V3_REV_2026-en",
+      "char_count": 1711
+    },
+    {
+      "id": "mit-xpro:Q1M4V3_REV_2026-en:chunk2",
+      "title": "QCFx1 W4: Q1M4V3_REV_2026-en \u2014 Algorithms & Software Stack (part 2/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V3_REV_2026-en",
+      "char_count": 1775
+    },
+    {
+      "id": "mit-xpro:Q1M4V3_REV_2026-en:chunk3",
+      "title": "QCFx1 W4: Q1M4V3_REV_2026-en \u2014 Algorithms & Software Stack (part 3/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V3_REV_2026-en",
+      "char_count": 1745
+    },
+    {
+      "id": "mit-xpro:Q1M4V3_REV_2026-en:chunk4",
+      "title": "QCFx1 W4: Q1M4V3_REV_2026-en \u2014 Algorithms & Software Stack (part 4/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V3_REV_2026-en",
+      "char_count": 1743
+    },
+    {
+      "id": "mit-xpro:Q1M4V3_REV_2026-en:chunk5",
+      "title": "QCFx1 W4: Q1M4V3_REV_2026-en \u2014 Algorithms & Software Stack (part 5/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V3_REV_2026-en",
+      "char_count": 1751
+    },
+    {
+      "id": "mit-xpro:Q1M4V3_REV_2026-en:chunk6",
+      "title": "QCFx1 W4: Q1M4V3_REV_2026-en \u2014 Algorithms & Software Stack (part 6/6)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V3_REV_2026-en",
+      "char_count": 930
+    },
+    {
+      "id": "mit-xpro:Q1M4V4a_REV_2026-en:chunk1",
+      "title": "QCFx1 W4: Q1M4V4a_REV_2026-en \u2014 Algorithms & Software Stack (part 1/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V4a_REV_2026-en",
+      "char_count": 1779
+    },
+    {
+      "id": "mit-xpro:Q1M4V4a_REV_2026-en:chunk2",
+      "title": "QCFx1 W4: Q1M4V4a_REV_2026-en \u2014 Algorithms & Software Stack (part 2/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V4a_REV_2026-en",
+      "char_count": 1773
+    },
+    {
+      "id": "mit-xpro:Q1M4V4a_REV_2026-en:chunk3",
+      "title": "QCFx1 W4: Q1M4V4a_REV_2026-en \u2014 Algorithms & Software Stack (part 3/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V4a_REV_2026-en",
+      "char_count": 1696
+    },
+    {
+      "id": "mit-xpro:Q1M4V4a_REV_2026-en:chunk4",
+      "title": "QCFx1 W4: Q1M4V4a_REV_2026-en \u2014 Algorithms & Software Stack (part 4/4)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V4a_REV_2026-en",
+      "char_count": 493
+    },
+    {
+      "id": "mit-xpro:Q1M4V4b_REV_2026-en:chunk1",
+      "title": "QCFx1 W4: Q1M4V4b_REV_2026-en \u2014 Algorithms & Software Stack (part 1/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V4b_REV_2026-en",
+      "char_count": 1702
+    },
+    {
+      "id": "mit-xpro:Q1M4V4b_REV_2026-en:chunk2",
+      "title": "QCFx1 W4: Q1M4V4b_REV_2026-en \u2014 Algorithms & Software Stack (part 2/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V4b_REV_2026-en",
+      "char_count": 1727
+    },
+    {
+      "id": "mit-xpro:Q1M4V4b_REV_2026-en:chunk3",
+      "title": "QCFx1 W4: Q1M4V4b_REV_2026-en \u2014 Algorithms & Software Stack (part 3/3)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V4b_REV_2026-en",
+      "char_count": 1391
+    },
+    {
+      "id": "mit-xpro:Q1M4V5_REV_2026-en:chunk1",
+      "title": "QCFx1 W4: Q1M4V5_REV_2026-en \u2014 Algorithms & Software Stack (part 1/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V5_REV_2026-en",
+      "char_count": 1659
+    },
+    {
+      "id": "mit-xpro:Q1M4V5_REV_2026-en:chunk2",
+      "title": "QCFx1 W4: Q1M4V5_REV_2026-en \u2014 Algorithms & Software Stack (part 2/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V5_REV_2026-en",
+      "char_count": 1771
+    },
+    {
+      "id": "mit-xpro:Q1M4V5_REV_2026-en:chunk3",
+      "title": "QCFx1 W4: Q1M4V5_REV_2026-en \u2014 Algorithms & Software Stack (part 3/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V5_REV_2026-en",
+      "char_count": 1755
+    },
+    {
+      "id": "mit-xpro:Q1M4V5_REV_2026-en:chunk4",
+      "title": "QCFx1 W4: Q1M4V5_REV_2026-en \u2014 Algorithms & Software Stack (part 4/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V5_REV_2026-en",
+      "char_count": 1751
+    },
+    {
+      "id": "mit-xpro:Q1M4V5_REV_2026-en:chunk5",
+      "title": "QCFx1 W4: Q1M4V5_REV_2026-en \u2014 Algorithms & Software Stack (part 5/5)",
+      "category": "mit-xpro-c1",
+      "course_code": "QCFx1",
+      "week": "W4",
+      "video_id": "Q1M4V5_REV_2026-en",
+      "char_count": 1683
+    },
+    {
+      "id": "mit-xpro:Q2W1V1_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V1_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V1_REV_2026_v2-en",
+      "char_count": 1764
+    },
+    {
+      "id": "mit-xpro:Q2W1V1_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V1_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V1_REV_2026_v2-en",
+      "char_count": 1753
+    },
+    {
+      "id": "mit-xpro:Q2W1V1_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V1_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V1_REV_2026_v2-en",
+      "char_count": 334
+    },
+    {
+      "id": "mit-xpro:Q2W1V2_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V2_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V2_REV_2026_v2-en",
+      "char_count": 1756
+    },
+    {
+      "id": "mit-xpro:Q2W1V2_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V2_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V2_REV_2026_v2-en",
+      "char_count": 1677
+    },
+    {
+      "id": "mit-xpro:Q2W1V2_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V2_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V2_REV_2026_v2-en",
+      "char_count": 1708
+    },
+    {
+      "id": "mit-xpro:Q2W1V2_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W1: Q2W1V2_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V2_REV_2026_v2-en",
+      "char_count": 1169
+    },
+    {
+      "id": "mit-xpro:Q2W1V4a_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V4a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4a_REV_2026-en",
+      "char_count": 1745
+    },
+    {
+      "id": "mit-xpro:Q2W1V4a_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V4a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4a_REV_2026-en",
+      "char_count": 1697
+    },
+    {
+      "id": "mit-xpro:Q2W1V4a_REV_2026-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V4a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4a_REV_2026-en",
+      "char_count": 1736
+    },
+    {
+      "id": "mit-xpro:Q2W1V4a_REV_2026-en:chunk4",
+      "title": "QCFx2 W1: Q2W1V4a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4a_REV_2026-en",
+      "char_count": 1625
+    },
+    {
+      "id": "mit-xpro:Q2W1V4a_REV_2026-en:chunk5",
+      "title": "QCFx2 W1: Q2W1V4a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4a_REV_2026-en",
+      "char_count": 1747
+    },
+    {
+      "id": "mit-xpro:Q2W1V4a_REV_2026-en:chunk6",
+      "title": "QCFx2 W1: Q2W1V4a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4a_REV_2026-en",
+      "char_count": 1296
+    },
+    {
+      "id": "mit-xpro:Q2W1V4b_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V4b_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4b_REV_2026-en",
+      "char_count": 1683
+    },
+    {
+      "id": "mit-xpro:Q2W1V4b_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V4b_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4b_REV_2026-en",
+      "char_count": 1750
+    },
+    {
+      "id": "mit-xpro:Q2W1V4b_REV_2026-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V4b_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4b_REV_2026-en",
+      "char_count": 1757
+    },
+    {
+      "id": "mit-xpro:Q2W1V4b_REV_2026-en:chunk4",
+      "title": "QCFx2 W1: Q2W1V4b_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 4/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4b_REV_2026-en",
+      "char_count": 1733
+    },
+    {
+      "id": "mit-xpro:Q2W1V4b_REV_2026-en:chunk5",
+      "title": "QCFx2 W1: Q2W1V4b_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 5/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V4b_REV_2026-en",
+      "char_count": 378
+    },
+    {
+      "id": "mit-xpro:Q2W1V5a_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V5a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5a_REV_2026-en",
+      "char_count": 1753
+    },
+    {
+      "id": "mit-xpro:Q2W1V5a_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V5a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5a_REV_2026-en",
+      "char_count": 1779
+    },
+    {
+      "id": "mit-xpro:Q2W1V5a_REV_2026-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V5a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5a_REV_2026-en",
+      "char_count": 383
+    },
+    {
+      "id": "mit-xpro:Q2W1V5b_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V5b_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5b_REV_2026-en",
+      "char_count": 1777
+    },
+    {
+      "id": "mit-xpro:Q2W1V5b_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V5b_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5b_REV_2026-en",
+      "char_count": 1783
+    },
+    {
+      "id": "mit-xpro:Q2W1V5b_REV_2026-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V5b_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5b_REV_2026-en",
+      "char_count": 595
+    },
+    {
+      "id": "mit-xpro:Q2W1V5c_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V5c_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5c_REV_2026-en",
+      "char_count": 1764
+    },
+    {
+      "id": "mit-xpro:Q2W1V5c_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V5c_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5c_REV_2026-en",
+      "char_count": 679
+    },
+    {
+      "id": "mit-xpro:Q2W1V5d_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V5d_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5d_REV_2026-en",
+      "char_count": 1756
+    },
+    {
+      "id": "mit-xpro:Q2W1V5d_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V5d_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V5d_REV_2026-en",
+      "char_count": 1473
+    },
+    {
+      "id": "mit-xpro:Q2W1V6a_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V6a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6a_REV_2026-en",
+      "char_count": 1752
+    },
+    {
+      "id": "mit-xpro:Q2W1V6a_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V6a_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6a_REV_2026-en",
+      "char_count": 1739
+    },
+    {
+      "id": "mit-xpro:Q2W1V6b_REV_2024-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V6b_REV_2024-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6b_REV_2024-en",
+      "char_count": 1790
+    },
+    {
+      "id": "mit-xpro:Q2W1V6b_REV_2024-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V6b_REV_2024-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6b_REV_2024-en",
+      "char_count": 1789
+    },
+    {
+      "id": "mit-xpro:Q2W1V6b_REV_2024-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V6b_REV_2024-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6b_REV_2024-en",
+      "char_count": 1629
+    },
+    {
+      "id": "mit-xpro:Q2W1V6b_REV_2024-en:chunk4",
+      "title": "QCFx2 W1: Q2W1V6b_REV_2024-en \u2014 Quantum Cryptography & Shor's Algorithm (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6b_REV_2024-en",
+      "char_count": 1786
+    },
+    {
+      "id": "mit-xpro:Q2W1V6b_REV_2024-en:chunk5",
+      "title": "QCFx2 W1: Q2W1V6b_REV_2024-en \u2014 Quantum Cryptography & Shor's Algorithm (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6b_REV_2024-en",
+      "char_count": 1754
+    },
+    {
+      "id": "mit-xpro:Q2W1V6b_REV_2024-en:chunk6",
+      "title": "QCFx2 W1: Q2W1V6b_REV_2024-en \u2014 Quantum Cryptography & Shor's Algorithm (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6b_REV_2024-en",
+      "char_count": 498
+    },
+    {
+      "id": "mit-xpro:Q2W1V6c_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V6c_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6c_REV_2026-en",
+      "char_count": 1793
+    },
+    {
+      "id": "mit-xpro:Q2W1V6c_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V6c_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6c_REV_2026-en",
+      "char_count": 1768
+    },
+    {
+      "id": "mit-xpro:Q2W1V6c_REV_2026-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V6c_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6c_REV_2026-en",
+      "char_count": 877
+    },
+    {
+      "id": "mit-xpro:Q2W1V6d_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V6d_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6d_REV_2026_v2-en",
+      "char_count": 1748
+    },
+    {
+      "id": "mit-xpro:Q2W1V6d_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V6d_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6d_REV_2026_v2-en",
+      "char_count": 1618
+    },
+    {
+      "id": "mit-xpro:Q2W1V6d_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V6d_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6d_REV_2026_v2-en",
+      "char_count": 1784
+    },
+    {
+      "id": "mit-xpro:Q2W1V6d_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W1: Q2W1V6d_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 4/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6d_REV_2026_v2-en",
+      "char_count": 1708
+    },
+    {
+      "id": "mit-xpro:Q2W1V6d_REV_2026_v2-en:chunk5",
+      "title": "QCFx2 W1: Q2W1V6d_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 5/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6d_REV_2026_v2-en",
+      "char_count": 1795
+    },
+    {
+      "id": "mit-xpro:Q2W1V6d_REV_2026_v2-en:chunk6",
+      "title": "QCFx2 W1: Q2W1V6d_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 6/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6d_REV_2026_v2-en",
+      "char_count": 1776
+    },
+    {
+      "id": "mit-xpro:Q2W1V6d_REV_2026_v2-en:chunk7",
+      "title": "QCFx2 W1: Q2W1V6d_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 7/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6d_REV_2026_v2-en",
+      "char_count": 733
+    },
+    {
+      "id": "mit-xpro:Q2W1V6e_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V6e_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6e_REV_2026-en",
+      "char_count": 1797
+    },
+    {
+      "id": "mit-xpro:Q2W1V6e_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V6e_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6e_REV_2026-en",
+      "char_count": 1790
+    },
+    {
+      "id": "mit-xpro:Q2W1V6e_REV_2026-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V6e_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6e_REV_2026-en",
+      "char_count": 1542
+    },
+    {
+      "id": "mit-xpro:Q2W1V6e_REV_2026-en:chunk4",
+      "title": "QCFx2 W1: Q2W1V6e_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6e_REV_2026-en",
+      "char_count": 1709
+    },
+    {
+      "id": "mit-xpro:Q2W1V6e_REV_2026-en:chunk5",
+      "title": "QCFx2 W1: Q2W1V6e_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6e_REV_2026-en",
+      "char_count": 1544
+    },
+    {
+      "id": "mit-xpro:Q2W1V6e_REV_2026-en:chunk6",
+      "title": "QCFx2 W1: Q2W1V6e_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6e_REV_2026-en",
+      "char_count": 644
+    },
+    {
+      "id": "mit-xpro:Q2W1V6f_REV_2026-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V6f_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6f_REV_2026-en",
+      "char_count": 1698
+    },
+    {
+      "id": "mit-xpro:Q2W1V6f_REV_2026-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V6f_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6f_REV_2026-en",
+      "char_count": 1733
+    },
+    {
+      "id": "mit-xpro:Q2W1V6f_REV_2026-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V6f_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6f_REV_2026-en",
+      "char_count": 1620
+    },
+    {
+      "id": "mit-xpro:Q2W1V6f_REV_2026-en:chunk4",
+      "title": "QCFx2 W1: Q2W1V6f_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 4/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6f_REV_2026-en",
+      "char_count": 1579
+    },
+    {
+      "id": "mit-xpro:Q2W1V6f_REV_2026-en:chunk5",
+      "title": "QCFx2 W1: Q2W1V6f_REV_2026-en \u2014 Quantum Cryptography & Shor's Algorithm (part 5/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6f_REV_2026-en",
+      "char_count": 1784
+    },
+    {
+      "id": "mit-xpro:Q2W1V6g_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W1: Q2W1V6g_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 1/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6g_REV_2026_v2-en",
+      "char_count": 1775
+    },
+    {
+      "id": "mit-xpro:Q2W1V6g_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W1: Q2W1V6g_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 2/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6g_REV_2026_v2-en",
+      "char_count": 1701
+    },
+    {
+      "id": "mit-xpro:Q2W1V6g_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W1: Q2W1V6g_REV_2026_v2-en \u2014 Quantum Cryptography & Shor's Algorithm (part 3/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W1",
+      "video_id": "Q2W1V6g_REV_2026_v2-en",
+      "char_count": 947
+    },
+    {
+      "id": "mit-xpro:Q2W2V1_REV_2026-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V1_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 1/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V1_REV_2026-en",
+      "char_count": 1773
+    },
+    {
+      "id": "mit-xpro:Q2W2V1_REV_2026-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V1_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 2/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V1_REV_2026-en",
+      "char_count": 896
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en (1):chunk1",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en (1) \u2014 Grover's Algorithm & Quantum Search (part 1/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en (1)",
+      "char_count": 1538
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en (1):chunk2",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en (1) \u2014 Grover's Algorithm & Quantum Search (part 2/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en (1)",
+      "char_count": 1626
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en (1):chunk3",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en (1) \u2014 Grover's Algorithm & Quantum Search (part 3/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en (1)",
+      "char_count": 1750
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en (1):chunk4",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en (1) \u2014 Grover's Algorithm & Quantum Search (part 4/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en (1)",
+      "char_count": 1746
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en (1):chunk5",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en (1) \u2014 Grover's Algorithm & Quantum Search (part 5/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en (1)",
+      "char_count": 643
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en \u2014 Grover's Algorithm & Quantum Search (part 1/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en",
+      "char_count": 1538
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en \u2014 Grover's Algorithm & Quantum Search (part 2/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en",
+      "char_count": 1626
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en \u2014 Grover's Algorithm & Quantum Search (part 3/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en",
+      "char_count": 1750
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en:chunk4",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en \u2014 Grover's Algorithm & Quantum Search (part 4/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en",
+      "char_count": 1746
+    },
+    {
+      "id": "mit-xpro:Q2W2V2_REV_2026_v3_FINAL-en:chunk5",
+      "title": "QCFx2 W2: Q2W2V2_REV_2026_v3_FINAL-en \u2014 Grover's Algorithm & Quantum Search (part 5/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V2_REV_2026_v3_FINAL-en",
+      "char_count": 643
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en (1):chunk1",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en (1) \u2014 Grover's Algorithm & Quantum Search (part 1/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en (1)",
+      "char_count": 1696
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en (1):chunk2",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en (1) \u2014 Grover's Algorithm & Quantum Search (part 2/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en (1)",
+      "char_count": 1549
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en (1):chunk3",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en (1) \u2014 Grover's Algorithm & Quantum Search (part 3/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en (1)",
+      "char_count": 1772
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en (1):chunk4",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en (1) \u2014 Grover's Algorithm & Quantum Search (part 4/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en (1)",
+      "char_count": 1763
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en (1):chunk5",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en (1) \u2014 Grover's Algorithm & Quantum Search (part 5/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en (1)",
+      "char_count": 1758
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en (1):chunk6",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en (1) \u2014 Grover's Algorithm & Quantum Search (part 6/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en (1)",
+      "char_count": 1691
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en (1):chunk7",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en (1) \u2014 Grover's Algorithm & Quantum Search (part 7/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en (1)",
+      "char_count": 1603
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 1/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en",
+      "char_count": 1696
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 2/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en",
+      "char_count": 1549
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 3/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en",
+      "char_count": 1772
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en:chunk4",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 4/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en",
+      "char_count": 1763
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en:chunk5",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 5/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en",
+      "char_count": 1758
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en:chunk6",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 6/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en",
+      "char_count": 1691
+    },
+    {
+      "id": "mit-xpro:Q2W2V3_REV_2026-en:chunk7",
+      "title": "QCFx2 W2: Q2W2V3_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 7/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V3_REV_2026-en",
+      "char_count": 1603
+    },
+    {
+      "id": "mit-xpro:Q2W2V4_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V4_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V4_REV_2026_v2-en",
+      "char_count": 1798
+    },
+    {
+      "id": "mit-xpro:Q2W2V4_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V4_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V4_REV_2026_v2-en",
+      "char_count": 1718
+    },
+    {
+      "id": "mit-xpro:Q2W2V4_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V4_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V4_REV_2026_v2-en",
+      "char_count": 1753
+    },
+    {
+      "id": "mit-xpro:Q2W2V4_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W2: Q2W2V4_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V4_REV_2026_v2-en",
+      "char_count": 1784
+    },
+    {
+      "id": "mit-xpro:Q2W2V4_REV_2026_v2-en:chunk5",
+      "title": "QCFx2 W2: Q2W2V4_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V4_REV_2026_v2-en",
+      "char_count": 1674
+    },
+    {
+      "id": "mit-xpro:Q2W2V4_REV_2026_v2-en:chunk6",
+      "title": "QCFx2 W2: Q2W2V4_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V4_REV_2026_v2-en",
+      "char_count": 1417
+    },
+    {
+      "id": "mit-xpro:Q2W2V5_REV_2026-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V5_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V5_REV_2026-en",
+      "char_count": 1690
+    },
+    {
+      "id": "mit-xpro:Q2W2V5_REV_2026-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V5_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V5_REV_2026-en",
+      "char_count": 1780
+    },
+    {
+      "id": "mit-xpro:Q2W2V5_REV_2026-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V5_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V5_REV_2026-en",
+      "char_count": 1659
+    },
+    {
+      "id": "mit-xpro:Q2W2V5_REV_2026-en:chunk4",
+      "title": "QCFx2 W2: Q2W2V5_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V5_REV_2026-en",
+      "char_count": 1728
+    },
+    {
+      "id": "mit-xpro:Q2W2V5_REV_2026-en:chunk5",
+      "title": "QCFx2 W2: Q2W2V5_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V5_REV_2026-en",
+      "char_count": 1794
+    },
+    {
+      "id": "mit-xpro:Q2W2V5_REV_2026-en:chunk6",
+      "title": "QCFx2 W2: Q2W2V5_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V5_REV_2026-en",
+      "char_count": 1501
+    },
+    {
+      "id": "mit-xpro:Q2W2V6_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V6_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V6_REV_2026_v2-en",
+      "char_count": 1744
+    },
+    {
+      "id": "mit-xpro:Q2W2V6_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V6_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V6_REV_2026_v2-en",
+      "char_count": 1766
+    },
+    {
+      "id": "mit-xpro:Q2W2V6_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V6_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V6_REV_2026_v2-en",
+      "char_count": 1769
+    },
+    {
+      "id": "mit-xpro:Q2W2V6_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W2: Q2W2V6_REV_2026_v2-en \u2014 Grover's Algorithm & Quantum Search (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V6_REV_2026_v2-en",
+      "char_count": 788
+    },
+    {
+      "id": "mit-xpro:Q2W2V7A_REV_2026-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V7A_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 1/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7A_REV_2026-en",
+      "char_count": 1594
+    },
+    {
+      "id": "mit-xpro:Q2W2V7A_REV_2026-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V7A_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 2/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7A_REV_2026-en",
+      "char_count": 1764
+    },
+    {
+      "id": "mit-xpro:Q2W2V7A_REV_2026-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V7A_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 3/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7A_REV_2026-en",
+      "char_count": 1685
+    },
+    {
+      "id": "mit-xpro:Q2W2V7A_REV_2026-en:chunk4",
+      "title": "QCFx2 W2: Q2W2V7A_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 4/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7A_REV_2026-en",
+      "char_count": 1745
+    },
+    {
+      "id": "mit-xpro:Q2W2V7A_REV_2026-en:chunk5",
+      "title": "QCFx2 W2: Q2W2V7A_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 5/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7A_REV_2026-en",
+      "char_count": 903
+    },
+    {
+      "id": "mit-xpro:Q2W2V7b_REV_2026-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V7b_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 1/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7b_REV_2026-en",
+      "char_count": 1755
+    },
+    {
+      "id": "mit-xpro:Q2W2V7b_REV_2026-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V7b_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 2/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7b_REV_2026-en",
+      "char_count": 1767
+    },
+    {
+      "id": "mit-xpro:Q2W2V7b_REV_2026-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V7b_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 3/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7b_REV_2026-en",
+      "char_count": 1765
+    },
+    {
+      "id": "mit-xpro:Q2W2V7b_REV_2026-en:chunk4",
+      "title": "QCFx2 W2: Q2W2V7b_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 4/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7b_REV_2026-en",
+      "char_count": 1632
+    },
+    {
+      "id": "mit-xpro:Q2W2V7b_REV_2026-en:chunk5",
+      "title": "QCFx2 W2: Q2W2V7b_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 5/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7b_REV_2026-en",
+      "char_count": 665
+    },
+    {
+      "id": "mit-xpro:Q2W2V7C_REV_2026-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V7C_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 1/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7C_REV_2026-en",
+      "char_count": 1775
+    },
+    {
+      "id": "mit-xpro:Q2W2V7C_REV_2026-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V7C_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 2/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7C_REV_2026-en",
+      "char_count": 1774
+    },
+    {
+      "id": "mit-xpro:Q2W2V7C_REV_2026-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V7C_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 3/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V7C_REV_2026-en",
+      "char_count": 417
+    },
+    {
+      "id": "mit-xpro:Q2W2V8_REV_2026-en:chunk1",
+      "title": "QCFx2 W2: Q2W2V8_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V8_REV_2026-en",
+      "char_count": 1774
+    },
+    {
+      "id": "mit-xpro:Q2W2V8_REV_2026-en:chunk2",
+      "title": "QCFx2 W2: Q2W2V8_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V8_REV_2026-en",
+      "char_count": 1775
+    },
+    {
+      "id": "mit-xpro:Q2W2V8_REV_2026-en:chunk3",
+      "title": "QCFx2 W2: Q2W2V8_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V8_REV_2026-en",
+      "char_count": 1771
+    },
+    {
+      "id": "mit-xpro:Q2W2V8_REV_2026-en:chunk4",
+      "title": "QCFx2 W2: Q2W2V8_REV_2026-en \u2014 Grover's Algorithm & Quantum Search (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W2",
+      "video_id": "Q2W2V8_REV_2026-en",
+      "char_count": 1256
+    },
+    {
+      "id": "mit-xpro:Q2W3V1-2_REV_2026-en:chunk1",
+      "title": "QCFx2 W3: Q2W3V1-2_REV_2026-en \u2014 Quantum Chemistry & VQE (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V1-2_REV_2026-en",
+      "char_count": 1736
+    },
+    {
+      "id": "mit-xpro:Q2W3V1-2_REV_2026-en:chunk2",
+      "title": "QCFx2 W3: Q2W3V1-2_REV_2026-en \u2014 Quantum Chemistry & VQE (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V1-2_REV_2026-en",
+      "char_count": 1784
+    },
+    {
+      "id": "mit-xpro:Q2W3V1-2_REV_2026-en:chunk3",
+      "title": "QCFx2 W3: Q2W3V1-2_REV_2026-en \u2014 Quantum Chemistry & VQE (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V1-2_REV_2026-en",
+      "char_count": 1733
+    },
+    {
+      "id": "mit-xpro:Q2W3V1-2_REV_2026-en:chunk4",
+      "title": "QCFx2 W3: Q2W3V1-2_REV_2026-en \u2014 Quantum Chemistry & VQE (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V1-2_REV_2026-en",
+      "char_count": 1618
+    },
+    {
+      "id": "mit-xpro:Q2W3V3_REV_2026-en:chunk1",
+      "title": "QCFx2 W3: Q2W3V3_REV_2026-en \u2014 Quantum Chemistry & VQE (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V3_REV_2026-en",
+      "char_count": 1689
+    },
+    {
+      "id": "mit-xpro:Q2W3V3_REV_2026-en:chunk2",
+      "title": "QCFx2 W3: Q2W3V3_REV_2026-en \u2014 Quantum Chemistry & VQE (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V3_REV_2026-en",
+      "char_count": 1793
+    },
+    {
+      "id": "mit-xpro:Q2W3V3_REV_2026-en:chunk3",
+      "title": "QCFx2 W3: Q2W3V3_REV_2026-en \u2014 Quantum Chemistry & VQE (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V3_REV_2026-en",
+      "char_count": 1768
+    },
+    {
+      "id": "mit-xpro:Q2W3V3_REV_2026-en:chunk4",
+      "title": "QCFx2 W3: Q2W3V3_REV_2026-en \u2014 Quantum Chemistry & VQE (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V3_REV_2026-en",
+      "char_count": 1797
+    },
+    {
+      "id": "mit-xpro:Q2W3V3_REV_2026-en:chunk5",
+      "title": "QCFx2 W3: Q2W3V3_REV_2026-en \u2014 Quantum Chemistry & VQE (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V3_REV_2026-en",
+      "char_count": 1631
+    },
+    {
+      "id": "mit-xpro:Q2W3V3_REV_2026-en:chunk6",
+      "title": "QCFx2 W3: Q2W3V3_REV_2026-en \u2014 Quantum Chemistry & VQE (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V3_REV_2026-en",
+      "char_count": 1460
+    },
+    {
+      "id": "mit-xpro:Q2W3V4_REV_2026-en:chunk1",
+      "title": "QCFx2 W3: Q2W3V4_REV_2026-en \u2014 Quantum Chemistry & VQE (part 1/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V4_REV_2026-en",
+      "char_count": 1772
+    },
+    {
+      "id": "mit-xpro:Q2W3V4_REV_2026-en:chunk2",
+      "title": "QCFx2 W3: Q2W3V4_REV_2026-en \u2014 Quantum Chemistry & VQE (part 2/2)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V4_REV_2026-en",
+      "char_count": 1505
+    },
+    {
+      "id": "mit-xpro:Q2W3V5_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W3: Q2W3V5_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V5_REV_2026_v2-en",
+      "char_count": 1784
+    },
+    {
+      "id": "mit-xpro:Q2W3V5_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W3: Q2W3V5_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V5_REV_2026_v2-en",
+      "char_count": 1707
+    },
+    {
+      "id": "mit-xpro:Q2W3V5_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W3: Q2W3V5_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V5_REV_2026_v2-en",
+      "char_count": 1654
+    },
+    {
+      "id": "mit-xpro:Q2W3V5_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W3: Q2W3V5_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V5_REV_2026_v2-en",
+      "char_count": 353
+    },
+    {
+      "id": "mit-xpro:Q2W3V6_REV_2026-en:chunk1",
+      "title": "QCFx2 W3: Q2W3V6_REV_2026-en \u2014 Quantum Chemistry & VQE (part 1/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V6_REV_2026-en",
+      "char_count": 1706
+    },
+    {
+      "id": "mit-xpro:Q2W3V6_REV_2026-en:chunk2",
+      "title": "QCFx2 W3: Q2W3V6_REV_2026-en \u2014 Quantum Chemistry & VQE (part 2/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V6_REV_2026-en",
+      "char_count": 1786
+    },
+    {
+      "id": "mit-xpro:Q2W3V6_REV_2026-en:chunk3",
+      "title": "QCFx2 W3: Q2W3V6_REV_2026-en \u2014 Quantum Chemistry & VQE (part 3/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V6_REV_2026-en",
+      "char_count": 1638
+    },
+    {
+      "id": "mit-xpro:Q2W3V6_REV_2026-en:chunk4",
+      "title": "QCFx2 W3: Q2W3V6_REV_2026-en \u2014 Quantum Chemistry & VQE (part 4/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V6_REV_2026-en",
+      "char_count": 1785
+    },
+    {
+      "id": "mit-xpro:Q2W3V6_REV_2026-en:chunk5",
+      "title": "QCFx2 W3: Q2W3V6_REV_2026-en \u2014 Quantum Chemistry & VQE (part 5/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V6_REV_2026-en",
+      "char_count": 440
+    },
+    {
+      "id": "mit-xpro:Q2W3V7_REV_2026-en:chunk1",
+      "title": "QCFx2 W3: Q2W3V7_REV_2026-en \u2014 Quantum Chemistry & VQE (part 1/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V7_REV_2026-en",
+      "char_count": 1752
+    },
+    {
+      "id": "mit-xpro:Q2W3V7_REV_2026-en:chunk2",
+      "title": "QCFx2 W3: Q2W3V7_REV_2026-en \u2014 Quantum Chemistry & VQE (part 2/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V7_REV_2026-en",
+      "char_count": 1769
+    },
+    {
+      "id": "mit-xpro:Q2W3V7_REV_2026-en:chunk3",
+      "title": "QCFx2 W3: Q2W3V7_REV_2026-en \u2014 Quantum Chemistry & VQE (part 3/3)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V7_REV_2026-en",
+      "char_count": 1139
+    },
+    {
+      "id": "mit-xpro:Q2W3V8_REV_2026-en:chunk1",
+      "title": "QCFx2 W3: Q2W3V8_REV_2026-en \u2014 Quantum Chemistry & VQE (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V8_REV_2026-en",
+      "char_count": 1704
+    },
+    {
+      "id": "mit-xpro:Q2W3V8_REV_2026-en:chunk2",
+      "title": "QCFx2 W3: Q2W3V8_REV_2026-en \u2014 Quantum Chemistry & VQE (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V8_REV_2026-en",
+      "char_count": 1787
+    },
+    {
+      "id": "mit-xpro:Q2W3V8_REV_2026-en:chunk3",
+      "title": "QCFx2 W3: Q2W3V8_REV_2026-en \u2014 Quantum Chemistry & VQE (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V8_REV_2026-en",
+      "char_count": 1735
+    },
+    {
+      "id": "mit-xpro:Q2W3V8_REV_2026-en:chunk4",
+      "title": "QCFx2 W3: Q2W3V8_REV_2026-en \u2014 Quantum Chemistry & VQE (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V8_REV_2026-en",
+      "char_count": 881
+    },
+    {
+      "id": "mit-xpro:Q2W3V9_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W3: Q2W3V9_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 1/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V9_REV_2026_v2-en",
+      "char_count": 1664
+    },
+    {
+      "id": "mit-xpro:Q2W3V9_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W3: Q2W3V9_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 2/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V9_REV_2026_v2-en",
+      "char_count": 1727
+    },
+    {
+      "id": "mit-xpro:Q2W3V9_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W3: Q2W3V9_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 3/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V9_REV_2026_v2-en",
+      "char_count": 1739
+    },
+    {
+      "id": "mit-xpro:Q2W3V9_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W3: Q2W3V9_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 4/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V9_REV_2026_v2-en",
+      "char_count": 1714
+    },
+    {
+      "id": "mit-xpro:Q2W3V9_REV_2026_v2-en:chunk5",
+      "title": "QCFx2 W3: Q2W3V9_REV_2026_v2-en \u2014 Quantum Chemistry & VQE (part 5/5)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W3",
+      "video_id": "Q2W3V9_REV_2026_v2-en",
+      "char_count": 755
+    },
+    {
+      "id": "mit-xpro:Q2W4V2a_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W4: Q2W4V2a_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V2a_REV_2026_v2-en",
+      "char_count": 1649
+    },
+    {
+      "id": "mit-xpro:Q2W4V2a_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W4: Q2W4V2a_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V2a_REV_2026_v2-en",
+      "char_count": 1697
+    },
+    {
+      "id": "mit-xpro:Q2W4V2a_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W4: Q2W4V2a_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V2a_REV_2026_v2-en",
+      "char_count": 1640
+    },
+    {
+      "id": "mit-xpro:Q2W4V2a_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W4: Q2W4V2a_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V2a_REV_2026_v2-en",
+      "char_count": 855
+    },
+    {
+      "id": "mit-xpro:Q2W4V2b_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W4: Q2W4V2b_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V2b_REV_2026_v2-en",
+      "char_count": 1749
+    },
+    {
+      "id": "mit-xpro:Q2W4V2b_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W4: Q2W4V2b_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V2b_REV_2026_v2-en",
+      "char_count": 1760
+    },
+    {
+      "id": "mit-xpro:Q2W4V2b_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W4: Q2W4V2b_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V2b_REV_2026_v2-en",
+      "char_count": 1780
+    },
+    {
+      "id": "mit-xpro:Q2W4V2b_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W4: Q2W4V2b_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V2b_REV_2026_v2-en",
+      "char_count": 867
+    },
+    {
+      "id": "mit-xpro:Q2W4V3_REV_2026-en:chunk1",
+      "title": "QCFx2 W4: Q2W4V3_REV_2026-en \u2014 Quantum Optimization & QAOA (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V3_REV_2026-en",
+      "char_count": 1798
+    },
+    {
+      "id": "mit-xpro:Q2W4V3_REV_2026-en:chunk2",
+      "title": "QCFx2 W4: Q2W4V3_REV_2026-en \u2014 Quantum Optimization & QAOA (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V3_REV_2026-en",
+      "char_count": 1790
+    },
+    {
+      "id": "mit-xpro:Q2W4V3_REV_2026-en:chunk3",
+      "title": "QCFx2 W4: Q2W4V3_REV_2026-en \u2014 Quantum Optimization & QAOA (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V3_REV_2026-en",
+      "char_count": 1763
+    },
+    {
+      "id": "mit-xpro:Q2W4V3_REV_2026-en:chunk4",
+      "title": "QCFx2 W4: Q2W4V3_REV_2026-en \u2014 Quantum Optimization & QAOA (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V3_REV_2026-en",
+      "char_count": 1770
+    },
+    {
+      "id": "mit-xpro:Q2W4V3_REV_2026-en:chunk5",
+      "title": "QCFx2 W4: Q2W4V3_REV_2026-en \u2014 Quantum Optimization & QAOA (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V3_REV_2026-en",
+      "char_count": 1790
+    },
+    {
+      "id": "mit-xpro:Q2W4V3_REV_2026-en:chunk6",
+      "title": "QCFx2 W4: Q2W4V3_REV_2026-en \u2014 Quantum Optimization & QAOA (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V3_REV_2026-en",
+      "char_count": 1329
+    },
+    {
+      "id": "mit-xpro:Q2W4V4_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W4: Q2W4V4_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 1/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V4_REV_2026_v2-en",
+      "char_count": 1780
+    },
+    {
+      "id": "mit-xpro:Q2W4V4_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W4: Q2W4V4_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 2/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V4_REV_2026_v2-en",
+      "char_count": 1716
+    },
+    {
+      "id": "mit-xpro:Q2W4V4_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W4: Q2W4V4_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 3/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V4_REV_2026_v2-en",
+      "char_count": 1640
+    },
+    {
+      "id": "mit-xpro:Q2W4V4_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W4: Q2W4V4_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 4/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V4_REV_2026_v2-en",
+      "char_count": 1641
+    },
+    {
+      "id": "mit-xpro:Q2W4V4_REV_2026_v2-en:chunk5",
+      "title": "QCFx2 W4: Q2W4V4_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 5/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V4_REV_2026_v2-en",
+      "char_count": 1728
+    },
+    {
+      "id": "mit-xpro:Q2W4V4_REV_2026_v2-en:chunk6",
+      "title": "QCFx2 W4: Q2W4V4_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 6/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V4_REV_2026_v2-en",
+      "char_count": 1766
+    },
+    {
+      "id": "mit-xpro:Q2W4V4_REV_2026_v2-en:chunk7",
+      "title": "QCFx2 W4: Q2W4V4_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 7/7)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V4_REV_2026_v2-en",
+      "char_count": 1777
+    },
+    {
+      "id": "mit-xpro:Q2W4V5_REV_2026-en:chunk1",
+      "title": "QCFx2 W4: Q2W4V5_REV_2026-en \u2014 Quantum Optimization & QAOA (part 1/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V5_REV_2026-en",
+      "char_count": 1787
+    },
+    {
+      "id": "mit-xpro:Q2W4V5_REV_2026-en:chunk2",
+      "title": "QCFx2 W4: Q2W4V5_REV_2026-en \u2014 Quantum Optimization & QAOA (part 2/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V5_REV_2026-en",
+      "char_count": 1781
+    },
+    {
+      "id": "mit-xpro:Q2W4V5_REV_2026-en:chunk3",
+      "title": "QCFx2 W4: Q2W4V5_REV_2026-en \u2014 Quantum Optimization & QAOA (part 3/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V5_REV_2026-en",
+      "char_count": 1760
+    },
+    {
+      "id": "mit-xpro:Q2W4V5_REV_2026-en:chunk4",
+      "title": "QCFx2 W4: Q2W4V5_REV_2026-en \u2014 Quantum Optimization & QAOA (part 4/4)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V5_REV_2026-en",
+      "char_count": 1009
+    },
+    {
+      "id": "mit-xpro:Q2W4V7_REV_2026-en:chunk1",
+      "title": "QCFx2 W4: Q2W4V7_REV_2026-en \u2014 Quantum Optimization & QAOA (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V7_REV_2026-en",
+      "char_count": 1791
+    },
+    {
+      "id": "mit-xpro:Q2W4V7_REV_2026-en:chunk2",
+      "title": "QCFx2 W4: Q2W4V7_REV_2026-en \u2014 Quantum Optimization & QAOA (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V7_REV_2026-en",
+      "char_count": 1782
+    },
+    {
+      "id": "mit-xpro:Q2W4V7_REV_2026-en:chunk3",
+      "title": "QCFx2 W4: Q2W4V7_REV_2026-en \u2014 Quantum Optimization & QAOA (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V7_REV_2026-en",
+      "char_count": 1785
+    },
+    {
+      "id": "mit-xpro:Q2W4V7_REV_2026-en:chunk4",
+      "title": "QCFx2 W4: Q2W4V7_REV_2026-en \u2014 Quantum Optimization & QAOA (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V7_REV_2026-en",
+      "char_count": 1715
+    },
+    {
+      "id": "mit-xpro:Q2W4V7_REV_2026-en:chunk5",
+      "title": "QCFx2 W4: Q2W4V7_REV_2026-en \u2014 Quantum Optimization & QAOA (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V7_REV_2026-en",
+      "char_count": 1795
+    },
+    {
+      "id": "mit-xpro:Q2W4V7_REV_2026-en:chunk6",
+      "title": "QCFx2 W4: Q2W4V7_REV_2026-en \u2014 Quantum Optimization & QAOA (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V7_REV_2026-en",
+      "char_count": 1455
+    },
+    {
+      "id": "mit-xpro:Q2W4V8_REV_2026_v2-en:chunk1",
+      "title": "QCFx2 W4: Q2W4V8_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 1/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V8_REV_2026_v2-en",
+      "char_count": 1752
+    },
+    {
+      "id": "mit-xpro:Q2W4V8_REV_2026_v2-en:chunk2",
+      "title": "QCFx2 W4: Q2W4V8_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 2/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V8_REV_2026_v2-en",
+      "char_count": 1770
+    },
+    {
+      "id": "mit-xpro:Q2W4V8_REV_2026_v2-en:chunk3",
+      "title": "QCFx2 W4: Q2W4V8_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 3/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V8_REV_2026_v2-en",
+      "char_count": 1751
+    },
+    {
+      "id": "mit-xpro:Q2W4V8_REV_2026_v2-en:chunk4",
+      "title": "QCFx2 W4: Q2W4V8_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 4/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V8_REV_2026_v2-en",
+      "char_count": 1769
+    },
+    {
+      "id": "mit-xpro:Q2W4V8_REV_2026_v2-en:chunk5",
+      "title": "QCFx2 W4: Q2W4V8_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 5/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V8_REV_2026_v2-en",
+      "char_count": 1798
+    },
+    {
+      "id": "mit-xpro:Q2W4V8_REV_2026_v2-en:chunk6",
+      "title": "QCFx2 W4: Q2W4V8_REV_2026_v2-en \u2014 Quantum Optimization & QAOA (part 6/6)",
+      "category": "mit-xpro-c2",
+      "course_code": "QCFx2",
+      "week": "W4",
+      "video_id": "Q2W4V8_REV_2026_v2-en",
+      "char_count": 580
+    }
+  ]
+}

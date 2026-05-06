@@ -1,0 +1,63 @@
+
+What is the algorithm in detail?
+So suppose we have a bound on r--
+maybe I should call it r-max--
+and choose a power of 2 bigger than 2 r-max.
+And well, I will write down the algorithm.
+We start with plus to the 2l 0.
+That's here.
+Next, we take the compute f with x.
+And you know, whatever ends in the first register,
+we compute that in the second register.
+But this is just sum i equals 0 to 2 to the 2l.
+i, where i is just the binary representation of the number.
+And we need to divide by 2 to the l because we
+want this to be a unit vector.
+So we compute f.
+So this becomes sum to the 2l i f of i.
+i equals 0 to 2 to the 2l.
+Do the quantum Fourier transform.
+So that's 1 over to 2 to the 2l summation.
+You know, i is a really bad letter
+to use because it's also the square root of minus 1.
+So let's use x.
+So the quantum Fourier transform takes
+x to, let's call it, z f of x.
+z equals 0 to 2 to the 2l minus 1. e to the 2 pi i xz
+over 2 to the 2l.
+So we've taken x and taken the Fourier transform of it,
+and that gives us this.
+
+Now,
+What happens if we measure f of x?
+Well, we're going to get some value for f of x.
+And I'm going to leave that out the normalization
+constant for the time being because figuring out
+exactly what's going on with a normalization
+constant is possible, but it's a lot of tedious algebra.
+And I'll come back to it later.
+So without a normalized, z equals 0 through 2 to the 2l.
+Let x0 be the smallest x giving f of x.
+
+So this is going to be z of the form x0 plus y times pi.
+Because when you measure f of x, we only get z--
+no, not z.
+
+When we measure f of x, we only get
+x equals x0 plus yr f of x0 z e to the 2 minus 2 pi i x--
+well, xz, but x is of the form x0 plus yrz over 2 to the 2l.
+So what did we do?
+We measured f of x here.
+And we're just looking at the ones which give us f of x0.
+And we know all of these x's are the form x0 plus yr.
+And the phase factor doesn't change and z doesn't change.
+So now we have the sum.
+And we have to figure out how big it is.
+
+Well, we can write sum z equals 0 through 2 to the 2l.
+Sum y equals 0 through 2 to the 2l over r, plus or minus 1
+here, but that doesn't matter.
+f of x0 z e to the 2 pi i x0 plus yrz over 2 to the 2l.
+
+And what is this?
+This is a geometric sum.

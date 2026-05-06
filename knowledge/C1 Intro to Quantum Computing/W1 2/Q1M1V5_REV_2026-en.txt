@@ -1,0 +1,112 @@
+
+Quantum parallelism and quantum interference
+are what make a quantum computer different
+than a classical computer.
+But what are these quantum effects?
+And how do they work in a quantum computer?
+To gain some insight, we'll consider
+an example of a small quantum computer with three qubits.
+Here we have three atoms.
+Each of which has an electron with a spin.
+And each of these spins can either
+be pointed up, which we'll call spin-up, or pointed down,
+which we'll call spin-down.
+We'll use these three electron spins as our qubits.
+And there are eight different spin combinations
+that we can have, from all three pointed up,
+to all three pointed down.
+We place these qubits in a single quantum superposition
+state, comprising all eight of these spin configurations.
+And it takes eight complex numbers, C1 through C8,
+to specify the weighting of each of these components.
+The superposition state can then be represented
+as a state register with all eight spin
+configurations and their respective coefficients.
+Let's now imagine that we want to perform an operation that
+flips the spin of Atom 1.
+We can do this by applying an electromagnetic pulse
+with the right strength and the right duration, such
+that it rotates the spin of Atom 1 by 180 degrees.
+This is called a pi pulse.
+And it acts to flip the spin.
+Spin-up rotates to spin-down, and spin-down rotates
+to spin-up.
+
+So when we flip the spin in Atom 1,
+it acts to flip the spin on each of the spins
+in the configurations that make up the superposition state.
+For example, the coefficients C1 through C4,
+originally associated with spin-up in Atom 1,
+are now associated with spin-down.
+And similarly, the coefficients C5 through C8,
+originally associated with spin-down,
+are now associated with spin-up.
+This happens simultaneously across all
+of the spin configurations that make up the quantum
+superposition state, even though we're
+performing only a single operation on a single qubit.
+And this is an example of quantum parallelism.
+Let's now take a look at quantum interference
+between these states.
+In this case, we'll address Atom 3.
+And we'll consider a type of pulse called a pi over 2 pulse.
+What a pi over 2 pulse does is it takes a spin-up
+and rotates it to a superposition state of
+up plus down.
+Now, if you've taken a quantum mechanics class before,
+you probably remember that there is a normalization factor
+1 over square root of 2 that sits in front.
+This maintains the length of the vector on the bloch sphere.
+But we'll omit those factors here
+as they're not important for this discussion.
+So a pi over 2 pulse rotates a spin-up to a superposition of
+up plus down.
+We can visualize that on the bloch sphere.
+The spin-up is pointed at the North Pole.
+And we rotate it pi over 2, or 90 degrees, down
+to the equator.
+We'll associate the direction of the vector
+that it's now pointing with a plus sign.
+And so the superposition state is up plus down.
+In the state space, for the moment,
+let's just look at coefficient C5.
+C5 is originally associated with a spin-up on Atom 3.
+After the pi over 2 rotation, it is now
+associated with both a spin-up and a spin-down.
+Next, let's look at what happens to spin-down.
+A pi over 2 pulse will rotate a spin-down
+pointed at the South Pole up to the equator,
+but now in the opposite direction.
+We'll associate this new direction with a minus sign.
+And so the resulting superposition state
+is up minus down.
+In the state space, the coefficient C6,
+originally associated with a spin-down in Atom 3,
+is now associated with both up and down, but with a minus sign
+for the spin-down.
+So we find plus 6 for spin-up, and minus 6 for spin-down.
+So what does it all mean?
+Well, if C5 equals C6, for example,
+then C5 minus C6 is zero.
+And there's no longer any weighting
+to the up-up-down state.
+And this is an example of destructive quantum
+interference.
+At the same time, there's constructive quantum
+interference that increases the weighting
+of the state with C5 plus C6.
+And this is also an example of quantum parallelism,
+because this quantum interference process also
+happens simultaneously to all the other states
+in the register.
+So quantum parallelism and quantum interference
+form the foundation for how a quantum computer processes
+information.
+As we just saw, with even a single gate
+operation, quantum parallelism and quantum interference
+allow us to simultaneously manipulate and change
+the values of the many weighting coefficients that
+comprise a superposition state.
+And at a fundamental level, this is
+how we can efficiently implement quantum algorithms on a quantum
+computer.

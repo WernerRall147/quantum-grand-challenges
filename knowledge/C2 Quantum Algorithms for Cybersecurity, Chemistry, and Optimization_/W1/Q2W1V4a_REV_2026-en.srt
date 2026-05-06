@@ -1,0 +1,824 @@
+0
+00:00:00,000 --> 00:00:00,500
+
+
+1
+00:00:00,500 --> 00:00:03,510
+In the last section, we looked at a specific implementation
+
+2
+00:00:03,510 --> 00:00:07,140
+of public key cryptography-- the RSA cryptosystem.
+
+3
+00:00:07,140 --> 00:00:10,500
+The security of RSA is based on the use of a one-way function--
+
+4
+00:00:10,500 --> 00:00:12,120
+prime factorization--
+
+5
+00:00:12,120 --> 00:00:14,550
+which is related to the problem of period finding
+
+6
+00:00:14,550 --> 00:00:16,830
+in modular exponentiation.
+
+7
+00:00:16,830 --> 00:00:20,640
+As we saw, if one picks two prime numbers, p and q,
+
+8
+00:00:20,640 --> 00:00:23,670
+which multiply together to give a modulus N,
+
+9
+00:00:23,670 --> 00:00:26,370
+then one can efficiently find the modular exponentiation
+
+10
+00:00:26,370 --> 00:00:30,240
+period r, and thus generate a public encryption key e
+
+11
+00:00:30,240 --> 00:00:32,670
+and a private decryption key d.
+
+12
+00:00:32,670 --> 00:00:35,310
+However, if we're just given the modulus N,
+
+13
+00:00:35,310 --> 00:00:36,780
+then we're stuck, because there's
+
+14
+00:00:36,780 --> 00:00:39,360
+no known efficient classical algorithm that
+
+15
+00:00:39,360 --> 00:00:42,000
+lets us find the prime factors p and q,
+
+16
+00:00:42,000 --> 00:00:43,920
+and so there's no efficient means to determine
+
+17
+00:00:43,920 --> 00:00:45,360
+the period r.
+
+18
+00:00:45,360 --> 00:00:47,400
+Thus, even if we reveal the modulus
+
+19
+00:00:47,400 --> 00:00:50,160
+N and the public encryption key e,
+
+20
+00:00:50,160 --> 00:00:52,470
+there is no known efficient way for an eavesdropper
+
+21
+00:00:52,470 --> 00:00:56,170
+to calculate the private key d on a classical computer.
+
+22
+00:00:56,170 --> 00:00:58,710
+However, if Eve has access to a quantum computer
+
+23
+00:00:58,710 --> 00:01:00,780
+that can run Shor's Algorithm, then she
+
+24
+00:01:00,780 --> 00:01:04,830
+can efficiently find the modular exponentiation period r.
+
+25
+00:01:04,830 --> 00:01:07,260
+This is called order finding, and Shor's Algorithm
+
+26
+00:01:07,260 --> 00:01:10,440
+finds the order r of a number a with respect
+
+27
+00:01:10,440 --> 00:01:13,080
+to the modulus N, where a is the number that
+
+28
+00:01:13,080 --> 00:01:17,070
+is raised to integer powers under modular exponentiation.
+
+29
+00:01:17,070 --> 00:01:19,290
+With a means to efficiently determine r,
+
+30
+00:01:19,290 --> 00:01:21,480
+Eve can calculate the prime numbers p
+
+31
+00:01:21,480 --> 00:01:24,570
+and q and then derive the decryption key d,
+
+32
+00:01:24,570 --> 00:01:26,610
+thus compromising RSA.
+
+33
+00:01:26,610 --> 00:01:29,280
+In this section, we'll walk through Shor's Algorithm
+
+34
+00:01:29,280 --> 00:01:32,480
+using the quantum circuit model presented in Course 1.
+
+35
+00:01:32,480 --> 00:01:34,440
+We'll then continue with our simple example
+
+36
+00:01:34,440 --> 00:01:37,800
+of modular exponentiation to see the connection between order
+
+37
+00:01:37,800 --> 00:01:39,930
+finding and factorization.
+
+38
+00:01:39,930 --> 00:01:42,420
+Let's begin with the initialization stage.
+
+39
+00:01:42,420 --> 00:01:45,240
+We need two registers of qubits for Shor's Algorithm.
+
+40
+00:01:45,240 --> 00:01:47,280
+Roughly speaking, Register 1 is used
+
+41
+00:01:47,280 --> 00:01:49,140
+to store the results of a period finding
+
+42
+00:01:49,140 --> 00:01:51,690
+protocol, which is implemented using the Quantum
+
+43
+00:01:51,690 --> 00:01:52,860
+Fourier Transform.
+
+44
+00:01:52,860 --> 00:01:54,960
+We'll discuss that one in a moment.
+
+45
+00:01:54,960 --> 00:01:57,180
+Register 2 is used to store the values
+
+46
+00:01:57,180 --> 00:01:59,160
+of the modular exponentiation.
+
+47
+00:01:59,160 --> 00:02:02,730
+This is the function that will apply in the compute section.
+
+48
+00:02:02,730 --> 00:02:04,550
+The number of qubits in the first register
+
+49
+00:02:04,550 --> 00:02:07,710
+should generate a state space that is at least large enough
+
+50
+00:02:07,710 --> 00:02:10,139
+to capture the maximum possible period,
+
+51
+00:02:10,139 --> 00:02:13,230
+and do so at least twice to see it repeat.
+
+52
+00:02:13,230 --> 00:02:16,410
+Let's define N as twice the maximum period.
+
+53
+00:02:16,410 --> 00:02:19,800
+So we need at least L qubits, such that 2 to the L power
+
+54
+00:02:19,800 --> 00:02:21,406
+is greater than N.
+
+55
+00:02:21,406 --> 00:02:24,450
+Now, in fact, the more qubits we have, the more densely
+
+56
+00:02:24,450 --> 00:02:26,190
+we can sample the solution space,
+
+57
+00:02:26,190 --> 00:02:29,340
+and thereby reduce the error in determining the period.
+
+58
+00:02:29,340 --> 00:02:32,520
+Here, we'll take 2L qubits for the first register.
+
+59
+00:02:32,520 --> 00:02:34,860
+And for simplicity, we'll use the same number of qubits
+
+60
+00:02:34,860 --> 00:02:36,690
+in the second register.
+
+61
+00:02:36,690 --> 00:02:39,400
+By choosing 2L qubits, the number of states--
+
+62
+00:02:39,400 --> 00:02:40,950
+2 to the 2L power--
+
+63
+00:02:40,950 --> 00:02:43,170
+is greater than N squared.
+
+64
+00:02:43,170 --> 00:02:46,110
+This guarantees that there are at least N terms contributing
+
+65
+00:02:46,110 --> 00:02:49,170
+to the probability amplitude when estimating the period,
+
+66
+00:02:49,170 --> 00:02:51,480
+even as the period r gets exponentially large,
+
+67
+00:02:51,480 --> 00:02:53,680
+approaching N over 2.
+
+68
+00:02:53,680 --> 00:02:55,630
+We prepare the qubits in state 0,
+
+69
+00:02:55,630 --> 00:02:57,700
+which we denote with a superscripted tensor
+
+70
+00:02:57,700 --> 00:02:59,290
+product, 2L.
+
+71
+00:02:59,290 --> 00:03:02,070
+As we did in Course 1 for the Deutsch-Jozsa algorithm,
+
+72
+00:03:02,070 --> 00:03:04,630
+we'll track the register states by color--
+
+73
+00:03:04,630 --> 00:03:08,170
+yellow for Register 1, and green for Register 2.
+
+74
+00:03:08,170 --> 00:03:09,670
+And we'll track our current position
+
+75
+00:03:09,670 --> 00:03:12,400
+within the algorithm using the vertical line.
+
+76
+00:03:12,400 --> 00:03:15,250
+Next, at the compute stage, we use Hadamard gates
+
+77
+00:03:15,250 --> 00:03:18,280
+to place the Register 1 qubits into an equal superposition
+
+78
+00:03:18,280 --> 00:03:19,300
+state.
+
+79
+00:03:19,300 --> 00:03:22,150
+We again use the superscripted tensor product notation
+
+80
+00:03:22,150 --> 00:03:24,040
+to indicate that we apply a Hadamard
+
+81
+00:03:24,040 --> 00:03:26,770
+gate to each of the 2L qubits.
+
+82
+00:03:26,770 --> 00:03:30,980
+This puts each qubit into a superposition state, 0 plus 1.
+
+83
+00:03:30,980 --> 00:03:34,000
+Multiplying out all 2L of these single qubit superposition
+
+84
+00:03:34,000 --> 00:03:38,290
+states results in a single large equal superposition state
+
+85
+00:03:38,290 --> 00:03:40,360
+with 2 to the 2L components.
+
+86
+00:03:40,360 --> 00:03:42,520
+From a component with 2L qubits in state
+
+87
+00:03:42,520 --> 00:03:45,610
+0 to a component with all qubits in state 1,
+
+88
+00:03:45,610 --> 00:03:48,140
+and with all combinations in between.
+
+89
+00:03:48,140 --> 00:03:50,710
+If we now number these components from 0 to 2
+
+90
+00:03:50,710 --> 00:03:54,520
+to the 2L minus 1, we can rewrite the superposition state
+
+91
+00:03:54,520 --> 00:03:56,170
+as a sum over x.
+
+92
+00:03:56,170 --> 00:03:58,930
+In fact, each decimal number x corresponds
+
+93
+00:03:58,930 --> 00:04:03,970
+to one of the binary numbers represented by the 2L qubits.
+
+94
+00:04:03,970 --> 00:04:06,310
+Next, the function f is performed.
+
+95
+00:04:06,310 --> 00:04:09,160
+f of x implements modular exponentiation, which
+
+96
+00:04:09,160 --> 00:04:12,880
+outputs a number a to the x power modulo N.
+
+97
+00:04:12,880 --> 00:04:15,640
+We won't present in detail how the modular exponentiation is
+
+98
+00:04:15,640 --> 00:04:17,477
+implemented in a real circuit.
+
+99
+00:04:17,477 --> 00:04:19,060
+In fact, there are multiple approaches
+
+100
+00:04:19,060 --> 00:04:22,240
+to doing it based on reversible computing and multiplication
+
+101
+00:04:22,240 --> 00:04:23,230
+algorithms.
+
+102
+00:04:23,230 --> 00:04:24,940
+For our purposes here, we just note
+
+103
+00:04:24,940 --> 00:04:26,590
+that this function can be implemented
+
+104
+00:04:26,590 --> 00:04:28,990
+using ancilla qubits and that it's efficient,
+
+105
+00:04:28,990 --> 00:04:31,930
+requiring a number of gates that scales only polynomially
+
+106
+00:04:31,930 --> 00:04:34,030
+with the number of qubits.
+
+107
+00:04:34,030 --> 00:04:36,280
+Now, the number a is chosen at random,
+
+108
+00:04:36,280 --> 00:04:38,170
+and it must be co-prime with N. That
+
+109
+00:04:38,170 --> 00:04:41,800
+is, it must have no common factors with N. The resulting
+
+110
+00:04:41,800 --> 00:04:43,570
+output values from the function f
+
+111
+00:04:43,570 --> 00:04:46,240
+are then stored in the Register 2 qubits.
+
+112
+00:04:46,240 --> 00:04:49,210
+Since the values of the power x are taken from the qubits
+
+113
+00:04:49,210 --> 00:04:51,220
+in the first register, implementing
+
+114
+00:04:51,220 --> 00:04:53,470
+f of x makes a conditional connection
+
+115
+00:04:53,470 --> 00:04:57,190
+between the qubits in Register 1 and those in Register 2.
+
+116
+00:04:57,190 --> 00:04:58,570
+Although we ultimately won't need
+
+117
+00:04:58,570 --> 00:05:00,730
+to measure the qubits in Register 2,
+
+118
+00:05:00,730 --> 00:05:03,460
+this step sets the stage for quantum interference
+
+119
+00:05:03,460 --> 00:05:06,250
+and quantum parallelism to occur in Register 1
+
+120
+00:05:06,250 --> 00:05:10,690
+at the next step, which is the Quantum Fourier Transform.
+
+121
+00:05:10,690 --> 00:05:13,150
+The Quantum Fourier Transform is a quantum version
+
+122
+00:05:13,150 --> 00:05:16,320
+of the classical discrete time Fourier Transform.
+
+123
+00:05:16,320 --> 00:05:19,710
+The classical Fourier Transform takes a vector of numbers, x--
+
+124
+00:05:19,710 --> 00:05:22,960
+often a digital sampling of a signal to be analyzed--
+
+125
+00:05:22,960 --> 00:05:25,810
+and transforms it to a vector of numbers, y, in the frequency
+
+126
+00:05:25,810 --> 00:05:26,890
+domain.
+
+127
+00:05:26,890 --> 00:05:28,810
+Periodic behavior in the time domain
+
+128
+00:05:28,810 --> 00:05:32,150
+is more easily identified in the transformed frequency domain,
+
+129
+00:05:32,150 --> 00:05:33,760
+which is why we do this.
+
+130
+00:05:33,760 --> 00:05:36,400
+For example, a sine wave that oscillates in time
+
+131
+00:05:36,400 --> 00:05:40,120
+with a specific frequency will transform to a large amplitude
+
+132
+00:05:40,120 --> 00:05:42,160
+spike at plus or minus that frequency
+
+133
+00:05:42,160 --> 00:05:44,020
+in the transform domain.
+
+134
+00:05:44,020 --> 00:05:46,870
+Thus, it's easy to identify the location of the spikes
+
+135
+00:05:46,870 --> 00:05:49,370
+and then read off the frequency directly.
+
+136
+00:05:49,370 --> 00:05:51,520
+And if we know a signal's frequency,
+
+137
+00:05:51,520 --> 00:05:53,830
+then we also know its period, since the frequency
+
+138
+00:05:53,830 --> 00:05:55,790
+is 1 over the period.
+
+139
+00:05:55,790 --> 00:05:57,520
+Now, the Quantum Fourier Transform
+
+140
+00:05:57,520 --> 00:05:59,690
+is essentially the same transformation,
+
+141
+00:05:59,690 --> 00:06:02,440
+which is why we'll use it here for period finding.
+
+142
+00:06:02,440 --> 00:06:04,690
+It takes a state j and transforms it
+
+143
+00:06:04,690 --> 00:06:08,260
+to a superposition state with specific phase factors.
+
+144
+00:06:08,260 --> 00:06:11,860
+If we start with a superposition state with coefficients xj,
+
+145
+00:06:11,860 --> 00:06:14,770
+the transformed result is also a superposition state
+
+146
+00:06:14,770 --> 00:06:18,130
+with coefficients yk, where the probability amplitudes
+
+147
+00:06:18,130 --> 00:06:21,130
+yk are the classical discrete time Fourier
+
+148
+00:06:21,130 --> 00:06:24,610
+Transform of the probability amplitudes xj.
+
+149
+00:06:24,610 --> 00:06:27,370
+And due to quantum parallelism and quantum interference,
+
+150
+00:06:27,370 --> 00:06:29,470
+implementing the Quantum Fourier Transform
+
+151
+00:06:29,470 --> 00:06:31,960
+is exponentially faster than implementing
+
+152
+00:06:31,960 --> 00:06:35,380
+the classical fast Fourier Transform algorithm.
+
+153
+00:06:35,380 --> 00:06:38,020
+Now, that sounds great, but there's an important catch
+
+154
+00:06:38,020 --> 00:06:40,060
+related to quantum measurement.
+
+155
+00:06:40,060 --> 00:06:42,130
+As you know, the measurement of a quantum state
+
+156
+00:06:42,130 --> 00:06:43,360
+is probabilistic.
+
+157
+00:06:43,360 --> 00:06:45,820
+Although the output of the Quantum Fourier Transform
+
+158
+00:06:45,820 --> 00:06:48,760
+is a large superposition state with transformed probability
+
+159
+00:06:48,760 --> 00:06:52,600
+amplitudes, we generally can't access those amplitudes.
+
+160
+00:06:52,600 --> 00:06:55,390
+Our measurement projects out only a single state,
+
+161
+00:06:55,390 --> 00:06:57,550
+and even if we identically prepare the system
+
+162
+00:06:57,550 --> 00:06:59,590
+and measure it many times, we only
+
+163
+00:06:59,590 --> 00:07:01,090
+learn about the magnitude squared
+
+164
+00:07:01,090 --> 00:07:02,770
+of the corresponding coefficients.
+
+165
+00:07:02,770 --> 00:07:04,660
+We lose the phase information.
+
+166
+00:07:04,660 --> 00:07:07,300
+So we don't have access to the probability amplitudes
+
+167
+00:07:07,300 --> 00:07:08,920
+in the quantum computer, and this
+
+168
+00:07:08,920 --> 00:07:10,870
+is quite different from the classical Fourier
+
+169
+00:07:10,870 --> 00:07:12,850
+Transform where the entire output
+
+170
+00:07:12,850 --> 00:07:16,270
+vector of complex numbers can be directly read.
+
+171
+00:07:16,270 --> 00:07:18,040
+Thus, the Quantum Fourier Transform
+
+172
+00:07:18,040 --> 00:07:20,050
+is most useful in problems where there's
+
+173
+00:07:20,050 --> 00:07:22,120
+a unique period or phase that can
+
+174
+00:07:22,120 --> 00:07:24,070
+be found with high probability.
+
+175
+00:07:24,070 --> 00:07:26,560
+For now, let's return to Shor's Algorithm.
+
+176
+00:07:26,560 --> 00:07:28,900
+The Quantum Fourier Transform is applied here
+
+177
+00:07:28,900 --> 00:07:31,270
+to the qubits in Register 1, and it
+
+178
+00:07:31,270 --> 00:07:33,400
+imparts specific phase factors that
+
+179
+00:07:33,400 --> 00:07:35,860
+are related to both x and z.
+
+180
+00:07:35,860 --> 00:07:38,320
+That is, they're related to both the coefficients
+
+181
+00:07:38,320 --> 00:07:42,010
+of the qubits on Register 1 and the modular exponentiation
+
+182
+00:07:42,010 --> 00:07:44,200
+stored on Register 2.
+
+183
+00:07:44,200 --> 00:07:47,470
+The phase sampling increment is represented here by omega,
+
+184
+00:07:47,470 --> 00:07:50,870
+and it's the phase 2 pi divided by the total number of states--
+
+185
+00:07:50,870 --> 00:07:52,720
+2 to the 2L power.
+
+186
+00:07:52,720 --> 00:07:55,360
+Here we can see that increasing the number of qubits
+
+187
+00:07:55,360 --> 00:07:57,820
+will reduce the step size, and thus the error
+
+188
+00:07:57,820 --> 00:07:59,770
+in estimating the actual period.
+
+189
+00:07:59,770 --> 00:08:01,690
+Essentially, more qubits will more
+
+190
+00:08:01,690 --> 00:08:05,480
+densely sample the phases that represent the period.
+
+191
+00:08:05,480 --> 00:08:08,110
+Lastly, we measure the qubits in Register 1.
+
+192
+00:08:08,110 --> 00:08:11,410
+The projected state that results is a binary value of z,
+
+193
+00:08:11,410 --> 00:08:15,660
+and its decimal value is equal to or an integer multiple of 2
+
+194
+00:08:15,660 --> 00:08:18,400
+to the 2Lth power divided by r.
+
+195
+00:08:18,400 --> 00:08:20,290
+Thus, it can be used to find the period
+
+196
+00:08:20,290 --> 00:08:24,130
+r using a continued fraction expansion of z divided
+
+197
+00:08:24,130 --> 00:08:25,867
+by 2 to the 2L.
+
+198
+00:08:25,867 --> 00:08:27,700
+You can learn more about the Quantum Fourier
+
+199
+00:08:27,700 --> 00:08:29,920
+Transform and related topics in the text
+
+200
+00:08:29,920 --> 00:08:31,780
+units following this video.
+
+201
+00:08:31,780 --> 00:08:34,510
+And in the next video, we'll take a closer look
+
+202
+00:08:34,510 --> 00:08:36,730
+at how the Quantum Fourier Transform mediates
+
+203
+00:08:36,730 --> 00:08:39,640
+the quantum interference terms that constructively converge
+
+204
+00:08:39,640 --> 00:08:42,420
+to estimates for the period r.
+
+205
+00:08:42,420 --> 00:08:46,443
+
+

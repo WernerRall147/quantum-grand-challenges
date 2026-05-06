@@ -1,0 +1,189 @@
+
+In 1998, after we had implemented the first two qubit
+algorithms on the chloroform molecule
+and using NMR, Ike Chuang, who supervised the research,
+gave me a great challenge--
+to factor the number 15 within the time span of my PhD
+at Stanford.
+At that time, Ike was transitioning
+from Los Alamos National Laboratory to the IBM Almaden
+Research Center outside San Jose.
+And I was finishing the first year of my PhD at Stanford.
+At that time, I helped Ike set up his new lab
+at Almaden, some 30 minutes away from Stanford.
+I didn't know what it would take to factor the number 15,
+but it did seem like a great challenge.
+And certainly, it was clear that there was an enormous interest
+in Shor's Algorithm and that it was
+a major driver for our field.
+So I thought it would be very awesome to demonstrate Shor's
+Algorithm experimentally.
+So what would it take to run Shor's Algorithm
+experimentally?
+The simplest instance of quantum factoring
+is to factor the number 15, to pull
+it apart into 3 times 5.
+But how many qubits does that take, and how many operations?
+We got great insight from a pedagogical article
+by Dave Beckman from the Preskill group at Caltech.
+In particular, he analyzed the steps
+for factoring the number 15.
+Shor's Algorithm in general consists
+of two parts, a classical part and
+the quantum mechanical part.
+The quantum part that we run on our quantum computer
+is designed to find the period of a function, specifically
+the function a to the power x modulo N, that
+is to say the remainder after division of a to the x by N.
+N here is the number we're trying to factor.
+a is a number that can be anything
+as long as it is co-prime with N,
+and x is the argument of the function.
+For period finding on a quantum computer,
+we divide the number of qubits into two registers.
+One register needs to be large enough
+that it can store the number N.
+For 15, we need four bits, so four qubits
+are needed for that register.
+The other register in principle needs
+to be twice as large or eight qubits,
+bringing the total to 12 qubits to factor the number 15.
+The algorithm consists of, first, a Hadamard operation
+that prepares an equal superposition of all the states
+of the first register then a function call of the function
+a to the x modulo N where x are the states
+of the first register.
+And the result is mapped into the state
+of the second register.
+And the third step is the Quantum Fourier Transform
+applied to the first register.
+At the end of the computation, we
+read out this first register.
+Now, if you begin to analyze how to implement
+this complex function a to the x modulo N,
+you realize that it can be broken apart
+into multiple simpler operations, where each of them
+is a operation controlled by just one bit out of all
+the bits of the first register.
+And then you find for the number 15 that we're lucky.
+Only two of the control qubits actually
+play a role in factoring 15.
+And in some cases, some choices of a, even just one
+of the control qubits plays a role.
+So that actually allows us to eliminate many qubits
+of the first register.
+In principle, you could eliminate all of them
+except two.
+Now, we decided that for a meaningful Quantum Fourier
+Transform, we would like to have not just two qubits,
+but at least three qubits.
+With two qubits the Quantum Fourier Transform
+comes down to a single two qubit gate.
+And we thought that was too trivial.
+So in the end, we went with an experiment
+with a total of seven qubits to factor the number 15.
+So in NMR, the qubits are represented
+by the nuclear spins in the molecule,
+the spins of the atomic nuclei in a molecule.
+For a successful molecule for NMR qubit experiments,
+the molecule needs to have a rather unusual properties.
+We need what we call large chemical shifts, that
+is to say, large separations in frequency between all the
+spins that we want to involve in the computation
+for selective addressing of the qubits.
+And we want a coupling network that
+allows sufficient pairs of qubit, pairs of
+spins, to be coupled to each other
+so that all the required two qubit gates can be implemented
+on the molecule.
+So [INAUDIBLE],, a staff member at IBM Almaden,
+did an extensive search looking through fast tables
+and documents with tabulated NMR properties of known molecules.
+And after spending days and weeks in this process,
+he came to the conclusion that none of the tabulated molecules
+were good enough for the experiment
+that we were attempting.
+However, there was one that came close.
+It consisted of a backbone of four carbon atoms.
+And surrounding it there were five fluorine atoms
+that all could serve as a spin one-half and provide a qubit.
+And in addition, there was an iron complex.
+The iron complex created asymmetry in the molecule
+so that the resonance frequencies of the five
+fluorine atoms would be separated.
+To go from five fluorine spins to seven,
+what we needed to do was to isotopically label
+two of the carbon spins so that they became carbon-13
+and also acquired a spin one-half.
+Synthesizing this molecule was a real tour de force.
+Greg Breyta, IBM staff member who
+usually worked on chemical synthesis
+in the Resist program, spent over one year trying
+to synthesize this molecule.
+And at any point in time in this multi-step synthesis,
+we didn't know if this next step was going to be successful.
+But finally, after more than a year, actually just in time
+when I was ready to try the experiment,
+he delivered the molecule.
+So the next challenge was to develop the control techniques
+to take the seven spins through the steps of Shor's Algorithm,
+basically to make them do the spin dance
+with a great degree of control.
+Here we could benefit from decades of technology
+development in NMR spectroscopy,
+where people were interested in revealing
+the structure of molecules they were synthesizing.
+And we got great advice from experienced NMR spectroscopist
+at IBM, Mark Sherwood.
+In the years that followed in '99 and 2000,
+we did experiments with first two, then three,
+and five spins to learn how to control the time evolution
+of increasing numbers of spins.
+They were all coupled together.
+But the factoring experiment, it
+became clear it was beyond anything that anyone had ever
+done in terms of controlling many coupled quantum spins.
+It required more than 300 radio frequency pulses,
+specially tailored in amplitude and phase
+to allow selective addressing of each of the seven spins.
+In addition, we had to account for unintended phase shifts that
+occurred on any of the qubits when we were driving
+any other of the qubits.
+In addition to that, since we were competing
+against the decoherence timescale,
+we had to apply simultaneous rotations
+where cross-talk effects were actually even more severe.
+And we had to account for those as well.
+And then finally, in NMR in these molecules,
+the couplings are always on.
+So we had to use some rather sophisticated
+so-called decoupling sequences that effectively remove
+the effect of all the couplings except the one coupling
+that we needed to run a two qubit gate between two spins.
+So, together with Matthias Stephan, fellow PhD student
+at Stanford who started one year after me,
+we went out to try and control the seven spins,
+starting in September of 2000.
+And throughout that fall and the winter of 2001,
+we made a lot of progress.
+We used a variant NMR four channel spectrometer
+to control the seven spins.
+And after some time, we were far enough
+that the output spectra actually revealed
+us the information of the period of a to the x modulo 15.
+And from that, we could say that we had factored 15.
+At the same time, we were disappointed because the output
+spectra, even though they did give us the right information,
+they didn't look like what we ideally expected.
+And even though we added more and more sophistication
+in our control techniques, it seemed
+like we were hitting a wall.
+At some point, I set out to write a model
+to capture the main effects of decoherence in a simple way.
+And there it was, beautifully reproducing
+the experimental spectra, the simulated spectra
+accounting for decoherence.
+This was interesting because in our four years of experience
+programming NMR sequences and operating on molecules,
+this was the first time that decoherence
+had become our limiter.

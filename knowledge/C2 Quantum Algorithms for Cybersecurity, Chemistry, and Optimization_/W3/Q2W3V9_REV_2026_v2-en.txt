@@ -1,0 +1,154 @@
+
+Let's start with the energy graph
+of a simple diatomic molecule.
+When the atoms are close too each other,
+the repulsion between the individual nuclei
+dominates the energy of the system
+and leads to an unstable configuration.
+At the other extreme is the case when
+the two atoms are dissociated.
+The point of minimum energy, though,
+is the equilibrium configuration,
+when the atoms are separated by the bond distance.
+Evaluating these energies to high accuracy
+is extremely crucial for accurately predicting
+chemical reaction rates and pathways
+and developing insights into molecular structure.
+The evaluation of these energies essentially
+comes down to solving the Schrodinger equation,
+with the following electronic Hamiltonian, which
+captures the electronic kinetic energies and the Coulomb
+interaction between pairs of electrons and nuclei,
+as well as pairs of electrons.
+However, this eigenvalue problem is one with exponential cost
+when addressed by classical computation.
+And this was indeed one of the initial motivations
+for quantum computers, the idea that one
+could use a highly controllable programmable quantum
+processor to efficiently study and predict the properties
+of quantum systems of interest.
+The first step of such simulations,
+then, involves encoding the problem to the quantum
+processor, in our specific case, mapping the electronic orbitals
+onto qubits.
+One then needs an algorithm that solves the eigenvalue problem
+to evaluate the ground state energy.
+In this context, hybrid quantum classical algorithms with
+[? shocked-up ?] circuits, such as the variational quantum
+eigensolver, are well-suited to the capabilities of existing
+hardware.
+Here, the trials, or guesses, to the ground state
+are prepared on the quantum processor, parametrized
+by some experimental controls [INAUDIBLE]..
+The energy of these states is then measured and fed
+to an optimization routine run on a classical computer that
+updates these parameters to attempt a new trial state.
+And this is now run its iteratively,
+till the energy converges towards its minimum value.
+This raises three important questions
+for implementing this algorithm.
+Are there encoding schemes that are
+efficient towards the number of qubits required?
+Are there trials states that are efficient towards the number
+of gates required while faithfully representing
+the ground state of the molecule?
+This is important since this can help
+reduce the effect of decoherence during the state preparation.
+Finally, are there classical optimization routines
+that can effectively deal with the large number
+of [? variational ?] parameters and experimental lines?
+These were all important components
+of a recent experiment at IBM.
+Taking advantage of natural symmetries
+in the molecular Hamiltonian, we were
+able to encode eight orbitals of beryllium hydride
+onto a reduced number of 6 qubits
+at no loss of information.
+Also, we constructed trial states
+that used layers of untangling gates that are naturally
+accessible to the experimental hardware, which are then
+interleaved with arbitrary Euler rotations.
+The circuit dept or the number of entangling layers
+is then set based on the available quantum
+coherence of the hardware.
+Making efficient use of coherence time and qubit
+resources, these states are dubbed hardware-efficient trial
+states.
+Using such trial states, we were able to perform
+energy minimizations of up to 6-qubit Hamiltonians.
+Here is one such example.
+In the classical optimization routine,
+13 Euler angles, which serve as the variation of parameters,
+are simultaneously updated as the local reading
+is approximated using solely two energy measurements
+by iteration, shown here in red and blue.
+The iterations are stopped once the energy flattens out
+towards its minimum.
+Using these techniques, we were able to address
+different electronic structure problems of fairly
+elementary molecules using 2 qubits for hydrogen,
+4 qubits for lithium hydride, and 6 qubits for beryllium
+hydride.
+These are problems that are small enough
+to solve even on a laptop.
+However, a big motivation for this work
+is to be able to understand the sources of error
+and when addresses these problems using
+the normal paradigm of computing,
+using real quantum hardware.
+And by comparing the experimental results, shown
+in these black dots with numerical simulations
+of the noisy device, we see the decoherence
+at insufficient circuit depth are
+some of the important sources of error.
+So now this raises the question, in the absence of quantum error
+correction, is there a way to do something meaningful with
+[? near-term ?] hardware?
+Is it possible to obtain estimates
+for, say, these energies in the absence of incoherent noise,
+despite using a noisy quantum processor?
+Turns out there is--
+with metals that we call error mitigation.
+If there is an easy way to amplify
+the strength of the noise and then
+we measure the expectation values of interest,
+we can then use a powerful numerical technique [INAUDIBLE]
+an extrapolation to obtain a zero-noise estimate.
+Here is a case of two wrongs making a right.
+In contrast to quantum error correction that has a resource
+requirement that's perhaps beyond near-term hardware,
+this error mitigation technique is fairly accessible
+since it doesn't require any additional quantum resources.
+Now, is there a way for us to controllability amplify
+the strength of the noise?
+For instance warming up our dilution refrigerator, which
+houses the superconducting processor,
+certainly increases decoherence.
+But there isn't really a precise way
+of scaling the noise strength?
+However, an alternate more accessible approach
+involves rescaling the dynamics of the state preparation.
+This can be shown to be equivalent to amplifying
+the strength of the noise if the noise is
+constant over the duration of the [? rescale ?] measurements.
+Let's now revisit the molecular simulation of lithium hydride
+with 4 qubits.
+The original experiments used just [? depth-one ?] circuits
+to reduce the effect of decoherence.
+More recently, the mitigation of errors from decoherence
+enables the benefit of longer computations
+with increased circuit depth, to achieve accuracies
+that were otherwise believed to be
+beyond the scope of the noisy superconducting processor.
+Although discussed with specific examples of quantum chemistry,
+the variational algorithms and error mitigation techniques
+discussed here can be extended to a host of different problems
+that rely on computations with expectation values--
+problems in quantum simulation addressing fundamental particle
+physics and condensed matter physics,
+and even problems in optimization and machine
+learning.
+These techniques will likely be crucial to enhance
+the quality of quantum computation and simulation
+in this era of noisy intermediate-scale quantum
+computers.

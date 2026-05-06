@@ -1,0 +1,145 @@
+
+If somebody gives you a single photon of unknown polarization
+and wants you to transmit it to somewhere else.
+Of course, it's a photon.
+It naturally likes to travel.
+You can send it to them.
+But suppose it's daytime.
+And you want to send it to somewhere else.
+And there's too many photons around.
+How can you get this photon to another destination intact?
+Well, you could try to measure its polarization.
+But if you did, you might measure along a wrong axis.
+And you might spoil it.
+If you measured it, then, of course,
+you could tell the receiver your result.
+But it would be a bad copy.
+It seems like the uncertainty principle prevents you
+from getting all the information out
+about the state of the photon.
+And if you can't get the information out of it, how
+can you get a copy of this photon
+or get it to another destination intact?
+Well, quantum teleportation is a way
+to make it end run around this logic.
+And it uses entanglement.
+And here's how you do it.
+First, I'll say why it doesn't work if you don't use entangle.
+So I've got this photon of an unknown polarization.
+The best I can do is to measure it.
+And that uses the photon up and gives me
+incomplete information.
+So I would then send this partial information.
+And I would make an approximate copy--
+a copy that might be right or might be wrong
+or might have a polarization that isn't quite right.
+So that's the trouble.
+And it would seem the uncertainty principle prevents
+this job from being done.
+Well now here's what we can do to get around that problem.
+We use more photons.
+We have our original photon A, and we
+want to get it to another destination.
+So we now take two entangled particles, which
+I'll called B and C. They've never been near photon A.
+And they don't know anything about the state of A.
+And what we do is we make a measurement, not on A alone,
+but on A and B together.
+And since those are two photons, we
+can get four possible outcomes of that measurement,
+so we do that.
+Essentially we're measuring the relation
+between their polarizations without measuring
+the polarization of either one.
+And, of course, that spoils both of them.
+So this looks like we we're worse off than.
+And we don't even have one copy of the information
+that we wanted to get to the receiver
+over on the right side of the figure.
+But we take this information that we got-- the relation.
+And that's a two-bit message.
+And we send it to the receiving location.
+And then at the receiving location,
+the receiver takes the other entangled particle
+C, who's never been anywhere near A
+and does one of four different rotations on it.
+You might say applies a corrective treatment.
+And when you do that, it puts it into an exact copy
+of the state of photon A that you
+spoiled by measuring it in the first part of the protocol.
+So at no point do you exactly learn the state of this photon.
+But you protected it from being damaged.
+And then you've destroyed one copy on the left
+and produced a perfect replica on the right.
+And that's what we call quantum teleportation.
+I could draw some equations for this showing how this works.
+But can we do it in a metaphoric way?
+And the metaphor I have is to say, suppose Alice--
+suppose she's witnessed a complicated crime
+with possible terrorist implications here in Boston?
+Now, the FBI in Washington knows that her memory
+is this fragile dreamlike form.
+And they want to ask her just the right questions
+in the right order.
+And not to spoil her memory by asking her wrong questions.
+And they certainly don't want to leave the investigation
+to the Boston Police who will ask her stupid questions
+and confuse her.
+And so they ask her to come to Washington
+and be interviewed by a panel of experts
+who will ask her just the right questions in just
+the right order.
+And probably these questions even
+depend on confidential information
+they wouldn't want to share with the Boston Police.
+But Alice doesn't like travel, and she refuses to go.
+So they decide to send one of their agents to Boston.
+Unfortunately, their agents are all
+very opinionated about the case.
+And they don't trust each other to ask the right questions.
+Well, there's two agents who seem to be pretty useless.
+They're around the FBI, but they don't
+seem to understand anything.
+They're twin brothers, Remus and Romulus.
+And they don't have an opinion about anything.
+If you ask either one of them a question
+about any subject at all, they give a completely random
+answer.
+But for some reason, they would always give the same answer
+as each other.
+So hearing about this problem of who's going to go to Boston
+and talk to Alice, Remus says, well, I don't know anything
+about the case.
+So I'm less likely to influence her than any of you.
+Besides, I like to travel.
+Just ask my brother, and Romulus agrees.
+So they send Remus to go to Boston to meet Alice.
+And they explain that this is really a speed date.
+They're not supposed to discuss anything substantive.
+They just have to figure out whether they
+click in their relationship.
+Well, it goes really badly.
+And Alice leaves in a few minutes,
+saying I can't stand this guy.
+And for some reason, it's been so stressful
+that I forget everything about this crime.
+And the Boston Police thank her and say she can go home.
+Then they get on the phone to Washington
+and say, well, it looks like Alice and Remus
+don't get along.
+So the FBI, the x, then go to Romulus and say,
+well it looks like Alice and your brother don't get on.
+So any question that we would have asked Alice,
+we can ask you.
+And we know that whenever you say yes,
+she would have said no.
+So they proceed with their careful
+questioning, reversing every one of Romulus's answers
+to get what Alice would have answered.
+In other words, the metaphor is that by the speed date,
+Alice has transplanted her state, not
+into Remus, but into his twin brother
+but with a random rotation.
+In this case, a reversal of all the answers.
+So when you work for the math of teleportation,
+essentially that's what it does.

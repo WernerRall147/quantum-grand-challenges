@@ -1,0 +1,92 @@
+JOHN SMOLIN: Peter Shor's 1994 polynomial time quantum
+factoring algorithm is what really started the quantum
+computing revolution.
+Using it, it was discovered at IBM Research in 2001,
+that 15 equals 3 times 5 using seven NMR qubits.
+Then it was discovered again in 2007
+using a different technology, photonics, with just four
+qubits, and in 2009 using five, finally, in 2012,
+using only three superconducting qubits.
+Also, 21 was factored using a photonic qubit and qutrit, which
+is a three-level system.
+I've plotted these results versus time,
+and you may notice something strange.
+The number of qubits is going down.
+And one can extrapolate that 15 will be factored
+without any qubits at all.
+So my collaborators and I started to wonder just
+what's going on here.
+How many qubits do you really need to factor a number anyway?
+First, a quick review of Shor's algorithm.
+The core of the algorithm is as follows.
+To factor a number N, you first pick a base, a,
+which is some integer.
+Then you find the period, r, of a to the power
+x modulo N. This period finding is the only quantum
+part of the algorithm.
+If you find that r is odd, or that a to the r over 2
+is minus 1 mod N, you try again.
+Otherwise, the greatest common divisor
+of a to the r over 2 plus or minus 1 and N is a factor.
+Euclid's algorithm, which is rather old technology, circa 300
+BCE, is efficient for finding the GCD.
+The quantum period-finding step requires a register big enough
+to hold N and one more bit, which
+is used to pull out bits of the quantum Fourier
+transform using a technique known as qubit recycling.
+So to factor n we need log n plus 1 qubits.
+For 15, this works out to five bits as the minimum,
+and even more if qubit recycling isn't used.
+So how did people factor 15 with so few qubits?
+It turns out that even the original 2001 experiment
+with seven qubits used an additional trick called,
+in an abuse of the term, compiling.
+What was noticed was that for some bases a,
+the period r is small.
+Then the quantum register used to find the period only
+needs to be big enough to hold r instead
+of N. Can we always find a base which results in a small r?
+It turns out the answer is yes.
+We employ a much more modern result
+than Euclid's algorithm, the Chinese remainder
+theorem from 400 CE.
+It says that given two primes, p and q,
+then a squared is 1 mod pq if and only if a squared is
+1 mod p and also mod q.
+If we then choose a equals plus or minus p pq plus or minus
+q qp, where pq is the inverse of p mod q
+and qp is the inverse of q mod p, then by construction,
+a squared equals 1 mod p and mod q.
+Furthermore, we can find pq and qp efficiently using what else?
+Euclid's algorithm.
+In other words, for any N equals p times q,
+we have an efficient algorithm for finding
+a base a with a squared equals 1 mod N, or period r equals 2.
+So we can now implement Shor's algorithm
+using exactly two qubits and factor an arbitrary
+N. The circuit looks like this.
+We can further simplify if we notice that the bottom qubit is
+never measured and realize that the circuit
+makes a maximally entangled state
+and measures just one of the qubits.
+So all it does is produce random bits.
+We actually implemented this using the device shown.
+Here is the back of the device with a quarter next to it
+for scale.
+We factored 15 RSA-768, which I believe is the largest number
+ever factored on classical computers,
+and a 20,000-digit number of our own creation called N20,000.
+Now obviously, this devolved somewhere into nonsense.
+The trick, the cheating part, is that finding a base
+with a small period is easy only if we already
+know the factors p and q.
+Naturally, factoring is easy, provided
+only that you know the factors.
+As I'm recording this, it is the 100th birthday of Richard
+Feynman.
+So let me leave you with this quote from his commencement
+address to the 1974 class at Caltech.
+The first principle is that you must not fool yourself,
+and you are the easiest person to fool.
+After you've not fooled yourself,
+it's easy not to fool other scientists.

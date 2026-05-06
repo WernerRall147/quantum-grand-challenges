@@ -1,0 +1,123 @@
+
+Last week, we discussed several topics
+related to quantum Hamiltonians simulation,
+including methods like Trotterization,
+phase estimation, and variational quantum
+eigensolvers.
+This week, we'll turn our attention
+to quantum optimization algorithms.
+Optimization problems are ubiquitous,
+from supply transport optimization
+to sensor and satellite tasking, pattern recognition, et cetera.
+Many, many important practical problems
+can be reduced to satisfying, in an optimal manner,
+as many constraints as possible.
+We'll first discuss optimization problems
+and their implementation on an adiabatic quantum computer.
+We'll then turn our attention to quantum annealers, machines
+that target classical optimization problems.
+And lastly, we'll look at Grover's algorithm
+and how it works.
+And at the end of the week, you'll
+implement Grover's algorithm for yourself
+on the IBM Quantum Experience.
+To get started, let's first hear from MIT professor Eddie Farhi
+about adiabatic quantum computers and quantum
+optimization algorithms.
+Adiabatic quantum computing is a all-purpose approach
+to solving combinatorial optimization problems,
+or generally for finding the minimum
+of an objective function, using a quantum computer.
+And we know that all systems in nature
+obey the Schrodinger equation.
+It's a first-order differential equation,
+which says that the rate of change of the wave function
+is proportional to the Hamiltonian operator
+times the wave function.
+So adiabatic quantum computing uses the Schrodinger equation
+as the basis of the algorithm.
+It's distinct from the gate model in that sense,
+because we're going to have continuous time evolution.
+The quantum state is going to change continuously, as opposed
+to the gate model, where we have sequences
+of discrete transformations, which update the state.
+Of course, they're really very closely related.
+But in this case, I think it's a lot easier
+to think about how the algorithm works
+if we think in the context of the continuous time evolution.
+Let me try to give you a feel for how
+the adiabatic algorithm works.
+We want to find the minimum of a complicated cost function.
+And in general, of course, there's
+no all-purpose algorithm that will guarantee
+finding the minimum of any cost function in all circumstances.
+Though we're really trying to find something which
+we hope will work well in practice in situations
+we care about.
+So the idea is this.
+The minimum of the cost function,
+we're going to attempt to find by encoding the cost function
+in a quantum Hamiltonian.
+We're going to take a quantum Hamiltonian,
+whose ground state-- that's its lowest energy state we know--
+and we're going to prepare the quantum
+system in the ground state of this known Hamiltonian.
+Sometimes we call that the beginning Hamiltonian.
+If you look at this equation here,
+you see that our Hamiltonian that
+controls the evolution of the system
+has two parts, the beginning Hamiltonian and the problem
+Hamiltonian.
+Now, we're going to start the system off
+in the ground state of the beginning Hamiltonian,
+because the beginning Hamiltonian is
+something we know how to construct,
+and we know its ground state.
+And then what we're going to do is slowly turn off
+the beginning Hamiltonian and slowly
+turn on the problem Hamiltonian.
+So we're going to go from one to the other slowly.
+But the problem Hamiltonian has been constructed
+so that its ground state encodes the solution
+to the minimization problem, which is our goal.
+And we're going to take the system,
+and we're going to slowly change the Hamiltonian as the state
+evolves, according to the Schrodinger
+equation, the first equation I showed you.
+Let me give you a little example of how this might work.
+Suppose that I put a little ball in my hand.
+And it's just sitting there.
+Imagine it in your mind's eye.
+And it's sitting in a-- it's in the minimum of a potential
+well formed by my hand.
+Now I slowly move my hand.
+And the little ball, as you can see in your mind's eye,
+stays right there in my hand.
+And what's happened in that case is
+that I am changing the physical system,
+and I'm dragging along the minimum energy configuration.
+Now, suppose that I put that little ball there,
+and I jerked my hand.
+The ball would fall away.
+So if I let my hand go slowly enough,
+I'll drag along the little ball.
+And the quantum system works in a very similar fashion.
+If you put a quantum state in the ground
+state of Hamiltonian, and then you slowly change
+the Hamiltonian, if you go slowly enough,
+the ground state of the Hamiltonian that is changing
+will correspond to the evolving quantum state.
+In other words, we can shlep the ground state
+from the ground state of the beginning Hamiltonian
+to the ground state of the problem Hamiltonian,
+if we go slowly enough.
+And that means that we have a way
+of finding the ground state, which corresponds
+to the minimum energy configuration,
+or the lowest value or the cost function that we sought.
+This will work, for sure, if you go infinitely slowly.
+Now, infinitely slowly requires an infinite amount of time.
+And so that's not a practical algorithm.
+So the real question becomes, can we
+go slowly enough but not so slowly that it's impractical,
+that we can actually bring our system to the place we want?

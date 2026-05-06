@@ -1,0 +1,106 @@
+WILL OLIVER: A third type of quantum computer
+is called a quantum annealer, and it's
+used solely to solve classical optimization problems.
+BO EWALD: Optimization problems are those that--
+we face them every day.
+What is the best way for you to be able to drive home at night
+when there's traffic?
+What is the best way to route aircraft around an airport?
+All of those are optimization problems.
+[RADIO CHATTER]
+DENNY DAHL: If you're planning a very complicated mission,
+A space mission with a lot of moving
+parts that involve material, people, gasoline,
+if you can optimize and improve the efficiency of something
+like that, quantum computing could have a huge impact.
+WILL OLIVER: Quantum annealers do not use digital gates.
+Instead, an optimization problem is encoded directly
+into the qubits and their connectivity to one another,
+and also by the strength of those connections.
+Finding the qubit states that then minimize their total energy
+is equivalent to optimizing and finding the answer
+to an encoded problem.
+However, how do we anneal these qubits
+into states that minimize their energy?
+BO EWALD: So the name, "quantum annealing,"
+is related to making a sword where you take a piece of metal
+and then you heat it up.
+And in the old days, a swordsmith
+would beat the sword into some shape,
+and then would cool it, quench it in water, perhaps, heat it up
+again, and then beat it into shape,
+and do that multiple times.
+And that was called an annealing process.
+So heat it up, cool it down, heat it up, cool it down.
+Quantum computing uses a similar technique.
+WILL OLIVER: To perform annealing, we
+start by setting the qubit states and their couplings
+to one another in a configuration where
+we know the ground state.
+Let's call this the starting configuration, or alternatively
+its starting Hamiltonian.
+We then slowly change the qubits in their couplings
+from those in the starting Hamiltonian
+to those in the encoded problem Hamiltonian.
+Now if we make these changes slowly enough,
+it's likely that we'll remain in or very near the ground
+state of the system so that by the end of this evolution,
+the qubits are in their ground state,
+and that represents the solution to our optimization problem.
+BO EWALD: If you have a problem that you
+can craft as a landscape, like the Alps,
+for example, what our computer does
+is without adding or subtracting,
+it would find the lowest valley or valleys in that landscape
+probably.
+It's probabilistic, and, again, doesn't add or subtract,
+but rather, what it's really doing
+is not a three-dimensional version of the Alps,
+but it's an n-dimensional energy landscape,
+and it's finding a low-energy solution to that problem.
+WILL OLIVER: The challenge is that for problems of interesting size
+and complexity, it's almost certain that no matter how
+slowly we change these parameters,
+the annealer will, at some point, leave its ground state.
+This is due to the larger number of energy states
+and their close proximity to one another.
+And as a result, quantum annealers
+must find additional mechanisms to return the computer
+to the ground state.
+For example, through quantum tunneling,
+or by introducing excess relaxation,
+a loss of energy that returns the computer to its ground
+state.
+BO EWALD: If you hit a barrier, like a mountain range,
+as we described earlier, what our machine does
+is rather than you having to put more energy to climb
+the mountainside and go down the other side,
+we use the quantum mechanical property of tunneling,
+and we tunnel through the barrier
+to get to what should be a lower energy
+solution in the next valley, if you will.
+WILL OLIVER: On the other hand, add too much relaxation
+and the computer may not even be quantum mechanical anymore.
+As a result, it's currently unknown
+if a quantum annealer can exhibit quantum enhancement
+for a general class of optimization problems.
+It may just represent another type of classical computer.
+And although, as a classical computer,
+it would not scale well with the size of the problem,
+it may still be interesting if it were substantially faster
+than any of today's transistor-based classical
+computers.
+BO EWALD: There are technical challenges
+facing quantum computing.
+For our quantum annealing computers,
+how do we scale them up to be able to start attacking
+more real-world problems instead of subsets
+of real-world problems?
+WILL OLIVER: There's a strong interest in quantum annealers
+because classical optimization problems are everywhere,
+from supply transport optimization,
+to sensor and satellite tasking, pattern recognition,
+needle-in-a-haystack problems, et cetera.
+Many, many problems can be reduced to optimization.
+And so there's a large application
+pull to understand quantum annealers better.

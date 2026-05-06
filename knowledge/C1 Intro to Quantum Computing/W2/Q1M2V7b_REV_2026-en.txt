@@ -1,0 +1,107 @@
+
+Once we have the ions, how do we manipulate the qubits?
+Single-qubit gates are brought about
+by applying laser pulses resonant
+with the qubit transition for a certain amount of time.
+If the qubit starts in the ground state
+as a function of the laser pulse duration,
+the qubit state coherently oscillates between the ground
+state and the excited state, performing what
+are known as Rabi oscillations.
+By choosing the appropriate time to stop the Rabi oscillations,
+we could perform a flip of the quantum state
+from 0 to 1 producing a quantum version of the classical NOT
+gate, or the inverter.
+This is how we perform a pi pulse.
+Interestingly, if we use a laser pulse
+half as long as a pi pulse to perform a pi over 2 pulse, that
+is a gate with no classical analog,
+we produce in the ion qubit a superposition state,
+0 and 1 at the same time, where the electron is effectively
+in two states at once.
+These manipulations form the basis
+of single-qubit operations on ion qubits.
+Along with single-qubit gates, 2-qubit gates
+are required to do arbitrary quantum computations.
+We bring about these operations by means of the strong Coulomb
+interaction between two positively-charged ions.
+Two ions in the same trap share vibrational modes
+due to their interaction, much like two balls with a spring
+connecting them.
+And these modes can be excited, depending
+on their internal qubit states, using laser beams.
+Thus the internal qubit states can
+be entangled through the quantum vibrational mode
+channel used as a quantum bus.
+The basic 2-qubit gate is a controlled NOT gate,
+somewhat analogous to a classical exclusive OR gate.
+And it can be produced using this bus interaction
+in combination with a few single-qubit gates,
+as I just described.
+If one ion starts in an equal superposition state,
+the state after application of a controlled NOT gate
+will be a maximally entangled state,
+capable of effects like what Einstein called
+"spooky action at a distance.”
+Not only is this spooky action really
+the way entangled systems work, as verified many times
+in laboratories around the world,
+it is also a fundamental component
+that large-scale quantum computers will rely on
+for their operation.
+Finally, after a series of single and 2-qubit operations
+as you would perform to carry out an algorithm,
+the quantum state of the ion qubit must be measured.
+Ions allow a particularly good mechanism
+for high-fidelity state readout, when
+compared with other systems.
+By illuminating the ion with light resonant
+with an auxiliary transition, we cause
+the ion to absorb and re-emit light on this transition
+if it is measured in one state, whereas the light will
+be off-resonant if it is measured to be in the zero state,
+and the ion will be dark.
+The ion state may have been in a superposition
+before the measurement, but during illumination, the state
+will be projected to 0 or 1 and remain there.
+This forms a quantum non-demolition measurement,
+allowing us to scatter many photons
+and get good statistics on the ion state.
+By setting a threshold on the number of photons
+we detect from the ion during measurement
+using a single photon-sensitive detector,
+we can measure the ion's state with very high fidelity.
+We therefore have established techniques
+to perform all the operations required for quantum computing
+using trapped ions, and the properties
+of the ions themselves allow for very
+low error on these operations.
+In fact, researchers in the field of trapped ion quantum
+computing have demonstrated basic quantum computing
+primitives in few ion experiments that
+approach or surpass the fidelity levels we think we need
+for useful large-scale systems.
+Coherence times for a single ion have
+been shown to be in the neighborhood of 10
+minutes, quite a long time for quantum properties
+to persist, even becoming comparable to human time
+scales.
+Single-qubit gates, with errors at the one in a million level,
+have been achieved using microwave fields.
+And 2-qubit gate fidelities are at the 99.9 percent level
+in experiments performed by a few different groups.
+In addition, a few tens of ions have
+been trapped and individually manipulated as well, though not
+simultaneously with the highest fidelity gates.
+The remaining challenge, therefore,
+is to maintain the exquisite level of quantum control
+that has been shown to be possible,
+while scaling systems to many ions.
+This must include providing control and readout capability
+for arrays of ions without simply multiplying up
+the number and size of the bulk optics
+and external electronics setups used today--
+equipment which can take up a small room.
+This is an exciting area of current research.
+And at Lincoln Laboratory and MIT,
+we are taking this challenge head on.

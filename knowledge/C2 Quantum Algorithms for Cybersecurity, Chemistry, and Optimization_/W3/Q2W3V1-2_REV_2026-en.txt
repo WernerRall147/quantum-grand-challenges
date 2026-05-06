@@ -1,0 +1,150 @@
+
+Over the past two weeks, we looked
+at how quantum computers running Shor's algorithm
+enable us to compromise conventional encryption
+schemes, such as the RSA cryptosystem.
+And we also saw how quantum mechanics provides
+a workaround, via quantum cryptography and quantum
+key distribution.
+This week, we'll turn our attention
+to the subject of quantum simulation.
+It was Feynman's original insight
+that, if we want to simulate a quantum system,
+we'd better use a quantum system to do it,
+because it's a really hard problem
+for a classical computer to solve.
+This is due to the exponentially large number of quantum states
+that we need to keep track of.
+But what does it mean to simulate a quantum system,
+and how do we represent the quantum system that we
+want to simulate?
+And what does quantum mechanics do
+to make these simulations tractable?
+Further, what can go wrong?
+We'll address these questions this week,
+and review several applications based on quantum simulation.
+But to get started, let's first hear from Professor Isaac
+Chuang about ideas and issues associated
+with quantum simulation.
+Some of the issues and the challenges when
+working through quantum simulation,
+first, you would like to have, in principle, the knowledge
+that you can do the simulation.
+And the way one approaches this is to define the problem
+by saying the goal is to simulate Hamiltonian--
+we'll call the Hsys--
+but you're given a different set of Hamiltonians,
+not just one Hamiltonian, but a whole family
+of them, which will be the Hamiltonian
+of the quantum computing units.
+Like each of the gates or each of the subsystems.
+And you can turn them on and off at will.
+Then the question is, in a mathematical way,
+whether or not HkQC can generate Hsys.
+Mathematically, this is a beautiful group theory question
+about whether the algebra of Hsys
+is spanned by the algebra of H quantum computer.
+But this is the starting point for quantum computation
+or quantum simulation.
+A second idea and issue is how does one
+transform this kind of a set of Hamiltonians into the system
+that you would like to simulate.
+And one of the earliest approaches of this
+is to use analog techniques, which
+go under the name, for example, of analog deformation.
+And that is that you might have a Hamiltonian which
+has a number of terms, and your strategy
+would be then to manipulate these, deform
+them to make this Hamiltonian look like this one,
+for example, in a time-averaged way or in a strobostopic way.
+So for example, at every time capital T, 2T, 3T, 4T,
+and so forth, you would like this Hamiltonian
+to equal that Hamiltonian, not at all times.
+And this is the strategy and approach, for example,
+employed by ultracold atom gases,
+Bose-Einstein condensates, when they're
+being utilized to simulate, for example, a superconducting
+system.
+And that naturally works out, in many ways,
+because they can be controlled to have similar Hamiltonians.
+And the Bose-Einstein condensate is very controllable,
+and you can get an equivalent lattice spacing that's
+much larger than the physical lattice spacing of atoms
+inside a superconducting solid.
+And so you can engineer the kind of Hamiltonian
+you would like your quantum computer
+to simulate in many rich ways.
+So this has been a very effective and useful approach.
+Here's another idea and challenge, though.
+Even if you can simulate-- so this is in principle,
+this is one method by which you can simulate--
+you're still faced by a rather annoying and pressing challenge
+and question, which is what to measure.
+Even if I just tell you, you can simulate.
+So if I say, you're given some state which
+is e to the minus iht times some initial state,
+if you measure this, it collapses.
+And then you get only one statistical sample
+of that wave function.
+Does that tell you what you want?
+Does that give you an actual output?
+And what are its statistical errors?
+Because after all, nothing is real unless it's reproducible.
+And in Junior Physics Lab here, those of you
+who've taken Junior Lab know nothing
+is real unless it has an error bar.
+You don't get an error bar from a single instance of something.
+But if you have to repeat this many times, your errors now,
+normally, if there's just a lot of large numbers
+distributed, going to decrease as the square root
+of the number of tries.
+And that often isn't good enough,
+because you don't want to try an exponentially large number
+of times.
+But naively, this is what you would have to do here.
+So maybe what you want to do is not to measure the state.
+Maybe what you would like to get is some expectation value
+of some operator.
+And maybe it's going to be easier to measure that operator
+than it is to, say, get all the coefficients of a wave
+function.
+But even this is fraught with difficulty
+because it still has the statistical randomness
+that we just described.
+This is an issue of precision.
+
+And I will try to illustrate this issue with the Grover
+algorithm simulation topic that we'll come to in two steps.
+And then let me leave you with one more issue and idea,
+which is--
+and this is kind of outside of the scope of quantum simulation
+of quantum, but it is a very real one
+for quantum simulations.
+Instead of building a quantum simulator, why not just improve
+your classical simulation of the quantum system
+by using a better approximation?
+
+And this approximation might be a quantum-inspired
+approximation.
+
+And this actually has happened over the last decade or so.
+A whole variety of new approximations
+have come because of quantum computation that allow you more
+efficient classical algorithms.
+And these have swept through condensed matter theory,
+and are now entering into the realm of quantum chemistry.
+And they go by a variety of names.
+The technique that started all of this in physics
+was the density matrix renormalization group
+idea, which was awarded the Nobel
+Prize, Ken Wilson and company.
+But now, we have many more advanced techniques.
+So not just DMRG--
+and I'll toss out a bunch of acronyms here,
+for those of you interested in this--
+but also things like PEPS, MERA, and all sorts of things.
+You know you're entering chemistry when all you see
+are acronyms.
+These are real ways of getting very useful, highly
+accurate approximations to answers that you want
+to find in quantum chemistry.

@@ -47,15 +47,16 @@ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage C complete** (canonical Grover workflow implemented with simulator-backed validation and scaling analysis artifacts).
-- **Next gate target**: **Stage D** (advantage evidence package hardening with backend-specific uncertainty methodology and deployment assumptions).
+- **Current gate**: **Stage D complete** (advantage evidence package hardened with backend uncertainty profiling, oracle overhead accounting, marked-fraction sensitivity analysis, and `projected` claim category locked).
+- **Next gate target**: Maintenance — promote `projected` → `demonstrated` only when hardware execution evidence is added.
 
-Stage C evidence references for this problem:
+Stage D evidence references for this problem:
 
-- Executable Grover workflow in `qsharp/Program.qs` and estimator variant in `qsharp/GroverEstimation.qs`.
-- Simulator validation and empirical success-rate results in `docs/GROVER_IMPLEMENTATION_SUMMARY.md`.
-- Classical comparison artifacts in `python/classical_baseline.py`, `estimates/classical_baseline.json`, and `plots/`.
-- Circuit construction and control assumptions documented in the implementation summary and problem-local Q# sources.
+- Backend uncertainty profiles: `estimates/backend_uncertainty_{small,medium,large}.json`.
+- Oracle overhead accounting: `estimates/oracle_overhead_accounting_stage_d.md`.
+- Marked-fraction sensitivity analysis: `estimates/marked_fraction_sensitivity_stage_d.md`.
+- Backend readout characterization: `estimates/backend_readout_characterization_stage_d.md` + `.json`.
+- Stage C evidence remains valid: executable Grover workflow in `qsharp/Program.qs`, estimator variant in `qsharp/GroverEstimation.qs`, classical comparison artifacts in `python/classical_baseline.py`, `estimates/classical_baseline.json`, and `plots/`.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

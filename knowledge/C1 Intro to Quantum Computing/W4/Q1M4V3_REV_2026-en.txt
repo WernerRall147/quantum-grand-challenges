@@ -1,0 +1,202 @@
+
+In this section, we'll introduce the Deutsch-Jozsa Algorithm.
+Deutsch-Jozsa was one of the first quantum algorithms
+that exhibited a provable, exponential speed up
+over a classical algorithm.
+In this section, we'll learn how it works
+and walk through its key steps.
+And by the end of this week, you'll
+implement it for yourselves on a real cloud based
+quantum computer.
+To get started, imagine that we have an unknown function f.
+It takes N Bits as input, and it outputs a single result,
+either a 0 or a 1.
+Now, all we know about this function
+is that it has a unique property.
+It's either a constant function or it's a balanced function.
+OK.
+What do we mean by that?
+Well, a constant function takes any input,
+and no matter what that input may be, the function always
+outputs the same result. For example, independent
+of the input, the function always outputs
+a zero, or no matter the input, it always outputs a one.
+A balanced function, on the other hand,
+will take those inputs, and for half of them,
+we don't specify which half, but for half of them
+it'll output a zero and for the other half it'll output a one.
+In this sense, the output is balanced.
+The Deutsch-Jozsa problem is the following.
+Determine whether a function f is
+constant or balanced based on queries that you
+make of the function f.
+You can send any input state to the function
+and you get a result back, and you can query the function
+as many times as you like.
+
+Now for N Bits, there are two to the n-th power
+different input states that you can choose from.
+And you'll need to run the function for at least half
+of them to determine with certainty if the function is
+constant or balanced.
+
+In fact, you'll have to do it for half plus one.
+That's because even if you get all zeros for the first half
+of the states you try, you'll need
+to try one more just to see if the second half remains zeros,
+a constant function, or all ones, a balanced function.
+Thus, a deterministic classical algorithm
+will take 2 to the N divided by 2 plus 1 steps.
+And it always works.
+Now, if you have N Qubits instead,
+you can create an equal superposition state of all N
+Qubits, and as we'll see, determine
+the answer in just one step.
+And it always works.
+And that's an exponential speed up.
+To see how this works in detail, let's simplify the problem
+to just one bit or one qubit.
+It's the same approach as for N Bits or N Qubits,
+but it'll be much easier to follow if we just
+take n equals to one.
+In this case, for a constant function we have f of 0
+equals f of 1 and the output is either a 0 for both of them,
+or it's a one for both of them.
+And for a balanced function, one of the outputs is 0
+and the other is 1.
+In the truth table, we can make the following observation,
+that if we take the exclusive or of f of 0 and f of 1,
+the result is 0 for a constant function
+and it's 1 for a balanced function.
+In this case, classically it takes two steps
+to implement the algorithm for n equal one.
+And again, quantum mechanically it only takes one step.
+Now, that may not seem like a big speed up.
+It's only twice as fast, but in fact, for N equal one,
+it is an exponential speed up.
+And this generalizes to any number N that you may choose.
+Again, we're going with N equal one
+because it'll be easier to see how the algorithm works.
+To implement the Deutsch-Jozsa Algorithm for N equal 1,
+we actually need two qubits.
+One is the data qubit, that's the N equal one qubit,
+and the other is a helper qubit or an ancilla qubit.
+And we'll use the quantum circuit model
+to implement this algorithm.
+First, we initialize the qubits into their starting states.
+The data qubit is prepared in state zero and the helper qubit
+in state one.
+As we proceed through the algorithm,
+we'll indicate the position at each stage of the algorithm
+and also the state of these two qubits.
+For example, after initialization we
+see that the data qubit is in state zero
+and the helper qubit is in state one.
+To keep it all straight we'll use
+yellow to highlight the data qubit state and green
+to highlight the helper qubit state.
+We first create an equal superposition state
+by applying a Hadamard gate to both qubits.
+This results in a superposition state for each qubit.
+There's a plus sign for the data qubit
+since it started in state zero and a minus sign for the helper
+qubit since it started in state one.
+Next, we'll just expand out the terms in the data qubit.
+The zero state tensor product, the helper qubit superposition
+state plus one state tensor product, the helper qubit
+state.
+This state is then input into the quantum circuit block.
+We'll just call it U sub f.
+The data qubit is x and the helper qubit is y.
+U sub f implements the set of logical operations.
+And it does two things.
+First, it implements the unknown function f,
+and second, it outputs the exclusive or of bits
+y and f of x.
+We'll show later how this can be implemented with single qubit
+and two qubit operations.
+For now, though, let's just figure out what happens.
+At the output of U sub f, we have the helper qubit.
+And it takes on the state y, x, or f of x.
+So where the data qubit is zero, the helper qubit
+is x ord with f of 0.
+And where the data qubit is one the helper qubit state
+is x ord with f of 1.
+Now we make an observation.
+You should try this on scratch paper
+to convince yourself that the expression can be written
+in this way with a minus 1 to the f of 0 power and a minus 1
+to the f of 1 power.
+To check, there are four cases to consider.
+For example, if f of x equals 0 for any x,
+the x or expressions on the left maintain the superposition 0
+minus 1.
+However, if f of x equals 1 for any x,
+then the x or expressions on the left result in 1 minus 0.
+And to return this to the superposition state 0 minus 1,
+we need to multiply by a minus 1.
+This is achieved by taking minus 1 to the fx power.
+And when fx equals 1, this is the minus one
+that we're looking for.
+The expression also works when f of 0 and f of 1
+are not equal, but take on the values 0 and 1, the third case,
+or 1 and zero, the fourth case.
+The fact that this works for all four cases
+simultaneously is an example of quantum parallelism.
+In the next step we factor out the helper qubit term 0 minus 1
+divided by root 2.
+And we move the minus 1 to the f of 0 power and the minus 1
+to the f of 1 power over to the data qubit.
+Next, we apply Hadamard gates to the data and helper qubits.
+On the data qubit, state zero rotates to 0 plus 1
+and state 1 rotates to 0 minus 1.
+For the helper qubit, 0 minus 1 rotates to state 1.
+Next, we just note that minus 1 to the f of x power
+is the same as e to the power minus i pi f of x.
+And then we just rearrange terms to collect
+the coefficients of state zero and the coefficients of state
+one.
+And this is an example of where quantum interference occurs,
+changing the values of the coefficients
+depending on whether the function is
+constant or balanced.
+For example, if f of 0 equals f of 1,
+a constant function, then b equals 0 and a
+is either plus or minus 1.
+Thus, a measurement will yield state 0 with unity probability.
+And we observe that state zero is equivalent to state f of 0,
+x ord with f of 1.
+In contrast, if f of 0 does not equal f of 1,
+a balanced function, then a equals 0 and b
+is plus or minus 1.
+In this case, a measurement will yield state one
+with unity probability.
+And we observe that state one can also
+be replaced with the state f of 0, x or f of 1.
+Thus, if we measure a 0 on the data qubit,
+the function is constant, but if we measure a 1
+on the data qubit, the function is balanced, and we’ll always
+measure a state one on the helper qubit.
+And so with one evaluation of the quantum algorithm
+we were able to determine whether the function was
+constant or balanced.
+And the same is true if we had instead used N data qubits.
+One evaluation always works.
+In contrast, the classical case must evaluate half of the 2
+to the N states plus one to get a deterministic answer.
+And so the quantum speed up is one step versus 2
+to the N minus 1 plus 1 steps.
+Lastly, we can look at ways to implement the logical operation
+U sub f.
+I won't talk through all of them here.
+You can find them in the text unit following this video.
+But there are four cases corresponding
+to the two constant functions 0, 0 and 1, 1,
+and the two balanced functions 0, 1 and 1, 0.
+I encourage you to work through each of these cases.
+Now that we understand how the Deutsch-Jozsa Algorithm works
+within the quantum circuit model,
+we're ready to write a quantum computer
+program that will implement it on a quantum computer.
+And we'll see how that generally is done in the next section,
+and then more specifically in the lab practicum.

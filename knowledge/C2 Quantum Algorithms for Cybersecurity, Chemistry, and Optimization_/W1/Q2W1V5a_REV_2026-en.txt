@@ -1,0 +1,86 @@
+
+How do you get factoring from order finding?
+So first, let me say the second fastest classical algorithm is
+the quadratic sieve.
+So I’d say most classical algorithms…
+So suppose you have N equals P times Q. Actually, they
+work in more general cases, but we'll just worry
+about the case of two products.
+So the first step, really the only step,
+the trick is to find x squared congruent to y
+squared mod N x not congruent to plus or minus y mod N.
+So suppose you're trying to factor 21.
+You get 4 is congruent to 25 mod 21, right?
+Because 25 minus 4 is a multiple of 21.
+So 4, these are both squares.
+And now we have 5 minus 2 times 5 plus 2
+is congruent to zero mod 21.
+And whenever this happens, one of these
+contains P and the other contains Q.
+Or rather, whenever neither of these is 0,
+you have a product of two numbers, which is zero mod 21.
+And so we know that the product has to contain three somewhere,
+and it has to contain [INAUDIBLE] somewhere.
+And if neither of these factors is 0 mod 21,
+3 has to be contained in one factor and 7 in the other.
+And then what you can do is you can use Euclid's algorithm
+for gcd to get P and Q.
+So whenever you get two squares, which are equal to each other,
+you're essentially done.
+And this is how the quadratic sieve works.
+And that's the second fastest classical factoring algorithm
+known.
+How do we find x squared y squared?
+Well, let's look at the function f of x equals g to the x mod N.
+So this is periodic because if g to the r is congruent to 1,
+then g to the x plus r is congruent to g to the x mod N.
+Because if g to the r plus is congruent to 1,
+then g to the x plus r congruent to g to the x--
+because it's just multiplying both sides of this by g
+to the x.
+So that says that f of x is periodic.
+I mean, it has to start repeating some time
+because there are only N possible things here.
+And whenever it starts repeating,
+you get a g to the x plus r congruent to g to the x.
+And that means g to the r is congruent to 1.
+g to the r over 2 squared is congruent to 1
+squared if r is even.
+So let's do an example.
+Suppose we're trying to factor 21.
+So 2 to the 0, 2 to the first, 2 squared, et cetera.
+So this is 1, 2, 4, 8, 16, 32.
+32 minus 21 is 11, so the next column then is 11.
+And 22 minus 21 is 1.
+1.
+So 2 to the sixth is congruent to 1 mod 21.
+That means 2 cubed minus 1 minus times 2 cubed plus 1 is
+congruent to 0 mod 21.
+And this is 7 and this is 9.
+And 7 contains the factor 7, 9 contains the factor 3.
+So the question is how can this go wrong?
+And well, there's a couple of things that could go wrong.
+We could have started with 4.
+4, 16.
+16 squared, well, we know 2 to the sixth is congruent to 1 mod
+21.
+So 4 cubed is congruent to 1 mod 21.
+So we get 4 cubed is congruent to 1 mod 21.
+4 to the 3/2 doesn't exist.
+Well, we can't compute it.
+So this shows that 4 could go wrong.
+The only thing that could go wrong is we could do this.
+And when we look at the middle element, it's minus 1.
+And that would be a problem because then we
+have x is equal to minus y mod N.
+And we can't use that, we can't use this trick then.
+So some things can go wrong, but the great theorem
+is probability of success with g to the xth
+is greater than or equal to 1/2 for a random g between 0
+or a random g less than N.
+So you choose a random g less than N.
+You do this repeated squaring.
+And the probability this will work is at least 1/2.
+And if it doesn't work, you choose another random g.
+So eventually, with high probability,
+you will get a g which lets you factor.

@@ -1,0 +1,41 @@
+
+Let's get an intuitive picture of how
+a quantum algorithm works.
+A universal quantum algorithm is built
+from a small set of single and coupled qubit gates.
+The input to a quantum computer is a massive superposition
+state, in general.
+And then, we apply the types of single qubit gates
+that we've just talked about.
+The single qubit gate operates on all of the states
+simultaneously through quantum parallelism.
+This is followed by quantum interference,
+which modifies the coefficients in front of those states.
+We'll also apply the types of coupled qubit gates
+that we've talked about where, for example,
+the rotation of qubit y depends on the state of qubit x.
+And again, through quantum parallelism,
+these operations apply to the entire state space, followed
+by quantum interference, which again,
+will modify the coefficients.
+And the goal of an algorithm designer
+is to ensure that, by the end of the algorithm,
+one of these coefficients has a value that's
+unity or very close to unity, and it
+corresponds to the state that gives us
+the answer to our problem.
+And this is a very important point
+because we need to measure an output from the quantum
+computer to know the answer to the problem.
+And the measurement process itself, in a quantum system,
+is probabilistic and leads to a classical result.
+So although the output of the quantum computer
+is a massive superposition state, in general,
+the measurement process will project those qubits
+on to only one of the classical states that
+makes up the superposition.
+And the probability that we get any given state corresponds
+to the magnitude squared of that coefficient.
+And so having a coefficient that's
+close to one or, in fact, unity will give us,
+with very high probability, the correct answer.

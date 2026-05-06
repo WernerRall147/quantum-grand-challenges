@@ -1,0 +1,148 @@
+MICHELE MOSCA: Cryptography is the art
+of using mathematical tools to achieve information security
+while using untrusted channels, like the internet or wireless
+communication.
+It's what we use to confirm that the software we download
+every day by auto-updates came from a legitimate source
+and wasn't tampered with.
+It's what we use to know an online shopping or banking
+page is authentic.
+Public key signatures are one of the most commonly used methods
+to provide authentication and data integrity guarantees.
+Most of the encryption we use today
+to protect the confidentiality of information
+is symmetric key encryption.
+However, how are these symmetric keys established?
+In a typical transaction, you might use a public key signature
+to authenticate your bank, then public key encryption
+to establish a symmetric key, and then AES
+to encrypt your confidential information.
+However, quantum computers will break the mathematical problems
+at the core of virtually all public key cryptographic schemes
+in use today, namely integer factorization
+and the discrete logarithm problem.
+This means RSA and Diffie-Hellman
+schemes are decimated.
+Going to larger keys adds very little extra security
+against quantum attacks.
+Quantum computers also wicking symmetric cryptography
+because they can brute force search quadratically faster.
+That is, a quantum computer can effectively
+search a space of N keys with only square root n quantum
+steps.
+Doubling key lengths can effectively
+mitigate the known quantum attacks
+against symmetric cryptography.
+Now while acronyms like RSA and ECC
+might not mean much to most users of technology,
+these tools underpin the security
+of tools such as secure web browsing, VPNs, secure email,
+auto-updates, blockchains, and so on,
+which are the basis of technological infrastructure,
+including the internet, cloud computing, IoT, and so on.
+So to reap the benefits of quantum computing,
+it is imperative that we first deploy
+the new cryptographic tools designed to be
+safe against quantum attacks.
+This is sometimes called quantum-safe cryptography
+or post-quantum cryptography.
+Now we don't believe that quantum computers
+capable of breaking RSA and Diffie-Hellman schemes in use
+today exist, but this doesn't mean
+we can just wait and see before doing something about it.
+Whether we need to take action now depends on three parameters.
+Firstly, what is the security shelf life of the information
+your system is supposed to protect?
+Call this x years.
+Secondly, how long will it take to migrate your systems
+to ones designed to be secure against quantum attacks?
+Let y be the migration time.
+And lastly, what is the collapse time?
+The time until your threat actors
+are able to use quantum computers to attack your systems
+and compromise your information.
+Now note that for the next y years,
+you're stuck with the quantum-vulnerable tools,
+so information being recorded during this period
+may be exploited by quantum computers in the future.
+This information is supposed to be protected
+for another x years; however, if x plus y is bigger than z,
+or z, then you won't be providing
+the x years of confidentiality that you're supposed to.
+For example, information may be for sale on the dark web
+while it is still supposed to be confidential.
+Suppose your information is supposed
+to remain secure for 10 years after transmission,
+and it takes 10 years before the systems
+protect those transmissions against quantum attacks.
+If quantum computers capable of decrypting that information are
+available in 15 years, then there will be a five-year period
+where those transmissions will be vulnerable to compromise
+before their 10-year shelf life is up.
+Further, if y is bigger than z, then systems
+collapse with no reliable way to rebuild them.
+That is, there is no effective remediation
+because the tools to protect against new attacks
+are simply not available.
+Also, it's important to note that rushing y
+will not only be disruptive and expensive,
+but will lead to flawed and vulnerable implementations.
+While viable candidates exist, there's
+a long road to wide-scale, practical, robust deployment,
+including many challenges.
+We need to identify candidates.
+We need to scrutinize them against quantum
+and classical attacks.
+Protocols using the tools must also be secure.
+Software and hardware implementations
+need to be secure.
+We need to analyze the side channels and design
+countermeasures.
+We need to look at the performance requirements.
+We have to integrate them into tools and applications.
+We have to worry about migration and compatibility.
+Standardization so systems will interoperate.
+And validation and certification.
+It can easily take 10 to 20 years
+to properly migrate existing systems.
+In August 2015, the National Security Agency
+of the United States announced that it
+will initiate a transition to quantum-resistant algorithms
+in the not-too-distant future.
+This sent a very clear signal to the world
+that quantum computing was something that needed
+to be taken seriously now.
+Shortly after, the National Institute
+of Standards and Technology, NIST,
+started outlining its plans to move forward and produce
+standardized post-quantum algorithms.
+It launched its post-quantum cryptography project,
+which is a process to solicit, evaluate, and standardize
+one or more quantum-resistant public key cryptographic
+algorithms.
+The submission deadline for proposed post-quantum algorithms
+was November 30, 2017, and the first workshop
+to review the submissions was held in April 2018.
+Most submissions are based on the hardness-of-lattice
+problems, or for signatures, there
+is also schemes based on the security of hash functions.
+Other standard bodies around the world
+are also studying this challenge taking steps
+to prepare the wide range of standards needed
+to protect our information technologies from quantum
+attacks.
+For example, standards for how the financial industry
+will use the new algorithms.
+This need to upgrade our cryptographic systems might
+seem like a nuisance.
+However, there may be an additional positive impact.
+This very advanced warning of the systemic threat to our cyber
+systems not only gives us a chance
+to prepare our defenses against this threat,
+but, if done properly, as part of lifecycle management
+and not as crisis management, we can
+rebuild the foundations of cybersecurity
+to be stronger than ever before.
+We can have a stronger and more agile
+cyber-immune system capable of protecting, detecting,
+and responding to new unexpected threats.

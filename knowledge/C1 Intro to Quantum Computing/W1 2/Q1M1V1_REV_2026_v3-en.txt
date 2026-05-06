@@ -1,0 +1,132 @@
+
+[MUSIC PLAYING]
+
+WILL OLIVER: We hear about quantum computers
+nearly every day in the news and in the popular press.
+It's said that quantum computers will
+solve certain types of problems, ones
+of tremendous importance to humankind,
+and problems that today are practically
+prohibitive, or maybe even impossible to solve
+with current computers.
+We hear about pharmaceuticals and drug discovery
+gaining a better understanding of new materials
+like high-temperature superconductors
+and how they work, new methods for machine learning,
+artificial intelligence, optimization problems,
+financial services and technology.
+Quantum computers will even challenge and change
+the way we securely communicate information.
+It certainly sounds like a fantastic and exciting future,
+which leads us to a few fundamental questions.
+What exactly is a quantum computer and what's it good for?
+More importantly, when will we have one?
+DANNA ROSENBERG: Quantum computers
+are not just smaller, faster versions of classical computers.
+They're fundamentally different.
+BO EWALD: We're in the digital computer world.
+A bit, which is one basic element of information,
+is a 0 or a 1, nothing else.
+DANNA ROSENBERG: In a quantum computer,
+you can have a quantum bit, or qubit, that's
+in a superposition of 0 and 1.
+DAVID KIM: We can design it.
+We can actually control it.
+We're actually engineering and manipulating quantum mechanics.
+[MUSIC PLAYING]
+MORTEN KJAEGAARD: So when we'll have a quantum computer
+is a very interesting and nuanced question.
+And the answer will, therefore, be kind of finicky.
+JEREMY SAGE: We've been saying quantum computers are
+10 years away.
+But we've been saying that for decades.
+DANNA ROSENBERG: Depending on your definition,
+we already have quantum computers.
+They're just small.
+JEREMY SAGE: Within my lifetime, I believe,
+and I won't say how old I am.
+DARIO GIL: This is not decades away, or 100 years away.
+That quantum age has now come.
+WILL OLIVER: Quantum computers aren't simply faster,
+smaller versions of the conventional computers
+we have today.
+Nor are they another incremental step
+in the evolution of Moore's law.
+Rather, quantum computers represent
+a new, fundamentally different computing paradigm,
+one that carries tremendous advantage for certain types
+of problems of importance.
+DENNY DAHL: Quantum computing could really
+transform industries where there are significant optimization
+problems.
+You've got a lot of discrete, or binary decisions
+to make to figure out, do you do this first or that first?
+This is where we shine.
+SERGIO BOXIO: Another way to understand
+the difference between classical and quantum computers
+is if you look at quantum systems of quantum simulation.
+HARTMUT NEVEN: The quantum processor
+is a suitable tool for modeling other quantum systems.
+JONILYN YODER: Biomolecule systems, tons of systems
+that we use, materials systems work
+based on those quantum mechanical properties.
+DAVID KIM: You kind of need a quantum machine in order
+to simulate quantum effects.
+JOHN CHIAVERINI: When we can manipulate individual molecules
+and understand what's going on in those molecules, how they
+bond, then we'll be able to have a really good handle
+on generating new things, novel materials
+that might be very useful.
+WILL OLIVER: Still, we're just at the very beginning of quantum
+computing development, assembling and testing
+the first prototype processors.
+It's a bit like being in the 1950s at the dawn
+of transistor-based computing.
+And just as integrated circuits led to an information processing
+revolution last century, driving economic growth
+and productivity, many people today
+believe that quantum computing will have a similar impact
+this century.
+[MUSIC PLAYING]
+KRYSTA SVORE: Quantum computing and quantum algorithms
+present fundamentally new programming and algorithm design
+paradigms.
+How do we fundamentally unlock new ideas in computing?
+JONILYN YODER: We're still learning
+a lot about how to improve the individual components,
+as well as connect them together.
+DAVID KIM: That's part of the fun.
+That's why I'm there to see what can we
+do to enable that increased complexity and functionality
+of these qubits.
+DANNA ROSENBERG: We're really here at the very beginning,
+and I just find that tremendously exciting.
+WILL OLIVER: Our goal here is to separate the promise
+from the hype to help leaders in business, government,
+and technology understand the basics of how a quantum computer
+works and its applications.
+We'll begin by focusing on those basics,
+from both a technical standpoint and a business standpoint.
+First off, what is a quantum computer,
+and how are quantum computers different
+than conventional computers?
+What types of problems are hard for classical computers,
+but can be efficiently solved on a quantum computer?
+And what technology platforms are
+being used to realize a quantum computer,
+and how do they compare with one another?
+When can we expect a quantum computer,
+and what might it look like?
+Also, what threat does quantum computing
+pose for information security?
+How will post-quantum crypto mitigate that threat?
+And what do we need to do now to get ready?
+In answering these questions, we'll
+be laying the groundwork to help you
+and your organizations become quantum-aware,
+understanding how quantum may impact your business
+and your bottom line in the future,
+and getting started on developing strategies
+today that will help you and your organizations prepare for
+and be ready for that future.
+[MUSIC PLAYING]

@@ -1,0 +1,155 @@
+
+Let's now talk about entanglement,
+Bell's inequality, and experiments
+that can tell us something about the nature of reality.
+In the particular example we use here,
+we'll be talking about polarization entangled photons.
+But these concepts have been demonstrated
+in many different types of systems.
+We'll start by talking about polarized single photons.
+Say you have a vertically polarized photon, which
+just means that the photons electric field is
+oriented vertically, you can send it
+through some polarization rotating element,
+and then to a polarizing beam splitter, which
+has single photon detectors on each output.
+Right now we're not rotating the polarization.
+And the way this polarizing beam splitter works
+is if the photon is vertically polarized it will always
+reflect off the beam splitter and be detected in this port.
+But if the photon is horizontally polarized,
+it will pass through the beam splitter
+and be detected in that port.
+So this idealized system makes a perfect measurement
+of the photon polarization as long as it's polarized either
+horizontally or vertically.
+We call this making a measurement in the HV basis.
+The photons can be polarized in other directions too.
+For example, diagonally.
+To measure in the diagonal basis,
+we can rotate the polarization before it
+gets to the beam splitter.
+Then this detector will be associated
+with the diagonally polarized photons.
+And this one is associated with the anti-diagonally polarized
+photons.
+This is a measurement in the diagonal, or AD basis.
+What happens if we take a photon that is vertically polarized
+and measure it in the AD basis?
+In that case, quantum mechanics predicts that it will randomly
+go to one detector or the other and you can't know
+in advance which will happen.
+We've been talking about single photons,
+but quantum theory predicts the existence of entanglement.
+Here's a cartoon of an entangled photon source.
+It puts out two photons.
+We'll call them A and B, and each
+goes in a different direction two researchers
+named Alice and Bob.
+The quantum state is shown here.
+And what it means is that the source puts out
+a state that is an equal superposition a photon A being
+horizontally polarized and B being vertically polarized,
+and photon A being vertically polarized
+and B horizontally polarized.
+When we make a measurement in the HV basis,
+we find that if Alice measured an H Bob will always
+measure a V, and vise versa.
+So far this doesn't seem too weird.
+And if Alice and Bob both make their measurements
+in the same basis, what they measure
+is consistent with a source just putting out
+a classical correlated state, where half the time it
+sends an H photon to Alice and a V photon
+to Bob and half the time a V photon to Alice and a H photon
+to Bob.
+Now, let's rotate the measurement basis
+so that both Alice and Bob measure in the AD basis.
+Remember, if you have an H photon
+and measure it in the AD basis, it
+will randomly go to one detector or the other with 50%
+probability.
+Same with a V photon.
+If we really did start out with a classical state,
+then we'd expect that Alice and Bob's detector clicks
+would be totally uncorrelated when they
+measure in the diagonal basis.
+On the contrary, countless experiments
+have verified that the detector clicks are always
+anti-correlated if Alice and Bob measure in the same basis.
+These are the stronger than classical correlations
+that Einstein called spooky action at a distance.
+But there's another interpretation that's possible.
+It could be that the photons have some hidden variable
+that's telling them to go to one or the other detector
+when they're measured in this or that basis.
+You can loosely phrase the question
+of which of these alternatives is correct.
+Is the world quantum or is it classical and deterministic?
+It's kind of amazing that there's actually an experiment
+that you can do to rule out one of these possibilities.
+More precisely, we can rule out something called local realism.
+The local part just says that you can't send out information
+faster than the speed of light.
+And realism means that things have definite properties that
+exist independently of whether or not
+we choose to measure them.
+This is, I think, how most of us see the world.
+Hidden variables is an example of a local realistic theory.
+The experiment involves doing the same measurements
+of polarization, but changing the measurement basis
+that Alice and Bob use.
+In the simplest form of the experiment,
+Alice and Bob each measure in two basis.
+It turns out that for some selection of their measurement
+basis, there's a correlation function you can define
+over the inputs, or basis selection, and the outputs,
+or which detector clicks, where the value of the correlation
+function is different if the photons have
+these hidden variables versus what
+quantum mechanics predicts.
+Now, there are some loopholes associated with these tests
+of local realism.
+The loopholes are ways in which nature could trick us
+into thinking local realism is incorrect when in fact, it's
+not.
+First, we need to make sure that Alice doesn't
+know in advance what measurement basis Bob will pick and vice
+versa.
+If one of them knew the basis that the other chose,
+they could trivially reproduce the statistics.
+The only way to guarantee this is
+to make sure that their basis selections are space-like
+separated, so there's no time for the information about which
+basis Alice chose to make it over to Bob before he
+needs to choose a basis.
+There's also the free choice loophole,
+which says the basis selections on either side
+need to be uncorrelated with any classical variable.
+In other words, Alice and Bob's basis selections
+need to be made of their own free will
+without being affected by anything else.
+Finally, there's the detection loophole,
+which says we need to measure enough of the photon pairs
+to make sure we're not only observing a subset, which
+appears to violate Bell's inequality.
+The first experimental test of Bell's inequality
+was done in the '80s.
+And for a long time after that people
+tried to close these loopholes.
+People managed to close all the loopholes separately,
+but it wasn't until 2015 that experimentalists
+were able to conclusively close the loopholes
+in a single experiment.
+This was a tremendous accomplishment.
+And it implies that the world we live in is inherently random.
+By the way, if you're the type of person
+who doesn't like the idea of the world being random,
+I should note that no experiment can ever rule out
+the concept of super determinism, which
+is the idea that everything in the universe,
+including Alice and Bob's basis selection, is predetermined.
+So you can say that these experiments are still
+consistent with super determinism,
+but you might also have to accept
+the fact that you don't have any free will in that case.

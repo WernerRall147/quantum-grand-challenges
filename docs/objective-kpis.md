@@ -7,9 +7,9 @@ Total problems: **20**
 | Stage | Count | Percent |
 |---|---:|---:|
 | A | 0 | 0.0% |
-| B | 17 | 85.0% |
-| C | 3 | 15.0% |
-| D | 0 | 0.0% |
+| B | 15 | 75.0% |
+| C | 2 | 10.0% |
+| D | 3 | 15.0% |
 | Unknown | 0 | 0.0% |
 
 ## Contract Coverage
@@ -21,20 +21,20 @@ Advantage Claim Contract coverage: **20/20 (100.0%)**
 | Problem | Stage | Advantage Contract | Estimator Summary | Backend Assumptions | README |
 |---|---|---|---|---|---|
 | 01_hubbard | B | yes | yes | yes | `problems/01_hubbard/README.md` |
-| 02_catalysis | B | yes | yes | yes | `problems/02_catalysis/README.md` |
-| 03_qae_risk | C | yes | yes | yes | `problems/archived/03_qae_risk/README.md` |
+| 02_catalysis | C | yes | yes | yes | `problems/02_catalysis/README.md` |
+| 03_qae_risk | D | yes | yes | yes | `problems/archived/03_qae_risk/README.md` |
 | 04_linear_solvers | B | yes | yes | yes | `problems/archived/04_linear_solvers/README.md` |
-| 05_qaoa_maxcut | C | yes | yes | yes | `problems/archived/05_qaoa_maxcut/README.md` |
+| 05_qaoa_maxcut | D | yes | yes | yes | `problems/archived/05_qaoa_maxcut/README.md` |
 | 06_high_frequency_trading | B | yes | yes | yes | `problems/archived/06_high_frequency_trading/README.md` |
 | 07_drug_discovery | B | yes | yes | yes | `problems/07_drug_discovery/README.md` |
 | 08_protein_folding | B | yes | yes | yes | `problems/archived/08_protein_folding/README.md` |
-| 09_factorization | B | yes | yes | yes | `problems/09_factorization/README.md` |
+| 09_factorization | C | yes | yes | yes | `problems/09_factorization/README.md` |
 | 10_post_quantum_cryptography | B | yes | yes | yes | `problems/archived/10_post_quantum_cryptography/README.md` |
 | 11_quantum_machine_learning | B | yes | yes | yes | `problems/archived/11_quantum_machine_learning/README.md` |
 | 12_quantum_optimization | B | yes | yes | yes | `problems/archived/12_quantum_optimization/README.md` |
 | 13_climate_modeling | B | yes | yes | yes | `problems/archived/13_climate_modeling/README.md` |
 | 14_materials_discovery | B | yes | yes | yes | `problems/14_materials_discovery/README.md` |
-| 15_database_search | C | yes | yes | yes | `problems/archived/15_database_search/README.md` |
+| 15_database_search | D | yes | yes | yes | `problems/archived/15_database_search/README.md` |
 | 16_error_correction | B | yes | yes | yes | `problems/16_error_correction/README.md` |
 | 17_nuclear_physics | B | yes | yes | yes | `problems/17_nuclear_physics/README.md` |
 | 18_photovoltaics | B | yes | yes | yes | `problems/18_photovoltaics/README.md` |

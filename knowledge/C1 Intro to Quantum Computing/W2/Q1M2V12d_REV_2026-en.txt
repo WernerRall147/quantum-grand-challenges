@@ -1,0 +1,65 @@
+
+The next stage is room temperature testing.
+At Lincoln Lab we do extensive automated testing
+on every wafer that we fabricate.
+We conduct data-driven process monitoring
+to assess device performance and drive our process development.
+We test each component of our superconducting qubit system.
+Two examples include checking the critical current density
+of the Josephson junctions and measuring the contact
+resistance between the base metal
+and the qubit loop shadow evaporated metal.
+Each wafer is tested using an automated wafer probing
+station.
+After we load the wafer, we do thousands of four point probe
+measurements using a 26-pin probe card in combination
+with a switch matrix.
+At each probing location, we apply current
+to a four-wire test structure and measure the voltage drop.
+The switch matrix re-assigns the current end voltage locations
+for all test structures accessible to the 26-pin probe
+card.
+And then the probe card is lifted and transferred
+to a new position where the measurements continue.
+After testing is complete, the results
+are automatically databased.
+In addition, some devices can be selected
+for further cryogenic testing, either
+at liquid helium temperature of 4.2 Kelvin
+or at melee Kelvin temperatures in one of our dilution fridges.
+As one example of our room temperature testing,
+we measure the resistance of Josephson Junctions
+with varying junction lengths ranging from 100 nanometers
+to three microns.
+We plot the inverse of the resistance,
+which is the conductance, as a function of the junction
+length.
+We use the slope of that plot to extract out
+the low temperature critical current density, JC, of our wafer.
+On our prototyping 50 millimeter wafers,
+we measure the critical current density
+at six identically patterned process monitor chip locations
+spread across the wafer.
+In this example, we targeted a critical current density
+of three micrograms per micron squared.
+We met that target average critical current density
+and also had less than 2% cross-wafer variation.
+In a second example of our test structures,
+we measure contact resistance between our metal layers.
+Here I show a false color scanning electron microscope
+image of contact between the base MBE aluminum metal
+in blue and the top shadow evaporated Josephson Junction
+metal in orange.
+Additionally, we also check for continuity of millimeter
+long snaking lines and isolation between interdigitated combs.
+We use these measurements to check for any particle defects
+and for consistency of lithographic patterning.
+After testing, the last step is to select wafers
+for dicing and packaging.
+Wafers are diced using an automated water-cooled dicing
+saw.
+The qubit chips are then packaged and wire bonded
+to make connections from the outside cabling
+to the chip circuitry.
+From there, our chips are loaded into one of our dilution
+fridges for measurement.

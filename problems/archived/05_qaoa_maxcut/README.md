@@ -136,8 +136,8 @@ The classical baseline enumerates all bit strings to guarantee optimal Max-Cut v
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage C complete** (hardware-aware validation evidence with uncertainty-bounded comparisons is in place).
-- **Next gate target**: **Stage D** (backend-calibrated performance hardening and stronger hardware-readiness evidence).
+- **Current gate**: **Stage D complete** (advantage evidence package hardened with backend calibration, fairness benchmark, readout characterization, and `theoretical` claim category locked given QAOA's no-proven-advantage status).
+- **Next gate target**: Maintenance — the Stage D classification correctly reflects that QAOA on Max-Cut has no proven quantum advantage over Goemans-Williamson; track honest residual risks rather than escalate the claim.
 
 ## Microsoft-First Portability Scope
 

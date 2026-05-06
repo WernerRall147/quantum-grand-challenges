@@ -1,0 +1,192 @@
+
+In this video, we will learn how to implement and run
+Grover's algorithm.
+First, let's briefly recall what's
+the problem solved by this algorithm,
+and what are its benefits compared
+to classical algorithms.
+Grover's algorithm is designed to solve a search problem that
+is completely unstructured.
+Imagine that we have a list of two to the n numbers,
+and we want to find the position of a given number that
+appears once in this list.
+If we know that the list is sorted,
+we can use binary search, and find the position
+of the desired number looking at just an element out of the two
+to the n in the list.
+But if we do not have any information whatsoever
+on the list, then we may have to look at all of its elements
+to find the position of the desired number.
+In fact, given any deterministic classical algorithm
+to solve this search problem, we can
+construct a list on which the algorithm has
+to look at all of the two to the n elements
+before it finds the correct answer.
+Even a randomized classical algorithm
+would have to look at approximately two
+to the n elements on average.
+Using a quantum algorithm, we can do better than this.
+Let's properly state your assumptions first.
+We have a function, f, that maps any n digit binary
+string into zero or one, with the property
+that there exists a unique binary string for which
+the function has value one.
+This is the magic binary string that we want to find.
+And let's call l the integer that corresponds to it.
+So that f of l is equal to one.
+We want to determine l while evaluating f as few times
+as possible.
+Since there is no property of f that can be exploited,
+we know that we can do it in two to the n evaluations of f
+classically, simply by applying f to all binary strings.
+But can we do better?
+Grover's algorithm can do this with only the square root
+of two to the n evaluations of f, a quadratic improvement.
+It is assumed that the function f
+is encoded by a quantum circuit that acts on n plus one qubits.
+The first n qubits are the input register.
+The last qubit is the output register.
+The circuit that implements f does not modify the input
+register, and it performs the modulo 2 addition
+between the output register and the result of f
+applied to the input register.
+Separating the input and the output registers
+is standard in the quantum world because it allows reversibility
+of the function.
+We are given a three-set formula that
+is the logical end of a series of clauses
+and Boolean variables, where each clause is
+the logical, or of three Boolean variables or their negation.
+We want to find an assignment of the Boolean variables
+that makes the formula evaluate to true, ensuring
+that there is exactly one true literal per clause.
+This is a variation of the well-know three-satisfiability
+problem, and it is NP-hard.
+In our implementation, when we use the instance of exactly one
+three-satisfiability, specified by the formula
+that you can see on the screen.
+In this video, we will only work with the formula shown here.
+To construct the function f, we need a quantum circuit
+that acts on qubits encoding the Boolean variables,
+and determines if this formula is satisfied.
+Notice that the circuit that implements f should simply
+be able to decide if the Boolean assignment corresponding
+to the binary string it is given as input satisfies the formula.
+Determining and returning the satisfying assignment
+we be the goal of Grover's algorithm,
+not of the function f.
+The example formula has three Boolean variables,
+x1, x2, and x3.
+There are eight possible assignments.
+And we can see in this table that only one
+possible assignment evaluates to true.
+You can verify this yourself.
+As usual, one means true and zero means false.
+Let's call uf the unitary matrix that implements f.
+We can implement uf in several ways.
+For simplicity, we have composed the problem
+of computing uf by introducing three auxiliary qubits, one
+for each clause.
+For each clause, we construct a circuit
+that sets the corresponding zero qubit to one
+if and only if the clause has exactly one true term.
+Finally, the output register of uf is set to one if and only
+if all three auxiliary qubits are one.
+For example, the circuit sets the bottom qubit,
+y1 to one for the close x1, or x2, or not x3.
+The x-gate flips the qubit corresponding to x3
+because x3 appears negated in the clause.
+Using three CNOT gates, we set y1 equal x1, x-or, x2, x-or, not
+x3, implying that y1 is equal to one
+if an odd number of literals is satisfied.
+Since we want y1 equals to one if and only
+if exactly one literal is satisfied,
+we use a triply-controlled  not gate to finally implement
+the desired formula.
+The last x-gate simply resets the state of the qubit x3.
+In a similar way, we can implement
+the circuit that checks whether the second clause--
+not x1, or not x2, or not x3-- is satisfied,
+and one for the third clause-- not x1, or x2, or x3.
+To implement this circuit there is a small obstacle,
+the triply-controlled not gate is not
+part of the basic gate set.
+Such a gate can be implemented in several ways.
+For simplicity, we choose to do it
+using 3 doubly-controlled not gates and one auxiliary qubit,
+as we show on the screen.
+In the circuit, we can quickly verify
+that q4 is set to one if and only if q0, q1, q2 are one.
+The final doubly-con trolled not resets the state
+of the auxiliary qubit q3.
+Remember that if you plan to re-use the auxiliary qubits,
+you should leave them in the same state as they begin.
+With this blocks, we can construct
+the full circuit that implements uf using four auxiliary qubits,
+one for each of the three clauses,
+and one for the triply-controlled not.
+For each of the three clauses, we
+set the corresponding auxiliary qubit to one
+if the clause is satisfied.
+Then we apply a logical end between these three
+auxiliary qubits.
+Finally, we run the same circuit in reverse
+to reset the state of the auxiliary qubits.
+We have seen how to implement the function
+uf used in one of the building blocks of Grover's algorithm.
+Remember that Grover's algorithms
+has three steps, initialization, sign flip, and inversion
+about the average.
+Let's see how to implement these steps.
+We will use the first three qubits lines
+for the input, the fourth as output,
+and the remaining qubits will be auxiliary qubits.
+For the initialization, we apply Hadamard gates
+on the input lines.
+And on the output line, we apply an x-gate and then a Hadamard.
+This will be important for the science lab.
+At this point, the state of the input qubits
+is in the uniform superposition.
+All amplitudes are equal.
+For the sign flip, we simply applied the circuit
+that we constructed for uf.
+Because we prepared the state of the output qubit
+in the way we described, this has the effect
+of flipping the sign of the amplitude corresponding
+to the basis state for which uf outputs one.
+The last step is the inversion about the average.
+It is implemented by this simple circuit, which we can easily
+verify applies the matrix shown at the bottom.
+The matrix has the effect of mapping each amplitude
+to twice the average coefficient minus the amplitude itself.
+Because the average is smaller than most of the coefficients,
+all amplitudes except the negative one gets reduced.
+And the negative one gets amplified.
+This is one iteration of Grover's algorithm.
+The optimal number of iterations, k,
+can be found using the formula shown
+on the screen from which we derive that we
+must perform two iterations.
+This simply means that we should append to the overall circuit
+another copy of the circuit that performs a sign flip,
+and another copy of the circuit that
+performs the inversion about the average.
+And that's it.
+We can now run this circuit on the simulator
+and look at the results.
+This circuit is unfortunately a bit too large
+to run on a real device, so we will
+have to rely on the simulator.
+This is the histogram of the outcome probabilities
+after 2,048 samples.
+After two iterations and only two calls to the black box
+function uf, we sample the correct string,
+101 with probability of approximately 95%.
+In comparison, any deterministic classical algorithm
+would have needed eight calls in the worst case.
+Notice that as we increase the number of iterations
+of Grover's algorithm, the probability
+of sampling the correct string actually goes down.
+This is the histogram for three iterations,
+and the probability dropped down to 32%.
+The number of iterations must be chosen optimally.

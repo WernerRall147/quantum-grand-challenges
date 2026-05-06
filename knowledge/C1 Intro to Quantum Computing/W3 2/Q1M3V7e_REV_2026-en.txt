@@ -1,0 +1,119 @@
+BEN BLOOM: We're building quantum computers
+using arrays of neutral atoms.
+We do this because we believe the technology is scalable
+and can reach a level that actually accesses utility scale
+problems.
+One of the amazing things about neutral atoms
+is how it's actually built off of technology
+that already exists.
+What we do is we take qubits and we use classical hardware,
+and that classical hardware is almost
+like projection equipment.
+So we build this projection equipment
+that we can control really, really quickly and actually
+manipulate these atoms at the atomic level
+so that we can actually control their state,
+entangle them, and perform those calculations.
+REMY NOTERMANS: In order to build a fault tolerant quantum
+computer, we need the performance of qubits
+to be many orders of magnitude better than what it currently is
+or what's even achievable with the qubits themselves.
+So in order to do that, we actually group multiple
+physical qubits, in our case neutral atoms,
+together and create a so-called logical qubit that
+has much better performance than any of the individual
+qubits themselves.
+For most applications that people are talking about,
+you need hundreds and thousands if not more logical qubits
+to run these fault tolerant applications.
+So one of the big advantages of our technology
+is that through a clever optical engineering,
+we can really scale the number of physical qubits
+extremely aggressively, where you can really
+enter the era of scientific and economic advantage
+for running quantum computers.
+BEN BLOOM: One of the things we're really focused on
+is making sure that we can get to utility scale.
+So at every step of the way, we want
+to make sure when we build systems,
+we're increasing the amount of qubits
+we have tenfold every single generation so
+that we can get to utility scale as fast as possible.
+KRISTEN PUDENZ: Not only are we pushing for system scale,
+we're pushing for usable systems,
+and that means that we need to be
+able to run long computations, get meaningful results from them
+and be able to use those results to inform the science
+problem or the industry problem that began the question.
+So we look at all of these things,
+and we believe that our systems will be very
+capable of making an impact.
+JUSTIN GING: Doing optimization problems, simulation,
+or acceleration of machine learning,
+almost every industry has some way that they could
+benefit from quantum computing.
+We are working together with the National Renewable Energy
+Lab located in Golden, Colorado, and they
+have a digital twin of the energy grid modeling
+out everything that goes into it.
+And as much as possible, they like
+to automate how to handle different situations.
+So with this digital twin, they have found certain applications
+where quantum can work in a more effective way than classical.
+Another area where we've partnered
+is with the University of Colorado Anschutz Medical
+Campus, where they're looking at things like can we use quantum
+to help in the machine learning process of identifying disease,
+particularly in the ophthalmology,
+looking at diseases of the eye.
+And we're also working with a large international bank,
+looking at portfolio optimization and pricing
+of exotic options and using quantum
+as a tool in the finance field.
+KRISTEN PUDENZ: Quantum chemistry applications
+are excellent candidates for running smoothly
+on quantum computers.
+We think about things like nitrogen fixation.
+This is a process that provides the fertilizer that we
+use to feed the world or catalysis that
+makes all kinds of processes more energy efficient and able
+to produce scarce materials more easily.
+Huge potential for optimization problems
+like the traveling salesman problem
+when package delivery services come
+and try to bring things to your house and your neighbors.
+How do they do that the most efficiently?
+If we can provide even small margins and savings
+on the routes that those vehicles follow,
+we should be able to provide a large degree
+of industrial value.
+JUSTIN GING: There will probably be organizations
+that find a particular application that's
+crucial to their business, and they'll
+implement quantum resources to on a day-to-day basis
+be constantly churning out particular types
+of applications.
+Maybe a bank that needs to reprice a portfolio just
+on a rolling basis can now do so faster,
+more efficiently change their business processes.
+REMY NOTERMANS: In the long term,
+quantum computing will be integrated
+as some hybrid compute resource together
+with supercompute centers or other HPC centers
+and really provide a background black box hybrid computing
+resource that a lot of people will be using without really
+realizing which part of the application that they're trying
+to run is actually being run on a quantum
+computer versus another cloud resource.
+KRISTEN PUDENZ: We engineer our roadmap and the system
+generations therein to not only represent achievable advances
+in technology but to address application projects that
+have real impact and real meaning to society.
+BEN BLOOM: We're really going to start
+trying to answer the questions that the customers are really
+asking.
+They're not just asking can I run this simple algorithm.
+They're asking can I build this new material.
+And that's where we really want to go as a company,
+pushing towards actually giving solutions, not just giving
+answers to algorithms.

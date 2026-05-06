@@ -1,0 +1,203 @@
+
+GUY SELLA: Classiq's approach is to provide
+a full end-to-end quantum journey
+by providing a software that can automate the entire development
+process from modeling to execution.
+This is a critical component for businesses venturing
+into the world of quantum computing,
+as the platform has its own high abstraction quantum programming
+language that can be used on at least most of the quantum
+computers exist in the market.
+It is called Qmod.
+And users can choose to use that or Python to do
+the modeling with Classiq.
+AMIR NAVEH: Quantum technology has rapidly
+advanced in recent years.
+It has become increasingly evident
+that businesses require robust tools to leverage its potential.
+At Classiq, we recognized that quantum software
+plays a foundational role in this process.
+Quantum and classical programming
+are fundamentally different.
+Developing and optimizing quantum algorithms
+is inherently complex and requires a deep understanding
+of quantum mechanics.
+LIOR GAZIT: Development for quantum computers,
+unlike development for classical computers,
+requires understanding of the properties of hardware
+that the code can be executed on,
+as well as understanding the fundamental quantum principles,
+such as superposition entanglement, and interference.
+Quantum circuits are the quantum code
+that is executed on a quantum computer.
+It is made of quantum gates, similar to the electronic logic
+gates.
+And the quantum developer has to build the circuits for the code
+to work on a quantum computer.
+This can be done manually or automatically
+by platforms like Classiq.
+The circuits must be suitable for specific hardware.
+Whether they are based on superconducting materials,
+trapped ions, cold atoms, or photonic quantum computers,
+each technology works with a different set of quantum gates
+and has a different set of qubits, entanglement,
+and topology.
+The fact that such software is available
+will make it easier for algorithmic developers
+to think about the what and not about the how.
+GUY SELLA: It is crucial to build a circuit
+with the right characteristics.
+Knowing them in advance makes it seamless
+for Classiq to optimize the quantum circuits it generates.
+LIOR GAZIT: Since most industries
+aren't filled with quantum physicists or experts
+in quantum information theory, it
+is where high-level quantum software comes into play.
+It abstracts away much of the complexity,
+enabling users to leverage quantum computing
+without needing to dive into the deep technical details.
+GUY SELLA: In the short term, in what we call the NISQ era, Noisy
+Intermediate-Scale Quantum, high-abstraction,
+quantum software enables researchers and engineers
+to start experimenting with quantum computing today.
+Think about logistics companies looking
+to optimize the supply chain.
+With high-abstraction quantum software,
+a seasoned development team can design and run
+quantum algorithms to find optimal routes,
+reduce costs, and increase efficiency, all without needing
+to understand the underlying quantum circuits
+or qubit manipulations.
+LIOR GAZIT: The short-term advantage is crucial.
+It allows industries to rapidly prototype quantum applications,
+test different scenarios, and gain insights
+that can translate into immediate operational
+improvements.
+Early adoption can also offer a competitive advantage,
+helping businesses stand out as industry innovators.
+As quantum hardware continues to evolve,
+so will the capabilities of quantum algorithms.
+Debugging of quantum algorithms is
+something that doesn't exist today,
+due to the technical difficulties mentioned
+in this video.
+But it will become reality soon.
+Abstraction of quantum programming language
+is designed to scale with these advancements,
+ensuring that projects can seamlessly integrate new quantum
+technologies as they emerge.
+GUY SELLA: I will say it cautiously with a pinch of salt.
+Most of the Fortune 500 companies
+already started exploring the technology,
+while some have already shown profound research
+in a range of different topics.
+The amount of governmental investment and grants injected
+into the quantum market by the leading global governments,
+such as the United States, the United Kingdom, Japan, Canada,
+Italy, and other countries, demonstrate
+that quantum is a strategic asset for nations.
+This fuels the growth of the quantum market.
+AMIR NAVEH: The same applies to AI.
+Quantum neural networks have the potential
+to accelerate and scale a broad range of algorithmic solutions
+for otherwise intractable problems.
+They can effectively approximate functions
+by exploring diverse functional spaces,
+leveraging their unique topological structures.
+By operating within these complex landscapes,
+quantum neural networks can capture intricate patterns
+and correlations, enhancing the expressiveness
+of the approximation.
+Quantum neural networks offer interpretability,
+which is particularly valuable in scientific computing.
+Scientific computing is a driving force
+behind numerous industries where advanced modeling and data
+analysis drive success.
+Several multibillion dollar industries in the US alone--
+for example pharmaceuticals and biotechnology,
+where it accelerates drug discovery,
+molecular modeling and genomics.
+The financial industry leverages scientific computing
+for quantitative analysis, risk modeling,
+and high-frequency trading.
+In aerospace and automotive sectors,
+it supports computational fluid dynamics, structural analysis,
+and design optimization.
+The energy industry, including oil and gas exploration
+and renewable energy.
+Lastly, in health care, it enhances medical imaging,
+diagnostics, and personalized medicine,
+improving patient care and outcomes.
+These domains, powered by scientific computing,
+are among the most transformative
+in the global economy.
+The enhanced interpretability offered by quantum neural
+networks and quantum optimization algorithms
+is particularly impactful in these sectors, where
+understanding complex models and deriving accurate solutions
+is crucial.
+
+Reaching the fault-tolerant era of quantum computing
+is expected to take time, likely within the next decade,
+as quantum systems gradually achieve
+sufficient computational volume and robust error correction
+capabilities.
+GUY SELLA: A big challenge that Classiq is facing
+is the simple fact that the global quantum market
+is a small, emerging market.
+It's true that companies know they need
+to start working with quantum.
+But there are no substantial business applications
+in production yet, apart from research, mainly
+because of the current hardware limitations.
+Today, advanced technologies that are already in production,
+such as generative AI and blockchain
+get more attention because they can produce faster.
+I would say that market adoption is another challenge
+that we are facing.
+The market is small but competitive.
+And as a small and ambitious startup,
+we need to shine to get the attention of the major quantum
+engineers and researchers who already work
+with other technologies to hear about Classiq
+and, over time, to prefer it over their existing
+technologies.
+Gladly, we are gradually hitting our goals
+towards much wider adoption-- academia,
+private, and public sectors.
+
+AMIR NAVEH: Understanding quantum computing principles
+and developing practical skills in this field
+will be crucial for scientific and technology advancements.
+By gaining expertise in quantum programming skills now,
+you'll be well prepared to contribute to groundbreaking
+research and potentially revolutionary applications
+as quantum computers continue to evolve.
+This knowledge will be invaluable
+across various disciplines, from material science
+to cryptography, positioning you at the forefront of emerging
+technologies.
+GUY SELLA: Classiq works with some of the leading companies
+in the world in different domains--
+major banks in the United States and Europe,
+large automotive companies, several global telecommunication
+enterprises, and companies in aerospace and defense,
+chemistry, and manufacturing.
+LIOR GAZIT: Businesses that adopt a software
+that integrates with the major hardware providers in the market
+enables hybrid solutions that combine classical and quantum
+approach.
+Hybrid solutions can better address complex business
+challenges.
+Quantum software that provides a high-abstraction programming
+language is essential for organizations
+looking to capitalize on quantum computing.
+It lowers the entrance barrier to quantum,
+allowing companies to start experimenting
+with quantum solutions today.
+GUY SELLA: A quantum software provides
+a scalable platform that will grow business's quantum assets
+and best practices as quantum technology evolves.
+Those who embrace quantum software
+now are not just preparing for the future.
+They are actively shaping it.

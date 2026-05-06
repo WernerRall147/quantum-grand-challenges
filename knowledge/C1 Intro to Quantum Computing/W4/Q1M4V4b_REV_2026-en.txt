@@ -1,0 +1,102 @@
+
+As you saw previously, a quantum computer
+requires a classical control system.
+For small to medium sized quantum computers,
+the control can be realized using commercially available
+instruments-- for example, arbitrary waveform
+generators, microwave sources, and laser systems.
+Software is required to program and synchronize
+the various instruments required.
+Labber is one example of this type of software.
+This software also provides a result visualization
+and logging functions.
+Quantum computer control systems that are custom designs
+require firmware and software control software.
+IBM's QISKit for superconducting circuits and ARTIQ
+for ion traps are examples of these types of software control
+systems.
+Additionally, and especially for small scale experiments,
+many experimental groups use homegrown software control
+systems.
+Let's now discuss hardware testing and validation
+of quantum systems, which is typically
+performed with the aid of analysis techniques
+and software known as QCVV, Quantum Characterization,
+Verification, and Validation.
+These techniques take the results
+of a sequence of experiments and produce descriptive metrics,
+like gate fidelity or operator descriptions of the underlying
+gates.
+Two of the most popular techniques in use
+today are randomized benchmarking and gate
+set tomography.
+In randomized benchmarking, an experiment
+consists of a long sequences of repeated target
+gate interspersed with random other gates.
+The random gates essentially randomize the error
+seen in the target gate and allow
+us to calculate the average fidelity of this target gate.
+This procedure also mitigates the impact
+that imperfect state preparation and measurement
+have on the fidelity.
+One of the disadvantages of randomized benchmarking
+is that it only provides a single metric for the gate--
+namely, the fidelity-- which may not be sufficient to help
+diagnose the cause of error in the system.
+Gate set tomography goes beyond randomized benchmarking
+by providing process map descriptions of the quantum
+gates.
+These process maps are operator descriptions
+of both the gate and the error seen in the experiment.
+Both randomized benchmarking and gate set
+tomography require a large amount of data
+and are, therefore, limited to the analysis of small quantum
+systems.
+Developing scalable QCVV techniques
+is an ongoing area of research, which
+will be increasingly important as larger quantum
+systems emerge.
+As mentioned earlier, noise and error
+is a major concern in today's quantum devices and computers.
+One of the main uses of quantum simulation software
+is to understand the impact of this noise.
+One can apply modeling and simulation
+at many different levels of abstraction, ranging
+from finite element models of materials to devices
+all the way up to quantum circuit models.
+QuTiP is a Python-based package that
+provides libraries useful for modeling and simulating
+open quantum systems, i.e. systems
+interacting with unwanted degrees of freedom
+in the environment.
+Static modeling can also be applied to devices and circuits
+to obtain important metrics affecting
+their performance as qubits.
+These metrics include the coherence time of the qubits
+and the sensitivity of the qubit to specific types of noise.
+Simulating the performance of quantum error correction
+circuits is another important use of modeling and simulation.
+Here, one uses simulation to determine the logical error
+rate of the circuit and to determine
+the scaling of this logical error rate
+as a function of the error rate of the individual physical
+devices.
+One final example of simulation does not involve error at all.
+Simulation is also used to understand
+the computational advantage that quantum computers have
+over classical ones.
+Quantum supremacy circuits have been
+proposed as circuits that are difficult to simulate
+classically but are easy for a quantum computer to execute.
+Several groups have developed parallel simulators,
+which run on high performance computing systems,
+and use these simulators to determine
+how large a circuit is required to demonstrate a quantum
+advantage.
+And so in summary quantum computers
+have a software stack that serves the same purpose
+as the software stack used for classical computers.
+These quantum software tools are important for programming,
+design, and testing of today's quantum computers.
+And it will be even more important
+to the goal of realizing large scale quantum computers.

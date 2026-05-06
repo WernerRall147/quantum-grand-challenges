@@ -1,0 +1,137 @@
+
+As you heard previously, all the required operations
+for performing quantum computing with trapped ions
+have been demonstrated in research groups
+around the world.
+However, this has been achieved in only few-qubit systems,
+that is, with around 1 to 10 ions.
+Perhaps the most significant obstacle
+to realizing a practically useful quantum computer
+is the current lack of ability to control and measure
+very large numbers of ions.
+And we think we'll need thousands to millions,
+with the same exquisite precision demonstrated
+in the few-ion systems.
+This is the direction, the direction
+of so-called scalability, in which the field is looking,
+and in which our group at Lincoln Laboratory
+is playing a leading role.
+Really, there are four key things
+we need to do with our trapped ion qubits.
+I'd like to go through them and discuss the technology being
+developed to address how we might
+do each one on a large scale.
+That is, on a large number of ion qubits.
+First, ions need to be trapped, or held in fixed positions.
+You already heard that this is done
+with a combination of voltages, both static and oscillating,
+that are applied to metal electrodes placed around
+the positions we'd like the ions to be trapped in.
+These electrodes are typically centimeter to millimeter scale,
+and are made in standard machine shops.
+This works well for few-ion systems, but to trap
+very large arrays of ions finely detailed
+and complex electrode structures are required.
+And this is something very difficult to achieve
+with machining techniques.
+What you'd really like to utilize
+are micro- or nanofabrication techniques,
+like those employed for making classical computer chips,
+where metal layers are deposited on wafer substrates,
+like silicon or sapphire, and are subsequently
+finely patterned using what is called optical lithography.
+Fortunately, we've figured out a way
+to use these techniques to make ion traps.
+It turns out it works to unfold the electrodes normally placed
+around the ion onto a plane that lies below it.
+By applying a similar set of voltages
+to these planar electrodes, the ion
+can be trapped above the surface of the plane,
+with the surface to ion distance scale being set by the size
+and spacing of the electrodes.
+Since these planar electrodes can
+be fabricated using microchip techniques,
+they can be made small, and in an arbitrary pattern.
+This allows us to produce large numbers
+of zones arrayed in two dimensions for large numbers
+of ions to be trapped in, as well
+as to reduce the size of the electrodes
+to the micrometer scale.
+In these types of traps, which we call surface electrode
+traps, ions are typically trapped a few tens
+to 100 microns above the chip surface.
+An important additional benefit of these microchip
+surface electrode traps is that they provide
+a platform for integration of a host of other key ion control
+technologies.
+We basically have the potential to put anything
+we can currently put in classical computer chips
+and more into these ion traps.
+The second key thing we need to do with our ions
+is control their internal quantum states.
+That is, perform the actual quantum gates or quantum
+operations.
+Here, I'm including the initialization steps
+of cooling the motion of the ions,
+as well as setting the internal electronic states in which
+the ions begin a computation.
+As you already heard, this is done primarily with lasers.
+For the types of ions we plan to use,
+we require about a dozen different laser wavelengths,
+ranging from the near ultraviolet
+to the near infrared, pretty much over
+the whole visible spectrum.
+These layers are directed and tightly
+focused on the ions, which are housed inside a vacuum chamber,
+through the chamber windows using
+large numbers of bulk optics, like mirrors and lenses.
+This is a pretty effective way to control a few ions,
+but it is nearly impossible to imagine
+how to use bulk optics to address a large ion array.
+We need to find a way to focus a dozen different colored laser
+beams on each ion in a highly controlled manner.
+For example, we will want the ability
+to hit one ion that resides, say,
+in the middle of a large two-dimensional ion
+array with one particular laser beam without hitting any
+of the other ions, which would lead to some kind of operation
+error.
+A dream would be to plug a fiber for each color of light
+we need into the chip, and have that light routed
+around the chip, much like a metal trace or wire routes
+electrical signals.
+This light will be split up into many paths of the chip,
+and then directed and focused out of the chip plane
+to each ion location.
+Perhaps surprisingly, this technology actually exists.
+It's called integrated photonics,
+and we are beginning to incorporate it into ion traps.
+You can think of integrated photonics as basically fiber
+optics on a chip.
+These tiny fibers called waveguides
+are made by depositing the right materials, which of course have
+to be transparent over the visible spectrum,
+onto the trap chips.
+These materials are then patterned
+using the same techniques used to pattern
+the ion trap electrodes.
+These waveguide patterns define the paths
+that the laser light travels along,
+and we can design them to split the light from one path
+into many branches.
+To get the light out of the chip and onto the ions,
+we can pattern periodic gaps in the waveguide material that
+act like a diffractive grating.
+This grating will bounce and focus the light
+into the vertical direction.
+This out-coupling process works in reverse.
+And it turns out to be a very effective way
+of getting the light into the chip from, say,
+a fiber optic cable coupled to the laser source.
+At Lincoln Laboratory, in collaboration with MIT,
+we've demonstrated quantum control of trapped ions
+with light integrated into a surface electrode ion trap
+chip.
+In this case, the waveguides run below the trap's metal
+electrodes, and we pattern holes in the electrodes
+so that the light can get through to reach the ions.

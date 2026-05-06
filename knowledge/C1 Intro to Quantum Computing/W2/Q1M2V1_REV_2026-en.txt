@@ -1,0 +1,93 @@
+
+There are numerous examples of quantum mechanical two-level
+systems in nature that potentially
+could serve as qubits.
+For example, the electronic states
+of an ion or the electron spin of a phosphorus atom
+implanted in silicon or a nuclear spin of a defect
+in diamond.
+We can even manufacture electrical circuits that
+behave as quantum mechanical two-level systems,
+or artificial atoms.
+But what makes a good qubit?
+And how do we assess these qubit modalities
+and compare them to one another?
+And how can we determine if a particular modality
+is well-suited for quantum computing?
+We can begin to answer these questions
+by first drawing on our intuition
+from classical computing.
+Basically, same question.
+What makes a good classical logic element?
+And why did we end up with transistors?
+Well, if we want to build a computer at scale large enough
+to perform interesting problems, we
+should start with a technology that scales well, one
+where we know how to define and characterize the logic elements
+and where we can manufacture them in large numbers.
+These devices must also accurately
+represent and process classical information.
+We need to be able to set their states to provide
+an input to the computer, and we need
+to be able to measure the result to get an answer.
+Finally, these devices must be robust against failure
+in order to complete the computation
+and reliably obtain the answer.
+Clearly, transistors satisfy all these requirements very well,
+and so it's no wonder that computers today
+are built from transistors and not,
+say, vacuum tubes or mechanical switches.
+So with this in mind, what makes a good qubit?
+Around the year 2000, Dr. David DiVincenzo, then
+a researcher at IBM, articulated five necessary conditions
+that any qubit technology must at least possess
+if it is to be a suitable physical implementation
+for large scale quantum computation.
+First, it should be a scalable physical system
+with well-defined and characterized qubits.
+Second, we must be able to set the input state
+and, third, measure the resulting output state.
+Fourth, we must be able to perform a universal set of gate
+operations.
+For example, the single and two-qubit
+gates that we discussed last week that are
+needed to run an algorithm.
+And fifth, the qubits must robustly
+represent quantum information.
+In many ways, these requirements are
+similar to those for classical computers,
+and it's only in how the requirements are met that we
+can identify differences.
+For example, performing a universal set
+of one-qubit and two-qubit gates rather than
+universal Boolean logic.
+Or to robustly represent quantum information,
+qubits must have long coherence times,
+a concept that loosely translates to the mean time
+to failure for a transistor.
+In addition to these five requirements
+for the qubit technology, David DiVincenzo
+also added two conditions related
+to the communication of quantum information between qubits.
+So continuing from number five, number six
+is that the technology must support the interconversion
+of quantum information between a stationary qubit and a flying
+qubit.
+And seven, there must be a way to transfer flying qubits
+faithfully between two locations.
+Basically, these two requirements
+describe a quantum version of an interconnect--
+that is, the means to take the quantum information
+encoded in one qubit, convert it
+to an object that can move, like a photon,
+provide the means to guide a photon without loss
+to another qubit at a distant location,
+and then hand back that quantum information.
+Again, analogous to requirements for routing
+signals within a classical computer,
+but following the rules of quantum mechanics.
+These criteria, today referred to as the DiVincenzo Criteria,
+articulate the basic requirements
+that any qubit technology must possess
+if it's to be a viable physical implementation for quantum
+computation.

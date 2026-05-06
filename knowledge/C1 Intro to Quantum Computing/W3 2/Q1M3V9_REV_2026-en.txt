@@ -1,0 +1,104 @@
+
+So what is complexity theory?
+Theoretical computer scientists love to come up
+with complexity classes.
+So P is polynomial time computation.
+NP, things you can prove in polynomial time.
+So who here doesn't really know about NP?
+OK, so let's explain NP a little bit.
+The most famous NP complete problem
+may be the traveling salesman problem.
+And here you have a graph, distances
+between, let's call them, cities, which are really
+the nodes of the graph.
+And the question, is there a path visiting all cities
+less than length l?
+
+So this might be 1, 2, 3, 5--
+or no 2, 3, 1, 1, 2, 3.
+So this would be a path of length 12.
+And of course, there are distances--
+I mean there are roads between the cities I haven't put on
+here at distances along those roads,
+if these were the only roads, it would be an easy problem.
+And in fact, if there's only six vertices, it's an easy problem.
+So it's easy to prove yes.
+So if I want to prove that there's a path,
+I just give you the path, and you
+add up the distances along it and check it.
+And I can prove it.
+But it's hard-- or may be hard to prove no.
+So how can I prove that there is no path shorter
+than distance 12 on that route?
+Well, I could run through all paths
+and check all their distances but that
+takes a very long time.
+
+And if I know and if I were trying to convince you
+that I've done this, would there be a better way
+to convince you other than just say, well, I
+ran through all the paths and checked them?
+And actually, for the traveling salesman problem
+there are better ways but they all
+seem to be exponential time in the worst case.
+Or exponential time in the number of cities.
+And now there are problems that are NP-Complete,
+which are as hard as any NP problem.
+In other words, if I could solve an NP-Complete problem
+in polynomial time in the length of its input,
+I could solve any problem in NP in polynomial time
+the length of its input.
+
+And you do that by reducing one problem to another.
+And at some point in the 1990s, I think,
+computer scientists came up with interactive proofs.
+And there are three classes of interactive proofs.
+IP, no bound on the number of rounds,
+AM, and here “A” stands for Arthur and “M” stands for Merlin.
+And Merlin has infinite computing power
+and Arthur really only has polynomial amount
+of computing power.
+So A sends M message, M returns message.
+So that's two rounds.
+
+And then there's also MA.
+
+M gives A proof.
+A verifies it with coin flips.
+So NP, Merlin gives Arthur a proof and Arthur
+verifies it deterministically.
+MA, Merlin gives Arthur a proof and Arthur verifies it,
+but probabilistically.
+And AM, Arthur sends Merlin a message,
+and Merlin returns a message.
+And the classic example of AM is graph non-isomorphism.
+Are these two graphs isomorphic, and NP.
+so we're given two graphs and I guess these have 5, 6, 1, 2, 3,
+4, 5, 6.
+
+So the question is, is there a way to relabel the vertices
+so that they are the same?
+And the guess answer is an NP, isomorphism is in NP.
+Merlin just gives Arthur a relabelling.
+So Merlin says 1 in this graph corresponds to 5 in this graph.
+3 in this graph corresponds to 4 in this graph, et cetera.
+
+OK.
+And non-isomorphism is an AM.
+
+Arthur takes one of the graphs.
+He re-numbers the vertices at random
+and he sends it to Merlin.
+And Merlin is supposed to--
+Merlin says which graph it is.
+Now, if the two graphs are isomorphic,
+you know, Merlin has the scrambled graph
+but a random scrambling of this graph
+looks exactly like a random scrambling of this graph.
+So he can't tell them apart.
+And if the two graphs are not isomorphic,
+then if Merlin has an infinitely powerful computer,
+he can try all possible permutations
+and tell them apart.
+So that says that non-isomorphism
+is an Arthur-Merlin.

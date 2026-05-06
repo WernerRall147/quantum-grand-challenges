@@ -1,0 +1,211 @@
+
+Ordinary classical information-- everybody
+understands that because it surrounds us.
+It's like the information in a book.
+You can copy it at will, and it's not
+disturbed by reading it.
+But what is quantum information?
+Rather than give a mathematical description,
+I try to find a metaphor for it.
+It's rather like the information in a dream.
+If you try to describe your dream to someone,
+your memory of it changes, and eventually you forget the dream
+and you only remember what you said about it.
+You can't prove to someone else what you dreamed,
+and you can lie about your dream without getting caught.
+But there is no really hard science of dreams,
+despite the effort of Sigmund Freud.
+And unlike dreams, there is a good mathematical theory
+of quantum information.
+Indeed, when you develop it, you'll
+see where classical information comes from,
+that we used to think was just simply information.
+Well, here are some examples of elementary quantum behavior.
+We can use single photons of light
+to carry one bit of information each
+because a horizontal photon, as at the top of the figure,
+can be reliably distinguished from vertical photon,
+as in the middle.
+And if you pass them through a calcite crystal like that,
+or crystal of any other sufficiently un-symmetric
+material, the horizontal photons will get passed straight
+through and the vertical ones will get deviated
+by some amount.
+And therefore, you can count them in two separate detectors.
+And that means each photon can carry
+one reliable bit of classical information,
+but if you put in photons at some other angle,
+instead of being deviated by an intermediate amount,
+as you might expect, they behave probabilistically.
+Some of them go into the upper beam and become horizontal,
+and the others go into the lower beam and become vertical.
+This is, you might say, one of the central mysteries
+of quantum mechanics, the random behavior of things
+that are individually identically prepared.
+This means that I can use vertical and horizontal photons
+to send one bit per photon of message,
+but if I put in diagonal photons,
+well, simply by rotating the apparatus,
+I can distinguish a left diagonal from a right diagonal,
+like a slash from a backslash.
+But once that rotated apparatus is used,
+that thing cannot distinguish the vertical from
+the horizontal.
+So we have four separate states of the photons
+that are, pairwise, perfectly distinguishable.
+But you can't distinguish all four kinds.
+Now I want to get you to worry a little bit
+about this strange behavior.
+And my colleague, Bill Wootters, who's
+a physics professor at Williams College,
+has a pedagogic analog for the behavior of quantum systems
+when they're measured.
+He says it's really like one of those old fashioned 19th
+century British schools where the students, who are not
+supposed to ask any questions-- they were just supposed
+to respond to the questions the teacher posed,
+and here the student is the photon and the teacher
+is the measuring apparatus.
+So the strict teacher is asking the student
+a question, saying, is your polarization
+vertical or horizontal?
+And the students start saying, I'm
+polarized about 56, 55 degrees.
+I believe I asked you a question.
+Are you vertical or horizontal?
+Oh, horizontal, sir.
+Did you ever have any other polarization?
+No, sir, I was always horizontal.
+So that is the way quantum systems behave when measured,
+and that's what lies behind many of the interesting things you
+can do with it.
+And ultimately, when we come to entanglement,
+we can understand where that behavior comes from.
+Well, now, we'll talk about how we put it to use.
+This is the quantum money that was
+proposed by Wiesner in 1968.
+He says, a piece of quantum money
+will have a serial number on it like ordinary money,
+but it also will have 20 perfectly reflective boxes,
+each containing a single photon of one of those four states.
+And the bank will have a record based
+on the serial number of which photon is in which box,
+which kind of photon, and when you bring the money back
+to the bank, the bank will open the boxes, one by one,
+and measure each photon in the way
+that it would behave reliably, and therefore
+check that they all agree with what was supposed
+to be stored there.
+But if you don't know what's stored there,
+you will disturb some of them by measuring them the wrong way,
+and the chance of passing a fake bill
+or making a copy that passes is 3/4 to the 20th power, which
+is small.
+Now, this is the idea that Gilles Brassard and I used
+in our building the quantum cryptography apparatus where
+we don't try to store the photons,
+but we send them over a short distance, which in this case
+was only about 30 centimeters.
+And the idea is that any eavesdropper
+in that middle empty section of the apparatus
+would spoil the sum of the transmitted photons
+by measuring the wrong way, and therefore,
+would betray their presence.
+So in more detail, the way quantum
+key distribution works is that you have two parties.
+We call them Alice and Bob.
+Alice sends a stream of polar ice photons of those four kinds
+to Bob.
+The Eve is the nickname for the eavesdropper.
+She can try to measure those photons if she wants,
+but if she does, she will introduce errors
+with high probability.
+And the other thing we allow her to do
+is to listen to the entire classical discussion
+between Alice and Bob.
+And that takes place through a series
+of ordinary classical messages exchanged
+over a public channel.
+And when they're done with all this,
+they end up each with a shared secret key,
+in other words, a random string that they both know
+and they have high confidence that no one else knows.
+Well, that is the case if there isn't too much eavesdropping,
+or there's no eavesdropping, but if there's
+a lot of eavesdropping, they will detect a lot of errors
+and their effort to distill this key will have failed.
+But they will know that it has failed with high probability.
+And they just try again tomorrow.
+So in more detail, here's how the protocol works,
+which is called BB84 after the names of the author
+and the year that it came out.
+Alice, in the first line, sends a random sequence
+of these four kinds of photons.
+Bob, at the other side, makes random measurements, uncorrelated.
+He doesn't know what Alice would send,
+and he just chooses randomly whether to make
+a rectilinear measurement that is vertical versus horizontal,
+or a diagonal measurement.
+So he does, and then in the third line,
+we get his measurement results.
+And I'm including the realistic effect that some of the photons
+may get lost, or his detectors may not be perfectly efficient.
+So in some cases, he doesn't get anything.
+For example, in the first case Alice sent a vertical photon.
+He chose to make a rectilinear measurement
+and he gets a result which is vertical, which is correct.
+In the second case, Alice sent a horizontal photon,
+but he decided to make a diagonal measurement
+and he gets a random one of the two diagonal results.
+But he doesn't know that it's bad.
+It's a 45-degree photon, and so on for the others.
+The next stage of the protocol now
+is, after he's received them, Bob
+tells Alice which kind of measurement he did.
+He said, I measured the first one rectilinearly,
+the second one diagonally, the third and fourth one
+rectilinearly, the fifth one I didn't get, and so on.
+That's indicated by the classical message
+in quotation marks.
+And then Alice tells him in which
+cases he did the right thing, that is, he
+made a measurement that didn't spoil the polarization that she
+sent.
+She very carefully doesn't say whether she
+said vertical or horizontal, but she says in the first case
+you made a rectilinear measurement and that was good.
+Keep that photon.
+Don't tell me what it was, of course, because somebody
+might be listening.
+In the second case, too bad, you made a diagonal measurement.
+I sent a rectilinear photon, and so on.
+So they cull from the photons that Bob received,
+the ones that he spoiled.
+And you can identify, say, a vertical photon is a 1,
+a horizontal is 0, or for the diagonal photons,
+they choose to identify the 45 degree as a 0,
+and the 135 is a 1.
+So what they have, essentially, at this stage
+is a bunch of bit values that they
+ought to agree about if there has been no eavesdropping.
+So the next question is to find out
+whether there's been eavesdropping,
+and you can do that various ways,
+but the most economical way that doesn't involve giving away
+a lot of the data is for Alice to choose
+a random subset of the bit positions,
+and announce the parity of that random subset.
+And in the first case, she chose this collection outlined
+in red, and it has odd parity.
+She says that it's odd.
+And then the second one, she chooses
+a different random subset and says that's even,
+and they go on for maybe 20 of these random subsets.
+And if they agree about all of them,
+then the chance that there's even one
+mistake in their sequence is about one in a million.
+So they're pretty happy with that.
+And of course, they have to throw away some of the photons
+to compensate for the fact that they've
+leaked 20 bits of information to the eavesdropper.
+So that's the elementary version of the BB84 protocol.

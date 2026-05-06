@@ -1,0 +1,165 @@
+Before diving into quantum computing,
+it's worthwhile to go back and revisit
+the history of classical electronic computing
+in the last century.
+And as we'll see, there are a few takeaways
+from this history that are relevant
+to the current and future development of quantum
+computing.
+The first three terminal triode vacuum tube
+was invented by Lee de Forest in 1906.
+Vacuum tubes, much like the transistors
+that would later follow, are essentially
+faucets for electricity, where the application
+of a small voltage on one terminal
+effectively opens a valve which allows
+current to flow between the other two terminals.
+As such, vacuum tubes were used primarily
+as amplifiers for radio receivers,
+but they could also be used as on/off switches
+to implement logic gates.
+And so it was about 40 years after that first invention,
+we had the first large scale computers based on vacuum tubes,
+such as the Electronic Numerical Integrator and Computer,
+or ENIAC, developed at the University of Pennsylvania
+in the 1940s.
+Also around that time, in 1947, the first transistor
+was invented at Bell Laboratories
+and the first fully transistor based computer soon followed.
+That computer, the Transistor Experimental Computer Number
+Zero, or TX-0, was built at MIT and Lincoln Laboratory
+in the mid 1950s, and it featured discrete transistors
+and a magnetic core memory, quite different from
+the computers we know and use today.
+Shortly thereafter, in 1959, the first integrated circuits using
+silicon were demonstrated, but still, it was a good 20 or 30
+years before we had the types of integrated circuit chips
+and memory chips that we now use in our computers
+on a daily basis.
+The first commercially available monolithic processor, the Intel
+4004, appeared in 1971.
+It was a 4-bit processor, featured 2100 transistors,
+and clocked in at around 740 kilohertz.
+Within a year or two, however, Intel came out with another
+processor, the 8008, an 8-bit processor with nearly double
+the number of transistors.
+This doubling of the number of transistors approximately
+every two years was exemplary of what
+became known as Moore's law.
+And by the 1990s, following Moore's law,
+the number of transistors had increased into the millions.
+Today we have computer chips, CPUs, TPUs,
+GPUs with multiple cores and transistor counts
+exceeding 100 billion.
+Although performance increases had previously simply followed
+from this Moore's law type scaling,
+these straightforward improvements
+have significantly waned over the past decade.
+Nonetheless, with the development of high-K
+dielectrics, low resistance interconnects,
+multi-core processors, 3D integration, and the like,
+we can expect continued improvements in the performance
+of classical processors for years to come.
+Now, in contrast to this 100-plus years of classical
+computing development, quantum computing is much more recent.
+In the early 1980s, Richard Feynman suggested that if we
+want to simulate a quantum system,
+a task that's very hard for a classical computer,
+we should in fact use a quantum system to perform that
+simulation.
+Basically, he was suggesting we should build a quantum computer.
+He also noted that it's a very interesting problem
+because it's not so easy.
+And he was right.
+Over the next decade or so, researchers
+thought about what kinds of algorithms
+could potentially give a quantum advantage for real world
+problems of significance and also how fragile quantum states
+could ever be used to implement such an algorithm.
+The answer started to come in the mid 1990s,
+including two very important milestones in the history
+of quantum computing.
+The first was the discovery of Shor's algorithm, developed
+by MIT Professor Peter Shor.
+Shor's algorithm was not the first quantum algorithm
+to show quantum advantage, but it
+was the first that also addressed an important practical
+problem, namely, the factorization of large numbers.
+Now, that's an important problem because the difficulty
+of factorization is a pillar for our present day encryption
+schemes that protect our information.
+Essentially, factoring large numbers
+is a very challenging problem on a classical computer,
+which is why it's used for public key encryption.
+And Peter Shor showed that factorization
+could be done efficiently on a quantum computer.
+Also around that time, Peter Shor and his colleagues
+Robert Calderbank and Andrew Steane
+developed the first quantum error
+correcting codes, which, once fully implemented,
+will enable quantum computers to continue to operate robustly,
+even in the presence of errors.
+Since then, researchers have focused
+on both the underlying physics as well as the hardware
+that we can use to build quantum computers.
+Starting at the single qubit level,
+researchers have explored numerous qubit modalities,
+from superconductors to trapped ions, semiconductors, and more.
+Today, we have processors operating with a few hundred
+to 1,000 qubits for gate model quantum computing,
+and more than 5,000 qubits in quantum annealing machines.
+There's also been a marked transition from prototype
+demonstrations in the early 2000s to where we are today,
+which is engineering larger and larger quantum systems.
+We're even now seeing examples of cloud quantum
+computers on the web.
+So what does this all mean?
+Well, I think there are a couple takeaways
+from this brief historical discussion.
+The first is that technology development takes time.
+It took more than a century to get from the first triode vacuum
+tubes to the computers that we have today.
+And that development is not over.
+It continues today.
+Furthermore, there are many changes along the way.
+The right approach to building a classical computer
+changed many times over the years.
+There was no single right answer.
+The right technology in the 1940s was not the same as it was
+in the 1980s, and that was also different than it is today.
+Nonetheless, in hindsight, all of these steps
+were crucial to the overall development.
+Similarly, we can expect that, going forward,
+quantum computing will also likely go through a technology
+evolution.
+The best qubit modalities today are not necessarily
+the ones that will excel in the future.
+However, the observation is that in the absence of effort,
+we should not expect the right technology to simply appear
+if we wait long enough.
+Technology is developed.
+It's not bestowed.
+The road to future quantum computers,
+whatever they may end up looking like,
+is paved with the technologies we develop today.
+Finally, we should not underestimate the crucial role
+that commercialization played in the development
+of classical computing technologies.
+Transistors, from the very beginning,
+had commercial applications that generated revenue
+long before computers were commonly available, including
+radio amplifiers, hearing aids, and the like.
+And although governments played a key role
+in seeding the development of transistor based computers
+and are playing an equally crucial role in the development
+of quantum computers today, it was commercial development
+of transistors and computer chips
+that ultimately enabled the virtuous cycle of development
+that made possible the Moore's law like scaling that led
+to the computers we use today.
+And in fact, a major challenge for quantum computing
+is to identify these kinds of commercially viable applications
+for qubits and small scale quantum processors that
+can kick start a similar virtuous development cycle, one
+that will absolutely be needed if we're to realize large scale
+quantum computers.

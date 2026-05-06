@@ -1,0 +1,75 @@
+Welcome to course two in our continuing program
+on the applications of quantum computing.
+In course 1 we introduced quantum computing, and how
+it works at an intuitive level.
+And the material presented in course 1
+will serve as a foundation for the remainder of the program.
+We talked through how a quantum computer
+is different than a classical computer.
+Introducing important concepts such as quantum parallelism,
+and quantum interference, manifestly quantum mechanical
+effects, that enable quantum computers
+to process information efficiently.
+We learned about universal quantum computers, quantum
+emulators, quantum simulators, and quantum annealers,
+and the types of problems they can address.
+We discussed what makes a good qubit, the DiVincenzo Criteria,
+and compared several of the leading qubit modalities today,
+including superconducting qubits and trapped ions.
+We introduced the Bloch sphere, and Dirac notation.
+And we learned how to control qubits using single qubit
+and two qubit gate.
+We found that qubits are susceptible to noise,
+and they lose their quantum information
+over time, that is they decohere, by processes
+such as energy relaxation and dephasing.
+Coherence time and gate speed are
+both important characteristics of qubits.
+It's not solely a long coherence time that's important,
+but rather, the number of gates one
+can perform, before quantum information is lost.
+In fact, what matters most, is the gate fidelity.
+And we discussed how to measure it using process tomography
+and randomized benchmarking.
+We then talked about the promise of quantum computing, quantum
+speed-up, and methods for developing new algorithms.
+Similarly, we talked about the promise of quantum
+communication, quantum cryptography,
+and distributed entanglement.
+Finally, in week four, we looked at the circuit model
+for classical and quantum computation--
+initialize, compute, and measure, as well as
+the software stack required to implement such a circuit.
+We then walked through the Deutsche-Jozsa algorithm, how
+it works, and then the lab practicum you implemented it
+on the IBM quantum experience.
+And so with that, let me welcome you again to course
+two, quantum computing algorithms for cybersecurity,
+chemistry, and optimization.
+Course two builds on the foundation you just
+studied, and uses it to probe more deeply,
+the applications of quantum computing
+and quantum cryptography.
+We'll take a look at algorithms for cybersecurity, chemistry,
+and optimization.
+We won't worry about practical issues such as noise.
+Rather, we want to understand how these algorithms work,
+and their applications realized.
+We'll begin by looking at how quantum can be used
+to break public key encryption.
+We've seen in course one, and we'll go into more detail
+now, that Shor's algorithm can efficiently
+defeat certain important encryption protocols,
+for example RSA encryption.
+Those that serve as the basis for our information security
+today.
+In week one we'll look at modern cryptography schemes based
+on one way functions we'll look at how factoring is performed,
+and why it's so hard on a classical computer.
+We'll then look at how Shor's algorithm can
+perform the same task, in a much more efficient manner.
+First, at an intuitive level, and then Peter Shor, himself,
+will present a deep dive on how his algorithm works.
+Finally, we'll close out the week
+with a case study that looks at prototype
+experimental demonstrations of Shor's algorithm, to date.

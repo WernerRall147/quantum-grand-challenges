@@ -1,0 +1,158 @@
+
+I'm going to talk about random numbers.
+This is a fascinating topic because random numbers are not
+only really useful in everyday life,
+but thinking about random number generators
+also brings up some interesting questions about reality
+and free will.
+Let's start out talking about why random numbers are
+so important.
+If you were a kid in the 80s, you
+might remember a game show called Press Your Luck.
+Part of the game show had a box moving around different squares
+on a board that were also changing,
+and the player would press a button
+to stop the motion of the box.
+Whatever square the box was on would
+be what the player would win, or they could land on a whammy
+and lose everything.
+In 1984, this guy named Michael Larson went on the show,
+and he did really well.
+What you can notice is that he really pays a lot of attention,
+almost like he knows when to press the button.
+And in fact, he did because the people
+that made this game did a really bad job randomizing the motion
+of the box and the squares.
+In fact, they weren't random at all,
+but just randomly picked from a small number
+of possible sequences.
+So Michael Larson spent a lot of time
+with a VCR watching and memorizing
+the various, quote unquote, random sequences that
+would come up.
+He ended up setting a record by winning over $100,000, which
+I'm sure had consequences for the people who ran the game
+show.
+So that's one way random numbers can influence someone's life.
+Here's another more serious one.
+As you know, the security of many forms of encryption
+rely on the computational difficulty
+of solving certain problems.
+For example, factoring is difficult
+with a classical computer, so some types of encryption
+are based on the difficulty of factoring,
+and you can have an encryption key
+that's the product of two large prime numbers.
+If one of the prime numbers is reused in another encryption
+key, that breaks the security of the algorithm.
+Now, this shouldn't be a problem because if prime numbers are
+selected randomly, the probability
+of two keys using the same prime should basically be zero.
+But in 2012, researchers found that, in fact,
+if they looked at all the publicly accessible keys
+for RSA, a commonly used public key cryptosystem,
+about a quarter of a percent of the time, two unrelated keys
+shared a prime factor.
+The authors speculate that lack of entropy or randomness in one
+of the inputs to the algorithm resulted
+in this repeat of factors, which essentially made those systems
+completely insecure.
+Beyond public key encryption, there
+are many other cryptographic tasks
+that require randomness, such as challenge response protocols,
+like what you use at an ATM or digital signatures.
+Modern day cryptography relies on random numbers,
+and they're also important for scientific applications,
+like for Monte Carlo simulations and for lotteries.
+Now let's look more closely at what a Random Number Generator
+or RNG actually is.
+For now, we're going to keep the discussion abstract
+and just imagine that an RNG is a black box.
+And when we press a button, a one or a zero comes out.
+And to keep the discussion simple,
+we'll assume that they are identically distributed.
+So half the time it's a zero, half the time it's a one.
+If the black box is truly an RNG,
+there's no way of knowing what will come out
+when you press the button, and we
+can say that each bit coming out has one bit of entropy, which
+is a measure of randomness.
+Now it's not just that you or I with our limited knowledge
+have no way of knowing what comes out.
+It's that nobody, not even somebody with knowledge
+of everything in the universe, an infinite computational
+power, can predict it.
+One problem is that it's really hard
+to tell when something is actually random
+or when it's just that you can't predict it.
+For example, pseudorandom number generators
+are often used in practice.
+With a pseudorandom number generator,
+you put in a random seed, and what you get out
+is a lot of numbers that look random.
+But a pseudorandom number generator
+is a classical deterministic algorithm,
+so of course, it's not random at all.
+This quote by John Von Neumann puts it nicely.
+"Anyone who considers arithmetical methods
+of producing random digits is, of course, in a state of sin."
+Because they're not really random,
+pseudorandom number generators are
+susceptible to algorithmic and computational advances,
+and they require that the input seed is random and secret.
+OK, so if we can't use a classical computer
+to make random numbers, how about
+if we take a physical process that we know
+is random and use that to make our random numbers.
+So flip a coin and say heads is zero and tails is one.
+That's kind of a slow random number generator,
+but people have built much faster generators using
+ring oscillators, a single photon hitting a beam splitter,
+and even images of a lava lamp.
+Many of these things should be random.
+For example with a single photon hitting a perfect 50/50 beam
+splitter, which arm you detect the photon in should be random,
+but it's hard to verify that everything is working
+the way you think it is.
+People have demonstrated the ability to blind detectors
+or force them to click for example.
+Here's an example of adversarial control of an RNG demonstrated
+by two researchers in 2009.
+They showed that by injecting noise onto a power supply,
+they could compromise the randomness of a ring
+oscillator based RNG of the same type used in challenge response
+protocols for chip and pin credit card authorization.
+Here's a visual representation of the RNG
+output from their paper.
+Before they launched their attack, it looks random,
+and after, there are patterns.
+Looking at this, you might say, OK,
+that just means that we should look for patterns.
+Indeed, there are many statistical tests
+that will look for patterns and quantify the likelihood
+that a sequence of long numbers is consistent with being
+generated by a random process.
+The problem is that it only looks for specific patterns,
+and there are plenty of things that don't have any patterns
+but are not random--
+the digits of pi, for instance.
+So we can't just take the output of the RNG
+and run statistical tests on it to say whether or not
+it's really an RNG.
+Another thing we can try instead is to open up the box,
+look what's inside, characterize it, and make
+sure everything's working OK.
+The problem with that is that systems
+can be complicated and messy, there
+are lots of ways that components can fail or be compromised,
+so there's no way of knowing whether or not you're
+testing for the right things.
+In 2010, some researchers realized
+that you can build something really close to a black box
+random number generator.
+It turns out that you can make an RNG based on a loophole
+free test of Bell's inequality and
+under some general assumptions, you
+can quantify the entropy of your RNG
+without knowing the details of how everything inside the box
+is working.

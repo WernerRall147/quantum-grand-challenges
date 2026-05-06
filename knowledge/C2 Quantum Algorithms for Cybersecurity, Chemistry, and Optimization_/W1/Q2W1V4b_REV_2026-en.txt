@@ -1,0 +1,152 @@
+
+In the last video, we presented Shor's Algorithm
+in the context of the quantum circuit model.
+We used two registers of qubits.
+Register 1 was used to store the results of period finding,
+and Register 2 was used to store the values
+of the modular exponentiation function.
+We then applied the Quantum Fourier Transform to Register 1
+and measured the output.
+The projected state that resulted
+was a binary value of z, and its decimal value
+was an integer multiple of 2 to the 2L divided by r.
+This, in turn, can be used to find the period r using
+a continued fraction expansion.
+In this video, we'll take a closer
+look at how the Quantum Fourier Transform
+and the resulting quantum interference
+lead us to this result. To see how this works,
+we need to rewrite the sum over x as a combination of two sums.
+We can use our example of a equal 3 and N
+equal 10, which we saw has a period r equal 4.
+We want to sum over all x from 0 to 2 to the 2L power minus 1.
+The corresponding function f of x--
+the modular exponentiation--
+is calculated for several values of x, and the period
+is, indeed, 4.
+Let's call the values of x in the first period x0,
+and the resulting values of the function f we'll call w.
+We see that w has only four unique values
+and that it repeats for values of x equal to x0 plus integer
+multiples of the period r.
+That is, x0 plus y times r, where we use y as the integer.
+And for a given x0, the function f of x0 plus y r
+is the same value, as indicated in orange for x0 equals 0.
+We can see the same behavior for x0 equals 1 in green,
+x0 equals 2 in blue, and x0 equals 3 in gray.
+And we see that in doing this for the four values of x0,
+we've covered all values of x.
+Thus, we can rewrite the sum over x
+as a sum over the four values of x0
+and a sum over the integer y, which runs from 0 to 2
+to the Lth power divided by r.
+Together, these two sums run over all x values from 0 to 2
+to the L minus 1.
+Writing in this way enables us to see
+how the quantum interference occurs with these phase
+vectors.
+We first replace omega with its explicit value,
+e to the power i times 2 pi over 2 to the 2L.
+And there are two phase factors here.
+The first is a fixed phase offset independent
+of the sum over y.
+It will rotate the phase of any net result that
+survives the sum.
+The second is the quantum interference phase related
+to the sum over y itself.
+This sum is performed for every value of x0 and z,
+and it's essentially a test to see if the value of z
+is related to the period r when starting from a value x0.
+The sum over y adds together vectors
+with specific phases related to x0, z, r, and y.
+Now, in most cases, these phases are not multiples of 2 pi,
+and so the corresponding vectors,
+according to their individual phases,
+end up pointing in various directions, more or less
+uniformly distributed around the unit circle.
+Since they point in all directions,
+adding these vectors together gives a net result of 0,
+and this is another example of destructive quantum
+interference.
+Now, for a few specific cases where
+z is related to r through x0, the phases
+are a multiple of 2 pi.
+When this is true, the corresponding vectors will
+always point in the same direction-- to the right--
+and thus add together constructively.
+There are 2 to the 2L divided by r unit vectors,
+and so the sum is 2 to the 2L divided by r.
+Mathematically, the sum over y is a geometric sum.
+I encourage you to calculate this for yourself
+and find the condition which yields non-0 values.
+You'll find the resulting condition
+is that 2 pi over 2 to the 2L times z times r
+is 2 pi times an integer, d.
+Thus, it occurs when z equals d times 2
+to the 2 L divided by r.
+If we plot the probability at the output of the Quantum
+Fourier Transform, we find a series
+of spikes that occur when z equals d times 2
+to the 2L over r.
+The probability of measuring any one of these spikes
+is 1 over r, since there are r spikes between 0 and 2
+to the 2L over r.
+This is for a specific value of x0.
+Whichever one of these spikes we measure, the projected state
+z with value d times 2 to the 2L over r
+can be used to find the period r using a continued fraction
+expansion procedure.
+We won't discuss here in detail how that's done.
+We just note that it's a known algorithm and it
+can be effectively performed on a classical computer.
+Now, we just saw how Shor's Algorithm can find the period
+r, but how is this connected to the factoring problem in RSA?
+Again, we'll take our example with N equal 10.
+We want to find the prime factors p
+and q that, multiplied together, equal 10.
+To do this, we randomly pick a number, a,
+that's smaller than N and relatively prime.
+That is, their Greatest Common Divisor--
+GCD-- is unity.
+We'll again choose a equal 3.
+We then use Shor's Algorithm to find the period
+of a to the x modulo N.
+Shor's Algorithm, with classical post-processing,
+will efficiently give us the period r equal 4.
+Before proceeding, we need to do a couple checks.
+First, r must be an even number.
+And second, we need to ensure that a
+to the r over 2 power plus 1 does not equal 0 modulo N.
+If we fail either of these tests,
+we need to go back to step 1 and pick another value of a.
+But in our case here, we're OK.
+For a equal 3 and r equal 4, both conditions check,
+and we can proceed.
+We know that a to the r equals 1 modulo N,
+as this is a property of modular exponentiation.
+We can rewrite this expression as a to the r-th power minus 1
+equals k times N for an integer, k.
+We then replace N with the unknown prime factors p and q,
+and we factor the left-hand side to yield a to the r over 2
+minus 1 times a to the r over 2 plus 1.
+It follows, then, that p and q can
+be found from the greatest common divisor
+of a to the power r over 2 plus or minus 1 and N.
+Let's take them one at a time.
+a to the power r over 2 minus 1 is 8.
+And so the greatest common divisor of 8 and 10 is 2,
+so p equals 2.
+Then a to the r over 2 plus 1 is 10,
+and so the greatest common divisor of 10 and 10
+that's not trivial is 5, so q will equal 5.
+Therefore, p equals 2, q equals 5--
+both are prime numbers, and p times q equals 10.
+Now, this is, of course, a very simple example,
+but it illustrates how Shor's Algorithm and period
+finding can be used to calculate prime numbers p and q,
+and thus calculate the private decryption key
+and compromise the RSA cryptosystem.
+More details and background information
+related to these topics can be found in the following text
+units and also in the Deep Dive on Shor's Algorithm
+from Professor Peter Shor.

@@ -3,16 +3,16 @@
     "total_problems": 20,
     "stage_counts": {
       "A": 0,
-      "B": 17,
-      "C": 3,
-      "D": 0,
+      "B": 15,
+      "C": 2,
+      "D": 3,
       "Unknown": 0
     },
     "stage_pct": {
       "A": 0.0,
-      "B": 85.0,
-      "C": 15.0,
-      "D": 0.0,
+      "B": 75.0,
+      "C": 10.0,
+      "D": 15.0,
       "Unknown": 0.0
     },
     "with_advantage_contract": 20,
@@ -34,7 +34,7 @@
     {
       "problem": "02_catalysis",
       "readme": "problems/02_catalysis/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -43,7 +43,7 @@
     {
       "problem": "03_qae_risk",
       "readme": "problems/archived/03_qae_risk/README.md",
-      "stage": "C",
+      "stage": "D",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -61,7 +61,7 @@
     {
       "problem": "05_qaoa_maxcut",
       "readme": "problems/archived/05_qaoa_maxcut/README.md",
-      "stage": "C",
+      "stage": "D",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -97,7 +97,7 @@
     {
       "problem": "09_factorization",
       "readme": "problems/09_factorization/README.md",
-      "stage": "B",
+      "stage": "C",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,
@@ -151,7 +151,7 @@
     {
       "problem": "15_database_search",
       "readme": "problems/archived/15_database_search/README.md",
-      "stage": "C",
+      "stage": "D",
       "has_advantage_contract": true,
       "has_divincenzo_readiness": true,
       "has_estimator_profile_summary": true,

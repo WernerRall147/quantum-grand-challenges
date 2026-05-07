@@ -43,6 +43,51 @@ interface EvaluationResult {
   tokens_used?: number;
   qsharp_code?: string;
   estimation?: Record<string, unknown>;
+  resource_estimate_pareto?: Array<{
+    config?: string;
+    qubit_tech?: string;
+    qubit_label?: string;
+    qec_scheme?: string;
+    family?: string;
+    physical_qubits?: number | null;
+    runtime_ns?: number | null;
+    logical_qubits?: number | null;
+    logical_depth?: number | null;
+    t_count?: number | null;
+    t_factory_fraction?: number | null;
+    code_distance?: number | null;
+    error?: string;
+  }>;
+  cost_analysis?: {
+    status?: string;
+    troyer_part_6?: string;
+    recommended_quantum_target?: string;
+    quantum_estimate?: {
+      platform?: string;
+      provider?: string;
+      estimated_cost_usd?: number | null;
+      shots?: number;
+      notes?: string;
+    };
+    hpc_estimate?: {
+      platform?: string;
+      sku?: string;
+      estimated_cost_usd?: number | null;
+      compute_hours?: number;
+      usd_per_hour?: number;
+      family?: string;
+      source?: string;
+      notes?: string;
+    };
+    comparison?: {
+      ratio?: number | null;
+      verdict?: string;
+      quantum_cost_usd?: number;
+      hpc_cost_usd?: number;
+      note?: string;
+    };
+    caveat?: string;
+  };
   bicep_template?: string;
   bicep_validation?: { validated?: boolean; error?: string; skipped?: boolean; reason?: string };
   bicep_deploy_commands?: string;
@@ -217,6 +262,81 @@ export default function EvaluatePage() {
               )}
             </div>
 
+            {/* Cost analysis — quantum vs HPC at Azure list pricing */}
+            {result.cost_analysis && (result.cost_analysis.quantum_estimate || result.cost_analysis.hpc_estimate) && (() => {
+              const ca = result.cost_analysis;
+              const v = ca.comparison?.verdict || '';
+              const verdictBg =
+                v === 'QUANTUM_STRONGLY_PREFERRED' ? '#dcfce7' :
+                v === 'QUANTUM_SLIGHTLY_CHEAPER'   ? '#ecfccb' :
+                v === 'HPC_SLIGHTLY_CHEAPER'       ? '#fef9c3' :
+                v === 'HPC_PREFERRED_ON_COST'      ? '#ffedd5' :
+                v === 'HPC_STRONGLY_PREFERRED'     ? '#fee2e2' :
+                                                     '#f1f5f9';
+              const verdictFg =
+                v === 'QUANTUM_STRONGLY_PREFERRED' ? '#15803d' :
+                v === 'QUANTUM_SLIGHTLY_CHEAPER'   ? '#65a30d' :
+                v === 'HPC_SLIGHTLY_CHEAPER'       ? '#a16207' :
+                v === 'HPC_PREFERRED_ON_COST'      ? '#c2410c' :
+                v === 'HPC_STRONGLY_PREFERRED'     ? '#b91c1c' :
+                                                     '#475569';
+              const fmt = (x: number | null | undefined) =>
+                typeof x === 'number' ? `$${x.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : '—';
+              return (
+                <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                  <h3 style={{ marginTop: 0, color: '#0f172a' }}>Cost Analysis · Quantum vs HPC</h3>
+                  <p style={{ color: '#475569', fontSize: '0.85rem', margin: '0 0 0.75rem' }}>
+                    Live Azure list pricing (quantum providers as of May 2026; HPC SKUs from the Azure Retail Prices API).
+                  </p>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.75rem' }}>
+                    {ca.quantum_estimate && (
+                      <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: '#eff6ff', border: '1px solid #bfdbfe' }}>
+                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: '#1d4ed8', letterSpacing: '0.05em' }}>Quantum</div>
+                        <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#1e3a8a', marginTop: '0.25rem' }}>
+                          {fmt(ca.quantum_estimate.estimated_cost_usd)}
+                        </div>
+                        <div style={{ fontSize: '0.8rem', color: '#475569', marginTop: '0.25rem' }}>
+                          {ca.quantum_estimate.provider || ca.quantum_estimate.platform}
+                          {typeof ca.quantum_estimate.shots === 'number' && ` · ${ca.quantum_estimate.shots.toLocaleString()} shots`}
+                        </div>
+                      </div>
+                    )}
+                    {ca.hpc_estimate && (
+                      <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: '#fef3c7', border: '1px solid #fde68a' }}>
+                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: '#a16207', letterSpacing: '0.05em' }}>Azure HPC / GPU</div>
+                        <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#78350f', marginTop: '0.25rem' }}>
+                          {fmt(ca.hpc_estimate.estimated_cost_usd)}
+                        </div>
+                        <div style={{ fontSize: '0.8rem', color: '#475569', marginTop: '0.25rem' }}>
+                          {ca.hpc_estimate.sku || ca.hpc_estimate.platform}
+                          {typeof ca.hpc_estimate.compute_hours === 'number' && ` · ${ca.hpc_estimate.compute_hours.toFixed(2)} hr`}
+                          {typeof ca.hpc_estimate.usd_per_hour === 'number' && ` @ $${ca.hpc_estimate.usd_per_hour}/hr`}
+                        </div>
+                      </div>
+                    )}
+                    {ca.comparison && (
+                      <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: verdictBg, border: `1px solid ${verdictFg}33` }}>
+                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: verdictFg, letterSpacing: '0.05em' }}>Verdict</div>
+                        <div style={{ fontSize: '1rem', fontWeight: 700, color: verdictFg, marginTop: '0.25rem' }}>
+                          {(ca.comparison.verdict || 'INSUFFICIENT_DATA').replace(/_/g, ' ')}
+                        </div>
+                        {typeof ca.comparison.ratio === 'number' && (
+                          <div style={{ fontSize: '0.8rem', color: '#475569', marginTop: '0.25rem' }}>
+                            Ratio (Q÷HPC): <strong>{ca.comparison.ratio.toFixed(3)}</strong>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  {ca.caveat && (
+                    <p style={{ marginTop: '0.75rem', marginBottom: 0, fontSize: '0.78rem', color: '#64748b', fontStyle: 'italic' }}>
+                      {ca.caveat}
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
+
             {/* Troyer Filters */}
             {Object.keys(result.troyer_filters).length > 0 && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
@@ -334,10 +454,93 @@ export default function EvaluatePage() {
                   {result.qsharp_code}
                 </pre>
                 {result.estimation && !('error' in result.estimation) && (
-                  <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: '#313244', borderRadius: '6px', color: '#89b4fa', fontSize: '0.85rem' }}>
-                    Resource Estimate: {JSON.stringify(result.estimation)}
+                  <div style={{ marginTop: '0.75rem', padding: '0.75rem 1rem', background: '#313244', borderRadius: '6px', color: '#cdd6f4', fontSize: '0.85rem' }}>
+                    <strong style={{ color: '#89b4fa' }}>Default Resource Estimate</strong>
+                    <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.25rem 1rem', margin: '0.5rem 0 0' }}>
+                      {typeof result.estimation.physical_qubits === 'number' && (
+                        <>
+                          <dt style={{ color: '#94a3b8' }}>Physical qubits</dt>
+                          <dd style={{ margin: 0, color: '#a6e3a1' }}>{result.estimation.physical_qubits.toLocaleString()}</dd>
+                        </>
+                      )}
+                      {typeof result.estimation.runtime_ns === 'number' && (
+                        <>
+                          <dt style={{ color: '#94a3b8' }}>Runtime</dt>
+                          <dd style={{ margin: 0, color: '#a6e3a1' }}>
+                            {(result.estimation.runtime_ns / 1e6).toFixed(2)} ms
+                            {' '}({result.estimation.runtime_ns.toLocaleString()} ns)
+                          </dd>
+                        </>
+                      )}
+                      {typeof result.estimation.logical_depth === 'number' && (
+                        <>
+                          <dt style={{ color: '#94a3b8' }}>Logical depth</dt>
+                          <dd style={{ margin: 0, color: '#a6e3a1' }}>{result.estimation.logical_depth.toLocaleString()}</dd>
+                        </>
+                      )}
+                    </dl>
                   </div>
                 )}
+                {result.estimation && 'error' in result.estimation && (
+                  <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.8rem', background: '#7f1d1d', borderRadius: '6px', color: '#fca5a5', fontSize: '0.85rem' }}>
+                    Estimation error: {String(result.estimation.error).slice(0, 250)}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Pareto resource sweep — quantum tech × QEC scheme comparison */}
+            {result.resource_estimate_pareto && result.resource_estimate_pareto.length > 0 && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#0b1220', borderRadius: '10px', border: '1px solid #1e293b' }}>
+                <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>Resource Estimate · Pareto Sweep</h3>
+                <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: '0 0 0.75rem' }}>
+                  Same algorithm, six qubit technologies × QEC schemes. Smaller physical-qubit counts
+                  with shorter runtimes are Pareto-optimal.
+                </p>
+                <div style={{ overflow: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', color: '#cbd5e1' }}>
+                    <thead>
+                      <tr style={{ background: '#1e293b', textAlign: 'left' }}>
+                        <th style={{ padding: '0.5rem 0.75rem' }}>Qubit technology</th>
+                        <th style={{ padding: '0.5rem 0.75rem' }}>QEC</th>
+                        <th style={{ padding: '0.5rem 0.75rem', textAlign: 'right' }}>Physical qubits</th>
+                        <th style={{ padding: '0.5rem 0.75rem', textAlign: 'right' }}>Runtime (ms)</th>
+                        <th style={{ padding: '0.5rem 0.75rem', textAlign: 'right' }}>T-factory %</th>
+                        <th style={{ padding: '0.5rem 0.75rem', textAlign: 'right' }}>Logical depth</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {result.resource_estimate_pareto.map((row, i) => (
+                        <tr key={i} style={{ borderTop: '1px solid #1e293b' }}>
+                          <td style={{ padding: '0.5rem 0.75rem' }}>{row.qubit_label || row.qubit_tech || '—'}</td>
+                          <td style={{ padding: '0.5rem 0.75rem' }}>{row.qec_scheme || '—'}</td>
+                          {row.error ? (
+                            <td colSpan={4} style={{ padding: '0.5rem 0.75rem', color: '#fca5a5' }}>
+                              {row.error}
+                            </td>
+                          ) : (
+                            <>
+                              <td style={{ padding: '0.5rem 0.75rem', textAlign: 'right', color: '#7dd3fc' }}>
+                                {typeof row.physical_qubits === 'number' ? row.physical_qubits.toLocaleString() : '—'}
+                              </td>
+                              <td style={{ padding: '0.5rem 0.75rem', textAlign: 'right', color: '#a6e3a1' }}>
+                                {typeof row.runtime_ns === 'number' ? (row.runtime_ns / 1e6).toFixed(2) : '—'}
+                              </td>
+                              <td style={{ padding: '0.5rem 0.75rem', textAlign: 'right', color: '#fbbf24' }}>
+                                {typeof row.t_factory_fraction === 'number'
+                                  ? `${(row.t_factory_fraction * 100).toFixed(1)}%`
+                                  : '—'}
+                              </td>
+                              <td style={{ padding: '0.5rem 0.75rem', textAlign: 'right' }}>
+                                {typeof row.logical_depth === 'number' ? row.logical_depth.toLocaleString() : '—'}
+                              </td>
+                            </>
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
 

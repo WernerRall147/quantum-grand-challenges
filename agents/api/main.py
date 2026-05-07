@@ -67,6 +67,7 @@ class EvaluateResponse(BaseModel):
     tokens_used: int = 0
     qsharp_code: str = ""
     estimation: dict = {}
+    resource_estimate_pareto: list = []
     bicep_template: str = ""
     bicep_validation: dict = {}
     bicep_deploy_commands: str = ""
@@ -140,12 +141,16 @@ def evaluate(request: EvaluateRequest):
                     code_out = codegen.generate_with_estimate(
                         request.problem.strip(),
                         algorithm=result.get("recommended_algorithm", "QPE"),
+                        multi_profile=True,
                     )
                     result["qsharp_code"] = code_out.get("qsharp_code", "")
-                    result["estimation"] = code_out.get("estimation", {})
+                    estimation = code_out.get("estimation", {})
+                    result["estimation"] = estimation
+                    result["resource_estimate_pareto"] = estimation.get("pareto_table", [])
                 except Exception as e:  # noqa: BLE001
                     result["qsharp_code"] = ""
                     result["estimation"] = {"error": str(e)[:200]}
+                    result["resource_estimate_pareto"] = []
             # Non-quantum verdicts → generate Bicep workspace template
             elif platform in ("HPC", "AI_ML"):
                 try:

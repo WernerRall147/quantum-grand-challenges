@@ -1,51 +1,44 @@
-"""Troyer Cost Model — Framework for Part 6 of the Architecture Series.
+"""Cost-advantage estimation backed by live Azure provider pricing.
 
-"Balancing the Cost of Utility-Scale Quantum Computing"
+Uses agents/classifier/azure_pricing.py for:
+  - Quantinuum HQC formula (`HQC = 5 + C*(N1q + 10*N2q + 5*Nm)/5000`)
+  - IonQ Aria/Forte AQT-style per-shot billing with min-job floors
+  - Rigetti time-based billing ($0.02 per 10ms)
+  - Azure HPC SKU rates from the public Retail Prices API (cached 24h)
 
-This module will integrate Troyer's cost model once Part 6 is published.
-Until then, it provides a placeholder cost assessment based on
-resource estimation data and known hardware pricing.
-
-The cost model answers: "Even if quantum advantage exists, is the
-engineering and economic cost justified?"
+Troyer's Part 6 formal framework is layered on top via the verdict
+thresholds in `cost_advantage_ratio`.
 """
 
 from typing import Dict, Any, Optional
 
+from agents.classifier import azure_pricing
 
-# Approximate costs per logical qubit-second for current hardware platforms
-# These are order-of-magnitude estimates — will be refined with Part 6 data
-PLATFORM_COST_RATES = {
-    "azure_quantum_quantinuum_h2": {
-        "cost_per_circuit_shot": 0.01,  # HQC-based pricing
-        "min_cost_per_job": 1.0,
-        "notes": "Quantinuum H2: ~$0.01 per HQC. Real cost depends on circuit depth and qubit count.",
-    },
-    "azure_quantum_ionq_aria": {
-        "cost_per_gate": 0.00022,  # Gate-based pricing
-        "min_cost_per_job": 1.0,
-        "notes": "IonQ Aria: gate-based pricing. 1-qubit gate ~$0.00015, 2-qubit ~$0.00098.",
-    },
-    "azure_hpc_nd96amsr_a100": {
-        "cost_per_hour": 27.20,
-        "notes": "NDv4 (8x A100 80GB): $27.20/hr on-demand, ~$16/hr spot.",
-    },
-    "azure_hpc_hbv4": {
-        "cost_per_hour": 3.60,
-        "notes": "HBv4 (176 AMD cores): $3.60/hr. Good for MPI-parallel workloads.",
-    },
-    "azure_ai_foundry": {
-        "cost_per_1k_tokens_gpt4": 0.03,
-        "cost_per_1k_tokens_embedding": 0.00002,
-        "notes": "Azure AI Foundry: model-dependent. GPT-4.1 ~$0.03/1k tokens.",
-    },
+
+COST_MODEL_STATUS = "live_pricing_v1"
+TROYER_PART_6_STATUS = "coming_soon"
+TROYER_PART_6_URL = None
+
+# Map orchestrator-level platform IDs onto azure_pricing target keys.
+PLATFORM_TARGET_ALIASES = {
+    "azure_quantum_quantinuum_h2": "quantinuum_h2",
+    "quantinuum_h2": "quantinuum_h2",
+    "azure_quantum_ionq_aria": "ionq_aria",
+    "ionq_aria": "ionq_aria",
+    "azure_quantum_ionq_forte": "ionq_forte",
+    "ionq_forte": "ionq_forte",
+    "azure_quantum_rigetti": "rigetti_cepheus",
+    "rigetti_cepheus": "rigetti_cepheus",
+    "azure_quantum_pasqal": "pasqal_fresnel",
+    "pasqal_fresnel": "pasqal_fresnel",
 }
 
-# Troyer Part 6 will provide a formal framework for these tradeoffs
-# For now, we use a simplified model based on resource estimation outputs
-COST_MODEL_STATUS = "placeholder"
-TROYER_PART_6_STATUS = "coming_soon"
-TROYER_PART_6_URL = None  # Will be filled when Part 6 is published
+PLATFORM_HPC_ALIASES = {
+    "azure_hpc_nd96amsr_a100": "Standard_ND96amsr_A100_v4",
+    "azure_hpc_nd96isr_h100": "Standard_ND96isr_H100_v5",
+    "azure_hpc_hbv4": "Standard_HB176rs_v4",
+    "azure_hpc_hbv3": "Standard_HB120rs_v3",
+}
 
 
 def estimate_quantum_cost(
@@ -53,36 +46,36 @@ def estimate_quantum_cost(
     runtime_ns: int,
     target_platform: str = "azure_quantum_quantinuum_h2",
     shots: int = 100,
+    logical_depth: Optional[int] = None,
 ) -> Dict[str, Any]:
-    """Estimate the cost of running a quantum computation.
+    """Estimate the cost of running a quantum computation on a real provider.
 
-    This is a PLACEHOLDER — will be replaced with Troyer's formal cost model.
-    Currently uses rough estimates based on known Azure Quantum pricing.
+    Uses provider-specific billing formulas (HQC for Quantinuum, AQT for IonQ,
+    time-based for Rigetti) and applies minimum-job floors where the provider
+    enforces them.
     """
-    rates = PLATFORM_COST_RATES.get(target_platform, {})
-
-    if "cost_per_circuit_shot" in rates:
-        # HQC-style pricing (Quantinuum)
-        # Rough: HQC ~ num_qubits * circuit_depth_factor
-        depth_factor = max(1, runtime_ns / 1_000_000)  # Normalize to ~ms
-        hqc_per_shot = physical_qubits * depth_factor * 0.001
-        estimated_cost = max(rates.get("min_cost_per_job", 1.0), hqc_per_shot * shots)
-    elif "cost_per_gate" in rates:
-        # Gate-based pricing (IonQ)
-        # Rough: assume 10 gates per qubit per layer, ~sqrt(runtime) layers
-        est_gates = physical_qubits * 10 * max(1, (runtime_ns / 1_000_000) ** 0.5)
-        estimated_cost = max(rates.get("min_cost_per_job", 1.0), est_gates * rates["cost_per_gate"] * shots)
-    else:
-        estimated_cost = None
+    target_key = PLATFORM_TARGET_ALIASES.get(target_platform, target_platform)
+    detail = azure_pricing.estimate_quantum_cost_for_target(
+        target=target_key,
+        physical_qubits=physical_qubits,
+        runtime_ns=runtime_ns,
+        logical_depth=logical_depth,
+        shots=shots,
+    )
 
     return {
         "platform": target_platform,
-        "estimated_cost_usd": round(estimated_cost, 2) if estimated_cost else None,
+        "provider": detail.get("provider"),
+        "estimated_cost_usd": detail.get("estimated_cost_usd"),
         "shots": shots,
         "cost_model": COST_MODEL_STATUS,
-        "notes": rates.get("notes", ""),
+        "notes": detail.get("notes", ""),
+        "billing_detail": {k: v for k, v in detail.items() if k not in {"provider", "notes"}},
         "troyer_part_6": TROYER_PART_6_STATUS,
-        "caveat": "Placeholder estimate. Troyer Part 6 will provide formal cost-advantage analysis.",
+        "caveat": (
+            "Provider pricing as of May 2026 from learn.microsoft.com/azure/quantum/pricing. "
+            "Final billing depends on subscription tier and error-mitigation flags."
+        ),
     }
 
 
@@ -90,16 +83,19 @@ def estimate_hpc_cost(
     compute_hours: float,
     platform: str = "azure_hpc_nd96amsr_a100",
 ) -> Dict[str, Any]:
-    """Estimate the cost of solving the same problem on Azure HPC."""
-    rates = PLATFORM_COST_RATES.get(platform, {})
-    cost_per_hour = rates.get("cost_per_hour", 0)
-    estimated_cost = compute_hours * cost_per_hour
-
+    """Estimate the cost of solving the same problem on Azure HPC/GPU."""
+    sku = PLATFORM_HPC_ALIASES.get(platform, azure_pricing.DEFAULT_HPC_SKU)
+    detail = azure_pricing.estimate_hpc_compute_cost(compute_hours=compute_hours, sku=sku)
     return {
         "platform": platform,
-        "estimated_cost_usd": round(estimated_cost, 2),
-        "compute_hours": compute_hours,
-        "notes": rates.get("notes", ""),
+        "sku": sku,
+        "estimated_cost_usd": detail["estimated_cost_usd"],
+        "compute_hours": detail["compute_hours"],
+        "usd_per_hour": detail["usd_per_hour"],
+        "vcpus": detail.get("vcpus"),
+        "family": detail.get("family"),
+        "source": detail.get("source"),
+        "notes": f"{detail.get('family', '')} @ ${detail['usd_per_hour']}/hr ({detail.get('source')})",
     }
 
 
@@ -109,8 +105,8 @@ def cost_advantage_ratio(
 ) -> Dict[str, Any]:
     """Compare quantum vs HPC costs. Ratio > 1 means HPC is cheaper.
 
-    Troyer's Part 6 framework will formalize when the quantum cost
-    premium is justified by speedup class and problem scale.
+    Verdict thresholds will be replaced by Troyer's formal Part 6
+    framework once published.
     """
     q = quantum_cost.get("estimated_cost_usd")
     h = hpc_cost.get("estimated_cost_usd")

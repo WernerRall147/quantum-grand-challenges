@@ -198,6 +198,30 @@ jobs:
       - name: Install dependencies
         run: pip install azure-cosmos azure-search-documents azure-identity openai
 
+      - name: Azure login (service principal)
+        uses: azure/login@v2
+        with:
+          creds: |
+            {
+              "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+              "tenantId": "dc692f3e-104b-4247-b52c-23692694684a",
+              "subscriptionId": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3"
+            }
+
+      - name: Allow runner IP on Cosmos firewall
+        id: cosmos-fw
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUNNER_IP="$(curl -sS https://api.ipify.org)"
+          echo "runner_ip=${RUNNER_IP}" >> "$GITHUB_OUTPUT"
+          echo "Adding temporary Cosmos firewall rule for ${RUNNER_IP}"
+          az cosmosdb network-rule add \
+            --resource-group qgc-evaluator \
+            --name qgccosmoseval \
+            --ip-address "${RUNNER_IP}"
+
       - name: Run arxiv ingestion
         env:
           SEARCH_ADMIN_KEY: ${{ secrets.SEARCH_ADMIN_KEY }}
@@ -208,6 +232,17 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_OPENAI_ENDPOINT: https://qgc-openai.openai.azure.com/
         run: python -m knowledge.ingest.arxiv_ingester
+
+      - name: Remove runner IP from Cosmos firewall
+        if: always() && steps.cosmos-fw.outputs.runner_ip != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Removing temporary Cosmos firewall rule for ${{ steps.cosmos-fw.outputs.runner_ip }}"
+          az cosmosdb network-rule remove \
+            --resource-group qgc-evaluator \
+            --name qgccosmoseval \
+            --ip-address "${{ steps.cosmos-fw.outputs.runner_ip }}"
 
       - name: Upload ingestion report
         if: always()

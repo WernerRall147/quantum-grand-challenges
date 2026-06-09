@@ -201,6 +201,12 @@ jobs:
       - name: Run arxiv ingestion
         env:
           SEARCH_ADMIN_KEY: ${{ secrets.SEARCH_ADMIN_KEY }}
+          # DefaultAzureCredential picks these up via EnvironmentCredential,
+          # so Cosmos DB upsert and Azure OpenAI embeddings work on the runner.
+          AZURE_TENANT_ID: dc692f3e-104b-4247-b52c-23692694684a
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_OPENAI_ENDPOINT: https://qgc-openai.openai.azure.com/
         run: python -m knowledge.ingest.arxiv_ingester
 
       - name: Upload ingestion report

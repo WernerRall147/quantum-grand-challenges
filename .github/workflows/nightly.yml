@@ -215,13 +215,24 @@ jobs:
         run: |
           set -euo pipefail
           RUNNER_IP="$(curl -sS https://api.ipify.org | tr -d '[:space:]')"
-          RUNNER_CIDR="${RUNNER_IP}/32"
-          echo "runner_ip=${RUNNER_CIDR}" >> "$GITHUB_OUTPUT"
-          echo "Adding temporary Cosmos firewall rule for ${RUNNER_CIDR}"
-          az cosmosdb network-rule add \
+          ORIGINAL_IP_FILTER="$(az cosmosdb show \
             --resource-group qgc-evaluator \
             --name qgccosmoseval \
-            --ip-address "${RUNNER_CIDR}"
+            --query ipRangeFilter \
+            --output tsv)"
+          ORIGINAL_IP_FILTER="${ORIGINAL_IP_FILTER//$'\r'/}"
+          if [ -n "${ORIGINAL_IP_FILTER}" ]; then
+            NEW_IP_FILTER="${ORIGINAL_IP_FILTER},${RUNNER_IP}"
+          else
+            NEW_IP_FILTER="${RUNNER_IP}"
+          fi
+          echo "runner_ip=${RUNNER_IP}" >> "$GITHUB_OUTPUT"
+          echo "original_ip_filter=${ORIGINAL_IP_FILTER}" >> "$GITHUB_OUTPUT"
+          echo "Adding temporary Cosmos firewall IP ${RUNNER_IP}"
+          az cosmosdb update \
+            --resource-group qgc-evaluator \
+            --name qgccosmoseval \
+            --ip-range-filter "${NEW_IP_FILTER}"
 
       - name: Run arxiv ingestion
         env:
@@ -239,11 +250,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "Removing temporary Cosmos firewall rule for ${{ steps.cosmos-fw.outputs.runner_ip }}"
-          az cosmosdb network-rule remove \
+          echo "Restoring Cosmos firewall IP filter (removing temporary IP ${{ steps.cosmos-fw.outputs.runner_ip }})"
+          az cosmosdb update \
             --resource-group qgc-evaluator \
             --name qgccosmoseval \
-            --ip-address "${{ steps.cosmos-fw.outputs.runner_ip }}"
+            --ip-range-filter "${{ steps.cosmos-fw.outputs.original_ip_filter }}"
 
       - name: Upload ingestion report
         if: always()

@@ -214,13 +214,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          RUNNER_IP="$(curl -sS https://api.ipify.org)"
-          echo "runner_ip=${RUNNER_IP}" >> "$GITHUB_OUTPUT"
-          echo "Adding temporary Cosmos firewall rule for ${RUNNER_IP}"
+          RUNNER_IP="$(curl -sS https://api.ipify.org | tr -d '[:space:]')"
+          RUNNER_CIDR="${RUNNER_IP}/32"
+          echo "runner_ip=${RUNNER_CIDR}" >> "$GITHUB_OUTPUT"
+          echo "Adding temporary Cosmos firewall rule for ${RUNNER_CIDR}"
           az cosmosdb network-rule add \
             --resource-group qgc-evaluator \
             --name qgccosmoseval \
-            --ip-address "${RUNNER_IP}"
+            --ip-address "${RUNNER_CIDR}"
 
       - name: Run arxiv ingestion
         env:

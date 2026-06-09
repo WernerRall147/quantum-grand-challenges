@@ -221,6 +221,12 @@ jobs:
             --query ipRangeFilter \
             --output tsv)"
           ORIGINAL_IP_FILTER="${ORIGINAL_IP_FILTER//$'\r'/}"
+          ORIGINAL_PUBLIC_ACCESS="$(az cosmosdb show \
+            --resource-group qgc-evaluator \
+            --name qgccosmoseval \
+            --query publicNetworkAccess \
+            --output tsv)"
+          ORIGINAL_PUBLIC_ACCESS="${ORIGINAL_PUBLIC_ACCESS//$'\r'/}"
           if [ -n "${ORIGINAL_IP_FILTER}" ]; then
             NEW_IP_FILTER="${ORIGINAL_IP_FILTER},${RUNNER_IP}"
           else
@@ -228,10 +234,14 @@ jobs:
           fi
           echo "runner_ip=${RUNNER_IP}" >> "$GITHUB_OUTPUT"
           echo "original_ip_filter=${ORIGINAL_IP_FILTER}" >> "$GITHUB_OUTPUT"
-          echo "Adding temporary Cosmos firewall IP ${RUNNER_IP}"
+          echo "original_public_access=${ORIGINAL_PUBLIC_ACCESS}" >> "$GITHUB_OUTPUT"
+          echo "Adding temporary Cosmos firewall IP ${RUNNER_IP} (publicNetworkAccess was ${ORIGINAL_PUBLIC_ACCESS})"
+          # publicNetworkAccess must be Enabled for ipRangeFilter to take effect;
+          # while it is Disabled the public endpoint blocks all traffic, allow-list included.
           az cosmosdb update \
             --resource-group qgc-evaluator \
             --name qgccosmoseval \
+            --public-network-access Enabled \
             --ip-range-filter "${NEW_IP_FILTER}"
 
       - name: Run arxiv ingestion
@@ -250,11 +260,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "Restoring Cosmos firewall IP filter (removing temporary IP ${{ steps.cosmos-fw.outputs.runner_ip }})"
+          ORIGINAL_PUBLIC_ACCESS="${{ steps.cosmos-fw.outputs.original_public_access }}"
+          ORIGINAL_IP_FILTER="${{ steps.cosmos-fw.outputs.original_ip_filter }}"
+          echo "Restoring Cosmos firewall (publicNetworkAccess=${ORIGINAL_PUBLIC_ACCESS}, ipRangeFilter=${ORIGINAL_IP_FILTER})"
           az cosmosdb update \
             --resource-group qgc-evaluator \
             --name qgccosmoseval \
-            --ip-range-filter "${{ steps.cosmos-fw.outputs.original_ip_filter }}"
+            --public-network-access "${ORIGINAL_PUBLIC_ACCESS}" \
+            --ip-range-filter "${ORIGINAL_IP_FILTER}"
 
       - name: Upload ingestion report
         if: always()

@@ -151,6 +151,7 @@ def upsert_to_cosmos(papers: List[Dict]):
         print(f"  Cosmos DB: upserted {len(papers)} papers")
     except Exception as e:
         print(f"  Cosmos DB upsert failed: {e}")
+        raise
 
 
 def upsert_to_search_index(papers: List[Dict]):

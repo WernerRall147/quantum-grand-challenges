@@ -31,7 +31,7 @@ make estimate       # (Placeholder) Run resource estimation once quantum kernel 
 - `estimates/classical_baseline.json` – Solutions, condition numbers, and residuals for each YAML instance
 - `plots/condition_numbers.png` – Visual comparison of condition numbers across instances
 - `plots/residual_vs_precision.png` – Residual norms versus target precision requirements
-- `qsharp/bin/Release/net6.0/LinearSolvers.dll` – Compiled Q# analytical baseline
+- `qsharp/src/Main.qs` – Q# analytical baseline, compiled on-the-fly by the modern QDK
 - `STAGE_D_ADVANTAGE_EVIDENCE.md` – Stage D claim-boundary and evidence-tracking scaffold for expansion-queue onboarding
 
 ## ✅ Complete HHL Implementation

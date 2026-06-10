@@ -128,7 +128,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 - `plots/quantum_vs_classical_uncertainty.png` – Quantum refined expectation versus classical optimum with 95% CI bars
 - `plots/qaoa_depth_sweep_<instance>.png` – Refined expectation versus depth with 95% CI bars
 - `plots/qaoa_noise_sweep_<instance>_d<depth>.png` – Refined cut-value sensitivity across readout-noise levels
-- `qsharp/bin/Release/net6.0/QaoaMaxCut.dll` – Compiled Q# QAOA implementation
+- `qsharp/src/Main.qs` – Q# QAOA implementation, compiled on-the-fly by the modern QDK
 
 ## Current Baseline
 

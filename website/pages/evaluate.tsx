@@ -147,7 +147,7 @@ export default function EvaluatePage() {
         troyer_filters: {},
         red_flags: ['This is a demo — the live evaluator requires the Python backend (agents/orchestrator/evaluate.py) connected to Azure AI'],
         hpc_alternative: 'Run `python agents/orchestrator/evaluate.py "your problem"` locally to get a real evaluation',
-        explanation: 'The Quantum Advantage Evaluator is a Python backend that connects to Azure OpenAI (GPT-5.4-mini) and the knowledge base (Cosmos DB + AI Search). On the static GitHub Pages site, the backend is not available. Run it locally or deploy as an Azure Function for live evaluations.',
+        explanation: 'The Quantum Advantage Evaluator is a Python backend that connects to the Azure AI Foundry model router and the knowledge base (Cosmos DB + AI Search). On the static GitHub Pages site, the backend is not available. Run it locally or deploy as an Azure Function for live evaluations.',
         similar_problems: [],
         references: [],
       });
@@ -630,7 +630,7 @@ export default function EvaluatePage() {
             <div style={{ background: 'white', padding: '1rem', borderRadius: '8px' }}>
               <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>4️⃣</div>
               <strong>Assess</strong>
-              <p style={{ fontSize: '0.9rem', color: '#666', margin: '0.5rem 0 0' }}>GPT-5.4 generates a detailed, reference-backed evaluation</p>
+              <p style={{ fontSize: '0.9rem', color: '#666', margin: '0.5rem 0 0' }}>The Azure AI Foundry model router selects the best model to generate a detailed, reference-backed evaluation</p>
             </div>
           </div>
         </section>
@@ -700,7 +700,7 @@ export default function EvaluatePage() {
 
         <footer style={{ marginTop: '4rem', padding: '1.5rem 0', borderTop: '1px solid #ddd', textAlign: 'center', color: '#999' }}>
           <p style={{ margin: 0 }}>
-            Powered by Azure OpenAI (GPT-5.4-mini) + Cosmos DB + AI Search | <Link href="/" style={{ color: '#0070f3', textDecoration: 'none' }}>Dashboard</Link>
+            Powered by Azure AI Foundry model router + Cosmos DB + AI Search | <Link href="/" style={{ color: '#0070f3', textDecoration: 'none' }}>Dashboard</Link>
           </p>
         </footer>
       </main>

@@ -7,6 +7,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
@@ -64,12 +65,13 @@ def run_cmd(cmd: List[str], cwd: Path, timeout: int, env: Dict[str, str]) -> Dic
         }
 
 
-def has_dotnet6() -> bool:
+def qsharp_importable() -> bool:
     try:
-        proc = subprocess.run(["dotnet", "--list-runtimes"], capture_output=True, text=True, check=False, timeout=20)
-    except (FileNotFoundError, subprocess.TimeoutExpired):
+        import importlib.util
+
+        return importlib.util.find_spec("qsharp") is not None
+    except Exception:
         return False
-    return "Microsoft.NETCore.App 6." in proc.stdout
 
 
 def discover_make(root: Path, explicit: str | None) -> str | None:
@@ -107,8 +109,7 @@ def main() -> None:
     registry = load_registry(root)
 
     make_exe = discover_make(root, args.make_exe)
-    dotnet_exe = shutil.which("dotnet")
-    dotnet6_available = has_dotnet6() if dotnet_exe else False
+    qsharp_available = qsharp_importable()
 
     env = dict(os.environ)
     env["PYTHONUTF8"] = "1"
@@ -147,15 +148,25 @@ def main() -> None:
                 baseline_error = str(exc)
 
         qsharp_dir = problem_dir / "qsharp"
-        qsharp_attempted = bool(args.include_qsharp and dotnet_exe and qsharp_dir.exists())
-        if qsharp_attempted and dotnet6_available:
-            qsharp = run_cmd([dotnet_exe, "build", "--configuration", "Release"], qsharp_dir, args.qsharp_timeout, env)
-        elif qsharp_attempted and not dotnet6_available:
+        qsharp_attempted = bool(args.include_qsharp and qsharp_available and (qsharp_dir / "qsharp.json").exists())
+        if qsharp_attempted:
+            qsharp = run_cmd(
+                [
+                    sys.executable,
+                    "-c",
+                    "import qsharp, sys; qsharp.init(project_root=sys.argv[1]); print('Q# compilation OK')",
+                    str(qsharp_dir),
+                ],
+                problem_dir,
+                args.qsharp_timeout,
+                env,
+            )
+        elif args.include_qsharp and not qsharp_available:
             qsharp = {
                 "ok": False,
                 "returncode": None,
                 "stdout_tail": "",
-                "stderr_tail": ".NET 6 runtime missing",
+                "stderr_tail": "qsharp package not installed",
                 "timed_out": False,
             }
         else:
@@ -195,8 +206,7 @@ def main() -> None:
         "generated_utc": utc_now(),
         "environment": {
             "make_available": bool(make_exe),
-            "dotnet_available": bool(dotnet_exe),
-            "dotnet6_available": dotnet6_available,
+            "qsharp_available": qsharp_available,
             "qsharp_included": bool(args.include_qsharp),
         },
         "summary": {

@@ -67,16 +67,9 @@ switch ($Action) {
             Pop-Location
         }
 
-        Push-Location $qsharpDir
+        Push-Location $pythonDir
         try {
-            if (-not $NoBuild.IsPresent) {
-                dotnet build --configuration Release
-                if ($LASTEXITCODE -ne 0) { throw "Q# build failed." }
-            } else {
-                Write-Host "Skipping Q# build (-NoBuild)." -ForegroundColor Yellow
-            }
-
-            dotnet run --configuration Release --no-build
+            python run_qsharp.py
             if ($LASTEXITCODE -ne 0) { throw "Q# run failed." }
         }
         finally {

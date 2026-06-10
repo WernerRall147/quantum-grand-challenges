@@ -29,55 +29,15 @@ from pathlib import Path
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "website" / "data" / "multiModelEstimates.json"
 
-ENTRY_POINTS = {
-    "01_hubbard": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 1)",
-    "02_catalysis": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 1)",
-    "03_qae_risk": "Main.QAEKernel()",
-    "04_linear_solvers": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)",
-    "05_qaoa_maxcut": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], 1)",
-    "06_high_frequency_trading": "Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 1)",
-    "07_drug_discovery": "Main.EstimateBindingEnergy(1.0, 0.5, 0.3, 1)",
-    "08_protein_folding": "Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, 1)",
-    "09_factorization": "Main.ShorPeriodFinding(3, 4)",
-    "10_post_quantum_cryptography": "Main.GroverKeySearch(3, 5, 1)",
-    "11_quantum_machine_learning": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 1)",
-    "12_quantum_optimization": "Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, 1)",
-    "13_climate_modeling": "Main.RunHHLClimate(3, 1)",
-    "14_materials_discovery": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 1)",
-    "15_database_search": "Main.GroverSearch([7], 4, 3)",
-    "16_error_correction": "Main.RunRepetitionCodeCycle(false, 0)",
-    "17_nuclear_physics": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 1)",
-    "18_photovoltaics": "Main.RunExcitonWalk(10, 0.5, 1)",
-    "19_quantum_chromodynamics": "Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, 1)",
-    "20_space_mission_planning": "Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, 1)",
-}
-
-# All qubit models with their QEC compatibility
-QUBIT_MODELS = [
-    {"name": "qubit_gate_ns_e3", "label": "Superconducting (ns, 1e-3)", "qec": ["surface_code"], "family": "gate_based", "speed": "ns"},
-    {"name": "qubit_gate_ns_e4", "label": "Superconducting (ns, 1e-4)", "qec": ["surface_code"], "family": "gate_based", "speed": "ns"},
-    {"name": "qubit_gate_us_e3", "label": "Trapped Ion (μs, 1e-3)", "qec": ["surface_code"], "family": "gate_based", "speed": "us"},
-    {"name": "qubit_gate_us_e4", "label": "Trapped Ion (μs, 1e-4)", "qec": ["surface_code"], "family": "gate_based", "speed": "us"},
-    {"name": "qubit_maj_ns_e4", "label": "Majorana (ns, 1e-4)", "qec": ["surface_code", "floquet_code"], "family": "majorana", "speed": "ns"},
-    {"name": "qubit_maj_ns_e6", "label": "Majorana (ns, 1e-6)", "qec": ["surface_code", "floquet_code"], "family": "majorana", "speed": "ns"},
-]
-
-
-def extract_summary(estimate):
-    """Extract key metrics from a qsharp.estimate() result."""
-    pc = estimate.get("physicalCounts", {})
-    lc = estimate.get("logicalCounts", {})
-    bd = pc.get("breakdown", {})
-    return {
-        "physicalQubits": pc.get("physicalQubits"),
-        "runtime": pc.get("runtime"),
-        "rqops": pc.get("rqops"),
-        "logicalQubits": bd.get("algorithmicLogicalQubits"),
-        "logicalDepth": lc.get("logicalDepth"),
-        "tCount": lc.get("tCount"),
-        "rotationCount": lc.get("rotationCount"),
-        "codeDistance": bd.get("logicalPatch", {}).get("codeDistance") if isinstance(bd.get("logicalPatch"), dict) else None,
-    }
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from discover_problems import discover_all_problems
+from estimator_config import (
+    ENTRY_POINTS,
+    QUBIT_MODELS,
+    extract_summary,
+    iter_model_configs,
+    make_batch_estimator_params,
+)
 
 
 def main():
@@ -88,10 +48,6 @@ def main():
     total_failures = 0
     start = time.time()
 
-    # Import shared discovery helper
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from discover_problems import discover_all_problems
-
     problem_dirs = discover_all_problems()
 
     for pd in problem_dirs:
@@ -101,46 +57,50 @@ def main():
         if not (qsharp_dir / "qsharp.json").exists():
             continue
 
-        entry = ENTRY_POINTS.get(name)
-        if not entry:
+        ep = ENTRY_POINTS.get(name)
+        if ep is None:
             continue
 
         try:
             qsharp.init(project_root=str(qsharp_dir))
         except Exception as e:
-            print(f"XX {name}: compile error — {str(e)[:100]}")
+            print(f"XX {name}: compile error -- {str(e)[:100]}")
             total_failures += 1
+            continue
+
+        # Build batched params: one estimate call evaluates every (qubit, QEC) combo.
+        configs = list(iter_model_configs())  # [(model, qec, key), ...]
+        params = make_batch_estimator_params([(m.name, qec) for m, qec, _ in configs])
+
+        try:
+            batch = qsharp.estimate(ep.expr(), params=params)
+        except Exception as e:
+            err = str(e)[:120]
+            print(f"XX {name}: batch estimate failed -- {err}")
+            total_failures += len(configs)
             continue
 
         problem_results = {"models": {}}
 
-        for model in QUBIT_MODELS:
-            for qec in model["qec"]:
-                config_key = f"{model['name']}+{qec}"
-                try:
-                    estimate = qsharp.estimate(
-                        entry,
-                        params={
-                            "qubitParams": {"name": model["name"]},
-                            "qecScheme": {"name": qec},
-                        },
-                    )
-                    summary = extract_summary(estimate)
-                    summary["qubitModel"] = model["name"]
-                    summary["qubitLabel"] = model["label"]
-                    summary["qecScheme"] = qec
-                    summary["family"] = model["family"]
-                    summary["speed"] = model["speed"]
-                    problem_results["models"][config_key] = summary
-                    total_estimates += 1
+        for idx, (model, qec, config_key) in enumerate(configs):
+            try:
+                item = batch[idx]
+                data = item.data() if hasattr(item, "data") else item
+                summary = extract_summary(data)
+                summary["qubitModel"] = model.name
+                summary["qubitLabel"] = model.label
+                summary["qecScheme"] = qec
+                summary["family"] = model.family
+                summary["speed"] = model.speed
+                problem_results["models"][config_key] = summary
+                total_estimates += 1
 
-                    pq = summary.get("physicalQubits", "?")
-                    print(f"  OK {name} [{config_key}]: {pq} physical qubits")
-
-                except Exception as e:
-                    err = str(e)[:120]
-                    print(f"  XX {name} [{config_key}]: {err}")
-                    total_failures += 1
+                pq = summary.get("physicalQubits", "?")
+                print(f"  OK {name} [{config_key}]: {pq} physical qubits")
+            except Exception as e:
+                err = str(e)[:120]
+                print(f"  XX {name} [{config_key}]: {err}")
+                total_failures += 1
 
         if problem_results["models"]:
             results[name] = problem_results
@@ -149,7 +109,16 @@ def main():
 
     output = {
         "generated_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "qubit_models": [{"name": m["name"], "label": m["label"], "family": m["family"], "speed": m["speed"], "qec_schemes": m["qec"]} for m in QUBIT_MODELS],
+        "qubit_models": [
+            {
+                "name": m.name,
+                "label": m.label,
+                "family": m.family,
+                "speed": m.speed,
+                "qec_schemes": list(m.qec_schemes),
+            }
+            for m in QUBIT_MODELS
+        ],
         "total_estimates": total_estimates,
         "total_failures": total_failures,
         "elapsed_seconds": round(elapsed, 1),

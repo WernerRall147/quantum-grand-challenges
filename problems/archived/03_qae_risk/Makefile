@@ -80,15 +80,6 @@ run: runtime-config
 	@echo "Running Q# QAE risk analysis via modern QDK..."
 	cd python && $(PYTHON) run_qsharp.py
 
-# Legacy targets (require .NET 6.0 + old QAERisk.csproj)
-build-legacy: runtime-config
-	@echo "Building Q# project (legacy .NET SDK)..."
-	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
-
-run-legacy: build-legacy
-	@echo "Running Q# QAE risk analysis (legacy .NET SDK)..."
-	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); qsharp.run('Main.RunQAERiskAnalysis()', shots=1)"
-
 # Resource estimation
 estimate: build
 	@echo "Running resource estimation with target: $(TARGET) and instance: $(INSTANCE)"
@@ -184,7 +175,6 @@ validate-results:
 # Clean up
 clean:
 	@echo "Cleaning build artifacts..."
-	-cd qsharp && dotnet clean 2>/dev/null || true
 	rm -rf qsharp/bin qsharp/obj
 	rm -rf python/__pycache__
 	rm -rf estimates/temp_*
@@ -214,7 +204,6 @@ check-env:
 	@echo "Development environment check:"
 	@echo "  Python: $$(python3 --version 2>/dev/null || echo 'Not found')"
 	@echo "  QDK (qsharp): $$(python3 -c 'import qsharp; print(qsharp.__version__)' 2>/dev/null || echo 'Not installed (pip install qdk)')"
-	@echo "  .NET (legacy): $$(dotnet --version 2>/dev/null || echo 'Not found')"
 	@echo "  Azure CLI: $$(az --version 2>/dev/null | head -1 || echo 'Not found')"
 	@echo "  Quantum extension: $$(az extension list --output table 2>/dev/null | grep quantum || echo 'Not installed')"
 
@@ -227,7 +216,7 @@ status:
 	@echo "  Instance files: $$(find instances -name '*.yaml' | wc -l) files"
 	@echo "  Results: $$(find estimates -name '*.json' 2>/dev/null | wc -l) files"
 	@echo ""
-	@echo "🔧 Last build: $$(stat qsharp/bin/Release/net6.0/QAERisk.dll 2>/dev/null | grep Modify || echo 'Never built')"
+	@echo "🔧 Build: modern QDK (qsharp.json) — compiled on-the-fly, no persistent build artifact"
 	@echo "📊 Last analysis: $$(stat plots/analysis_report.md 2>/dev/null | grep Modify || echo 'Never run')"
 
 # Documentation

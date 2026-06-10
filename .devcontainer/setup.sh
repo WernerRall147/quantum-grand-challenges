@@ -170,12 +170,12 @@ help:
 	@echo "  clean     - Clean build artifacts"
 
 build:
-	@echo "Building Q# project..."
-	cd qsharp && dotnet build
+	@echo "Building Q# project (modern QDK)..."
+	python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
 
 test: build
 	@echo "Running tests..."
-	cd qsharp && dotnet test
+	cd python && python test_baseline.py
 
 estimate: build
 	@echo "Running resource estimation with target: $(TARGET)"
@@ -195,7 +195,7 @@ compare:
 
 clean:
 	@echo "Cleaning build artifacts..."
-	cd qsharp && dotnet clean
+	rm -rf qsharp/bin qsharp/obj
 	rm -rf estimates/temp_*
 	rm -rf python/__pycache__
 
@@ -206,7 +206,7 @@ list-targets:
 
 submit-job:
 	@echo "Submitting job to Azure Quantum..."
-	$(AZQ) run qsharp/Program.qs --target $(AZQ_TARGET) --output-dir runs/
+	$(AZQ) run qsharp/src/Main.qs --target $(AZQ_TARGET) --output-dir runs/
 
 EOF
 

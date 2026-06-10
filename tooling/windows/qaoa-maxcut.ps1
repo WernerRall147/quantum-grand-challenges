@@ -64,10 +64,10 @@ function Get-AzureEnvPathArg {
 }
 
 function Invoke-Build {
-    Write-Host "Building QAOA Max-Cut host and Q# project..." -ForegroundColor Cyan
+    Write-Host "Validating QAOA Max-Cut Q# compilation (modern QDK)..." -ForegroundColor Cyan
     Push-Location $problemRoot
     try {
-        dotnet build host/QaoaMaxCut.Driver.csproj --configuration Release
+        python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
         if ($LASTEXITCODE -ne 0) { throw "Build failed." }
     }
     finally {
@@ -83,7 +83,7 @@ function Invoke-RunInstance {
     Write-Host "Running QAOA instance '$TargetInstance' (depth=$Depth, coarse=$effectiveCoarseShots, refined=$effectiveRefinedShots, trials=$effectiveTrials)..." -ForegroundColor Cyan
     Push-Location $problemRoot
     try {
-        dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance $TargetInstance --depth $Depth --coarse-shots $effectiveCoarseShots --refined-shots $effectiveRefinedShots --trials $effectiveTrials
+        python python/depth_sweep.py --instance $TargetInstance --depths $Depth --coarse-shots $effectiveCoarseShots --refined-shots $effectiveRefinedShots --trials $effectiveTrials
         if ($LASTEXITCODE -ne 0) { throw "Run failed for instance '$TargetInstance'." }
     }
     finally {

@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 12: Quantum Optimization — QAOA Job Scheduling (4-qubit)
+  Problem 12: Quantum Optimization  QAOA Job Scheduling (4-qubit)
   Algorithm: QAOA for weighted scheduling
   Qubits: 4 (one per job)
 ===================================================================

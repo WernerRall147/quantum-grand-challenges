@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 11: Quantum ML — Swap Test Kernel (5-qubit)
+  Problem 11: Quantum ML  Swap Test Kernel (5-qubit)
   Algorithm: Quantum Kernel Estimation via Swap Test
   Qubits: 2 (regA) + 2 (regB) + 1 (ancilla) = 5
 ===================================================================

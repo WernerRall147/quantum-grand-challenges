@@ -151,12 +151,12 @@
       "category": "Infrastructure",
       "speedup_class": "not_applicable",
       "quantum_complexity": "O(d²) physical qubits per logical qubit",
-      "classical_best": "N/A — enables other algorithms",
+      "classical_best": "N/A  enables other algorithms",
       "io_bottleneck": false,
       "oracle_polynomial": true,
       "naturally_quantum": true,
       "troyer_verdict": "INFRASTRUCTURE",
-      "notes": "Not an algorithm — enabling technology. Threshold theorem guarantees fault-tolerant computation if physical error rate < threshold.",
+      "notes": "Not an algorithm  enabling technology. Threshold theorem guarantees fault-tolerant computation if physical error rate < threshold.",
       "reference": "arXiv:quant-ph/9705052"
     },
     {

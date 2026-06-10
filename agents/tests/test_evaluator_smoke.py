@@ -1,4 +1,4 @@
-"""Smoke tests for the Quantum Advantage Evaluator — offline, no Azure needed.
+"""Smoke tests for the Quantum Advantage Evaluator  offline, no Azure needed.
 
 Tests the deterministic routing layer (platform_router) and the API schema.
 These run in CI without Azure credentials.
@@ -77,7 +77,7 @@ class TestPlatformRouter:
             "Optimize a vehicle routing problem with 500 delivery stops and time windows",
             [], 0.0,
         )
-        # Could be QAOA (no proven advantage) or classical — INCONCLUSIVE is honest
+        # Could be QAOA (no proven advantage) or classical  INCONCLUSIVE is honest
         assert result["verdict"] in ("INCONCLUSIVE", "HPC_PREFERRED", "AI_ML_PREFERRED")
 
     def test_result_schema(self):

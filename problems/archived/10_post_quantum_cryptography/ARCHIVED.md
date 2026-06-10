@@ -1,4 +1,4 @@
-# ARCHIVED — Post-Quantum Cryptography
+# ARCHIVED  Post-Quantum Cryptography
 
 **Status**: Archived (April 2026)
 

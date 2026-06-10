@@ -1,4 +1,4 @@
-// HardwareKernel.qs — Minimal QIR-compatible kernel for Azure Quantum
+// HardwareKernel.qs  Minimal QIR-compatible kernel for Azure Quantum
 // Problem: 19_quantum_chromodynamics
 // Target profile: Adaptive_RI
 

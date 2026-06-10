@@ -22,7 +22,7 @@ This problem prepares the groundwork for implementing the Quantum Approximate Op
 cd problems/05_qaoa_maxcut
 make classical      # Exhaustive search baseline for each YAML graph instance
 make analyze        # Generate plots summarizing best cut values
-make build          # Build the Q# project (uses modern QDK — qsharp Python package)
+make build          # Build the Q# project (uses modern QDK  qsharp Python package)
 make run            # Run depth-configurable QAOA with multi-trial uncertainty summary + JSON output
 make run-all        # Run depth-configurable QAOA for small/medium/large and write quantum artifacts
 make depth-sweep INSTANCE=small DEPTHS=1,2,3 TRIALS=6  # Generate depth-vs-quality evidence artifacts
@@ -137,7 +137,7 @@ The classical baseline enumerates all bit strings to guarantee optimal Max-Cut v
 ## Objective Maturity Gate
 
 - **Current gate**: **Stage D complete** (advantage evidence package hardened with backend calibration, fairness benchmark, readout characterization, and `theoretical` claim category locked given QAOA's no-proven-advantage status).
-- **Next gate target**: Maintenance — the Stage D classification correctly reflects that QAOA on Max-Cut has no proven quantum advantage over Goemans-Williamson; track honest residual risks rather than escalate the claim.
+- **Next gate target**: Maintenance  the Stage D classification correctly reflects that QAOA on Max-Cut has no proven quantum advantage over Goemans-Williamson; track honest residual risks rather than escalate the claim.
 
 ## Microsoft-First Portability Scope
 

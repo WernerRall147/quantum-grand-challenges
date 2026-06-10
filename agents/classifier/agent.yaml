@@ -8,8 +8,8 @@ description: |
   Output categories:
   - EXPONENTIAL: Proven exp speedup (QPE, Shor, HHL core, quantum simulation)
   - SUPERPOLYNOMIAL: Proven super-poly (Shor for factoring)
-  - QUADRATIC: Proven but limited (Grover, QAE) — flag I/O and oracle costs
-  - HEURISTIC: No proven advantage (VQE, QAOA) — warn user
+  - QUADRATIC: Proven but limited (Grover, QAE)  flag I/O and oracle costs
+  - HEURISTIC: No proven advantage (VQE, QAOA)  warn user
   - NONE: No known quantum algorithm applies
 
 tools:

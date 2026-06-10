@@ -1,4 +1,4 @@
-// HardwareKernel.qs — Minimal QIR-compatible kernel for Azure Quantum
+// HardwareKernel.qs  Minimal QIR-compatible kernel for Azure Quantum
 // Problem: 17_nuclear_physics (QPE deuteron binding energy)
 // Target profile: Adaptive_RI
 //

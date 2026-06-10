@@ -112,7 +112,7 @@ def main():
             print(f"OK {name}: QIR compiled")
         except Exception as e:
             err = str(e)[:120]
-            print(f"XX {name}: compile failed — {err}")
+            print(f"XX {name}: compile failed  {err}")
             results.append({"problem": name, "status": "compile_error", "error": err})
             continue
 

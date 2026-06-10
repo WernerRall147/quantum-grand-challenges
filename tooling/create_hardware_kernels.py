@@ -426,7 +426,7 @@ def main():
     for name, kernel in sorted(KERNELS.items()):
         qsharp_dir = PROBLEMS_DIR / name / "qsharp"
         out_file = qsharp_dir / "HardwareKernel.qs"
-        header = f"// HardwareKernel.qs — Minimal QIR-compatible kernel for Azure Quantum\n// Problem: {name}\n// Target profile: Adaptive_RI\n\n"
+        header = f"// HardwareKernel.qs  Minimal QIR-compatible kernel for Azure Quantum\n// Problem: {name}\n// Target profile: Adaptive_RI\n\n"
         out_file.write_text(header + kernel.strip() + "\n", encoding="utf-8")
         print(f"OK {name}")
         written += 1

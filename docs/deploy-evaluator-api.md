@@ -14,7 +14,7 @@ Built from the repo-root [`Dockerfile`](../Dockerfile). Includes:
 
 - Python 3.11 + FastAPI/uvicorn
 - `azure-identity`, `azure-cosmos`, `azure-search-documents`, `openai`, `qsharp`
-- **Azure CLI + Bicep** — required by `BicepWorkspaceGenerator.validate_bicep()` for `az bicep build` syntax validation
+- **Azure CLI + Bicep**  required by `BicepWorkspaceGenerator.validate_bicep()` for `az bicep build` syntax validation
 
 ## Endpoints
 
@@ -33,7 +33,7 @@ Workflow: [`.github/workflows/deploy-evaluator-api.yml`](../.github/workflows/de
 
 ### Triggers
 
-- **Manual** via the Actions tab (`workflow_dispatch`) — recommended
+- **Manual** via the Actions tab (`workflow_dispatch`)  recommended
 - **Auto** on push to `main` when files in `agents/api/`, `agents/orchestrator/`, `agents/classifier/`, `agents/code_generator/`, `knowledge/search/`, or the `Dockerfile` change
 
 ### Required GitHub Settings
@@ -62,7 +62,7 @@ Configure under **Settings → Environments → `production-api`**:
 
 > The workflow uses these defaults if the matching var is unset, so for the existing `qgc-eval-api` deployment in subscription `82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3` (tenant `dc692f3e`) you only need the secrets.
 
-**Federated Identity (alternative — more secure than client secret):**
+**Federated Identity (alternative  more secure than client secret):**
 
 If you prefer OIDC over a long-lived client secret, swap the workflow's `azure/login@v2` step to pass `client-id` / `tenant-id` / `subscription-id` (no `creds`), add `permissions: id-token: write`, and create a federated credential:
 
@@ -84,9 +84,9 @@ az ad app federated-credential create \
 1. Checkout repo
 2. Resolve image tag (manual input or `vYYYYMMDD-<sha>`) and resource names (with sensible defaults)
 3. Azure service principal login
-4. `az acr build` — build image inside ACR (no local Docker daemon needed)
-4. `az acr build` — Build image inside ACR (no local Docker daemon needed)
-5. `az containerapp update` — Roll new revision
+4. `az acr build`  build image inside ACR (no local Docker daemon needed)
+4. `az acr build`  Build image inside ACR (no local Docker daemon needed)
+5. `az containerapp update`  Roll new revision
 6. Wait up to 90s for `GET /` to return 200
 7. Smoke-test: confirm `/api/generate-bicep` and `bicep_template` are in the OpenAPI spec
 

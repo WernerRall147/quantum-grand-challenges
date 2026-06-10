@@ -1,4 +1,4 @@
-"""Q# output validation tests — verify quantum programs produce scientifically reasonable results.
+"""Q# output validation tests  verify quantum programs produce scientifically reasonable results.
 
 These tests run each Q# entry point via the qsharp Python package and check
 that the output contains expected markers (algorithm name, key metrics, etc.).

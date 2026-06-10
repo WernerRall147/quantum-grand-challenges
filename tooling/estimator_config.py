@@ -15,7 +15,7 @@ What lives here:
   - make_estimator_params / make_batch_estimator_params: typed
     ``qsharp.estimator.EstimatorParams`` factories. Batch mode lets a single
     ``qsharp.estimate()`` call evaluate every (qubit, QEC) combination in one
-    pass — replacing nested per-config Python loops.
+    pass  replacing nested per-config Python loops.
   - extract_summary: unified flat-dict shape for downstream consumers
     (website, paper figures, agent telemetry).
 """
@@ -27,7 +27,7 @@ from typing import Any, Callable, Iterable, Iterator
 
 from qsharp.estimator import EstimatorParams
 
-# Conventional shot tiers — callers pass these to EntryPoint.expr().
+# Conventional shot tiers  callers pass these to EntryPoint.expr().
 SHOTS_KERNEL = 1       # minimal cost: structural resource estimate / circuit draw
 SHOTS_ESTIMATE = 50    # moderate sampling for stability checks
 SHOTS_CALIBRATION = 50  # full statistical ensemble runs
@@ -191,7 +191,7 @@ CIRCUIT_DIAGRAM_PROBLEMS: tuple[str, ...] = (
 class QubitModel:
     """One row of the Pareto sweep matrix.
 
-    ``qec_schemes`` enumerates which codes pair with this qubit family —
+    ``qec_schemes`` enumerates which codes pair with this qubit family 
     floquet code is Majorana-only.
     """
 
@@ -217,7 +217,7 @@ def iter_model_configs(
 ) -> Iterator[tuple[QubitModel, str, str]]:
     """Yield ``(model, qec_scheme, config_key)`` in stable order.
 
-    ``config_key`` is ``f"{model.name}+{qec}"`` — the same string used as the
+    ``config_key`` is ``f"{model.name}+{qec}"``  the same string used as the
     JSON key in ``multiModelEstimates.json``.
     """
 

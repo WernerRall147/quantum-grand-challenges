@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 19: QCD — Trotterized Lattice Gauge (4-qubit)
+  Problem 19: QCD  Trotterized Lattice Gauge (4-qubit)
   Algorithm: Hamiltonian simulation (1st order Trotter)
   Qubits: 4 (lattice sites)
 ===================================================================

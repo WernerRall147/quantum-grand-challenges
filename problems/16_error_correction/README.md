@@ -30,7 +30,7 @@ python python/classical_baseline.py
 # Plot logical error curves and suppression heatmaps
 python python/analyze.py
 
-# Quantum placeholder (uses modern QDK — qsharp Python package)
+# Quantum placeholder (uses modern QDK  qsharp Python package)
 python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
  python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
@@ -47,7 +47,7 @@ This scaffold keeps the analytical QEC baseline reproducible while we build towa
 ## Objective Maturity Gate
 
 - **Current gate**: **Stage C complete** (hardware-aware validation evidence in place: 3-qubit repetition code runnable, calibration ensemble across runs, backend assumptions documented, dual-model estimator profile, OpenQASM export, real Azure resource estimate captured).
-- **Next gate target**: Maintenance — QEC is infrastructure not application; track surface-code/QLDPC roadmap rather than escalate the claim.
+- **Next gate target**: Maintenance  QEC is infrastructure not application; track surface-code/QLDPC roadmap rather than escalate the claim.
 
 Stage C evidence references for this problem:
 

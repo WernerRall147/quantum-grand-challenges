@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tooling"))
 
-from estimator_config import (  # noqa: E402 — must follow sys.path setup
+from estimator_config import (  # noqa: E402  must follow sys.path setup
     QUBIT_MODELS,
     extract_summary,
     iter_model_configs,
@@ -59,7 +59,7 @@ Generate a single self-contained Q# operation that implements the requested algo
 CRITICAL RULES:
 - Use modern Q# syntax (qsharp.json project format, NOT the legacy .NET namespace style)
 - Start with `import Std.Arrays.*; import Std.Canon.*; import Std.Convert.*; import Std.Diagnostics.*; import Std.Math.*;`
-- Do NOT emit `namespace ... { ... }` blocks — modern QDK is flat
+- Do NOT emit `namespace ... { ... }` blocks  modern QDK is flat
 - Define an `operation Main() : Result[]` or similar as the entry point
 - Keep the implementation compilable (valid types, use `mutable` for variables reassigned in loops, `set` for reassignment)
 - Target a modest qubit count (4-12 qubits) so resource estimation runs quickly
@@ -112,8 +112,8 @@ class QSharpCodeGenerator:
 
 RECOMMENDED ALGORITHM: {algorithm}
 
-REFERENCE IMPLEMENTATION (for style only — adapt to the problem):
-{reference if reference else '(no reference available — generate from scratch)'}
+REFERENCE IMPLEMENTATION (for style only  adapt to the problem):
+{reference if reference else '(no reference available  generate from scratch)'}
 
 Generate a compilable Q# `Main` operation implementing {algorithm} for this problem."""
 
@@ -174,7 +174,7 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
 
             try:
                 qsharp.init(project_root=str(proj))
-            except Exception as e:  # noqa: BLE001 — surface compile failures to the UI
+            except Exception as e:  # noqa: BLE001  surface compile failures to the UI
                 return {"compiled": False, "error": f"compile failed: {str(e)[:500]}"}
 
             result: Dict[str, Any] = {"compiled": True}
@@ -227,7 +227,7 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
                 _annotate(self._extract_estimate(batch_est[i]), model, qec, key)
                 for i, (model, qec, key) in enumerate(triples)
             ]
-        except Exception:  # noqa: BLE001 — fall back to per-config diagnostics
+        except Exception:  # noqa: BLE001  fall back to per-config diagnostics
             pass
 
         # Path 2: per-config fallback (preserves rich per-item error reporting).
@@ -238,7 +238,7 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
                 est = qsharp_mod.estimate("Main()", params=params)
                 data = est.data() if hasattr(est, "data") else est
                 pareto.append(_annotate(self._extract_estimate(data), model, qec, key))
-            except Exception as e:  # noqa: BLE001 — skip incompatible combos
+            except Exception as e:  # noqa: BLE001  skip incompatible combos
                 pareto.append({
                     "config": key,
                     "qubit_tech": model.name,

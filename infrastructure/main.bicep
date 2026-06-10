@@ -1,4 +1,4 @@
-// Quantum Advantage Evaluator — Azure Infrastructure
+// Quantum Advantage Evaluator  Azure Infrastructure
 // Deploys: Cosmos DB, AI Search, AI Foundry project, Azure Functions
 
 @description('Location for all resources')
@@ -7,7 +7,7 @@ param location string = 'eastus'
 @description('Unique suffix for resource names')
 param uniqueSuffix string = 'qgc${uniqueString(resourceGroup().id)}'
 
-// === Cosmos DB (Serverless) — Knowledge Store ===
+// === Cosmos DB (Serverless)  Knowledge Store ===
 resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
   name: 'cosmos-${uniqueSuffix}'
   location: location
@@ -64,7 +64,7 @@ resource problemHistoryContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatab
   }
 }
 
-// === Azure AI Search (Basic) — Hybrid Search Index ===
+// === Azure AI Search (Basic)  Hybrid Search Index ===
 resource searchService 'Microsoft.Search/searchServices@2024-03-01-preview' = {
   name: 'search-${uniqueSuffix}'
   location: location
@@ -84,7 +84,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   sku: { name: 'Standard_LRS' }
 }
 
-// === Azure Functions (Consumption) — Daily Ingestion ===
+// === Azure Functions (Consumption)  Daily Ingestion ===
 resource functionAppPlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: 'plan-${uniqueSuffix}'
   location: location

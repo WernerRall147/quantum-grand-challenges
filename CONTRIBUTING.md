@@ -16,7 +16,7 @@ This project aims to systematically explore 20 of the world's most challenging s
 
 ### Prerequisites
 
-1. **Python 3.11+** with `qsharp` package (`pip install qsharp`) — no .NET dependency required
+1. **Python 3.11+** with `qsharp` package (`pip install qsharp`)  no .NET dependency required
 2. **Scientific Python stack**: NumPy, SciPy, matplotlib, pandas, PyYAML, jsonschema
 3. **Azure CLI** (optional) with the `quantum` extension for Resource Estimator or Azure Quantum jobs
 4. **Git** for version control (and optionally GitHub CLI for Codespaces)

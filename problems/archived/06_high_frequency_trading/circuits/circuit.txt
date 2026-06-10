@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 06: HFT — Amplitude Estimation for VaR (3-qubit)
+  Problem 06: HFT  Amplitude Estimation for VaR (3-qubit)
   Algorithm: Quantum Amplitude Estimation
   Qubits: 2 register + 1 marker = 3
 ===================================================================

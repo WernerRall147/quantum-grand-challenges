@@ -35,7 +35,7 @@ make classical
 make analyze
 ```
 
-### Q# Development (✅ VALIDATED — Modern QDK)
+### Q# Development (✅ VALIDATED  Modern QDK)
 ```bash
 # Install the qsharp Python package (one-time)
 pip install qsharp
@@ -181,7 +181,7 @@ make check-env
 make classical
 make analyze
 
-# 5. Q# development (via modern QDK — no .NET required)
+# 5. Q# development (via modern QDK  no .NET required)
 make build
 make test
 make run

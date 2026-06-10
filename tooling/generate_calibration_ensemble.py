@@ -100,7 +100,7 @@ def run_ensemble(problem_id: str, config: dict, num_runs: int) -> dict:
     numeric_values = []
     for r in results:
         try:
-            val = eval(r["raw_result"])  # noqa: S307 — controlled input
+            val = eval(r["raw_result"])  # noqa: S307  controlled input
             if isinstance(val, (int, float)):
                 numeric_values.append(float(val))
             elif isinstance(val, (list, tuple)) and len(val) > 0:

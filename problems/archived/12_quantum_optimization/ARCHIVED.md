@@ -1,4 +1,4 @@
-# ARCHIVED — QAOA Job Scheduling
+# ARCHIVED  QAOA Job Scheduling
 
 **Status**: Archived (April 2026)
 

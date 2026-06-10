@@ -1,4 +1,4 @@
-// Main.qs — Migrated to modern QDK (qsharp.json project format)
+// Main.qs  Migrated to modern QDK (qsharp.json project format)
 
 import Std.Arrays.*;
 import Std.Canon.*;

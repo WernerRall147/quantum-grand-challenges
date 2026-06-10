@@ -171,14 +171,14 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
   const est = problem.estimate;
 
   function fmtNum(n: number | null | undefined): string {
-    if (n == null) return '—';
+    if (n == null) return '';
     if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
     if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
     return String(n);
   }
 
   function fmtRuntime(ns: number | null | undefined): string {
-    if (ns == null) return '—';
+    if (ns == null) return '';
     if (ns >= 1e9) return `${(ns / 1e9).toFixed(1)}s`;
     if (ns >= 1e6) return `${(ns / 1e6).toFixed(1)}ms`;
     if (ns >= 1e3) return `${(ns / 1e3).toFixed(1)}μs`;
@@ -188,7 +188,7 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
   return (
     <>
       <Head>
-        <title>{problem.title} — Quantum Grand Challenges</title>
+        <title>{problem.title}  Quantum Grand Challenges</title>
         <meta name="description" content={problem.description} />
       </Head>
       <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -374,7 +374,7 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
                 <div key={n.label} style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #dbeafe' }}>
                   <div style={{ fontSize: '0.8rem', color: '#1e40af', fontWeight: 600 }}>{n.label}</div>
                   <div style={{ fontSize: '1.5rem', fontWeight: 700, color: n.fid != null && n.fid > 0.8 ? '#166534' : n.fid != null && n.fid > 0.5 ? '#92400e' : '#991b1b' }}>
-                    {n.fid != null ? `${(n.fid * 100).toFixed(1)}%` : '—'}
+                    {n.fid != null ? `${(n.fid * 100).toFixed(1)}%` : ''}
                   </div>
                   {n.fid != null && (
                     <div style={{ marginTop: '0.5rem', background: '#e5e7eb', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
@@ -394,19 +394,19 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
               <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #ddd6fe' }}>
                 <div style={{ fontSize: '0.85rem', color: '#5b21b6', fontWeight: 600 }}>Quantinuum H2-1E</div>
                 <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1e1b4b', marginTop: '0.25rem' }}>
-                  {problem.emulator.h2_top || '—'}
+                  {problem.emulator.h2_top || ''}
                 </div>
                 <div style={{ fontSize: '0.9rem', color: '#6b7280' }}>
-                  {problem.emulator.h2_pct != null ? `${problem.emulator.h2_pct}% of shots` : '—'}
+                  {problem.emulator.h2_pct != null ? `${problem.emulator.h2_pct}% of shots` : ''}
                 </div>
               </div>
               <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #ddd6fe' }}>
                 <div style={{ fontSize: '0.85rem', color: '#5b21b6', fontWeight: 600 }}>Rigetti QVM</div>
                 <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1e1b4b', marginTop: '0.25rem' }}>
-                  {problem.emulator.rigetti_top || '—'}
+                  {problem.emulator.rigetti_top || ''}
                 </div>
                 <div style={{ fontSize: '0.9rem', color: '#6b7280' }}>
-                  {problem.emulator.rigetti_pct != null ? `${problem.emulator.rigetti_pct}% of shots` : '—'}
+                  {problem.emulator.rigetti_pct != null ? `${problem.emulator.rigetti_pct}% of shots` : ''}
                 </div>
               </div>
             </div>
@@ -517,7 +517,7 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
                       <td style={{ padding: '0.4rem 0.5rem' }}>{m.qubitLabel}</td>
                       <td style={{ padding: '0.4rem 0.5rem' }}>{m.qecScheme}</td>
                       <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right', fontWeight: 600 }}>{m.physicalQubits.toLocaleString()}</td>
-                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right' }}>{m.logicalQubits ?? '—'}</td>
+                      <td style={{ padding: '0.4rem 0.5rem', textAlign: 'right' }}>{m.logicalQubits ?? ''}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -559,10 +559,10 @@ make run              # Run Q# entry point`}</code>
         <section style={{ marginTop: '2rem' }}>
           <h2>Key Files</h2>
           <ul style={{ lineHeight: 2 }}>
-            <li><code>qsharp/src/Main.qs</code> — Quantum algorithm implementation</li>
-            <li><code>qsharp/HardwareKernel.qs</code> — Azure-submittable QIR kernel</li>
-            <li><code>python/classical_baseline.py</code> — Classical reference implementation</li>
-            <li><code>estimates/classical_baseline.json</code> — Baseline metrics</li>
+            <li><code>qsharp/src/Main.qs</code>  Quantum algorithm implementation</li>
+            <li><code>qsharp/HardwareKernel.qs</code>  Azure-submittable QIR kernel</li>
+            <li><code>python/classical_baseline.py</code>  Classical reference implementation</li>
+            <li><code>estimates/classical_baseline.json</code>  Baseline metrics</li>
           </ul>
         </section>
 

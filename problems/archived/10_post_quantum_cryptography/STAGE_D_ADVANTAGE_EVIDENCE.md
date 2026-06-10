@@ -36,7 +36,7 @@
 
 ## Residual Limitations
 
-- Quadratic speedup only — does not break modern cryptography, only doubles effective key length.
+- Quadratic speedup only  does not break modern cryptography, only doubles effective key length.
 - Oracle implementation cost for real ciphers is prohibitive with current technology.
 - The practical threat to cryptography comes from Shor's algorithm (factoring), not Grover (search).
 

@@ -1,6 +1,6 @@
 """Unit tests for ``tooling.estimator_config`` helpers.
 
-Covers the typed ``EstimatorParams`` factories and ``extract_summary`` —
+Covers the typed ``EstimatorParams`` factories and ``extract_summary`` 
 the building blocks that replaced ad-hoc raw-dict construction across the
 estimation tooling and the code-generator agent.
 """

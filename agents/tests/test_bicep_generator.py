@@ -1,4 +1,4 @@
-"""Tests for the Bicep workspace code generator — offline, no Azure required."""
+"""Tests for the Bicep workspace code generator  offline, no Azure required."""
 
 import sys
 from pathlib import Path
@@ -123,7 +123,7 @@ class TestBicepValidation:
         """If az CLI is not installed, validation should skip gracefully (not crash)."""
         gen = BicepWorkspaceGenerator.__new__(BicepWorkspaceGenerator)
         result = gen.validate_bicep("// test")
-        # Either validated successfully or skipped — never crashes
+        # Either validated successfully or skipped  never crashes
         assert "validated" in result
         if not result["validated"]:
             assert "skipped" in result or "error" in result

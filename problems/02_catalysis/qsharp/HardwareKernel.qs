@@ -1,4 +1,4 @@
-// HardwareKernel.qs — Minimal QIR-compatible kernel for Azure Quantum
+// HardwareKernel.qs  Minimal QIR-compatible kernel for Azure Quantum
 // Problem: 02_catalysis (QPE for H₂ ground state energy, STO-3G)
 // Target profile: Adaptive_RI
 //

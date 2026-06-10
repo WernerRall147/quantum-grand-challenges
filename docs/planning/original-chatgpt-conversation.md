@@ -186,12 +186,12 @@ Uniform outputs for automation and website integration:
 
 ### AI/Agent Strategy
 
-**Phase A — Single orchestrator**
+**Phase A  Single orchestrator**
 - Planner that reads papers/issues → emits task lists + acceptance criteria
 - Drafts Q# oracles/cost functions from specs
 - Writes estimator configs and analysis notebooks
 
-**Phase B — Light multi-agent (hub-and-spoke)**
+**Phase B  Light multi-agent (hub-and-spoke)**
 - Literature Miner → DOI/arXiv to structured design brief
 - Kernel Engineer → Q# interfaces and tests
 - Experiment Runner → estimator sweeps and JSON persistence

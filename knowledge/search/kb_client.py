@@ -3,7 +3,7 @@
 Provides search functions over:
 - Algorithm Zoo (Cosmos DB + AI Search with vector embeddings)
 - Reference Problems (Cosmos DB)
-- Scientific Papers (AI Search — when arxiv ingestion is live)
+- Scientific Papers (AI Search  when arxiv ingestion is live)
 
 These functions are the tools that agents call via the orchestrator.
 """
@@ -35,14 +35,14 @@ class QuantumKnowledgeBase:
         self.db = None
         self.search_client = None
 
-        # Try Cosmos DB — may not exist yet
+        # Try Cosmos DB  may not exist yet
         try:
             self.cosmos = CosmosClient(COSMOS_ENDPOINT, credential=self.credential)
             self.db = self.cosmos.get_database_client(COSMOS_DATABASE)
         except Exception:
             pass
 
-        # AI Search — use key if available, otherwise Entra ID
+        # AI Search  use key if available, otherwise Entra ID
         try:
             search_key = os.environ.get("SEARCH_ADMIN_KEY")
             search_cred = AzureKeyCredential(search_key) if search_key else self.credential
@@ -224,7 +224,7 @@ def test_knowledge_base():
     print("1. Search: 'simulate molecular ground state energy'")
     results = kb.search_algorithms("simulate molecular ground state energy", top=3)
     for r in results:
-        print(f"   {r['name']} ({r['speedup_class']}) — score: {r['score']:.2f}")
+        print(f"   {r['name']} ({r['speedup_class']})  score: {r['score']:.2f}")
 
     # Test 2: Classify a problem
     print("\n2. Classify: 'I need to find the ground state energy of a 50-atom iron catalyst'")

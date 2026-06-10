@@ -1,4 +1,4 @@
-// HardwareKernel.qs — Minimal QIR-compatible kernel for Azure Quantum
+// HardwareKernel.qs  Minimal QIR-compatible kernel for Azure Quantum
 // Problem: 07_drug_discovery (QPE molecular binding energy)
 // Target profile: Adaptive_RI
 //

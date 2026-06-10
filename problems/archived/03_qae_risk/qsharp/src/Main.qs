@@ -1,4 +1,4 @@
-// Main.qs — QAE Risk Analysis (migrated to modern QDK)
+// Main.qs  QAE Risk Analysis (migrated to modern QDK)
 //
 // This file was ported from the legacy Microsoft.Quantum.Sdk / .NET 6.0
 // project to the standalone QDK (qsharp.json) project format.
@@ -491,12 +491,12 @@ operation QAEKernel() : Result[] {
     ResetAll(lossReg);
     Reset(marker);
 
-    // Measure the precision register — this is the phase readout
+    // Measure the precision register  this is the phase readout
     return MResetEachZ(precisionReg);
 }
 
 // ============================================================
-// IQAE — Iterative Quantum Amplitude Estimation
+// IQAE  Iterative Quantum Amplitude Estimation
 // ============================================================
 // Based on Grinko, Gacon, Zoufal, Woerner (arXiv:1912.05559).
 //
@@ -668,7 +668,7 @@ operation RunQAERiskAnalysis() : Unit {
     let (qaeEstimate, qaeError) = CanonicalQAE(riskParams, precisionBits, repetitions);
 
     Message("");
-    Message("=== IQAE (Iterative QAE — no QPE register) ===");
+    Message("=== IQAE (Iterative QAE  no QPE register) ===");
     let iqaeMaxPower = 1 <<< (precisionBits - 1);  // same depth budget as canonical
     let iqaeShotsPerRound = MaxI(20, repetitions);
     let (iqaeEstimate, iqaeError) = RunIQAE(riskParams, iqaeMaxPower, iqaeShotsPerRound);

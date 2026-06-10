@@ -72,7 +72,7 @@
       "speedup_class": "exponential",
       "naturally_quantum": true,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "Naturally quantum — simulating exciton transport avoids the I/O problem entirely."
+      "notes": "Naturally quantum  simulating exciton transport avoids the I/O problem entirely."
     },
     {
       "id": "19_quantum_chromodynamics",

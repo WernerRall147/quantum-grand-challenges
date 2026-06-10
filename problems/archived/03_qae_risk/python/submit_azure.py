@@ -75,7 +75,7 @@ def main() -> int:
 
     # ---- Compile QAEKernel to QIR ----
     print(f"Loading hardware kernel from {KERNEL_FILE} ...")
-    # Use Adaptive_RI — needed for mid-circuit Reset before final measurement.
+    # Use Adaptive_RI  needed for mid-circuit Reset before final measurement.
     # The Quantinuum simulator supports this profile.
     qsharp.init(target_profile=qsharp.TargetProfile.Adaptive_RI)
 

@@ -284,7 +284,7 @@ def index_algorithms_in_search(search_credential, openai_client):
 
 
 def main():
-    print("=== Quantum Advantage Evaluator — Knowledge Base Seeder ===\n")
+    print("=== Quantum Advantage Evaluator  Knowledge Base Seeder ===\n")
 
     credential = get_credential()
     search_credential = get_search_credential()

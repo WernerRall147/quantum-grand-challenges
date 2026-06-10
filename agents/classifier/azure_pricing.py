@@ -1,7 +1,7 @@
 """Live Azure pricing helpers for the cost model.
 
 Two pricing surfaces:
-  1. Azure Retail Prices API (public, no auth) — used for compute SKUs.
+  1. Azure Retail Prices API (public, no auth)  used for compute SKUs.
   2. Static provider rates digested from the Azure Quantum pricing page,
      because quantum-provider economics are formula-driven (HQC, AQT, time)
      and the retail-prices API does not yet model them with the right shape.
@@ -102,7 +102,7 @@ PASQAL_FRESNEL = {
     # surface the right caveat instead of a fake number.
     "usd_per_second": None,
     "min_cost_usd": None,
-    "notes": "Subscription pricing only — contact Azure for quote.",
+    "notes": "Subscription pricing only  contact Azure for quote.",
 }
 
 
@@ -300,7 +300,7 @@ def estimate_rigetti_cost(
     """Compute Rigetti time-based cost. Multi-shot wall time scales near-linearly."""
     rates = RIGETTI_CEPHEUS
     # Wall time per shot is ~10ms minimum; effective runtime is roughly shots * runtime_seconds
-    # but for short circuits Rigetti batches shots — use the larger of (per-shot, total) heuristic.
+    # but for short circuits Rigetti batches shots  use the larger of (per-shot, total) heuristic.
     effective_seconds = max(runtime_seconds, shots * 0.01)
     cost = effective_seconds * rates["usd_per_second"]
     return {

@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 04: Linear Solvers — HHL Algorithm (5-qubit)
+  Problem 04: Linear Solvers  HHL Algorithm (5-qubit)
   Algorithm: Harrow-Hassidim-Lloyd
   Qubits: 1 system + 3 precision + 1 ancilla = 5
 ===================================================================

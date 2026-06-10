@@ -33,7 +33,7 @@ export default function Home() {
       </Head>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif', color: '#1a1a2e' }}>
 
-        {/* Hero — quantum-inspired animated background */}
+        {/* Hero  quantum-inspired animated background */}
         <header style={{
           textAlign: 'center', padding: '4rem 2rem 3rem', borderRadius: '16px', position: 'relative', overflow: 'hidden',
           background: 'linear-gradient(135deg, #0a0e27 0%, #1a1a4e 30%, #1e3a6e 60%, #0d1b3e 100%)',
@@ -311,7 +311,7 @@ export default function Home() {
                 color: '#92400e', fontSize: '0.78rem',
               }}>
                 <span>🛡️</span>
-                <span>ScamShield — Protect online users</span>
+                <span>ScamShield  Protect online users</span>
               </a>
             </div>
           </div>

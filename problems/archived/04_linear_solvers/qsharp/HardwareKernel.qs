@@ -1,4 +1,4 @@
-// HardwareKernel.qs — Minimal QIR-compatible kernel for Azure Quantum
+// HardwareKernel.qs  Minimal QIR-compatible kernel for Azure Quantum
 // Problem: 04_linear_solvers
 // Target profile: Adaptive_RI
 

@@ -59,7 +59,7 @@ jobs:
           # Matrix freshness shells out to `make` per problem and can drift for
           # archived problems; treat as advisory (same policy as the nightly job)
           # so a stale matrix doesn't block CI. Website schema stays enforced.
-          python tooling/reporting/check_verification_matrix_freshness.py || echo "::warning::Verification matrix stale — see the nightly job for the authoritative refresh"
+          python tooling/reporting/check_verification_matrix_freshness.py || echo "::warning::Verification matrix stale  see the nightly job for the authoritative refresh"
           python tooling/reporting/validate_website_data_schema.py
   quick-estimation:
     runs-on: ubuntu-latest

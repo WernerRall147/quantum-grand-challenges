@@ -33,7 +33,7 @@ Based on the repository's structure, here's an explanation of the first three pr
 
 #### 2. Fermi-Hubbard Model (`02_fermi_hubbard`)
 
-*   **What it is:** This is a specific, and very important, version of the Hubbard model that applies to fermions—a class of particles that includes electrons. It correctly accounts for the Pauli Exclusion Principle, which states that no two fermions can occupy the same quantum state. This is a crucial detail for accurately modeling real materials.
+*   **What it is:** This is a specific, and very important, version of the Hubbard model that applies to fermionsa class of particles that includes electrons. It correctly accounts for the Pauli Exclusion Principle, which states that no two fermions can occupy the same quantum state. This is a crucial detail for accurately modeling real materials.
 
 *   **Real-World Impact:**
     *   **Quantum Magnetism:** It helps explain how materials become magnetic, which is fundamental to data storage (hard drives), electric motors, and sensors.
@@ -47,7 +47,7 @@ Based on the repository's structure, here's an explanation of the first three pr
 
 #### 3. Quantum Amplitude Estimation for Risk Analysis (`03_qae_risk`)
 
-*   **What it is:** This problem moves from physics to finance. Quantum Amplitude Estimation (QAE) is a quantum algorithm that can estimate a value with a convergence rate that is quadratically faster than classical Monte Carlo methods. The repository applies this to financial risk analysis—for instance, calculating the "Value at Risk" (VaR), which estimates the potential losses on a portfolio of investments.
+*   **What it is:** This problem moves from physics to finance. Quantum Amplitude Estimation (QAE) is a quantum algorithm that can estimate a value with a convergence rate that is quadratically faster than classical Monte Carlo methods. The repository applies this to financial risk analysisfor instance, calculating the "Value at Risk" (VaR), which estimates the potential losses on a portfolio of investments.
 
 *   **Real-World Impact:**
     *   **Financial Stability:** Banks and investment firms must constantly calculate risk to set aside capital reserves and avoid catastrophic losses. Faster, more accurate risk calculations allow them to manage their capital more efficiently and make the financial system safer.

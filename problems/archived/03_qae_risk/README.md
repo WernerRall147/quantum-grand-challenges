@@ -10,7 +10,7 @@ The QAE workflow for risk estimation consists of the following stages:
 
 1. Encode the loss distribution as amplitudes of a quantum state.
 2. Mark “tail risk” outcomes (loss exceeding a threshold) with an oracle.
-3. Apply **Iterative Quantum Amplitude Estimation (IQAE)**: adaptive rounds of Grover amplification with Clopper-Pearson confidence intervals — no QPE register or QFT needed.
+3. Apply **Iterative Quantum Amplitude Estimation (IQAE)**: adaptive rounds of Grover amplification with Clopper-Pearson confidence intervals  no QPE register or QFT needed.
 4. Achieve ε precision using O(1/ε) calls to the oracle, compared with O(1/ε²) samples for classical Monte Carlo.
 
 ## Implementation
@@ -97,7 +97,7 @@ Current repository instances include `small` and `medium`.
 ## Objective Maturity Gate
 
 - **Current gate**: **Stage D complete** (advantage evidence package hardened with calibrated backend assumptions, uncertainty methodology, fairness review, and `projected` claim category locked).
-- **Next gate target**: Maintenance — monitor Stage D readiness audit and promote `projected` → `demonstrated` once hardware execution evidence is in place.
+- **Next gate target**: Maintenance  monitor Stage D readiness audit and promote `projected` → `demonstrated` once hardware execution evidence is in place.
 
 Stage D evidence references for this problem:
 
@@ -193,9 +193,9 @@ Quantum advantage becomes compelling when:
 
 ## References
 
-- [Quantum Amplitude Estimation](https://arxiv.org/abs/quant-ph/0005055) — Brassard et al.
-- [Quantum Risk Analysis](https://arxiv.org/abs/1906.02573) — Woerner & Egger.
-- [Financial Applications](https://arxiv.org/abs/1905.02666) — Egger et al.
+- [Quantum Amplitude Estimation](https://arxiv.org/abs/quant-ph/0005055)  Brassard et al.
+- [Quantum Risk Analysis](https://arxiv.org/abs/1906.02573)  Woerner & Egger.
+- [Financial Applications](https://arxiv.org/abs/1905.02666)  Egger et al.
 - [Azure Quantum QAE](https://learn.microsoft.com/azure/quantum/user-guide/libraries/numerics/amplitude-estimation).
 
 ## Notes

@@ -1,4 +1,4 @@
-"""Root conftest.py — auto-discovers test_baseline.py files and registers them as pytest tests."""
+"""Root conftest.py  auto-discovers test_baseline.py files and registers them as pytest tests."""
 
 import importlib.util
 import subprocess

@@ -1,4 +1,4 @@
-// HardwareKernel.qs — Minimal QAE kernel for Azure Quantum hardware/simulator.
+// HardwareKernel.qs  Minimal QAE kernel for Azure Quantum hardware/simulator.
 //
 // Contains only the operations needed for a single-shot QAE round.
 // All classical post-processing (phase → probability, statistics)
@@ -21,7 +21,7 @@ function RuntimeMean() : Double { return 0.0; }
 function RuntimeStdDev() : Double { return 1.0; }
 function RuntimePrecisionBits() : Int { return 2; }
 
-// ---- Distribution helpers (pure functions — no hardware restriction) ----
+// ---- Distribution helpers (pure functions  no hardware restriction) ----
 
 function NumStates(lossQubits : Int) : Int {
     return 1 <<< lossQubits;
@@ -262,7 +262,7 @@ operation QAEKernel() : Result[] {
 // ---- IQAE kernel: single Grover-amplified round ----
 // Uses k=0 (no Grover iterations) by default.
 // The Python driver runs multiple shots and controls k adaptively.
-// NO precision register, NO QFT — just loss + marker qubits.
+// NO precision register, NO QFT  just loss + marker qubits.
 
 operation IQAEKernelK0() : Result {
     let lossQubits = RuntimeLossQubits();

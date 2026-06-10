@@ -13,7 +13,7 @@ PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 CIRCUITS = {
 "01_hubbard": """\
 ===================================================================
-  Problem 01: Hubbard Model — VQE Ansatz (2-qubit)
+  Problem 01: Hubbard Model  VQE Ansatz (2-qubit)
   Algorithm: Variational Quantum Eigensolver
   Qubits: 2 | Params: θ₀, θ₁, θ₂ | Pauli terms: XX, YY, ZI, IZ
 ===================================================================
@@ -33,7 +33,7 @@ q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ─�
 
 "02_catalysis": """\
 ===================================================================
-  Problem 02: Catalysis — VQE for H₂ Ground State (2-qubit)
+  Problem 02: Catalysis  VQE for H₂ Ground State (2-qubit)
   Algorithm: Variational Quantum Eigensolver (STO-3G basis)
   Qubits: 2 | Params: θ₀, θ₁, θ₂
 ===================================================================
@@ -53,7 +53,7 @@ q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ─�
 
 "03_qae_risk": """\
 ===================================================================
-  Problem 03: QAE Risk — IQAE Kernel (5-qubit)
+  Problem 03: QAE Risk  IQAE Kernel (5-qubit)
   Algorithm: Iterative Quantum Amplitude Estimation
   Qubits: 4 loss + 1 marker = 5 (no precision register)
 ===================================================================
@@ -72,12 +72,12 @@ marker ────────────── |0⟩ ────────
     3. Measure marker: P(1) = sin²((2k+1)θ), sin²(θ) = a
 
   Classical driver picks k adaptively to narrow confidence interval
-  No QFT or precision register needed — 44% fewer qubits than QPE
+  No QFT or precision register needed  44% fewer qubits than QPE
 """,
 
 "04_linear_solvers": """\
 ===================================================================
-  Problem 04: Linear Solvers — HHL Algorithm (5-qubit)
+  Problem 04: Linear Solvers  HHL Algorithm (5-qubit)
   Algorithm: Harrow-Hassidim-Lloyd
   Qubits: 1 system + 3 precision + 1 ancilla = 5
 ===================================================================
@@ -95,7 +95,7 @@ ancilla ──── |0⟩ ─────────────────�
   2. Phase estimation: H on precision, controlled Hamiltonian sim
   3. Inverse QFT extracts eigenvalues into precision register
   4. Controlled rotation: Ry(C/λ) on ancilla conditioned on eigenvalue
-  5. Measure ancilla — post-select on |1⟩ to get |x⟩ ∝ A⁻¹|b⟩
+  5. Measure ancilla  post-select on |1⟩ to get |x⟩ ∝ A⁻¹|b⟩
 """,
 
 "05_qaoa_maxcut": """\
@@ -126,7 +126,7 @@ q2 ─── H ──────── ZZ(γ·w₀₂) ── ZZ(γ·w₁₂) �
 
 "06_high_frequency_trading": """\
 ===================================================================
-  Problem 06: HFT — Amplitude Estimation for VaR (3-qubit)
+  Problem 06: HFT  Amplitude Estimation for VaR (3-qubit)
   Algorithm: Quantum Amplitude Estimation
   Qubits: 2 register + 1 marker = 3
 ===================================================================
@@ -144,7 +144,7 @@ marker ─── |0⟩ ───────────────────
 
 "07_drug_discovery": """\
 ===================================================================
-  Problem 07: Drug Discovery — VQE Binding Energy (2-qubit)
+  Problem 07: Drug Discovery  VQE Binding Energy (2-qubit)
   Algorithm: Variational Quantum Eigensolver
   Qubits: 2 | Model: ligand-receptor binding Hamiltonian
 ===================================================================
@@ -160,7 +160,7 @@ q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ─�
 
 "08_protein_folding": """\
 ===================================================================
-  Problem 08: Protein Folding — QAOA on Contact Map (4-qubit)
+  Problem 08: Protein Folding  QAOA on Contact Map (4-qubit)
   Algorithm: QAOA for lattice protein folding
   Qubits: 4 (residue positions)
 ===================================================================
@@ -180,7 +180,7 @@ q3 ── H ──────────────────────�
 
 "09_factorization": """\
 ===================================================================
-  Problem 09: Factorization — Shor's Algorithm, N=15 (8-qubit)
+  Problem 09: Factorization  Shor's Algorithm, N=15 (8-qubit)
   Algorithm: Quantum Phase Estimation for period finding
   Qubits: 4 counting + 4 work = 8
 ===================================================================
@@ -203,7 +203,7 @@ work[3] ──── |1⟩ ──────────── ┤ (SWAP+CNOT)�
 
 "10_post_quantum_cryptography": """\
 ===================================================================
-  Problem 10: Post-Quantum Crypto — Grover Key Search (n-qubit)
+  Problem 10: Post-Quantum Crypto  Grover Key Search (n-qubit)
   Algorithm: Grover's search (brute-force key exhaustion)
   Qubits: n (keyspace = 2ⁿ) | Tested: n = 3, 4, 5
 ===================================================================
@@ -225,7 +225,7 @@ q[n-1] ── H ──────── X?── Z ──── X? ── H ─
 
 "11_quantum_machine_learning": """\
 ===================================================================
-  Problem 11: Quantum ML — Swap Test Kernel (5-qubit)
+  Problem 11: Quantum ML  Swap Test Kernel (5-qubit)
   Algorithm: Quantum Kernel Estimation via Swap Test
   Qubits: 2 (regA) + 2 (regB) + 1 (ancilla) = 5
 ===================================================================
@@ -246,7 +246,7 @@ regB[1] ── Ry(y₁) ──────── ─────  │  ───
 
 "12_quantum_optimization": """\
 ===================================================================
-  Problem 12: Quantum Optimization — QAOA Job Scheduling (4-qubit)
+  Problem 12: Quantum Optimization  QAOA Job Scheduling (4-qubit)
   Algorithm: QAOA for weighted scheduling
   Qubits: 4 (one per job)
 ===================================================================
@@ -265,7 +265,7 @@ q3 ── H ──────────────────────�
 
 "13_climate_modeling": """\
 ===================================================================
-  Problem 13: Climate Modeling — HHL for Diffusion PDE (5-qubit)
+  Problem 13: Climate Modeling  HHL for Diffusion PDE (5-qubit)
   Algorithm: HHL quantum linear solver
   Qubits: 3 precision + 1 system + 1 ancilla = 5
 ===================================================================
@@ -285,7 +285,7 @@ ancilla ── |0⟩ ───────────────────�
 
 "14_materials_discovery": """\
 ===================================================================
-  Problem 14: Materials Discovery — VQE Band Gap (2-qubit)
+  Problem 14: Materials Discovery  VQE Band Gap (2-qubit)
   Algorithm: Variational Quantum Eigensolver
   Qubits: 2 | Model: tight-binding Hamiltonian
 ===================================================================
@@ -301,7 +301,7 @@ q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ─�
 
 "15_database_search": """\
 ===================================================================
-  Problem 15: Database Search — Grover's Algorithm (n-qubit)
+  Problem 15: Database Search  Grover's Algorithm (n-qubit)
   Algorithm: Grover's quantum search
   Qubits: n (search space = 2ⁿ) | Tested: n = 4, 5, 12
 ===================================================================
@@ -322,7 +322,7 @@ q[3] ── H ────── X?──── Z ──────── X? �
 
 "16_error_correction": """\
 ===================================================================
-  Problem 16: Error Correction — 3-Bit Repetition Code (5-qubit)
+  Problem 16: Error Correction  3-Bit Repetition Code (5-qubit)
   Algorithm: Quantum error correction (bit-flip code)
   Qubits: 3 code + 2 syndrome = 5
 ===================================================================
@@ -347,7 +347,7 @@ syn1 ──── ────────────────────�
 
 "17_nuclear_physics": """\
 ===================================================================
-  Problem 17: Nuclear Physics — VQE Deuteron (2-qubit)
+  Problem 17: Nuclear Physics  VQE Deuteron (2-qubit)
   Algorithm: Variational Quantum Eigensolver
   Qubits: 2 | Model: deuteron EFT Hamiltonian
 ===================================================================
@@ -364,7 +364,7 @@ q1 ──────── Ry(θ₁) ────── X ── Rz(θ₂) ─�
 
 "18_photovoltaics": """\
 ===================================================================
-  Problem 18: Photovoltaics — Quantum Walk (3-qubit)
+  Problem 18: Photovoltaics  Quantum Walk (3-qubit)
   Algorithm: Discrete-time quantum walk (exciton transport)
   Qubits: 1 coin + 2 position = 3
 ===================================================================
@@ -385,7 +385,7 @@ pos[1] ──────────────────────┘─�
 
 "19_quantum_chromodynamics": """\
 ===================================================================
-  Problem 19: QCD — Trotterized Lattice Gauge (4-qubit)
+  Problem 19: QCD  Trotterized Lattice Gauge (4-qubit)
   Algorithm: Hamiltonian simulation (1st order Trotter)
   Qubits: 4 (lattice sites)
 ===================================================================
@@ -408,7 +408,7 @@ q[3] ──── ────────────────────�
 
 "20_space_mission_planning": """\
 ===================================================================
-  Problem 20: Space Mission — QAOA Trajectory (4-qubit)
+  Problem 20: Space Mission  QAOA Trajectory (4-qubit)
   Algorithm: QAOA for trajectory optimization
   Qubits: 4 (mission leg assignments)
 ===================================================================

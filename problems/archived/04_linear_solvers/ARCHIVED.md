@@ -1,4 +1,4 @@
-# ARCHIVED — Quantum Linear Solvers (HHL)
+# ARCHIVED  Quantum Linear Solvers (HHL)
 
 **Status**: Archived (April 2026)
 

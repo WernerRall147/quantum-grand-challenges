@@ -49,7 +49,7 @@ Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded
 - **Theoretical**: 18.98% tail probability
 - **Classical MC**: 18.98% ± 0.39% (10k samples)
 - **QAE Current**: 19.58% ± 1.82% (20 ensemble runs; calibrated baseline)
-- **Complexity**: O(1/ε) vs classical O(1/ε²) — quadratic speedup
+- **Complexity**: O(1/ε) vs classical O(1/ε²)  quadratic speedup
 
 **Latest Validation Snapshot (small.yaml)**:
 - **Configuration**: 8 loss qubits, 4 precision qubits, log-normal(0,1), threshold=2.0, repetitions=120
@@ -342,4 +342,4 @@ The QAE implementation represents a **structurally complete quantum algorithm pr
 **Resource Analysis**: ⭐⭐⭐⭐⭐ (Comprehensive)  
 **Visualization**: ⭐⭐⭐⭐⭐ (Publication-quality)  
 
-**Overall Assessment**: 🎯 **STRONG PROGRESS** — Core objectives achieved; broadened calibration/hardening remains
+**Overall Assessment**: 🎯 **STRONG PROGRESS**  Core objectives achieved; broadened calibration/hardening remains

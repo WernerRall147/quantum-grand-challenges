@@ -263,23 +263,30 @@ Provide your evaluation as JSON following the output format specified in your in
 
     @staticmethod
     def _compute_cost_analysis(platform: str, algorithm: str, kb_match: Dict[str, Any]) -> Dict[str, Any]:
-        """Compute order-of-magnitude cost comparison between quantum and classical alternatives.
+        """Compute an order-of-magnitude cost comparison across Quantum, AI/ML, and HPC.
 
-        Uses heuristic resource estimates derived from KB algorithm metadata.
-        This is a Troyer Part 6 placeholder until the formal framework lands.
+        Uses live Azure list pricing (Retail Prices API for compute, official
+        provider formulas for quantum). Quantum per-shot cost is grounded to the
+        device's real qubit width so fault-tolerant projections do not produce
+        physically impossible headline figures.
         """
         try:
             from agents.classifier.cost_model import (
                 estimate_quantum_cost,
                 estimate_hpc_cost,
+                estimate_aml_cost,
                 cost_advantage_ratio,
+                quantum_hardware_feasibility,
                 COST_MODEL_STATUS,
                 TROYER_PART_6_STATUS,
             )
         except ImportError:
             return {"status": "cost_model_unavailable"}
 
-        platform_upper = (platform or "").upper()
+        # Conservative default shot count. The provider per-shot formulas scale
+        # linearly with shots, so a sane default keeps estimates realistic rather
+        # than alarming. 256 shots is a typical sampling run.
+        default_shots = 256
 
         # Pull resource estimate hints from the matched KB algorithm record.
         # Typical fields: physical_qubits, runtime_ns, t_count.
@@ -292,31 +299,67 @@ Provide your evaluation as JSON following the output format specified in your in
         if algorithm and any(a in algorithm.upper() for a in ("VQE", "QAOA", "SWAP")):
             target = "azure_quantum_ionq_aria"
 
+        # Ground the per-shot cost to what the device can actually run. A
+        # fault-tolerant estimate of 10^5-10^6 physical qubits and a very deep
+        # circuit cannot be submitted to a 56-qubit device, so price a
+        # hardware-grounded representative circuit (width and depth capped) and
+        # report feasibility separately.
+        derived_depth = max(1, runtime_ns // 1_000_000)  # ~1 layer per microsecond
+        feasibility = quantum_hardware_feasibility(
+            physical_qubits, target_platform=target, logical_depth=derived_depth
+        )
+        priced_qubits = feasibility["priced_circuit_qubits"]
+        priced_depth = feasibility["priced_circuit_depth"]
+
         quantum = estimate_quantum_cost(
-            physical_qubits=min(physical_qubits, 1_000_000),  # clamp wild estimates
+            physical_qubits=priced_qubits,
             runtime_ns=runtime_ns,
             target_platform=target,
-            shots=1000,
+            shots=default_shots,
+            logical_depth=priced_depth,
         )
+        quantum["feasible_today"] = feasibility["feasible_today"]
+        quantum["feasibility_note"] = feasibility["note"]
 
-        # HPC equivalent: rough rule of thumb  assume an HPC alternative would
-        # solve the same problem in O(seconds-to-minutes) on an A100 cluster
-        # (an over-optimistic comparison favouring HPC).
-        hpc_hours = max(0.1, runtime_ns / 3.6e12)  # ns -> hours
-        hpc = estimate_hpc_cost(compute_hours=hpc_hours, platform="azure_hpc_nd96amsr_a100")
+        # Classical alternatives share the same wall-time assumption: an HPC/AI
+        # alternative would solve the problem in O(seconds-to-minutes) on a
+        # cluster (an over-optimistic comparison favouring classical compute).
+        compute_hours = max(0.1, runtime_ns / 3.6e12)  # ns -> hours
+        hpc = estimate_hpc_cost(compute_hours=compute_hours, platform="azure_hpc_nd96amsr_a100")
+
+        # AI/ML alternative on Azure Machine Learning. Size the instance by the
+        # routed platform: AI/ML problems default to a GPU instance, others to a
+        # lighter one for an order-of-magnitude reference point.
+        aml_instance = "large" if (platform or "").upper() == "AI_ML" else "medium"
+        ai_ml = estimate_aml_cost(compute_hours=compute_hours, instance_size=aml_instance)
 
         ratio = cost_advantage_ratio(quantum, hpc)
+
+        # Pick the cheapest option that is actually runnable today.
+        candidates = [
+            ("quantum", quantum.get("estimated_cost_usd") if feasibility["feasible_today"] else None),
+            ("ai_ml", ai_ml.get("estimated_cost_usd")),
+            ("hpc", hpc.get("estimated_cost_usd")),
+        ]
+        priced = [(name, cost) for name, cost in candidates if isinstance(cost, (int, float))]
+        cheapest = min(priced, key=lambda c: c[1])[0] if priced else None
 
         return {
             "status": COST_MODEL_STATUS,
             "troyer_part_6": TROYER_PART_6_STATUS,
             "recommended_quantum_target": target,
             "quantum_estimate": quantum,
+            "ai_ml_estimate": ai_ml,
             "hpc_estimate": hpc,
             "comparison": ratio,
+            "feasibility": feasibility,
+            "cheapest_runnable": cheapest,
             "caveat": (
-                "Order-of-magnitude estimate based on Azure list pricing. "
-                "Production deployments must validate with az pricing API and full Resource Estimator."
+                "Order-of-magnitude estimate at Azure list pricing "
+                f"({default_shots} shots, hardware-grounded). Quantum figures are "
+                "capped to current device width; fault-tolerant hardware at the "
+                "projected scale is not yet available. Validate with the Azure "
+                "pricing API and the full Resource Estimator before budgeting."
             ),
         }
 

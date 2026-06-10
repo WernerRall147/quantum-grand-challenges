@@ -26,6 +26,6 @@ estimate: build
 	$(PYTHON) ../../tooling/estimator/run_estimation.py --all --problem 01_hubbard --targets surface_code_generic_v1,qubit_gate_ns_e3 --mock
 
 clean:
-	dotnet clean qsharp/Hubbard.csproj --configuration Release || true
+	rm -rf qsharp/bin qsharp/obj
 	rm -f estimates/*.json
 	rm -f plots/*.png

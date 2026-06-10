@@ -22,7 +22,7 @@ make run            # Run quantum simulation
 ## Outputs
 - `estimates/classical_baseline.json`: Structured Arrhenius rates for each instance
 - `plots/rate_vs_temperature.png`: Visualization of reaction rates vs. temperature
-- `qsharp/bin/Release/net6.0/Catalysis.dll`: Analytical Q# baseline executable
+- `qsharp/src/Main.qs`: Q# baseline source, compiled on-the-fly by the modern QDK (no DLL artifact)
 
 ## Current Results
 

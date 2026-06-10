@@ -55,7 +55,6 @@ sweep:
 check-env:
 	@echo "Development environment check:"
 	@echo "  Python: $$(python --version 2>/dev/null || echo 'Not found')"
-	@echo "  .NET: $$(dotnet --version 2>/dev/null || echo 'Not found')"
 	@echo "  Q# build: $$($(PYTHON) -c 'import qsharp; qsharp.init(project_root=\"qsharp\"); print(\"Available\")' 2>/dev/null || echo 'Unavailable')"
 
 clean:

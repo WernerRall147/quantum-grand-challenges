@@ -25,12 +25,23 @@ from openai import AzureOpenAI
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "tooling"))
+
+from estimator_config import (  # noqa: E402 — must follow sys.path setup
+    QUBIT_MODELS,
+    extract_summary,
+    iter_model_configs,
+    make_batch_estimator_params,
+    make_estimator_params,
+)
 
 OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
 CHAT_DEPLOYMENT = os.environ.get("QGC_CHAT_DEPLOYMENT", "gpt-54-mini")
 ROUTER_ENDPOINT = os.environ.get("QGC_ROUTER_ENDPOINT", "https://admin-mo1q7owo-eastus2.cognitiveservices.azure.com/")
 ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
-USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "0") == "1"
+# Default to the Azure AI Foundry model-router; set QGC_USE_ROUTER=0 to use
+# the direct CHAT_DEPLOYMENT on qgc-openai instead.
+USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 
 # Map orchestrator-recommended algorithms to reference implementations
 REFERENCE_IMPLEMENTATIONS = {
@@ -118,47 +129,30 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
         code = resp.choices[0].message.content or ""
         return self._strip_fences(code)
 
-    # Pareto sweep: 6 qubit profiles × applicable QEC schemes (10 total runs).
-    PARETO_PROFILES: tuple = (
-        {"name": "qubit_gate_ns_e3", "label": "Superconducting (ns, 1e-3)", "qec": ("surface_code",), "family": "gate_based"},
-        {"name": "qubit_gate_ns_e4", "label": "Superconducting (ns, 1e-4)", "qec": ("surface_code",), "family": "gate_based"},
-        {"name": "qubit_gate_us_e3", "label": "Trapped Ion (μs, 1e-3)", "qec": ("surface_code",), "family": "gate_based"},
-        {"name": "qubit_gate_us_e4", "label": "Trapped Ion (μs, 1e-4)", "qec": ("surface_code",), "family": "gate_based"},
-        {"name": "qubit_maj_ns_e4", "label": "Majorana (ns, 1e-4)", "qec": ("surface_code", "floquet_code"), "family": "majorana"},
-        {"name": "qubit_maj_ns_e6", "label": "Majorana (ns, 1e-6)", "qec": ("surface_code", "floquet_code"), "family": "majorana"},
-    )
+    # Pareto sweep matrix is sourced from tooling/estimator_config.QUBIT_MODELS
+    # so the agent, the multimodel estimator, and the calibration tooling stay
+    # aligned on which (qubit, QEC) combinations get evaluated.
+    PARETO_MODELS = QUBIT_MODELS
 
-    @staticmethod
-    def _extract_estimate(data: Any) -> Dict[str, Any]:
-        """Pull the headline metrics from a qsharp.estimate() result."""
-        if not isinstance(data, dict):
-            return {}
-        phys = data.get("physicalCounts", {})
-        logical = data.get("logicalCounts", {})
-        breakdown = phys.get("breakdown", {})
-        runtime_ns = phys.get("runtime")
-        physical_qubits = phys.get("physicalQubits")
-        physical_t_factory_qubits = breakdown.get("physicalQubitsForTfactories")
-        t_factory_fraction = None
-        if physical_qubits and physical_t_factory_qubits:
-            try:
-                t_factory_fraction = round(physical_t_factory_qubits / physical_qubits, 3)
-            except (ZeroDivisionError, TypeError):
-                t_factory_fraction = None
-        return {
-            "physical_qubits": physical_qubits,
-            "runtime_ns": runtime_ns,
-            "logical_qubits": breakdown.get("algorithmicLogicalQubits"),
-            "logical_depth": logical.get("logicalDepth"),
-            "t_count": logical.get("tCount"),
-            "rotation_count": logical.get("rotationCount"),
-            "t_factory_fraction": t_factory_fraction,
-            "code_distance": (
-                breakdown.get("logicalPatch", {}).get("codeDistance")
-                if isinstance(breakdown.get("logicalPatch"), dict)
-                else None
-            ),
-        }
+    # Snake_case output schema kept stable for downstream UI / telemetry
+    # consumers. estimator_config.extract_summary returns camelCase keys, so
+    # this adapter renames them on the way out.
+    _SUMMARY_KEY_MAP = {
+        "physicalQubits": "physical_qubits",
+        "runtime": "runtime_ns",
+        "logicalQubits": "logical_qubits",
+        "logicalDepth": "logical_depth",
+        "tCount": "t_count",
+        "rotationCount": "rotation_count",
+        "tFactoryFraction": "t_factory_fraction",
+        "codeDistance": "code_distance",
+    }
+
+    @classmethod
+    def _extract_estimate(cls, data: Any) -> Dict[str, Any]:
+        """Pull headline metrics from a qsharp.estimate() result (snake_case)."""
+        camel = extract_summary(data)
+        return {snake: camel.get(camel_k) for camel_k, snake in cls._SUMMARY_KEY_MAP.items()}
 
     def compile_and_estimate(self, code: str, multi_profile: bool = False) -> Dict[str, Any]:
         """Compile generated Q# via qsharp package and run resource estimation.
@@ -199,40 +193,61 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
                 result["estimate_error"] = str(e)[:500]
 
             if multi_profile:
-                pareto: list = []
-                for profile in self.PARETO_PROFILES:
-                    for qec in profile["qec"]:
-                        config_key = f"{profile['name']}+{qec}"
-                        try:
-                            est = qsharp.estimate(
-                                "Main()",
-                                params={
-                                    "qubitParams": {"name": profile["name"]},
-                                    "qecScheme": {"name": qec},
-                                },
-                            )
-                            data = est.data() if hasattr(est, "data") else est
-                            summary = self._extract_estimate(data)
-                            summary.update({
-                                "config": config_key,
-                                "qubit_tech": profile["name"],
-                                "qubit_label": profile["label"],
-                                "qec_scheme": qec,
-                                "family": profile["family"],
-                            })
-                            pareto.append(summary)
-                        except Exception as e:  # noqa: BLE001 — skip incompatible combos
-                            pareto.append({
-                                "config": config_key,
-                                "qubit_tech": profile["name"],
-                                "qubit_label": profile["label"],
-                                "qec_scheme": qec,
-                                "family": profile["family"],
-                                "error": str(e)[:200],
-                            })
-                result["pareto_table"] = pareto
+                result["pareto_table"] = self._run_pareto_sweep(qsharp)
 
             return result
+
+    def _run_pareto_sweep(self, qsharp_mod: Any) -> list:
+        """Evaluate every (qubit, QEC) combination in QUBIT_MODELS.
+
+        Tries a single batched ``qsharp.estimate()`` call first (replaces the
+        old per-config Python loop). Falls back to per-config calls if the
+        batch raises, so per-item incompatibility errors stay diagnosable.
+        """
+        triples = list(iter_model_configs(self.PARETO_MODELS))
+
+        def _annotate(summary: Dict[str, Any], model: Any, qec: str, key: str) -> Dict[str, Any]:
+            summary = dict(summary)
+            summary.update({
+                "config": key,
+                "qubit_tech": model.name,
+                "qubit_label": model.label,
+                "qec_scheme": qec,
+                "family": model.family,
+            })
+            return summary
+
+        # Path 1: single batched call.
+        try:
+            batch_params = make_batch_estimator_params(
+                (m.name, qec) for m, qec, _ in triples
+            )
+            batch_est = qsharp_mod.estimate("Main()", params=batch_params)
+            return [
+                _annotate(self._extract_estimate(batch_est[i]), model, qec, key)
+                for i, (model, qec, key) in enumerate(triples)
+            ]
+        except Exception:  # noqa: BLE001 — fall back to per-config diagnostics
+            pass
+
+        # Path 2: per-config fallback (preserves rich per-item error reporting).
+        pareto: list = []
+        for model, qec, key in triples:
+            try:
+                params = make_estimator_params(model.name, qec)
+                est = qsharp_mod.estimate("Main()", params=params)
+                data = est.data() if hasattr(est, "data") else est
+                pareto.append(_annotate(self._extract_estimate(data), model, qec, key))
+            except Exception as e:  # noqa: BLE001 — skip incompatible combos
+                pareto.append({
+                    "config": key,
+                    "qubit_tech": model.name,
+                    "qubit_label": model.label,
+                    "qec_scheme": qec,
+                    "family": model.family,
+                    "error": str(e)[:200],
+                })
+        return pareto
 
     def generate_with_estimate(
         self,

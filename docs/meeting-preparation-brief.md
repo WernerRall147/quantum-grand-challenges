@@ -142,8 +142,8 @@ Shows: job name, Succeeded status, Quantinuum H2-1SC target, 10s turnaround, $0.
 ### Option B: Medium (5 min) — Run QAE Locally + Azure
 ```bash
 # 1. Run Q# locally (shows tail probability estimation)
-cd problems/03_qae_risk
-dotnet run --project qsharp/QAERisk.csproj --configuration Release
+cd problems/archived/03_qae_risk
+python -c "import qsharp; qsharp.init(project_root='qsharp'); print(qsharp.run('Main.QAEKernel()', shots=1))"
 
 # 2. Show the QASM circuit
 cat estimates/qae_simplified_4q.qasm
@@ -160,8 +160,8 @@ ls problems/
 # 2. Run classical baseline
 python problems/03_qae_risk/python/classical_baseline.py
 
-# 3. Run quantum implementation
-dotnet run --project problems/03_qae_risk/qsharp/QAERisk.csproj
+# 3. Run quantum implementation (modern QDK — qsharp Python package)
+python -c "import qsharp; qsharp.init(project_root='problems/archived/03_qae_risk/qsharp'); print(qsharp.run('Main.QAEKernel()', shots=1))"
 
 # 4. Show Azure validation
 az quantum job list -o table | head -10

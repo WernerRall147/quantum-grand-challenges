@@ -2,11 +2,11 @@
   "problem_id": "16_error_correction",
   "description": "3-qubit repetition code cycle",
   "entry_point": "Main.RunRepetitionCodeCycle(false, 0)",
-  "generated_utc": "2026-04-12T13:53:48.673180Z",
+  "generated_utc": "2026-06-09T17:19:33.023110Z",
   "statistics": {
-    "num_runs": 20,
+    "num_runs": 3,
     "mean_elapsed_s": 0.0,
-    "std_elapsed_s": 0.0002
+    "std_elapsed_s": 0.0
   },
   "runs": [
     {
@@ -21,91 +21,6 @@
     },
     {
       "run": 3,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 4,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 5,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 6,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 7,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 8,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 9,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 10,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 11,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 12,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0007
-    },
-    {
-      "run": 13,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 14,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 15,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 16,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 17,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 18,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 19,
-      "raw_result": "[(Zero, True)]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 20,
       "raw_result": "[(Zero, True)]",
       "elapsed_s": 0.0
     }

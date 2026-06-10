@@ -236,7 +236,6 @@ az extension list | grep quantum
 ### Current Issues
 - **Azure Quantum extension**: May not install in restricted network environments
 - **Analysis formatting**: Minor string formatting issues in summary reports
-- **QAOA legacy host/**: `problems/05_qaoa_maxcut/host/` still contains a legacy .NET C# driver; Q# runs via modern QDK but the host driver is retained for backward compatibility
 
 ### Workarounds
 - **Use classical analysis** for algorithm validation when Q# unavailable

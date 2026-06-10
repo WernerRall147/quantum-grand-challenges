@@ -43,11 +43,11 @@ After k optimal iterations, the measurement succeeds with probability sin²((2k+
 ### File Structure
 
 ```
-problems/15_database_search/
+problems/archived/15_database_search/
 ├── qsharp/
-│   ├── Program.qs                 # Main Grover implementation (336 lines)
-│   ├── GroverEstimation.qs        # Resource estimation variant
-│   └── QuantumSearch.csproj       # Q# project configuration
+│   ├── qsharp.json                # Modern QDK project manifest
+│   └── src/
+│       └── Main.qs                # Main Grover implementation
 ├── python/
 │   ├── classical_baseline.py      # Classical exhaustive search baseline
 │   └── analyze.py                 # Visualization and analysis

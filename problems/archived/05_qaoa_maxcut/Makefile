@@ -68,14 +68,14 @@ build:
 	$(PYTHON) -c "import qsharp; qsharp.init(project_root='qsharp'); print('Q# compilation OK')"
 
 run: build
-	@echo "Running QAOA depth $(DEPTH) for instance '$(INSTANCE)'..."
-	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance $(INSTANCE) --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
+	@echo "Running QAOA depth $(DEPTH) for instance '$(INSTANCE)' via modern QDK..."
+	$(PYTHON) python/depth_sweep.py --instance $(INSTANCE) --depths $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
 
 run-all: build
-	@echo "Running QAOA depth $(DEPTH) for instances: small, medium, large..."
-	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance small --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
-	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance medium --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
-	dotnet run --project host/QaoaMaxCut.Driver.csproj -- --instance large --depth $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
+	@echo "Running QAOA depth $(DEPTH) for instances: small, medium, large via modern QDK..."
+	$(PYTHON) python/depth_sweep.py --instance small --depths $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
+	$(PYTHON) python/depth_sweep.py --instance medium --depths $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
+	$(PYTHON) python/depth_sweep.py --instance large --depths $(DEPTH) --coarse-shots $(COARSE_SHOTS) --refined-shots $(REFINED_SHOTS) --trials $(TRIALS)
 
 depth-sweep: build
 	@echo "Running QAOA depth sweep for instance '$(INSTANCE)' with depths $(DEPTHS)..."
@@ -215,7 +215,6 @@ sweep:
 check-env:
 	@echo "Development environment check:"
 	@echo "  Python: $$(python --version 2>/dev/null || echo 'Not found')"
-	@echo "  .NET: $$(dotnet --version 2>/dev/null || echo 'Not found')"
 	@echo "  Q# build: $$($(PYTHON) -c 'import qsharp; qsharp.init(project_root=\"qsharp\"); print(\"Available\")' 2>/dev/null || echo 'Unavailable')"
 
 clean:

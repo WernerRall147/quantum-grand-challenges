@@ -309,8 +309,8 @@ Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded
 ## Acknowledgments
 
 ### Technologies Used
-- **Q# SDK**: Microsoft.Quantum.Sdk 0.28.302812
-- **Runtime**: .NET 6.0
+- **QDK**: Modern Azure QDK (`qsharp` Python package, `qsharp.json` projects)
+- **Runtime**: Python 3.11 (no .NET dependency)
 - **Resource Estimator**: Azure Quantum Resource Estimator
 - **Visualization**: Python 3.11, Matplotlib 3.8, Seaborn 0.13
 - **Development**: VS Code, PowerShell 7

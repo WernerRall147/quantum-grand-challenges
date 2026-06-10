@@ -28,8 +28,10 @@ OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.open
 CHAT_DEPLOYMENT = os.environ.get("QGC_CHAT_DEPLOYMENT", "gpt-54-mini")
 ROUTER_ENDPOINT = os.environ.get("QGC_ROUTER_ENDPOINT", "https://admin-mo1q7owo-eastus2.cognitiveservices.azure.com/")
 ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
-# Toggle model-router (cost-optimized): set QGC_USE_ROUTER=1 once RBAC has propagated.
-USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "0") == "1"
+# Default to the Azure AI Foundry model-router (cost-optimized, auto-failover).
+# RBAC is in place on the router for all evaluator identities; set QGC_USE_ROUTER=0
+# to fall back to the direct CHAT_DEPLOYMENT on qgc-openai.
+USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 
 SYSTEM_PROMPT = """You are the Quantum Advantage Evaluator — an expert AI assistant that helps scientists and engineers determine whether their computational problem is better solved on a quantum computer, classical AI/ML, or Azure HPC, and then guides them to build the right Azure workspace.
 

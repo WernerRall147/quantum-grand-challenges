@@ -35,7 +35,9 @@ OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.open
 CHAT_DEPLOYMENT = os.environ.get("QGC_CHAT_DEPLOYMENT", "gpt-54-mini")
 ROUTER_ENDPOINT = os.environ.get("QGC_ROUTER_ENDPOINT", "https://admin-mo1q7owo-eastus2.cognitiveservices.azure.com/")
 ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
-USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "0") == "1"
+# Default to the Azure AI Foundry model-router; set QGC_USE_ROUTER=0 to use
+# the direct CHAT_DEPLOYMENT on qgc-openai instead.
+USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 
 
 # Reference templates per platform — minimal, working starting points
@@ -240,7 +242,7 @@ REFERENCE_TEMPLATES: Dict[str, Dict[str, str]] = {
             "az deployment group create --resource-group <rg> --template-file main.bicep"
         ),
         "post_deploy_note": (
-            "After deployment, deploy models (e.g. gpt-4o, text-embedding-3-large) via the Foundry portal "
+            "After deployment, deploy models (e.g. model-router, text-embedding-3-large) via the Foundry portal "
             "or by adding Microsoft.CognitiveServices/accounts/deployments resources to the template."
         ),
     },

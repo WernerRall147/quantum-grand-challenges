@@ -101,47 +101,6 @@ jobs:
         if: steps.create-pr.outcome == 'failure'
         run: echo "::warning::Could not create PR — enable 'Allow GitHub Actions to create and approve pull requests' in repo Settings > Actions > General."
 
-  # Stage D readiness trend
-  stage-d-trend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Baseline + regenerate readiness
-        run: |
-          if [ -f tooling/reporting/stage_d_readiness_report.json ]; then
-            cp tooling/reporting/stage_d_readiness_report.json tooling/reporting/stage_d_readiness_report.baseline.json
-          else
-            python tooling/reporting/stage_d_readiness_audit.py
-            cp tooling/reporting/stage_d_readiness_report.json tooling/reporting/stage_d_readiness_report.baseline.json
-          fi
-          python tooling/reporting/stage_d_readiness_audit.py
-
-      - name: Compute trend + check regression
-        id: trend
-        run: |
-          python tooling/reporting/stage_d_readiness_trend.py \
-            --baseline tooling/reporting/stage_d_readiness_report.baseline.json \
-            --current tooling/reporting/stage_d_readiness_report.json \
-            --out-json tooling/reporting/stage_d_readiness_trend_report.json \
-            --out-md docs/planning/stage-d-readiness-trend.md
-          python -c "
-          import json, os; from pathlib import Path
-          degraded = json.loads(Path('tooling/reporting/stage_d_readiness_trend_report.json').read_text()).get('degraded', False)
-          with Path(os.environ['GITHUB_OUTPUT']).open('a') as f: f.write(f'degraded={str(degraded).lower()}\n')
-          "
-
-      - name: Create regression issue
-        if: steps.trend.outputs.degraded == 'true'
-        uses: peter-evans/create-issue-from-file@v5
-        with:
-          title: 'Stage D readiness regression detected'
-          content-filepath: docs/planning/stage-d-readiness-trend.md
-          labels: reporting,regression
-
   # Runnable/correctness audit (with Q#)
   runnable-correctness:
     runs-on: ubuntu-latest

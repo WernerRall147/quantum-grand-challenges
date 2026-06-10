@@ -117,6 +117,7 @@ QUANTUM_PROVIDER_RATES: Dict[str, Dict[str, Any]] = {
 
 # --- Azure HPC / GPU SKU fallback rates (East US, Pay-as-you-go, USD/hr) ---
 # Refreshed via fetch_azure_compute_rates(); these are the offline fallback.
+# Live retail rates re-verified June 2026 via the Azure Retail Prices API.
 _AZURE_COMPUTE_FALLBACK: Dict[str, Dict[str, Any]] = {
     "Standard_HB176rs_v4": {"usd_per_hour": 7.20, "vcpus": 176, "family": "HPC AMD EPYC"},
     "Standard_HB120rs_v3": {"usd_per_hour": 3.60, "vcpus": 120, "family": "HPC AMD EPYC"},
@@ -124,11 +125,39 @@ _AZURE_COMPUTE_FALLBACK: Dict[str, Dict[str, Any]] = {
     "Standard_ND96amsr_A100_v4": {"usd_per_hour": 27.197, "vcpus": 96, "family": "8x A100 80GB"},
     "Standard_ND96isr_H100_v5": {"usd_per_hour": 98.32, "vcpus": 96, "family": "8x H100 NVLink"},
     "Standard_ND96asr_v4": {"usd_per_hour": 27.20, "vcpus": 96, "family": "8x A100 40GB"},
+    # Azure Machine Learning single-accelerator instance sizes (eastus Linux on-demand).
+    "Standard_DS3_v2": {"usd_per_hour": 0.293, "vcpus": 4, "family": "CPU (Dsv2)"},
+    "Standard_NC4as_T4_v3": {"usd_per_hour": 0.526, "vcpus": 4, "family": "1x T4 16GB"},
+    "Standard_NC24ads_A100_v4": {"usd_per_hour": 3.673, "vcpus": 24, "family": "1x A100 80GB"},
 }
 
 DEFAULT_HPC_SKU = "Standard_HB176rs_v4"
 DEFAULT_GPU_SKU = "Standard_ND96amsr_A100_v4"
 DEFAULT_REGION = "eastus"
+
+# --- Azure Machine Learning instance sizing (rough cost estimate) ---
+# AML compute is billed at the underlying VM hourly rate (no AML surcharge); a
+# small standard load balancer (~$0.33/day per running compute instance) and
+# disk are the only managed add-ons. Idle-shutdown stops the compute-hour meter.
+# See learn.microsoft.com/azure/machine-learning/concept-plan-manage-cost
+AML_INSTANCE_SIZES: Dict[str, str] = {
+    "small": "Standard_DS3_v2",        # CPU dev/inference
+    "medium": "Standard_NC4as_T4_v3",  # single T4 GPU
+    "large": "Standard_NC24ads_A100_v4",  # single A100 80GB GPU
+}
+DEFAULT_AML_INSTANCE = "medium"
+AML_LOAD_BALANCER_USD_PER_DAY = 0.33
+
+# --- Current quantum hardware widths (max usable qubits per device) ---
+# A circuit wider than the device cannot be submitted, so per-shot cost is only
+# meaningful up to this width. Used to keep cost estimates physically grounded.
+QUANTUM_HARDWARE_QUBITS: Dict[str, int] = {
+    "quantinuum_h2": QUANTINUUM_H2["qubits"],
+    "ionq_aria": IONQ_ARIA["qubits"],
+    "ionq_forte": IONQ_FORTE["qubits"],
+    "rigetti_cepheus": RIGETTI_CEPHEUS["qubits"],
+    "pasqal_fresnel": PASQAL_FRESNEL["qubits"],
+}
 
 
 # --- Cache helpers ---
@@ -336,6 +365,50 @@ def estimate_hpc_compute_cost(
     }
 
 
+def estimate_aml_compute_cost(
+    compute_hours: float,
+    instance_size: str = DEFAULT_AML_INSTANCE,
+    region: str = DEFAULT_REGION,
+    use_cache: bool = True,
+) -> Dict[str, Any]:
+    """Cost of running on Azure Machine Learning managed compute.
+
+    AML bills the underlying VM hourly rate (pulled live from the Retail Prices
+    API when reachable) plus a small standard load balancer charge prorated over
+    the job's wall time. ``instance_size`` is one of small | medium | large,
+    mapped to a representative single-accelerator SKU.
+    """
+    size = (instance_size or DEFAULT_AML_INSTANCE).lower()
+    sku = AML_INSTANCE_SIZES.get(size, AML_INSTANCE_SIZES[DEFAULT_AML_INSTANCE])
+    rates_map = fetch_azure_compute_rates([sku], region=region, use_cache=use_cache)
+    rate = rates_map.get(sku) or _AZURE_COMPUTE_FALLBACK.get(sku, {"usd_per_hour": 0.0})
+
+    vm_cost = compute_hours * rate["usd_per_hour"]
+    # Standard load balancer is billed per day; prorate over the run.
+    managed_overhead = AML_LOAD_BALANCER_USD_PER_DAY * (compute_hours / 24.0)
+    total = vm_cost + managed_overhead
+    return {
+        "platform": "azure_ml",
+        "provider": "Azure Machine Learning",
+        "sku": sku,
+        "instance_size": size,
+        "region": region,
+        "estimated_cost_usd": round(total, 2),
+        "vm_cost_usd": round(vm_cost, 2),
+        "managed_overhead_usd": round(managed_overhead, 2),
+        "compute_hours": round(compute_hours, 3),
+        "usd_per_hour": rate["usd_per_hour"],
+        "vcpus": rate.get("vcpus"),
+        "family": rate.get("family", ""),
+        "source": rate.get("source", "static_fallback"),
+        "notes": (
+            f"{rate.get('family', sku)} @ ${rate['usd_per_hour']}/hr billed at the VM rate; "
+            "enable idle-shutdown to stop the compute-hour meter when not training. "
+            "Up to ~72% off with 1-3 yr reserved instances."
+        ),
+    }
+
+
 # --- Algorithm-class-aware default targets ---
 
 ALGORITHM_TO_TARGET = {
@@ -411,11 +484,15 @@ __all__ = [
     "DEFAULT_HPC_SKU",
     "DEFAULT_GPU_SKU",
     "DEFAULT_REGION",
+    "AML_INSTANCE_SIZES",
+    "DEFAULT_AML_INSTANCE",
+    "QUANTUM_HARDWARE_QUBITS",
     "fetch_azure_compute_rates",
     "estimate_quantinuum_hqc_cost",
     "estimate_ionq_cost",
     "estimate_rigetti_cost",
     "estimate_hpc_compute_cost",
+    "estimate_aml_compute_cost",
     "estimate_quantum_cost_for_target",
     "recommended_quantum_target",
 ]

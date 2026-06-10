@@ -19,6 +19,11 @@ COST_MODEL_STATUS = "live_pricing_v1"
 TROYER_PART_6_STATUS = "coming_soon"
 TROYER_PART_6_URL = None
 
+# Representative max circuit depth (gate layers) a current NISQ device can run
+# before decoherence dominates. Used to keep per-shot cost estimates grounded
+# in a hardware-runnable circuit rather than a deep fault-tolerant projection.
+REPRESENTATIVE_NISQ_DEPTH = 1000
+
 # Map orchestrator-level platform IDs onto azure_pricing target keys.
 PLATFORM_TARGET_ALIASES = {
     "azure_quantum_quantinuum_h2": "quantinuum_h2",
@@ -96,6 +101,79 @@ def estimate_hpc_cost(
         "family": detail.get("family"),
         "source": detail.get("source"),
         "notes": f"{detail.get('family', '')} @ ${detail['usd_per_hour']}/hr ({detail.get('source')})",
+    }
+
+
+def estimate_aml_cost(
+    compute_hours: float,
+    instance_size: str = "medium",
+) -> Dict[str, Any]:
+    """Estimate the cost of solving the same problem on Azure Machine Learning.
+
+    AI/ML alternative for problems better served by classical/deep-learning
+    approaches. ``instance_size`` (small | medium | large) maps to a
+    representative single-accelerator AML compute SKU.
+    """
+    detail = azure_pricing.estimate_aml_compute_cost(
+        compute_hours=compute_hours,
+        instance_size=instance_size,
+    )
+    return {
+        "platform": "azure_ml",
+        "provider": detail.get("provider"),
+        "sku": detail.get("sku"),
+        "instance_size": detail.get("instance_size"),
+        "estimated_cost_usd": detail.get("estimated_cost_usd"),
+        "compute_hours": detail.get("compute_hours"),
+        "usd_per_hour": detail.get("usd_per_hour"),
+        "vcpus": detail.get("vcpus"),
+        "family": detail.get("family"),
+        "source": detail.get("source"),
+        "notes": detail.get("notes", ""),
+    }
+
+
+def quantum_hardware_feasibility(
+    physical_qubits: int,
+    target_platform: str = "azure_quantum_quantinuum_h2",
+    logical_depth: Optional[int] = None,
+) -> Dict[str, Any]:
+    """Check whether a circuit of this width/depth can run on today's hardware.
+
+    A fault-tolerant resource estimate (often 10^4 to 10^6 physical qubits and
+    very deep circuits) cannot be submitted to a device that only exposes tens
+    of qubits with limited coherence, so the per-shot dollar figure is only
+    physically meaningful for a hardware-runnable circuit. Returns the device
+    width plus capped width/depth to use for grounded pricing.
+    """
+    target_key = PLATFORM_TARGET_ALIASES.get(target_platform, target_platform)
+    hardware_qubits = azure_pricing.QUANTUM_HARDWARE_QUBITS.get(target_key, 56)
+    width_ok = physical_qubits <= hardware_qubits
+    depth_ok = logical_depth is None or logical_depth <= REPRESENTATIVE_NISQ_DEPTH
+    feasible_today = width_ok and depth_ok
+
+    priced_depth = (
+        min(logical_depth, REPRESENTATIVE_NISQ_DEPTH)
+        if isinstance(logical_depth, int)
+        else None
+    )
+    return {
+        "feasible_today": feasible_today,
+        "estimated_physical_qubits": physical_qubits,
+        "hardware_qubits": hardware_qubits,
+        "priced_circuit_qubits": min(physical_qubits, hardware_qubits),
+        "priced_circuit_depth": priced_depth,
+        "representative_depth_cap": REPRESENTATIVE_NISQ_DEPTH,
+        "note": (
+            f"Runnable today on {target_key} ({hardware_qubits} qubits)."
+            if feasible_today
+            else (
+                f"Fault-tolerant projection needs ~{physical_qubits:,} physical qubits; "
+                f"{target_key} exposes {hardware_qubits}. Cost shown is for a "
+                f"hardware-grounded representative circuit (width and depth capped) "
+                f"at official per-shot rates."
+            )
+        ),
     }
 
 

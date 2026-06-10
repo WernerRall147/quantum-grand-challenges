@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_utc": "2026-04-16T13:55:10.918251Z",
+  "updated_utc": "2026-06-10T15:29:54.156842Z",
   "runs": [
     {
       "recorded_utc": "2026-03-04T16:41:55Z",
@@ -1112,6 +1112,78 @@
       "status": "submitted",
       "shots": 1000,
       "note": "Stage D higher-confidence resubmission"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:27:19.273283Z",
+      "problem_id": "01_hubbard",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:28:31.358539Z",
+      "problem_id": "02_catalysis",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:28:44.175869Z",
+      "problem_id": "07_drug_discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:28:56.755034Z",
+      "problem_id": "09_factorization",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:29:08.085986Z",
+      "problem_id": "14_materials_discovery",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:29:18.757939Z",
+      "problem_id": "16_error_correction",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:29:32.025737Z",
+      "problem_id": "17_nuclear_physics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:29:43.273253Z",
+      "problem_id": "18_photovoltaics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
+    },
+    {
+      "recorded_utc": "2026-06-10T15:29:54.156842Z",
+      "problem_id": "19_quantum_chromodynamics",
+      "instance_id": "small",
+      "depth": 1,
+      "target_id": "quantinuum.sim.h2-1e",
+      "status": "submitted"
     }
   ]
 }

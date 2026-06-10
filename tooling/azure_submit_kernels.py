@@ -91,7 +91,10 @@ def main():
                 "problem_id": d, "instance_id": "small", "depth": 1,
                 "target_id": target_id,
                 "status": "succeeded" if "h2-1sc" in target_id else "submitted",
-                "job_id": job_id,
+                # NOTE: job_id is intentionally NOT recorded here. It is a
+                # sensitive field per tooling/reporting/validate_website_data_schema.py
+                # (this file feeds the public website). The id is printed to the
+                # console above for traceability.
             })
 
     if new_runs:

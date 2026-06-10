@@ -30,7 +30,7 @@ python python/classical_baseline.py
 # Plot delta-v budgets and schedule slack
 python python/analyze.py
 
-# Quantum placeholder (uses modern QDK — qsharp Python package)
+# Quantum placeholder (uses modern QDK  qsharp Python package)
 python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
  python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```

@@ -66,7 +66,7 @@ def main():
         except Exception as e:
             r["error"] = f"Compile: {str(e)[:200]}"
             results.append(r)
-            print(f"❌ {pd.name}: compile FAIL — {r['error']}")
+            print(f"❌ {pd.name}: compile FAIL  {r['error']}")
             continue
 
         try:
@@ -77,7 +77,7 @@ def main():
             print(f"✅ {pd.name}: ran in {r['time']}s")
         except Exception as e:
             r["error"] = f"Run: {str(e)[:200]}"
-            print(f"❌ {pd.name}: run FAIL — {r['error']}")
+            print(f"❌ {pd.name}: run FAIL  {r['error']}")
 
         results.append(r)
 

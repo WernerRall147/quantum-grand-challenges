@@ -53,7 +53,7 @@ def generate_qae_scaling():
         "theoretical_speedup": "Quadratic",
         "generated_utc": utc_now(),
         "projections": rows,
-        "crossover_estimate": "ε ≈ 0.001 (1000 classical samples vs ~785 quantum queries) — but requires ~100k+ physical qubits",
+        "crossover_estimate": "ε ≈ 0.001 (1000 classical samples vs ~785 quantum queries)  but requires ~100k+ physical qubits",
         "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions.",
     }
 
@@ -92,7 +92,7 @@ def generate_qaoa_scaling():
         "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
         "generated_utc": utc_now(),
         "projections": rows,
-        "crossover_estimate": "Uncertain — no proven quantum advantage for MaxCut QAOA at any depth",
+        "crossover_estimate": "Uncertain  no proven quantum advantage for MaxCut QAOA at any depth",
         "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit.",
     }
 
@@ -130,7 +130,7 @@ def generate_grover_scaling():
         "algorithm": "Grover's Search",
         "scaling_variable": "database size (N)",
         "classical_complexity": "O(N) queries (optimal for unstructured search)",
-        "quantum_complexity": "O(√N) queries (provably optimal — BBBV lower bound)",
+        "quantum_complexity": "O(√N) queries (provably optimal  BBBV lower bound)",
         "theoretical_speedup": "Quadratic (provably optimal)",
         "generated_utc": utc_now(),
         "projections": rows,
@@ -148,10 +148,10 @@ def generate_grover_fairness():
         "quantum_algorithm": "Grover's Search (oracle + diffusion, O(√N) queries)",
         "classical_baseline": "Sequential linear search (O(N) expected queries)",
         "baseline_optimality": "Linear search is provably optimal for unstructured search (information-theoretic lower bound). No classical algorithm can do better than O(N) for a truly unstructured search.",
-        "fairness_assessment": "FAIR — linear search is the strongest possible classical comparator for unstructured search. This is the rare case where the classical baseline cannot be improved by heuristics.",
+        "fairness_assessment": "FAIR  linear search is the strongest possible classical comparator for unstructured search. This is the rare case where the classical baseline cannot be improved by heuristics.",
         "instance_analysis": [
-            {"instance": "small", "N": 16, "classical_queries": 8, "grover_queries": 3, "speedup": 2.7, "note": "Trivially small — no practical significance"},
-            {"instance": "medium", "N": 32, "classical_queries": 16, "grover_queries": 4, "speedup": 4.0, "note": "Still small — classical is instant"},
+            {"instance": "small", "N": 16, "classical_queries": 8, "grover_queries": 3, "speedup": 2.7, "note": "Trivially small  no practical significance"},
+            {"instance": "medium", "N": 32, "classical_queries": 16, "grover_queries": 4, "speedup": 4.0, "note": "Still small  classical is instant"},
             {"instance": "large", "N": 4096, "classical_queries": 2048, "grover_queries": 50, "speedup": 41.0, "note": "Meaningful speedup but classical is still fast"},
         ],
         "oracle_cost_sensitivity": {
@@ -161,9 +161,9 @@ def generate_grover_fairness():
             "practical_implication": "Advantage exists only for problems with efficiently implementable oracles (e.g., cryptographic hash verification, SAT checking)",
         },
         "residual_unfairness_risks": [
-            "Classical parallel search on k processors achieves O(N/k) — linear parallelism may close the gap",
+            "Classical parallel search on k processors achieves O(N/k)  linear parallelism may close the gap",
             "Classical cache-friendly memory access patterns provide constant-factor advantages not captured in query complexity",
-            "Grover requires coherent oracle evaluation — decoherence may require error correction overhead not in the query count",
+            "Grover requires coherent oracle evaluation  decoherence may require error correction overhead not in the query count",
         ],
     }
 

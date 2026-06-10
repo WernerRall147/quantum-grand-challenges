@@ -1,4 +1,4 @@
-"""Quantum Advantage Evaluator — Orchestrator Agent API.
+"""Quantum Advantage Evaluator  Orchestrator Agent API.
 
 Accepts a problem description, runs it through the evaluation pipeline:
 1. Classify via knowledge base (Troyer filters)
@@ -33,7 +33,7 @@ ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
 # to fall back to the direct CHAT_DEPLOYMENT on qgc-openai.
 USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 
-SYSTEM_PROMPT = """You are the Quantum Advantage Evaluator — an expert AI assistant that helps scientists and engineers determine whether their computational problem is better solved on a quantum computer, classical AI/ML, or Azure HPC, and then guides them to build the right Azure workspace.
+SYSTEM_PROMPT = """You are the Quantum Advantage Evaluator  an expert AI assistant that helps scientists and engineers determine whether their computational problem is better solved on a quantum computer, classical AI/ML, or Azure HPC, and then guides them to build the right Azure workspace.
 
 You have access to a knowledge base of quantum algorithms with Troyer utility-scale classifications. For each user problem, you must:
 
@@ -61,7 +61,7 @@ PLATFORM RECOMMENDATION RULES:
 - For hybrid approaches (e.g., quantum-classical variational), be specific about what runs where
 
 WORKSPACE GUIDANCE:
-- QUANTUM: Azure Quantum workspace setup, target hardware selection (Quantinuum, IonQ, Rigetti), resource estimation parameters, QEC code selection (reference errorcorrectionzoo.org for code taxonomy — surface, color, QLDPC codes)
+- QUANTUM: Azure Quantum workspace setup, target hardware selection (Quantinuum, IonQ, Rigetti), resource estimation parameters, QEC code selection (reference errorcorrectionzoo.org for code taxonomy  surface, color, QLDPC codes)
 - AI_ML: Azure AI Foundry project, model selection, compute sizing, training pipeline
 - HPC: Azure CycleCloud cluster, VM family selection, SLURM configuration, MPI/GPU framework
 
@@ -299,7 +299,7 @@ Provide your evaluation as JSON following the output format specified in your in
             shots=1000,
         )
 
-        # HPC equivalent: rough rule of thumb — assume an HPC alternative would
+        # HPC equivalent: rough rule of thumb  assume an HPC alternative would
         # solve the same problem in O(seconds-to-minutes) on an A100 cluster
         # (an over-optimistic comparison favouring HPC).
         hpc_hours = max(0.1, runtime_ns / 3.6e12)  # ns -> hours

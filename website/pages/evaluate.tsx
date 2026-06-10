@@ -145,7 +145,7 @@ export default function EvaluatePage() {
         advantage_class: 'unknown',
         recommended_algorithm: 'N/A',
         troyer_filters: {},
-        red_flags: ['This is a demo — the live evaluator requires the Python backend (agents/orchestrator/evaluate.py) connected to Azure AI'],
+        red_flags: ['This is a demo  the live evaluator requires the Python backend (agents/orchestrator/evaluate.py) connected to Azure AI'],
         hpc_alternative: 'Run `python agents/orchestrator/evaluate.py "your problem"` locally to get a real evaluation',
         explanation: 'The Quantum Advantage Evaluator is a Python backend that connects to the Azure AI Foundry model router and the knowledge base (Cosmos DB + AI Search). On the static GitHub Pages site, the backend is not available. Run it locally or deploy as an Azure Function for live evaluations.',
         similar_problems: [],
@@ -169,7 +169,7 @@ export default function EvaluatePage() {
   return (
     <>
       <Head>
-        <title>Evaluate Your Problem — Quantum Grand Challenges</title>
+        <title>Evaluate Your Problem  Quantum Grand Challenges</title>
         <meta name="description" content="AI-powered quantum advantage evaluation" />
       </Head>
       <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -181,7 +181,7 @@ export default function EvaluatePage() {
           Quantum Advantage Evaluator
         </h1>
         <p style={{ color: '#666', fontSize: '1.1rem', marginBottom: '2rem' }}>
-          Describe your computational problem. We&apos;ll evaluate whether it&apos;s better solved on a quantum computer, AI/ML, or Azure HPC — then guide you to the right Azure workspace. Backed by Troyer&apos;s utility-scale filters and DiVincenzo&apos;s hardware-readiness criteria.
+          Describe your computational problem. We&apos;ll evaluate whether it&apos;s better solved on a quantum computer, AI/ML, or Azure HPC  then guide you to the right Azure workspace. Backed by Troyer&apos;s utility-scale filters and DiVincenzo&apos;s hardware-readiness criteria.
         </p>
 
         {/* Input */}
@@ -257,12 +257,12 @@ export default function EvaluatePage() {
               {result.recommended_platform && (
                 <div style={{ marginTop: '0.75rem', padding: '0.5rem 1rem', background: `${vc?.fg}11`, borderRadius: '6px', fontSize: '0.95rem', color: vc?.fg }}>
                   <strong>Recommended platform:</strong> {result.recommended_platform.replace(/_/g, ' ')}
-                  {result.platform_reason && <span> — {result.platform_reason}</span>}
+                  {result.platform_reason && <span>  {result.platform_reason}</span>}
                 </div>
               )}
             </div>
 
-            {/* Cost analysis — quantum vs HPC at Azure list pricing */}
+            {/* Cost analysis  quantum vs HPC at Azure list pricing */}
             {result.cost_analysis && (result.cost_analysis.quantum_estimate || result.cost_analysis.hpc_estimate) && (() => {
               const ca = result.cost_analysis;
               const v = ca.comparison?.verdict || '';
@@ -281,7 +281,7 @@ export default function EvaluatePage() {
                 v === 'HPC_STRONGLY_PREFERRED'     ? '#b91c1c' :
                                                      '#475569';
               const fmt = (x: number | null | undefined) =>
-                typeof x === 'number' ? `$${x.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : '—';
+                typeof x === 'number' ? `$${x.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : '';
               return (
                 <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
                   <h3 style={{ marginTop: 0, color: '#0f172a' }}>Cost Analysis · Quantum vs HPC</h3>
@@ -489,7 +489,7 @@ export default function EvaluatePage() {
               </div>
             )}
 
-            {/* Pareto resource sweep — quantum tech × QEC scheme comparison */}
+            {/* Pareto resource sweep  quantum tech × QEC scheme comparison */}
             {result.resource_estimate_pareto && result.resource_estimate_pareto.length > 0 && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#0b1220', borderRadius: '10px', border: '1px solid #1e293b' }}>
                 <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>Resource Estimate · Pareto Sweep</h3>
@@ -512,8 +512,8 @@ export default function EvaluatePage() {
                     <tbody>
                       {result.resource_estimate_pareto.map((row, i) => (
                         <tr key={i} style={{ borderTop: '1px solid #1e293b' }}>
-                          <td style={{ padding: '0.5rem 0.75rem' }}>{row.qubit_label || row.qubit_tech || '—'}</td>
-                          <td style={{ padding: '0.5rem 0.75rem' }}>{row.qec_scheme || '—'}</td>
+                          <td style={{ padding: '0.5rem 0.75rem' }}>{row.qubit_label || row.qubit_tech || ''}</td>
+                          <td style={{ padding: '0.5rem 0.75rem' }}>{row.qec_scheme || ''}</td>
                           {row.error ? (
                             <td colSpan={4} style={{ padding: '0.5rem 0.75rem', color: '#fca5a5' }}>
                               {row.error}
@@ -521,18 +521,18 @@ export default function EvaluatePage() {
                           ) : (
                             <>
                               <td style={{ padding: '0.5rem 0.75rem', textAlign: 'right', color: '#7dd3fc' }}>
-                                {typeof row.physical_qubits === 'number' ? row.physical_qubits.toLocaleString() : '—'}
+                                {typeof row.physical_qubits === 'number' ? row.physical_qubits.toLocaleString() : ''}
                               </td>
                               <td style={{ padding: '0.5rem 0.75rem', textAlign: 'right', color: '#a6e3a1' }}>
-                                {typeof row.runtime_ns === 'number' ? (row.runtime_ns / 1e6).toFixed(2) : '—'}
+                                {typeof row.runtime_ns === 'number' ? (row.runtime_ns / 1e6).toFixed(2) : ''}
                               </td>
                               <td style={{ padding: '0.5rem 0.75rem', textAlign: 'right', color: '#fbbf24' }}>
                                 {typeof row.t_factory_fraction === 'number'
                                   ? `${(row.t_factory_fraction * 100).toFixed(1)}%`
-                                  : '—'}
+                                  : ''}
                               </td>
                               <td style={{ padding: '0.5rem 0.75rem', textAlign: 'right' }}>
-                                {typeof row.logical_depth === 'number' ? row.logical_depth.toLocaleString() : '—'}
+                                {typeof row.logical_depth === 'number' ? row.logical_depth.toLocaleString() : ''}
                               </td>
                             </>
                           )}
@@ -635,7 +635,7 @@ export default function EvaluatePage() {
           </div>
         </section>
 
-        {/* Hybrid Compute Platform — inspired by Microsoft Quantum Architecture Series */}
+        {/* Hybrid Compute Platform  inspired by Microsoft Quantum Architecture Series */}
         <section style={{ marginTop: '2.5rem', padding: '2rem', background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)', borderRadius: '12px', textAlign: 'center' }}>
           <p style={{ fontSize: '0.85rem', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 0.25rem' }}>
             Microsoft Quantum Architecture

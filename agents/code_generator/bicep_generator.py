@@ -40,7 +40,7 @@ ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
 USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 
 
-# Reference templates per platform — minimal, working starting points
+# Reference templates per platform  minimal, working starting points
 HPC_REFERENCE = """// Azure CycleCloud + Slurm HPC cluster
 // Reference: https://learn.microsoft.com/azure/cyclecloud/overview-ccws
 // Note: CycleCloud Workspace for Slurm is typically deployed via the Marketplace
@@ -271,7 +271,7 @@ CRITICAL RULES:
 - Follow security best practices: managed identity, no public access, TLS 1.2+
 - Size resources appropriately for the problem (small/medium/large workload)
 - Include `@description()` decorators on all parameters
-- Do NOT hardcode secrets — use `@secure()` parameters or Key Vault references
+- Do NOT hardcode secrets  use `@secure()` parameters or Key Vault references
 - Add `output` declarations for important resource IDs and endpoints
 - Include a `deploymentNote` output with next-step guidance
 
@@ -385,7 +385,7 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
             # Any non-zero exit + non-empty stderr is then warnings.
             if output_exists:
                 # Bicep diagnostic lines containing " : Error " indicate real failures
-                # even when output is produced (rare — usually deployment-time issues).
+                # even when output is produced (rare  usually deployment-time issues).
                 has_error_diagnostic = " : Error " in stderr
                 if not has_error_diagnostic:
                     return {
@@ -393,7 +393,7 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
                         "warnings": stderr[:4000] or None,
                     }
 
-            # No output JSON — real compile failure. Show enough context to diagnose.
+            # No output JSON  real compile failure. Show enough context to diagnose.
             # Truncate from both ends to capture the actual error line which is
             # often deep in a long warning preamble.
             combined = stderr or stdout

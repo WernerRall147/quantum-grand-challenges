@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 03: QAE Risk — IQAE Kernel (5-qubit)
+  Problem 03: QAE Risk  IQAE Kernel (5-qubit)
   Algorithm: Iterative Quantum Amplitude Estimation
   Qubits: 4 loss + 1 marker = 5 (no precision register)
 ===================================================================
@@ -18,4 +18,4 @@ marker ────────────── |0⟩ ────────
     3. Measure marker: P(1) = sin²((2k+1)θ), sin²(θ) = a
 
   Classical driver picks k adaptively to narrow confidence interval
-  No QFT or precision register needed — 44% fewer qubits than QPE
+  No QFT or precision register needed  44% fewer qubits than QPE

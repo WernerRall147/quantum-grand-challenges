@@ -62,7 +62,7 @@ export const problemHighlights = [
   },
   {
     title: 'QAE Risk Analysis',
-    status: 'Archived — Quadratic speedup negated by I/O',
+    status: 'Archived  Quadratic speedup negated by I/O',
     description: 'Quadratic O(1/ε) speedup proven but QEC overhead requires ε < 10⁻⁴. Distribution loading is O(N). Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/03_qae_risk',
   },
@@ -74,19 +74,19 @@ export const problemHighlights = [
   },
   {
     title: 'Linear Solvers',
-    status: 'Archived — I/O limited',
+    status: 'Archived  I/O limited',
     description: 'HHL exponential core negated by O(N) state prep and O(N) readout. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/04_linear_solvers',
   },
   {
     title: 'QAOA MaxCut',
-    status: 'Archived — At most quadratic',
+    status: 'Archived  At most quadratic',
     description: 'QAOA has at most quadratic advantage, no proven speedup over GW 0.878-approximation. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/05_qaoa_maxcut',
   },
   {
     title: 'High-Frequency Trading',
-    status: 'Archived — Quadratic speedup negated by I/O',
+    status: 'Archived  Quadratic speedup negated by I/O',
     description: 'Quadratic amplitude estimation, same QAE limitation. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/06_high_frequency_trading',
   },
@@ -98,7 +98,7 @@ export const problemHighlights = [
   },
   {
     title: 'Protein Folding',
-    status: 'Archived — At most quadratic',
+    status: 'Archived  At most quadratic',
     description: 'QAOA heuristic, at most quadratic advantage. AlphaFold dominates classically. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/08_protein_folding',
   },
@@ -111,25 +111,25 @@ export const problemHighlights = [
   },
   {
     title: 'Post-Quantum Cryptography',
-    status: 'Archived — Quadratic + oracle cost',
+    status: 'Archived  Quadratic + oracle cost',
     description: 'Quadratic O(√N) Grover provably optimal but AES oracle cost (millions of T-gates) dominates. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/10_post_quantum_cryptography',
   },
   {
     title: 'Quantum Machine Learning',
-    status: 'Archived — I/O limited',
+    status: 'Archived  I/O limited',
     description: 'Exponential kernel speedup negated by O(N) classical data loading. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/11_quantum_machine_learning',
   },
   {
     title: 'Quantum Optimization',
-    status: 'Archived — At most quadratic',
+    status: 'Archived  At most quadratic',
     description: 'QAOA heuristic, at most quadratic advantage. Classical schedulers mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/12_quantum_optimization',
   },
   {
     title: 'Climate Modeling',
-    status: 'Archived — I/O limited',
+    status: 'Archived  I/O limited',
     description: 'HHL exponential core negated by O(N) PDE loading and readout. Classical FEM mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/13_climate_modeling',
   },
@@ -141,7 +141,7 @@ export const problemHighlights = [
   },
   {
     title: 'Database Search',
-    status: 'Archived — Quadratic + QRAM cost',
+    status: 'Archived  Quadratic + QRAM cost',
     description: 'Quadratic O(√N) Grover provably optimal but QRAM loading O(N) erases search advantage. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/15_database_search',
   },
@@ -171,7 +171,7 @@ export const problemHighlights = [
   },
   {
     title: 'Space Mission Planning',
-    status: 'Archived — At most quadratic',
+    status: 'Archived  At most quadratic',
     description: 'QAOA heuristic, at most quadratic advantage. Classical trajectory optimizers mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/20_space_mission_planning',
   },

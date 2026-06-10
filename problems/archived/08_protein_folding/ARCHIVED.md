@@ -1,4 +1,4 @@
-# ARCHIVED — QAOA Protein Folding
+# ARCHIVED  QAOA Protein Folding
 
 **Status**: Archived (April 2026)
 

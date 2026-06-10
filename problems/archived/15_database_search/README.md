@@ -31,7 +31,7 @@ python python/classical_baseline.py
 # Visualize query complexity vs. dataset size
 python python/analyze.py
 
-# Quantum workflow (uses modern QDK — qsharp Python package)
+# Quantum workflow (uses modern QDK  qsharp Python package)
 python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
 python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
@@ -48,7 +48,7 @@ python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ## Objective Maturity Gate
 
 - **Current gate**: **Stage D complete** (advantage evidence package hardened with backend uncertainty profiling, oracle overhead accounting, marked-fraction sensitivity analysis, and `projected` claim category locked).
-- **Next gate target**: Maintenance — promote `projected` → `demonstrated` only when hardware execution evidence is added.
+- **Next gate target**: Maintenance  promote `projected` → `demonstrated` only when hardware execution evidence is added.
 
 Stage D evidence references for this problem:
 

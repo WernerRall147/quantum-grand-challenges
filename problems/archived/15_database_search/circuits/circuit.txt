@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 15: Database Search — Grover's Algorithm (n-qubit)
+  Problem 15: Database Search  Grover's Algorithm (n-qubit)
   Algorithm: Grover's quantum search
   Qubits: n (search space = 2ⁿ) | Tested: n = 4, 5, 12
 ===================================================================

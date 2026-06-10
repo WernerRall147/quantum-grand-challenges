@@ -1,4 +1,4 @@
-// GroverEstimation.qs — Migrated to modern QDK (qsharp.json project format)
+// GroverEstimation.qs  Migrated to modern QDK (qsharp.json project format)
 
 import Std.Arrays.*;
 import Std.Canon.*;
@@ -43,7 +43,7 @@ operation GroverIterationForEstimation(targets : Int[], qubits : Qubit[]) : Unit
 /// Resource estimation entry for Grover's algorithm.
 /// Estimates resources for searching a database of 2^numQubits items
 /// for a specified number of target items.
-/// Note: @EntryPoint removed — Main.qs has the project entry point.
+/// Note: @EntryPoint removed  Main.qs has the project entry point.
 /// Call via qsharp.run("GroverEstimation.EstimateGroverResources()", 1)
 operation EstimateGroverResources() : Unit {
     // Scenario 1: Small search (4 qubits, 1 target)

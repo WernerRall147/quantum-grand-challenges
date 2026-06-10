@@ -99,7 +99,7 @@ jobs:
 
       - name: Warn if PR creation was not permitted
         if: steps.create-pr.outcome == 'failure'
-        run: echo "::warning::Could not create PR — enable 'Allow GitHub Actions to create and approve pull requests' in repo Settings > Actions > General."
+        run: echo "::warning::Could not create PR  enable 'Allow GitHub Actions to create and approve pull requests' in repo Settings > Actions > General."
 
   # Runnable/correctness audit (with Q#)
   runnable-correctness:
@@ -118,7 +118,7 @@ jobs:
       - name: Install dependencies
         run: pip install numpy scipy matplotlib pandas pyyaml jsonschema qsharp
 
-      - name: Run correctness audit (classical only — Q# validated in estimation-sweep)
+      - name: Run correctness audit (classical only  Q# validated in estimation-sweep)
         run: python tooling/reporting/problem_runnable_correctness_audit.py --classical-timeout 180
 
       - name: Enforce all problems pass

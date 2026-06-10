@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 16: Error Correction — 3-Bit Repetition Code (5-qubit)
+  Problem 16: Error Correction  3-Bit Repetition Code (5-qubit)
   Algorithm: Quantum error correction (bit-flip code)
   Qubits: 3 code + 2 syndrome = 5
 ===================================================================

@@ -1,8 +1,8 @@
-# Quantum Advantage Evaluator — Architecture & Project Plan
+# Quantum Advantage Evaluator  Architecture & Project Plan
 
 ## Vision
 
-Transform the Quantum Grand Challenges project into a **live AI-powered platform** that helps scientists and engineers determine the optimal compute path for their problem — **Quantum, AI/ML, or HPC** — on Azure. The evaluator applies Troyer's utility-scale filters, DiVincenzo's hardware-readiness criteria, and honest resource estimation to guide users toward building the right Azure workspace.
+Transform the Quantum Grand Challenges project into a **live AI-powered platform** that helps scientists and engineers determine the optimal compute path for their problem  **Quantum, AI/ML, or HPC**  on Azure. The evaluator applies Troyer's utility-scale filters, DiVincenzo's hardware-readiness criteria, and honest resource estimation to guide users toward building the right Azure workspace.
 
 ## Strategic Focus (April 2026)
 
@@ -10,16 +10,16 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 1. **Evaluate** their problem using Troyer's 5 utility-scale filters and the Troyer cost model
 2. **Estimate** quantum resource requirements via Q# resource estimation
 3. **Compare** against Azure HPC and AI/ML alternatives with real pricing and benchmarks
-4. **Build** the right Azure workspace — Quantum (Azure Quantum), AI/ML (Azure AI Foundry), or HPC (Azure CycleCloud / NDv6 GPU clusters)
+4. **Build** the right Azure workspace  Quantum (Azure Quantum), AI/ML (Azure AI Foundry), or HPC (Azure CycleCloud / NDv6 GPU clusters)
 
 ### Key Frameworks Applied
 - **Troyer Utility-Scale Classification** (6-part lecture series, 2025-2026): 5 filters (F1-F5) for honest quantum advantage assessment, plus upcoming cost model (Part 6)
-- **DiVincenzo Criteria** (5+2): Hardware-realism overlay for quantum readiness — scalable qubits, initialization, coherence, universal gates, measurement
+- **DiVincenzo Criteria** (5+2): Hardware-realism overlay for quantum readiness  scalable qubits, initialization, coherence, universal gates, measurement
 - **Error Correction Zoo** (errorcorrectionzoo.org): Comprehensive code taxonomy for QEC strategy selection (surface, color, QLDPC, bosonic codes)
 
 ### Industry Context
 - Google Quantum AI expanding to dual-modality (superconducting + neutral atoms, Mar 2026)
-- Google sets 2029 PQC migration timeline — CRQC expected end of decade
+- Google sets 2029 PQC migration timeline  CRQC expected end of decade
 - MIT efficient trapped-ion cooling advances chip-based QC scalability (Jan 2026)
 
 ## Architecture Overview
@@ -28,7 +28,7 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        WEBSITE (Next.js)                           │
 │  ┌───────────────────────────────────────────────────────────────┐ │
-│  │  Chat Interface — "Describe your quantum problem"             │ │
+│  │  Chat Interface  "Describe your quantum problem"             │ │
 │  │  → Quantum vs HPC recommendation with confidence rating      │ │
 │  │  → Generated Q# code + resource estimate + HPC comparison    │ │
 │  └───────────────────────────┬───────────────────────────────────┘ │
@@ -79,7 +79,7 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘     │
 │                                                                      │
 │  ┌─────────────────────────────────────────────────────────────┐    │
-│  │ OUR 9 ACTIVE PROBLEMS — Reference implementations           │    │
+│  │ OUR 9 ACTIVE PROBLEMS  Reference implementations           │    │
 │  │ QPE: Hubbard, Catalysis, Drug, Materials, Nuclear           │    │
 │  │ Kept: Shor, QEC, Photovoltaics, QCD                        │    │
 │  │ + 11 Archived in problems/archived/ with Troyer reasons     │    │
@@ -98,14 +98,14 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 - **Model**: GPT-4.1 or latest available in Foundry
 - **Role**: Routes incoming problems, manages conversation flow
 - **Tools**: Calls other agents, accesses problem history
-- **Swappable**: Yes — new routing logic hot-swapped via prompt versioning
+- **Swappable**: Yes  new routing logic hot-swapped via prompt versioning
 
 ### Agent 2: Quantum Advantage Classifier
 - **Role**: Classifies the problem into:
-  - **Proven speedup** (exponential, superpolynomial) — with specific algorithm match
-  - **Quadratic only** — flags I/O and oracle cost limitations (Troyer filters)
-  - **Heuristic/unproven** — warns about VQE/QAOA limitations
-  - **No known advantage** — recommends HPC
+  - **Proven speedup** (exponential, superpolynomial)  with specific algorithm match
+  - **Quadratic only**  flags I/O and oracle cost limitations (Troyer filters)
+  - **Heuristic/unproven**  warns about VQE/QAOA limitations
+  - **No known advantage**  recommends HPC
 - **Tools**: Scientific KB search, Algorithm Zoo lookup, Problem History
 - **Output**: Classification + confidence + references
 
@@ -133,10 +133,10 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 ## Knowledge Base Design
 
 ### Cosmos DB Collections
-1. **scientific_papers** — arxiv papers (cs.QC, quant-ph), daily ingested
-2. **algorithm_zoo** — Quantum Algorithm Zoo entries with speedup classifications
-3. **problem_history** — User-submitted problems and their evaluations
-4. **reference_implementations** — Our 9 active + 11 archived problems as examples
+1. **scientific_papers**  arxiv papers (cs.QC, quant-ph), daily ingested
+2. **algorithm_zoo**  Quantum Algorithm Zoo entries with speedup classifications
+3. **problem_history**  User-submitted problems and their evaluations
+4. **reference_implementations**  Our 9 active + 11 archived problems as examples
 
 ### Azure AI Search Index
 - Vector embeddings of papers + algorithm descriptions
@@ -152,15 +152,15 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 ## MCP Servers
 
 ### 1. Scientific Papers MCP (Custom)
-- `search_papers(query, filters)` — Semantic search over indexed papers
-- `get_paper(arxiv_id)` — Fetch specific paper metadata + abstract
-- `get_related_algorithms(problem_description)` — Find matching quantum algorithms
-- `check_claims(claim_text)` — Validate a quantum advantage claim against literature
+- `search_papers(query, filters)`  Semantic search over indexed papers
+- `get_paper(arxiv_id)`  Fetch specific paper metadata + abstract
+- `get_related_algorithms(problem_description)`  Find matching quantum algorithms
+- `check_claims(claim_text)`  Validate a quantum advantage claim against literature
 
 ### 2. Algorithm Zoo MCP (Custom)
-- `search_algorithms(problem_type)` — Find relevant quantum algorithms
-- `get_algorithm(name)` — Get speedup class, gate counts, I/O requirements
-- `compare_classical(algorithm, problem_size)` — Classical vs quantum complexity
+- `search_algorithms(problem_type)`  Find relevant quantum algorithms
+- `get_algorithm(name)`  Get speedup class, gate counts, I/O requirements
+- `compare_classical(algorithm, problem_size)`  Classical vs quantum complexity
 
 ### 3. GitHub MCP (Existing)
 - Search `microsoft/qsharp` samples for reference implementations
@@ -311,7 +311,7 @@ quantum-grand-challenges/
 - [x] Problem history display
 - [x] Result visualization (quantum vs HPC comparison charts)
 
-### Phase 5: Evaluator Optimization (Current — April 2026)
+### Phase 5: Evaluator Optimization (Current  April 2026)
 **Focus: Optimize the agent to guide users to the right Azure workspace**
 - [ ] Integrate Troyer cost model (Part 6, upcoming) into evaluation pipeline
 - [ ] Add Error Correction Zoo references for QEC strategy recommendations

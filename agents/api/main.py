@@ -1,4 +1,4 @@
-"""Quantum Advantage Evaluator — FastAPI backend.
+"""Quantum Advantage Evaluator  FastAPI backend.
 
 Exposes the orchestrator as an HTTP API for the website chat interface.
 Deployed as an Azure Container App.
@@ -26,7 +26,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# CORS — allow the GitHub Pages frontend
+# CORS  allow the GitHub Pages frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[

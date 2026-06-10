@@ -63,13 +63,13 @@ install-deps:
 	@echo "Installing Python dependencies..."
 	pip install numpy scipy matplotlib pandas seaborn plotly jupyter pyyaml jsonschema pytest
 
-# Q# build and test (modern QDK — uses qsharp/qdk Python package)
+# Q# build and test (modern QDK  uses qsharp/qdk Python package)
 runtime-config:
 	@echo "Generating Q# runtime config..."
 	cd python && $(PYTHON) write_runtime_config.py --loss-qubits $(LOSS_QUBITS) --threshold $(THRESHOLD) --mean $(MEAN) --std-dev $(STD_DEV) --precision-bits $(PRECISION_BITS) --repetitions $(REPETITIONS) --run-sanity-check $(RUN_SANITY_CHECK)
 
 build: runtime-config
-	@echo "Q# project uses modern QDK (qsharp.json) — no separate build step needed."
+	@echo "Q# project uses modern QDK (qsharp.json)  no separate build step needed."
 	@echo "The qsharp Python package compiles on-the-fly."
 
 test: runtime-config
@@ -216,7 +216,7 @@ status:
 	@echo "  Instance files: $$(find instances -name '*.yaml' | wc -l) files"
 	@echo "  Results: $$(find estimates -name '*.json' 2>/dev/null | wc -l) files"
 	@echo ""
-	@echo "🔧 Build: modern QDK (qsharp.json) — compiled on-the-fly, no persistent build artifact"
+	@echo "🔧 Build: modern QDK (qsharp.json)  compiled on-the-fly, no persistent build artifact"
 	@echo "📊 Last analysis: $$(stat plots/analysis_report.md 2>/dev/null | grep Modify || echo 'Never run')"
 
 # Documentation

@@ -1,4 +1,4 @@
-# ARCHIVED — Database Search
+# ARCHIVED  Database Search
 
 **Status**: Archived (April 2026)
 

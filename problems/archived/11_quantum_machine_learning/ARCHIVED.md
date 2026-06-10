@@ -1,4 +1,4 @@
-# ARCHIVED — Quantum Machine Learning
+# ARCHIVED  Quantum Machine Learning
 
 **Status**: Archived (April 2026)
 

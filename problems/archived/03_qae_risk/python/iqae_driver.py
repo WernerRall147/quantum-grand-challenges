@@ -289,7 +289,7 @@ class AdaptiveIQAE:
             # Pick next k
             k = _pick_next_k(current_ci, k, p.max_grover_power)
 
-        # Did not converge — return best so far
+        # Did not converge  return best so far
         runtime = time.time() - start
         best_interval = min(current_ci, key=lambda iv: iv[1] - iv[0])
         estimate = (best_interval[0] + best_interval[1]) / 2
@@ -570,7 +570,7 @@ def main() -> int:
                 print(f"  Query ratio:  MC/IQAE = {query_ratio:.1f}x")
 
         except ImportError:
-            print("  [Skipped — qsharp package not available]")
+            print("  [Skipped  qsharp package not available]")
         except Exception as e:
             print(f"  [Error: {e}]")
             results["iqae"] = {"error": str(e)}

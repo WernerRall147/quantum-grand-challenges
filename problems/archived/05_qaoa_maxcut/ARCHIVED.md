@@ -1,4 +1,4 @@
-# ARCHIVED — QAOA MaxCut
+# ARCHIVED  QAOA MaxCut
 
 **Status**: Archived (April 2026)
 

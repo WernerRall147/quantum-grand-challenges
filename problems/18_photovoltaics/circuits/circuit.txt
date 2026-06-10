@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 18: Photovoltaics — Quantum Walk (3-qubit)
+  Problem 18: Photovoltaics  Quantum Walk (3-qubit)
   Algorithm: Discrete-time quantum walk (exciton transport)
   Qubits: 1 coin + 2 position = 3
 ===================================================================

@@ -1,6 +1,6 @@
-# 🌌 Quantum Grand Challenges — Quantum Advantage Evaluator
+# 🌌 Quantum Grand Challenges  Quantum Advantage Evaluator
 
-*An AI-powered platform that evaluates whether your scientific problem is better solved on a quantum computer, AI/ML, or Azure HPC — then **generates Q# code or Bicep templates** to build the right Azure workspace. Backed by peer-reviewed science, Troyer's utility-scale filters, DiVincenzo's hardware-readiness criteria, and honest resource estimation.*
+*An AI-powered platform that evaluates whether your scientific problem is better solved on a quantum computer, AI/ML, or Azure HPC  then **generates Q# code or Bicep templates** to build the right Azure workspace. Backed by peer-reviewed science, Troyer's utility-scale filters, DiVincenzo's hardware-readiness criteria, and honest resource estimation.*
 
 [![CI/CD](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/ci-cd.yml)
 [![Website](https://img.shields.io/badge/website-live-blue)](https://wernerrall147.github.io/quantum-grand-challenges/)
@@ -71,7 +71,7 @@ These map directly to current hardware challenges: limited qubit counts, short c
 
 ### Error Correction Strategy
 
-QEC recommendations reference the [Error Correction Zoo](https://errorcorrectionzoo.org/) — a comprehensive encyclopedia of quantum and classical error-correcting codes covering stabilizer, CSS, surface, color, QLDPC, bosonic, and topological codes.
+QEC recommendations reference the [Error Correction Zoo](https://errorcorrectionzoo.org/)  a comprehensive encyclopedia of quantum and classical error-correcting codes covering stabilizer, CSS, surface, color, QLDPC, bosonic, and topological codes.
 
 ### Troyer Lecture Series
 
@@ -91,14 +91,14 @@ QEC recommendations reference the [Error Correction Zoo](https://errorcorrection
 | Problem | Algorithm | Speedup | Why It Survives |
 |---------|-----------|---------|-----------------|
 | Hubbard Model | **QPE** | Exponential | Naturally quantum Hamiltonian |
-| Catalysis (H₂) | **QPE** | Exponential | Quantum chemistry — Troyer's #1 |
+| Catalysis (H₂) | **QPE** | Exponential | Quantum chemistry  Troyer's #1 |
 | Drug Discovery | **QPE** | Exponential | Pharmaceutical Hamiltonians |
 | Factorization | **Shor** | Superpolynomial | Clean utility path (RSA-2048) |
 | Materials | **QPE** | Exponential | Correlated materials beyond DFT |
 | Error Correction | **QEC** | Infrastructure | Enables fault-tolerant computation |
 | Nuclear Physics | **QPE** | Exponential | Many-body nuclear Hamiltonians |
 | Photovoltaics | **Quantum Walk** | Exponential | Naturally quantum transport |
-| QCD Lattice | **Trotter** | Exponential | Sign problem — genuinely hard |
+| QCD Lattice | **Trotter** | Exponential | Sign problem  genuinely hard |
 
 **11 archived problems** with honest archival reasons (quadratic speedup negated by I/O, oracle cost, or QEC overhead).
 
@@ -108,7 +108,7 @@ Website: <https://wernerrall147.github.io/quantum-grand-challenges/>
 
 ## 🏁 Latest Milestone (April 2026)
 
-- **Bicep workspace generation**: New `BicepWorkspaceGenerator` produces ready-to-deploy Azure infrastructure templates for HPC (CycleCloud + Slurm), AI/ML (Foundry hub + project), and Quantum (workspace + providers) — complementing the existing Q# code generator.
+- **Bicep workspace generation**: New `BicepWorkspaceGenerator` produces ready-to-deploy Azure infrastructure templates for HPC (CycleCloud + Slurm), AI/ML (Foundry hub + project), and Quantum (workspace + providers)  complementing the existing Q# code generator.
 - **Agent triage**: Evaluator now auto-routes to Q# generation for quantum advantage problems, Bicep generation for HPC/AI/ML problems.
 - **Strategic pivot**: Evaluator agent now guides users to build the right Azure workspace (Quantum / AI Foundry / HPC) based on Troyer assessment.
 - **11 problems archived** to `problems/archived/` with Troyer filter failure reasons.
@@ -144,7 +144,7 @@ Execution plan: `docs/planning/completeness-execution-plan-2026-03-10.md`.
 
 ### Prerequisites
 
-- **Python 3.11+** with `qsharp` package (`pip install qsharp`) — no .NET dependency
+- **Python 3.11+** with `qsharp` package (`pip install qsharp`)  no .NET dependency
 - **Azure CLI** (optional) with the Quantum extension for cloud submissions
 
 ### Development Environment
@@ -157,7 +157,7 @@ Execution plan: `docs/planning/completeness-execution-plan-2026-03-10.md`.
 git clone https://github.com/WernerRall147/quantum-grand-challenges.git
 cd quantum-grand-challenges
 
-# Install the modern QDK (Q# via Python — no .NET needed)
+# Install the modern QDK (Q# via Python  no .NET needed)
 pip install qsharp numpy scipy matplotlib pandas
 ```
 
@@ -171,7 +171,7 @@ cd problems/01_hubbard
 make classical        # Classical baseline
 make analyze          # Generates plots/ and a markdown summary
 
-# Q# workflow (modern QDK — no .NET required)
+# Q# workflow (modern QDK  no .NET required)
 make build           # Validates Q# compilation via qsharp Python package
 make run             # Runs Q# entry point on local sparse-state simulator
 make estimate        # Resource estimator harness
@@ -356,7 +356,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 | [Photovoltaics](problems/18_photovoltaics/) | **Quantum Walk** | Exponential | 138k | 🟢 Active |
 | [QCD Lattice](problems/19_quantum_chromodynamics/) | **Trotter** | Exponential | 131k | 🟢 Active |
 
-### Archived Problems (Troyer filter failures — `problems/archived/`)
+### Archived Problems (Troyer filter failures  `problems/archived/`)
 
 | Problem | Original Algorithm | Archival Reason |
 |---------|--------------------|-----------------|
@@ -426,17 +426,17 @@ Visit the [Evaluate page](https://wernerrall147.github.io/quantum-grand-challeng
 
 ## 📖 Resources
 
-- [Architecture Design](docs/architecture.md) — Full system design document
+- [Architecture Design](docs/architecture.md)  Full system design document
 - [Methodology Paper](docs/paper/methodology-paper.md) (CC BY-NC-SA 4.0)
-- [Troyer Architecture Series](https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series) — 6-part utility-scale framework
+- [Troyer Architecture Series](https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series)  6-part utility-scale framework
 - [Q# Documentation](https://learn.microsoft.com/quantum/)
-- [Quantum Algorithm Zoo](https://quantumalgorithmzoo.org/) — 400+ quantum algorithms
-- [Error Correction Zoo](https://errorcorrectionzoo.org/) — QEC code taxonomy
-- [DiVincenzo Criteria](https://en.wikipedia.org/wiki/DiVincenzo%27s_criteria) — Hardware readiness criteria
+- [Quantum Algorithm Zoo](https://quantumalgorithmzoo.org/)  400+ quantum algorithms
+- [Error Correction Zoo](https://errorcorrectionzoo.org/)  QEC code taxonomy
+- [DiVincenzo Criteria](https://en.wikipedia.org/wiki/DiVincenzo%27s_criteria)  Hardware readiness criteria
 
 ## 📄 License
 
-**AGPL-3.0** — See [LICENSE](LICENSE). Methodology paper under CC BY-NC-SA 4.0.
+**AGPL-3.0**  See [LICENSE](LICENSE). Methodology paper under CC BY-NC-SA 4.0.
 
 ## 🤝 Contributing
 

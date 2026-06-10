@@ -12,12 +12,12 @@
   ],
   "additional_frameworks": {
     "divincenzo_criteria": {
-      "description": "DiVincenzo's 5+2 criteria for physical implementation of quantum computing — used as a hardware-realism overlay on maturity stages.",
+      "description": "DiVincenzo's 5+2 criteria for physical implementation of quantum computing  used as a hardware-realism overlay on maturity stages.",
       "criteria": ["Scalable physical system with well-characterized qubits", "Initialization to a known state", "Long coherence times relative to gate times", "Universal gate set", "Qubit-specific measurement", "(Optional) Interconversion of stationary and flying qubits", "(Optional) Faithful transmission of flying qubits"],
       "relevance": "Applied at Stage C/D to validate hardware-readiness assumptions for advantage claims."
     },
     "troyer_cost_model": {
-      "description": "Part 6 of the lecture series (upcoming): balancing the cost of utility-scale quantum computing — when does the quantum advantage justify the engineering and economic cost?",
+      "description": "Part 6 of the lecture series (upcoming): balancing the cost of utility-scale quantum computing  when does the quantum advantage justify the engineering and economic cost?",
       "status": "coming_soon"
     }
   },
@@ -28,12 +28,12 @@
   ],
   "industry_developments": [
     {"date": "2026-04-23", "source": "MIT", "title": "New chip protects wireless biomedical devices from quantum attacks", "summary": "Ultra-efficient chip enables strong post-quantum cryptography on energy-constrained edge devices. Reinforces NIST PQC migration urgency.", "url": "https://news.mit.edu/2026/new-chip-can-protect-wireless-biomedical-devices-from-quantum-attacks-0423"},
-    {"date": "2026-04-14", "source": "Google Quantum AI", "title": "World Quantum Day 2026 — answering trending questions", "summary": "Google Doodle features the Bloch Sphere. Mission focus: long-term journey from experimental physics to error-corrected utility-scale systems.", "url": "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/world-quantum-day-2026/"},
+    {"date": "2026-04-14", "source": "Google Quantum AI", "title": "World Quantum Day 2026  answering trending questions", "summary": "Google Doodle features the Bloch Sphere. Mission focus: long-term journey from experimental physics to error-corrected utility-scale systems.", "url": "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/world-quantum-day-2026/"},
     {"date": "2026-03-24", "source": "Google Quantum AI", "title": "Building superconducting and neutral atom quantum computers", "summary": "Google expands to dual-modality: superconducting (scales in circuit depth) + neutral atoms (scales in qubit count ~10k qubits). Led by Dr. Adam Kaufman at Boulder, CO.", "url": "https://blog.google/innovation-and-ai/technology/research/neutral-atom-quantum-computers/"},
     {"date": "2026-03-25", "source": "Google Security", "title": "Quantum frontiers may be closer than they appear", "summary": "Google sets 2029 timeline for post-quantum cryptography migration, implying CRQC (Cryptographically Relevant Quantum Computer) expected around end of decade.", "url": "https://blog.google/innovation-and-ai/technology/safety-security/cryptography-migration-timeline/"},
-    {"date": "2026-03-11", "source": "MIT", "title": "New photonic device efficiently beams light into free space", "summary": "Light-emitting structures enable advanced displays, high-speed optical communications, and larger-scale quantum computers — relevant for photonic QC interconnects.", "url": "https://news.mit.edu/2026/new-photonic-device-efficiently-beams-light-free-space-0311"},
-    {"date": "2026-01-15", "source": "MIT", "title": "Efficient cooling method could enable chip-based trapped-ion quantum computers", "summary": "New cooling technique improves scalability of trapped-ion QC — essential step toward practical utility.", "url": "https://news.mit.edu/2026/efficient-cooling-method-could-enable-chip-based-quantum-computers-0115"},
-    {"date": "2025-10-22", "source": "Google Quantum AI", "title": "Quantum Echoes algorithm — verifiable quantum advantage", "summary": "First demonstration of verifiable quantum advantage on Willow chip. Real-world application milestone for quantum computing.", "url": "https://blog.google/innovation-and-ai/technology/research/quantum-echoes-willow-verifiable-quantum-advantage/"}
+    {"date": "2026-03-11", "source": "MIT", "title": "New photonic device efficiently beams light into free space", "summary": "Light-emitting structures enable advanced displays, high-speed optical communications, and larger-scale quantum computers  relevant for photonic QC interconnects.", "url": "https://news.mit.edu/2026/new-photonic-device-efficiently-beams-light-free-space-0311"},
+    {"date": "2026-01-15", "source": "MIT", "title": "Efficient cooling method could enable chip-based trapped-ion quantum computers", "summary": "New cooling technique improves scalability of trapped-ion QC  essential step toward practical utility.", "url": "https://news.mit.edu/2026/efficient-cooling-method-could-enable-chip-based-quantum-computers-0115"},
+    {"date": "2025-10-22", "source": "Google Quantum AI", "title": "Quantum Echoes algorithm  verifiable quantum advantage", "summary": "First demonstration of verifiable quantum advantage on Willow chip. Real-world application milestone for quantum computing.", "url": "https://blog.google/innovation-and-ai/technology/research/quantum-echoes-willow-verifiable-quantum-advantage/"}
   ],
   "categories": {
     "proven_speedup": {
@@ -53,7 +53,7 @@
           "algorithm": "Shor's Algorithm",
           "speedup": "Superpolynomial: O(n³) vs sub-exponential classical (GNFS)",
           "classical_best": "General Number Field Sieve",
-          "troyer_assessment": "Shor's algorithm is the canonical example of superpolynomial quantum speedup. Utility requires factoring 2048+ bit integers — our 4-bit toy instance demonstrates the algorithm but is far from utility scale.",
+          "troyer_assessment": "Shor's algorithm is the canonical example of superpolynomial quantum speedup. Utility requires factoring 2048+ bit integers  our 4-bit toy instance demonstrates the algorithm but is far from utility scale.",
           "utility_threshold": "RSA-2048 factoring requires ~4000 logical qubits and ~10¹⁰ T-gates"
         },
         {
@@ -136,14 +136,14 @@
     },
     "simulation_native": {
       "label": "Quantum Simulation (Native Advantage Potential)",
-      "description": "Problems where the quantum system being simulated IS quantum — Feynman's original motivation. These have the strongest theoretical case for utility but require fault-tolerant hardware. Includes problems upgraded from VQE to QPE that target naturally quantum Hamiltonians.",
+      "description": "Problems where the quantum system being simulated IS quantum  Feynman's original motivation. These have the strongest theoretical case for utility but require fault-tolerant hardware. Includes problems upgraded from VQE to QPE that target naturally quantum Hamiltonians.",
       "problems": [
         {
           "id": "01_hubbard",
           "algorithm": "QPE (upgraded from VQE)",
           "speedup": "Exponential for strongly-correlated systems",
           "classical_best": "DMRG / tensor network / exact diagonalization",
-          "troyer_assessment": "Upgraded to QPE targeting 2D Hubbard Hamiltonians — naturally quantum systems where tensor networks fail. QPE provides exponential speedup for strongly-correlated 2D systems. Our 2-site instance is pedagogical; utility requires >50-site 2D lattices beyond DMRG reach.",
+          "troyer_assessment": "Upgraded to QPE targeting 2D Hubbard Hamiltonians  naturally quantum systems where tensor networks fail. QPE provides exponential speedup for strongly-correlated 2D systems. Our 2-site instance is pedagogical; utility requires >50-site 2D lattices beyond DMRG reach.",
           "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
           "active": true
         },
@@ -161,7 +161,7 @@
           "algorithm": "Amplitude Estimation for VaR",
           "speedup": "Quadratic (same as QAE)",
           "classical_best": "Monte Carlo with variance reduction",
-          "troyer_assessment": "Financial QAE inherits the quadratic speedup of amplitude estimation. Utility requires portfolio sizes where the QEC overhead is justified by the quadratic speedup — likely N > 10⁴ assets with complex correlation structures.",
+          "troyer_assessment": "Financial QAE inherits the quadratic speedup of amplitude estimation. Utility requires portfolio sizes where the QEC overhead is justified by the quadratic speedup  likely N > 10⁴ assets with complex correlation structures.",
           "archived": true,
           "archival_reason": "Quadratic + I/O"
         },
@@ -195,7 +195,7 @@
         {
           "id": "16_error_correction",
           "algorithm": "3-Qubit Repetition Code",
-          "speedup": "N/A — infrastructure, not application",
+          "speedup": "N/A  infrastructure, not application",
           "classical_best": "N/A",
           "troyer_assessment": "QEC is enabling infrastructure, not an application. The repetition code demonstrates error detection but is not a path to utility. Surface codes and beyond are needed for fault-tolerant computation. See errorcorrectionzoo.org for comprehensive code taxonomy.",
           "error_correction_zoo_ref": "https://errorcorrectionzoo.org/c/surface",
@@ -215,7 +215,7 @@
           "algorithm": "Quantum Walk (Exciton Transport)",
           "speedup": "Potential exponential for transport simulation",
           "classical_best": "Lindblad master equation / Monte Carlo",
-          "troyer_assessment": "Exciton transport in photosynthetic systems is inherently quantum. Simulating open quantum systems is where quantum computers have the strongest natural advantage — the system IS quantum.",
+          "troyer_assessment": "Exciton transport in photosynthetic systems is inherently quantum. Simulating open quantum systems is where quantum computers have the strongest natural advantage  the system IS quantum.",
           "active": true
         },
         {
@@ -223,7 +223,7 @@
           "algorithm": "Trotter Lattice Gauge Simulation",
           "speedup": "Exponential for real-time dynamics (sign problem)",
           "classical_best": "Lattice QCD (Euclidean, limited to static properties)",
-          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically — but requires millions of logical qubits for realistic lattice sizes.",
+          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically  but requires millions of logical qubits for realistic lattice sizes.",
           "active": true
         }
       ]
@@ -236,7 +236,7 @@
     "active_count": 9,
     "archived_count": 11,
     "vqe_to_qpe_upgrades": ["01_hubbard", "02_catalysis", "07_drug_discovery", "14_materials_discovery", "17_nuclear_physics"],
-    "key_insight": "5/20 problems have proven quantum speedups (QAE, Shor, Grover×2, HHL). 5/20 rely on heuristic algorithms (QAOA×3, Swap Test, QAOA) with no proven advantage — all archived. 10/20 are quantum simulation problems (including 5 upgraded from VQE→QPE) with the strongest theoretical case for utility. 9 problems are active (passing all 5 Troyer filters); 11 archived. Per Troyer's framework, honest assessment is essential for credible quantum advantage claims.",
-    "divincenzo_note": "DiVincenzo's criteria (scalable qubits, initialization, coherence, universal gates, measurement) are applied as a hardware-realism overlay at Stage C/D. Current quantum hardware challenges — limited qubit counts, short coherence times, high error rates — map directly to DiVincenzo gaps that must close before utility-scale advantage is achievable."
+    "key_insight": "5/20 problems have proven quantum speedups (QAE, Shor, Grover×2, HHL). 5/20 rely on heuristic algorithms (QAOA×3, Swap Test, QAOA) with no proven advantage  all archived. 10/20 are quantum simulation problems (including 5 upgraded from VQE→QPE) with the strongest theoretical case for utility. 9 problems are active (passing all 5 Troyer filters); 11 archived. Per Troyer's framework, honest assessment is essential for credible quantum advantage claims.",
+    "divincenzo_note": "DiVincenzo's criteria (scalable qubits, initialization, coherence, universal gates, measurement) are applied as a hardware-realism overlay at Stage C/D. Current quantum hardware challenges  limited qubit counts, short coherence times, high error rates  map directly to DiVincenzo gaps that must close before utility-scale advantage is achievable."
   }
 }

@@ -1,4 +1,4 @@
-# ARCHIVED — QAOA Trajectory Optimization
+# ARCHIVED  QAOA Trajectory Optimization
 
 **Status**: Archived (April 2026)
 

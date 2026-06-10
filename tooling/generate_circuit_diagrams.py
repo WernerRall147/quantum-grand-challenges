@@ -65,7 +65,7 @@ def main():
         try:
             qsharp.init(project_root=str(qsharp_dir))
         except Exception as e:
-            print(f"XX {name}: compile error — {str(e)[:100]}")
+            print(f"XX {name}: compile error  {str(e)[:100]}")
             fail += 1
             continue
 

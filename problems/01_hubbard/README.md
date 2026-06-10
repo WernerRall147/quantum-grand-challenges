@@ -39,7 +39,7 @@ cd problems/01_hubbard
 make classical    # writes estimates/classical_baseline.json
 make analyze      # produces plots/gaps.png
 
-# Quantum analytical baseline (uses modern QDK — qsharp Python package)
+# Quantum analytical baseline (uses modern QDK  qsharp Python package)
 make build
 make run
 

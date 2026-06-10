@@ -3,21 +3,21 @@ name: Deploy Evaluator API
 # Build and deploy the FastAPI evaluator container to Azure Container Apps.
 #
 # Triggers:
-#   - Manual (workflow_dispatch) — recommended path
+#   - Manual (workflow_dispatch)  recommended path
 #   - On push to main when API code or Dockerfile changes (auto-deploy)
 #
 # Required secrets (configure in repo Settings -> Secrets and variables -> Actions):
-#   AZURE_CLIENT_ID         — service principal app id (qgc-agent-sp)
-#   AZURE_CLIENT_SECRET     — service principal secret
+#   AZURE_CLIENT_ID          service principal app id (qgc-agent-sp)
+#   AZURE_CLIENT_SECRET      service principal secret
 #
-# Tenant + subscription IDs are hardcoded below (not sensitive — public identifiers
+# Tenant + subscription IDs are hardcoded below (not sensitive  public identifiers
 # of the Azure tenant/sub the SP belongs to).
 #
 # Optional repo VARIABLES (override defaults if your resources differ):
-#   ACR_NAME                — Azure Container Registry name (default: qgcregistry)
-#   ACR_IMAGE_NAME          — image repository inside the ACR (default: qgc-evaluator)
-#   CONTAINER_APP_NAME      — Container App name (default: qgc-eval-api)
-#   CONTAINER_APP_RG        — Resource group containing the Container App (default: qgc-evaluator)
+#   ACR_NAME                 Azure Container Registry name (default: qgcregistry)
+#   ACR_IMAGE_NAME           image repository inside the ACR (default: qgc-evaluator)
+#   CONTAINER_APP_NAME       Container App name (default: qgc-eval-api)
+#   CONTAINER_APP_RG         Resource group containing the Container App (default: qgc-evaluator)
 #
 # Local equivalent (after `az login --tenant <id>`):
 #   az acr build --registry qgcregistry --image qgc-evaluator:<tag> --file Dockerfile .

@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 20: Space Mission — QAOA Trajectory (4-qubit)
+  Problem 20: Space Mission  QAOA Trajectory (4-qubit)
   Algorithm: QAOA for trajectory optimization
   Qubits: 4 (mission leg assignments)
 ===================================================================

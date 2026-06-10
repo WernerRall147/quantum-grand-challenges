@@ -63,7 +63,7 @@ def main():
         r = test_problem(pd)
         results.append(r)
         icon = "✅" if r["compile"] else "❌"
-        err = f" — {r['error']}" if r["error"] else ""
+        err = f"  {r['error']}" if r["error"] else ""
         print(f"{icon} {r['problem']}: compile={'OK' if r['compile'] else 'FAIL'}{err}")
 
     ok = sum(1 for r in results if r["compile"])

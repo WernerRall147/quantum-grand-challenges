@@ -15,7 +15,7 @@ This problem explores quantum simulation of catalytic reaction mechanisms, compa
 cd problems/02_catalysis
 make classical      # Run classical baseline analysis
 make analyze        # Generate plots
-make build          # Build Q# project (uses modern QDK — qsharp Python package)
+make build          # Build Q# project (uses modern QDK  qsharp Python package)
 make run            # Run quantum simulation
 ```
 

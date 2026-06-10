@@ -34,7 +34,7 @@ def convert_qs_source(source: str, filename: str = "Main.qs") -> str:
     out_lines: list[str] = []
     
     # Header comment
-    out_lines.append(f"// {filename} — Migrated to modern QDK (qsharp.json project format)")
+    out_lines.append(f"// {filename}  Migrated to modern QDK (qsharp.json project format)")
     out_lines.append("")
     
     # Collect imports and strip namespace/open
@@ -72,7 +72,7 @@ def convert_qs_source(source: str, filename: str = "Main.qs") -> str:
                     brace_depth -= 1
             
             if brace_depth <= 0:
-                # This is the closing brace of the namespace — skip it
+                # This is the closing brace of the namespace  skip it
                 in_namespace = False
                 continue
             
@@ -172,7 +172,7 @@ def migrate_problem(problem_dir: Path, dry_run: bool = False) -> dict:
             csproj.rename(old_path)
             result["details"].append(f"Renamed {csproj.name} → {old_path.name}")
     
-    # Also handle C# host files (Driver.cs) — rename to .old
+    # Also handle C# host files (Driver.cs)  rename to .old
     for cs_file in qsharp_dir.glob("*.cs"):
         old_path = cs_file.with_suffix(cs_file.suffix + ".old")
         if not old_path.exists():
@@ -210,7 +210,7 @@ def main():
     
     print(f"Found {len(problem_dirs)} problem directories")
     if dry_run:
-        print("[DRY RUN — no files will be modified]")
+        print("[DRY RUN  no files will be modified]")
     print()
     
     results = []

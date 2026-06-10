@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 14: Materials Discovery — VQE Band Gap (2-qubit)
+  Problem 14: Materials Discovery  VQE Band Gap (2-qubit)
   Algorithm: Variational Quantum Eigensolver
   Qubits: 2 | Model: tight-binding Hamiltonian
 ===================================================================

@@ -140,7 +140,7 @@ def collect_transcripts() -> List[Dict[str, Any]]:
                 title_suffix = f" (part {i+1}/{len(chunks)})" if len(chunks) > 1 else ""
                 records.append({
                     "doc_id": doc_id,
-                    "title": f"{course['code']} {week}: {stem} — {topic}{title_suffix}",
+                    "title": f"{course['code']} {week}: {stem}  {topic}{title_suffix}",
                     "abstract": chunk[:2000],
                     "category": course["category"],
                     "published": "2026-01-01",  # course publication marker

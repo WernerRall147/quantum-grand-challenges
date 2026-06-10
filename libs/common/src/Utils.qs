@@ -1,4 +1,4 @@
-// Utils.qs — Shared quantum operations for Quantum Grand Challenges.
+// Utils.qs  Shared quantum operations for Quantum Grand Challenges.
 //
 // Modern QDK (qsharp 1.27+): flat file namespace, `import Std.*` syntax.
 
@@ -33,7 +33,7 @@ operation QuantumFourierTransform(qubits : Qubit[]) : Unit is Adj + Ctl {
     }
 }
 
-/// Grover diffusion operator — reflects amplitudes around their average.
+/// Grover diffusion operator  reflects amplitudes around their average.
 operation DiffusionOperator(qubits : Qubit[]) : Unit is Adj + Ctl {
     within {
         PrepareUniformSuperposition(qubits);
@@ -43,7 +43,7 @@ operation DiffusionOperator(qubits : Qubit[]) : Unit is Adj + Ctl {
     }
 }
 
-/// Default marking oracle — marks the all-ones state.
+/// Default marking oracle  marks the all-ones state.
 operation MarkingOracle(qubits : Qubit[], target : Qubit) : Unit is Adj + Ctl {
     Controlled X(qubits, target);
 }

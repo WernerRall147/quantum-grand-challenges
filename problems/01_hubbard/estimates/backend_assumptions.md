@@ -7,7 +7,7 @@
 ## Circuit Characteristics
 - **Qubits**: 2 (two-site Hubbard model)
 - **Gate set**: X, Ry, Rz, CNOT, H, S, Measure
-- **Circuit depth**: O(shots × Pauli terms) — 4 Pauli measurement bases per energy evaluation
+- **Circuit depth**: O(shots × Pauli terms)  4 Pauli measurement bases per energy evaluation
 - **Measurement**: Shot-based Pauli expectation values (XX, YY, ZI, IZ)
 
 ## Connectivity Assumptions

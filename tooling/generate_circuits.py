@@ -97,7 +97,7 @@ def main():
         c_icon = "C" if r["circuit"] else "-"
         e_icon = "E" if r["estimate"] else "-"
         errs = "; ".join(r["errors"]) if r["errors"] else ""
-        print(f"[{c_icon}{e_icon}] {r['problem']}{' — ' + errs if errs else ''}")
+        print(f"[{c_icon}{e_icon}] {r['problem']}{'  ' + errs if errs else ''}")
 
     circuits_ok = sum(1 for r in results if r["circuit"])
     estimates_ok = sum(1 for r in results if r["estimate"])

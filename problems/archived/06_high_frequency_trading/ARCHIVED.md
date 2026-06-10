@@ -1,4 +1,4 @@
-# ARCHIVED — High-Frequency Trading
+# ARCHIVED  High-Frequency Trading
 
 **Status**: Archived (April 2026)
 

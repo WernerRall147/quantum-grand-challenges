@@ -1,5 +1,5 @@
 ===================================================================
-  Problem 10: Post-Quantum Crypto — Grover Key Search (n-qubit)
+  Problem 10: Post-Quantum Crypto  Grover Key Search (n-qubit)
   Algorithm: Grover's search (brute-force key exhaustion)
   Qubits: n (keyspace = 2ⁿ) | Tested: n = 3, 4, 5
 ===================================================================

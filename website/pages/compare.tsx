@@ -88,7 +88,7 @@ export default function ComparePage() {
   return (
     <>
       <Head>
-        <title>Problem Comparison — Quantum Grand Challenges</title>
+        <title>Problem Comparison  Quantum Grand Challenges</title>
         <meta name="description" content="Side-by-side comparison of all quantum problems with resource estimates" />
       </Head>
       <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -160,10 +160,10 @@ export default function ComparePage() {
         <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#fefce8', borderRadius: '10px' }}>
           <h3 style={{ marginTop: 0, color: '#92400e' }}>Key Observations</h3>
           <ul style={{ color: '#78350f', lineHeight: 1.8 }}>
-            <li><strong>Qubit range:</strong> 1.8k (QEC) to 401k (Materials) — 230x variation across problems</li>
-            <li><strong>T-gate intensive:</strong> QAE (15), HHL (12), Shor (6), Climate HHL (3) — these require T-state factories</li>
-            <li><strong>Rotation dominated:</strong> VQE and QAOA problems use rotations instead of T-gates — simpler for near-term hardware</li>
-            <li><strong>All estimates from real Azure Quantum Resource Estimator</strong> — not mock data</li>
+            <li><strong>Qubit range:</strong> 1.8k (QEC) to 401k (Materials)  230x variation across problems</li>
+            <li><strong>T-gate intensive:</strong> QAE (15), HHL (12), Shor (6), Climate HHL (3)  these require T-state factories</li>
+            <li><strong>Rotation dominated:</strong> VQE and QAOA problems use rotations instead of T-gates  simpler for near-term hardware</li>
+            <li><strong>All estimates from real Azure Quantum Resource Estimator</strong>  not mock data</li>
           </ul>
         </section>
 

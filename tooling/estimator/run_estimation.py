@@ -156,8 +156,14 @@ class EstimationManager:
             problem_path = problem.get("path") or f"problems/{problem_id}"
             problem_dir = (self.repo_root / problem_path).resolve()
             if not problem_dir.exists():
-                print(f"Warning: problem directory not found for {problem_id}: {problem_dir}", file=sys.stderr)
-                continue
+                # The Troyer restructure moved I/O-limited problems under
+                # problems/archived/<id>; fall back there before giving up.
+                archived_dir = (self.repo_root / "problems" / "archived" / problem_id).resolve()
+                if archived_dir.exists():
+                    problem_dir = archived_dir
+                else:
+                    print(f"Warning: problem directory not found for {problem_id}: {problem_dir}", file=sys.stderr)
+                    continue
 
             qs_file = None
             try:

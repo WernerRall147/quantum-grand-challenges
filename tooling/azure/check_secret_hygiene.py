@@ -49,9 +49,14 @@ def main() -> None:
 
     missing_templates: list[str] = []
     for pid in _problem_ids(root):
-        template_path = root / "problems" / pid / ".env.azure.example"
-        if not template_path.exists():
-            missing_templates.append(f"problems/{pid}/.env.azure.example")
+        # A problem may live at problems/<pid> (active) or
+        # problems/archived/<pid> (archived per the Troyer restructure).
+        candidate_paths = [
+            root / "problems" / pid / ".env.azure.example",
+            root / "problems" / "archived" / pid / ".env.azure.example",
+        ]
+        if not any(path.exists() for path in candidate_paths):
+            missing_templates.append(f"problems/{pid}/.env.azure.example (or problems/archived/{pid}/)")
 
     if missing_templates:
         failures.append("Missing per-problem .env.azure.example files:")

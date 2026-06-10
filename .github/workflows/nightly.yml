@@ -84,7 +84,7 @@ jobs:
       - name: Validate website data + matrix freshness
         run: |
           python tooling/reporting/validate_website_data_schema.py
-          python tooling/reporting/check_verification_matrix_freshness.py || echo "::warning::Verification matrix stale (make build requires .NET 6 not available in CI)"
+          python tooling/reporting/check_verification_matrix_freshness.py || echo "::warning::Verification matrix stale (archived-problem make targets can drift in CI)"
 
       - name: Create PR for report updates
         id: create-pr

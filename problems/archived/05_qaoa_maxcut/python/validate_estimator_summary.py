@@ -71,7 +71,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--summary",
-        default="problems/05_qaoa_maxcut/estimates/estimator_profile_summary.md",
+        default="problems/archived/05_qaoa_maxcut/estimates/estimator_profile_summary.md",
         help="Path to estimator profile markdown summary.",
     )
     parser.add_argument(

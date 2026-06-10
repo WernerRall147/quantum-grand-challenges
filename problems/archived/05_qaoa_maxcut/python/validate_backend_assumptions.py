@@ -74,7 +74,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--doc",
-        default="problems/05_qaoa_maxcut/estimates/backend_assumptions.md",
+        default="problems/archived/05_qaoa_maxcut/estimates/backend_assumptions.md",
         help="Path to backend assumptions markdown document.",
     )
     parser.add_argument(

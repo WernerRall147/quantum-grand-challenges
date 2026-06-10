@@ -33,6 +33,13 @@ ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
 # to fall back to the direct CHAT_DEPLOYMENT on qgc-openai.
 USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 
+# Output budget for the assessment. The model-router selects gpt-5.4, a reasoning
+# model whose internal reasoning tokens count against this budget, so it must
+# cover BOTH the reasoning and the full JSON answer. The old value of 1000 was
+# exhausted by reasoning alone, which silently truncated the explanation and
+# references. Tunable via QGC_MAX_COMPLETION_TOKENS.
+MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_MAX_COMPLETION_TOKENS", "4000"))
+
 SYSTEM_PROMPT = """You are the Quantum Advantage Evaluator  an expert AI assistant that helps scientists and engineers determine whether their computational problem is better solved on a quantum computer, classical AI/ML, or Azure HPC, and then guides them to build the right Azure workspace.
 
 You have access to a knowledge base of quantum algorithms with Troyer utility-scale classifications. For each user problem, you must:
@@ -87,7 +94,7 @@ OUTPUT FORMAT (JSON):
   "advantage_class": "exponential" | "superpolynomial" | "quadratic" | "none",
   "recommended_algorithm": "QPE / Shor / Grover / QAOA / VQE / HHL / ...",
   "recommended_platform": "QUANTUM" | "AI_ML" | "HPC" | "HYBRID",
-  "platform_reason": "1-2 sentence reason for the platform recommendation",
+  "platform_reason": "2-3 sentences explaining WHY this specific compute type (quantum, AI/ML, or HPC) is the best-tuned fit for THIS problem, grounded in the problem's structure (e.g. a naturally-quantum Hamiltonian, an I/O-bound dataset, an embarrassingly-parallel simulation, or a pattern-recognition task)",
   "workspace_guidance": {
     "platform": "Azure Quantum | Azure AI Foundry | Azure CycleCloud",
     "setup_steps": ["Step 1...", "Step 2..."],
@@ -111,9 +118,9 @@ OUTPUT FORMAT (JSON):
   "red_flags": ["list of concerns"],
   "hpc_alternative": "description of what Azure HPC can do today",
   "ai_alternative": "description of what AI/ML can do today (e.g., foundation models, Azure AI services, ML frameworks)",
-  "explanation": "2-3 paragraph honest assessment covering quantum, AI, and HPC options",
+  "explanation": "2-3 paragraph honest assessment that walks through the REASONING: why the recommended compute type wins for this problem, how the quantum vs AI/ML vs HPC trade-offs compare, and what would change the verdict. Cite the specific evidence behind each claim.",
   "similar_problems": ["reference problem IDs"],
-  "references": ["arxiv IDs or algorithm names"],
+  "references": ["at least 2 concrete sources backing the recommendation: arXiv IDs, named algorithms/theorems, errorcorrectionzoo.org codes, or learn.microsoft.com pages"],
   "error_correction_codes": ["relevant QEC codes from errorcorrectionzoo.org if quantum recommended"]
 }
 """
@@ -210,18 +217,28 @@ KNOWLEDGE BASE RESULTS:
 
 Provide your evaluation as JSON following the output format specified in your instructions. Be honest about limitations."""},
             ],
-            max_completion_tokens=1000,
+            max_completion_tokens=MAX_COMPLETION_TOKENS,
             response_format={"type": "json_object"},
         )
 
         # Step 5: Parse LLM response
+        choice = response.choices[0] if response.choices else None
+        raw_content = (choice.message.content if choice else "") or ""
+        finish_reason = getattr(choice, "finish_reason", None)
         try:
-            llm_result = json.loads(response.choices[0].message.content)
-        except (json.JSONDecodeError, IndexError):
+            llm_result = json.loads(raw_content)
+        except (json.JSONDecodeError, TypeError):
+            # An empty or truncated (finish_reason == "length") completion lands
+            # here. Keep the deterministic verdict and surface whatever text we
+            # got so the explanation is not silently dropped.
+            truncated_note = (
+                "The assessment was cut off before the model finished writing it. "
+                "Raise QGC_MAX_COMPLETION_TOKENS to get the full explanation and sources."
+            )
             llm_result = {
                 "verdict": kb_result["verdict"],
                 "confidence": kb_result.get("confidence", 0.5),
-                "explanation": response.choices[0].message.content if response.choices else "Error parsing response",
+                "explanation": raw_content or (truncated_note if finish_reason == "length" else "Error parsing assessment response."),
             }
 
         # Step 6: Merge KB + routing + LLM results

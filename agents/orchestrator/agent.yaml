@@ -1,23 +1,36 @@
-# Orchestrator Agent
-# Routes incoming quantum problems to specialist agents
-# GenAIOps: Hot-swappable via prompt versioning
+# Orchestrator Agent (Quantum Advantage Evaluator)
+# Deployed as a Foundry prompt agent in the qgc-eval-proj project.
+# Provision / update with: python tooling/provision_foundry_agent.py
+# GenAIOps: instructions are the shared SYSTEM_PROMPT (single source of truth).
 
 name: quantum-advantage-orchestrator
-model: model-router
+model: model-router          # Foundry model-router (2025-11-18): per-request model selection
 model_fallback: gpt-5.4-mini
+
+project:
+  account: admin-mo1q7owo-eastus2   # AIServices account (eastus2) that hosts model-router
+  project_name: qgc-eval-proj
+  endpoint: https://admin-mo1q7owo-eastus2.services.ai.azure.com/api/projects/qgc-eval-proj
+
 description: |
-  Routes user quantum problems through the evaluation pipeline:
-  1. Classify the problem (Classifier Agent)
-  2. Fact-check claims (Fact-Checker Agent)
-  3. Compare quantum vs HPC (HPC Comparator Agent)
-  4. Generate Q# code if quantum advantage exists (Code Generator Agent)
+  Evaluates whether a computational problem is best solved on quantum, AI/ML,
+  or Azure HPC. Applies Troyer utility-scale filters and DiVincenzo criteria,
+  then returns a structured JSON verdict with platform and workspace guidance.
 
+# Tools attached to the deployed agent today (both zero-infra).
 tools:
-  - classifier_agent
-  - fact_checker_agent
-  - hpc_comparator_agent
-  - code_generator_agent
-  - search_knowledge_base
-  - get_problem_history
+  - code_interpreter         # sandboxed Python for resource-estimate / crossover math
+  - mcp:microsoft_learn      # https://learn.microsoft.com/api/mcp : real learn.microsoft.com citations
 
+# Roadmap tools (not yet attached):
+#   - azure_ai_search:qgcsearcheval  -> RAG over the existing knowledge base
+#     (needs a project connection to the Search resource; use AzureAISearchTool)
+#   - classifier_agent / fact_checker_agent / hpc_comparator_agent /
+#     code_generator_agent -> wire as ConnectedAgentTool entries
+#   - get_problem_history -> FunctionTool or OpenApiTool over the history store
+
+# Deployed instructions come from the shared module agents/orchestrator/instructions.py
+# (imported by both evaluate.py and tooling/provision_foundry_agent.py).
+# prompts/system_prompt_v1.md is kept as the original design draft.
+instructions_module: agents/orchestrator/instructions.py
 instructions_file: prompts/system_prompt_v1.md

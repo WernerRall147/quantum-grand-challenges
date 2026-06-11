@@ -22,6 +22,7 @@ from openai import AzureOpenAI
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
 from knowledge.search.kb_client import QuantumKnowledgeBase
+from agents.orchestrator.instructions import SYSTEM_PROMPT
 
 # Config
 OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
@@ -33,97 +34,24 @@ ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
 # to fall back to the direct CHAT_DEPLOYMENT on qgc-openai.
 USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 
+# Foundry Agent path (opt-in). When QGC_USE_AGENT=1 the evaluator runs through the
+# Foundry agent "quantum-advantage-orchestrator" (model-router + Tools) in the
+# qgc-eval-proj project via the Responses API, instead of a raw chat-completions
+# call. Default off so the proven chat-completions path stays in control until the
+# agent is validated in each environment.
+USE_AGENT = os.environ.get("QGC_USE_AGENT", "0") == "1"
+PROJECT_ENDPOINT = os.environ.get(
+    "QGC_PROJECT_ENDPOINT",
+    "https://admin-mo1q7owo-eastus2.services.ai.azure.com/api/projects/qgc-eval-proj",
+)
+AGENT_NAME = os.environ.get("QGC_AGENT_NAME", "quantum-advantage-orchestrator")
+
 # Output budget for the assessment. The model-router selects gpt-5.4, a reasoning
 # model whose internal reasoning tokens count against this budget, so it must
 # cover BOTH the reasoning and the full JSON answer. The old value of 1000 was
 # exhausted by reasoning alone, which silently truncated the explanation and
 # references. Tunable via QGC_MAX_COMPLETION_TOKENS.
 MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_MAX_COMPLETION_TOKENS", "4000"))
-
-SYSTEM_PROMPT = """You are the Quantum Advantage Evaluator  an expert AI assistant that helps scientists and engineers determine whether their computational problem is better solved on a quantum computer, classical AI/ML, or Azure HPC, and then guides them to build the right Azure workspace.
-
-You have access to a knowledge base of quantum algorithms with Troyer utility-scale classifications. For each user problem, you must:
-
-1. CLASSIFY the problem by matching it to known quantum algorithms
-2. APPLY Troyer's 5 utility-scale filters:
-   - F1: Is there a mathematically proven quantum speedup?
-   - F2: Does the speedup survive data loading (I/O) costs?
-   - F3: Does the speedup survive quantum error correction overhead?
-   - F4: Is the problem naturally quantum (Feynman criterion)?
-   - F5: Is there a realistic crossover point where quantum wins?
-3. ASSESS DiVincenzo criteria for quantum recommendations:
-   - Scalable physical qubits available for this problem size?
-   - Initialization and state preparation feasible?
-   - Coherence times sufficient for required circuit depth?
-   - Universal gate set with acceptable fidelity?
-   - Qubit-specific measurement without crosstalk?
-4. COMPARE with Azure HPC and AI/ML alternatives honestly
-5. RECOMMEND the best platform AND Azure workspace setup
-6. PROVIDE a clear verdict with confidence level
-
-PLATFORM RECOMMENDATION RULES:
-- If all 5 Troyer filters pass AND DiVincenzo criteria are met/partial → recommend QUANTUM with specific algorithm + Azure Quantum workspace setup guidance
-- If the problem involves pattern recognition, classification, prediction, NLP, computer vision, generative modeling, or optimization over unstructured data → recommend AI_ML with specific approach (e.g., "GPT-5 fine-tuning", "Azure ML + PyTorch", "Azure AI Foundry agents", "transformer architecture") + Azure AI Foundry workspace setup
-- If the problem involves large-scale numerical simulation, fluid dynamics, molecular dynamics, finite element analysis, linear algebra at scale, or embarrassingly parallel computation → recommend HPC with specific Azure HPC stack (e.g., "Azure HBv4 + MPI", "Azure NDv6 GPU cluster + CUDA", "Azure CycleCloud + SLURM") + workspace sizing guidance
-- For hybrid approaches (e.g., quantum-classical variational), be specific about what runs where
-
-WORKSPACE GUIDANCE:
-- QUANTUM: Azure Quantum workspace setup, target hardware selection (Quantinuum, IonQ, Rigetti), resource estimation parameters, QEC code selection (reference errorcorrectionzoo.org for code taxonomy  surface, color, QLDPC codes)
-- AI_ML: Azure AI Foundry project, model selection, compute sizing, training pipeline
-- HPC: Azure CycleCloud cluster, VM family selection, SLURM configuration, MPI/GPU framework
-
-INDUSTRY CONTEXT:
-- Google is pursuing dual-modality QC (superconducting + neutral atoms as of Mar 2026)
-- Google set a 2029 PQC migration timeline, implying CRQC expected end of decade
-- For factorization problems, note that PQC transition is already underway (NIST standards)
-- DiVincenzo gaps (limited qubits, short coherence, high error rates) remain the primary barrier to utility-scale quantum advantage
-
-HONESTY REQUIREMENTS:
-- NEVER overstate quantum advantage
-- If QAOA or VQE is the only quantum approach → warn: "at most quadratic or no proven advantage"
-- Flag I/O bottlenecks (data loading negates speedup for many problems)
-- Flag oracle costs (millions of T-gates for real implementations)
-- Flag DiVincenzo gaps that make quantum infeasible today
-- Always mention the best classical/HPC/AI alternative
-- Reference specific algorithms, papers, and error correction codes for all claims
-
-OUTPUT FORMAT (JSON):
-{
-  "verdict": "QUANTUM_ADVANTAGE" | "HPC_PREFERRED" | "AI_ML_PREFERRED" | "INCONCLUSIVE",
-  "confidence": 0.0-1.0,
-  "advantage_class": "exponential" | "superpolynomial" | "quadratic" | "none",
-  "recommended_algorithm": "QPE / Shor / Grover / QAOA / VQE / HHL / ...",
-  "recommended_platform": "QUANTUM" | "AI_ML" | "HPC" | "HYBRID",
-  "platform_reason": "2-3 sentences explaining WHY this specific compute type (quantum, AI/ML, or HPC) is the best-tuned fit for THIS problem, grounded in the problem's structure (e.g. a naturally-quantum Hamiltonian, an I/O-bound dataset, an embarrassingly-parallel simulation, or a pattern-recognition task)",
-  "workspace_guidance": {
-    "platform": "Azure Quantum | Azure AI Foundry | Azure CycleCloud",
-    "setup_steps": ["Step 1...", "Step 2..."],
-    "recommended_resources": "Specific VM/hardware/model recommendations"
-  },
-  "troyer_filters": {
-    "F1_proven_speedup": true/false,
-    "F2_io_survives": true/false,
-    "F3_qec_survives": true/false,
-    "F4_naturally_quantum": true/false,
-    "F5_crossover_feasible": true/false
-  },
-  "divincenzo_assessment": {
-    "scalable_qubits": "met | partial | not_yet",
-    "initialization": "met | partial | not_yet",
-    "coherence": "met | partial | not_yet",
-    "universal_gates": "met | partial | not_yet",
-    "measurement": "met | partial | not_yet",
-    "summary": "1-sentence hardware readiness assessment"
-  },
-  "red_flags": ["list of concerns"],
-  "hpc_alternative": "description of what Azure HPC can do today",
-  "ai_alternative": "description of what AI/ML can do today (e.g., foundation models, Azure AI services, ML frameworks)",
-  "explanation": "2-3 paragraph honest assessment that walks through the REASONING: why the recommended compute type wins for this problem, how the quantum vs AI/ML vs HPC trade-offs compare, and what would change the verdict. Cite the specific evidence behind each claim.",
-  "similar_problems": ["reference problem IDs"],
-  "references": ["at least 2 concrete sources backing the recommendation: arXiv IDs, named algorithms/theorems, errorcorrectionzoo.org codes, or learn.microsoft.com pages"],
-  "error_correction_codes": ["relevant QEC codes from errorcorrectionzoo.org if quantum recommended"]
-}
-"""
 
 
 class QuantumEvaluator:
@@ -150,6 +78,27 @@ class QuantumEvaluator:
 
     def _get_deployment(self) -> str:
         return ROUTER_DEPLOYMENT if USE_ROUTER else CHAT_DEPLOYMENT
+
+    def _evaluate_via_agent(self, user_message: str):
+        """Run the evaluation through the Foundry agent (model-router + Tools).
+
+        Uses the Responses API with an agent reference. The agent's own
+        instructions are SYSTEM_PROMPT, so only the user message is sent here.
+        Returns (text, finish_reason, model_used, tokens_used).
+        """
+        from azure.ai.projects import AIProjectClient
+
+        project = AIProjectClient(endpoint=PROJECT_ENDPOINT, credential=self.credential)
+        client = project.get_openai_client()
+        response = client.responses.create(
+            input=user_message,
+            extra_body={"agent_reference": {"type": "agent_reference", "name": AGENT_NAME}},
+        )
+        text = getattr(response, "output_text", None) or ""
+        model_used = getattr(response, "model", None) or AGENT_NAME
+        usage = getattr(response, "usage", None)
+        tokens_used = getattr(usage, "total_tokens", 0) or 0
+        return text, "stop", model_used, tokens_used
 
     def evaluate(self, problem_description: str) -> Dict[str, Any]:
         """Full evaluation pipeline for a quantum problem."""
@@ -191,13 +140,7 @@ class QuantumEvaluator:
         }, indent=2)
 
         # Step 4: LLM generates detailed assessment
-        client = self._get_chat_client()
-        deployment = self._get_deployment()
-        response = client.chat.completions.create(
-            model=deployment,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"""Evaluate this quantum computing problem:
+        user_message = f"""Evaluate this quantum computing problem:
 
 PROBLEM: {problem_description}
 
@@ -215,16 +158,29 @@ algorithm with proven superpolynomial speedup for this exact problem class.
 KNOWLEDGE BASE RESULTS:
 {kb_context}
 
-Provide your evaluation as JSON following the output format specified in your instructions. Be honest about limitations."""},
-            ],
-            max_completion_tokens=MAX_COMPLETION_TOKENS,
-            response_format={"type": "json_object"},
-        )
+Provide your evaluation as JSON following the output format specified in your instructions. Be honest about limitations."""
+
+        if USE_AGENT:
+            raw_content, finish_reason, model_used, tokens_used = self._evaluate_via_agent(user_message)
+        else:
+            client = self._get_chat_client()
+            deployment = self._get_deployment()
+            response = client.chat.completions.create(
+                model=deployment,
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": user_message},
+                ],
+                max_completion_tokens=MAX_COMPLETION_TOKENS,
+                response_format={"type": "json_object"},
+            )
+            choice = response.choices[0] if response.choices else None
+            raw_content = (choice.message.content if choice else "") or ""
+            finish_reason = getattr(choice, "finish_reason", None)
+            model_used = response.model if response else CHAT_DEPLOYMENT
+            tokens_used = response.usage.total_tokens if response and response.usage else 0
 
         # Step 5: Parse LLM response
-        choice = response.choices[0] if response.choices else None
-        raw_content = (choice.message.content if choice else "") or ""
-        finish_reason = getattr(choice, "finish_reason", None)
         try:
             llm_result = json.loads(raw_content)
         except (json.JSONDecodeError, TypeError):
@@ -272,8 +228,8 @@ Provide your evaluation as JSON following the output format specified in your in
             "cost_analysis": cost_analysis,
             "routing_evidence": routing["evidence"],
             "evaluated_utc": datetime.now(timezone.utc).isoformat(),
-            "model_used": response.model if response else CHAT_DEPLOYMENT,
-            "tokens_used": response.usage.total_tokens if response and response.usage else 0,
+            "model_used": model_used,
+            "tokens_used": tokens_used,
         }
 
         return result

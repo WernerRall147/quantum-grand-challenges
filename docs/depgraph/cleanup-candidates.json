@@ -1,0 +1,433 @@
+{
+  "summary": {
+    "total_candidates": 53,
+    "safe_review": 6,
+    "needs_review": 47,
+    "python_unparsable": [
+      "_run_baselines.py"
+    ]
+  },
+  "candidates": [
+    {
+      "file": "_run_baselines.py",
+      "inbound": [],
+      "risk_flags": [],
+      "category": "safe_review"
+    },
+    {
+      "file": "knowledge/ingest/algorithm_zoo_parser.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "knowledge/ingest/mit_xpro_ingester.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "knowledge/seed_knowledge_base.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "problems/01_hubbard/python/analyze.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "problems/01_hubbard/python/classical_baseline.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "problems/01_hubbard/python/vqe_optimizer.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "problems/archived/03_qae_risk/python/classical_baseline.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main",
+        "protected_path"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "problems/archived/03_qae_risk/python/iqae_driver.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main",
+        "protected_path"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "problems/archived/03_qae_risk/python/submit_azure.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main",
+        "protected_path"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "run_inspect.py",
+      "inbound": [],
+      "risk_flags": [],
+      "category": "safe_review"
+    },
+    {
+      "file": "tooling/azure/assess_problem_readiness.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/azure_env.py",
+      "inbound": [
+        "tooling/azure/collect_job.py",
+        "tooling/azure/submit_job_auto.py",
+        "tooling/azure/validate_azure_cli.py",
+        "tooling/azure/validate_azure_env.py"
+      ],
+      "risk_flags": [
+        "has_inbound_non_root"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/bootstrap_problem_env_examples.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/collect_job.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/prepare_problem_manifest.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/smoke_problem.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/submit_job_auto.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/validate_azure_cli.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/validate_azure_env.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure/write_smoke_report.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/azure_submit_kernels.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/collect_and_compare.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/create_hardware_kernels.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/diag_container.py",
+      "inbound": [],
+      "risk_flags": [],
+      "category": "safe_review"
+    },
+    {
+      "file": "tooling/estimator/generate_summary.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/estimator/run_real_estimation.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/expand_algorithm_zoo.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/extract_readmes.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/generate_advantage_claims.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/generate_calibration_ensemble.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/generate_circuit_diagrams.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/generate_circuits.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/generate_multimodel_estimates.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/generate_stage_d_evidence.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/migrate_to_new_qdk.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/provision_foundry_agent.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main",
+        "dynamic_import"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/reporting/regenerate_paper_html.py",
+      "inbound": [],
+      "risk_flags": [],
+      "category": "safe_review"
+    },
+    {
+      "file": "tooling/reporting/run_problem_verification_matrix.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/reporting/stage_d_backend_reliability.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/reporting/stage_d_readiness_audit.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/reporting/stage_d_readiness_trend.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/reporting/update_website_data.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/run_noisy_simulation.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/run_paper_analyses.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/submit_all_syntax_check.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/submit_hardware_kernels.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/trace_circuits.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/visualization/generate_comparison_plots.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/write_circuit_diagrams.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/write_remaining_implementations.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "website/data/projectStatus.ts",
+      "inbound": [],
+      "risk_flags": [],
+      "category": "safe_review"
+    },
+    {
+      "file": "website/next-env.d.ts",
+      "inbound": [],
+      "risk_flags": [],
+      "category": "safe_review"
+    }
+  ]
+}

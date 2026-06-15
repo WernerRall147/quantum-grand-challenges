@@ -1,0 +1,364 @@
+{
+  "agents/api/main.py": [
+    "agents/tests/test_bicep_generator.py",
+    "agents/tests/test_evaluator_smoke.py"
+  ],
+  "agents/classifier/azure_pricing.py": [
+    "agents/classifier/cost_model.py",
+    "agents/code_generator/architecture.py",
+    "agents/tests/test_cost_model.py"
+  ],
+  "agents/classifier/cost_model.py": [
+    "agents/api/main.py",
+    "agents/orchestrator/evaluate.py",
+    "agents/tests/test_cost_model.py"
+  ],
+  "agents/classifier/platform_router.py": [
+    "agents/orchestrator/evaluate.py",
+    "agents/tests/test_evaluator_smoke.py"
+  ],
+  "agents/code_generator/architecture.py": [
+    "agents/api/main.py"
+  ],
+  "agents/code_generator/bicep_generator.py": [
+    "agents/api/main.py",
+    "agents/tests/test_bicep_generator.py"
+  ],
+  "agents/code_generator/generate.py": [
+    "agents/api/main.py"
+  ],
+  "agents/orchestrator/evaluate.py": [
+    "agents/api/main.py"
+  ],
+  "agents/orchestrator/instructions.py": [
+    "agents/orchestrator/evaluate.py",
+    "tooling/provision_foundry_agent.py"
+  ],
+  "agents/tests/test_evaluator_smoke.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
+  "conftest.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
+  "knowledge/ingest/arxiv_ingester.py": [
+    ".github/workflows/nightly.yml"
+  ],
+  "knowledge/search/kb_client.py": [
+    "agents/orchestrator/evaluate.py"
+  ],
+  "problems/02_catalysis/python/analyze.py": [
+    "problems/02_catalysis/Makefile"
+  ],
+  "problems/02_catalysis/python/classical_baseline.py": [
+    "problems/02_catalysis/Makefile"
+  ],
+  "problems/02_catalysis/python/test_baseline.py": [
+    "problems/02_catalysis/Makefile"
+  ],
+  "problems/07_drug_discovery/python/analyze.py": [
+    "problems/07_drug_discovery/Makefile"
+  ],
+  "problems/07_drug_discovery/python/classical_baseline.py": [
+    "problems/07_drug_discovery/Makefile"
+  ],
+  "problems/07_drug_discovery/python/test_baseline.py": [
+    "problems/07_drug_discovery/Makefile"
+  ],
+  "problems/09_factorization/python/analyze.py": [
+    "problems/09_factorization/Makefile"
+  ],
+  "problems/09_factorization/python/classical_baseline.py": [
+    "problems/09_factorization/Makefile"
+  ],
+  "problems/09_factorization/python/test_baseline.py": [
+    "problems/09_factorization/Makefile"
+  ],
+  "problems/14_materials_discovery/python/analyze.py": [
+    "problems/14_materials_discovery/Makefile"
+  ],
+  "problems/14_materials_discovery/python/classical_baseline.py": [
+    "problems/14_materials_discovery/Makefile"
+  ],
+  "problems/14_materials_discovery/python/test_baseline.py": [
+    "problems/14_materials_discovery/Makefile"
+  ],
+  "problems/16_error_correction/python/analyze.py": [
+    "problems/16_error_correction/Makefile"
+  ],
+  "problems/16_error_correction/python/classical_baseline.py": [
+    "problems/16_error_correction/Makefile"
+  ],
+  "problems/16_error_correction/python/test_baseline.py": [
+    "problems/16_error_correction/Makefile"
+  ],
+  "problems/17_nuclear_physics/python/analyze.py": [
+    "problems/17_nuclear_physics/Makefile"
+  ],
+  "problems/17_nuclear_physics/python/classical_baseline.py": [
+    "problems/17_nuclear_physics/Makefile"
+  ],
+  "problems/17_nuclear_physics/python/test_baseline.py": [
+    "problems/17_nuclear_physics/Makefile"
+  ],
+  "problems/18_photovoltaics/python/analyze.py": [
+    "problems/18_photovoltaics/Makefile"
+  ],
+  "problems/18_photovoltaics/python/classical_baseline.py": [
+    "problems/18_photovoltaics/Makefile"
+  ],
+  "problems/18_photovoltaics/python/test_baseline.py": [
+    "problems/18_photovoltaics/Makefile"
+  ],
+  "problems/19_quantum_chromodynamics/python/analyze.py": [
+    "problems/19_quantum_chromodynamics/Makefile"
+  ],
+  "problems/19_quantum_chromodynamics/python/classical_baseline.py": [
+    "problems/19_quantum_chromodynamics/Makefile"
+  ],
+  "problems/19_quantum_chromodynamics/python/test_baseline.py": [
+    "problems/19_quantum_chromodynamics/Makefile"
+  ],
+  "problems/archived/03_qae_risk/python/analyze.py": [
+    "problems/archived/03_qae_risk/python/test_analyze_parser.py"
+  ],
+  "problems/archived/03_qae_risk/python/run_qsharp.py": [
+    "problems/archived/03_qae_risk/Makefile"
+  ],
+  "problems/archived/03_qae_risk/python/stage_d_fairness_review.py": [
+    "problems/archived/03_qae_risk/Makefile"
+  ],
+  "problems/archived/03_qae_risk/python/stage_d_variance_and_overhead.py": [
+    "problems/archived/03_qae_risk/Makefile"
+  ],
+  "problems/archived/03_qae_risk/python/update_calibration_history.py": [
+    "problems/archived/03_qae_risk/Makefile",
+    "problems/archived/03_qae_risk/python/test_update_calibration_history.py"
+  ],
+  "problems/archived/03_qae_risk/python/update_completion_doc.py": [
+    "problems/archived/03_qae_risk/Makefile"
+  ],
+  "problems/archived/03_qae_risk/python/write_runtime_config.py": [
+    ".github/workflows/ci-cd.yml",
+    "problems/archived/03_qae_risk/Makefile"
+  ],
+  "problems/archived/04_linear_solvers/python/analyze.py": [
+    "problems/archived/04_linear_solvers/Makefile"
+  ],
+  "problems/archived/04_linear_solvers/python/classical_baseline.py": [
+    "problems/archived/04_linear_solvers/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/analyze.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/azure_env.py": [
+    "problems/archived/05_qaoa_maxcut/python/collect_azure_job.py",
+    "problems/archived/05_qaoa_maxcut/python/submit_azure_job.py",
+    "problems/archived/05_qaoa_maxcut/python/submit_azure_job_auto.py",
+    "problems/archived/05_qaoa_maxcut/python/validate_azure_cli.py",
+    "problems/archived/05_qaoa_maxcut/python/validate_azure_env.py"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/classical_baseline.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/collect_azure_job.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/compare.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/depth_sweep.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/noise_sweep.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/prepare_azure_job_manifest.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/prepare_estimator_params.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/prune_estimator_artifacts.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/stage_d_fairness_and_calibration.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/submit_azure_job.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/submit_azure_job_auto.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/summarize_estimator.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/validate_azure_cli.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/validate_azure_env.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/validate_azure_job_manifest.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/validate_backend_assumptions.py": [
+    ".github/workflows/ci-cd.yml",
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/validate_estimator_summary.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/validate_evidence_quality.py": [
+    ".github/workflows/ci-cd.yml",
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/05_qaoa_maxcut/python/write_azure_smoke_report.py": [
+    "problems/archived/05_qaoa_maxcut/Makefile"
+  ],
+  "problems/archived/06_high_frequency_trading/python/analyze.py": [
+    "problems/archived/06_high_frequency_trading/Makefile"
+  ],
+  "problems/archived/06_high_frequency_trading/python/classical_baseline.py": [
+    "problems/archived/06_high_frequency_trading/Makefile"
+  ],
+  "problems/archived/06_high_frequency_trading/python/test_baseline.py": [
+    "problems/archived/06_high_frequency_trading/Makefile"
+  ],
+  "problems/archived/08_protein_folding/python/analyze.py": [
+    "problems/archived/08_protein_folding/Makefile"
+  ],
+  "problems/archived/08_protein_folding/python/classical_baseline.py": [
+    "problems/archived/08_protein_folding/Makefile"
+  ],
+  "problems/archived/08_protein_folding/python/test_baseline.py": [
+    "problems/archived/08_protein_folding/Makefile"
+  ],
+  "problems/archived/10_post_quantum_cryptography/python/analyze.py": [
+    "problems/archived/10_post_quantum_cryptography/Makefile"
+  ],
+  "problems/archived/10_post_quantum_cryptography/python/classical_baseline.py": [
+    "problems/archived/10_post_quantum_cryptography/Makefile"
+  ],
+  "problems/archived/10_post_quantum_cryptography/python/test_baseline.py": [
+    "problems/archived/10_post_quantum_cryptography/Makefile"
+  ],
+  "problems/archived/11_quantum_machine_learning/python/analyze.py": [
+    "problems/archived/11_quantum_machine_learning/Makefile"
+  ],
+  "problems/archived/11_quantum_machine_learning/python/classical_baseline.py": [
+    "problems/archived/11_quantum_machine_learning/Makefile"
+  ],
+  "problems/archived/11_quantum_machine_learning/python/test_baseline.py": [
+    "problems/archived/11_quantum_machine_learning/Makefile"
+  ],
+  "problems/archived/12_quantum_optimization/python/analyze.py": [
+    "problems/archived/12_quantum_optimization/Makefile"
+  ],
+  "problems/archived/12_quantum_optimization/python/classical_baseline.py": [
+    "problems/archived/12_quantum_optimization/Makefile"
+  ],
+  "problems/archived/12_quantum_optimization/python/test_baseline.py": [
+    "problems/archived/12_quantum_optimization/Makefile"
+  ],
+  "problems/archived/13_climate_modeling/python/analyze.py": [
+    "problems/archived/13_climate_modeling/Makefile"
+  ],
+  "problems/archived/13_climate_modeling/python/classical_baseline.py": [
+    "problems/archived/13_climate_modeling/Makefile"
+  ],
+  "problems/archived/13_climate_modeling/python/test_baseline.py": [
+    "problems/archived/13_climate_modeling/Makefile"
+  ],
+  "problems/archived/15_database_search/python/analyze.py": [
+    "problems/archived/15_database_search/Makefile"
+  ],
+  "problems/archived/15_database_search/python/classical_baseline.py": [
+    "problems/archived/15_database_search/Makefile"
+  ],
+  "problems/archived/15_database_search/python/stage_d_reports.py": [
+    "problems/archived/15_database_search/Makefile"
+  ],
+  "problems/archived/15_database_search/python/test_baseline.py": [
+    "problems/archived/15_database_search/Makefile"
+  ],
+  "problems/archived/20_space_mission_planning/python/analyze.py": [
+    "problems/archived/20_space_mission_planning/Makefile"
+  ],
+  "problems/archived/20_space_mission_planning/python/classical_baseline.py": [
+    "problems/archived/20_space_mission_planning/Makefile"
+  ],
+  "problems/archived/20_space_mission_planning/python/test_baseline.py": [
+    "problems/archived/20_space_mission_planning/Makefile"
+  ],
+  "tooling/azq/job_manager.py": [
+    "problems/archived/03_qae_risk/Makefile"
+  ],
+  "tooling/azure/azure_env.py": [
+    "tooling/azure/collect_job.py",
+    "tooling/azure/submit_job_auto.py",
+    "tooling/azure/validate_azure_cli.py",
+    "tooling/azure/validate_azure_env.py"
+  ],
+  "tooling/azure/check_secret_hygiene.py": [
+    ".github/workflows/azure-secret-hygiene.yml"
+  ],
+  "tooling/ci_validate_qsharp.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
+  "tooling/ci_validate_schema.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
+  "tooling/discover_problems.py": [
+    "tooling/ci_validate_qsharp.py",
+    "tooling/generate_circuits.py",
+    "tooling/generate_estimates.py",
+    "tooling/generate_multimodel_estimates.py",
+    "tooling/run_all_qsharp.py",
+    "tooling/run_noisy_simulation.py"
+  ],
+  "tooling/estimator/run_estimation.py": [
+    "problems/01_hubbard/Makefile",
+    "problems/archived/03_qae_risk/Makefile",
+    "problems/archived/04_linear_solvers/Makefile",
+    "problems/archived/05_qaoa_maxcut/Makefile",
+    "problems/archived/15_database_search/Makefile"
+  ],
+  "tooling/estimator_config.py": [
+    "agents/tests/test_estimator_config.py",
+    "tooling/generate_calibration_ensemble.py",
+    "tooling/generate_circuits.py",
+    "tooling/generate_estimates.py",
+    "tooling/generate_multimodel_estimates.py"
+  ],
+  "tooling/generate_estimates.py": [
+    ".github/workflows/nightly.yml"
+  ],
+  "tooling/reporting/audit_azure_run_history_metrics.py": [
+    ".github/workflows/nightly.yml"
+  ],
+  "tooling/reporting/check_verification_matrix_freshness.py": [
+    ".github/workflows/ci-cd.yml",
+    ".github/workflows/nightly.yml"
+  ],
+  "tooling/reporting/problem_runnable_correctness_audit.py": [
+    ".github/workflows/nightly.yml"
+  ],
+  "tooling/reporting/recommend_platform_targets.py": [
+    ".github/workflows/nightly.yml"
+  ],
+  "tooling/reporting/stage_kpis.py": [
+    ".github/workflows/ci-cd.yml",
+    ".github/workflows/nightly.yml"
+  ],
+  "tooling/reporting/validate_website_data_schema.py": [
+    ".github/workflows/ci-cd.yml",
+    ".github/workflows/nightly.yml"
+  ],
+  "tooling/run_all_qsharp.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
+  "website/data/azureRunHistory.json": [
+    "website/data/projectStatus.ts"
+  ]
+}

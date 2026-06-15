@@ -247,6 +247,7 @@ export default function EvaluatePage() {
         <meta name="description" content="AI-powered quantum advantage evaluation" />
       </Head>
       <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+        <style dangerouslySetInnerHTML={{ __html: '@keyframes qspin-rot{from{transform:rotate(0)}to{transform:rotate(360deg)}}' }} />
         <Link href="/" style={{ color: '#0070f3', textDecoration: 'none', fontSize: '0.9rem' }}>
           &larr; Back to Dashboard
         </Link>
@@ -284,7 +285,12 @@ export default function EvaluatePage() {
                 fontWeight: 600,
               }}
             >
-              {loading ? 'Evaluating...' : 'Evaluate Problem'}
+              {loading ? (
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ display: 'inline-block', animation: 'qspin-rot 1s linear infinite' }}>⚛️</span>
+                  Evaluating...
+                </span>
+              ) : 'Evaluate Problem'}
             </button>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem', color: '#374151', cursor: 'pointer' }}>
               <input type="checkbox" checked={generateCode} onChange={(e) => setGenerateCode(e.target.checked)} />
@@ -312,6 +318,21 @@ export default function EvaluatePage() {
             ))}
           </div>
         </div>
+
+        {/* Loading indicator: spinning quantum icon while the evaluator runs */}
+        {loading && (
+          <div style={{ marginTop: '2rem', padding: '2.5rem 2rem', textAlign: 'center', background: '#0f172a', borderRadius: '12px', border: '1px solid #1e293b' }}>
+            <div style={{ fontSize: '3.25rem', display: 'inline-block', lineHeight: 1, animation: 'qspin-rot 1.2s linear infinite' }}>⚛️</div>
+            <p style={{ color: '#e2e8f0', fontWeight: 600, fontSize: '1.05rem', margin: '1rem 0 0.35rem' }}>
+              Evaluating your problem...
+            </p>
+            <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0 }}>
+              {generateCode
+                ? 'Running the agent, generating code, and estimating resources. This can take a few minutes.'
+                : 'Running the quantum advantage analysis. This usually takes 30-90 seconds.'}
+            </p>
+          </div>
+        )}
 
         {/* Results */}
         {result && (

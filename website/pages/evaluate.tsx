@@ -380,10 +380,28 @@ export default function EvaluatePage() {
               const cheapest = ca.cheapest_runnable;
               return (
                 <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                  <h3 style={{ marginTop: 0, color: '#0f172a' }}>Cost Analysis: Quantum vs AI/ML vs HPC</h3>
+                  <h3 style={{ marginTop: 0, color: '#0f172a' }}>Cost reference: per-run rates by platform</h3>
                   <p style={{ color: '#475569', fontSize: '0.85rem', margin: '0 0 0.75rem' }}>
-                    Live Azure list pricing: quantum providers per the Azure Quantum pricing page, AI/ML and HPC SKUs from the Azure Retail Prices API. Quantum figures are grounded to current device width and depth, so they reflect a hardware-runnable circuit rather than a fault-tolerant projection.
+                    Per-unit Azure list rates for a reference run on each platform - not the cost to solve your whole problem, and not directly comparable across billing models (quantum is billed per shot; AI/ML and HPC per compute-hour). Use them for order-of-magnitude intuition; feasibility and the speedup class decide the recommendation above.
                   </p>
+                  {/* Feasibility-gated headline so the three figures are not misread as like-for-like */}
+                  {(ca.feasibility?.feasible_today === false || cheapest) && (() => {
+                    const label: Record<string, string> = { quantum: 'Quantum', ai_ml: 'Azure AI/ML', hpc: 'Azure HPC' };
+                    const cheapCost =
+                      cheapest === 'quantum' ? ca.quantum_estimate?.estimated_cost_usd :
+                      cheapest === 'ai_ml' ? ca.ai_ml_estimate?.estimated_cost_usd :
+                      cheapest === 'hpc' ? ca.hpc_estimate?.estimated_cost_usd : undefined;
+                    return (
+                      <div style={{ margin: '0 0 0.85rem', padding: '0.65rem 0.9rem', borderRadius: '8px', background: '#f0f9ff', border: '1px solid #bae6fd', fontSize: '0.85rem', color: '#0c4a6e' }}>
+                        {ca.feasibility?.feasible_today === false && (
+                          <span>⚛️ Quantum hardware is not ready for this problem yet - it needs ~{(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} qubits, and the largest device today exposes {ca.feasibility.hardware_qubits}. </span>
+                        )}
+                        {cheapest && (
+                          <strong>Runnable today: {label[cheapest] || cheapest}{typeof cheapCost === 'number' ? ` (~${fmt(cheapCost)} for a reference run)` : ''}.</strong>
+                        )}
+                      </div>
+                    );
+                  })()}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.75rem' }}>
                     {ca.quantum_estimate && (
                       <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: '#eff6ff', border: `1px solid ${cheapest === 'quantum' ? '#2563eb' : '#bfdbfe'}` }}>
@@ -431,15 +449,18 @@ export default function EvaluatePage() {
                     )}
                     {ca.comparison && (
                       <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: verdictBg, border: `1px solid ${verdictFg}33` }}>
-                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: verdictFg, letterSpacing: '0.05em' }}>Verdict</div>
+                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: verdictFg, letterSpacing: '0.05em' }}>Per-unit cost only</div>
                         <div style={{ fontSize: '1rem', fontWeight: 700, color: verdictFg, marginTop: '0.25rem' }}>
                           {(ca.comparison.verdict || 'INSUFFICIENT_DATA').replace(/_/g, ' ')}
                         </div>
                         {typeof ca.comparison.ratio === 'number' && (
-                          <div style={{ fontSize: '0.8rem', color: '#475569', marginTop: '0.25rem' }}>
-                            Ratio (Q÷HPC): <strong>{ca.comparison.ratio.toFixed(3)}</strong>
+                          <div style={{ fontSize: '0.78rem', color: '#475569', marginTop: '0.25rem' }}>
+                            {ca.comparison.ratio.toLocaleString(undefined, { maximumFractionDigits: 0 })}x rate gap (1 quantum job vs 1 HPC compute-hr)
                           </div>
                         )}
+                        <div style={{ fontSize: '0.72rem', color: '#64748b', marginTop: '0.4rem', fontStyle: 'italic' }}>
+                          Not the cost to solve the problem. Cost alone does not determine advantage.
+                        </div>
                       </div>
                     )}
                   </div>
@@ -737,7 +758,7 @@ export default function EvaluatePage() {
             {/* Final step 2: run-cost guesstimate for the generated solution */}
             {result.solution_pricing && typeof result.solution_pricing.estimated_run_cost_usd !== 'undefined' && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#0f172a', borderRadius: '10px', border: '1px solid #1e293b' }}>
-                <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>💰 Estimated Run Cost</h3>
+                <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>💰 Cost to Run This Solution</h3>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
                   <span style={{ fontSize: '1.6rem', fontWeight: 700, color: '#fbbf24' }}>
                     {result.solution_pricing.estimated_run_cost_usd === null

@@ -1,8 +1,8 @@
 {
   "summary": {
-    "total_candidates": 50,
-    "safe_review": 5,
-    "needs_review": 45,
+    "total_candidates": 47,
+    "safe_review": 3,
+    "needs_review": 44,
     "python_unparsable": []
   },
   "candidates": [
@@ -80,12 +80,6 @@
         "protected_path"
       ],
       "category": "needs_review"
-    },
-    {
-      "file": "run_inspect.py",
-      "inbound": [],
-      "risk_flags": [],
-      "category": "safe_review"
     },
     {
       "file": "tooling/azure/assess_problem_readiness.py",
@@ -197,12 +191,6 @@
       "category": "needs_review"
     },
     {
-      "file": "tooling/diag_container.py",
-      "inbound": [],
-      "risk_flags": [],
-      "category": "safe_review"
-    },
-    {
       "file": "tooling/estimator/generate_summary.py",
       "inbound": [],
       "risk_flags": [
@@ -260,14 +248,6 @@
     },
     {
       "file": "tooling/generate_stage_d_evidence.py",
-      "inbound": [],
-      "risk_flags": [
-        "cli_main"
-      ],
-      "category": "needs_review"
-    },
-    {
-      "file": "tooling/migrate_to_new_qdk.py",
       "inbound": [],
       "risk_flags": [
         "cli_main"

@@ -1,8 +1,8 @@
 {
   "summary": {
-    "total_candidates": 53,
+    "total_candidates": 52,
     "safe_review": 5,
-    "needs_review": 48,
+    "needs_review": 47,
     "python_unparsable": []
   },
   "candidates": [
@@ -193,15 +193,6 @@
       "inbound": [],
       "risk_flags": [
         "cli_main"
-      ],
-      "category": "needs_review"
-    },
-    {
-      "file": "tooling/depgraph/build_graph.py",
-      "inbound": [],
-      "risk_flags": [
-        "cli_main",
-        "dynamic_import"
       ],
       "category": "needs_review"
     },

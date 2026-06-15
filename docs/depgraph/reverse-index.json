@@ -309,6 +309,9 @@
   "tooling/ci_validate_schema.py": [
     ".github/workflows/ci-cd.yml"
   ],
+  "tooling/depgraph/build_graph.py": [
+    ".github/workflows/depgraph-drift.yml"
+  ],
   "tooling/discover_problems.py": [
     "tooling/ci_validate_qsharp.py",
     "tooling/generate_circuits.py",

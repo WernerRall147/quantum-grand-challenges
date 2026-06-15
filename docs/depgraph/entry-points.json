@@ -2,6 +2,7 @@
   "workflows": [
     ".github/workflows/azure-secret-hygiene.yml",
     ".github/workflows/ci-cd.yml",
+    ".github/workflows/depgraph-drift.yml",
     ".github/workflows/deploy-evaluator-api.yml",
     ".github/workflows/deploy-website.yml",
     ".github/workflows/nightly.yml"

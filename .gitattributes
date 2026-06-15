@@ -1,0 +1,3 @@
+# Keep the generated dependency graph byte-identical across OSes so the CI drift
+# check is reliable (the mapper writes LF; store + check out LF here).
+docs/depgraph/*.json text eol=lf

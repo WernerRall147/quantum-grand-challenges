@@ -1,0 +1,44 @@
+name: Dependency Graph Drift Check
+
+# Keeps docs/depgraph/* in sync with the source tree. If a change to tracked code,
+# a Makefile, a workflow, the Dockerfile, or website/package.json was not followed
+# by regenerating the graph, this fails - so new files always land in the map.
+# Mapper is stdlib-only, so no pip install is needed.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "**/*.py"
+      - "**/*.qs"
+      - "**/*.ts"
+      - "**/*.tsx"
+      - "**/Makefile"
+      - "Dockerfile"
+      - ".github/workflows/**"
+      - "website/package.json"
+      - "tooling/depgraph/build_graph.py"
+      - "docs/depgraph/**"
+
+permissions:
+  contents: read
+
+jobs:
+  depgraph:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Regenerate dependency graph
+        run: python tooling/depgraph/build_graph.py
+      - name: Fail if the committed graph is stale
+        run: |
+          if ! git diff --quiet -- docs/depgraph; then
+            echo "::error::docs/depgraph is out of date. Run 'python tooling/depgraph/build_graph.py' and commit the result."
+            git --no-pager diff -- docs/depgraph
+            exit 1
+          fi
+          echo "Dependency graph is up to date."

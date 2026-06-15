@@ -3,7 +3,6 @@
 Consolidates what used to be duplicated across:
   - tooling/generate_estimates.py
   - tooling/generate_multimodel_estimates.py
-  - tooling/generate_circuits.py
   - tooling/generate_calibration_ensemble.py
   - agents/code_generator/generate.py
 

@@ -73,6 +73,9 @@ class EvaluateResponse(BaseModel):
     bicep_deploy_commands: str = ""
     bicep_post_deploy_note: str = ""
     cost_analysis: dict = {}
+    architecture: dict = {}
+    architecture_diagram: str = ""
+    solution_pricing: dict = {}
 
 
 class CodeRequest(BaseModel):
@@ -165,6 +168,39 @@ def evaluate(request: EvaluateRequest):
                 except Exception as e:  # noqa: BLE001
                     result["bicep_template"] = ""
                     result["bicep_validation"] = {"error": str(e)[:200]}
+
+            # Final steps after code-gen: draw the solution architecture and
+            # guesstimate the run cost. Gated on confidence ("high probability").
+            try:
+                confidence = float(result.get("confidence") or 0.0)
+                min_conf = float(os.environ.get("QGC_ARCH_MIN_CONFIDENCE", "0.6"))
+                if confidence >= min_conf:
+                    from agents.code_generator.architecture import build_architecture
+                    from agents.classifier.cost_model import price_solution
+                    is_quantum = verdict == "QUANTUM_ADVANTAGE" or platform in ("QUANTUM", "HYBRID")
+                    resolved_platform = platform or ("QUANTUM" if is_quantum else "AI_ML")
+                    q_target = (result.get("cost_analysis") or {}).get("recommended_quantum_target") if is_quantum else None
+                    estimation = result.get("estimation") or {}
+                    arch = build_architecture(
+                        platform=resolved_platform,
+                        algorithm=result.get("recommended_algorithm", ""),
+                        estimation=estimation,
+                        quantum_target=q_target,
+                        confidence=confidence,
+                    )
+                    result["architecture"] = arch
+                    result["architecture_diagram"] = arch.get("mermaid", "")
+                    result["solution_pricing"] = price_solution(
+                        platform=resolved_platform,
+                        algorithm=result.get("recommended_algorithm", ""),
+                        estimation=estimation,
+                        quantum_target=q_target,
+                    )
+            except Exception as e:  # noqa: BLE001
+                result.setdefault("architecture", {})
+                result.setdefault("architecture_diagram", "")
+                result.setdefault("solution_pricing", {"error": str(e)[:200]})
+
         return EvaluateResponse(**{k: result.get(k, EvaluateResponse.model_fields[k].default)
                                    for k in EvaluateResponse.model_fields})
     except Exception as e:

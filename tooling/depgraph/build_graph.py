@@ -303,22 +303,24 @@ def main() -> None:
         "nodes": sorted(code_files),
         "edges": sorted([list(e) for e in edges]),
     }
-    (OUT_DIR / "graph.json").write_text(json.dumps(graph, indent=2), encoding="utf-8")
-    (OUT_DIR / "reverse-index.json").write_text(
-        json.dumps({k: v for k, v in sorted(reverse.items())}, indent=2), encoding="utf-8")
-    (OUT_DIR / "entry-points.json").write_text(
-        json.dumps({k: sorted(set(v)) for k, v in entry_points.items()}, indent=2),
-        encoding="utf-8")
-    (OUT_DIR / "cleanup-candidates.json").write_text(
-        json.dumps({
-            "summary": {
-                "total_candidates": len(candidates),
-                "safe_review": sum(1 for c in candidates if c["category"] == "safe_review"),
-                "needs_review": sum(1 for c in candidates if c["category"] == "needs_review"),
-                "python_unparsable": py_unparsable,
-            },
-            "candidates": candidates,
-        }, indent=2), encoding="utf-8")
+    def write_json(name: str, obj: object) -> None:
+        # LF + trailing newline + UTF-8 so output is byte-identical on Windows and
+        # Linux (the CI drift check diffs this against a fresh run).
+        (OUT_DIR / name).write_text(
+            json.dumps(obj, indent=2) + "\n", encoding="utf-8", newline="\n")
+
+    write_json("graph.json", graph)
+    write_json("reverse-index.json", {k: v for k, v in sorted(reverse.items())})
+    write_json("entry-points.json", {k: sorted(set(v)) for k, v in entry_points.items()})
+    write_json("cleanup-candidates.json", {
+        "summary": {
+            "total_candidates": len(candidates),
+            "safe_review": sum(1 for c in candidates if c["category"] == "safe_review"),
+            "needs_review": sum(1 for c in candidates if c["category"] == "needs_review"),
+            "python_unparsable": sorted(py_unparsable),
+        },
+        "candidates": candidates,
+    })
 
     print("Dependency graph written to docs/depgraph/")
     print(f"  tracked={len(tracked)} code={len(code_files)} edges={len(edges)} "

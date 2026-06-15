@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1187,
+    "tracked": 1189,
     "code_files": 222,
     "python": 170,
     "qsharp": 43,
     "ts": 9,
-    "edges": 144,
-    "roots": 183,
-    "reachable": 196
+    "edges": 145,
+    "roots": 185,
+    "reachable": 198
   },
   "nodes": [
     "agents/api/main.py",
@@ -286,6 +286,10 @@
     [
       ".github/workflows/ci-cd.yml",
       "tooling/run_all_qsharp.py"
+    ],
+    [
+      ".github/workflows/depgraph-drift.yml",
+      "tooling/depgraph/build_graph.py"
     ],
     [
       ".github/workflows/nightly.yml",

@@ -212,3 +212,84 @@ def cost_advantage_ratio(
         "verdict": verdict,
         "note": "Cost alone does not determine advantage. Speedup class and problem scale matter. See Troyer Part 6.",
     }
+
+
+def price_solution(
+    platform: str,
+    algorithm: str = "",
+    estimation: Optional[Dict[str, Any]] = None,
+    quantum_target: Optional[str] = None,
+    shots: int = 256,
+) -> Dict[str, Any]:
+    """Price the *generated* solution on its recommended platform.
+
+    Unlike ``cost_advantage_ratio`` (a 3-way comparison seeded from KB
+    defaults), this uses the actual code-generator ``estimation``
+    (physical_qubits, runtime_ns) to answer "what would it cost to run THIS
+    solution, and is it runnable on today's hardware?". For quantum it reports
+    the qubit-availability crossover from ``quantum_hardware_feasibility``.
+    """
+    platform = (platform or "").upper()
+    estimation = estimation or {}
+    runtime_ns = int(estimation.get("runtime_ns") or 0)
+
+    if platform in ("QUANTUM", "HYBRID") or quantum_target:
+        physical_qubits = int(estimation.get("physical_qubits") or 0) or 100
+        target = quantum_target or "azure_quantum_quantinuum_h2"
+        derived_depth = max(1, (runtime_ns or 1_000_000) // 1_000_000)
+        feas = quantum_hardware_feasibility(
+            physical_qubits, target_platform=target, logical_depth=derived_depth
+        )
+        cost = estimate_quantum_cost(
+            physical_qubits=feas["priced_circuit_qubits"],
+            runtime_ns=runtime_ns or 1_000_000,
+            target_platform=target,
+            shots=shots,
+            logical_depth=feas["priced_circuit_depth"],
+        )
+        return {
+            "platform": "QUANTUM",
+            "recommended_target": target,
+            "provider": cost.get("provider"),
+            "estimated_run_cost_usd": cost.get("estimated_cost_usd"),
+            "shots": shots,
+            "basis": (
+                f"{shots} shots on {cost.get('provider')} at official per-shot rates, "
+                "circuit width and depth grounded to the device."
+            ),
+            "feasible_today": feas["feasible_today"],
+            "qubits_needed": feas["estimated_physical_qubits"],
+            "qubits_available_today": feas["hardware_qubits"],
+            "crossover_note": feas["note"],
+            "status": COST_MODEL_STATUS,
+            "troyer_part_6": TROYER_PART_6_STATUS,
+        }
+
+    if platform == "HPC":
+        compute_hours = max(0.1, (runtime_ns or 3_600_000_000_000) / 3.6e12)
+        cost = estimate_hpc_cost(compute_hours=compute_hours)
+        return {
+            "platform": "HPC",
+            "estimated_run_cost_usd": cost.get("estimated_cost_usd"),
+            "sku": cost.get("sku"),
+            "compute_hours": cost.get("compute_hours"),
+            "basis": cost.get("notes"),
+            "feasible_today": True,
+            "status": COST_MODEL_STATUS,
+        }
+
+    # AI/ML (default for any non-quantum, non-HPC recommendation)
+    compute_hours = max(0.1, (runtime_ns or 3_600_000_000_000) / 3.6e12)
+    cost = estimate_aml_cost(
+        compute_hours=compute_hours,
+        instance_size="large" if platform == "AI_ML" else "medium",
+    )
+    return {
+        "platform": platform or "AI_ML",
+        "estimated_run_cost_usd": cost.get("estimated_cost_usd"),
+        "sku": cost.get("sku"),
+        "compute_hours": cost.get("compute_hours"),
+        "basis": cost.get("notes"),
+        "feasible_today": True,
+        "status": COST_MODEL_STATUS,
+    }

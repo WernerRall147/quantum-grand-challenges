@@ -1,6 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+
+// Renders a Mermaid diagram client-side. Falls back to the diagram source on
+// any render error so the architecture is always visible.
+function MermaidDiagram({ chart }: { chart: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const mermaid = (await import('mermaid')).default;
+        mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+        const id = 'mmd-' + Math.random().toString(36).slice(2);
+        const { svg } = await mermaid.render(id, chart);
+        if (!cancelled && ref.current) ref.current.innerHTML = svg;
+      } catch {
+        if (!cancelled) setFailed(true);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [chart]);
+  if (failed) {
+    return (
+      <pre style={{ margin: 0, color: '#7dd3fc', fontSize: '0.8rem', overflow: 'auto', padding: '0.75rem', background: '#020617', borderRadius: '6px' }}>
+        {chart}
+      </pre>
+    );
+  }
+  return <div ref={ref} style={{ overflow: 'auto', textAlign: 'center' }} />;
+}
 
 interface TroyerFilters {
   F1_proven_speedup?: boolean;
@@ -113,6 +143,29 @@ interface EvaluationResult {
   bicep_validation?: { validated?: boolean; error?: string; skipped?: boolean; reason?: string };
   bicep_deploy_commands?: string;
   bicep_post_deploy_note?: string;
+  architecture?: {
+    platform?: string;
+    mermaid?: string;
+    components?: string[];
+    narrative?: string;
+    confidence?: number;
+  };
+  architecture_diagram?: string;
+  solution_pricing?: {
+    platform?: string;
+    recommended_target?: string;
+    provider?: string;
+    estimated_run_cost_usd?: number | null;
+    shots?: number;
+    basis?: string;
+    feasible_today?: boolean;
+    qubits_needed?: number;
+    qubits_available_today?: number;
+    crossover_note?: string;
+    sku?: string;
+    compute_hours?: number;
+    status?: string;
+  };
 }
 
 const EXAMPLE_PROBLEMS = [
@@ -628,6 +681,69 @@ export default function EvaluatePage() {
                 {result.bicep_post_deploy_note && (
                   <p style={{ marginTop: '0.5rem', color: '#94a3b8', fontSize: '0.82rem', fontStyle: 'italic' }}>
                     💡 {result.bicep_post_deploy_note}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Final step 1: solution architecture (Mermaid), grounded in the recommendation */}
+            {result.architecture_diagram && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#0f172a', borderRadius: '10px', border: '1px solid #1e293b' }}>
+                <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>
+                  🗺️ Solution Architecture
+                  {typeof result.architecture?.confidence === 'number' && (
+                    <span style={{ marginLeft: '0.5rem', fontSize: '0.8rem', color: '#94a3b8' }}>
+                      ({Math.round((result.architecture.confidence || 0) * 100)}% confidence)
+                    </span>
+                  )}
+                </h3>
+                {result.architecture?.narrative && (
+                  <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: '0 0 0.75rem' }}>
+                    {result.architecture.narrative}
+                  </p>
+                )}
+                <div style={{ background: '#020617', borderRadius: '6px', padding: '0.75rem' }}>
+                  <MermaidDiagram chart={result.architecture_diagram} />
+                </div>
+                {result.architecture?.components && result.architecture.components.length > 0 && (
+                  <ul style={{ color: '#cbd5e1', fontSize: '0.82rem', marginTop: '0.75rem', lineHeight: 1.6 }}>
+                    {result.architecture.components.map((c, i) => <li key={i}>{c}</li>)}
+                  </ul>
+                )}
+              </div>
+            )}
+
+            {/* Final step 2: run-cost guesstimate for the generated solution */}
+            {result.solution_pricing && typeof result.solution_pricing.estimated_run_cost_usd !== 'undefined' && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#0f172a', borderRadius: '10px', border: '1px solid #1e293b' }}>
+                <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>💰 Estimated Run Cost</h3>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '1.6rem', fontWeight: 700, color: '#fbbf24' }}>
+                    {result.solution_pricing.estimated_run_cost_usd === null
+                      ? 'Quote only'
+                      : `$${Number(result.solution_pricing.estimated_run_cost_usd).toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
+                  </span>
+                  <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>
+                    {result.solution_pricing.platform}
+                    {result.solution_pricing.provider ? ` · ${result.solution_pricing.provider}` : ''}
+                    {result.solution_pricing.sku ? ` · ${result.solution_pricing.sku}` : ''}
+                  </span>
+                </div>
+                {result.solution_pricing.basis && (
+                  <p style={{ color: '#94a3b8', fontSize: '0.82rem', margin: '0.5rem 0 0' }}>{result.solution_pricing.basis}</p>
+                )}
+                {typeof result.solution_pricing.feasible_today === 'boolean' && (
+                  <div style={{ marginTop: '0.6rem', padding: '0.4rem 0.8rem', borderRadius: '6px', fontSize: '0.85rem',
+                    background: result.solution_pricing.feasible_today ? '#064e3b' : '#7c2d12',
+                    color: result.solution_pricing.feasible_today ? '#6ee7b7' : '#fdba74' }}>
+                    {result.solution_pricing.feasible_today
+                      ? '✅ Runnable on today’s hardware'
+                      : `⏳ Not yet runnable: needs ~${Number(result.solution_pricing.qubits_needed || 0).toLocaleString()} qubits; current hardware exposes ${result.solution_pricing.qubits_available_today}`}
+                  </div>
+                )}
+                {result.solution_pricing.crossover_note && (
+                  <p style={{ color: '#64748b', fontSize: '0.78rem', margin: '0.5rem 0 0', fontStyle: 'italic' }}>
+                    {result.solution_pricing.crossover_note}
                   </p>
                 )}
               </div>

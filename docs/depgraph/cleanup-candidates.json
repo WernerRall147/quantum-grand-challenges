@@ -1,19 +1,11 @@
 {
   "summary": {
     "total_candidates": 53,
-    "safe_review": 6,
-    "needs_review": 47,
-    "python_unparsable": [
-      "_run_baselines.py"
-    ]
+    "safe_review": 5,
+    "needs_review": 48,
+    "python_unparsable": []
   },
   "candidates": [
-    {
-      "file": "_run_baselines.py",
-      "inbound": [],
-      "risk_flags": [],
-      "category": "safe_review"
-    },
     {
       "file": "knowledge/ingest/algorithm_zoo_parser.py",
       "inbound": [],
@@ -201,6 +193,15 @@
       "inbound": [],
       "risk_flags": [
         "cli_main"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/depgraph/build_graph.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main",
+        "dynamic_import"
       ],
       "category": "needs_review"
     },

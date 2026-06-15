@@ -1,7 +1,7 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1183,
+    "tracked": 1187,
     "code_files": 222,
     "python": 170,
     "qsharp": 43,
@@ -11,7 +11,6 @@
     "reachable": 196
   },
   "nodes": [
-    "_run_baselines.py",
     "agents/api/main.py",
     "agents/classifier/azure_pricing.py",
     "agents/classifier/cost_model.py",
@@ -184,6 +183,7 @@
     "tooling/ci_validate_schema.py",
     "tooling/collect_and_compare.py",
     "tooling/create_hardware_kernels.py",
+    "tooling/depgraph/build_graph.py",
     "tooling/diag_container.py",
     "tooling/discover_problems.py",
     "tooling/estimator/generate_summary.py",

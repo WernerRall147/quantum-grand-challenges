@@ -1,8 +1,8 @@
 {
   "summary": {
-    "total_candidates": 52,
+    "total_candidates": 50,
     "safe_review": 5,
-    "needs_review": 47,
+    "needs_review": 45,
     "python_unparsable": []
   },
   "candidates": [
@@ -244,22 +244,6 @@
     },
     {
       "file": "tooling/generate_calibration_ensemble.py",
-      "inbound": [],
-      "risk_flags": [
-        "cli_main"
-      ],
-      "category": "needs_review"
-    },
-    {
-      "file": "tooling/generate_circuit_diagrams.py",
-      "inbound": [],
-      "risk_flags": [
-        "cli_main"
-      ],
-      "category": "needs_review"
-    },
-    {
-      "file": "tooling/generate_circuits.py",
       "inbound": [],
       "risk_flags": [
         "cli_main"

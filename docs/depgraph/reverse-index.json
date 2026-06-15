@@ -314,7 +314,6 @@
   ],
   "tooling/discover_problems.py": [
     "tooling/ci_validate_qsharp.py",
-    "tooling/generate_circuits.py",
     "tooling/generate_estimates.py",
     "tooling/generate_multimodel_estimates.py",
     "tooling/run_all_qsharp.py",
@@ -330,7 +329,6 @@
   "tooling/estimator_config.py": [
     "agents/tests/test_estimator_config.py",
     "tooling/generate_calibration_ensemble.py",
-    "tooling/generate_circuits.py",
     "tooling/generate_estimates.py",
     "tooling/generate_multimodel_estimates.py"
   ],

@@ -1,12 +1,12 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1189,
-    "code_files": 222,
-    "python": 170,
+    "tracked": 1187,
+    "code_files": 220,
+    "python": 168,
     "qsharp": 43,
     "ts": 9,
-    "edges": 145,
+    "edges": 143,
     "roots": 185,
     "reachable": 198
   },
@@ -194,8 +194,6 @@
     "tooling/extract_readmes.py",
     "tooling/generate_advantage_claims.py",
     "tooling/generate_calibration_ensemble.py",
-    "tooling/generate_circuit_diagrams.py",
-    "tooling/generate_circuits.py",
     "tooling/generate_estimates.py",
     "tooling/generate_multimodel_estimates.py",
     "tooling/generate_stage_d_evidence.py",
@@ -773,14 +771,6 @@
     ],
     [
       "tooling/generate_calibration_ensemble.py",
-      "tooling/estimator_config.py"
-    ],
-    [
-      "tooling/generate_circuits.py",
-      "tooling/discover_problems.py"
-    ],
-    [
-      "tooling/generate_circuits.py",
       "tooling/estimator_config.py"
     ],
     [

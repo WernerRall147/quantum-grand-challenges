@@ -118,20 +118,35 @@ circuit tooling, stale generated artifacts that are regenerable.
   graph (run the mapper), and Claude must consult `cleanup-candidates.json` + the danger list
   before any deletion.
 
-## Status
+## Status - COMPLETE (2026-06-16)
 
 | Phase | State |
 | --- | --- |
-| 0 - quick wins | Identified, not yet executed |
-| 1 - deterministic mapper | Designed; build next |
-| 2 - Azure discovery/MCP | Optional; design ready |
-| 3 - cleanup execution | Blocked on Phase 1 graph |
-| 4 - keep current | Designed |
+| 0 - quick wins | Done (PR #137) |
+| 1 - deterministic mapper | Done (PR #136); self-maintaining |
+| 2 - Azure discovery/MCP | Deferred (optional; in-repo JSON graph is sufficient) |
+| 3 - cleanup execution | Done (PRs #139-142); code candidates = 0 |
+| 4 - keep current | Done (PR #138); CI drift check + contributor/Copilot rules |
 
-## Open decisions (for us to agree before executing)
+The deterministic dead-code cleanup is finished: the dependency graph reports
+**0 candidates**, and the drift check + contributor rules keep it current. A
+deterministic non-code orphan scan confirmed the remaining non-code surface
+(the `knowledge/` corpus, config, infra templates, generated/cited reports) is
+**intentional** and must not be mass-deleted; the one genuine regenerable
+artifact (`agents/evaluations/eval_*.json`) was removed and gitignored (PR #142).
 
-1. How far to wire Azure now: in-repo JSON only, or also mirror to Search/Cosmos + MCP?
-2. Pruning policy for `problems/archived/**` and regenerable artifacts (estimates/plots): keep,
-   or move out of version control?
-3. Do we want symbol/function-level edges (heavier, less deterministic in Python) or
-   file/module-level edges first (lighter, fully deterministic)?
+### Removals (10 files across the initiative)
+
+`_run_baselines.py`, `git_status_output.txt`, `generate_circuits.py`,
+`generate_circuit_diagrams.py`, `migrate_to_new_qdk.py`, `run_inspect.py`,
+`diag_container.py`, `write_remaining_implementations.py`,
+`agents/evaluations/eval_20260416_201421.json` (+ gitignore pattern).
+
+## Resolved decisions
+
+1. **Azure wiring**: in-repo JSON graph only. The Search/Cosmos + MCP mirror (Phase 2)
+   is deferred - the deterministic JSON graph + CI drift check meet the need.
+2. **Pruning policy**: regenerable per-run *outputs* (e.g. `agents/evaluations/eval_*.json`)
+   are removed + gitignored. Cited/scientific artifacts (`estimates/`, `plots/`, `circuits/`,
+   `problems/archived/**`) are **kept** in version control - the website and papers reference them.
+3. **Edge granularity**: file/module-level edges (lighter, fully deterministic) - shipped and sufficient.

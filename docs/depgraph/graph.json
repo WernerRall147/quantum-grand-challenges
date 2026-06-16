@@ -2,13 +2,13 @@
   "repo_relative_root": ".",
   "counts": {
     "tracked": 1184,
-    "code_files": 217,
-    "python": 165,
+    "code_files": 216,
+    "python": 164,
     "qsharp": 43,
     "ts": 9,
-    "edges": 143,
-    "roots": 185,
-    "reachable": 198
+    "edges": 155,
+    "roots": 231,
+    "reachable": 252
   },
   "nodes": [
     "agents/api/main.py",
@@ -218,7 +218,6 @@
     "tooling/trace_circuits.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py",
-    "tooling/write_remaining_implementations.py",
     "website/data/projectStatus.ts",
     "website/next-env.d.ts",
     "website/pages/404.tsx",
@@ -801,6 +800,54 @@
     [
       "website/data/projectStatus.ts",
       "website/data/azureRunHistory.json"
+    ],
+    [
+      "website/pages/compare.tsx",
+      "website/data/projectStatus.ts"
+    ],
+    [
+      "website/pages/compare.tsx",
+      "website/data/resourceEstimates.json"
+    ],
+    [
+      "website/pages/index.tsx",
+      "website/data/projectStatus.ts"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/calibrationData.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/emulatorResults.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/multiModelEstimates.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/noisySimResults.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/problemReadmes.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/projectStatus.ts"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/resourceEstimates.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/stageDEvidence.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/troyerAssessment.json"
     ]
   ]
 }

@@ -1,0 +1,44 @@
+# Intentional manually-run tools / entry points (operator toolkit).
+#
+# The dependency mapper (build_graph.py) treats each entry here as reachable, so
+# these files - and anything they import - are NOT flagged as cleanup candidates.
+# Use this for tools a human runs by hand (Azure Quantum submission, KB ingestion,
+# diagnostics) that are correctly wired into no automation.
+#
+# One exact path or a directory prefix (trailing /) per line. Keep it reviewed:
+# if a tool is genuinely retired, remove its line here and delete the file.
+
+# === Quantum problem code (core goal: solving quantum problems) ===
+# Per-problem classical baselines / analyzers / optimizers (run via make or
+# manually per the dev workflow) and intentionally-archived problems.
+problems/
+
+# === Azure Quantum submission + readiness operator toolkit (run manually) ===
+tooling/azure/
+tooling/azure_submit_kernels.py
+tooling/submit_all_syntax_check.py
+tooling/submit_hardware_kernels.py
+tooling/create_hardware_kernels.py
+tooling/provision_foundry_agent.py
+
+# === Estimation / circuit / calibration generators (documented dev commands) ===
+tooling/estimator/
+tooling/trace_circuits.py
+tooling/write_circuit_diagrams.py
+tooling/generate_multimodel_estimates.py
+tooling/generate_calibration_ensemble.py
+tooling/generate_advantage_claims.py
+tooling/expand_algorithm_zoo.py
+tooling/collect_and_compare.py
+tooling/run_noisy_simulation.py
+
+# === Reporting / paper / website-data generators (run manually / by ops) ===
+tooling/reporting/
+tooling/visualization/
+tooling/generate_stage_d_evidence.py
+tooling/run_paper_analyses.py
+tooling/extract_readmes.py
+
+# === Knowledge-base ingestion CLIs (run manually to (re)build the KB) ===
+knowledge/ingest/
+knowledge/seed_knowledge_base.py

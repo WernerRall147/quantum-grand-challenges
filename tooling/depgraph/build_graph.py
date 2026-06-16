@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import ast
 import json
+import os
 import re
 import subprocess
 from collections import defaultdict, deque
@@ -94,11 +95,11 @@ def ts_import_targets(text: str, path: str) -> set[str]:
     here = Path(path).parent
     for m in re.finditer(r"""(?:import|from)\s+['"](\.[^'"]+)['"]""", text):
         rel = m.group(1)
-        base = (here / rel).as_posix()
+        # normpath collapses '..' (e.g. website/pages/../data -> website/data)
+        base = os.path.normpath((here / rel).as_posix()).replace(os.sep, "/")
         for cand in (base, base + ".ts", base + ".tsx",
                      base + "/index.ts", base + "/index.tsx"):
-            norm = Path(cand).as_posix()
-            targets.add(norm)
+            targets.add(cand)
     return targets
 
 
@@ -180,7 +181,7 @@ def main() -> None:
     # --- Entry-point surfaces + invocation edges ---
     entry_points: dict[str, list[str]] = {
         "workflows": [], "makefiles": [], "dockerfile": [], "pytest": [],
-        "npm_next": [], "qsharp": [],
+        "npm_next": [], "qsharp": [], "manual": [],
     }
     roots: set[str] = set()
 
@@ -247,6 +248,22 @@ def main() -> None:
     if api_main in tracked_set:
         roots.add(api_main)
 
+    # Intentional manually-run tools / entry points (operator toolkit), listed in
+    # tooling/depgraph/manual_entrypoints.txt. Treated as reachable (roots) so they
+    # and anything they import are not flagged as cleanup candidates. One exact path
+    # or directory prefix per line.
+    manual_list_path = Path(__file__).resolve().parent / "manual_entrypoints.txt"
+    manual_prefixes: list[str] = []
+    if manual_list_path.exists():
+        for line in manual_list_path.read_text(encoding="utf-8").splitlines():
+            entry = line.strip()
+            if entry and not entry.startswith("#"):
+                manual_prefixes.append(entry)
+    for f in code_files:
+        if any(f == p or f.startswith(p) for p in manual_prefixes):
+            roots.add(f)
+            entry_points["manual"].append(f)
+
     # --- Reachability (BFS over edges from roots) ---
     adj: dict[str, set[str]] = defaultdict(set)
     for a, b in edges:
@@ -271,6 +288,8 @@ def main() -> None:
     for f in sorted(code_files):
         if f in reachable:
             continue
+        if f.endswith(".d.ts"):
+            continue  # TS declaration files are build-required, not candidates
         text = read(f)
         flags = []
         if f.endswith(".qs"):

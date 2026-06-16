@@ -361,5 +361,35 @@
   ],
   "website/data/azureRunHistory.json": [
     "website/data/projectStatus.ts"
+  ],
+  "website/data/calibrationData.json": [
+    "website/pages/problems/[problem].tsx"
+  ],
+  "website/data/emulatorResults.json": [
+    "website/pages/problems/[problem].tsx"
+  ],
+  "website/data/multiModelEstimates.json": [
+    "website/pages/problems/[problem].tsx"
+  ],
+  "website/data/noisySimResults.json": [
+    "website/pages/problems/[problem].tsx"
+  ],
+  "website/data/problemReadmes.json": [
+    "website/pages/problems/[problem].tsx"
+  ],
+  "website/data/projectStatus.ts": [
+    "website/pages/compare.tsx",
+    "website/pages/index.tsx",
+    "website/pages/problems/[problem].tsx"
+  ],
+  "website/data/resourceEstimates.json": [
+    "website/pages/compare.tsx",
+    "website/pages/problems/[problem].tsx"
+  ],
+  "website/data/stageDEvidence.json": [
+    "website/pages/problems/[problem].tsx"
+  ],
+  "website/data/troyerAssessment.json": [
+    "website/pages/problems/[problem].tsx"
   ]
 }

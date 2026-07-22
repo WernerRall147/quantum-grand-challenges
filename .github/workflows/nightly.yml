@@ -186,10 +186,15 @@ jobs:
             --query publicNetworkAccess \
             --output tsv)"
           ORIGINAL_PUBLIC_ACCESS="${ORIGINAL_PUBLIC_ACCESS//$'\r'/}"
+          # GitHub-hosted runners reach Azure services (Cosmos) from an Azure
+          # datacenter IP that differs from the public ipify IP, so allow-listing
+          # RUNNER_IP alone is not enough. Cosmos treats the special value 0.0.0.0
+          # as "accept connections from within public Azure datacenters", which
+          # covers the runner egress without opening the public internet.
           if [ -n "${ORIGINAL_IP_FILTER}" ]; then
-            NEW_IP_FILTER="${ORIGINAL_IP_FILTER},${RUNNER_IP}"
+            NEW_IP_FILTER="${ORIGINAL_IP_FILTER},${RUNNER_IP},0.0.0.0"
           else
-            NEW_IP_FILTER="${RUNNER_IP}"
+            NEW_IP_FILTER="${RUNNER_IP},0.0.0.0"
           fi
           echo "runner_ip=${RUNNER_IP}" >> "$GITHUB_OUTPUT"
           echo "original_ip_filter=${ORIGINAL_IP_FILTER}" >> "$GITHUB_OUTPUT"

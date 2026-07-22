@@ -129,13 +129,22 @@ def route_platform(
 
     # === DECISION MATRIX ===
 
-    # Rule 1: Strong quantum advantage from KB
-    if all_troyer_pass and best_speedup in STRONG_QUANTUM_SPEEDUPS:
+    # Rule 1: Strong quantum advantage from KB.
+    # Trust EITHER all 5 computed Troyer filters OR the curated troyer_verdict.
+    # Structural-advantage algorithms (e.g. Shor factoring) are QUANTUM_ADVANTAGE
+    # despite F4_naturally_quantum being false, so the curated verdict is
+    # authoritative for strong-speedup problems.
+    if best_speedup in STRONG_QUANTUM_SPEEDUPS and (all_troyer_pass or best_verdict == "QUANTUM_ADVANTAGE"):
+        reason = (
+            f"KB match '{best_name}' has {best_speedup} speedup and passes all 5 Troyer filters"
+            if all_troyer_pass
+            else f"KB match '{best_name}' has {best_speedup} speedup and a curated QUANTUM_ADVANTAGE verdict"
+        )
         return {
             "platform": "QUANTUM",
             "verdict": "QUANTUM_ADVANTAGE",
             "confidence": 0.9,
-            "reason": f"KB match '{best_name}' has {best_speedup} speedup and passes all 5 Troyer filters",
+            "reason": reason,
             "evidence": evidence,
         }
 

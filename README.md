@@ -404,9 +404,11 @@ quantum-grand-challenges/
 
 ### CLI (requires Azure credentials)
 
+`az login` is enough - AI Search is queried with your Entra identity, so no API key
+is needed (you need the `Search Index Data Reader` role on `qgcsearcheval`).
+
 ```bash
 az login --tenant dc692f3e-104b-4247-b52c-23692694684a
-export SEARCH_ADMIN_KEY=$(az search admin-key show --service-name qgcsearcheval --resource-group qgc-evaluator --query primaryKey -o tsv)
 
 python agents/orchestrator/evaluate.py "Simulate the ground state energy of a 50-atom catalyst"
 ```

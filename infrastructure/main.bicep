@@ -96,6 +96,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
   name: 'func-${uniqueSuffix}'
   location: location
   kind: 'functionapp'
+  identity: { type: 'SystemAssigned' }
   properties: {
     serverFarmId: functionAppPlan.id
     siteConfig: {
@@ -103,9 +104,8 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         { name: 'AzureWebJobsStorage', value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${storageAccount.listKeys().keys[0].value}' }
         { name: 'FUNCTIONS_EXTENSION_VERSION', value: '~4' }
         { name: 'FUNCTIONS_WORKER_RUNTIME', value: 'python' }
-        { name: 'COSMOS_CONNECTION_STRING', value: cosmosAccount.listConnectionStrings().connectionStrings[0].connectionString }
+        { name: 'COSMOS_ENDPOINT', value: cosmosAccount.properties.documentEndpoint }
         { name: 'SEARCH_ENDPOINT', value: 'https://${searchService.name}.search.windows.net' }
-        { name: 'SEARCH_KEY', value: searchService.listAdminKeys().primaryKey }
       ]
     }
   }

@@ -121,7 +121,7 @@ def generate_embeddings(papers: List[Dict]) -> List[Dict]:
     return papers
 
 
-def upsert_to_cosmos(papers: List[Dict]):
+def upsert_to_cosmos(papers: List[Dict]) -> bool:
     """Upsert papers into Cosmos DB. Uses key if COSMOS_KEY set, otherwise Entra ID."""
     from azure.cosmos import CosmosClient
 
@@ -149,12 +149,13 @@ def upsert_to_cosmos(papers: List[Dict]):
             }
             container.upsert_item(doc)
         print(f"  Cosmos DB: upserted {len(papers)} papers")
+        return True
     except Exception as e:
         print(f"  Cosmos DB upsert failed: {e}")
-        raise
+        return False
 
 
-def upsert_to_search_index(papers: List[Dict]):
+def upsert_to_search_index(papers: List[Dict]) -> bool:
     """Upsert papers into Azure AI Search quantum-papers index."""
     from azure.search.documents import SearchClient
 
@@ -189,8 +190,10 @@ def upsert_to_search_index(papers: List[Dict]):
         result = client.upload_documents(documents=docs)
         succeeded = sum(1 for r in result if r.succeeded)
         print(f"  AI Search: indexed {succeeded}/{len(docs)} papers")
+        return succeeded > 0
     except Exception as e:
         print(f"  AI Search upsert failed: {e}")
+        return False
 
 
 def main():
@@ -221,10 +224,15 @@ def main():
     if relevant:
         relevant = generate_embeddings(relevant)
 
-    # Upsert to Cosmos DB
+    # Upsert to both stores. They fail independently: Cosmos is currently
+    # unreachable (publicNetworkAccess=Disabled with no private endpoint), and
+    # AI Search is what the evaluator actually queries, so one blocked sink must
+    # not stop the other.
+    cosmos_ok = False
+    search_ok = False
     if relevant:
-        upsert_to_cosmos(relevant)
-        upsert_to_search_index(relevant)
+        cosmos_ok = upsert_to_cosmos(relevant)
+        search_ok = upsert_to_search_index(relevant)
 
     # Save to local file as backup
     output_path = "knowledge/data/latest_papers.json"
@@ -232,6 +240,9 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump({"ingested_utc": datetime.now(timezone.utc).isoformat(), "count": len(relevant), "papers": relevant}, f, indent=2)
     print(f"Saved {len(relevant)} papers to {output_path}")
+
+    if relevant and not (cosmos_ok or search_ok):
+        raise SystemExit("Ingestion failed: no store accepted the papers")
 
 
 if __name__ == "__main__":

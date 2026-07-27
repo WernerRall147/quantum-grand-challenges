@@ -39,6 +39,7 @@ on:
       - "agents/classifier/**"
       - "agents/code_generator/**"
       - "knowledge/search/**"
+      - "knowledge/ingest/**"
       - "Dockerfile"
       - ".dockerignore"
       - ".github/workflows/deploy-evaluator-api.yml"

@@ -34,9 +34,6 @@
     "agents/orchestrator/evaluate.py",
     "tooling/provision_foundry_agent.py"
   ],
-  "knowledge/ingest/arxiv_ingester.py": [
-    ".github/workflows/nightly.yml"
-  ],
   "knowledge/search/kb_client.py": [
     "agents/orchestrator/evaluate.py"
   ],

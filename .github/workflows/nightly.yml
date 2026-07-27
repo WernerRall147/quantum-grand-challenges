@@ -139,24 +139,16 @@ jobs:
           path: tooling/reporting/problem_runnable_correctness_report.json
           retention-days: 14
 
-  # Daily arxiv paper ingestion
+  # Daily arxiv paper ingestion.
+  # The ingestion itself runs as the qgc-ingest-job Container Apps Job on its own
+  # cron (0 6 * * *). Cosmos has publicNetworkAccess=Disabled and only bypasses
+  # for trusted Azure services, so a GitHub-hosted runner can never write to it;
+  # the job runs inside Azure and authenticates with its managed identity.
+  # This job only exists so the ingestion can be kicked off manually.
   arxiv-ingestion:
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-nightly-${{ runner.os }}
-          restore-keys: pip-ci-${{ runner.os }}-
-      - name: Install dependencies
-        run: pip install azure-cosmos azure-search-documents azure-identity openai
-
       - name: Azure login (service principal)
         uses: azure/login@v2
         with:
@@ -168,76 +160,24 @@ jobs:
               "subscriptionId": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3"
             }
 
-      - name: Allow runner IP on Cosmos firewall
-        id: cosmos-fw
+      - name: Trigger ingestion job and wait
         shell: bash
         run: |
           set -euo pipefail
-          RUNNER_IP="$(curl -sS https://api.ipify.org | tr -d '[:space:]')"
-          ORIGINAL_IP_FILTER="$(az cosmosdb show \
-            --resource-group qgc-evaluator \
-            --name qgccosmoseval \
-            --query ipRangeFilter \
-            --output tsv)"
-          ORIGINAL_IP_FILTER="${ORIGINAL_IP_FILTER//$'\r'/}"
-          ORIGINAL_PUBLIC_ACCESS="$(az cosmosdb show \
-            --resource-group qgc-evaluator \
-            --name qgccosmoseval \
-            --query publicNetworkAccess \
-            --output tsv)"
-          ORIGINAL_PUBLIC_ACCESS="${ORIGINAL_PUBLIC_ACCESS//$'\r'/}"
-          # GitHub-hosted runners reach Azure services (Cosmos) from an Azure
-          # datacenter IP that differs from the public ipify IP, so allow-listing
-          # RUNNER_IP alone is not enough. Cosmos treats the special value 0.0.0.0
-          # as "accept connections from within public Azure datacenters", which
-          # covers the runner egress without opening the public internet.
-          if [ -n "${ORIGINAL_IP_FILTER}" ]; then
-            NEW_IP_FILTER="${ORIGINAL_IP_FILTER},${RUNNER_IP},0.0.0.0"
-          else
-            NEW_IP_FILTER="${RUNNER_IP},0.0.0.0"
-          fi
-          echo "runner_ip=${RUNNER_IP}" >> "$GITHUB_OUTPUT"
-          echo "original_ip_filter=${ORIGINAL_IP_FILTER}" >> "$GITHUB_OUTPUT"
-          echo "original_public_access=${ORIGINAL_PUBLIC_ACCESS}" >> "$GITHUB_OUTPUT"
-          echo "Adding temporary Cosmos firewall IP ${RUNNER_IP} (publicNetworkAccess was ${ORIGINAL_PUBLIC_ACCESS})"
-          # publicNetworkAccess must be Enabled for ipRangeFilter to take effect;
-          # while it is Disabled the public endpoint blocks all traffic, allow-list included.
-          az cosmosdb update \
-            --resource-group qgc-evaluator \
-            --name qgccosmoseval \
-            --public-network-access Enabled \
-            --ip-range-filter "${NEW_IP_FILTER}"
-
-      - name: Run arxiv ingestion
-        env:
-          SEARCH_ADMIN_KEY: ${{ secrets.SEARCH_ADMIN_KEY }}
-          # DefaultAzureCredential picks these up via EnvironmentCredential,
-          # so Cosmos DB upsert and Azure OpenAI embeddings work on the runner.
-          AZURE_TENANT_ID: dc692f3e-104b-4247-b52c-23692694684a
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_OPENAI_ENDPOINT: https://qgc-openai.openai.azure.com/
-        run: python -m knowledge.ingest.arxiv_ingester
-
-      - name: Remove runner IP from Cosmos firewall
-        if: always() && steps.cosmos-fw.outputs.runner_ip != ''
-        shell: bash
-        run: |
-          set -euo pipefail
-          ORIGINAL_PUBLIC_ACCESS="${{ steps.cosmos-fw.outputs.original_public_access }}"
-          ORIGINAL_IP_FILTER="${{ steps.cosmos-fw.outputs.original_ip_filter }}"
-          echo "Restoring Cosmos firewall (publicNetworkAccess=${ORIGINAL_PUBLIC_ACCESS}, ipRangeFilter=${ORIGINAL_IP_FILTER})"
-          az cosmosdb update \
-            --resource-group qgc-evaluator \
-            --name qgccosmoseval \
-            --public-network-access "${ORIGINAL_PUBLIC_ACCESS}" \
-            --ip-range-filter "${ORIGINAL_IP_FILTER}"
-
-      - name: Upload ingestion report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: arxiv-ingestion
-          path: knowledge/data/latest_papers.json
-          retention-days: 7
+          az containerapp job start -n qgc-ingest-job -g qgc-evaluator -o none
+          EXECUTION="$(az containerapp job execution list -n qgc-ingest-job -g qgc-evaluator \
+            --query 'sort_by([], &properties.startTime)[-1].name' -o tsv)"
+          echo "Started execution ${EXECUTION}"
+          for _ in $(seq 1 60); do
+            STATUS="$(az containerapp job execution show -n qgc-ingest-job -g qgc-evaluator \
+              --job-execution-name "${EXECUTION}" --query properties.status -o tsv)"
+            echo "status=${STATUS}"
+            case "${STATUS}" in
+              Succeeded) exit 0 ;;
+              Failed|Degraded) echo "Ingestion job failed"; exit 1 ;;
+            esac
+            sleep 30
+          done
+          echo "Timed out waiting for ingestion job"
+          exit 1
 

@@ -6,7 +6,7 @@
     "python": 165,
     "qsharp": 43,
     "ts": 9,
-    "edges": 154,
+    "edges": 153,
     "roots": 232,
     "reachable": 253
   },
@@ -281,10 +281,6 @@
     [
       ".github/workflows/depgraph-drift.yml",
       "tooling/depgraph/build_graph.py"
-    ],
-    [
-      ".github/workflows/nightly.yml",
-      "knowledge/ingest/arxiv_ingester.py"
     ],
     [
       ".github/workflows/nightly.yml",

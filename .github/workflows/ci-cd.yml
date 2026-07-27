@@ -28,7 +28,7 @@ jobs:
           key: pip-ci-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: pip-ci-${{ runner.os }}-
       - name: Install dependencies
-        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qsharp
+        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qsharp azure-identity openai
       - name: Validate Q# compilation
         run: python tooling/ci_validate_qsharp.py
       - name: Run Q# entry points
@@ -36,7 +36,7 @@ jobs:
       - name: Validate JSON schemas
         run: python tooling/ci_validate_schema.py
       - name: Run pytest baseline tests
-        run: pytest conftest.py -k "test_baseline" --tb=short -q
+        run: pytest test_baselines.py --tb=short -q
       - name: Enforce maturity contract
         run: python tooling/reporting/stage_kpis.py --policy tooling/reporting/maturity-policy.json --enforce
       - name: QAOA estimator smoke
@@ -53,7 +53,7 @@ jobs:
             --precision-bits 6 --repetitions 120 --run-sanity-check false
           python -c "import qsharp; qsharp.init(project_root='problems/archived/03_qae_risk/qsharp'); print('QAE Q# OK')"
       - name: Evaluator smoke tests
-        run: pytest agents/tests/test_evaluator_smoke.py -v --tb=short
+        run: pytest agents/tests -v --tb=short
       - name: Verify matrix freshness + website schema
         run: |
           # Matrix freshness shells out to `make` per problem and can drift for

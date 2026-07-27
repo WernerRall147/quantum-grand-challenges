@@ -156,19 +156,21 @@ def upsert_to_cosmos(papers: List[Dict]):
 
 def upsert_to_search_index(papers: List[Dict]):
     """Upsert papers into Azure AI Search quantum-papers index."""
-    from azure.core.credentials import AzureKeyCredential
     from azure.search.documents import SearchClient
 
     search_key = os.environ.get("SEARCH_ADMIN_KEY")
-    if not search_key:
-        print("  AI Search: SEARCH_ADMIN_KEY not set, skipping")
-        return
+    if search_key:
+        from azure.core.credentials import AzureKeyCredential
+        credential = AzureKeyCredential(search_key)
+    else:
+        from azure.identity import DefaultAzureCredential
+        credential = DefaultAzureCredential()
 
     try:
         client = SearchClient(
             endpoint="https://qgcsearcheval.search.windows.net",
             index_name="quantum-papers",
-            credential=AzureKeyCredential(search_key),
+            credential=credential,
         )
         docs = []
         for p in papers:

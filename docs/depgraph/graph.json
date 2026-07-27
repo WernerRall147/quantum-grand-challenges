@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1183,
-    "code_files": 216,
-    "python": 164,
+    "tracked": 1184,
+    "code_files": 217,
+    "python": 165,
     "qsharp": 43,
     "ts": 9,
-    "edges": 155,
-    "roots": 231,
-    "reachable": 252
+    "edges": 154,
+    "roots": 232,
+    "reachable": 253
   },
   "nodes": [
     "agents/api/main.py",
@@ -165,6 +165,7 @@
     "problems/archived/20_space_mission_planning/python/test_baseline.py",
     "problems/archived/20_space_mission_planning/qsharp/HardwareKernel.qs",
     "problems/archived/20_space_mission_planning/qsharp/src/Main.qs",
+    "test_baselines.py",
     "tooling/azq/job_manager.py",
     "tooling/azure/assess_problem_readiness.py",
     "tooling/azure/azure_env.py",
@@ -235,14 +236,6 @@
     ],
     [
       ".github/workflows/ci-cd.yml",
-      "agents/tests/test_evaluator_smoke.py"
-    ],
-    [
-      ".github/workflows/ci-cd.yml",
-      "conftest.py"
-    ],
-    [
-      ".github/workflows/ci-cd.yml",
       "problems/archived/03_qae_risk/python/write_runtime_config.py"
     ],
     [
@@ -256,6 +249,10 @@
     [
       ".github/workflows/ci-cd.yml",
       "problems/archived/05_qaoa_maxcut/python/validate_evidence_quality.py"
+    ],
+    [
+      ".github/workflows/ci-cd.yml",
+      "test_baselines.py"
     ],
     [
       ".github/workflows/ci-cd.yml",

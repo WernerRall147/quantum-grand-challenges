@@ -1,8 +1,5 @@
-"""Root conftest.py  auto-discovers test_baseline.py files and registers them as pytest tests."""
+"""Root conftest.py  auto-discovers test_baseline.py files and exposes them as a fixture."""
 
-import importlib.util
-import subprocess
-import sys
 from pathlib import Path
 
 import pytest
@@ -31,19 +28,3 @@ _BASELINE_TESTS = list(_discover_baseline_tests())
 def baseline_test_script(request):
     """Return the path to a test_baseline.py script."""
     return dict(_BASELINE_TESTS)[request.param]
-
-
-def test_baseline(baseline_test_script):
-    """Run a problem's test_baseline.py as a subprocess and assert it exits 0."""
-    result = subprocess.run(
-        [sys.executable, str(baseline_test_script)],
-        capture_output=True,
-        text=True,
-        timeout=60,
-        env={**__import__("os").environ, "PYTHONUTF8": "1", "MPLBACKEND": "Agg"},
-    )
-    assert result.returncode == 0, (
-        f"test_baseline.py failed for {baseline_test_script.parent.parent.name}:\n"
-        f"STDOUT: {result.stdout[-500:] if result.stdout else ''}\n"
-        f"STDERR: {result.stderr[-500:] if result.stderr else ''}"
-    )

@@ -19,7 +19,7 @@ abstract: >-
   with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles
   (1.8k to 401k physical qubits). Implements 10 algorithm families (VQE, QAOA, Grover,
   HHL, Shor, IQAE, swap test, QEC, quantum walk, Trotter simulation) using the modern
-  Microsoft QDK (qsharp 1.27+, no .NET dependency). Includes cross-problem comparison
+  Microsoft QDK (qsharp 1.31.0, no .NET dependency). Includes cross-problem comparison
   dashboard, per-problem detail pages with charts, and embedded README documentation.
 keywords:
   - quantum computing

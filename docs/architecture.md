@@ -217,7 +217,7 @@ For each user-submitted problem, the system produces:
 | Search | Azure AI Search | Vector + keyword hybrid search |
 | Embeddings | Azure OpenAI (text-embedding-3-large) | Best-in-class for scientific text |
 | Agent Model | GPT-4.1 / latest in Foundry | Reasoning over scientific content |
-| Q# Runtime | qsharp Python package (1.27+) | Resource estimation + compilation |
+| Q# Runtime | qsharp Python package (pinned 1.31.0) | Resource estimation + compilation |
 | Website | Next.js (existing) | Add chat component |
 | MCP Servers | Python (FastAPI + MCP protocol) | Custom scientific + algo zoo servers |
 | Daily Ingest | Azure Functions (timer trigger) | arxiv paper ingestion pipeline |

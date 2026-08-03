@@ -9,7 +9,7 @@ Quantum Grand Challenges is a systematic exploration of 20 of the world's most c
 ## Critical Dependencies & Compatibility
 
 ### QDK (Quantum Development Kit)
-- **Modern QDK**: Q# programs use `qsharp.json` project format with the `qsharp` Python package (v1.27+)
+- **Modern QDK**: Q# programs use `qsharp.json` project format with the `qsharp` Python package, pinned to `1.31.0`
 - **No .NET dependency**: The legacy Microsoft.Quantum.Sdk / .NET 6.0 toolchain has been fully replaced
 - **Install**: `pip install qsharp` (or `pip install "qdk[azure]"` for Azure Quantum submission)
 
@@ -148,7 +148,7 @@ problems/XX_problem_name/
 ```
 
 ### Current Implementation Status
-- **All 20 problems**: ✅ Migrated to modern QDK (qsharp 1.27), compile, run, Azure syntax-checked
+- **All 20 problems**: ✅ Migrated to modern QDK (qsharp 1.31.0 pinned), compile, run, Azure syntax-checked
 - **03_qae_risk**: ✅ IQAE algorithm (iterative, no QPE register), adaptive Python driver with Clopper-Pearson CI, variance-reduced MC baseline, CVaR/VaR bisection search
 - **01_hubbard**: ✅ VQE ansatz with Pauli expectation measurement, analytical baseline
 - **02_catalysis**: ✅ VQE for H₂ ground state (STO-3G), Arrhenius rate baseline

@@ -228,7 +228,7 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </div>
           <div style={{ background: '#fefce8', borderRadius: '10px', padding: '1.25rem' }}>
             <strong style={{ color: '#92400e' }}>Framework</strong>
-            <div style={{ marginTop: '0.5rem', color: '#374151' }}>Modern QDK (qsharp 1.27+)</div>
+            <div style={{ marginTop: '0.5rem', color: '#374151' }}>Modern QDK (qsharp 1.31.0)</div>
           </div>
         </section>
 

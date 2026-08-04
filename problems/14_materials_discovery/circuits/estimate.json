@@ -1,7 +1,18 @@
 {
-  "physicalQubits": 131924,
-  "logicalQubits": 18,
-  "tCount": 6,
-  "rotationCount": 45,
-  "runtime": 3265600
+  "problem": "14_materials_discovery",
+  "qubitModel": "qubit_gate_ns_e3",
+  "qecScheme": "surface_code",
+  "physicalQubits": 163268,
+  "runtime": 87290000,
+  "logicalQubits": 12,
+  "codeDistance": 25,
+  "tFactoryFraction": 0.908,
+  "error": 0.0009715914448436434,
+  "paretoPoints": 10,
+  "tCount": null,
+  "rotationCount": 896,
+  "cczCount": null,
+  "measurementCount": 512,
+  "logicalDepth": 1016,
+  "numQubits": 3
 }

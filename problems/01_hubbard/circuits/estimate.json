@@ -1,7 +1,18 @@
 {
-  "physicalQubits": 131924,
-  "logicalQubits": 18,
-  "tCount": 6,
-  "rotationCount": 45,
-  "runtime": 3291600
+  "problem": "01_hubbard",
+  "qubitModel": "qubit_gate_ns_e3",
+  "qecScheme": "surface_code",
+  "physicalQubits": 53628,
+  "runtime": 1120000,
+  "logicalQubits": 12,
+  "codeDistance": 25,
+  "tFactoryFraction": 0.721,
+  "error": 0.0006233772903455884,
+  "paretoPoints": 9,
+  "tCount": null,
+  "rotationCount": 12,
+  "cczCount": null,
+  "measurementCount": 12,
+  "logicalDepth": 20,
+  "numQubits": 3
 }

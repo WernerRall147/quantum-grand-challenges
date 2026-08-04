@@ -1,7 +1,18 @@
 {
-  "physicalQubits": 130196,
-  "logicalQubits": 18,
-  "tCount": 6,
-  "rotationCount": 31,
-  "runtime": 2270400
+  "problem": "07_drug_discovery",
+  "qubitModel": "qubit_gate_ns_e3",
+  "qecScheme": "surface_code",
+  "physicalQubits": 57764,
+  "runtime": 966000,
+  "logicalQubits": 12,
+  "codeDistance": 23,
+  "tFactoryFraction": 0.78,
+  "error": 0.0006233773289375885,
+  "paretoPoints": 11,
+  "tCount": null,
+  "rotationCount": 12,
+  "cczCount": null,
+  "measurementCount": 4,
+  "logicalDepth": 12,
+  "numQubits": 3
 }

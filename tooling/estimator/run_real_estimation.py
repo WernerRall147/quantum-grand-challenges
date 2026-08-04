@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run real resource estimation using the modern Q# Python package.
 
-Estimates resource requirements for OpenQASM circuits using qsharp.estimate().
+Estimates resource requirements for OpenQASM circuits using the QRE v3 estimator.
 Produces standardized JSON output compatible with the existing estimation pipeline.
 """
 
@@ -54,9 +54,11 @@ CIRCUITS = [
 
 
 def estimate_qasm(qasm_path: Path) -> dict:
-    """Estimate resources for an OpenQASM circuit using the modern Q# package."""
+    """Estimate resources for an OpenQASM circuit using the QRE v3 estimator."""
     try:
-        from qdk import qsharp
+        from qdk.qre import estimate
+        from qdk.qre.application import OpenQASMApplication
+        from qdk.qre.models import GateBased, RoundBasedFactory, SurfaceCode
     except ImportError:
         print("ERROR: qdk package not installed. Run: pip install qdk", file=sys.stderr)
         sys.exit(1)
@@ -64,10 +66,18 @@ def estimate_qasm(qasm_path: Path) -> dict:
     qasm_text = qasm_path.read_text(encoding="utf-8")
 
     try:
-        result = qsharp.estimate(qasm_text, params={"errorBudget": 0.001})
-        return result
+        table = estimate(
+            OpenQASMApplication(qasm_text),
+            GateBased(error_rate=1e-3, gate_time=50, measurement_time=100),
+            isa_query=SurfaceCode.q() * RoundBasedFactory.q(),
+            max_error=0.001,
+        )
+        if not len(table):
+            print("  Warning: no feasible configuration found", file=sys.stderr)
+            return None
+        return min(table, key=lambda e: (e.qubits, e.runtime))
     except Exception as e:
-        print(f"  Warning: qsharp.estimate() failed: {e}", file=sys.stderr)
+        print(f"  Warning: QRE v3 estimation failed: {e}", file=sys.stderr)
         return None
 
 
@@ -127,8 +137,12 @@ def main():
             est_data = {
                 "problem_id": circuit["problem_id"],
                 "algorithm": circuit["algorithm"],
-                "source": "qsharp_resource_estimator",
-                "raw": est,
+                "source": "qre_v3",
+                "metrics": {
+                    "physical_qubits": est.qubits,
+                    "runtime_ns": est.runtime,
+                    "error": est.error,
+                },
                 "timestamp": timestamp,
             }
 

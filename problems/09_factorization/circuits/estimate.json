@@ -1,13 +1,18 @@
 {
   "problem": "09_factorization",
-  "physicalQubits": 77330,
-  "runtime": 215600,
-  "rqops": 5681819,
+  "qubitModel": "qubit_gate_ns_e3",
+  "qecScheme": "surface_code",
+  "physicalQubits": 53065,
+  "runtime": 291550,
   "logicalQubits": 25,
-  "logicalDepth": null,
+  "codeDistance": 17,
+  "tFactoryFraction": 0.728,
+  "error": 0.00035504706546035924,
+  "paretoPoints": 8,
   "tCount": 6,
   "rotationCount": 3,
-  "cczCount": 0,
+  "cczCount": null,
   "measurementCount": 4,
+  "logicalDepth": 13,
   "numQubits": 8
 }

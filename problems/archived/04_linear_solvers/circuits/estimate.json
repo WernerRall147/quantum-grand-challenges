@@ -1,13 +1,18 @@
 {
   "problem": "04_linear_solvers",
-  "physicalQubits": 139876,
-  "runtime": 2318800,
-  "rqops": 4090910,
+  "qubitModel": "qubit_gate_ns_e3",
+  "qecScheme": "surface_code",
+  "physicalQubits": 80322,
+  "runtime": 4611250,
   "logicalQubits": 18,
-  "logicalDepth": null,
+  "codeDistance": 25,
+  "tFactoryFraction": 0.72,
+  "error": 0.00036959203866087086,
+  "paretoPoints": 7,
   "tCount": 12,
   "rotationCount": 37,
-  "cczCount": 0,
+  "cczCount": null,
   "measurementCount": 2,
+  "logicalDepth": 48,
   "numQubits": 5
 }

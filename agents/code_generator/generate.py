@@ -5,7 +5,7 @@ Pipeline:
 2. Look up the closest reference implementation from problems/
 3. Ask GPT-5.4-mini to generate a Q# operation tailored to the problem
 4. Validate by compiling via the qsharp Python package
-5. Run qsharp.estimate() for resource requirements
+5. Run QRE v3 resource estimation for resource requirements
 
 This produces the "🔧 Q# code" output advertised in README.
 """
@@ -28,11 +28,11 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tooling"))
 
 from estimator_config import (  # noqa: E402  must follow sys.path setup
+    DEFAULT_QEC_SCHEME,
+    DEFAULT_QUBIT_MODEL,
     QUBIT_MODELS,
-    extract_summary,
+    estimate_summary,
     iter_model_configs,
-    make_batch_estimator_params,
-    make_estimator_params,
 )
 
 OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
@@ -149,16 +149,15 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
     }
 
     @classmethod
-    def _extract_estimate(cls, data: Any) -> Dict[str, Any]:
-        """Pull headline metrics from a qsharp.estimate() result (snake_case)."""
-        camel = extract_summary(data)
-        return {snake: camel.get(camel_k) for camel_k, snake in cls._SUMMARY_KEY_MAP.items()}
+    def _extract_estimate(cls, summary: Dict[str, Any]) -> Dict[str, Any]:
+        """Rename a QRE v3 summary to the snake_case UI schema."""
+        return {snake: summary.get(camel_k) for camel_k, snake in cls._SUMMARY_KEY_MAP.items()}
 
     def compile_and_estimate(self, code: str, multi_profile: bool = False) -> Dict[str, Any]:
-        """Compile generated Q# via qsharp package and run resource estimation.
+        """Compile generated Q# via qdk and run QRE v3 resource estimation.
 
-        When ``multi_profile`` is True, also sweeps 6 qubit profiles × QEC schemes
-        and returns ``pareto_table`` for comparison rendering.
+        When ``multi_profile`` is True, also sweeps the qubit profiles × QEC
+        schemes and returns ``pareto_table`` for comparison rendering.
         """
         try:
             from qdk import qsharp  # type: ignore
@@ -181,9 +180,9 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
 
             # Default-profile estimate (kept at top level for backwards compat).
             try:
-                est = qsharp.estimate("Main()")
-                data = est.data() if hasattr(est, "data") else est
-                summary = self._extract_estimate(data)
+                summary = self._extract_estimate(
+                    estimate_summary("Main()", DEFAULT_QUBIT_MODEL, DEFAULT_QEC_SCHEME)
+                )
                 result.update({
                     "physical_qubits": summary.get("physical_qubits"),
                     "runtime_ns": summary.get("runtime_ns"),
@@ -193,16 +192,15 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
                 result["estimate_error"] = str(e)[:500]
 
             if multi_profile:
-                result["pareto_table"] = self._run_pareto_sweep(qsharp)
+                result["pareto_table"] = self._run_pareto_sweep()
 
             return result
 
-    def _run_pareto_sweep(self, qsharp_mod: Any) -> list:
+    def _run_pareto_sweep(self) -> list:
         """Evaluate every (qubit, QEC) combination in QUBIT_MODELS.
 
-        Tries a single batched ``qsharp.estimate()`` call first (replaces the
-        old per-config Python loop). Falls back to per-config calls if the
-        batch raises, so per-item incompatibility errors stay diagnosable.
+        QRE v3 explores code distances and factories internally, so each
+        combination is its own call and per-config errors stay diagnosable.
         """
         triples = list(iter_model_configs(self.PARETO_MODELS))
 
@@ -217,27 +215,11 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
             })
             return summary
 
-        # Path 1: single batched call.
-        try:
-            batch_params = make_batch_estimator_params(
-                (m.name, qec) for m, qec, _ in triples
-            )
-            batch_est = qsharp_mod.estimate("Main()", params=batch_params)
-            return [
-                _annotate(self._extract_estimate(batch_est[i]), model, qec, key)
-                for i, (model, qec, key) in enumerate(triples)
-            ]
-        except Exception:  # noqa: BLE001  fall back to per-config diagnostics
-            pass
-
-        # Path 2: per-config fallback (preserves rich per-item error reporting).
         pareto: list = []
         for model, qec, key in triples:
             try:
-                params = make_estimator_params(model.name, qec)
-                est = qsharp_mod.estimate("Main()", params=params)
-                data = est.data() if hasattr(est, "data") else est
-                pareto.append(_annotate(self._extract_estimate(data), model, qec, key))
+                summary = self._extract_estimate(estimate_summary("Main()", model.name, qec))
+                pareto.append(_annotate(summary, model, qec, key))
             except Exception as e:  # noqa: BLE001  skip incompatible combos
                 pareto.append({
                     "config": key,

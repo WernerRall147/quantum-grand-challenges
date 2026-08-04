@@ -9,22 +9,49 @@ Consolidates what used to be duplicated across:
 What lives here:
   - ENTRY_POINTS: per-problem Q# entry expressions (with optional ``{shots}``
     placeholder for kernels that take an iteration / shot count).
-  - QUBIT_MODELS: the 6 qubit profiles × QEC schemes used for the multimodel
-    Pareto sweep (matches Azure Quantum Resource Estimator names).
-  - make_estimator_params / make_batch_estimator_params: typed
-    ``qsharp.estimator.EstimatorParams`` factories. Batch mode lets a single
-    ``qsharp.estimate()`` call evaluate every (qubit, QEC) combination in one
-    pass  replacing nested per-config Python loops.
+  - QUBIT_MODELS: the qubit profiles × QEC schemes used for the multimodel
+    Pareto sweep, expressed as explicit QRE v3 physical parameters.
+  - make_architecture / make_isa_query: build the typed ``qdk.qre`` inputs.
+  - estimate_summary: run one estimation and reduce the Pareto frontier to the
+    single representative point used by downstream consumers.
   - extract_summary: unified flat-dict shape for downstream consumers
     (website, paper figures, agent telemetry).
+
+QRE v3 returns a Pareto frontier rather than a single point. This module picks
+the minimum-qubit entry, which is the most conservative hardware ask and matches
+how the repo reports ``physicalQubits``. Under matched assumptions that point
+uses 1-4x fewer qubits than the retired ``qsharp.estimate`` path, at 1.5-2x the
+runtime, because it sits at the low-qubit corner of the frontier.
 """
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable, Iterator
 
-from qdk.estimator import EstimatorParams
+from qdk.qre import (
+    Architecture,
+    EstimationTable,
+    EstimationTableEntry,
+    estimate,
+    instruction_name,
+)
+from qdk.qre.application import QSharpApplication
+from qdk.qre.interop import trace_from_entry_expr
+from qdk.qre.models import GateBased, Majorana, RoundBasedFactory, SurfaceCode
+from qdk.qre.property_keys import (
+    LOGICAL_COMPUTE_QUBITS,
+    LOGICAL_MEMORY_QUBITS,
+    PHYSICAL_FACTORY_QUBITS,
+)
+
+# Matches the error budget the retired estimator used by default.
+DEFAULT_MAX_ERROR = 1e-3
+
+# Matches the profile the retired estimator assumed when given no parameters.
+DEFAULT_QUBIT_MODEL = "qubit_gate_ns_e3"
+DEFAULT_QEC_SCHEME = "surface_code"
 
 # Conventional shot tiers  callers pass these to EntryPoint.expr().
 SHOTS_KERNEL = 1       # minimal cost: structural resource estimate / circuit draw
@@ -190,8 +217,11 @@ CIRCUIT_DIAGRAM_PROBLEMS: tuple[str, ...] = (
 class QubitModel:
     """One row of the Pareto sweep matrix.
 
-    ``qec_schemes`` enumerates which codes pair with this qubit family 
-    floquet code is Majorana-only.
+    ``name`` keeps the legacy Azure Resource Estimator profile id so existing
+    artifacts and website keys stay stable, but the hardware is now described by
+    explicit physical parameters rather than a preset lookup.
+
+    ``gate_time_ns`` is None for Majorana, which is measurement-driven.
     """
 
     name: str
@@ -199,15 +229,32 @@ class QubitModel:
     qec_schemes: tuple[str, ...]
     family: str
     speed: str
+    error_rate: float
+    measurement_time_ns: int
+    gate_time_ns: int | None = None
 
+    def architecture(self) -> Architecture:
+        if self.family == "majorana":
+            return Majorana(error_rate=self.error_rate, time=self.measurement_time_ns)
+        return GateBased(
+            error_rate=self.error_rate,
+            gate_time=self.gate_time_ns,
+            measurement_time=self.measurement_time_ns,
+        )
+
+
+# QRE v3 ships no floquet code, and the Majorana architecture produced an empty
+# Pareto frontier for every code and factory we tried (SurfaceCode, LowMove,
+# ThreeAux, 1D/2D yoked, x RoundBased/Litinski19/GSJ24, and PSSPC as a trace
+# transform). Until a supported Majorana ISA is documented, the sweep covers the
+# gate-based profiles only, so the two Majorana rows have been retired.
+QEC_TRANSFORMS = {"surface_code": SurfaceCode}
 
 QUBIT_MODELS: tuple[QubitModel, ...] = (
-    QubitModel("qubit_gate_ns_e3", "Superconducting (ns, 1e-3)", ("surface_code",), "gate_based", "ns"),
-    QubitModel("qubit_gate_ns_e4", "Superconducting (ns, 1e-4)", ("surface_code",), "gate_based", "ns"),
-    QubitModel("qubit_gate_us_e3", "Trapped Ion (\u03bcs, 1e-3)", ("surface_code",), "gate_based", "us"),
-    QubitModel("qubit_gate_us_e4", "Trapped Ion (\u03bcs, 1e-4)", ("surface_code",), "gate_based", "us"),
-    QubitModel("qubit_maj_ns_e4", "Majorana (ns, 1e-4)", ("surface_code", "floquet_code"), "majorana", "ns"),
-    QubitModel("qubit_maj_ns_e6", "Majorana (ns, 1e-6)", ("surface_code", "floquet_code"), "majorana", "ns"),
+    QubitModel("qubit_gate_ns_e3", "Superconducting (ns, 1e-3)", ("surface_code",), "gate_based", "ns", 1e-3, 100, 50),
+    QubitModel("qubit_gate_ns_e4", "Superconducting (ns, 1e-4)", ("surface_code",), "gate_based", "ns", 1e-4, 100, 50),
+    QubitModel("qubit_gate_us_e3", "Trapped Ion (\u03bcs, 1e-3)", ("surface_code",), "gate_based", "us", 1e-3, 100_000, 100_000),
+    QubitModel("qubit_gate_us_e4", "Trapped Ion (\u03bcs, 1e-4)", ("surface_code",), "gate_based", "us", 1e-4, 100_000, 100_000),
 )
 
 
@@ -226,96 +273,151 @@ def iter_model_configs(
 
 
 # ---------------------------------------------------------------------------
-# Typed EstimatorParams factories
+# QRE v3 estimation
 # ---------------------------------------------------------------------------
 
-def make_estimator_params(
+MODELS_BY_NAME = {m.name: m for m in QUBIT_MODELS}
+
+
+def make_architecture(qubit_name: str) -> Architecture:
+    """Build the typed QRE v3 architecture for a legacy qubit-profile id."""
+
+    try:
+        return MODELS_BY_NAME[qubit_name].architecture()
+    except KeyError:
+        raise KeyError(f"unknown qubit model {qubit_name!r}") from None
+
+
+def make_isa_query(qec_name: str):
+    """Compose the QEC code with a magic-state factory into an ISA query."""
+
+    try:
+        code = QEC_TRANSFORMS[qec_name]
+    except KeyError:
+        raise KeyError(f"unknown QEC scheme {qec_name!r}") from None
+    return code.q() * RoundBasedFactory.q()
+
+
+def select_entry(table: EstimationTable) -> EstimationTableEntry:
+    """Reduce a Pareto frontier to the representative point: fewest qubits."""
+
+    if not len(table):
+        raise ValueError("no feasible configuration: the Pareto frontier is empty")
+    return min(table, key=lambda e: (e.qubits, e.runtime))
+
+
+def estimate_summary(
+    entry_expr: str,
     qubit_name: str,
     qec_name: str,
-    error_budget: float | None = None,
-) -> EstimatorParams:
-    """Build a single-item ``EstimatorParams`` (typed, not raw dict)."""
+    max_error: float = DEFAULT_MAX_ERROR,
+) -> dict[str, Any]:
+    """Estimate one (problem, qubit model, QEC) combination.
 
-    p = EstimatorParams()
-    p.qubit_params.name = qubit_name
-    p.qec_scheme.name = qec_name
-    if error_budget is not None:
-        p.error_budget = error_budget
-    return p
-
-
-def make_batch_estimator_params(
-    configs: Iterable[tuple[str, str]],
-    error_budget: float | None = None,
-) -> EstimatorParams:
-    """Build a multi-item ``EstimatorParams`` for one batched ``qsharp.estimate()`` call.
-
-    Args:
-        configs: ``(qubit_params_name, qec_scheme_name)`` pairs in the order
-            their results will appear at ``EstimatorResult[i]``.
-        error_budget: Optional per-item error budget applied to every entry.
-
-    Returns:
-        An ``EstimatorParams`` with ``num_items`` populated. Passing this to
-        ``qsharp.estimate()`` returns an ``EstimatorResult`` indexable as a
-        list of length ``len(configs)``.
+    Requires ``qsharp.init(project_root=...)`` to have been called for the
+    problem whose expression is being estimated.
     """
 
-    configs = list(configs)
-    p = EstimatorParams(num_items=len(configs))
-    for i, (qubit_name, qec_name) in enumerate(configs):
-        p.items[i].qubit_params.name = qubit_name
-        p.items[i].qec_scheme.name = qec_name
-        if error_budget is not None:
-            p.items[i].error_budget = error_budget
-    return p
+    table = estimate(
+        QSharpApplication(entry_expr),
+        make_architecture(qubit_name),
+        isa_query=make_isa_query(qec_name),
+        max_error=max_error,
+    )
+    return extract_summary(select_entry(table), table=table, entry_expr=entry_expr)
 
 
 # ---------------------------------------------------------------------------
 # Summary extraction
 # ---------------------------------------------------------------------------
 
-def extract_summary(estimate_data: Any) -> dict[str, Any]:
-    """Flatten a ``qsharp.estimate()`` result to the keys downstream consumers want.
+_CODE_DISTANCE_RE = re.compile(r"distance=(\d+)")
 
-    Works on a single-item result or one item out of a batched result (both are
-    dict-like). Returns an empty dict if the input isn't a mapping.
+# Trace instruction names that map onto the legacy logical-count fields.
+_GATE_COUNT_FIELDS = {
+    "T": "tCount",
+    "RZ": "rotationCount",
+    "CCZ": "cczCount",
+    "MEAS_Z": "measurementCount",
+}
 
-    Keys (all may be None if unavailable):
-        physicalQubits, runtime, rqops, logicalQubits, logicalDepth, tCount,
-        rotationCount, cczCount, measurementCount, numQubits, codeDistance,
-        tFactoryFraction
+
+def _logical_counts(entry_expr: str) -> dict[str, Any]:
+    """Recover logical gate counts, depth and width from the Q# trace.
+
+    QRE v3 keeps these on the trace rather than the estimation result, so they
+    are read back separately. Failures are non-fatal: the estimate itself is
+    still valid without them.
     """
 
-    if not isinstance(estimate_data, dict):
+    counts: dict[str, Any] = {f: None for f in _GATE_COUNT_FIELDS.values()}
+    counts["logicalDepth"] = None
+    counts["numQubits"] = None
+
+    try:
+        trace = trace_from_entry_expr(entry_expr)
+    except Exception:
+        return counts
+
+    counts["logicalDepth"] = trace.depth
+    counts["numQubits"] = trace.total_qubits
+
+    try:
+        raw = trace.gate_counts() if callable(trace.gate_counts) else trace.gate_counts
+        for instruction_id, count in dict(raw).items():
+            field = _GATE_COUNT_FIELDS.get(instruction_name(instruction_id))
+            if field:
+                counts[field] = counts[field] or 0
+                counts[field] += count
+    except Exception:
+        pass
+
+    return counts
+
+
+def extract_summary(
+    entry: EstimationTableEntry,
+    table: EstimationTable | None = None,
+    entry_expr: str | None = None,
+) -> dict[str, Any]:
+    """Flatten one QRE v3 Pareto entry to the keys downstream consumers want.
+
+    Args:
+        entry: The representative point, normally from :func:`select_entry`.
+        table: The full frontier, used to report how many points were explored.
+        entry_expr: Q# expression, used to recover logical counts from the trace.
+
+    Keys (all may be None if unavailable):
+        physicalQubits, runtime, logicalQubits, logicalDepth, tCount,
+        rotationCount, cczCount, measurementCount, numQubits, codeDistance,
+        tFactoryFraction, error, paretoPoints
+    """
+
+    if entry is None:
         return {}
 
-    pc = estimate_data.get("physicalCounts", {}) or {}
-    lc = estimate_data.get("logicalCounts", {}) or {}
-    bd = pc.get("breakdown", {}) or {}
-    patch_raw = bd.get("logicalPatch")
-    patch = patch_raw if isinstance(patch_raw, dict) else None
+    props = dict(getattr(entry, "properties", {}) or {})
+    physical_qubits = entry.qubits
+    factory_qubits = props.get(PHYSICAL_FACTORY_QUBITS)
 
-    physical_qubits = pc.get("physicalQubits")
-    t_factory_qubits = bd.get("physicalQubitsForTfactories")
     t_factory_fraction: float | None = None
-    if physical_qubits and t_factory_qubits:
-        try:
-            t_factory_fraction = round(t_factory_qubits / physical_qubits, 3)
-        except (ZeroDivisionError, TypeError):
-            pass
+    if physical_qubits and factory_qubits:
+        t_factory_fraction = round(factory_qubits / physical_qubits, 3)
 
-    return {
+    logical_qubits = (props.get(LOGICAL_COMPUTE_QUBITS) or 0) + (
+        props.get(LOGICAL_MEMORY_QUBITS) or 0
+    )
+
+    distance_match = _CODE_DISTANCE_RE.search(str(getattr(entry, "source", "")))
+
+    summary: dict[str, Any] = {
         "physicalQubits": physical_qubits,
-        "runtime": pc.get("runtime"),
-        "rqops": pc.get("rqops"),
-        "logicalQubits": bd.get("algorithmicLogicalQubits"),
-        "logicalDepth": lc.get("logicalDepth"),
-        "tCount": lc.get("tCount"),
-        "rotationCount": lc.get("rotationCount"),
-        "cczCount": lc.get("cczCount"),
-        "measurementCount": lc.get("measurementCount"),
-        "numQubits": lc.get("numQubits"),
-        "codeDistance": patch.get("codeDistance") if patch else None,
+        "runtime": entry.runtime,
+        "logicalQubits": logical_qubits or None,
+        "codeDistance": int(distance_match.group(1)) if distance_match else None,
         "tFactoryFraction": t_factory_fraction,
+        "error": entry.error,
+        "paretoPoints": len(table) if table is not None else None,
     }
+    summary.update(_logical_counts(entry_expr) if entry_expr else {})
+    return summary

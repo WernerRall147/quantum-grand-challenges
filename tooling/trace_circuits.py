@@ -56,7 +56,7 @@ TRACE_EXPRESSIONS = {
 
 
 def main():
-    import qsharp
+    from qdk import qsharp
 
     ok = 0
     fail = 0

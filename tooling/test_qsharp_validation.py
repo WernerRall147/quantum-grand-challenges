@@ -12,9 +12,9 @@ from pathlib import Path
 import pytest
 
 try:
-    import qsharp
+    from qdk import qsharp
 except ImportError:
-    pytest.skip("qsharp package not installed", allow_module_level=True)
+    pytest.skip("qdk package not installed", allow_module_level=True)
 
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 

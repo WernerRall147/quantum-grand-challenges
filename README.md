@@ -144,7 +144,7 @@ Execution plan: `docs/planning/completeness-execution-plan-2026-03-10.md`.
 
 ### Prerequisites
 
-- **Python 3.11+** with `qsharp` package (`pip install qsharp`)  no .NET dependency
+- **Python 3.11+** with the `qdk` package (`pip install qdk`)  no .NET dependency
 - **Azure CLI** (optional) with the Quantum extension for cloud submissions
 
 ### Development Environment
@@ -158,7 +158,7 @@ git clone https://github.com/WernerRall147/quantum-grand-challenges.git
 cd quantum-grand-challenges
 
 # Install the modern QDK (Q# via Python  no .NET needed)
-pip install qsharp numpy scipy matplotlib pandas
+pip install qdk numpy scipy matplotlib pandas
 ```
 
 ### Run a Problem

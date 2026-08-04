@@ -15,7 +15,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-import qsharp
+from qdk import qsharp
 
 from estimator_config import ENTRY_POINTS, SHOTS_CALIBRATION
 

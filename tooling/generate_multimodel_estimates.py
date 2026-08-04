@@ -41,7 +41,7 @@ from estimator_config import (
 
 
 def main():
-    import qsharp
+    from qdk import qsharp
 
     results = {}
     total_estimates = 0

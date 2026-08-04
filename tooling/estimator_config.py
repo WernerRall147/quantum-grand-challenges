@@ -24,7 +24,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable, Iterator
 
-from qsharp.estimator import EstimatorParams
+from qdk.estimator import EstimatorParams
 
 # Conventional shot tiers  callers pass these to EntryPoint.expr().
 SHOTS_KERNEL = 1       # minimal cost: structural resource estimate / circuit draw

@@ -14,7 +14,7 @@ HISTORY_PATH = Path(__file__).resolve().parent.parent / "website" / "data" / "az
 
 
 def compile_kernel(problem_id, target_profile):
-    import qsharp
+    from qdk import qsharp
     kernel_path = PROBLEMS_DIR / problem_id / "qsharp" / "HardwareKernel.qs"
     code = kernel_path.read_text(encoding="utf-8")
     m = re.search(r"@EntryPoint\(\)\s*\n\s*operation\s+(\w+)", code)
@@ -56,7 +56,7 @@ def submit_via_sdk(problem_id, target_id, qir_data, shots):
 
 
 def main():
-    import qsharp
+    from qdk import qsharp
 
     target_id = sys.argv[1] if len(sys.argv) > 1 else "quantinuum.sim.h2-1sc"
     problems = sys.argv[2:] if len(sys.argv) > 2 else None

@@ -14,7 +14,7 @@ HISTORY_PATH = Path(__file__).resolve().parent.parent / "website" / "data" / "az
 
 def submit_kernel(problem_id: str, target_id: str) -> dict:
     """Compile and submit a HardwareKernel.qs to Azure Quantum."""
-    import qsharp
+    from qdk import qsharp
 
     kernel_path = PROBLEMS_DIR / problem_id / "qsharp" / "HardwareKernel.qs"
     if not kernel_path.exists():

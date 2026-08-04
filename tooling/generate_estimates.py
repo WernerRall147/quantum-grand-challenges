@@ -13,7 +13,7 @@ from estimator_config import ENTRY_POINTS, extract_summary
 
 
 def main():
-    import qsharp
+    from qdk import qsharp
 
     problem_dirs = discover_all_problems()
 

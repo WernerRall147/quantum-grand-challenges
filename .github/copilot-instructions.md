@@ -9,9 +9,10 @@ Quantum Grand Challenges is a systematic exploration of 20 of the world's most c
 ## Critical Dependencies & Compatibility
 
 ### QDK (Quantum Development Kit)
-- **Modern QDK**: Q# programs use `qsharp.json` project format with the `qsharp` Python package, pinned to `1.31.0`
+- **Modern QDK**: Q# programs use `qsharp.json` project format with the `qdk` Python package, pinned to `1.31.0`
 - **No .NET dependency**: The legacy Microsoft.Quantum.Sdk / .NET 6.0 toolchain has been fully replaced
-- **Install**: `pip install qsharp` (or `pip install "qdk[azure]"` for Azure Quantum submission)
+- **Install**: `pip install qdk` (or `pip install "qdk[azure]"` for Azure Quantum submission)
+- **Imports**: Python source uses `from qdk import qsharp`. `qdk` depends on the `qsharp` package, so bare `import qsharp` still works in Makefiles.
 
 ### Environment Setup
 - **Python 3.11+** with scientific computing stack + `qsharp` package
@@ -37,11 +38,11 @@ make analyze
 
 ### Q# Development (✅ VALIDATED  Modern QDK)
 ```bash
-# Install the qsharp Python package (one-time)
-pip install qsharp
+# Install the qdk Python package (one-time)
+pip install qdk
 
 # Compile and run any problem via Python:
-python -c "import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); qsharp.run('Main.RunTwoSiteHubbardAnalysis()', 1)"
+python -c "from qdk import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); qsharp.run('Main.RunTwoSiteHubbardAnalysis()', 1)"
 
 # Run all 20 problems (compile + execute):
 python tooling/run_all_qsharp.py      # ~15 seconds total
@@ -191,10 +192,10 @@ make run
 
 #### Q# Build Fails
 ```bash
-# Verify qsharp package is installed
-pip install qsharp
+# Verify the qdk package is installed
+pip install qdk
 # Test compilation:
-python -c "import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print('OK')"
+python -c "from qdk import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print('OK')"
 ```
 
 #### Python Import Errors  

@@ -10,7 +10,7 @@ PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 
 def test_problem(problem_dir: Path) -> dict:
     """Test a single problem: compile + run entry point."""
-    import qsharp
+    from qdk import qsharp
 
     qsharp_dir = problem_dir / "qsharp"
     result = {"problem": problem_dir.name, "compile": False, "run": False, "error": None}

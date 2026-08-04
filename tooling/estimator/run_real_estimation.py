@@ -56,9 +56,9 @@ CIRCUITS = [
 def estimate_qasm(qasm_path: Path) -> dict:
     """Estimate resources for an OpenQASM circuit using the modern Q# package."""
     try:
-        import qsharp
+        from qdk import qsharp
     except ImportError:
-        print("ERROR: qsharp package not installed. Run: pip install qsharp", file=sys.stderr)
+        print("ERROR: qdk package not installed. Run: pip install qdk", file=sys.stderr)
         sys.exit(1)
 
     qasm_text = qasm_path.read_text(encoding="utf-8")

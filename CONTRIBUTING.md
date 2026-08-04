@@ -16,7 +16,7 @@ This project aims to systematically explore 20 of the world's most challenging s
 
 ### Prerequisites
 
-1. **Python 3.11+** with `qsharp` package (`pip install qsharp`)  no .NET dependency required
+1. **Python 3.11+** with the `qdk` package (`pip install qdk`)  no .NET dependency required
 2. **Scientific Python stack**: NumPy, SciPy, matplotlib, pandas, PyYAML, jsonschema
 3. **Azure CLI** (optional) with the `quantum` extension for Resource Estimator or Azure Quantum jobs
 4. **Git** for version control (and optionally GitHub CLI for Codespaces)
@@ -29,7 +29,7 @@ git clone https://github.com/WernerRall147/quantum-grand-challenges.git
 cd quantum-grand-challenges
 
 # Install Python dependencies + modern QDK
-pip install qsharp numpy scipy matplotlib pandas seaborn plotly jsonschema pyyaml pytest
+pip install qdk numpy scipy matplotlib pandas seaborn plotly jsonschema pyyaml pytest
 
 # Create Python virtual environment (optional)
 python -m venv venv

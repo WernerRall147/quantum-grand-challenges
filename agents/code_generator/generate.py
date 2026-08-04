@@ -161,9 +161,9 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
         and returns ``pareto_table`` for comparison rendering.
         """
         try:
-            import qsharp  # type: ignore
+            from qdk import qsharp  # type: ignore
         except ImportError:
-            return {"compiled": False, "error": "qsharp package not installed"}
+            return {"compiled": False, "error": "qdk package not installed"}
 
         with tempfile.TemporaryDirectory() as td:
             proj = Path(td)

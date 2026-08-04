@@ -69,7 +69,7 @@ def qsharp_importable() -> bool:
     try:
         import importlib.util
 
-        return importlib.util.find_spec("qsharp") is not None
+        return importlib.util.find_spec("qdk") is not None
     except Exception:
         return False
 
@@ -154,7 +154,7 @@ def main() -> None:
                 [
                     sys.executable,
                     "-c",
-                    "import qsharp, sys; qsharp.init(project_root=sys.argv[1]); print('Q# compilation OK')",
+                    "from qdk import qsharp; import sys; qsharp.init(project_root=sys.argv[1]); print('Q# compilation OK')",
                     str(qsharp_dir),
                 ],
                 problem_dir,

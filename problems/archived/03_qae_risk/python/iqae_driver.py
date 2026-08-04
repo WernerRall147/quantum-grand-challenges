@@ -205,7 +205,7 @@ class AdaptiveIQAE:
         verbose: bool = True,
     ) -> IQAEResult:
         """Run IQAE using the local qsharp sparse-state simulator."""
-        import qsharp
+        from qdk import qsharp
 
         start = time.time()
         p = self.params
@@ -515,7 +515,7 @@ def main() -> int:
     if not args.skip_quantum:
         print(f"\n--- Adaptive IQAE (ε={args.epsilon}, α={args.alpha}) ---")
         try:
-            import qsharp
+            from qdk import qsharp
             qsharp.init(project_root=str(problem_dir / "qsharp"))
 
             params = IQAEParams(

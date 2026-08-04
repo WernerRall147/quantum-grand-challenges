@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 
-import qsharp
+from qdk import qsharp
 
 # Discover problems from both active and archived directories
 sys.path.insert(0, str(Path(__file__).resolve().parent))

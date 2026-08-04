@@ -41,7 +41,7 @@ def get_entry_point(problem_name: str) -> str:
 
 
 def main():
-    import qsharp
+    from qdk import qsharp
 
     problem_dirs = discover_all_problems()
 

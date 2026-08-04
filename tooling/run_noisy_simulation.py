@@ -14,7 +14,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-import qsharp
+from qdk import qsharp
 
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 SHOTS = 100

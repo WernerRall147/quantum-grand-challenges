@@ -1,5 +1,7 @@
 """Quick validation of IQAE round measurements."""
-import math, qsharp
+import math
+
+from qdk import qsharp
 
 qsharp.init(project_root="problems/03_qae_risk/qsharp")
 

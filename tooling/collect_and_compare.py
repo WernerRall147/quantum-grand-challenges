@@ -46,7 +46,7 @@ def collect_emulator_results():
 
 def submit_rigetti(problems=None):
     """Submit all kernels to Rigetti QVM via SDK and collect results."""
-    import qsharp
+    from qdk import qsharp
     from azure.identity import AzureCliCredential
     from qdk.azure import Workspace
 

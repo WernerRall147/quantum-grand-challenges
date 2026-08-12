@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 """Generate multi-model resource estimates for all 20 problems.
 
-Runs qsharp.estimate() across 6 qubit models × 2 QEC schemes (surface_code +
-floquet_code where applicable), inspired by Dr. Matthias Troyer's
-"Building the Modern Quantum Architecture" lecture series.
+Runs the QRE v3 estimator (``qdk.qre``) across the gate-based qubit models,
+inspired by Dr. Matthias Troyer's "Building the Modern Quantum Architecture"
+lecture series.
 
-Qubit models (from Azure Quantum Resource Estimator):
+Qubit models (legacy Azure Quantum profile ids, now explicit physical params):
   - qubit_gate_ns_e3: Superconducting/spin, ns gates, 1e-3 error (realistic)
   - qubit_gate_ns_e4: Superconducting/spin, ns gates, 1e-4 error (optimistic)
   - qubit_gate_us_e3: Trapped ion, μs gates, 1e-3 error (realistic)
   - qubit_gate_us_e4: Trapped ion, μs gates, 1e-4 error (optimistic)
-  - qubit_maj_ns_e4:  Majorana, ns gates, 1e-4 error (realistic)
-  - qubit_maj_ns_e6:  Majorana, ns gates, 1e-6 error (optimistic)
 
 QEC schemes:
-  - surface_code: Works with all qubit types
-  - floquet_code: Only works with Majorana qubits
+  - surface_code: the only code QRE v3 realises for these traces.
+
+The Majorana profiles and floquet_code were retired: QRE v3 ships no floquet
+code, and Majorana produced an empty Pareto frontier for every code and factory
+combination tried.
 
 Output: website/data/multiModelEstimates.json
 """
@@ -34,9 +35,8 @@ from discover_problems import discover_all_problems
 from estimator_config import (
     ENTRY_POINTS,
     QUBIT_MODELS,
-    extract_summary,
+    estimate_summary,
     iter_model_configs,
-    make_batch_estimator_params,
 )
 
 
@@ -68,25 +68,13 @@ def main():
             total_failures += 1
             continue
 
-        # Build batched params: one estimate call evaluates every (qubit, QEC) combo.
-        configs = list(iter_model_configs())  # [(model, qec, key), ...]
-        params = make_batch_estimator_params([(m.name, qec) for m, qec, _ in configs])
-
-        try:
-            batch = qsharp.estimate(ep.expr(), params=params)
-        except Exception as e:
-            err = str(e)[:120]
-            print(f"XX {name}: batch estimate failed -- {err}")
-            total_failures += len(configs)
-            continue
-
+        # QRE v3 explores code distances and factories internally, so each
+        # (qubit, QEC) combination is a separate call rather than a batch item.
         problem_results = {"models": {}}
 
-        for idx, (model, qec, config_key) in enumerate(configs):
+        for model, qec, config_key in iter_model_configs():
             try:
-                item = batch[idx]
-                data = item.data() if hasattr(item, "data") else item
-                summary = extract_summary(data)
+                summary = estimate_summary(ep.expr(), model.name, qec)
                 summary["qubitModel"] = model.name
                 summary["qubitLabel"] = model.label
                 summary["qecScheme"] = qec

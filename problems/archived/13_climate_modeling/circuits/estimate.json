@@ -1,13 +1,18 @@
 {
   "problem": "13_climate_modeling",
-  "physicalQubits": 130196,
-  "runtime": 2266000,
-  "rqops": 4090910,
+  "qubitModel": "qubit_gate_ns_e3",
+  "qecScheme": "surface_code",
+  "physicalQubits": 76866,
+  "runtime": 3872050,
   "logicalQubits": 18,
-  "logicalDepth": null,
+  "codeDistance": 23,
+  "tFactoryFraction": 0.752,
+  "error": 0.0009466930098079663,
+  "paretoPoints": 7,
   "tCount": 3,
   "rotationCount": 35,
-  "cczCount": 0,
+  "cczCount": null,
   "measurementCount": 1,
+  "logicalDepth": 38,
   "numQubits": 5
 }

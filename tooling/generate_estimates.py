@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate resource estimation JSON for all Q# problems using qsharp.estimate().
+"""Generate resource estimation JSON for all Q# problems using the QRE v3 estimator.
 
 Saves estimate.json to each problem's circuits/ directory.
 """
@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 from discover_problems import discover_all_problems
-from estimator_config import ENTRY_POINTS, extract_summary
+from estimator_config import DEFAULT_QEC_SCHEME, DEFAULT_QUBIT_MODEL, ENTRY_POINTS, estimate_summary
 
 
 def main():
@@ -43,9 +43,12 @@ def main():
             continue
 
         try:
-            estimate = qsharp.estimate(ep.expr())
-            data = estimate.data() if hasattr(estimate, "data") else estimate
-            summary = {"problem": name, **extract_summary(data)}
+            summary = {
+                "problem": name,
+                "qubitModel": DEFAULT_QUBIT_MODEL,
+                "qecScheme": DEFAULT_QEC_SCHEME,
+                **estimate_summary(ep.expr(), DEFAULT_QUBIT_MODEL, DEFAULT_QEC_SCHEME),
+            }
 
             out_path = circuits_dir / "estimate.json"
             out_path.write_text(

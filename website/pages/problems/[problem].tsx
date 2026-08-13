@@ -497,9 +497,7 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
               </ResponsiveContainer>
             </div>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', justifyContent: 'center', fontSize: '0.8rem', color: '#64748b' }}>
-              <span>■ Gate-based + Surface (blue)</span>
-              <span style={{ color: '#10b981' }}>■ Majorana + Surface (green)</span>
-              <span style={{ color: '#34d399' }}>■ Majorana + Floquet (light green)</span>
+              <span>■ Gate-based + Surface code (blue)</span>
             </div>
             <div style={{ marginTop: '1rem', overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
@@ -667,7 +665,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const problemModels = rawMultiModel?.[id] as Record<string, unknown> | undefined;
   const modelsMap = (problemModels?.models || {}) as Record<string, Record<string, unknown>>;
   const multiModel = Object.values(modelsMap).map(m => ({
-    qubitLabel: `${String(m.qubitLabel || '')}${m.qecScheme === 'floquet_code' ? ' (Floquet)' : ''}`,
+    qubitLabel: String(m.qubitLabel || ''),
     qecScheme: String(m.qecScheme || 'surface_code'),
     physicalQubits: Number(m.physicalQubits || 0),
     runtime: typeof m.runtime === 'number' ? m.runtime : null,

@@ -169,11 +169,14 @@ li { margin-bottom: 0.3rem; }
 <h3 id="43-classical-baselines">4.3 Classical Baselines</h3>
 <p>Every problem includes a deterministic classical baseline that serves as the comparison target. Baseline algorithms are chosen to be the standard classical approach for each domain (e.g., exact diagonalization for Hubbard, Monte Carlo for risk analysis, brute-force for MaxCut at small scale). All baselines produce JSON output conforming to a shared schema.</p>
 <h3 id="44-resource-estimation-pipeline">4.4 Resource Estimation Pipeline</h3>
-<p>We employ a centralized estimation manager (<code>tooling/generate_estimates.py</code>) that runs <code>qsharp.estimate()</code> on each problem's kernel operation. All 20 problems now have real Azure Quantum Resource Estimator profiles with surface_code architecture targeting. Physical qubit counts range from 1,764 (3-qubit QEC repetition code) to 401,400 (VQE band gap with nested optimization). The pipeline also supports batch calibration via <code>tooling/generate_calibration_ensemble.py</code>, which runs each kernel 20 times to produce ensemble statistics with 95% confidence intervals.</p>
+<p>We employ a centralized estimation manager (<code>tooling/generate_estimates.py</code>) that runs the Quantum Resource Estimator v3 (<code>qdk.qre</code>) on each problem's kernel operation. All 20 problems have real profiles targeting a gate-based superconducting architecture (50 ns gates, 10⁻³ error rate) with a surface code and round-based magic-state factories. QRE v3 returns a Pareto frontier trading physical qubits against runtime; we report the minimum-qubit point, the most conservative hardware ask. Physical qubit counts range from 1,746 (3-qubit QEC repetition code) to 369,400 (iterative QAE risk kernel). The pipeline also supports batch calibration via <code>tooling/generate_calibration_ensemble.py</code>, which runs each kernel 20 times to produce ensemble statistics with 95% confidence intervals.</p>
+<p>These figures supersede an earlier range of 1,764 to 401,400 produced by the now-deprecated <code>qsharp.estimate</code> API. Under matched assumptions QRE v3 reports 1.0× to 3.9× fewer physical qubits at 1.5× to 2× the runtime, consistent with selecting the low-qubit corner of the frontier rather than any change in the underlying circuits.</p>
 <p>Current target architectures:
-- <code>surface_code_generic_v1</code>: Generic surface code with standard parameters
-- <code>qubit_gate_ns_e3</code>: Gate-based model, 1μs gate time, 10⁻³ error rate
-- <code>qubit_gate_ns_e4</code>: Gate-based model, 1μs gate time, 10⁻⁴ error rate</p>
+- <code>qubit_gate_ns_e3</code>: Gate-based model, 50 ns gate time, 10⁻³ error rate
+- <code>qubit_gate_ns_e4</code>: Gate-based model, 50 ns gate time, 10⁻⁴ error rate
+- <code>qubit_gate_us_e3</code>: Gate-based model, 100 μs gate time, 10⁻³ error rate
+- <code>qubit_gate_us_e4</code>: Gate-based model, 100 μs gate time, 10⁻⁴ error rate</p>
+<p>Majorana profiles and the floquet code were retired at the QRE v3 migration: QRE v3 ships no floquet code, and the Majorana architecture yielded an empty Pareto frontier for every code and factory combination tested.</p>
 <h2 id="5-automated-validation">5. Automated Validation</h2>
 <h3 id="51-ci-pipeline">5.1 CI Pipeline</h3>
 <p>Seven automated checks run on every pull request:</p>
@@ -592,7 +595,7 @@ li { margin-bottom: 0.3rem; }
 <p><strong>Classical baselines are deliberately weak.</strong> We use textbook algorithms (brute-force, naive Monte Carlo) for cross-domain standardization. Any comparative statement must acknowledge that state-of-the-art classical methods would perform far better. Quantum advantage claims have repeatedly vanished when classical heuristics were properly benchmarked [6].</p>
 </li>
 <li>
-<p><strong>Resource estimates now use real Azure Quantum Resource Estimator profiles.</strong> All 20 problems have been profiled via <code>qsharp.estimate()</code> with the surface_code architecture target. Physical qubit counts range from 1,764 (QEC) to 401,400 (Materials Discovery). These are credible lower bounds for fault-tolerant execution, though they apply to toy-scale instances and should not be extrapolated to production problem sizes without careful scaling analysis.</p>
+<p><strong>Resource estimates use the Quantum Resource Estimator v3.</strong> All 20 problems have been profiled via <code>qdk.qre</code> against a gate-based superconducting architecture with a surface code, reporting the minimum-qubit point of the returned Pareto frontier. Physical qubit counts range from 1,746 (QEC) to 369,400 (QAE risk). These are credible lower bounds for fault-tolerant execution, though they apply to toy-scale instances and should not be extrapolated to production problem sizes without careful scaling analysis.</p>
 </li>
 <li>
 <p><strong>Toy instances reveal nothing about asymptotic behavior.</strong> A 2-qubit VQE or 4-qubit QAOA demonstrates circuit correctness but says nothing about how the algorithm behaves at 50, 100, or 1000 qubits. The scaling analysis in Section 7.3 illustrates how rapidly resource requirements grow.</p>

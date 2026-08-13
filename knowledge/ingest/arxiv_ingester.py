@@ -23,11 +23,61 @@ ARXIV_API = "https://export.arxiv.org/api/query"
 CATEGORIES = ["cs.QC", "quant-ph"]
 MAX_RESULTS_PER_CATEGORY = 50
 
+# arXiv rate-limits with 429 and drops slow reads, so fetches are retried.
+ARXIV_MAX_ATTEMPTS = 4
+ARXIV_BACKOFF_SECONDS = 5
+
+
+def _retry_delay(attempt: int, error: Exception) -> int:
+    """Exponential backoff, widened to honour a 429 Retry-After when present."""
+    import urllib.error
+
+    delay = ARXIV_BACKOFF_SECONDS * (3 ** (attempt - 1))
+    if isinstance(error, urllib.error.HTTPError):
+        retry_after = error.headers.get("Retry-After") if error.headers else None
+        if retry_after:
+            try:
+                delay = max(delay, int(float(retry_after)))
+            except ValueError:
+                pass
+    return delay
+
+
+def _open_arxiv(req, timeout: int):
+    """Single arXiv request, falling back to an unverified context only for TLS faults."""
+    import ssl
+    import urllib.error
+    import urllib.request
+
+    try:
+        return urllib.request.urlopen(req, timeout=timeout)
+    except urllib.error.HTTPError:
+        # An HTTP status is a real answer; retrying it unverified changes nothing.
+        raise
+    except (ssl.SSLCertVerificationError, urllib.error.URLError):
+        ctx = ssl._create_unverified_context()
+        return urllib.request.urlopen(req, timeout=timeout, context=ctx)
+
+
+def _open_arxiv_with_retry(req, timeout: int = 30):
+    import urllib.error
+
+    last_error: Exception | None = None
+    for attempt in range(ARXIV_MAX_ATTEMPTS):
+        if attempt:
+            delay = _retry_delay(attempt, last_error)
+            print(f"    retry {attempt}/{ARXIV_MAX_ATTEMPTS - 1} in {delay}s after {type(last_error).__name__}: {last_error}")
+            time.sleep(delay)
+        try:
+            return _open_arxiv(req, timeout)
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            last_error = e
+    raise last_error
+
 
 def fetch_arxiv_papers(category: str, days_back: int = 1, max_results: int = 50) -> List[Dict[str, Any]]:
     """Fetch recent papers from arxiv API."""
     import urllib.request
-    import ssl
     import xml.etree.ElementTree as ET
 
     # arxiv API date range
@@ -38,12 +88,7 @@ def fetch_arxiv_papers(category: str, days_back: int = 1, max_results: int = 50)
     url = f"{ARXIV_API}?search_query={query}&sortBy=submittedDate&sortOrder=descending&max_results={max_results}"
 
     req = urllib.request.Request(url, headers={"User-Agent": "QuantumGrandChallenges/2.0"})
-    # Handle corporate proxies / SSL cert issues
-    try:
-        response = urllib.request.urlopen(req, timeout=30)
-    except (ssl.SSLCertVerificationError, urllib.error.URLError):
-        ctx = ssl._create_unverified_context()
-        response = urllib.request.urlopen(req, timeout=30, context=ctx)
+    response = _open_arxiv_with_retry(req, timeout=30)
     xml_data = response.read().decode("utf-8")
 
     root = ET.fromstring(xml_data)
@@ -201,10 +246,21 @@ def main():
     print(f"Starting arxiv ingestion at {datetime.now(timezone.utc).isoformat()}")
 
     all_papers = []
+    failed_categories = []
     for cat in CATEGORIES:
-        papers = fetch_arxiv_papers(cat, days_back=3, max_results=MAX_RESULTS_PER_CATEGORY)
+        try:
+            papers = fetch_arxiv_papers(cat, days_back=3, max_results=MAX_RESULTS_PER_CATEGORY)
+        except Exception as e:  # one bad category must not lose the whole run
+            failed_categories.append(cat)
+            print(f"  {cat}: FAILED after {ARXIV_MAX_ATTEMPTS} attempts -- {type(e).__name__}: {e}")
+            continue
         print(f"  {cat}: fetched {len(papers)} papers")
         all_papers.extend(papers)
+
+    if failed_categories and len(failed_categories) == len(CATEGORIES):
+        raise SystemExit(
+            f"Ingestion failed: every arXiv category failed ({', '.join(failed_categories)})"
+        )
 
     # Deduplicate by arxiv_id
     seen = set()
@@ -224,15 +280,15 @@ def main():
     if relevant:
         relevant = generate_embeddings(relevant)
 
-    # Upsert to both stores. They fail independently: Cosmos is currently
-    # unreachable (publicNetworkAccess=Disabled with no private endpoint), and
-    # AI Search is what the evaluator actually queries, so one blocked sink must
-    # not stop the other.
-    cosmos_ok = False
-    search_ok = False
+    # Upsert to both stores. They fail independently so one blocked sink cannot
+    # stop the other, but any failure is reported: a partial write is a silent
+    # data-loss bug, not a success.
+    failed_sinks = []
     if relevant:
-        cosmos_ok = upsert_to_cosmos(relevant)
-        search_ok = upsert_to_search_index(relevant)
+        if not upsert_to_cosmos(relevant):
+            failed_sinks.append("Cosmos DB")
+        if not upsert_to_search_index(relevant):
+            failed_sinks.append("AI Search")
 
     # Save to local file as backup
     output_path = "knowledge/data/latest_papers.json"
@@ -241,8 +297,13 @@ def main():
         json.dump({"ingested_utc": datetime.now(timezone.utc).isoformat(), "count": len(relevant), "papers": relevant}, f, indent=2)
     print(f"Saved {len(relevant)} papers to {output_path}")
 
-    if relevant and not (cosmos_ok or search_ok):
-        raise SystemExit("Ingestion failed: no store accepted the papers")
+    if failed_categories:
+        print(f"WARNING: arXiv categories that failed: {', '.join(failed_categories)}")
+
+    if failed_sinks:
+        raise SystemExit(
+            f"Ingestion incomplete: {', '.join(failed_sinks)} rejected the papers"
+        )
 
 
 if __name__ == "__main__":

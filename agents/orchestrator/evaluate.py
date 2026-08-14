@@ -10,10 +10,11 @@ Can be called from the website chat interface or CLI.
 
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from azure.identity import DefaultAzureCredential
 from openai import AzureOpenAI
@@ -52,6 +53,37 @@ AGENT_NAME = os.environ.get("QGC_AGENT_NAME", "quantum-advantage-orchestrator")
 # exhausted by reasoning alone, which silently truncated the explanation and
 # references. Tunable via QGC_MAX_COMPLETION_TOKENS.
 MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_MAX_COMPLETION_TOKENS", "4000"))
+
+
+def parse_assessment(raw: str) -> Optional[dict]:
+    """Read the model's JSON, tolerating fences and surrounding prose.
+
+    The chat path pins response_format to json_object, but the agent path cannot,
+    so the agent occasionally wraps its answer in a ```json fence or adds a
+    sentence around it. A bare json.loads then fails on an answer that is
+    perfectly good.
+    """
+    if not raw:
+        return None
+
+    candidates = [raw]
+
+    text = raw.strip()
+    if text.startswith("```"):
+        candidates.append(re.sub(r"\s*```$", "", re.sub(r"^```(?:json)?\s*", "", text)))
+
+    start, end = text.find("{"), text.rfind("}")
+    if start != -1 and end > start:
+        candidates.append(text[start:end + 1])
+
+    for candidate in candidates:
+        try:
+            parsed = json.loads(candidate)
+        except (json.JSONDecodeError, TypeError):
+            continue
+        if isinstance(parsed, dict):
+            return parsed
+    return None
 
 
 class QuantumEvaluator:
@@ -182,20 +214,25 @@ Provide your evaluation as JSON following the output format specified in your in
             tokens_used = response.usage.total_tokens if response and response.usage else 0
 
         # Step 5: Parse LLM response
-        try:
-            llm_result = json.loads(raw_content)
-        except (json.JSONDecodeError, TypeError):
-            # An empty or truncated (finish_reason == "length") completion lands
-            # here. Keep the deterministic verdict and surface whatever text we
-            # got so the explanation is not silently dropped.
-            truncated_note = (
-                "The assessment was cut off before the model finished writing it. "
-                "Raise QGC_MAX_COMPLETION_TOKENS to get the full explanation and sources."
-            )
+        llm_result = parse_assessment(raw_content)
+        if llm_result is None:
+            # Never surface raw_content here. It is the model's unparsed output,
+            # and a failed parse once put 17,000 characters of JSON on screen
+            # where the assessment should have been.
+            if finish_reason == "length":
+                note = (
+                    "The assessment was cut off before the model finished writing it. "
+                    "Raise QGC_MAX_COMPLETION_TOKENS to get the full explanation and sources."
+                )
+            else:
+                note = (
+                    "The model's assessment could not be read. The verdict above still "
+                    "stands: it comes from the deterministic router, not the model."
+                )
             llm_result = {
                 "verdict": kb_result["verdict"],
                 "confidence": kb_result.get("confidence", 0.5),
-                "explanation": raw_content or (truncated_note if finish_reason == "length" else "Error parsing assessment response."),
+                "explanation": note,
             }
 
         # Step 6: Merge KB + routing + LLM results.

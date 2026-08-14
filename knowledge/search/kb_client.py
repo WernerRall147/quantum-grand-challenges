@@ -1,29 +1,64 @@
 """Knowledge Base query tools for the Quantum Advantage Evaluator agents.
 
 Provides search functions over:
-- Algorithm Zoo (Cosmos DB + AI Search with vector embeddings)
-- Reference Problems (Cosmos DB)
-- Scientific Papers (AI Search  when arxiv ingestion is live)
+- Algorithm Zoo (committed JSON, plus AI Search for vector queries)
+- Reference Problems (committed JSON)
+- Scientific Papers (AI Search)
+
+The algorithm zoo and reference problems are served straight from the files that
+are their source of truth, rather than from a database seeded from those files.
 
 These functions are the tools that agents call via the orchestrator.
 """
 
 import json
 import os
+import re
+from functools import lru_cache
+from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 from azure.identity import DefaultAzureCredential
-from azure.cosmos import CosmosClient
 from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
 from openai import AzureOpenAI
 
 # Config
-COSMOS_ENDPOINT = "https://qgccosmoseval.documents.azure.com:443/"
-COSMOS_DATABASE = "quantum_kb"
 SEARCH_ENDPOINT = "https://qgcsearcheval.search.windows.net"
 OPENAI_ENDPOINT = "https://qgc-openai.openai.azure.com/"
 EMBEDDING_DEPLOYMENT = "text-embedding-3-large"
+
+ROOT = Path(__file__).resolve().parents[2]
+ALGORITHM_ZOO_PATH = ROOT / "knowledge" / "data" / "algorithm_zoo_index.json"
+REFERENCE_INDEX_PATH = ROOT / "problems" / "reference_index.json"
+
+
+def _normalise(name: str) -> str:
+    """Fold a display name to a lookup key; apostrophes vanish rather than split."""
+    stripped = name.lower().replace("'", "").replace("\u2019", "")
+    return re.sub(r"[^a-z0-9]+", "_", stripped).strip("_")
+
+
+@lru_cache(maxsize=1)
+def _algorithms_by_name() -> Dict[str, Dict[str, Any]]:
+    data = json.loads(ALGORITHM_ZOO_PATH.read_text(encoding="utf-8"))
+    return {_normalise(a["name"]): a for a in data.get("algorithms", [])}
+
+
+@lru_cache(maxsize=1)
+def _reference_problems_by_status() -> Dict[str, List[Dict[str, Any]]]:
+    data = json.loads(REFERENCE_INDEX_PATH.read_text(encoding="utf-8"))
+
+    def shape(prob: Dict[str, Any], status: str) -> Dict[str, Any]:
+        out = {k: v for k, v in prob.items() if k != "id"}
+        out["problem_id"] = prob["id"]
+        out["status"] = status
+        return out
+
+    return {
+        "active": [shape(p, "active") for p in data.get("active_problems", [])],
+        "archived": [shape(p, "archived") for p in data.get("archived_problems", [])],
+    }
 
 
 class QuantumKnowledgeBase:
@@ -31,16 +66,7 @@ class QuantumKnowledgeBase:
 
     def __init__(self):
         self.credential = DefaultAzureCredential()
-        self.cosmos = None
-        self.db = None
         self.search_client = None
-
-        # Try Cosmos DB  may not exist yet
-        try:
-            self.cosmos = CosmosClient(COSMOS_ENDPOINT, credential=self.credential)
-            self.db = self.cosmos.get_database_client(COSMOS_DATABASE)
-        except Exception:
-            pass
 
         # AI Search  use key if available, otherwise Entra ID
         try:
@@ -112,20 +138,8 @@ class QuantumKnowledgeBase:
         ]
 
     def get_algorithm(self, name: str) -> Optional[Dict[str, Any]]:
-        """Get a specific algorithm by name from Cosmos DB."""
-        if not self.db:
-            return None
-        container = self.db.get_container_client("algorithm_zoo")
-        doc_id = name.lower().replace(" ", "_").replace("'", "").replace("(", "").replace(")", "")
-        try:
-            items = list(container.query_items(
-                query=f"SELECT * FROM c WHERE c.id = '{doc_id}'",
-                partition_key=None,
-                enable_cross_partition_query=True,
-            ))
-            return items[0] if items else None
-        except Exception:
-            return None
+        """Get a specific algorithm by name from the algorithm zoo."""
+        return _algorithms_by_name().get(_normalise(name))
 
     def classify_problem(self, problem_description: str) -> Dict[str, Any]:
         """Classify a quantum problem using Troyer's filters.
@@ -161,58 +175,26 @@ class QuantumKnowledgeBase:
     # === Reference Problem Tools ===
 
     def get_reference_problems(self, status: str = "active") -> List[Dict[str, Any]]:
-        """Get reference problems from Cosmos DB.
+        """Get reference problems.
 
         Used by agents to find similar previously-evaluated problems.
         """
-        if not self.db:
-            return []
-        container = self.db.get_container_client("problem_history")
-        query = f"SELECT * FROM c WHERE c.user_id = 'system_reference' AND c.status = '{status}'"
-        items = list(container.query_items(query=query, enable_cross_partition_query=True))
-        return [{k: v for k, v in item.items() if not k.startswith("_") and k != "embedding"} for item in items]
+        return list(_reference_problems_by_status().get(status, []))
 
     def find_similar_problems(self, description: str) -> List[Dict[str, Any]]:
         """Find reference problems similar to the given description."""
-        if not self.db:
-            return []
-        container = self.db.get_container_client("problem_history")
-        # Get all reference problems and do text matching (vector search in Cosmos requires change feed)
-        query = "SELECT * FROM c WHERE c.user_id = 'system_reference' AND c.status = 'active'"
-        items = list(container.query_items(query=query, enable_cross_partition_query=True))
-
-        # Simple keyword matching for now (vector search via AI Search for papers)
         desc_lower = description.lower()
+        keywords = set(desc_lower.split())
+
         scored = []
-        for item in items:
+        for item in self.get_reference_problems("active"):
             text = f"{item.get('notes', '')} {item.get('algorithm_class', '')}".lower()
-            # Count keyword overlap
-            keywords = set(desc_lower.split())
             matches = sum(1 for kw in keywords if kw in text)
             if matches > 0:
-                scored.append((matches, {k: v for k, v in item.items() if not k.startswith("_") and k != "embedding"}))
+                scored.append((matches, item))
 
         scored.sort(key=lambda x: -x[0])
         return [item for _, item in scored[:3]]
-
-    # === Problem History Tools ===
-
-    def save_problem(self, problem_id: str, user_id: str, description: str, result: Dict) -> str:
-        """Save a user-submitted problem evaluation to history."""
-        if not self.db:
-            return problem_id
-        container = self.db.get_container_client("problem_history")
-        from datetime import datetime, timezone
-        doc = {
-            "id": problem_id,
-            "user_id": user_id,
-            "description": description,
-            "result": result,
-            "status": "evaluated",
-            "created_utc": datetime.now(timezone.utc).isoformat(),
-        }
-        container.upsert_item(doc)
-        return problem_id
 
 
 def test_knowledge_base():

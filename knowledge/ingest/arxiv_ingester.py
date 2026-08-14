@@ -2,9 +2,9 @@
 
 Fetches new papers from arxiv categories cs.QC and quant-ph,
 filters for relevance, generates embeddings, and indexes into
-Cosmos DB + Azure AI Search.
+Azure AI Search.
 
-Designed to run as an Azure Function with a timer trigger (daily).
+Designed to run as an Azure Container Apps Job on a daily schedule.
 """
 
 import json
@@ -166,39 +166,6 @@ def generate_embeddings(papers: List[Dict]) -> List[Dict]:
     return papers
 
 
-def upsert_to_cosmos(papers: List[Dict]) -> bool:
-    """Upsert papers into Cosmos DB. Uses key if COSMOS_KEY set, otherwise Entra ID."""
-    from azure.cosmos import CosmosClient
-
-    endpoint = "https://qgccosmoseval.documents.azure.com:443/"
-    try:
-        cosmos_key = os.environ.get("COSMOS_KEY")
-        if cosmos_key:
-            client = CosmosClient(endpoint, credential=cosmos_key)
-        else:
-            from azure.identity import DefaultAzureCredential
-            client = CosmosClient(endpoint, credential=DefaultAzureCredential())
-        container = client.get_database_client("quantum_kb").get_container_client("scientific_papers")
-        for p in papers:
-            doc = {
-                "id": p["arxiv_id"].replace("/", "_").replace(".", "_"),
-                "arxiv_id": p["arxiv_id"],
-                "title": p["title"],
-                "abstract": p["abstract"][:2000],
-                "authors": p["authors"],
-                "categories": p["categories"],
-                "published": p["published"],
-                "category": p["categories"][0] if p["categories"] else "unknown",
-                "ingested_utc": p["ingested_utc"],
-                "source": "arxiv",
-            }
-            container.upsert_item(doc)
-        print(f"  Cosmos DB: upserted {len(papers)} papers")
-        return True
-    except Exception as e:
-        print(f"  Cosmos DB upsert failed: {e}")
-        return False
-
 
 def upsert_to_search_index(papers: List[Dict]) -> bool:
     """Upsert papers into Azure AI Search quantum-papers index."""
@@ -280,13 +247,10 @@ def main():
     if relevant:
         relevant = generate_embeddings(relevant)
 
-    # Upsert to both stores. They fail independently so one blocked sink cannot
-    # stop the other, but any failure is reported: a partial write is a silent
-    # data-loss bug, not a success.
+    # AI Search is the query path for papers. Any rejection fails the job: a
+    # partial write is a silent data-loss bug, not a success.
     failed_sinks = []
     if relevant:
-        if not upsert_to_cosmos(relevant):
-            failed_sinks.append("Cosmos DB")
         if not upsert_to_search_index(relevant):
             failed_sinks.append("AI Search")
 

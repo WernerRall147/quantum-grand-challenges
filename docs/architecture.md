@@ -132,13 +132,16 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 
 ## Knowledge Base Design
 
-### Cosmos DB Collections
-1. **scientific_papers**  arxiv papers (cs.QC, quant-ph), daily ingested
-2. **algorithm_zoo**  Quantum Algorithm Zoo entries with speedup classifications
-3. **problem_history**  User-submitted problems and their evaluations
-4. **reference_implementations**  Our 9 active + 11 archived problems as examples
+### Committed data files (source of truth)
+1. **knowledge/data/algorithm_zoo_index.json**  Quantum Algorithm Zoo entries with speedup classifications
+2. **problems/reference_index.json**  our 9 active + 11 archived problems as reference examples
+
+These are read directly by the knowledge base client. They were previously mirrored
+into Cosmos DB, which has been retired: the mirror held nothing the files did not,
+and could fail silently while the ingestion job still reported success.
 
 ### Azure AI Search Index
+- arxiv papers (cs.QC, quant-ph), ingested daily
 - Vector embeddings of papers + algorithm descriptions
 - Hybrid search (keyword + semantic) for problem matching
 - Faceted by: speedup class, qubit count range, algorithm family, year

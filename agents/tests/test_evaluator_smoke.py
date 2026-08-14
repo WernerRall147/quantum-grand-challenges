@@ -447,3 +447,107 @@ class TestVerdictAuthority:
             verdicts.add(evaluator.evaluate(QUANTUM_PROBLEM)["verdict"])
 
         assert len(verdicts) == 1
+
+
+# --- Assessment parsing ---
+
+def _evaluator_returning_raw(text, finish_reason="stop"):
+    """Evaluator whose LLM call returns ``text`` verbatim, not JSON-encoded."""
+    evaluator = _evaluator_returning({})
+
+    class _Message:
+        content = text
+
+    class _Choice:
+        message = _Message()
+
+    _Choice.finish_reason = finish_reason
+
+    class _Usage:
+        total_tokens = 42
+
+    class _Response:
+        choices = [_Choice()]
+        model = "stub-model"
+        usage = _Usage()
+
+    class _Completions:
+        def create(self, **kwargs):
+            return _Response()
+
+    class _Chat:
+        completions = _Completions()
+
+    class _Client:
+        chat = _Chat()
+
+    evaluator._get_chat_client = lambda: _Client()
+    return evaluator
+
+
+class TestAssessmentParsing:
+    """A good answer wrapped in a fence is still a good answer.
+
+    The chat path pins response_format to json_object; the agent path cannot,
+    and it intermittently returns fenced or prose-wrapped JSON. A bare
+    json.loads then fell through to a handler that put the model's entire raw
+    output into `explanation` - once 17,243 characters of it, where the website
+    renders the assessment.
+    """
+
+    PAYLOAD = {
+        "explanation": "a real assessment",
+        "references": ["arXiv:1234.5678", "errorcorrectionzoo.org/c/surface"],
+        "red_flags": ["a real concern"],
+    }
+
+    def test_plain_json_still_parses(self):
+        from agents.orchestrator.evaluate import parse_assessment
+
+        assert parse_assessment(json.dumps(self.PAYLOAD)) == self.PAYLOAD
+
+    def test_fenced_json_parses(self):
+        from agents.orchestrator.evaluate import parse_assessment
+
+        fenced = "```json\n" + json.dumps(self.PAYLOAD) + "\n```"
+        assert parse_assessment(fenced) == self.PAYLOAD
+
+    def test_json_with_surrounding_prose_parses(self):
+        from agents.orchestrator.evaluate import parse_assessment
+
+        wrapped = "Here is my assessment:\n" + json.dumps(self.PAYLOAD) + "\nHope that helps."
+        assert parse_assessment(wrapped) == self.PAYLOAD
+
+    def test_unparseable_returns_none(self):
+        from agents.orchestrator.evaluate import parse_assessment
+
+        assert parse_assessment("no json here at all") is None
+        assert parse_assessment("") is None
+
+    def test_fenced_response_keeps_its_references(self):
+        """The end-to-end symptom: fenced JSON used to yield zero references."""
+        fenced = "```json\n" + json.dumps(self.PAYLOAD) + "\n```"
+        result = _evaluator_returning_raw(fenced).evaluate(QUANTUM_PROBLEM)
+
+        assert result["references"] == self.PAYLOAD["references"]
+        assert result["explanation"] == "a real assessment"
+
+    def test_unreadable_response_does_not_dump_raw_output(self):
+        raw = "sorry, I cannot comply. " + "x" * 17000
+        result = _evaluator_returning_raw(raw).evaluate(QUANTUM_PROBLEM)
+
+        assert raw not in result["explanation"]
+        assert len(result["explanation"]) < 500
+
+    def test_truncated_response_says_so(self):
+        result = _evaluator_returning_raw(
+            '{"explanation": "half a sen', finish_reason="length"
+        ).evaluate(QUANTUM_PROBLEM)
+
+        assert "cut off" in result["explanation"]
+
+    def test_verdict_survives_an_unreadable_response(self):
+        expected = route_platform(QUANTUM_PROBLEM, [], 0.0)
+        result = _evaluator_returning_raw("not json").evaluate(QUANTUM_PROBLEM)
+
+        assert result["verdict"] == expected["verdict"]

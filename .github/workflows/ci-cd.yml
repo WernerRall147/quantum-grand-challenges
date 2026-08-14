@@ -29,6 +29,34 @@ jobs:
           restore-keys: pip-ci-${{ runner.os }}-
       - name: Install dependencies
         run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0
+      - name: Validate workflow YAML
+        # A workflow with broken YAML is still registered as "active"; GitHub
+        # just shows the file path as its name and never runs it. That is how a
+        # scheduled uptime probe shipped green and dead.
+        run: |
+          python - <<'PY'
+          import pathlib, sys, yaml
+          bad = []
+          for path in sorted(pathlib.Path(".github/workflows").glob("*.y*ml")):
+              try:
+                  doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+              except yaml.YAMLError as exc:
+                  bad.append(f"{path}: does not parse: {exc}")
+                  continue
+              if not isinstance(doc, dict):
+                  bad.append(f"{path}: is not a mapping")
+                  continue
+              if not doc.get("name"):
+                  bad.append(f"{path}: has no name, so GitHub will display the file path")
+              # PyYAML reads the bare key `on` as the boolean True.
+              if True not in doc and "on" not in doc:
+                  bad.append(f"{path}: has no triggers")
+              if not doc.get("jobs"):
+                  bad.append(f"{path}: has no jobs")
+          for line in bad:
+              print(f"::error::{line}")
+          sys.exit(1 if bad else 0)
+          PY
       - name: Validate Q# compilation
         run: python tooling/ci_validate_qsharp.py
       - name: Run Q# entry points

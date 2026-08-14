@@ -156,13 +156,9 @@ jobs:
             gh issue comment "$EXISTING" --body "$NOTE"
           else
             gh label create uptime --color B60205 --description "Live demo availability" 2>/dev/null || true
-            gh issue create --title "$TITLE" --label uptime --body "$NOTE
-
-The live evaluator did not return a usable verdict. Runbook:
-\`docs/AzureFriday/README.md\` section 6.
-
-This issue stays open and collects a comment per failed probe until the
-probe passes again."
+            DETAIL="The live evaluator did not return a usable verdict. Runbook: docs/AzureFriday/README.md section 6."
+            DETAIL="${DETAIL}\n\nThis issue stays open and collects a comment per failed probe until the probe passes again."
+            gh issue create --title "$TITLE" --label uptime --body "$(printf '%s\n\n%b' "$NOTE" "$DETAIL")"
           fi
 
       - name: Close the issue once it recovers

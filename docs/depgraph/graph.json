@@ -6,7 +6,7 @@
     "python": 165,
     "qsharp": 43,
     "ts": 9,
-    "edges": 153,
+    "edges": 154,
     "roots": 232,
     "reachable": 253
   },
@@ -381,6 +381,10 @@
     [
       "agents/tests/test_evaluator_smoke.py",
       "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/tests/test_evaluator_smoke.py",
+      "agents/orchestrator/evaluate.py"
     ],
     [
       "problems/01_hubbard/Makefile",

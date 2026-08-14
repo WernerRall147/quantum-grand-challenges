@@ -28,7 +28,8 @@
     "agents/api/main.py"
   ],
   "agents/orchestrator/evaluate.py": [
-    "agents/api/main.py"
+    "agents/api/main.py",
+    "agents/tests/test_evaluator_smoke.py"
   ],
   "agents/orchestrator/instructions.py": [
     "agents/orchestrator/evaluate.py",

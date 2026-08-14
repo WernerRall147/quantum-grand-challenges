@@ -62,6 +62,7 @@ class EvaluateResponse(BaseModel):
     explanation: str
     similar_problems: list
     references: list
+    model_dissent: dict = {}
     error_correction_codes: list = []
     model_used: str = ""
     tokens_used: int = 0

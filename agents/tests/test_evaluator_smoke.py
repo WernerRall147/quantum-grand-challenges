@@ -223,3 +223,125 @@ class TestTroyerAssessmentData:
         assert len(devs) >= 2
         sources = [d["source"] for d in devs]
         assert "Google Quantum AI" in sources
+
+
+# --- Verdict authority ---
+
+class _StubKB:
+    """Knowledge base stub so evaluate() runs without Azure."""
+
+    def classify_problem(self, description):
+        return {
+            "verdict": "QUANTUM_ADVANTAGE",
+            "best_algorithm": "Quantum Phase Estimation",
+            "speedup_class": "superpolynomial",
+            "filters": {},
+            "matches": [],
+        }
+
+    def find_similar_problems(self, description):
+        return []
+
+
+def _evaluator_returning(payload):
+    """Evaluator whose LLM call returns ``payload``, with Azure bypassed."""
+    from agents.orchestrator.evaluate import QuantumEvaluator
+
+    evaluator = object.__new__(QuantumEvaluator)
+    evaluator.kb = _StubKB()
+
+    class _Message:
+        content = json.dumps(payload)
+
+    class _Choice:
+        message = _Message()
+        finish_reason = "stop"
+
+    class _Usage:
+        total_tokens = 42
+
+    class _Response:
+        choices = [_Choice()]
+        model = "stub-model"
+        usage = _Usage()
+
+    class _Completions:
+        def create(self, **kwargs):
+            return _Response()
+
+    class _Chat:
+        completions = _Completions()
+
+    class _Client:
+        chat = _Chat()
+
+    evaluator._get_chat_client = lambda: _Client()
+    evaluator._get_deployment = lambda: "stub-deployment"
+    return evaluator
+
+
+QUANTUM_PROBLEM = "Simulate the ground state energy of a 50-atom catalyst using quantum phase estimation"
+
+
+class TestVerdictAuthority:
+    """The deterministic router owns the verdict; the model only explains it.
+
+    A model that disagreed used to silently rewrite the published verdict, so
+    identical inputs returned different answers between runs.
+    """
+
+    def test_router_verdict_survives_a_disagreeing_model(self):
+        expected = route_platform(QUANTUM_PROBLEM, [], 0.0)
+        evaluator = _evaluator_returning({
+            "verdict": "HPC_PREFERRED",
+            "recommended_platform": "HPC",
+            "explanation": "the model argues for classical",
+        })
+
+        result = evaluator.evaluate(QUANTUM_PROBLEM)
+
+        assert result["verdict"] == expected["verdict"]
+        assert result["recommended_platform"] == expected["platform"]
+
+    def test_disagreement_is_recorded_not_discarded(self):
+        evaluator = _evaluator_returning({
+            "verdict": "HPC_PREFERRED",
+            "recommended_platform": "HPC",
+            "explanation": "the model argues for classical",
+        })
+
+        dissent = evaluator.evaluate(QUANTUM_PROBLEM)["model_dissent"]
+
+        assert dissent["verdict"] == "HPC_PREFERRED"
+        assert dissent["recommended_platform"] == "HPC"
+
+    def test_agreement_records_no_dissent(self):
+        expected = route_platform(QUANTUM_PROBLEM, [], 0.0)
+        evaluator = _evaluator_returning({
+            "verdict": expected["verdict"],
+            "recommended_platform": expected["platform"],
+            "explanation": "the model agrees",
+        })
+
+        assert evaluator.evaluate(QUANTUM_PROBLEM)["model_dissent"] == {}
+
+    def test_model_still_supplies_the_narrative(self):
+        evaluator = _evaluator_returning({
+            "verdict": "HPC_PREFERRED",
+            "explanation": "a specific explanation",
+            "red_flags": ["a specific red flag"],
+        })
+
+        result = evaluator.evaluate(QUANTUM_PROBLEM)
+
+        assert result["explanation"] == "a specific explanation"
+        assert result["red_flags"] == ["a specific red flag"]
+
+    def test_identical_input_gives_identical_verdict(self):
+        """Whatever the model says, repeated calls must agree."""
+        verdicts = set()
+        for model_verdict in ("HPC_PREFERRED", "QUANTUM_ADVANTAGE", "INCONCLUSIVE"):
+            evaluator = _evaluator_returning({"verdict": model_verdict, "explanation": ""})
+            verdicts.add(evaluator.evaluate(QUANTUM_PROBLEM)["verdict"])
+
+        assert len(verdicts) == 1

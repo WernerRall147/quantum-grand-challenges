@@ -223,7 +223,7 @@ export default function Home() {
             <CommandBlock title="Setup" commands={[
               'git clone https://github.com/WernerRall147/quantum-grand-challenges.git',
               'cd quantum-grand-challenges',
-              'pip install qsharp numpy scipy matplotlib',
+              'pip install qdk numpy scipy matplotlib',
             ]} />
             <CommandBlock title="Run a Problem" commands={[
               'cd problems/01_hubbard',
@@ -232,7 +232,7 @@ export default function Home() {
               'make run         # execute',
             ]} />
             <CommandBlock title="Evaluate" commands={[
-              'pip install azure-cosmos azure-search-documents',
+              'pip install azure-identity azure-search-documents openai',
               'python agents/orchestrator/evaluate.py \\',
               '  "Simulate ground state of a 50-atom catalyst"',
             ]} />

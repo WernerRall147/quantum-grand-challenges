@@ -221,7 +221,7 @@ export default function EvaluatePage() {
         troyer_filters: {},
         red_flags: ['This is a demo  the live evaluator requires the Python backend (agents/orchestrator/evaluate.py) connected to Azure AI'],
         hpc_alternative: 'Run `python agents/orchestrator/evaluate.py "your problem"` locally to get a real evaluation',
-        explanation: 'The Quantum Advantage Evaluator is a Python backend that connects to the Azure AI Foundry model router and the knowledge base (Cosmos DB + AI Search). On the static GitHub Pages site, the backend is not available. Run it locally or deploy as an Azure Function for live evaluations.',
+        explanation: 'The Quantum Advantage Evaluator is a Python backend that connects to the Azure AI Foundry model router and the knowledge base (Azure AI Search). On the static GitHub Pages site, the backend is not available. Run it locally or deploy as an Azure Function for live evaluations.',
         similar_problems: [],
         references: [],
       });
@@ -904,7 +904,7 @@ export default function EvaluatePage() {
 
         <footer style={{ marginTop: '4rem', padding: '1.5rem 0', borderTop: '1px solid #ddd', textAlign: 'center', color: '#999' }}>
           <p style={{ margin: 0 }}>
-            Powered by Azure AI Foundry model router + Cosmos DB + AI Search | <Link href="/" style={{ color: '#0070f3', textDecoration: 'none' }}>Dashboard</Link>
+            Powered by Azure AI Foundry model router + Azure AI Search | <Link href="/" style={{ color: '#0070f3', textDecoration: 'none' }}>Dashboard</Link>
           </p>
         </footer>
       </main>

@@ -1,0 +1,178 @@
+name: Uptime Check (Evaluator API)
+
+# Calls the live evaluator on a schedule so a broken demo surfaces before a
+# viewer finds it.
+#
+# Why this exists: three separate "green but broken" signals showed up in one
+# week (a daily ingester reporting Succeeded while every write was rejected, a
+# deploy workflow reporting success while /api/evaluate returned 500, and a
+# deploy check that only read /openapi.json). Every one of them was green
+# because it measured the wrong thing. So this check does the expensive thing:
+# it posts a real problem and reads the real verdict.
+#
+# Deliberately uses no Azure credentials. The API is public, so an expired
+# service principal secret cannot take the monitor down with it.
+#
+# Optional repo VARIABLES (Settings -> Secrets and variables -> Actions -> Variables):
+#   UPTIME_API_BASE          API base URL (default: the production Container App)
+#   UPTIME_EXPECTED_VERDICT  pin the expected verdict, e.g. QUANTUM_ADVANTAGE.
+#                            Leave unset to only assert the verdict is valid.
+#                            Pin it once the live verdict is confirmed stable:
+#                            that turns this into a regression check against the
+#                            non-determinism fixed in #158.
+
+on:
+  schedule:
+    # Every 30 minutes. Also has the side effect of keeping a replica warm,
+    # which matters because a cold call costs ~57s versus ~46s warm.
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: uptime-evaluator-api
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve target
+        id: target
+        run: |
+          BASE="${{ vars.UPTIME_API_BASE || 'https://qgc-eval-api.jollysea-98a0f8cb.eastus.azurecontainerapps.io' }}"
+          echo "base=${BASE}" >> $GITHUB_OUTPUT
+          echo "Probing ${BASE}"
+
+      - name: Health endpoint
+        run: |
+          set -e
+          CODE=$(curl -s -o /tmp/health.json -w "%{http_code}" -m 30 \
+            "${{ steps.target.outputs.base }}/" || echo "000")
+          if [ "$CODE" != "200" ]; then
+            echo "::error::Health endpoint returned HTTP $CODE"
+            head -c 1000 /tmp/health.json || true
+            exit 1
+          fi
+          echo "Health OK."
+
+      - name: Evaluate a real problem
+        id: evaluate
+        run: |
+          set -e
+          BODY='{"problem":"I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design"}'
+
+          # 240s ceiling: a warm call runs ~46s and a cold start ~57s, so this
+          # leaves generous headroom before we call it a failure.
+          echo -n "" > /tmp/curl.out
+          curl -s -o /tmp/eval.json -w "%{http_code} %{time_total}" -m 240 \
+            -X POST "${{ steps.target.outputs.base }}/api/evaluate" \
+            -H 'Content-Type: application/json' -d "$BODY" \
+            > /tmp/curl.out 2>/dev/null || true
+
+          CODE=$(cut -d' ' -f1 /tmp/curl.out)
+          SECS=$(cut -d' ' -f2 /tmp/curl.out)
+          CODE="${CODE:-000}"
+          SECS="${SECS:-0}"
+
+          echo "http_code=${CODE} time_total=${SECS}s"
+          echo "latency=${SECS}" >> $GITHUB_OUTPUT
+          echo "code=${CODE}" >> $GITHUB_OUTPUT
+
+          if [ "$CODE" != "200" ]; then
+            echo "::error::/api/evaluate returned HTTP $CODE after ${SECS}s"
+            head -c 2000 /tmp/eval.json || true
+            exit 1
+          fi
+
+      - name: Assert the answer is real
+        id: assert
+        run: |
+          set -e
+          VERDICT=$(python3 -c "import json;print(json.load(open('/tmp/eval.json')).get('verdict',''))")
+          PLATFORM=$(python3 -c "import json;print(json.load(open('/tmp/eval.json')).get('recommended_platform',''))")
+          ALGO=$(python3 -c "import json;print(json.load(open('/tmp/eval.json')).get('recommended_algorithm',''))")
+          DISSENT=$(python3 -c "import json;print(json.dumps(json.load(open('/tmp/eval.json')).get('model_dissent',{})))")
+
+          echo "verdict=${VERDICT}" >> $GITHUB_OUTPUT
+          echo "platform=${PLATFORM}" >> $GITHUB_OUTPUT
+          echo "algorithm=${ALGO}" >> $GITHUB_OUTPUT
+          echo "dissent=${DISSENT}" >> $GITHUB_OUTPUT
+
+          # DEMO_MODE is the website's client-side fallback. If the API itself
+          # ever returns it, something is very wrong.
+          case "$VERDICT" in
+            QUANTUM_ADVANTAGE|HPC_PREFERRED|AI_ML_PREFERRED|INCONCLUSIVE)
+              echo "Verdict: $VERDICT (platform: $PLATFORM)" ;;
+            "")
+              echo "::error::200 OK but no verdict in the response"
+              head -c 2000 /tmp/eval.json; exit 1 ;;
+            *)
+              echo "::error::Unrecognised verdict: $VERDICT"
+              head -c 2000 /tmp/eval.json; exit 1 ;;
+          esac
+
+          EXPECTED="${{ vars.UPTIME_EXPECTED_VERDICT }}"
+          if [ -n "$EXPECTED" ] && [ "$VERDICT" != "$EXPECTED" ]; then
+            echo "::error::Verdict drifted. Expected $EXPECTED, got $VERDICT."
+            echo "The router is meant to be deterministic for a fixed input, so"
+            echo "this means either the knowledge base changed or the router"
+            echo "stopped being authoritative."
+            exit 1
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Evaluator API uptime probe"
+            echo ""
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| HTTP | \`${{ steps.evaluate.outputs.code }}\` |"
+            echo "| Latency | \`${{ steps.evaluate.outputs.latency }}s\` |"
+            echo "| Verdict | \`${{ steps.assert.outputs.verdict }}\` |"
+            echo "| Platform | \`${{ steps.assert.outputs.platform }}\` |"
+            echo "| Algorithm | \`${{ steps.assert.outputs.algorithm }}\` |"
+            echo "| Model dissent | \`${{ steps.assert.outputs.dissent }}\` |"
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Raise an issue if the demo is down
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TITLE="Evaluator API uptime probe is failing"
+          EXISTING=$(gh issue list --state open --label uptime \
+            --search "$TITLE in:title" --json number --jq '.[0].number' || echo "")
+
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          NOTE="Probe failed at $(date -u +'%Y-%m-%d %H:%M UTC'). HTTP \`${{ steps.evaluate.outputs.code }}\`, verdict \`${{ steps.assert.outputs.verdict }}\`. Run: $RUN_URL"
+
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$NOTE"
+          else
+            gh label create uptime --color B60205 --description "Live demo availability" 2>/dev/null || true
+            gh issue create --title "$TITLE" --label uptime --body "$NOTE
+
+The live evaluator did not return a usable verdict. Runbook:
+\`docs/AzureFriday/README.md\` section 6.
+
+This issue stays open and collects a comment per failed probe until the
+probe passes again."
+          fi
+
+      - name: Close the issue once it recovers
+        if: success() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TITLE="Evaluator API uptime probe is failing"
+          EXISTING=$(gh issue list --state open --label uptime \
+            --search "$TITLE in:title" --json number --jq '.[0].number' || echo "")
+          if [ -n "$EXISTING" ]; then
+            gh issue close "$EXISTING" --comment "Recovered. Verdict \`${{ steps.assert.outputs.verdict }}\` in \`${{ steps.evaluate.outputs.latency }}s\`."
+          fi

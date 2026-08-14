@@ -18,7 +18,7 @@ NO_QUANTUM_ADVANTAGE = {"none_proven", "dequantized", "varies"}
 
 # AI/ML domain indicators  if these dominate, recommend AI_ML
 AI_ML_KEYWORDS = [
-    "classify", "classification", "image recognition", "object detection",
+    "classify", "classifier", "classification", "image recognition", "object detection",
     "natural language", "nlp", "text generation", "chatbot", "sentiment",
     "recommendation", "predict", "prediction", "forecast", "regression",
     "neural network", "deep learning", "machine learning", "training",
@@ -43,6 +43,10 @@ HPC_KEYWORDS = [
     "large linear system", "sparse matrix", "eigenvalue decomposition",
     "signal processing", "fft", "convolution",
     "combustion", "plasma physics classical", "thermal simulation",
+    # Classical optimisation. Quantum offers at best a quadratic speedup here,
+    # which does not survive QEC overhead, so these belong on classical compute.
+    "portfolio", "mean-variance", "linear programming", "mixed-integer",
+    "vehicle routing", "supply chain", "scheduling problem",
 ]
 
 # Quantum domain indicators  problems naturally suited to quantum
@@ -99,11 +103,14 @@ def route_platform(
 
     Decision matrix:
     1. If best KB match has QUANTUM_ADVANTAGE verdict AND strong speedup
-       AND search score > threshold → QUANTUM
+       AND the problem text itself reads as quantum → QUANTUM
     2. If AI/ML keyword score > HPC keyword score AND > quantum keyword score → AI_ML
     3. If HPC keyword score > AI/ML keyword score AND > quantum keyword score → HPC
     4. If best KB match exists but has weak/no advantage → HPC (with quantum context)
     5. Default → let LLM decide (INCONCLUSIVE)
+
+    Rule 1 is deliberately conservative. Retrieval returns a top match for every
+    query, so the KB match alone cannot establish that a problem is quantum.
     """
     # Compute keyword domain scores
     ai_score = _keyword_score(problem_description, AI_ML_KEYWORDS)
@@ -119,22 +126,39 @@ def route_platform(
     best_verdict = best_match.get("troyer_verdict", "INCONCLUSIVE") if best_match else "INCONCLUSIVE"
     best_name = best_match.get("name", "Unknown") if best_match else "Unknown"
 
+    # Search always returns its top-k, relevant or not, and the zoo is almost
+    # entirely strong-speedup quantum algorithms. So "there is a top match" is
+    # not evidence of anything. Require the problem itself to read as quantum
+    # before a KB match is allowed to carry a QUANTUM_ADVANTAGE verdict.
+    #
+    # Without this gate a portfolio-optimisation question retrieved
+    # "Probabilistic Sampling (Quantum Supremacy)" and was published as
+    # QUANTUM_ADVANTAGE at 0.9 confidence.
+    quantum_corroborated = (
+        quantum_score > 0 and quantum_score >= ai_score and quantum_score >= hpc_score
+    )
+
     # Build evidence
     evidence = {
         "keyword_scores": {"quantum": round(quantum_score, 4), "hpc": round(hpc_score, 4), "ai_ml": round(ai_score, 4)},
         "kb_match": {"name": best_name, "speedup": best_speedup, "verdict": best_verdict, "search_score": round(search_score, 4)} if best_match else None,
         "troyer_filters": troyer_filters,
         "all_troyer_pass": all_troyer_pass,
+        "quantum_corroborated": quantum_corroborated,
     }
 
     # === DECISION MATRIX ===
 
-    # Rule 1: Strong quantum advantage from KB.
+    # Rule 1: Strong quantum advantage from KB, corroborated by the problem text.
     # Trust EITHER all 5 computed Troyer filters OR the curated troyer_verdict.
     # Structural-advantage algorithms (e.g. Shor factoring) are QUANTUM_ADVANTAGE
     # despite F4_naturally_quantum being false, so the curated verdict is
     # authoritative for strong-speedup problems.
-    if best_speedup in STRONG_QUANTUM_SPEEDUPS and (all_troyer_pass or best_verdict == "QUANTUM_ADVANTAGE"):
+    if (
+        quantum_corroborated
+        and best_speedup in STRONG_QUANTUM_SPEEDUPS
+        and (all_troyer_pass or best_verdict == "QUANTUM_ADVANTAGE")
+    ):
         reason = (
             f"KB match '{best_name}' has {best_speedup} speedup and passes all 5 Troyer filters"
             if all_troyer_pass
@@ -164,7 +188,7 @@ def route_platform(
             "platform": "HPC",
             "verdict": "HPC_PREFERRED",
             "confidence": 0.8,
-            "reason": "Problem domain keywords strongly match HPC patterns (CFD, FEA, molecular dynamics, etc.)",
+            "reason": "Problem domain keywords match classical compute patterns (simulation, numerical methods, classical optimisation)",
             "evidence": evidence,
         }
 
@@ -209,7 +233,21 @@ def route_platform(
             "evidence": evidence,
         }
 
-    # Default: let LLM decide
+    # Default: no rule fired.
+    if best_match and best_speedup in STRONG_QUANTUM_SPEEDUPS and not quantum_corroborated:
+        # Say why we did not take the KB match, rather than implying there wasn't one.
+        return {
+            "platform": "INCONCLUSIVE",
+            "verdict": "INCONCLUSIVE",
+            "confidence": 0.4,
+            "reason": (
+                f"Nearest KB algorithm '{best_name}' has {best_speedup} speedup, but nothing in the "
+                f"problem description indicates a quantum workload, so the match is treated as a "
+                f"retrieval artefact rather than evidence"
+            ),
+            "evidence": evidence,
+        }
+
     return {
         "platform": "INCONCLUSIVE",
         "verdict": "INCONCLUSIVE",

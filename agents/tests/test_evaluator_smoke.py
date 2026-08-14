@@ -103,6 +103,108 @@ class TestPlatformRouter:
             assert 0.0 <= result["confidence"] <= 1.0, f"Bad confidence {result['confidence']} for: {problem}"
 
 
+def _kb_match(name, speedup="superpolynomial", verdict="QUANTUM_ADVANTAGE"):
+    """A knowledge base hit of the kind AI Search actually returns."""
+    return {
+        "name": name,
+        "category": "simulation",
+        "speedup_class": speedup,
+        "troyer_verdict": verdict,
+        "io_bottleneck": False,
+        "naturally_quantum": True,
+        "score": 0.03,
+    }
+
+
+class TestRetrievalRelevance:
+    """Rule 1 must not fire on an irrelevant knowledge base match.
+
+    Every other router test passes an empty kb_matches list, so Rule 1 - the
+    branch that actually runs in production - was never exercised. It turned out
+    to accept any top match as proof of quantum advantage. Retrieval always
+    returns a top match, and the algorithm zoo is almost entirely strong-speedup
+    quantum algorithms, so this fired on nearly everything.
+
+    These are the two cases observed against the live API.
+    """
+
+    def test_portfolio_optimisation_is_not_quantum(self):
+        result = route_platform(
+            "Optimize a portfolio of 500 assets using mean-variance optimisation",
+            [_kb_match("Probabilistic Sampling (Quantum Supremacy)")],
+            0.03,
+        )
+        assert result["verdict"] != "QUANTUM_ADVANTAGE"
+        assert result["platform"] != "QUANTUM"
+
+    def test_image_classification_is_not_quantum(self):
+        result = route_platform(
+            "Train an image classifier on 10 million medical photos",
+            [_kb_match("Coupled Classical Oscillators Simulation")],
+            0.03,
+        )
+        assert result["verdict"] != "QUANTUM_ADVANTAGE"
+        assert result["platform"] == "AI_ML"
+
+    def test_cfd_is_not_quantum_despite_a_strong_match(self):
+        result = route_platform(
+            "Simulate turbulent airflow over an aircraft wing using CFD",
+            [_kb_match("Quantum Simulation of Hamiltonian Dynamics")],
+            0.03,
+        )
+        assert result["verdict"] != "QUANTUM_ADVANTAGE"
+        assert result["platform"] == "HPC"
+
+    def test_a_genuinely_quantum_problem_still_routes_quantum(self):
+        """The gate must not cost us the true positives."""
+        result = route_platform(
+            "Find the ground state energy of the FeMoco nitrogenase cofactor",
+            [_kb_match("Preparing Eigenstates and Thermal States")],
+            0.03,
+        )
+        assert result["verdict"] == "QUANTUM_ADVANTAGE"
+        assert result["platform"] == "QUANTUM"
+        assert result["confidence"] == 0.9
+
+    def test_factoring_still_routes_quantum(self):
+        """Shor has structural advantage, not natural quantumness."""
+        result = route_platform(
+            "Factor a 2048-bit RSA integer to test post-quantum readiness",
+            [
+                {
+                    "name": "Shor's Factoring Algorithm",
+                    "category": "cryptography",
+                    "speedup_class": "superpolynomial",
+                    "troyer_verdict": "QUANTUM_ADVANTAGE",
+                    "io_bottleneck": False,
+                    "naturally_quantum": False,
+                    "score": 0.03,
+                }
+            ],
+            0.03,
+        )
+        assert result["verdict"] == "QUANTUM_ADVANTAGE"
+        assert result["platform"] == "QUANTUM"
+
+    def test_rejected_match_is_named_in_the_reason(self):
+        """An unexplained INCONCLUSIVE is not good enough - say what was rejected."""
+        result = route_platform(
+            "Rebalance a portfolio subject to a turnover budget",
+            [_kb_match("Probabilistic Sampling (Quantum Supremacy)")],
+            0.03,
+        )
+        if result["verdict"] == "INCONCLUSIVE":
+            assert "Probabilistic Sampling" in result["reason"]
+
+    def test_corroboration_is_recorded_as_evidence(self):
+        result = route_platform(
+            "Optimize a portfolio of 500 assets using mean-variance optimisation",
+            [_kb_match("Probabilistic Sampling (Quantum Supremacy)")],
+            0.03,
+        )
+        assert result["evidence"]["quantum_corroborated"] is False
+
+
 # --- API response model tests ---
 
 try:

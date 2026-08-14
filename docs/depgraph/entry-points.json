@@ -5,7 +5,8 @@
     ".github/workflows/depgraph-drift.yml",
     ".github/workflows/deploy-evaluator-api.yml",
     ".github/workflows/deploy-website.yml",
-    ".github/workflows/nightly.yml"
+    ".github/workflows/nightly.yml",
+    ".github/workflows/uptime-evaluator-api.yml"
   ],
   "makefiles": [
     "problems/01_hubbard/Makefile",

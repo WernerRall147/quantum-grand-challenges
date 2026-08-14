@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1189,
+    "tracked": 1190,
     "code_files": 217,
     "python": 165,
     "qsharp": 43,
     "ts": 9,
     "edges": 154,
-    "roots": 232,
-    "reachable": 253
+    "roots": 233,
+    "reachable": 254
   },
   "nodes": [
     "agents/api/main.py",

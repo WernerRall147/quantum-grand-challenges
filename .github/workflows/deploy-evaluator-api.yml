@@ -108,15 +108,30 @@ jobs:
             --query properties.configuration.ingress.fqdn -o tsv)
           echo "FQDN: $FQDN"
 
-          # Allow up to 90s for revision activation
-          for i in $(seq 1 18); do
+          # Wait for the new revision itself, not just any 200. The old revision
+          # keeps serving / during the swap, so polling the endpoint alone
+          # reports healthy while the new one is still starting, and the next
+          # step then hits "no healthy upstream".
+          for i in $(seq 1 30); do
+            STATE=$(az containerapp revision list \
+              --name "${{ steps.tag.outputs.app_name }}" \
+              --resource-group "${{ steps.tag.outputs.app_rg }}" \
+              --query "[?properties.active].properties.healthState | [0]" -o tsv 2>/dev/null || echo "")
+            echo "Attempt $i: revision healthState=${STATE:-unknown}"
+            if [ "$STATE" = "Healthy" ]; then
+              break
+            fi
             sleep 5
+          done
+
+          for i in $(seq 1 18); do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://${FQDN}/" || echo "000")
             echo "Attempt $i: HTTP $STATUS"
             if [ "$STATUS" = "200" ]; then
               echo "API healthy."
               exit 0
             fi
+            sleep 5
           done
           echo "::error::API did not return 200 after 90s"
           exit 1
@@ -132,9 +147,20 @@ jobs:
           # The OpenAPI checks below are static and stayed green while
           # /api/evaluate returned 500, so actually call it.
           BODY='{"problem":"ground state energy of the FeMoco nitrogenase cofactor"}'
-          CODE=$(curl -s -o /tmp/eval.json -w "%{http_code}" -m 180 \
-            -X POST "https://${FQDN}/api/evaluate" \
-            -H 'Content-Type: application/json' -d "$BODY" || echo "000")
+
+          # Retry 5xx: the ingress can still be moving traffic to the new
+          # revision and answer "no healthy upstream" for a few seconds. A 4xx
+          # or a bad body is a real failure and is not retried.
+          CODE="000"
+          for attempt in 1 2 3; do
+            CODE=$(curl -s -o /tmp/eval.json -w "%{http_code}" -m 240 \
+              -X POST "https://${FQDN}/api/evaluate" \
+              -H 'Content-Type: application/json' -d "$BODY" || echo "000")
+            case "$CODE" in
+              5*|000) echo "Attempt $attempt: HTTP $CODE, retrying"; sleep 15 ;;
+              *) break ;;
+            esac
+          done
 
           if [ "$CODE" != "200" ]; then
             echo "::error::/api/evaluate returned HTTP $CODE"

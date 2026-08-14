@@ -23,8 +23,7 @@ name: Uptime Check (Evaluator API)
 
 on:
   schedule:
-    # Every 30 minutes. Also has the side effect of keeping a replica warm,
-    # which matters because a cold call costs ~57s versus ~46s warm.
+    # Every 30 minutes.
     - cron: "*/30 * * * *"
   workflow_dispatch:
 
@@ -65,8 +64,9 @@ jobs:
           set -e
           BODY='{"problem":"I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design"}'
 
-          # 240s ceiling: a warm call runs ~46s and a cold start ~57s, so this
-          # leaves generous headroom before we call it a failure.
+          # 240s ceiling. Measured range is 34.9-72.1s. That time is model
+          # inference, not cold start: minReplicas is 1, so the app never
+          # scales to zero.
           echo -n "" > /tmp/curl.out
           curl -s -o /tmp/eval.json -w "%{http_code} %{time_total}" -m 240 \
             -X POST "${{ steps.target.outputs.base }}/api/evaluate" \
@@ -156,13 +156,9 @@ jobs:
             gh issue comment "$EXISTING" --body "$NOTE"
           else
             gh label create uptime --color B60205 --description "Live demo availability" 2>/dev/null || true
-            gh issue create --title "$TITLE" --label uptime --body "$NOTE
-
-The live evaluator did not return a usable verdict. Runbook:
-\`docs/AzureFriday/README.md\` section 6.
-
-This issue stays open and collects a comment per failed probe until the
-probe passes again."
+            DETAIL="The live evaluator did not return a usable verdict. Runbook: docs/AzureFriday/README.md section 6."
+            DETAIL="${DETAIL}\n\nThis issue stays open and collects a comment per failed probe until the probe passes again."
+            gh issue create --title "$TITLE" --label uptime --body "$(printf '%s\n\n%b' "$NOTE" "$DETAIL")"
           fi
 
       - name: Close the issue once it recovers

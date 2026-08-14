@@ -28,7 +28,7 @@ jobs:
           key: pip-ci-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: pip-ci-${{ runner.os }}-
       - name: Install dependencies
-        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai
+        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0
       - name: Validate Q# compilation
         run: python tooling/ci_validate_qsharp.py
       - name: Run Q# entry points

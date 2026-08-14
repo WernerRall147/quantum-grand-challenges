@@ -121,6 +121,35 @@ jobs:
           echo "::error::API did not return 200 after 90s"
           exit 1
 
+      - name: Functional smoke test (evaluate)
+        run: |
+          set -e
+          FQDN=$(az containerapp show \
+            --name "${{ steps.tag.outputs.app_name }}" \
+            --resource-group "${{ steps.tag.outputs.app_rg }}" \
+            --query properties.configuration.ingress.fqdn -o tsv)
+
+          # The OpenAPI checks below are static and stayed green while
+          # /api/evaluate returned 500, so actually call it.
+          BODY='{"problem":"ground state energy of the FeMoco nitrogenase cofactor"}'
+          CODE=$(curl -s -o /tmp/eval.json -w "%{http_code}" -m 180 \
+            -X POST "https://${FQDN}/api/evaluate" \
+            -H 'Content-Type: application/json' -d "$BODY" || echo "000")
+
+          if [ "$CODE" != "200" ]; then
+            echo "::error::/api/evaluate returned HTTP $CODE"
+            head -c 2000 /tmp/eval.json || true
+            exit 1
+          fi
+
+          VERDICT=$(python3 -c "import json;print(json.load(open('/tmp/eval.json')).get('verdict',''))")
+          if [ -z "$VERDICT" ]; then
+            echo "::error::/api/evaluate returned 200 with no verdict"
+            head -c 2000 /tmp/eval.json || true
+            exit 1
+          fi
+          echo "/api/evaluate OK - verdict: $VERDICT"
+
       - name: Smoke-test new endpoints
         run: |
           set -e

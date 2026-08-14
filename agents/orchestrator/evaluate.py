@@ -150,10 +150,11 @@ Reason: {routing['reason']}
 Troyer filters (from KB data): {json.dumps(routing['evidence']['troyer_filters'])}
 Domain keyword scores: {json.dumps(routing['evidence']['keyword_scores'])}
 
-IMPORTANT: The deterministic routing above is computed from the algorithm database and keyword analysis.
-You MUST agree with the verdict unless you have a specific, well-reasoned scientific argument to override it.
-If the routing says AI_ML_PREFERRED or HPC_PREFERRED, do NOT recommend quantum unless you can cite a specific
-algorithm with proven superpolynomial speedup for this exact problem class.
+IMPORTANT: The deterministic routing above is computed from the algorithm database and keyword analysis,
+and it is what the published verdict will be. Your job is to explain and stress-test it, not to replace it.
+Write the explanation, red flags and alternatives as though that verdict stands.
+If you believe it is scientifically wrong, still return it, and put your reasoning in red_flags citing a
+specific algorithm and speedup class - a disagreement is recorded and reviewed rather than silently applied.
 
 KNOWLEDGE BASE RESULTS:
 {kb_context}
@@ -197,27 +198,41 @@ Provide your evaluation as JSON following the output format specified in your in
                 "explanation": raw_content or (truncated_note if finish_reason == "length" else "Error parsing assessment response."),
             }
 
-        # Step 6: Merge KB + routing + LLM results
-        # Deterministic routing provides troyer_filters and platform;
-        # LLM provides explanation, red_flags, and alternatives.
+        # Step 6: Merge KB + routing + LLM results.
+        # The deterministic router owns the verdict and platform: those are the
+        # claims this tool stands behind, and letting a stochastic model set them
+        # made identical inputs return different answers. The LLM contributes the
+        # explanation, red flags and alternatives, and any disagreement it has is
+        # recorded rather than allowed to change the result.
         deterministic_filters = routing["evidence"].get("troyer_filters", {})
+
+        verdict = routing["verdict"]
+        platform = routing["platform"]
+        model_verdict = llm_result.get("verdict")
+        model_platform = llm_result.get("recommended_platform")
+
+        dissent = {}
+        if model_verdict and model_verdict != verdict:
+            dissent["verdict"] = model_verdict
+        if model_platform and model_platform != platform:
+            dissent["recommended_platform"] = model_platform
 
         # Step 7: Compute cost-advantage analysis (Troyer Part 6 placeholder).
         # Heuristic order-of-magnitude estimates from agents/classifier/cost_model.py.
         cost_analysis = self._compute_cost_analysis(
-            platform=llm_result.get("recommended_platform", routing["platform"]),
+            platform=platform,
             algorithm=llm_result.get("recommended_algorithm", kb_result.get("best_algorithm", "")),
             kb_match=(kb_result.get("matches") or [{}])[0],
         )
 
         result = {
             "problem": problem_description,
-            "verdict": llm_result.get("verdict", routing["verdict"]),
-            "confidence": llm_result.get("confidence", routing["confidence"]),
+            "verdict": verdict,
+            "confidence": routing["confidence"],
             "advantage_class": llm_result.get("advantage_class", kb_result.get("speedup_class", "unknown")),
             "recommended_algorithm": llm_result.get("recommended_algorithm", kb_result.get("best_algorithm", "Unknown")),
-            "recommended_platform": llm_result.get("recommended_platform", routing["platform"]),
-            "platform_reason": llm_result.get("platform_reason", routing["reason"]),
+            "recommended_platform": platform,
+            "platform_reason": routing["reason"],
             "troyer_filters": deterministic_filters if deterministic_filters else llm_result.get("troyer_filters", {}),
             "red_flags": llm_result.get("red_flags", []),
             "hpc_alternative": llm_result.get("hpc_alternative", ""),
@@ -225,6 +240,7 @@ Provide your evaluation as JSON following the output format specified in your in
             "explanation": llm_result.get("explanation", ""),
             "similar_problems": llm_result.get("similar_problems", similar_ids),
             "references": llm_result.get("references", []),
+            "model_dissent": dissent,
             "cost_analysis": cost_analysis,
             "routing_evidence": routing["evidence"],
             "evaluated_utc": datetime.now(timezone.utc).isoformat(),

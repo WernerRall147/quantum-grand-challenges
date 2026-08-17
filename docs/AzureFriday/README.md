@@ -5,8 +5,11 @@ demo). Everything here is grounded in the real, deployed system.
 
 **Last verified working:** 2026-08-14 - all five demo prompts returned the correct
 verdict against the live API, model `gpt-5.6-terra-2026-07-09` via the model router,
-6-7 references and ~2,000-character explanations. Latency 34.9-72.1s, typically ~46s.
-See section 5 for the verified table.
+5-7 references and ~2,000-character explanations.
+
+**Latency, measured from the scheduled probe:** median 51.5s, mean 51.1s, min 36.0s,
+max 78.5s. Plan the narration around ~50s and be ready for 80.
+See section 5 for the verified verdict table.
 
 **Recording:** virtual. Options offered were Wed 2 Sep 2:00 PM PT, Thu 3 Sep 12:00 PM PT,
 Thu 3 Sep 2:00 PM PT. Format is 12-16 minutes total, of which **6-8 minutes is live demo**
@@ -41,8 +44,9 @@ Scott carry the rest.
 
 ### Demo beat sheet
 
-A call takes about 46 seconds and can reach 72. That is not dead air unless you let it
-be: each beat below has something to say while the request is in flight.
+A call takes about 50 seconds and has been measured as high as 78. That is not dead air
+unless you let it be: each beat below has something to say while the request is in
+flight. Rehearse to the 80-second case, not the median.
 
 | Beat | Time | On screen | What you say while it runs |
 |---|---|---|---|
@@ -59,6 +63,9 @@ differentiator; code generation is table stakes.
 Not a cold start. `minReplicas` is 1, so the app never scales to zero and that time is
 model inference. Pre-warming will not shorten it. Either narrate over it as above, or
 pre-run beat 2 and show the stored result while you talk.
+
+Figures come from the scheduled probe, which has run every 30 minutes since 2026-08-14
+with no failures. Re-read them before recording rather than trusting this line.
 
 ---
 
@@ -80,7 +87,7 @@ $base = "https://qgc-eval-api.jollysea-98a0f8cb.eastus.azurecontainerapps.io"
 # 1) health - expect: status=ok
 Invoke-RestMethod "$base/"
 # 2) core demo - expect: verdict + model_used + references populated
-# Takes ~46s. Anything past ~90s is worth investigating before you go live.
+# Median 51.5s, max seen 78.5s. Past ~120s is worth investigating before you go live.
 Invoke-RestMethod "$base/api/evaluate" -Method POST -ContentType application/json `
   -Body '{"problem":"I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design","generate_code":false}'
 ```

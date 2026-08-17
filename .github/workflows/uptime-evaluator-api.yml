@@ -141,7 +141,9 @@ jobs:
           } >> $GITHUB_STEP_SUMMARY
 
       - name: Raise an issue if the demo is down
-        if: failure() && github.event_name == 'schedule'
+        # Not gated to schedule only: an alarm that cannot be fired on demand is
+        # an alarm nobody has ever seen work.
+        if: failure()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -162,7 +164,7 @@ jobs:
           fi
 
       - name: Close the issue once it recovers
-        if: success() && github.event_name == 'schedule'
+        if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

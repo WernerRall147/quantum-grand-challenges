@@ -11,11 +11,13 @@ verdict against the live API, model `gpt-5.6-terra-2026-07-09` via the model rou
 max 78.5s. Plan the narration around ~50s and be ready for 80.
 See section 5 for the verified verdict table.
 
-**Recording:** virtual. Options offered were Wed 2 Sep 2:00 PM PT, Thu 3 Sep 12:00 PM PT,
-Thu 3 Sep 2:00 PM PT. Format is 12-16 minutes total, of which **6-8 minutes is live demo**
-and the rest is conversational Q&A with Scott. A **storyboard must be submitted in
-advance**, and there is a 30-minute prep call about a week before. Post-production takes
-about two weeks; episodes publish Thursdays at 5:00 PM PT.
+**Recording:** virtual, via **StreamYard**. Target length is **10-12 minutes** total, of
+which **6-8 minutes is live demo**, the rest conversational Q&A with Scott. The
+invitation email says 12-16 minutes and the production deck says 10-12; build to the
+shorter number. A **storyboard is due one week before the recording** (draft in
+[storyboard.md](storyboard.md)), and there is a 30-minute prep call about a week before.
+Show notes are due 1-2 business days after recording. Post-production takes about two
+weeks; episodes publish Thursdays at 5:00 PM PT.
 
 ---
 
@@ -37,23 +39,25 @@ runbook.
 
 ---
 
-## 2. Run of show (12-16 min total, 6-8 min demo)
+## 2. Run of show (10-12 min total, 6-8 min demo)
 
 The demo is the middle of the episode, not the whole of it. Budget 6-8 minutes and let
-Scott carry the rest.
+Scott carry the rest. Full beat sheet and submission draft in
+[storyboard.md](storyboard.md).
 
 ### Demo beat sheet
 
-A call takes about 50 seconds and has been measured as high as 78. That is not dead air
-unless you let it be: each beat below has something to say while the request is in
-flight. Rehearse to the 80-second case, not the median.
+A call takes about 51s and has been measured at 78s. Azure Friday's own prep guidance is
+to have a completed item to transition to rather than watch something finish, so **run
+beat 1 live and pre-load beat 2 in a second tab**. One live call proves it is real; two
+spends up to two and a half minutes of a six minute demo on a spinner.
 
-| Beat | Time | On screen | What you say while it runs |
+| Beat | Time | On screen | Notes |
 |---|---|---|---|
-| 1. The yes | 0:00-1:30 | Type the FeMoco prompt, hit Evaluate | Walk through Troyer's 5 filters. Land on `QUANTUM_ADVANTAGE`, 0.9 confidence, QPE, with citations. |
-| 2. The no | 1:30-3:00 | Portfolio optimisation, 500 assets | Explain why a quadratic speedup dies under error-correction overhead. Land on `HPC_PREFERRED`. This is the memorable beat. |
-| 3. The payoff | 3:00-4:30 | Generated **Q#** and a **Bicep** template | It does not just judge, it hands you the workspace. |
-| 4. The platform | 4:30-6:00 | Architecture | Container Apps, **managed identity** (no keys), AI Search, model router, GitHub Actions deploy. |
+| 1. The yes | 0:00-2:00 | Type the FeMoco prompt, hit Evaluate | **Live.** Fill the wait by walking Troyer's 5 filters, which the audience needs anyway. Lands on `QUANTUM_ADVANTAGE`, 0.9, QPE, with citations. |
+| 2. The no | 2:00-3:30 | Portfolio optimisation, 500 assets | **Pre-loaded.** Say plainly you ran it earlier. Why a quadratic speedup dies under QEC overhead. Lands on `HPC_PREFERRED`. The memorable beat. |
+| 3. The payoff | 3:30-5:00 | Generated **Q#** and a **Bicep** template | It does not just judge, it hands you the workspace. |
+| 4. The platform | 5:00-6:30 | Architecture, one slide | Container Apps, **managed identity** (no keys), AI Search, model router, GitHub Actions. |
 
 If you are short on time, cut beat 3 before beat 2. The agent declining quantum is the
 differentiator; code generation is table stakes.
@@ -61,8 +65,7 @@ differentiator; code generation is table stakes.
 ### Latency
 
 Not a cold start. `minReplicas` is 1, so the app never scales to zero and that time is
-model inference. Pre-warming will not shorten it. Either narrate over it as above, or
-pre-run beat 2 and show the stored result while you talk.
+model inference. Pre-warming will not shorten it, which is why beat 2 is pre-baked.
 
 Figures come from the scheduled probe, which has run every 30 minutes since 2026-08-14
 with no failures. Re-read them before recording rather than trusting this line.
@@ -214,13 +217,23 @@ a total cloud outage.
 
 Ahead of the day:
 
-- [ ] Reply to Jazz with the chosen recording slot (slots are first-come)
-- [ ] **Submit the storyboard** via the emailed form. This is a hard deliverable and is
-      due in advance, not on the day
+- [x] Reply to Jazz with the chosen recording slot
+- [ ] **Submit the storyboard.** Draft ready in [storyboard.md](storyboard.md); fill in
+      the booked slot and paste into the form when the link arrives. **Due one week
+      before the recording.**
 - [ ] Attend the 30-minute prep call (~1 week prior)
-- [ ] Decide beat 2: live call, or pre-run and narrate
 - [ ] Full timed dry run on the real environment, including one deliberate "no"
+- [ ] Pre-run beat 2 and leave it open in a second tab
 - [ ] Record a fallback video of each prompt in section 5
+
+Machine setup, the day before (from the production prep doc):
+
+- [ ] Display 1920x1080, solid colour background
+- [ ] Default browser opens to `about:blank`
+- [ ] Hide the date in the taskbar, Quiet Hours on
+- [ ] Sign out of Outlook, Teams and any messaging client
+- [ ] Nothing confidential on the desktop or in open tabs
+- [ ] Browser zoom set so the verdict and filters are legible at 1080p
 
 On the day:
 
@@ -228,3 +241,7 @@ On the day:
 - [ ] Run the section 4 smoke test ~15 minutes before
 - [ ] Re-run all five prompts in section 5 and confirm the verdicts match
 - [ ] Site loads and does not show DEMO MODE
+
+After the recording:
+
+- [ ] Submit show notes within 1-2 business days

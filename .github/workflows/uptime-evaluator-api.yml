@@ -146,6 +146,10 @@ jobs:
         if: failure()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # This job never checks out the repo, so gh cannot infer the target
+          # from a git remote and every issue command fails on "not a git
+          # repository".
+          GH_REPO: ${{ github.repository }}
         run: |
           TITLE="Evaluator API uptime probe is failing"
           EXISTING=$(gh issue list --state open --label uptime \
@@ -167,6 +171,7 @@ jobs:
         if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           TITLE="Evaluator API uptime probe is failing"
           EXISTING=$(gh issue list --state open --label uptime \

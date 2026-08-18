@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0",
+  "generated_utc": "2026-08-18T13:40:03.171489Z",
+  "targets": {
+    "quantinuum.sim.h2-1sc": {
+      "profile": "Adaptive_RI",
+      "shots": 20,
+      "billed": false,
+      "note": "Syntax checker. Validates QIR then returns all zeros by design, so its histogram is not a physics result."
+    },
+    "quantinuum.sim.h2-1e": {
+      "profile": "Adaptive_RI",
+      "shots": 200,
+      "billed": true,
+      "note": "Noise model of H2-1. Consumes eHQC quota."
+    },
+    "rigetti.sim.qvm": {
+      "profile": "Base",
+      "shots": 200,
+      "billed": false,
+      "note": "Base profile only, so kernels needing mid-circuit branching are skipped."
+    },
+    "ionq.simulator": {
+      "profile": "Base",
+      "shots": 200,
+      "billed": false,
+      "note": "Base profile only, so kernels needing mid-circuit branching are skipped."
+    }
+  },
+  "excluded_targets": {
+    "pasqal.sim.emu-free": "input format pasqal.pulser.v1 (analog), not gate-model QIR"
+  },
+  "records": [
+    {
+      "problem_id": "01_hubbard",
+      "entry_point": "HubbardQPEKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[One, Zero]": 120,
+          "[Zero, Zero]": 53,
+          "[One, One]": 21,
+          "[Zero, One]": 6
+        }
+      }
+    },
+    {
+      "problem_id": "02_catalysis",
+      "entry_point": "CatalysisQPEKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, Zero]": 165,
+          "[One, Zero]": 22,
+          "[Zero, One]": 8,
+          "[One, One]": 5
+        }
+      }
+    },
+    {
+      "problem_id": "07_drug_discovery",
+      "entry_point": "DrugBindingQPEKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, Zero]": 139,
+          "[One, Zero]": 38,
+          "[Zero, One]": 13,
+          "[One, One]": 10
+        }
+      }
+    },
+    {
+      "problem_id": "09_factorization",
+      "entry_point": "ShorKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 8,
+        "counts": {
+          "[Zero, Zero, Zero, Zero]": 96,
+          "[One, Zero, Zero, Zero]": 41,
+          "[One, One, One, One]": 37,
+          "[One, Zero, One, One]": 9,
+          "[One, One, Zero, Zero]": 6,
+          "[One, One, Zero, One]": 5,
+          "[One, Zero, One, Zero]": 4,
+          "[One, One, One, Zero]": 2
+        }
+      }
+    },
+    {
+      "problem_id": "14_materials_discovery",
+      "entry_point": "MaterialsQPEKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, Zero]": 190,
+          "[One, Zero]": 4,
+          "[Zero, One]": 3,
+          "[One, One]": 3
+        }
+      }
+    },
+    {
+      "problem_id": "16_error_correction",
+      "entry_point": "QECKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 2,
+        "counts": {
+          "[One]": 103,
+          "[Zero]": 97
+        }
+      }
+    },
+    {
+      "problem_id": "17_nuclear_physics",
+      "entry_point": "NuclearQPEKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, Zero]": 189,
+          "[One, Zero]": 6,
+          "[One, One]": 3,
+          "[Zero, One]": 2
+        }
+      }
+    },
+    {
+      "problem_id": "18_photovoltaics",
+      "entry_point": "QuantumWalkKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 1,
+        "counts": {
+          "[One, Zero, Zero]": 200
+        }
+      }
+    },
+    {
+      "problem_id": "19_quantum_chromodynamics",
+      "entry_point": "LatticeGaugeKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 14,
+        "counts": {
+          "[Zero, Zero, Zero, Zero]": 83,
+          "[One, Zero, Zero, Zero]": 28,
+          "[Zero, Zero, Zero, One]": 23,
+          "[Zero, Zero, One, One]": 18,
+          "[One, One, Zero, Zero]": 14,
+          "[One, Zero, Zero, One]": 11,
+          "[One, One, Zero, One]": 5,
+          "[One, One, One, One]": 5,
+          "[Zero, One, One, Zero]": 4,
+          "[Zero, Zero, One, Zero]": 3,
+          "[One, Zero, One, Zero]": 2,
+          "[One, Zero, One, One]": 2,
+          "[Zero, One, Zero, Zero]": 1,
+          "[Zero, One, One, One]": 1
+        }
+      }
+    }
+  ]
+}

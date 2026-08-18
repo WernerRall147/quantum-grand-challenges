@@ -32,8 +32,7 @@ operation HubbardQPEKernel() : Result[] {
     Controlled R1([phase[0]], (-PI() / 2.0, phase[1]));
     H(phase[1]);
     // Measure phase register (encodes energy eigenvalue)
-    let r0 = M(phase[0]);
-    let r1 = M(phase[1]);
+    let phaseResults = MResetEachZ(phase);
     ResetAll(sys);
-    return [r0, r1];
+    return phaseResults;
 }

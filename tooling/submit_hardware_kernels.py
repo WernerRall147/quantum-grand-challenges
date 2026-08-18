@@ -1,4 +1,15 @@
-"""Submit HardwareKernel.qs for all 20 problems to Azure Quantum targets."""
+"""SUPERSEDED by tooling/run_simulator_matrix.py.
+
+Despite the name and its "Submitting <problem> to <target>" output, this script
+never contacted Azure Quantum. submit_kernel() calls qsharp.run(), which executes
+on the local simulator, and the result was then written to azureRunHistory.json
+carrying the requested target_id and no job id. Local results were therefore
+indistinguishable from real hardware results once recorded.
+
+It now prints the local results and refuses to write run history. Use
+run_simulator_matrix.py, which labels every record with `execution` and stores the
+Azure job id for anything that really was submitted.
+"""
 
 import json
 import os
@@ -95,10 +106,11 @@ def main():
             })
 
     if new_runs:
-        append_to_history(new_runs)
-        print(f"\nRecorded {len(new_runs)} successful runs to {HISTORY_PATH.name}")
+        print(f"\n{len(new_runs)} kernels ran on the LOCAL simulator.")
+        print("Not recording to run history: these are not Azure Quantum runs.")
+        print("Use 'python tooling/run_simulator_matrix.py' to submit and record real jobs.")
     else:
-        print("\nNo successful runs to record")
+        print("\nNo successful runs")
 
 
 if __name__ == "__main__":

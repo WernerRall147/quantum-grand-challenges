@@ -99,6 +99,57 @@
       "problem": "Search an unstructured database of 10 million records for a matching entry",
       "expect_platform": "HPC",
       "why": "Grover is quadratic and the QRAM loading cost erases it"
+    },
+
+    {
+      "id": "adv-quantum-washed-ml",
+      "problem": "Use quantum machine learning to classify images of manufacturing defects",
+      "expect_platform": "AI_ML",
+      "adversarial": "quantum-washing",
+      "why": "Says quantum, is pattern recognition. QML swap test is archived for I/O bottleneck, so this must not route QUANTUM."
+    },
+    {
+      "id": "adv-quantum-inspired",
+      "problem": "Apply quantum-inspired tensor network methods to speed up supply chain optimisation",
+      "expect_platform": "HPC",
+      "adversarial": "quantum-washing",
+      "why": "Quantum-inspired means classical. Must not be read as a quantum workload."
+    },
+    {
+      "id": "adv-symmetric-crypto",
+      "problem": "Assess the security of AES-256 symmetric encryption against a Grover attack",
+      "expect_platform_in": ["HPC", "INCONCLUSIVE"],
+      "adversarial": "retrieval-artefact",
+      "why": "The knowledge base returns Quantum Cryptanalysis at superpolynomial for this, which is a strong pull toward a quantum verdict. The correct behaviour is to resist it: this is a security analysis question, not a quantum workload. INCONCLUSIVE with a stated reason is a better answer than a confident platform, so both are accepted. Originally labelled HPC only, which was wrong."
+    },
+    {
+      "id": "adv-io-bound-quantum",
+      "problem": "Classify 50 terabytes of stored molecular dynamics trajectories using a quantum kernel method",
+      "expect_platform": "AI_ML",
+      "adversarial": "io-trap",
+      "why": "F2: loading 50TB into amplitudes erases any speedup, regardless of the quantum framing"
+    },
+    {
+      "id": "adv-classical-hamiltonian",
+      "problem": "Estimate the Hamiltonian parameters of a classical spin glass using Monte Carlo sampling",
+      "expect_platform": "HPC",
+      "adversarial": "keyword-collision",
+      "why": "Contains hamiltonian, which is a QUANTUM_KEYWORDS entry, but the system is classical"
+    },
+    {
+      "id": "adv-class1-subtle",
+      "problem": "Compute the binding energy of a well-separated hydrogen-bonded water dimer where coupled cluster is reliable",
+      "expect_platform": "HPC",
+      "expect_structure_class": "class_1",
+      "adversarial": "f6-boundary",
+      "why": "Chemistry and ground state, but single-reference. F6 must reject it."
+    },
+    {
+      "id": "adv-vague",
+      "problem": "Make our simulation run faster",
+      "expect_platform_in": ["HPC", "INCONCLUSIVE"],
+      "adversarial": "underspecified",
+      "why": "Too vague to justify a confident quantum verdict. Overclaiming here would be the worst failure mode."
     }
   ]
 }

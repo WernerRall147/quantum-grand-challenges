@@ -54,6 +54,18 @@ AGENT_NAME = os.environ.get("QGC_AGENT_NAME", "quantum-advantage-orchestrator")
 # references. Tunable via QGC_MAX_COMPLETION_TOKENS.
 MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_MAX_COMPLETION_TOKENS", "4000"))
 
+# The client had no timeout, so a stalled model pinned the request indefinitely.
+# The model-router selects a different model per prompt and they are not equally
+# fast: a typical assessment returns in about 40s, but one selection was still
+# running after eight minutes. Without a bound that holds an API worker open for
+# the whole time. Tunable via QGC_REQUEST_TIMEOUT.
+REQUEST_TIMEOUT = float(os.environ.get("QGC_REQUEST_TIMEOUT", "180"))
+
+# Retries multiply the timeout: the SDK default of 2 turns a 180s bound into a
+# 540s worst case. Kept at 2 so transient 429s still recover, but exposed so a
+# batch caller can drop it to 0 rather than wait out three stalls per case.
+MAX_RETRIES = int(os.environ.get("QGC_MAX_RETRIES", "2"))
+
 
 def parse_assessment(raw: str) -> Optional[dict]:
     """Read the model's JSON, tolerating fences and surrounding prose.
@@ -92,6 +104,9 @@ class QuantumEvaluator:
     def __init__(self):
         self.credential = DefaultAzureCredential()
         self.kb = QuantumKnowledgeBase()
+        # Populated by evaluate(). Read by agents/evaluations/score_narrative.py,
+        # which needs the model's own JSON before the merge below overwrites it.
+        self.last_diagnostics: Dict[str, Any] = {}
 
     def _get_chat_client(self):
         """Get OpenAI chat client with fresh token.
@@ -106,6 +121,8 @@ class QuantumEvaluator:
             azure_ad_token=token.token,
             azure_endpoint=endpoint,
             api_version="2024-10-21",
+            timeout=REQUEST_TIMEOUT,
+            max_retries=MAX_RETRIES,
         )
 
     def _get_deployment(self) -> str:
@@ -215,6 +232,7 @@ Provide your evaluation as JSON following the output format specified in your in
 
         # Step 5: Parse LLM response
         llm_result = parse_assessment(raw_content)
+        parse_ok = llm_result is not None
         if llm_result is None:
             # Never surface raw_content here. It is the model's unparsed output,
             # and a failed parse once put 17,000 characters of JSON on screen
@@ -283,6 +301,16 @@ Provide your evaluation as JSON following the output format specified in your in
             "evaluated_utc": datetime.now(timezone.utc).isoformat(),
             "model_used": model_used,
             "tokens_used": tokens_used,
+        }
+
+        self.last_diagnostics = {
+            "parse_ok": parse_ok,
+            "finish_reason": finish_reason,
+            "llm_assessment": llm_result if parse_ok else None,
+            "deterministic_filters": deterministic_filters,
+            "router_verdict": verdict,
+            "router_platform": platform,
+            "model_used": model_used,
         }
 
         return result

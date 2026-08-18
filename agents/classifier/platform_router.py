@@ -148,11 +148,18 @@ def compute_state_preparation_filter(algorithm: Dict[str, Any], problem_descript
     unbuildable.
 
     Algorithms that need no guiding state pass: the filter does not apply.
+
+    Applicability is decided from the problem as well as the matched algorithm.
+    Deciding it from the algorithm name alone meant a poor retrieval switched the
+    filter off entirely: a single-reference water dimer matched "Coupled Classical
+    Oscillators Simulation", no marker hit, and F6 passed by default on exactly
+    the kind of problem it exists to reject.
     """
+    structure = classify_electronic_structure(problem_description)
     identity = f"{algorithm.get('name', '')} {algorithm.get('category', '')}"
-    if not _any_marker(identity, GUIDING_STATE_MARKERS):
+    if not _any_marker(identity, GUIDING_STATE_MARKERS) and structure == "unknown":
         return True
-    return classify_electronic_structure(problem_description) != "class_1"
+    return structure != "class_1"
 
 
 def route_platform(

@@ -186,7 +186,7 @@ a total cloud outage.
   can Q# help?"); first commit the same day. ~300 commits since. See
   [../planning/original-chatgpt-conversation.md](../planning/original-chatgpt-conversation.md).
 - **Honesty angle:** 20 problems implemented; **11 honestly downgraded** (I/O, quadratic-
-  only, QEC overhead), 9 active. The agent applies **Troyer's 5 utility-scale filters**
+  only, QEC overhead), 9 active. The agent applies **6 utility-scale filters**
   and **DiVincenzo** hardware-readiness criteria - it is designed to *not* over-claim.
 - **Architecture:** agent `quantum-advantage-orchestrator` on Foundry project
   `qgc-eval-proj` (account `admin-mo1q7owo-eastus2`, East US 2), model router, tools

@@ -18,6 +18,7 @@ tooling/azure/
 tooling/azure_submit_kernels.py
 tooling/submit_all_syntax_check.py
 tooling/submit_hardware_kernels.py
+tooling/run_simulator_matrix.py
 tooling/create_hardware_kernels.py
 tooling/provision_foundry_agent.py
 

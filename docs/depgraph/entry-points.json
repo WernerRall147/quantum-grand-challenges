@@ -300,6 +300,7 @@
     "tooling/reporting/validate_website_data_schema.py",
     "tooling/run_noisy_simulation.py",
     "tooling/run_paper_analyses.py",
+    "tooling/run_simulator_matrix.py",
     "tooling/submit_all_syntax_check.py",
     "tooling/submit_hardware_kernels.py",
     "tooling/trace_circuits.py",

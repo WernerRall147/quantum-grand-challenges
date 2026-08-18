@@ -8,9 +8,15 @@ export default function Home() {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
   const withBasePath = (path: string) => `${basePath}${path}`;
   const [showArchived, setShowArchived] = useState(false);
+  const [query, setQuery] = useState('');
 
-  const active = problemHighlights.filter((p) => !p.status.toLowerCase().includes('archived'));
-  const archived = problemHighlights.filter((p) => p.status.toLowerCase().includes('archived'));
+  const q = query.trim().toLowerCase();
+  const matches = (p: { title: string; status: string; description: string }) =>
+    !q || `${p.title} ${p.status} ${p.description}`.toLowerCase().includes(q);
+
+  const active = problemHighlights.filter((p) => !p.status.toLowerCase().includes('archived') && matches(p));
+  const archived = problemHighlights.filter((p) => p.status.toLowerCase().includes('archived') && matches(p));
+  const totalMatches = active.length + archived.length;
 
   return (
     <>
@@ -97,6 +103,9 @@ export default function Home() {
               <Link href="/compare/" style={{ padding: '0.8rem 2rem', background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.05rem', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)' }}>
                 Compare All Problems
               </Link>
+              <Link href="/architecture/" style={{ padding: '0.8rem 2rem', background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, fontSize: '1.05rem', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)' }}>
+                Architecture
+              </Link>
             </div>
           </div>
         </header>
@@ -128,12 +137,50 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Problem search */}
+        <section style={{ marginTop: '2.5rem' }}>
+          <label htmlFor="problem-search" style={{ display: 'block', fontSize: '0.85rem', color: '#64748b', marginBottom: '0.4rem' }}>
+            Search problems by name, algorithm, status or description
+          </label>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <input
+              id="problem-search"
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="e.g. QPE, catalysis, archived, I/O limited"
+              style={{
+                flex: 1, padding: '0.7rem 1rem', fontSize: '0.95rem', borderRadius: '8px',
+                border: '2px solid #e5e7eb', fontFamily: 'inherit', outline: 'none',
+              }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = '#667eea'; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}
+            />
+            {q && (
+              <button
+                type="button"
+                onClick={() => setQuery('')}
+                style={{ padding: '0.7rem 1rem', fontSize: '0.9rem', background: '#f1f5f9', border: '1px solid #e2e8f0', borderRadius: '8px', cursor: 'pointer', color: '#334155' }}
+              >
+                Clear
+              </button>
+            )}
+          </div>
+          {q && (
+            <p style={{ margin: '0.6rem 0 0', fontSize: '0.85rem', color: '#64748b' }}>
+              {totalMatches === 0
+                ? 'No problems match that search.'
+                : `${totalMatches} match${totalMatches === 1 ? '' : 'es'}: ${active.length} active, ${archived.length} archived.`}
+            </p>
+          )}
+        </section>
+
         {/* Active Problems */}
         <section style={{ marginTop: '2.5rem' }}>
           <h2 style={{ fontSize: '1.4rem' }}>
             Active Problems
             <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#64748b', marginLeft: '0.5rem' }}>
-              {active.length} pass all Troyer filters
+              {q ? `${active.length} matching` : `${active.length} pass all Troyer filters`}
             </span>
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
@@ -155,13 +202,13 @@ export default function Home() {
           >
             Archived Problems
             <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#94a3b8' }}>
-              {archived.length} &mdash; Troyer filter failures
+              {archived.length} &mdash; {q ? 'matching' : 'Troyer filter failures'}
             </span>
             <span style={{ fontSize: '0.8rem', color: '#94a3b8', marginLeft: '0.25rem' }}>
-              {showArchived ? '▼' : '▶'}
+              {showArchived || q ? '▼' : '▶'}
             </span>
           </button>
-          {showArchived && (
+          {(showArchived || !!q) && (
             <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '0.75rem' }}>
               {archived.map((p) => (
                 <div key={p.title} style={{ padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '8px', background: '#fafafa' }}>

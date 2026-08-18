@@ -71,7 +71,9 @@
     "website/pages/404.tsx",
     "website/pages/_app.tsx",
     "website/pages/_document.tsx",
+    "website/pages/architecture.tsx",
     "website/pages/compare.tsx",
+    "website/pages/costs.tsx",
     "website/pages/evaluate.tsx",
     "website/pages/index.tsx",
     "website/pages/problems/[problem].tsx"

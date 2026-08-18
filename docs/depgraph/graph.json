@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1191,
-    "code_files": 217,
+    "tracked": 1195,
+    "code_files": 221,
     "python": 165,
     "qsharp": 43,
-    "ts": 9,
-    "edges": 154,
-    "roots": 233,
-    "reachable": 254
+    "ts": 13,
+    "edges": 158,
+    "roots": 235,
+    "reachable": 258
   },
   "nodes": [
     "agents/api/main.py",
@@ -219,12 +219,16 @@
     "tooling/trace_circuits.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py",
+    "website/components/CostReference.tsx",
+    "website/components/MermaidDiagram.tsx",
     "website/data/projectStatus.ts",
     "website/next-env.d.ts",
     "website/pages/404.tsx",
     "website/pages/_app.tsx",
     "website/pages/_document.tsx",
+    "website/pages/architecture.tsx",
     "website/pages/compare.tsx",
+    "website/pages/costs.tsx",
     "website/pages/evaluate.tsx",
     "website/pages/index.tsx",
     "website/pages/problems/[problem].tsx"
@@ -799,12 +803,28 @@
       "website/data/azureRunHistory.json"
     ],
     [
+      "website/pages/architecture.tsx",
+      "website/components/MermaidDiagram.tsx"
+    ],
+    [
       "website/pages/compare.tsx",
       "website/data/projectStatus.ts"
     ],
     [
       "website/pages/compare.tsx",
       "website/data/resourceEstimates.json"
+    ],
+    [
+      "website/pages/costs.tsx",
+      "website/components/CostReference.tsx"
+    ],
+    [
+      "website/pages/evaluate.tsx",
+      "website/components/MermaidDiagram.tsx"
+    ],
+    [
+      "website/pages/evaluate.tsx",
+      "website/pages/costs.tsx"
     ],
     [
       "website/pages/index.tsx",

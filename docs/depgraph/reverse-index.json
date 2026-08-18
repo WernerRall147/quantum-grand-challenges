@@ -354,6 +354,13 @@
   "tooling/run_all_qsharp.py": [
     ".github/workflows/ci-cd.yml"
   ],
+  "website/components/CostReference.tsx": [
+    "website/pages/costs.tsx"
+  ],
+  "website/components/MermaidDiagram.tsx": [
+    "website/pages/architecture.tsx",
+    "website/pages/evaluate.tsx"
+  ],
   "website/data/azureRunHistory.json": [
     "website/data/projectStatus.ts"
   ],
@@ -386,5 +393,8 @@
   ],
   "website/data/troyerAssessment.json": [
     "website/pages/problems/[problem].tsx"
+  ],
+  "website/pages/costs.tsx": [
+    "website/pages/evaluate.tsx"
   ]
 }

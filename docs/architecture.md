@@ -181,15 +181,16 @@ For each user-submitted problem, the system produces:
 ```json
 {
   "problem_summary": "...",
-  "verdict": "QUANTUM_ADVANTAGE" | "HPC_PREFERRED" | "INCONCLUSIVE",
+  "verdict": "QUANTUM_ADVANTAGE" | "HPC_PREFERRED" | "AI_ML_PREFERRED" | "INCONCLUSIVE",
   "confidence": 0.0-1.0,
   "advantage_class": "exponential" | "superpolynomial" | "quadratic" | "none",
   "troyer_filters": {
-    "proven_speedup": true/false,
-    "io_survives": true/false,
-    "qec_survives": true/false,
-    "naturally_quantum": true/false,
-    "crossover_feasible": true/false
+    "F1_proven_speedup": true/false,
+    "F2_io_survives": true/false,
+    "F3_qec_survives": true/false,
+    "F4_naturally_quantum": true/false,
+    "F5_crossover_feasible": true/false,
+    "F6_state_preparation": true/false
   },
   "red_flags": ["..."],
   "quantum_estimate": {

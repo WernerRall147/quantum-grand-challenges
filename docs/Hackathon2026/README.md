@@ -157,7 +157,7 @@ infrastructure to actually run it.
 
 Describe a workload in natural language. The agent:
 
-1. Routes it against **Troyer's five utility-scale filters** (proven speedup? does
+1. Routes it against **Troyer's six utility-scale filters** (proven speedup? does
    I/O survive? does QEC survive? is it naturally quantum? is the crossover
    feasible?) and **DiVincenzo's five hardware-readiness criteria**.
 2. Grounds every claim in a knowledge base of peer-reviewed arXiv papers, the
@@ -326,7 +326,7 @@ Ready to paste (966):
 ```
 An Azure AI Foundry agent that decides which compute substrate a workload belongs on - quantum, AI/ML or HPC - and shows its working.
 
-Describe a problem in plain language. The agent scores it against Troyer's five utility-scale filters and DiVincenzo's hardware criteria, grounds every claim in peer-reviewed arXiv papers plus the Quantum Algorithm and Error Correction Zoos, and returns a verdict with citations, red flags and qubit-level resource estimates. It then generates Q# for genuinely quantum workloads, or Bicep to provision the right Azure compute.
+Describe a problem in plain language. The agent scores it against Troyer's six utility-scale filters and DiVincenzo's hardware criteria, grounds every claim in peer-reviewed arXiv papers plus the Quantum Algorithm and Error Correction Zoos, and returns a verdict with citations, red flags and qubit-level resource estimates. It then generates Q# for genuinely quantum workloads, or Bicep to provision the right Azure compute.
 
 Built with Azure AI Foundry (agent, model router, tools), Container Apps with managed identity end to end, Cosmos DB and AI Search for RAG, a nightly Container Apps Job ingesting new arXiv papers, Q#/QDK with the Azure Quantum Resource Estimator, GitHub Actions and a Next.js dashboard.
 

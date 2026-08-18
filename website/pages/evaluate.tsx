@@ -1,36 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-
-// Renders a Mermaid diagram client-side. Falls back to the diagram source on
-// any render error so the architecture is always visible.
-function MermaidDiagram({ chart }: { chart: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [failed, setFailed] = useState(false);
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const mermaid = (await import('mermaid')).default;
-        mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
-        const id = 'mmd-' + Math.random().toString(36).slice(2);
-        const { svg } = await mermaid.render(id, chart);
-        if (!cancelled && ref.current) ref.current.innerHTML = svg;
-      } catch {
-        if (!cancelled) setFailed(true);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [chart]);
-  if (failed) {
-    return (
-      <pre style={{ margin: 0, color: '#7dd3fc', fontSize: '0.8rem', overflow: 'auto', padding: '0.75rem', background: '#020617', borderRadius: '6px' }}>
-        {chart}
-      </pre>
-    );
-  }
-  return <div ref={ref} style={{ overflow: 'auto', textAlign: 'center' }} />;
-}
+import MermaidDiagram from '../components/MermaidDiagram';
+import { LAST_COST_KEY } from './costs';
 
 interface TroyerFilters {
   F1_proven_speedup?: boolean;
@@ -190,6 +162,24 @@ export default function EvaluatePage() {
   const [loading, setLoading] = useState(false);
   const [generateCode, setGenerateCode] = useState(false);
   const [result, setResult] = useState<EvaluationResult | null>(null);
+
+  // Hand the cost figures to /costs, which owns their presentation.
+  useEffect(() => {
+    if (!result?.cost_analysis) return;
+    try {
+      sessionStorage.setItem(LAST_COST_KEY, JSON.stringify({
+        problem: problem.trim(),
+        verdict: result.verdict,
+        cost_analysis: result.cost_analysis,
+        at: new Date().toISOString(),
+      }));
+    } catch {
+      // Storage being unavailable only costs the deep link, not the evaluation.
+    }
+    // Intentionally keyed on the result alone: the problem text is a snapshot of
+    // what produced it, and should not re-write the store as the user retypes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
 
   const handleEvaluate = async () => {
     if (!problem.trim()) return;
@@ -634,123 +624,37 @@ export default function EvaluatePage() {
               </div>
             )}
 
-            {/* Cost analysis, kept below the reasoning so its per-unit verdict is not read as the recommendation */}
+            {/* Cost has its own page; this is the headline and the way in. */}
             {result.cost_analysis && (result.cost_analysis.quantum_estimate || result.cost_analysis.ai_ml_estimate || result.cost_analysis.hpc_estimate) && (() => {
               const ca = result.cost_analysis;
-              const v = ca.comparison?.verdict || '';
-              const verdictBg =
-                v === 'QUANTUM_STRONGLY_PREFERRED' ? '#dcfce7' :
-                v === 'QUANTUM_SLIGHTLY_CHEAPER'   ? '#ecfccb' :
-                v === 'HPC_SLIGHTLY_CHEAPER'       ? '#fef9c3' :
-                v === 'HPC_PREFERRED_ON_COST'      ? '#ffedd5' :
-                v === 'HPC_STRONGLY_PREFERRED'     ? '#fee2e2' :
-                                                     '#f1f5f9';
-              const verdictFg =
-                v === 'QUANTUM_STRONGLY_PREFERRED' ? '#15803d' :
-                v === 'QUANTUM_SLIGHTLY_CHEAPER'   ? '#65a30d' :
-                v === 'HPC_SLIGHTLY_CHEAPER'       ? '#a16207' :
-                v === 'HPC_PREFERRED_ON_COST'      ? '#c2410c' :
-                v === 'HPC_STRONGLY_PREFERRED'     ? '#b91c1c' :
-                                                     '#475569';
+              const label: Record<string, string> = { quantum: 'Quantum', ai_ml: 'Azure AI/ML', hpc: 'Azure HPC' };
+              const cheapest = ca.cheapest_runnable;
+              const cheapCost =
+                cheapest === 'quantum' ? ca.quantum_estimate?.estimated_cost_usd :
+                cheapest === 'ai_ml' ? ca.ai_ml_estimate?.estimated_cost_usd :
+                cheapest === 'hpc' ? ca.hpc_estimate?.estimated_cost_usd : undefined;
               const fmt = (x: number | null | undefined) =>
                 typeof x === 'number' ? `$${x.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : 'n/a';
-              const cheapest = ca.cheapest_runnable;
               return (
                 <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#fff', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
-                  <h3 style={{ marginTop: 0, color: '#0f172a' }}>Cost reference: per-run rates by platform</h3>
-                  <p style={{ color: '#475569', fontSize: '0.85rem', margin: '0 0 0.75rem' }}>
-                    Per-unit Azure list rates for a reference run on each platform - not the cost to solve your whole problem, and not directly comparable across billing models (quantum is billed per shot; AI/ML and HPC per compute-hour). Use them for order-of-magnitude intuition; feasibility and the speedup class decide the recommendation above.
+                  <h3 style={{ marginTop: 0, color: '#0f172a' }}>Cost</h3>
+                  {ca.feasibility?.feasible_today === false && (
+                    <p style={{ margin: '0 0 0.5rem', fontSize: '0.88rem', color: '#9a3412' }}>
+                      ⚛️ Quantum hardware is not ready for this problem yet - it needs ~{(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} qubits, and the largest device today exposes {ca.feasibility.hardware_qubits}.
+                    </p>
+                  )}
+                  {cheapest && (
+                    <p style={{ margin: '0 0 0.75rem', fontSize: '0.9rem', color: '#334155' }}>
+                      <strong>Runnable today: {label[cheapest] || cheapest}</strong>
+                      {typeof cheapCost === 'number' ? ` at roughly ${fmt(cheapCost)} for a reference run.` : '.'}
+                    </p>
+                  )}
+                  <p style={{ margin: '0 0 0.85rem', fontSize: '0.82rem', color: '#64748b', fontStyle: 'italic' }}>
+                    Per-unit rates across three different billing models. Cost alone does not determine advantage.
                   </p>
-                  {/* Feasibility-gated headline so the three figures are not misread as like-for-like */}
-                  {(ca.feasibility?.feasible_today === false || cheapest) && (() => {
-                    const label: Record<string, string> = { quantum: 'Quantum', ai_ml: 'Azure AI/ML', hpc: 'Azure HPC' };
-                    const cheapCost =
-                      cheapest === 'quantum' ? ca.quantum_estimate?.estimated_cost_usd :
-                      cheapest === 'ai_ml' ? ca.ai_ml_estimate?.estimated_cost_usd :
-                      cheapest === 'hpc' ? ca.hpc_estimate?.estimated_cost_usd : undefined;
-                    return (
-                      <div style={{ margin: '0 0 0.85rem', padding: '0.65rem 0.9rem', borderRadius: '8px', background: '#f0f9ff', border: '1px solid #bae6fd', fontSize: '0.85rem', color: '#0c4a6e' }}>
-                        {ca.feasibility?.feasible_today === false && (
-                          <span>⚛️ Quantum hardware is not ready for this problem yet - it needs ~{(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} qubits, and the largest device today exposes {ca.feasibility.hardware_qubits}. </span>
-                        )}
-                        {cheapest && (
-                          <strong>Runnable today: {label[cheapest] || cheapest}{typeof cheapCost === 'number' ? ` (~${fmt(cheapCost)} for a reference run)` : ''}.</strong>
-                        )}
-                      </div>
-                    );
-                  })()}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.75rem' }}>
-                    {ca.quantum_estimate && (
-                      <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: '#eff6ff', border: `1px solid ${cheapest === 'quantum' ? '#2563eb' : '#bfdbfe'}` }}>
-                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: '#1d4ed8', letterSpacing: '0.05em' }}>Quantum</div>
-                        <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#1e3a8a', marginTop: '0.25rem' }}>
-                          {fmt(ca.quantum_estimate.estimated_cost_usd)}
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: '#475569', marginTop: '0.25rem' }}>
-                          {ca.quantum_estimate.provider || ca.quantum_estimate.platform}
-                          {typeof ca.quantum_estimate.shots === 'number' && ` · ${ca.quantum_estimate.shots.toLocaleString()} shots`}
-                        </div>
-                        {ca.quantum_estimate.feasible_today === false && (
-                          <div style={{ marginTop: '0.4rem', fontSize: '0.7rem', fontWeight: 600, color: '#9a3412', background: '#ffedd5', borderRadius: '4px', padding: '0.15rem 0.4rem', display: 'inline-block' }}>
-                            Hardware not yet available
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {ca.ai_ml_estimate && (
-                      <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: '#f5f3ff', border: `1px solid ${cheapest === 'ai_ml' ? '#7c3aed' : '#ddd6fe'}` }}>
-                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: '#6d28d9', letterSpacing: '0.05em' }}>Azure AI / ML</div>
-                        <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#4c1d95', marginTop: '0.25rem' }}>
-                          {fmt(ca.ai_ml_estimate.estimated_cost_usd)}
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: '#475569', marginTop: '0.25rem' }}>
-                          {ca.ai_ml_estimate.family || ca.ai_ml_estimate.sku}
-                          {ca.ai_ml_estimate.instance_size && ` · ${ca.ai_ml_estimate.instance_size}`}
-                          {typeof ca.ai_ml_estimate.compute_hours === 'number' && ` · ${ca.ai_ml_estimate.compute_hours.toFixed(2)} hr`}
-                          {typeof ca.ai_ml_estimate.usd_per_hour === 'number' && ` @ $${ca.ai_ml_estimate.usd_per_hour}/hr`}
-                        </div>
-                      </div>
-                    )}
-                    {ca.hpc_estimate && (
-                      <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: '#fef3c7', border: `1px solid ${cheapest === 'hpc' ? '#d97706' : '#fde68a'}` }}>
-                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: '#a16207', letterSpacing: '0.05em' }}>Azure HPC / GPU</div>
-                        <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#78350f', marginTop: '0.25rem' }}>
-                          {fmt(ca.hpc_estimate.estimated_cost_usd)}
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: '#475569', marginTop: '0.25rem' }}>
-                          {ca.hpc_estimate.sku || ca.hpc_estimate.platform}
-                          {typeof ca.hpc_estimate.compute_hours === 'number' && ` · ${ca.hpc_estimate.compute_hours.toFixed(2)} hr`}
-                          {typeof ca.hpc_estimate.usd_per_hour === 'number' && ` @ $${ca.hpc_estimate.usd_per_hour}/hr`}
-                        </div>
-                      </div>
-                    )}
-                    {ca.comparison && (
-                      <div style={{ padding: '0.85rem 1rem', borderRadius: '8px', background: verdictBg, border: `1px solid ${verdictFg}33` }}>
-                        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: verdictFg, letterSpacing: '0.05em' }}>Per-unit cost only</div>
-                        <div style={{ fontSize: '1rem', fontWeight: 700, color: verdictFg, marginTop: '0.25rem' }}>
-                          {(ca.comparison.verdict || 'INSUFFICIENT_DATA').replace(/_/g, ' ')}
-                        </div>
-                        {typeof ca.comparison.ratio === 'number' && (
-                          <div style={{ fontSize: '0.78rem', color: '#475569', marginTop: '0.25rem' }}>
-                            {ca.comparison.ratio.toLocaleString(undefined, { maximumFractionDigits: 0 })}x rate gap (1 quantum job vs 1 HPC compute-hr)
-                          </div>
-                        )}
-                        <div style={{ fontSize: '0.72rem', color: '#64748b', marginTop: '0.4rem', fontStyle: 'italic' }}>
-                          Not the cost to solve the problem. Cost alone does not determine advantage.
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  {ca.feasibility && ca.feasibility.feasible_today === false && ca.feasibility.note && (
-                    <p style={{ marginTop: '0.75rem', marginBottom: 0, fontSize: '0.78rem', color: '#9a3412' }}>
-                      {ca.feasibility.note}
-                    </p>
-                  )}
-                  {ca.caveat && (
-                    <p style={{ marginTop: '0.5rem', marginBottom: 0, fontSize: '0.78rem', color: '#64748b', fontStyle: 'italic' }}>
-                      {ca.caveat}
-                    </p>
-                  )}
+                  <Link href="/costs/" style={{ color: '#0070f3', textDecoration: 'none', fontWeight: 600, fontSize: '0.9rem' }}>
+                    See the full per-run breakdown &rarr;
+                  </Link>
                 </div>
               );
             })()}

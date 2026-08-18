@@ -1,11 +1,21 @@
 ===================================================================
-  Problem 08: Protein Folding  QAOA on Contact Map (4-qubit)
-  Algorithm: QAOA for lattice protein folding
-  Qubits: 4 (residue positions)
+  Problem 08: Protein Folding  [ARCHIVED]
+  Kernel: FoldingQaoaKernel()  ZZ cost interactions (gamma=0.7)
+  Target profile: Adaptive_RI | Qubits: 3 | Measured: 3 | QIR: compiles
+  Source: problems/archived/08_protein_folding/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This is the circuit Azure Quantum receives. It is rendered from
+HardwareKernel.qs at the Adaptive_RI target profile, so the gates below
+are the decomposed hardware-facing form, not the source-level operations.
 
-q_0    ── H ──── ● ─────────────────── ● ──── ● ─────────────────── ● ─── Rx(1.0000) ─────── |0〉 ────────────────────────────────────
-q_1    ── H ──── X ─── Rz(1.0000) ──── X ─────┼─────────────────────┼───────── ● ─────────────────────── ● ─── Rx(1.0000) ──── |0〉 ──
-q_2    ── H ───────────────────────────────── X ─── Rz(0.5000) ──── X ──────── X ─────── Rz(0.8000) ──── X ─── Rx(1.0000) ──── |0〉 ──
+It is a small representative kernel that compiles and runs on today's
+devices. It is not the utility-scale algorithm: see estimates/ for the
+fault-tolerant resource projection, which is orders of magnitude larger.
+
+q_0    ── H ──── ● ─────────────────── ● ─── Rx(0.8000) ──────── M ──────── |0〉 ─────────────────────────────────
+                 │                     │                         ╘═══════════════════════════════════════════════
+q_1    ── H ──── X ─── Rz(1.4000) ──── X ──────── ● ──────────────────────── ● ──── Rx(0.8000) ──── M ──── |0〉 ──
+                                                  │                          │                      ╘════════════
+q_2    ── H ───────────────────────────────────── X ─────── Rz(1.4000) ───── X ──── Rx(0.8000) ──── M ──── |0〉 ──
+                                                                                                    ╘════════════

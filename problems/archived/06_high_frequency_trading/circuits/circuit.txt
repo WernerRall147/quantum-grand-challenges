@@ -1,11 +1,19 @@
 ===================================================================
-  Problem 06: HFT  Amplitude Estimation for VaR (3-qubit)
-  Algorithm: Quantum Amplitude Estimation
-  Qubits: 2 register + 1 marker = 3
+  Problem 06: High Frequency Trading  [ARCHIVED]
+  Kernel: HFTKernel()  Encode simple market state
+  Target profile: Adaptive_RI | Qubits: 3 | Measured: 1 | QIR: compiles
+  Source: problems/archived/06_high_frequency_trading/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This is the circuit Azure Quantum receives. It is rendered from
+HardwareKernel.qs at the Adaptive_RI target profile, so the gates below
+are the decomposed hardware-facing form, not the source-level operations.
 
-q_0    ─ Ry(2.3318) ──── X ──── ● ───── X ───── |0〉 ──
-q_1    ────── X ─────────────── ● ───── X ───── |0〉 ──
-q_2    ──────────────────────── X ──── |0〉 ───────────
+It is a small representative kernel that compiles and runs on today's
+devices. It is not the utility-scale algorithm: see estimates/ for the
+fault-tolerant resource projection, which is orders of magnitude larger.
+
+q_0    ─ Ry(0.8000) ──── ● ─────────────────── ● ──── X ──── ● ──── X ──── |0〉 ──
+q_1    ───────────────── X ─── Ry(0.4000) ──── X ──── X ──── ● ──── X ──── |0〉 ──
+q_2    ───────────────────────────────────────────────────── X ──── M ──── |0〉 ──
+                                                                    ╘════════════

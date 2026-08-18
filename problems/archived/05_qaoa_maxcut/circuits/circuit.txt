@@ -1,13 +1,21 @@
 ===================================================================
-  Problem 05: QAOA MaxCut (3-qubit triangle graph)
-  Algorithm: Quantum Approximate Optimization Algorithm
-  Qubits: 3 (one per vertex) | Depth: p layers
+  Problem 05: Qaoa Maxcut  [ARCHIVED]
+  Kernel: QaoaMaxCutKernel()  Init: uniform superposition
+  Target profile: Adaptive_RI | Qubits: 3 | Measured: 3 | QIR: compiles
+  Source: problems/archived/05_qaoa_maxcut/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This is the circuit Azure Quantum receives. It is rendered from
+HardwareKernel.qs at the Adaptive_RI target profile, so the gates below
+are the decomposed hardware-facing form, not the source-level operations.
 
-q_0    ── H ─── Rzz(1.0000) ── Rzz(1.0000) ── Rx(1.0000) ─────── |0〉 ──────────────
-                     ┆              ┆
-q_1    ── H ─── Rzz(1.0000) ────────┆──────── Rzz(1.0000) ── Rx(1.0000) ──── |0〉 ──
-                                    ┆              ┆
-q_2    ── H ────────────────── Rzz(1.0000) ── Rzz(1.0000) ── Rx(1.0000) ──── |0〉 ──
+It is a small representative kernel that compiles and runs on today's
+devices. It is not the utility-scale algorithm: see estimates/ for the
+fault-tolerant resource projection, which is orders of magnitude larger.
+
+q_0    ── H ──── ● ─────────────────── ● ──── ● ─────────────────── ● ─── Rx(1.0000) ──────── M ──────── |0〉 ─────────────────────────────────
+                 │                     │      │                     │                         ╘═══════════════════════════════════════════════
+q_1    ── H ──── X ─── Rz(1.0000) ──── X ─────┼─────────────────────┼───────── ● ──────────────────────── ● ──── Rx(1.0000) ──── M ──── |0〉 ──
+                                              │                     │          │                          │                      ╘════════════
+q_2    ── H ───────────────────────────────── X ─── Rz(1.0000) ──── X ──────── X ─────── Rz(1.0000) ───── X ──── Rx(1.0000) ──── M ──── |0〉 ──
+                                                                                                                                 ╘════════════

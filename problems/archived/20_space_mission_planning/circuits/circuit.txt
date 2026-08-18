@@ -1,11 +1,21 @@
 ===================================================================
-  Problem 20: Space Mission  QAOA Trajectory (4-qubit)
-  Algorithm: QAOA for trajectory optimization
-  Qubits: 4 (mission leg assignments)
+  Problem 20: Space Mission Planning  [ARCHIVED]
+  Kernel: MissionQaoaKernel()  Cost: single-qubit Z bias + pairwise ZZ (gamma=1.0)
+  Target profile: Adaptive_RI | Qubits: 3 | Measured: 3 | QIR: compiles
+  Source: problems/archived/20_space_mission_planning/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This is the circuit Azure Quantum receives. It is rendered from
+HardwareKernel.qs at the Adaptive_RI target profile, so the gates below
+are the decomposed hardware-facing form, not the source-level operations.
 
-q_0    ── H ─── Rz(-0.5000) ─── ● ─────────────────── ● ──── ● ─────────────────── ● ─── Rx(1.0000) ─────── |0〉 ────────────────────────────────────
-q_1    ── H ─── Rz(0.5000) ──── X ─── Rz(0.2500) ──── X ─────┼─────────────────────┼───────── ● ─────────────────────── ● ─── Rx(1.0000) ──── |0〉 ──
-q_2    ── H ─── Rz(-0.1500) ──────────────────────────────── X ─── Rz(0.2500) ──── X ──────── X ─────── Rz(0.2500) ──── X ─── Rx(1.0000) ──── |0〉 ──
+It is a small representative kernel that compiles and runs on today's
+devices. It is not the utility-scale algorithm: see estimates/ for the
+fault-tolerant resource projection, which is orders of magnitude larger.
+
+q_0    ── H ─── Rz(0.8000) ──── ● ─────────────────── ● ─── Rx(1.4000) ──────── M ──────── |0〉 ─────────────────────────────────
+                                │                     │                         ╘═══════════════════════════════════════════════
+q_1    ── H ─── Rz(1.2000) ──── X ─── Rz(2.0000) ──── X ──────── ● ──────────────────────── ● ──── Rx(1.4000) ──── M ──── |0〉 ──
+                                                                 │                          │                      ╘════════════
+q_2    ── H ─── Rz(0.6000) ───────────────────────────────────── X ─────── Rz(1.6000) ───── X ──── Rx(1.4000) ──── M ──── |0〉 ──
+                                                                                                                   ╘════════════

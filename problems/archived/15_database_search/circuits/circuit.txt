@@ -1,10 +1,17 @@
 ===================================================================
-  Problem 15: Database Search  Grover's Algorithm (n-qubit)
-  Algorithm: Grover's quantum search
-  Qubits: n (search space = 2ⁿ) | Tested: n = 4, 5, 12
+  Problem 15: Database Search  [ARCHIVED]
+  Kernel: GroverSearchKernel()  3 Grover iterations for N=16, M=1 (optimal ~ π/4·√16 ≈ 3)
+  Target profile: Adaptive_RI | Qubits: 5 | Measured: 4 | QIR: compiles
+  Source: problems/archived/15_database_search/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This is the circuit Azure Quantum receives. It is rendered from
+HardwareKernel.qs at the Adaptive_RI target profile, so the gates below
+are the decomposed hardware-facing form, not the source-level operations.
+
+It is a small representative kernel that compiles and runs on today's
+devices. It is not the utility-scale algorithm: see estimates/ for the
+fault-tolerant resource projection, which is orders of magnitude larger.
 
 q_0    ── H ──── X ──── ● ───────────────────────── ● ──── X ──── H ──── X ──── ● ───────────────────────── ● ──── X ──── H ──── X ──── ● ───────────────────────── ● ──── X ──── H ──── X ──── ● ───────────────────────── ● ──── X ──── H ──── X ──── ● ───────────────────────── ● ──── X ──── H ──── X ──── ● ───────────────────────── ● ──── X ──── H ──── M ──── |0〉 ──
                         │                           │                           │                           │                           │                           │                           │                           │                           │                           │                           │                           │                    ╘════════════

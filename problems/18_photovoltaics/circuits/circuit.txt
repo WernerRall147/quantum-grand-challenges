@@ -1,11 +1,21 @@
 ===================================================================
-  Problem 18: Photovoltaics  Quantum Walk (3-qubit)
-  Algorithm: Discrete-time quantum walk (exciton transport)
-  Qubits: 1 coin + 2 position = 3
+  Problem 18: Photovoltaics
+  Kernel: QuantumWalkKernel()  3 steps of quantum walk
+  Target profile: Adaptive_RI | Qubits: 3 | Measured: 3 | QIR: compiles
+  Source: problems/18_photovoltaics/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This is the circuit Azure Quantum receives. It is rendered from
+HardwareKernel.qs at the Adaptive_RI target profile, so the gates below
+are the decomposed hardware-facing form, not the source-level operations.
 
-q_0    ─ Ry(1.0000) ──── X ──── ● ──── X ─────────── ● ──── |0〉 ───────────
-q_1    ────── ● ─────────────── X ──── ● ──── ● ──── X ───── ● ───── |0〉 ──
-q_2    ────── X ─────────────── ● ──── X ──── X ──── ● ───── X ───── |0〉 ──
+It is a small representative kernel that compiles and runs on today's
+devices. It is not the utility-scale algorithm: see estimates/ for the
+fault-tolerant resource projection, which is orders of magnitude larger.
+
+q_0    ─ Ry(1.0000) ──── ● ──── X ─────────── ● ──── X ─── Ry(1.0000) ──── ● ──── X ─────────── ● ──── X ─── Ry(1.0000) ──── ● ──── X ─────────── ● ──── X ──── M ──── |0〉 ──
+                         │                    │                            │                    │                            │                    │             ╘════════════
+q_1    ────── ● ──────── X ──── ● ──── ● ──── X ──── ● ──────── ● ──────── X ──── ● ──── ● ──── X ──── ● ──────── ● ──────── X ──── ● ──── ● ──── X ──── ● ──── M ──── |0〉 ──
+              │          │      │      │      │      │          │          │      │      │      │      │          │          │      │      │      │      │      ╘════════════
+q_2    ────── X ──────── ● ──── X ──── X ──── ● ──── X ──────── X ──────── ● ──── X ──── X ──── ● ──── X ──────── X ──────── ● ──── X ──── X ──── ● ──── X ──── M ──── |0〉 ──
+                                                                                                                                                                ╘════════════

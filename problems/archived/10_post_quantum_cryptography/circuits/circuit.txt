@@ -1,11 +1,21 @@
 ===================================================================
-  Problem 10: Post-Quantum Crypto  Grover Key Search (n-qubit)
-  Algorithm: Grover's search (brute-force key exhaustion)
-  Qubits: n (keyspace = 2ⁿ) | Tested: n = 3, 4, 5
+  Problem 10: Post Quantum Cryptography  [ARCHIVED]
+  Kernel: GroverKeyKernel()  Grover search for target=5 (|101⟩) in 3-qubit space
+  Target profile: Adaptive_RI | Qubits: 3 | Measured: 3 | QIR: compiles
+  Source: problems/archived/10_post_quantum_cryptography/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This is the circuit Azure Quantum receives. It is rendered from
+HardwareKernel.qs at the Adaptive_RI target profile, so the gates below
+are the decomposed hardware-facing form, not the source-level operations.
 
-q_0    ── H ─────────── ● ──── H ──── X ────────────────── ● ──── X ──── H ──── |0〉 ───────────
-q_1    ── H ──── X ──── ● ──── X ──── H ──── X ─────────── ● ──── X ──── H ──── |0〉 ───────────
-q_2    ── H ──── H ──── X ──── H ──── H ──── X ──── H ──── X ──── H ──── X ───── H ───── |0〉 ──
+It is a small representative kernel that compiles and runs on today's
+devices. It is not the utility-scale algorithm: see estimates/ for the
+fault-tolerant resource projection, which is orders of magnitude larger.
+
+q_0    ── H ─────────── ● ──── H ──── X ────────────────── ● ──── X ──── H ──── M ──── |0〉 ───────────
+                        │                                  │                    ╘═════════════════════
+q_1    ── H ──── X ──── ● ──── X ──── H ──── X ─────────── ● ──── X ──── H ──── M ──── |0〉 ───────────
+                        │                                  │                    ╘═════════════════════
+q_2    ── H ──── H ──── X ──── H ──── H ──── X ──── H ──── X ──── H ──── X ──── H ───── M ───── |0〉 ──
+                                                                                        ╘═════════════

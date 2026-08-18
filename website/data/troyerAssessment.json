@@ -236,7 +236,7 @@
     "active_count": 9,
     "archived_count": 11,
     "vqe_to_qpe_upgrades": ["01_hubbard", "02_catalysis", "07_drug_discovery", "14_materials_discovery", "17_nuclear_physics"],
-    "key_insight": "5/20 problems have proven quantum speedups (QAE, Shor, Grover×2, HHL). 5/20 rely on heuristic algorithms (QAOA×3, Swap Test, QAOA) with no proven advantage  all archived. 10/20 are quantum simulation problems (including 5 upgraded from VQE→QPE) with the strongest theoretical case for utility. 9 problems are active (passing all 5 Troyer filters); 11 archived. Per Troyer's framework, honest assessment is essential for credible quantum advantage claims.",
+    "key_insight": "5/20 problems have proven quantum speedups (QAE, Shor, Grover×2, HHL). 5/20 rely on heuristic algorithms (QAOA×3, Swap Test, QAOA) with no proven advantage  all archived. 10/20 are quantum simulation problems (including 5 upgraded from VQE→QPE) with the strongest theoretical case for utility. 9 problems are active (passing all 6 Troyer filters); 11 archived. Per Troyer's framework, honest assessment is essential for credible quantum advantage claims.",
     "divincenzo_note": "DiVincenzo's criteria (scalable qubits, initialization, coherence, universal gates, measurement) are applied as a hardware-realism overlay at Stage C/D. Current quantum hardware challenges  limited qubit counts, short coherence times, high error rates  map directly to DiVincenzo gaps that must close before utility-scale advantage is achievable."
   }
 }

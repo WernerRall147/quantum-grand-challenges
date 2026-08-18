@@ -67,7 +67,7 @@ const LAYERS = [
   {
     name: 'Utility-scale filters',
     role: 'Checks proven speedup, I/O cost, error-correction overhead, whether the problem is naturally quantum, and whether the crossover is reachable.',
-    note: 'A problem has to survive all five to be treated as a quantum candidate.',
+    note: 'A problem has to survive all six to be treated as a quantum candidate.',
     colour: '#a16207',
     bg: '#fefce8',
     border: '#fde68a',

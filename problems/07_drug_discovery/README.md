@@ -2,7 +2,7 @@
 
 ## Overview
 
-Drug discovery requires exploring vast chemical design spaces to identify ligands with strong binding affinity and favorable pharmacokinetics. Quantum computing promises more accurate electronic-structure evaluation and molecular similarity search. This problem sets the stage with a classical baseline that scores ligand–protein interaction energy using coarse-grained Lennard-Jones plus Coulomb terms, while preparing a Q# project to host variational quantum eigensolver (VQE) experiments for small active-site models.
+Drug discovery requires exploring vast chemical design spaces to identify ligands with strong binding affinity and favorable pharmacokinetics. Quantum computing promises more accurate electronic-structure evaluation and molecular similarity search. This problem pairs a classical baseline that scores ligand–protein interaction energy using coarse-grained Lennard-Jones plus Coulomb terms with a Q# project whose hardware kernel runs quantum phase estimation on small active-site models.
 
 ## Directory Layout
 
@@ -38,7 +38,7 @@ python python/analyze.py
 ## Next Quantum Milestones
 
 1. **Fragment Encoding** – Map small active-site Hamiltonians (H₂, LiH, minimal basis) into qubit Hamiltonians.
-2. **VQE Ansatz** – Implement adaptive VQE / UCCSD ansätze using Q# chemistry libraries.
+2. **Deeper QPE** – Extend the phase register and Trotter depth toward chemically relevant precision.
 3. **Pose Re-ranking** – Combine quantum energy estimates with classical docking scores.
 4. **Resource Estimation** – Benchmark fault-tolerant requirements for chemically relevant precision.
 

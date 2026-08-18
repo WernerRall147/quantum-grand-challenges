@@ -2,7 +2,7 @@
 
 ## Overview
 
-Designing next-generation battery cathodes requires exploring a vast space of material compositions and crystal structures. This scaffold provides a reproducible classical baseline that scores candidate compositions using simplified cluster expansions and builds a Q# project for future hybrid VQE and phase-estimation workflows that evaluate band gaps and defect energetics.
+Designing next-generation battery cathodes requires exploring a vast space of material compositions and crystal structures. This scaffold provides a reproducible classical baseline that scores candidate compositions using simplified cluster expansions and a Q# project whose hardware kernel runs quantum phase estimation for band gaps and defect energetics.
 
 ## Directory Layout
 

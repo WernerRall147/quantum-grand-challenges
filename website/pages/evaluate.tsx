@@ -730,7 +730,7 @@ export default function EvaluatePage() {
             <div style={{ background: 'white', padding: '1rem', borderRadius: '8px' }}>
               <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>2️⃣</div>
               <strong>Filter</strong>
-              <p style={{ fontSize: '0.9rem', color: '#666', margin: '0.5rem 0 0' }}>Apply Troyer&apos;s 5 utility-scale checks (I/O, QEC, oracle costs)</p>
+              <p style={{ fontSize: '0.9rem', color: '#666', margin: '0.5rem 0 0' }}>Apply Troyer&apos;s 6 utility-scale checks (I/O, QEC, oracle costs, guiding state)</p>
             </div>
             <div style={{ background: 'white', padding: '1rem', borderRadius: '8px' }}>
               <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>3️⃣</div>

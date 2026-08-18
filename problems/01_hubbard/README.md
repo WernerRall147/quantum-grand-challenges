@@ -62,7 +62,7 @@ Generated artefacts:
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage C complete** (hardware-aware validation evidence in place: VQE Hubbard kernel runnable, calibration ensemble across runs, backend assumptions documented, dual-model estimator profile across instance sizes, OpenQASM exports for cross-platform validation, real Azure resource estimate captured).
+- **Current gate**: **Stage C complete** (hardware-aware validation evidence in place: QPE Hubbard kernel runnable, calibration ensemble across runs, backend assumptions documented, dual-model estimator profile across instance sizes, OpenQASM exports for cross-platform validation, real Azure resource estimate captured).
 - **Next gate target**: **Stage D** (advantage evidence package: fairness review against tensor-network/DMRG baseline, residual risks for naturally-quantum 2D regimes, claim category locked).
 
 Stage C evidence references for this problem:

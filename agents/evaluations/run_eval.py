@@ -87,10 +87,14 @@ def main() -> int:
 
         routing = route_platform(problem, matches, score)
         actual = routing.get("platform")
-        expected = case["expect_platform"]
         structure = classify_electronic_structure(problem)
 
-        ok = actual == expected
+        # Underspecified problems have more than one defensible answer; what matters
+        # is that they do not get a confident quantum verdict.
+        allowed = case.get("expect_platform_in") or [case["expect_platform"]]
+        expected = "|".join(allowed)
+
+        ok = actual in allowed
         struct_ok = ("expect_structure_class" not in case
                      or structure == case["expect_structure_class"])
 
@@ -102,6 +106,7 @@ def main() -> int:
             "structure": structure,
             "expect_structure": case.get("expect_structure_class"),
             "group": case.get("paraphrase_group"),
+            "adversarial": case.get("adversarial"),
         })
 
     if not results:
@@ -112,10 +117,19 @@ def main() -> int:
     passed = sum(1 for r in results if r["pass"])
     accuracy = passed / len(results)
 
-    print(f"{'case':<26} {'expected':<10} {'actual':<10} {'structure':<10} result")
+    print(f"{'case':<26} {'expected':<18} {'actual':<10} {'structure':<10} result")
     for r in results:
         flag = "ok" if r["pass"] else "FAIL"
-        print(f"{r['id']:<26} {r['expected']:<10} {str(r['actual']):<10} {r['structure']:<10} {flag}")
+        print(f"{r['id']:<26} {r['expected']:<18} {str(r['actual']):<10} {r['structure']:<10} {flag}")
+
+    adversarial = [r for r in results if r["adversarial"]]
+    if adversarial:
+        adv_passed = sum(1 for r in adversarial if r["pass"])
+        print()
+        print(f"adversarial {adv_passed}/{len(adversarial)} passed")
+        for r in adversarial:
+            if not r["pass"]:
+                print(f"  {r['id']} ({r['adversarial']}): expected {r['expected']}, got {r['actual']}")
 
     # Paraphrase consistency
     groups: dict[str, list] = defaultdict(list)

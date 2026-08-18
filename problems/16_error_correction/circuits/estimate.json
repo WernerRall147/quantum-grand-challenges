@@ -1,5 +1,8 @@
 {
   "problem": "16_error_correction",
+  "entryExpr": "Main.RunRepetitionCodeCycle(false, 0)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "QECKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 1746,

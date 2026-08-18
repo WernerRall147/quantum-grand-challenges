@@ -1,5 +1,8 @@
 {
   "problem": "13_climate_modeling",
+  "entryExpr": "Main.RunHHLClimate(3, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "ClimateHHLKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 76866,

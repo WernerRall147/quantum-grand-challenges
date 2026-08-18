@@ -1,5 +1,8 @@
 {
   "problem": "12_quantum_optimization",
+  "entryExpr": "Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "SchedulingQaoaKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 53628,

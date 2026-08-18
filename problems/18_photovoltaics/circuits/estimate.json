@@ -1,5 +1,8 @@
 {
   "problem": "18_photovoltaics",
+  "entryExpr": "Main.RunExcitonWalk(10, 0.5, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "QuantumWalkKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 47188,

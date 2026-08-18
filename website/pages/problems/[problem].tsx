@@ -100,6 +100,8 @@ interface ProblemPageProps {
     pareto: { physicalQubits: number; runtime: number }[] | null;
     paretoModel: string | null;
     paretoQec: string | null;
+    estimatedExpr: string | null;
+    executedKernel: string | null;
     troyer: TroyerData | null;
   };
 }
@@ -479,6 +481,19 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </section>
         )}
 
+        {problem.estimatedExpr && problem.executedKernel && (
+          <section style={{ marginTop: '2rem', padding: '1.25rem 1.5rem', background: '#fffbeb', borderRadius: '12px', border: '1px solid #fcd34d' }}>
+            <h3 style={{ marginTop: 0, marginBottom: '0.5rem', color: '#92400e', fontSize: '1rem' }}>These two numbers describe different programs</h3>
+            <p style={{ color: '#78350f', fontSize: '0.9rem', lineHeight: 1.7, margin: 0 }}>
+              The resource estimate below is for <code style={{ background: '#fef3c7', padding: '0.1rem 0.35rem', borderRadius: '4px' }}>{problem.estimatedExpr}</code>,
+              the algorithm at utility scale. The Azure Quantum runs executed{' '}
+              <code style={{ background: '#fef3c7', padding: '0.1rem 0.35rem', borderRadius: '4px' }}>{problem.executedKernel}</code>,
+              a small kernel sized to fit today&apos;s hardware. Qubit counts and runtimes from the estimate are not
+              measurements of the run, and the run histogram is not a sample of the estimated circuit.
+            </p>
+          </section>
+        )}
+
         {problem.pareto && problem.pareto.length > 1 && (
           <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
             <h2 style={{ marginTop: 0, color: '#0f172a' }}>Pareto Frontier: Qubits vs Runtime</h2>
@@ -729,6 +744,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     : null;
   const paretoModel = frontier ? String(frontier.qubitModel || '') : null;
   const paretoQec = frontier ? String(frontier.qecScheme || '') : null;
+  const estimatedExpr = frontier?.entryExpr ? String(frontier.entryExpr) : null;
+  const executedKernel = frontier?.hardwareKernelEntryPoint ? String(frontier.hardwareKernelEntryPoint) : null;
 
   // Troyer utility-scale assessment
   const troyerCategories = (troyerAssessment as Record<string, unknown>).categories as Record<string, Record<string, unknown>> | undefined;
@@ -769,6 +786,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         pareto,
         paretoModel,
         paretoQec,
+        estimatedExpr,
+        executedKernel,
         troyer,
       },
     },

@@ -1,5 +1,8 @@
 {
   "problem": "11_quantum_machine_learning",
+  "entryExpr": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "SwapTestKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 86882,

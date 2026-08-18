@@ -1,5 +1,8 @@
 {
   "problem": "15_database_search",
+  "entryExpr": "Main.GroverSearch([7], 4, 3)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "GroverSearchKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 61122,

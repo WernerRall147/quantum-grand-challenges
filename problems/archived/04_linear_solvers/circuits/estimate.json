@@ -1,5 +1,8 @@
 {
   "problem": "04_linear_solvers",
+  "entryExpr": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "HHLKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 80322,

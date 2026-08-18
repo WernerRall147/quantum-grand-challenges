@@ -1,5 +1,8 @@
 {
   "problem": "10_post_quantum_cryptography",
+  "entryExpr": "Main.GroverKeySearch(3, 5, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "GroverKeyKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 26092,

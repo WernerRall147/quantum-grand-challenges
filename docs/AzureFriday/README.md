@@ -8,7 +8,9 @@ verdict against the live API, model `gpt-5.6-terra-2026-07-09` via the model rou
 5-7 references and ~2,000-character explanations.
 
 **Latency, measured from the scheduled probe:** median 51.5s, mean 51.1s, min 36.0s,
-max 78.5s. Plan the narration around ~50s and be ready for 80.
+max 78.5s. A direct run of all five prompts on 2026-08-18 saw 42.8s to 90.1s, so treat
+90s as the number to rehearse against, not 78s. Plan the narration around ~50s and be
+ready for 90.
 See section 5 for the verified verdict table.
 
 **Recording:** virtual, via **StreamYard**. Target length is **10-12 minutes** total, of
@@ -47,7 +49,7 @@ Scott carry the rest. Full beat sheet and submission draft in
 
 ### Demo beat sheet
 
-A call takes about 51s and has been measured at 78s. Azure Friday's own prep guidance is
+A call takes about 51s and has been measured at 90s. Azure Friday's own prep guidance is
 to have a completed item to transition to rather than watch something finish, so **run
 beat 1 live and pre-load beat 2 in a second tab**. One live call proves it is real; two
 spends up to two and a half minutes of a six minute demo on a spinner.
@@ -90,7 +92,7 @@ $base = "https://qgc-eval-api.jollysea-98a0f8cb.eastus.azurecontainerapps.io"
 # 1) health - expect: status=ok
 Invoke-RestMethod "$base/"
 # 2) core demo - expect: verdict + model_used + references populated
-# Median 51.5s, max seen 78.5s. Past ~120s is worth investigating before you go live.
+# Median 51.5s, max seen 90.1s. Past ~120s is worth investigating before you go live.
 Invoke-RestMethod "$base/api/evaluate" -Method POST -ContentType application/json `
   -Body '{"problem":"I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design","generate_code":false}'
 ```

@@ -56,7 +56,7 @@ in science, and could Q# help?* A year and ~300 commits later it is running on A
 
 ## 4. Demo beat sheet
 
-**A call takes ~51s and has been measured at 78s.** Azure Friday's own guidance is to
+**A call takes ~51s and has been measured at 90s.** Azure Friday's own guidance is to
 have a completed item to transition to rather than watch a spinner. So:
 
 | Beat | Time | On screen | Notes |

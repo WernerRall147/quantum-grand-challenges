@@ -51,7 +51,7 @@ az login --tenant dc692f3e-104b-4247-b52c-23692694684a
 python agents/orchestrator/evaluate.py "Simulate the ground state energy of a 50-atom catalyst"
 ```
 
-> **Wording matters.** The knowledge-base match uses literal keyword scoring, so "factor a 2048-bit RSA **integer**" and "factor a 2048-bit RSA **key**" can land on different verdicts. Phrase the problem the way the literature does.
+> **Phrasing.** The knowledge base uses hybrid keyword plus vector search, so paraphrases of the same problem route the same way. `agents/evaluations/run_eval.py` enforces that. If vector search ever fails, the client logs a warning and reports `keyword-fallback`; treat verdicts from that mode with suspicion, because keyword-only ranking is measurably worse.
 
 ---
 

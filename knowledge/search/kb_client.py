@@ -12,6 +12,7 @@ These functions are the tools that agents call via the orchestrator.
 """
 
 import json
+import logging
 import os
 import re
 from functools import lru_cache
@@ -22,6 +23,8 @@ from azure.identity import DefaultAzureCredential
 from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
 from openai import AzureOpenAI
+
+logger = logging.getLogger(__name__)
 
 # Config
 SEARCH_ENDPOINT = "https://qgcsearcheval.search.windows.net"
@@ -67,6 +70,7 @@ class QuantumKnowledgeBase:
     def __init__(self):
         self.credential = DefaultAzureCredential()
         self.search_client = None
+        self.last_search_mode = "uninitialised"
 
         # AI Search  use key if available, otherwise Entra ID
         try:
@@ -77,8 +81,11 @@ class QuantumKnowledgeBase:
                 index_name="quantum-algorithms",
                 credential=search_cred,
             )
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.warning(
+                "AI Search client could not be created, algorithm search will return "
+                "nothing: %s: %s", type(exc).__name__, str(exc)[:200]
+            )
 
     def _get_openai_client(self):
         """Get OpenAI client with fresh token."""
@@ -100,13 +107,19 @@ class QuantumKnowledgeBase:
     def search_algorithms(self, query: str, top: int = 5) -> List[Dict[str, Any]]:
         """Hybrid search over the algorithm zoo (keyword + vector).
 
-        Falls back to keyword-only search if embeddings are unavailable.
-        This is the primary tool for the Classifier Agent.
+        Falls back to keyword-only search if the vector query fails, and warns when
+        it does. The fallback is measurably worse: for "factor a 2048-bit RSA integer"
+        it ranks Nonlinear Differential Equations above Shor's Algorithm, so a silent
+        downgrade would corrupt verdicts with no visible symptom.
         """
         if not self.search_client:
             return []
 
-        # Try hybrid search (keyword + vector), fall back to keyword-only
+        select = [
+            "name", "category", "speedup_class", "content",
+            "troyer_verdict", "io_bottleneck", "naturally_quantum",
+        ]
+
         try:
             embedding = self._embed(query)
             from azure.search.documents.models import VectorizedQuery
@@ -114,13 +127,20 @@ class QuantumKnowledgeBase:
                 search_text=query,
                 vector_queries=[VectorizedQuery(vector=embedding, k_nearest_neighbors=top, fields="embedding")],
                 top=top,
-                select=["name", "category", "speedup_class", "content", "troyer_verdict", "io_bottleneck", "naturally_quantum"],
+                select=select,
             )
-        except Exception:
+            self.last_search_mode = "hybrid"
+        except Exception as exc:
+            self.last_search_mode = "keyword-fallback"
+            logger.warning(
+                "Vector search failed, falling back to keyword-only ranking, "
+                "which is significantly less accurate: %s: %s",
+                type(exc).__name__, str(exc)[:200],
+            )
             results = self.search_client.search(
                 search_text=query,
                 top=top,
-                select=["name", "category", "speedup_class", "content", "troyer_verdict", "io_bottleneck", "naturally_quantum"],
+                select=select,
             )
 
         return [

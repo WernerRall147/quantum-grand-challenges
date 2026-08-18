@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1198,
-    "code_files": 222,
-    "python": 166,
+    "tracked": 1199,
+    "code_files": 223,
+    "python": 167,
     "qsharp": 43,
     "ts": 13,
-    "edges": 159,
-    "roots": 236,
-    "reachable": 260
+    "edges": 162,
+    "roots": 237,
+    "reachable": 261
   },
   "nodes": [
     "agents/api/main.py",
@@ -18,6 +18,7 @@
     "agents/code_generator/architecture.py",
     "agents/code_generator/bicep_generator.py",
     "agents/code_generator/generate.py",
+    "agents/evaluations/run_eval.py",
     "agents/orchestrator/evaluate.py",
     "agents/orchestrator/instructions.py",
     "agents/tests/test_bicep_generator.py",
@@ -241,6 +242,10 @@
     ],
     [
       ".github/workflows/ci-cd.yml",
+      "agents/evaluations/run_eval.py"
+    ],
+    [
+      ".github/workflows/ci-cd.yml",
       "problems/archived/03_qae_risk/python/write_runtime_config.py"
     ],
     [
@@ -342,6 +347,14 @@
     [
       "agents/code_generator/architecture.py",
       "agents/classifier/azure_pricing.py"
+    ],
+    [
+      "agents/evaluations/run_eval.py",
+      "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/evaluations/run_eval.py",
+      "knowledge/search/kb_client.py"
     ],
     [
       "agents/orchestrator/evaluate.py",

@@ -54,7 +54,7 @@ spends up to two and a half minutes of a six minute demo on a spinner.
 
 | Beat | Time | On screen | Notes |
 |---|---|---|---|
-| 1. The yes | 0:00-2:00 | Type the FeMoco prompt, hit Evaluate | **Live.** Fill the wait by walking Troyer's 5 filters, which the audience needs anyway. Lands on `QUANTUM_ADVANTAGE`, 0.9, QPE, with citations. |
+| 1. The yes | 0:00-2:00 | Type the FeMoco prompt, hit Evaluate | **Live.** Fill the wait by walking Troyer's six filters, which the audience needs anyway. Lands on `QUANTUM_ADVANTAGE`, 0.9, QPE, with citations. |
 | 2. The no | 2:00-3:30 | Portfolio optimisation, 500 assets | **Pre-loaded.** Say plainly you ran it earlier. Why a quadratic speedup dies under QEC overhead. Lands on `HPC_PREFERRED`. The memorable beat. |
 | 3. The payoff | 3:30-5:00 | Generated **Q#** and a **Bicep** template | It does not just judge, it hands you the workspace. |
 | 4. The platform | 5:00-6:30 | Architecture, one slide | Container Apps, **managed identity** (no keys), AI Search, model router, GitHub Actions. |

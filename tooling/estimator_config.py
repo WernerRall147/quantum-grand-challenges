@@ -306,6 +306,20 @@ def select_entry(table: EstimationTable) -> EstimationTableEntry:
     return min(table, key=lambda e: (e.qubits, e.runtime))
 
 
+def frontier_points(table: EstimationTable) -> list[dict[str, Any]]:
+    """The whole qubit-versus-runtime curve, ordered from fewest qubits.
+
+    select_entry() keeps only the low-qubit corner, which is also the slowest
+    configuration. Reporting that point alone hides the trade the estimator
+    actually found: for 01_hubbard, 3.6x the qubits buys 2.8x the speed.
+    """
+
+    return [
+        {"physicalQubits": e.qubits, "runtime": e.runtime, "error": e.error}
+        for e in sorted(table, key=lambda e: (e.qubits, e.runtime))
+    ]
+
+
 def estimate_summary(
     entry_expr: str,
     qubit_name: str,
@@ -418,6 +432,7 @@ def extract_summary(
         "tFactoryFraction": t_factory_fraction,
         "error": entry.error,
         "paretoPoints": len(table) if table is not None else None,
+        "paretoFrontier": frontier_points(table) if table is not None else None,
     }
     summary.update(_logical_counts(entry_expr) if entry_expr else {})
     return summary

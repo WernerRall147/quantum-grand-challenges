@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1197,
+    "tracked": 1198,
     "code_files": 222,
     "python": 166,
     "qsharp": 43,
     "ts": 13,
-    "edges": 158,
+    "edges": 159,
     "roots": 236,
-    "reachable": 259
+    "reachable": 260
   },
   "nodes": [
     "agents/api/main.py",
@@ -846,6 +846,10 @@
     [
       "website/pages/problems/[problem].tsx",
       "website/data/noisySimResults.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/paretoFrontiers.json"
     ],
     [
       "website/pages/problems/[problem].tsx",

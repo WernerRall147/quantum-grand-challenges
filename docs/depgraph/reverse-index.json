@@ -376,6 +376,9 @@
   "website/data/noisySimResults.json": [
     "website/pages/problems/[problem].tsx"
   ],
+  "website/data/paretoFrontiers.json": [
+    "website/pages/problems/[problem].tsx"
+  ],
   "website/data/problemReadmes.json": [
     "website/pages/problems/[problem].tsx"
   ],

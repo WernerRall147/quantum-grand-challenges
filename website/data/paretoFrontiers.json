@@ -1,12 +1,14 @@
 {
   "schema_version": "1.0",
-  "generated_utc": "2026-08-18T13:56:10.712823Z",
+  "generated_utc": "2026-08-18T14:25:21.447383Z",
   "maxError": 0.001,
   "problems": {
     "01_hubbard": {
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 1)",
+      "hardwareKernelEntryPoint": "HubbardQPEKernel()",
       "points": [
         {
           "physicalQubits": 53628,
@@ -59,6 +61,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 1)",
+      "hardwareKernelEntryPoint": "CatalysisQPEKernel()",
       "points": [
         {
           "physicalQubits": 57764,
@@ -121,6 +125,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.QAEKernel()",
+      "hardwareKernelEntryPoint": "QAEKernel()",
       "points": [
         {
           "physicalQubits": 369400,
@@ -158,6 +164,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)",
+      "hardwareKernelEntryPoint": "HHLKernel()",
       "points": [
         {
           "physicalQubits": 80322,
@@ -200,6 +208,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], 1)",
+      "hardwareKernelEntryPoint": "QaoaMaxCutKernel()",
       "points": [
         {
           "physicalQubits": 53628,
@@ -257,6 +267,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 1)",
+      "hardwareKernelEntryPoint": "HFTKernel()",
       "points": [
         {
           "physicalQubits": 28052,
@@ -309,6 +321,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EstimateBindingEnergy(1.0, 0.5, 0.3, 1)",
+      "hardwareKernelEntryPoint": "DrugBindingQPEKernel()",
       "points": [
         {
           "physicalQubits": 57764,
@@ -371,6 +385,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, 1)",
+      "hardwareKernelEntryPoint": "FoldingQaoaKernel()",
       "points": [
         {
           "physicalQubits": 30641,
@@ -428,6 +444,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.ShorPeriodFinding(3, 4)",
+      "hardwareKernelEntryPoint": "ShorKernel()",
       "points": [
         {
           "physicalQubits": 53065,
@@ -475,6 +493,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.GroverKeySearch(3, 5, 1)",
+      "hardwareKernelEntryPoint": "GroverKeyKernel()",
       "points": [
         {
           "physicalQubits": 26092,
@@ -502,6 +522,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 1)",
+      "hardwareKernelEntryPoint": "SwapTestKernel()",
       "points": [
         {
           "physicalQubits": 86882,
@@ -564,6 +586,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, 1)",
+      "hardwareKernelEntryPoint": "SchedulingQaoaKernel()",
       "points": [
         {
           "physicalQubits": 53628,
@@ -621,6 +645,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.RunHHLClimate(3, 1)",
+      "hardwareKernelEntryPoint": "ClimateHHLKernel()",
       "points": [
         {
           "physicalQubits": 76866,
@@ -663,6 +689,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 1)",
+      "hardwareKernelEntryPoint": "MaterialsQPEKernel()",
       "points": [
         {
           "physicalQubits": 163268,
@@ -720,6 +748,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.GroverSearch([7], 4, 3)",
+      "hardwareKernelEntryPoint": "GroverSearchKernel()",
       "points": [
         {
           "physicalQubits": 61122,
@@ -767,6 +797,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.RunRepetitionCodeCycle(false, 0)",
+      "hardwareKernelEntryPoint": "QECKernel()",
       "points": [
         {
           "physicalQubits": 1746,
@@ -779,6 +811,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 1)",
+      "hardwareKernelEntryPoint": "NuclearQPEKernel()",
       "points": [
         {
           "physicalQubits": 57764,
@@ -841,6 +875,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.RunExcitonWalk(10, 0.5, 1)",
+      "hardwareKernelEntryPoint": "QuantumWalkKernel()",
       "points": [
         {
           "physicalQubits": 47188,
@@ -898,6 +934,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, 1)",
+      "hardwareKernelEntryPoint": "LatticeGaugeKernel()",
       "points": [
         {
           "physicalQubits": 54593,
@@ -950,6 +988,8 @@
       "qubitModel": "qubit_gate_ns_e3",
       "qecScheme": "surface_code",
       "selected": "min-qubits",
+      "entryExpr": "Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, 1)",
+      "hardwareKernelEntryPoint": "MissionQaoaKernel()",
       "points": [
         {
           "physicalQubits": 64204,

@@ -28,6 +28,11 @@ REPO = Path(__file__).resolve().parent.parent
 PROBLEMS_DIR = REPO / "problems"
 MATRIX_PATH = REPO / "website" / "data" / "simulatorMatrix.json"
 
+# Job ids are sensitive per tooling/reporting/validate_website_data_schema.py and the
+# repo is public, so they never enter website/data. They go here instead, under the
+# gitignored .azure/ directory, which keeps runs traceable without publishing them.
+PROVENANCE_PATH = REPO / ".azure" / "job-provenance.json"
+
 RESOURCE_ID = (
     "/subscriptions/82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3"
     "/resourceGroups/Quantum-Grand-Challenges"
@@ -131,6 +136,7 @@ def main():
     print(f"{len(kernels)} kernels discovered\n")
 
     records = []
+    provenance = []
 
     if args.local:
         for name, entry_fn, code in kernels:
@@ -193,11 +199,16 @@ def main():
                     job.wait_until_completed(timeout_secs=900)
                     res = job.get_results()
                     print(f"ok  job={job.details.id[:8]}")
+                    provenance.append({
+                        "recorded_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                        "problem_id": name,
+                        "target_id": target_id,
+                        "job_id": job.details.id,
+                    })
                     records.append({
                         "problem_id": name, "entry_point": entry_fn,
                         "execution": "azure-quantum", "target_id": target_id,
                         "profile": cfg["profile"], "status": "succeeded",
-                        "job_id": job.details.id,
                         "shots": cfg["shots"],
                         "results": res,
                     })
@@ -227,6 +238,16 @@ def main():
         payload["records"] = keep + records
 
     MATRIX_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+    if provenance:
+        PROVENANCE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        existing = []
+        if PROVENANCE_PATH.exists():
+            existing = json.loads(PROVENANCE_PATH.read_text(encoding="utf-8")).get("jobs", [])
+        PROVENANCE_PATH.write_text(
+            json.dumps({"jobs": existing + provenance}, indent=2), encoding="utf-8"
+        )
+        print(f"{len(provenance)} job ids -> {PROVENANCE_PATH.relative_to(REPO)} (gitignored)")
 
     ok = sum(1 for r in records if r["status"] == "succeeded")
     print(f"\n{ok}/{len(records)} succeeded -> {MATRIX_PATH.relative_to(REPO)}")

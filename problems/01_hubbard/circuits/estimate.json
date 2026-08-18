@@ -1,5 +1,8 @@
 {
   "problem": "01_hubbard",
+  "entryExpr": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "HubbardQPEKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 53628,

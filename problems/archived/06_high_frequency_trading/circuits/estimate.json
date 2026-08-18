@@ -1,5 +1,8 @@
 {
   "problem": "06_high_frequency_trading",
+  "entryExpr": "Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "HFTKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 28052,

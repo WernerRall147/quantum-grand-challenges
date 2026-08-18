@@ -1,5 +1,8 @@
 {
   "problem": "09_factorization",
+  "entryExpr": "Main.ShorPeriodFinding(3, 4)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "ShorKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 53065,

@@ -1,5 +1,8 @@
 {
   "problem": "19_quantum_chromodynamics",
+  "entryExpr": "Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "LatticeGaugeKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 54593,

@@ -1,5 +1,8 @@
 {
   "problem": "03_qae_risk",
+  "entryExpr": "Main.QAEKernel()",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "QAEKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 369400,

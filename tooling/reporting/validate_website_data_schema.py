@@ -81,13 +81,55 @@ def validate_runnable_report(path: Path) -> None:
         )
 
 
+def validate_no_sensitive_fields(data_dir: Path) -> None:
+    """Sweep every published JSON for infrastructure identifiers at any depth.
+
+    The named validators below only cover two files, so a new data file could
+    carry job ids into the public site without tripping anything. simulatorMatrix
+    very nearly did.
+
+    This uses a narrower set than SENSITIVE_FIELDS: entries like problem_name are
+    context-sensitive and legitimately appear in some reports, whereas these
+    identifiers should never be published anywhere.
+    """
+
+    never_publish = {
+        "job_id",
+        "subscription_id",
+        "resource_group",
+        "workspace_name",
+        "workspace",
+        "manifest_path",
+    }
+
+    def walk(node: Any, path: str) -> None:
+        if isinstance(node, dict):
+            found = sorted(never_publish.intersection(node.keys()))
+            if found:
+                raise SystemExit(f"{path} contains sensitive keys: {', '.join(found)}")
+            for key, value in node.items():
+                walk(value, f"{path}.{key}")
+        elif isinstance(node, list):
+            for idx, value in enumerate(node):
+                walk(value, f"{path}[{idx}]")
+
+    for path in sorted(data_dir.glob("*.json")):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise SystemExit(f"{path.name} is not valid JSON: {exc}") from None
+        walk(payload, path.name)
+
+
 def main() -> None:
     root = repo_root()
-    azure_history = root / "website" / "data" / "azureRunHistory.json"
-    runnable_report = root / "website" / "data" / "problemRunnableCorrectnessReport.json"
+    data_dir = root / "website" / "data"
+    azure_history = data_dir / "azureRunHistory.json"
+    runnable_report = data_dir / "problemRunnableCorrectnessReport.json"
 
     validate_azure_history(azure_history)
     validate_runnable_report(runnable_report)
+    validate_no_sensitive_fields(data_dir)
 
     print("Website data schema validation passed")
 

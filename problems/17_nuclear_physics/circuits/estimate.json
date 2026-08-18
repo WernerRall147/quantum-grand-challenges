@@ -1,5 +1,8 @@
 {
   "problem": "17_nuclear_physics",
+  "entryExpr": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "NuclearQPEKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 57764,

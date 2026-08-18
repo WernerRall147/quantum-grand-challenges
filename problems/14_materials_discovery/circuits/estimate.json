@@ -1,5 +1,8 @@
 {
   "problem": "14_materials_discovery",
+  "entryExpr": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 1)",
+  "estimateTarget": "Main",
+  "hardwareKernelEntryPoint": "MaterialsQPEKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "physicalQubits": 163268,

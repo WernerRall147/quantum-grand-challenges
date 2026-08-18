@@ -1,0 +1,1007 @@
+{
+  "schema_version": "1.0",
+  "generated_utc": "2026-08-18T13:56:10.712823Z",
+  "maxError": 0.001,
+  "problems": {
+    "01_hubbard": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 53628,
+          "runtime": 1120000,
+          "error": 0.0006233772903455884
+        },
+        {
+          "physicalQubits": 55652,
+          "runtime": 999600,
+          "error": 0.00044095897939552575
+        },
+        {
+          "physicalQubits": 60172,
+          "runtime": 851200,
+          "error": 0.0006233818937375885
+        },
+        {
+          "physicalQubits": 64884,
+          "runtime": 761600,
+          "error": 0.0006234233657375884
+        },
+        {
+          "physicalQubits": 69788,
+          "runtime": 672000,
+          "error": 0.0006238380857375885
+        },
+        {
+          "physicalQubits": 81324,
+          "runtime": 582400,
+          "error": 0.0006279852857375885
+        },
+        {
+          "physicalQubits": 86612,
+          "runtime": 492800,
+          "error": 0.0006694572857375885
+        },
+        {
+          "physicalQubits": 111412,
+          "runtime": 428400,
+          "error": 0.0009305584897955259
+        },
+        {
+          "physicalQubits": 194732,
+          "runtime": 403200,
+          "error": 0.0007851252857375884
+        }
+      ]
+    },
+    "02_catalysis": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 57764,
+          "runtime": 966000,
+          "error": 0.0006233773289375885
+        },
+        {
+          "physicalQubits": 62092,
+          "runtime": 882000,
+          "error": 0.0006233777177375885
+        },
+        {
+          "physicalQubits": 66612,
+          "runtime": 798000,
+          "error": 0.0006233816057375885
+        },
+        {
+          "physicalQubits": 71324,
+          "runtime": 714000,
+          "error": 0.0006234204857375885
+        },
+        {
+          "physicalQubits": 76228,
+          "runtime": 630000,
+          "error": 0.0006238092857375884
+        },
+        {
+          "physicalQubits": 81324,
+          "runtime": 546000,
+          "error": 0.0006276972857375885
+        },
+        {
+          "physicalQubits": 93052,
+          "runtime": 492800,
+          "error": 0.00048703848979552583
+        },
+        {
+          "physicalQubits": 99492,
+          "runtime": 462000,
+          "error": 0.0006665772857375885
+        },
+        {
+          "physicalQubits": 117852,
+          "runtime": 428400,
+          "error": 0.0009001858738119164
+        },
+        {
+          "physicalQubits": 124292,
+          "runtime": 403200,
+          "error": 0.0009017584897955259
+        },
+        {
+          "physicalQubits": 223652,
+          "runtime": 378000,
+          "error": 0.0007563252857375885
+        }
+      ]
+    },
+    "03_qae_risk": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 369400,
+          "runtime": 844243750,
+          "error": 0.0007339100003316503
+        },
+        {
+          "physicalQubits": 388340,
+          "runtime": 776704250,
+          "error": 0.0007340142041316503
+        },
+        {
+          "physicalQubits": 407920,
+          "runtime": 709164750,
+          "error": 0.0007350562421316503
+        },
+        {
+          "physicalQubits": 428140,
+          "runtime": 665365750,
+          "error": 0.0004103121161075072
+        },
+        {
+          "physicalQubits": 454760,
+          "runtime": 641625250,
+          "error": 0.0007454766221316504
+        },
+        {
+          "physicalQubits": 475620,
+          "runtime": 574085750,
+          "error": 0.0008496804221316504
+        }
+      ]
+    },
+    "04_linear_solvers": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 80322,
+          "runtime": 4611250,
+          "error": 0.00036959203866087086
+        },
+        {
+          "physicalQubits": 83338,
+          "runtime": 3873450,
+          "error": 0.00036959485600287085
+        },
+        {
+          "physicalQubits": 90098,
+          "runtime": 3504550,
+          "error": 0.00036962046820287087
+        },
+        {
+          "physicalQubits": 97146,
+          "runtime": 3135650,
+          "error": 0.00036987659020287084
+        },
+        {
+          "physicalQubits": 104482,
+          "runtime": 2766750,
+          "error": 0.00037243781020287087
+        },
+        {
+          "physicalQubits": 121746,
+          "runtime": 2397850,
+          "error": 0.0003980500102028709
+        },
+        {
+          "physicalQubits": 139298,
+          "runtime": 2028950,
+          "error": 0.000654172010202871
+        }
+      ]
+    },
+    "05_qaoa_maxcut": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 53628,
+          "runtime": 498750,
+          "error": 0.0006840406329727184
+        },
+        {
+          "physicalQubits": 57764,
+          "runtime": 458850,
+          "error": 0.0006840406514407184
+        },
+        {
+          "physicalQubits": 60172,
+          "runtime": 379050,
+          "error": 0.0006840426829207185
+        },
+        {
+          "physicalQubits": 64884,
+          "runtime": 339150,
+          "error": 0.0006840611509207184
+        },
+        {
+          "physicalQubits": 76228,
+          "runtime": 299250,
+          "error": 0.0006842458309207185
+        },
+        {
+          "physicalQubits": 81324,
+          "runtime": 259350,
+          "error": 0.0006860926309207185
+        },
+        {
+          "physicalQubits": 93052,
+          "runtime": 250250,
+          "error": 0.0002438792448977629
+        },
+        {
+          "physicalQubits": 99492,
+          "runtime": 219450,
+          "error": 0.0007045606309207185
+        },
+        {
+          "physicalQubits": 111412,
+          "runtime": 204750,
+          "error": 0.0004544792448977629
+        },
+        {
+          "physicalQubits": 117852,
+          "runtime": 179550,
+          "error": 0.0008892406309207185
+        }
+      ]
+    },
+    "06_high_frequency_trading": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 28052,
+          "runtime": 106400,
+          "error": 0.0006455592346914669
+        },
+        {
+          "physicalQubits": 28668,
+          "runtime": 99750,
+          "error": 0.00039053494081629385
+        },
+        {
+          "physicalQubits": 31204,
+          "runtime": 95550,
+          "error": 0.00042792664156532373
+        },
+        {
+          "physicalQubits": 33932,
+          "runtime": 65450,
+          "error": 0.00043550677182011975
+        },
+        {
+          "physicalQubits": 51004,
+          "runtime": 61600,
+          "error": 0.0006513186586914669
+        },
+        {
+          "physicalQubits": 56058,
+          "runtime": 56700,
+          "error": 0.00045129810714479904
+        },
+        {
+          "physicalQubits": 60132,
+          "runtime": 50400,
+          "error": 0.0007031586586914669
+        },
+        {
+          "physicalQubits": 104204,
+          "runtime": 41650,
+          "error": 0.0007346667718201199
+        },
+        {
+          "physicalQubits": 150894,
+          "runtime": 39200,
+          "error": 0.000934008658691467
+        }
+      ]
+    },
+    "07_drug_discovery": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 57764,
+          "runtime": 966000,
+          "error": 0.0006233773289375885
+        },
+        {
+          "physicalQubits": 62092,
+          "runtime": 882000,
+          "error": 0.0006233777177375885
+        },
+        {
+          "physicalQubits": 66612,
+          "runtime": 798000,
+          "error": 0.0006233816057375885
+        },
+        {
+          "physicalQubits": 71324,
+          "runtime": 714000,
+          "error": 0.0006234204857375885
+        },
+        {
+          "physicalQubits": 76228,
+          "runtime": 630000,
+          "error": 0.0006238092857375884
+        },
+        {
+          "physicalQubits": 81324,
+          "runtime": 546000,
+          "error": 0.0006276972857375885
+        },
+        {
+          "physicalQubits": 93052,
+          "runtime": 492800,
+          "error": 0.00048703848979552583
+        },
+        {
+          "physicalQubits": 99492,
+          "runtime": 462000,
+          "error": 0.0006665772857375885
+        },
+        {
+          "physicalQubits": 117852,
+          "runtime": 428400,
+          "error": 0.0009001858738119164
+        },
+        {
+          "physicalQubits": 124292,
+          "runtime": 403200,
+          "error": 0.0009017584897955259
+        },
+        {
+          "physicalQubits": 223652,
+          "runtime": 378000,
+          "error": 0.0007563252857375885
+        }
+      ]
+    },
+    "08_protein_folding": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 30641,
+          "runtime": 271250,
+          "error": 0.0009034743222713972
+        },
+        {
+          "physicalQubits": 31209,
+          "runtime": 227850,
+          "error": 0.0009034744051343972
+        },
+        {
+          "physicalQubits": 32353,
+          "runtime": 196350,
+          "error": 0.0009153885324488815
+        },
+        {
+          "physicalQubits": 35081,
+          "runtime": 162750,
+          "error": 0.0009035580214343973
+        },
+        {
+          "physicalQubits": 37953,
+          "runtime": 159250,
+          "error": 0.0009662414684529793
+        },
+        {
+          "physicalQubits": 41833,
+          "runtime": 141050,
+          "error": 0.0009043113214343972
+        },
+        {
+          "physicalQubits": 48729,
+          "runtime": 134750,
+          "error": 0.0009747464684529793
+        },
+        {
+          "physicalQubits": 51889,
+          "runtime": 97650,
+          "error": 0.0009871743214343973
+        },
+        {
+          "physicalQubits": 117369,
+          "runtime": 91350,
+          "error": 0.00042032031546035924
+        },
+        {
+          "physicalQubits": 200513,
+          "runtime": 75950,
+          "error": 0.0009928443214343972
+        }
+      ]
+    },
+    "09_factorization": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 53065,
+          "runtime": 291550,
+          "error": 0.00035504706546035924
+        },
+        {
+          "physicalQubits": 56305,
+          "runtime": 257250,
+          "error": 0.0003553778154603592
+        },
+        {
+          "physicalQubits": 59945,
+          "runtime": 250250,
+          "error": 0.00012735462244888143
+        },
+        {
+          "physicalQubits": 66385,
+          "runtime": 222950,
+          "error": 0.00035868531546035925
+        },
+        {
+          "physicalQubits": 70425,
+          "runtime": 211750,
+          "error": 0.00016447962244888143
+        },
+        {
+          "physicalQubits": 76865,
+          "runtime": 188650,
+          "error": 0.0003917603154603592
+        },
+        {
+          "physicalQubits": 81305,
+          "runtime": 163800,
+          "error": 0.0005588343214343971
+        },
+        {
+          "physicalQubits": 94185,
+          "runtime": 154350,
+          "error": 0.0007225103154603592
+        }
+      ]
+    },
+    "10_post_quantum_cryptography": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 26092,
+          "runtime": 66150,
+          "error": 0.0001706800324
+        },
+        {
+          "physicalQubits": 32708,
+          "runtime": 59850,
+          "error": 0.00017068032400000002
+        },
+        {
+          "physicalQubits": 33932,
+          "runtime": 34650,
+          "error": 0.00017392000000000002
+        },
+        {
+          "physicalQubits": 50044,
+          "runtime": 28350,
+          "error": 0.00020308000000000001
+        }
+      ]
+    },
+    "11_quantum_machine_learning": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 86882,
+          "runtime": 603750,
+          "error": 0.0005368010751739903
+        },
+        {
+          "physicalQubits": 89866,
+          "runtime": 555450,
+          "error": 0.0005368011087079904
+        },
+        {
+          "physicalQubits": 93138,
+          "runtime": 507150,
+          "error": 0.0005368014440479904
+        },
+        {
+          "physicalQubits": 96698,
+          "runtime": 458850,
+          "error": 0.0005368047974479903
+        },
+        {
+          "physicalQubits": 100546,
+          "runtime": 410550,
+          "error": 0.0005368383314479903
+        },
+        {
+          "physicalQubits": 117562,
+          "runtime": 383250,
+          "error": 0.0003851796081629381
+        },
+        {
+          "physicalQubits": 124002,
+          "runtime": 362250,
+          "error": 0.0005371736714479904
+        },
+        {
+          "physicalQubits": 128426,
+          "runtime": 332150,
+          "error": 0.00038872740816293813
+        },
+        {
+          "physicalQubits": 134866,
+          "runtime": 313950,
+          "error": 0.0005405270714479904
+        },
+        {
+          "physicalQubits": 152458,
+          "runtime": 265650,
+          "error": 0.0005740610714479904
+        },
+        {
+          "physicalQubits": 183218,
+          "runtime": 217350,
+          "error": 0.0009094010714479904
+        }
+      ]
+    },
+    "12_quantum_optimization": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 53628,
+          "runtime": 498750,
+          "error": 0.0006840406329727184
+        },
+        {
+          "physicalQubits": 57764,
+          "runtime": 458850,
+          "error": 0.0006840406514407184
+        },
+        {
+          "physicalQubits": 60172,
+          "runtime": 379050,
+          "error": 0.0006840426829207185
+        },
+        {
+          "physicalQubits": 64884,
+          "runtime": 339150,
+          "error": 0.0006840611509207184
+        },
+        {
+          "physicalQubits": 76228,
+          "runtime": 299250,
+          "error": 0.0006842458309207185
+        },
+        {
+          "physicalQubits": 81324,
+          "runtime": 259350,
+          "error": 0.0006860926309207185
+        },
+        {
+          "physicalQubits": 93052,
+          "runtime": 250250,
+          "error": 0.0002438792448977629
+        },
+        {
+          "physicalQubits": 99492,
+          "runtime": 219450,
+          "error": 0.0007045606309207185
+        },
+        {
+          "physicalQubits": 111412,
+          "runtime": 204750,
+          "error": 0.0004544792448977629
+        },
+        {
+          "physicalQubits": 117852,
+          "runtime": 179550,
+          "error": 0.0008892406309207185
+        }
+      ]
+    },
+    "13_climate_modeling": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 76866,
+          "runtime": 3872050,
+          "error": 0.0009466930098079663
+        },
+        {
+          "physicalQubits": 83338,
+          "runtime": 3535350,
+          "error": 0.0009466953474679663
+        },
+        {
+          "physicalQubits": 90098,
+          "runtime": 3198650,
+          "error": 0.0009467187240679662
+        },
+        {
+          "physicalQubits": 97146,
+          "runtime": 2861950,
+          "error": 0.0009469524900679663
+        },
+        {
+          "physicalQubits": 104482,
+          "runtime": 2525250,
+          "error": 0.0009492901500679663
+        },
+        {
+          "physicalQubits": 112106,
+          "runtime": 2188550,
+          "error": 0.0009726667500679662
+        },
+        {
+          "physicalQubits": 129658,
+          "runtime": 1982750,
+          "error": 0.0006256429285702833
+        }
+      ]
+    },
+    "14_materials_discovery": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 163268,
+          "runtime": 87290000,
+          "error": 0.0009715914448436434
+        },
+        {
+          "physicalQubits": 174444,
+          "runtime": 80306800,
+          "error": 0.0009715946770676434
+        },
+        {
+          "physicalQubits": 185812,
+          "runtime": 73323600,
+          "error": 0.0009716269993076434
+        },
+        {
+          "physicalQubits": 197372,
+          "runtime": 66340400,
+          "error": 0.0009719502217076434
+        },
+        {
+          "physicalQubits": 222604,
+          "runtime": 59357200,
+          "error": 0.0009751824457076434
+        },
+        {
+          "physicalQubits": 248028,
+          "runtime": 55020000,
+          "error": 0.000976568838317378
+        },
+        {
+          "physicalQubits": 364588,
+          "runtime": 49728000,
+          "error": 0.0009880897225300654
+        },
+        {
+          "physicalQubits": 627204,
+          "runtime": 47684000,
+          "error": 0.000976029702317378
+        },
+        {
+          "physicalQubits": 686684,
+          "runtime": 45390800,
+          "error": 0.0008027614826053536
+        },
+        {
+          "physicalQubits": 829264,
+          "runtime": 43097600,
+          "error": 0.0007980737196102636
+        }
+      ]
+    },
+    "15_database_search": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 61122,
+          "runtime": 507500,
+          "error": 0.00015588000313200004
+        },
+        {
+          "physicalQubits": 64106,
+          "runtime": 466900,
+          "error": 0.00015588003132000004
+        },
+        {
+          "physicalQubits": 64498,
+          "runtime": 385700,
+          "error": 0.00015588313200000004
+        },
+        {
+          "physicalQubits": 68346,
+          "runtime": 345100,
+          "error": 0.00015591132000000003
+        },
+        {
+          "physicalQubits": 78922,
+          "runtime": 304500,
+          "error": 0.00015619320000000004
+        },
+        {
+          "physicalQubits": 83346,
+          "runtime": 263900,
+          "error": 0.00015901200000000004
+        },
+        {
+          "physicalQubits": 100938,
+          "runtime": 223300,
+          "error": 0.00018720000000000005
+        },
+        {
+          "physicalQubits": 118818,
+          "runtime": 182700,
+          "error": 0.0004690800000000001
+        }
+      ]
+    },
+    "16_error_correction": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 1746,
+          "runtime": 7350,
+          "error": 0.00016200000000000003
+        }
+      ]
+    },
+    "17_nuclear_physics": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 57764,
+          "runtime": 966000,
+          "error": 0.0006233773289375885
+        },
+        {
+          "physicalQubits": 62092,
+          "runtime": 882000,
+          "error": 0.0006233777177375885
+        },
+        {
+          "physicalQubits": 66612,
+          "runtime": 798000,
+          "error": 0.0006233816057375885
+        },
+        {
+          "physicalQubits": 71324,
+          "runtime": 714000,
+          "error": 0.0006234204857375885
+        },
+        {
+          "physicalQubits": 76228,
+          "runtime": 630000,
+          "error": 0.0006238092857375884
+        },
+        {
+          "physicalQubits": 81324,
+          "runtime": 546000,
+          "error": 0.0006276972857375885
+        },
+        {
+          "physicalQubits": 93052,
+          "runtime": 492800,
+          "error": 0.00048703848979552583
+        },
+        {
+          "physicalQubits": 99492,
+          "runtime": 462000,
+          "error": 0.0006665772857375885
+        },
+        {
+          "physicalQubits": 117852,
+          "runtime": 428400,
+          "error": 0.0009001858738119164
+        },
+        {
+          "physicalQubits": 124292,
+          "runtime": 403200,
+          "error": 0.0009017584897955259
+        },
+        {
+          "physicalQubits": 223652,
+          "runtime": 378000,
+          "error": 0.0007563252857375885
+        }
+      ]
+    },
+    "18_photovoltaics": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 47188,
+          "runtime": 1767500,
+          "error": 0.0006926810787199904
+        },
+        {
+          "physicalQubits": 49212,
+          "runtime": 1484700,
+          "error": 0.0006926817986479904
+        },
+        {
+          "physicalQubits": 53732,
+          "runtime": 1343300,
+          "error": 0.0006926883434479904
+        },
+        {
+          "physicalQubits": 58444,
+          "runtime": 1201900,
+          "error": 0.0006927537914479904
+        },
+        {
+          "physicalQubits": 63348,
+          "runtime": 1060500,
+          "error": 0.0006934082714479905
+        },
+        {
+          "physicalQubits": 68444,
+          "runtime": 919100,
+          "error": 0.0006999530714479904
+        },
+        {
+          "physicalQubits": 80172,
+          "runtime": 777700,
+          "error": 0.0007654010714479905
+        },
+        {
+          "physicalQubits": 147492,
+          "runtime": 739200,
+          "error": 0.0009989877182011973
+        },
+        {
+          "physicalQubits": 165812,
+          "runtime": 667800,
+          "error": 0.0008821254081629381
+        },
+        {
+          "physicalQubits": 285012,
+          "runtime": 636300,
+          "error": 0.0009770540714479903
+        }
+      ]
+    },
+    "19_quantum_chromodynamics": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 54593,
+          "runtime": 716450,
+          "error": 0.0004675329883331913
+        },
+        {
+          "physicalQubits": 59449,
+          "runtime": 654150,
+          "error": 0.00046753320460319133
+        },
+        {
+          "physicalQubits": 64449,
+          "runtime": 591850,
+          "error": 0.0004675353673031913
+        },
+        {
+          "physicalQubits": 69593,
+          "runtime": 529550,
+          "error": 0.0004675569943031913
+        },
+        {
+          "physicalQubits": 74881,
+          "runtime": 467250,
+          "error": 0.0004677732643031913
+        },
+        {
+          "physicalQubits": 86753,
+          "runtime": 404950,
+          "error": 0.0004699359643031913
+        },
+        {
+          "physicalQubits": 98769,
+          "runtime": 342650,
+          "error": 0.0004915629643031913
+        },
+        {
+          "physicalQubits": 117369,
+          "runtime": 299250,
+          "error": 0.0005872188673466444
+        },
+        {
+          "physicalQubits": 130249,
+          "runtime": 280350,
+          "error": 0.0007078329643031914
+        }
+      ]
+    },
+    "20_space_mission_planning": {
+      "qubitModel": "qubit_gate_ns_e3",
+      "qecScheme": "surface_code",
+      "selected": "min-qubits",
+      "points": [
+        {
+          "physicalQubits": 64204,
+          "runtime": 619850,
+          "error": 0.00046753299202319134
+        },
+        {
+          "physicalQubits": 68532,
+          "runtime": 565950,
+          "error": 0.0004675332415031913
+        },
+        {
+          "physicalQubits": 73052,
+          "runtime": 512050,
+          "error": 0.0004675357363031913
+        },
+        {
+          "physicalQubits": 77764,
+          "runtime": 458150,
+          "error": 0.0004675606843031913
+        },
+        {
+          "physicalQubits": 89108,
+          "runtime": 404250,
+          "error": 0.0004678101643031913
+        },
+        {
+          "physicalQubits": 94204,
+          "runtime": 373100,
+          "error": 0.00033367086734664437
+        },
+        {
+          "physicalQubits": 100644,
+          "runtime": 350350,
+          "error": 0.00047030496430319134
+        },
+        {
+          "physicalQubits": 112372,
+          "runtime": 296450,
+          "error": 0.0004952529643031914
+        },
+        {
+          "physicalQubits": 137172,
+          "runtime": 258300,
+          "error": 0.0006259188673466444
+        },
+        {
+          "physicalQubits": 156492,
+          "runtime": 242550,
+          "error": 0.0007447329643031913
+        }
+      ]
+    }
+  }
+}

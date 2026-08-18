@@ -1,9 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from 'recharts';
 import { problemHighlights } from '../../data/projectStatus';
 import resourceEstimates from '../../data/resourceEstimates.json';
+import paretoFrontiers from '../../data/paretoFrontiers.json';
 import calibrationData from '../../data/calibrationData.json';
 import problemReadmes from '../../data/problemReadmes.json';
 import stageDEvidence from '../../data/stageDEvidence.json';
@@ -96,6 +97,9 @@ interface ProblemPageProps {
     noisy: NoisyData | null;
     emulator: EmulatorData | null;
     multiModel: MultiModelEntry[] | null;
+    pareto: { physicalQubits: number; runtime: number }[] | null;
+    paretoModel: string | null;
+    paretoQec: string | null;
     troyer: TroyerData | null;
   };
 }
@@ -475,6 +479,49 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
           </section>
         )}
 
+        {problem.pareto && problem.pareto.length > 1 && (
+          <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+            <h2 style={{ marginTop: 0, color: '#0f172a' }}>Pareto Frontier: Qubits vs Runtime</h2>
+            <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1rem' }}>
+              The estimator returns {problem.pareto.length} viable configurations, not one answer. Every headline
+              figure on this page comes from the leftmost point, which uses the fewest qubits and is therefore also
+              the slowest. Buying {(problem.pareto[problem.pareto.length - 1].physicalQubits / problem.pareto[0].physicalQubits).toFixed(1)}x
+              the qubits cuts runtime to {(problem.pareto[problem.pareto.length - 1].runtime / problem.pareto[0].runtime).toFixed(2)}x.
+            </p>
+            <div style={{ width: '100%', height: 300 }}>
+              <ResponsiveContainer>
+                <LineChart data={problem.pareto} margin={{ top: 5, right: 30, left: 20, bottom: 40 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="physicalQubits"
+                    type="number"
+                    domain={['dataMin', 'dataMax']}
+                    fontSize={10}
+                    tickFormatter={(v: number) => v >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : `${(v / 1e3).toFixed(0)}k`}
+                    label={{ value: 'Physical qubits', position: 'insideBottom', offset: -15, fontSize: 11 }}
+                  />
+                  <YAxis
+                    fontSize={10}
+                    tickFormatter={(v: number) => v >= 1e9 ? `${(v / 1e9).toFixed(1)}s` : `${(v / 1e6).toFixed(1)}ms`}
+                    label={{ value: 'Runtime', angle: -90, position: 'insideLeft', fontSize: 11 }}
+                  />
+                  <Tooltip
+                    formatter={(value: number, name: string) => name === 'runtime'
+                      ? [value >= 1e9 ? `${(value / 1e9).toFixed(2)} s` : `${(value / 1e6).toFixed(2)} ms`, 'Runtime']
+                      : [value.toLocaleString(), name]}
+                    labelFormatter={(v: number) => `${v.toLocaleString()} physical qubits`}
+                  />
+                  <Line type="monotone" dataKey="runtime" stroke="#667eea" strokeWidth={2} dot={{ r: 4 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <p style={{ color: '#94a3b8', fontSize: '0.8rem', marginTop: '0.75rem', marginBottom: 0 }}>
+              {problem.paretoModel} with {problem.paretoQec}, error budget 1e-3. Points are Pareto-optimal: no other
+              configuration is better on both axes.
+            </p>
+          </section>
+        )}
+
         {problem.multiModel && problem.multiModel.length > 0 && (
           <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
             <h2 style={{ marginTop: 0, color: '#0f172a' }}>Multi-Model Resource Comparison</h2>
@@ -673,6 +720,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     family: String(m.family || 'gate_based'),
   })).sort((a, b) => a.physicalQubits - b.physicalQubits);
 
+  // Pareto frontier: the qubit/runtime trade behind the single headline estimate
+  const rawFrontiers = (paretoFrontiers as Record<string, unknown>).problems as Record<string, Record<string, unknown>> | undefined;
+  const frontier = rawFrontiers?.[id];
+  const paretoRaw = (frontier?.points || []) as Record<string, number>[];
+  const pareto = paretoRaw.length > 1
+    ? paretoRaw.map(p => ({ physicalQubits: Number(p.physicalQubits), runtime: Number(p.runtime) }))
+    : null;
+  const paretoModel = frontier ? String(frontier.qubitModel || '') : null;
+  const paretoQec = frontier ? String(frontier.qecScheme || '') : null;
+
   // Troyer utility-scale assessment
   const troyerCategories = (troyerAssessment as Record<string, unknown>).categories as Record<string, Record<string, unknown>> | undefined;
   let troyer: { category: string; categoryLabel: string; speedup: string; classicalBest: string; assessment: string } | null = null;
@@ -709,6 +766,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         noisy,
         emulator,
         multiModel: multiModel.length > 0 ? multiModel : null,
+        pareto,
+        paretoModel,
+        paretoQec,
         troyer,
       },
     },

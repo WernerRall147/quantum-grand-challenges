@@ -9,6 +9,58 @@
   "tFactoryFraction": 0.721,
   "error": 0.0006840406329727184,
   "paretoPoints": 10,
+  "paretoFrontier": [
+    {
+      "physicalQubits": 53628,
+      "runtime": 498750,
+      "error": 0.0006840406329727184
+    },
+    {
+      "physicalQubits": 57764,
+      "runtime": 458850,
+      "error": 0.0006840406514407184
+    },
+    {
+      "physicalQubits": 60172,
+      "runtime": 379050,
+      "error": 0.0006840426829207185
+    },
+    {
+      "physicalQubits": 64884,
+      "runtime": 339150,
+      "error": 0.0006840611509207184
+    },
+    {
+      "physicalQubits": 76228,
+      "runtime": 299250,
+      "error": 0.0006842458309207185
+    },
+    {
+      "physicalQubits": 81324,
+      "runtime": 259350,
+      "error": 0.0006860926309207185
+    },
+    {
+      "physicalQubits": 93052,
+      "runtime": 250250,
+      "error": 0.0002438792448977629
+    },
+    {
+      "physicalQubits": 99492,
+      "runtime": 219450,
+      "error": 0.0007045606309207185
+    },
+    {
+      "physicalQubits": 111412,
+      "runtime": 204750,
+      "error": 0.0004544792448977629
+    },
+    {
+      "physicalQubits": 117852,
+      "runtime": 179550,
+      "error": 0.0008892406309207185
+    }
+  ],
   "tCount": null,
   "rotationCount": 6,
   "cczCount": null,

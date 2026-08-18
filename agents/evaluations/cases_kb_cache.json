@@ -1,0 +1,530 @@
+{
+  "schema_version": "1.0",
+  "cases": {
+    "chem-femoco": {
+      "matches": [
+        {
+          "name": "Preparing Eigenstates and Thermal States",
+          "category": "Quantum Simulation",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Preparing Eigenstates and Thermal States: Quantum Simulation. Speedup: superpolynomial. Quantum Gibbs sampling, adiabatic state preparation, imaginary time evolution. Essential for quantum chemistry. Classical: Exponential in general",
+          "score": 0.03177805617451668
+        },
+        {
+          "name": "Quantum Phase Estimation (QPE)",
+          "category": "Eigenvalue Problems",
+          "speedup_class": "exponential",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Quantum Phase Estimation (QPE): Eigenvalue Problems. Speedup: exponential. Exponential speedup for naturally quantum Hamiltonians. Core of quantum chemistry advantage. Classical: Full Configuration Interaction O(exp(n))",
+          "score": 0.02911604568362236
+        },
+        {
+          "name": "HHL Algorithm",
+          "category": "Linear Algebra",
+          "speedup_class": "exponential_core",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "HHL Algorithm: Linear Algebra. Speedup: exponential_core. Exponential core speedup but O(N) state prep and O(N) readout on both ends. Only useful if you need the quantum state, not the classical solution vector. Classical: Conjugate gradient O(N \u00b7 \u03ba)",
+          "score": 0.01666666753590107
+        }
+      ],
+      "score": 0.03177805617451668
+    },
+    "chem-catalyst": {
+      "matches": [
+        {
+          "name": "Preparing Eigenstates and Thermal States",
+          "category": "Quantum Simulation",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Preparing Eigenstates and Thermal States: Quantum Simulation. Speedup: superpolynomial. Quantum Gibbs sampling, adiabatic state preparation, imaginary time evolution. Essential for quantum chemistry. Classical: Exponential in general",
+          "score": 0.03279569745063782
+        },
+        {
+          "name": "Quantum Field Theory Simulation",
+          "category": "High Energy Physics",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Quantum Field Theory Simulation: High Energy Physics. Speedup: superpolynomial. Jordan-Lee-Preskill framework. Simulates scattering in scalar and fermionic QFTs. Classical: Sign problem for real-time; exponential for fermions",
+          "score": 0.032522473484277725
+        },
+        {
+          "name": "HHL Algorithm",
+          "category": "Linear Algebra",
+          "speedup_class": "exponential_core",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "HHL Algorithm: Linear Algebra. Speedup: exponential_core. Exponential core speedup but O(N) state prep and O(N) readout on both ends. Only useful if you need the quantum state, not the classical solution vector. Classical: Conjugate gradient O(N \u00b7 \u03ba)",
+          "score": 0.01666666753590107
+        }
+      ],
+      "score": 0.03279569745063782
+    },
+    "chem-closed-shell": {
+      "matches": [
+        {
+          "name": "Variational Quantum Eigensolver (VQE)",
+          "category": "Chemistry / Optimization",
+          "speedup_class": "none_proven",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Variational Quantum Eigensolver (VQE): Chemistry / Optimization. Speedup: none_proven. No proven speedup. Barren plateaus at scale. Classical tensor networks often competitive. Use QPE instead for fault-tolerant era. Classical: DMRG / tensor networks / coupled cluster",
+          "score": 0.03226646035909653
+        },
+        {
+          "name": "Quantum Phase Estimation (QPE)",
+          "category": "Eigenvalue Problems",
+          "speedup_class": "exponential",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Quantum Phase Estimation (QPE): Eigenvalue Problems. Speedup: exponential. Exponential speedup for naturally quantum Hamiltonians. Core of quantum chemistry advantage. Classical: Full Configuration Interaction O(exp(n))",
+          "score": 0.02982456237077713
+        },
+        {
+          "name": "Knot and 3-Manifold Invariants",
+          "category": "Topology",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Knot and 3-Manifold Invariants: Topology. Speedup: superpolynomial. Jones polynomial at roots of unity is BQP-complete (Freedman-Kitaev-Wang). Deep connection between QC and topology. Classical: #P-hard in general",
+          "score": 0.01666666753590107
+        }
+      ],
+      "score": 0.03226646035909653
+    },
+    "crypto-rsa-integer": {
+      "matches": [
+        {
+          "name": "Shor's Algorithm",
+          "category": "Number Theory",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Shor's Algorithm: Number Theory. Speedup: superpolynomial. The canonical example. Breaks RSA. Needs ~4000 logical qubits for RSA-2048. Classical: General Number Field Sieve (sub-exponential)",
+          "score": 0.03306011110544205
+        },
+        {
+          "name": "Lattice Problems (Quantum)",
+          "category": "Cryptography / Optimization",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "INCONCLUSIVE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Lattice Problems (Quantum): Cryptography / Optimization. Speedup: superpolynomial. Chen-Liu-Zhandry 2022. Does NOT break main post-quantum cryptosystems at standard parameters. Classical: No known poly-time for these regimes",
+          "score": 0.0317540317773819
+        },
+        {
+          "name": "Quantum Cryptanalysis",
+          "category": "Cryptography",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Quantum Cryptanalysis: Cryptography. Speedup: superpolynomial. Breaks RSA, DSA, ECDSA, Diffie-Hellman. Subexponential attack on isogeny-based crypto. Polynomial speedups against symmetric ciphers via Grover. Classical: Varies (GNFS, index calculus, etc.)",
+          "score": 0.030886195600032806
+        }
+      ],
+      "score": 0.03306011110544205
+    },
+    "crypto-rsa-key": {
+      "matches": [
+        {
+          "name": "Shor's Algorithm",
+          "category": "Number Theory",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Shor's Algorithm: Number Theory. Speedup: superpolynomial. The canonical example. Breaks RSA. Needs ~4000 logical qubits for RSA-2048. Classical: General Number Field Sieve (sub-exponential)",
+          "score": 0.03306011110544205
+        },
+        {
+          "name": "Lattice Problems (Quantum)",
+          "category": "Cryptography / Optimization",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "INCONCLUSIVE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Lattice Problems (Quantum): Cryptography / Optimization. Speedup: superpolynomial. Chen-Liu-Zhandry 2022. Does NOT break main post-quantum cryptosystems at standard parameters. Classical: No known poly-time for these regimes",
+          "score": 0.0317540317773819
+        },
+        {
+          "name": "Quantum Cryptanalysis",
+          "category": "Cryptography",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Quantum Cryptanalysis: Cryptography. Speedup: superpolynomial. Breaks RSA, DSA, ECDSA, Diffie-Hellman. Subexponential attack on isogeny-based crypto. Polynomial speedups against symmetric ciphers via Grover. Classical: Varies (GNFS, index calculus, etc.)",
+          "score": 0.030886195600032806
+        }
+      ],
+      "score": 0.03306011110544205
+    },
+    "crypto-rsa-plain": {
+      "matches": [
+        {
+          "name": "Shor's Algorithm",
+          "category": "Number Theory",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Shor's Algorithm: Number Theory. Speedup: superpolynomial. The canonical example. Breaks RSA. Needs ~4000 logical qubits for RSA-2048. Classical: General Number Field Sieve (sub-exponential)",
+          "score": 0.03333333507180214
+        },
+        {
+          "name": "Pell's Equation",
+          "category": "Number Theory",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Pell's Equation: Number Theory. Speedup: superpolynomial. Hallgren 2002. Solves x^2 - dy^2 = 1. Breaks Buchman-Williams cryptosystem. Reduces to Abelian hidden subgroup. Classical: No known polynomial-time algorithm",
+          "score": 0.016393441706895828
+        },
+        {
+          "name": "Simon's Algorithm",
+          "category": "Oracle / Period Finding",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Simon's Algorithm: Oracle / Period Finding. Speedup: superpolynomial. Finds hidden period of 2-to-1 function. Inspired Shor's algorithm. First provable exponential quantum speedup for promise problem. Classical: O(2^(n/2)) queries",
+          "score": 0.016393441706895828
+        }
+      ],
+      "score": 0.03333333507180214
+    },
+    "opt-portfolio": {
+      "matches": [
+        {
+          "name": "Quantum Monte Carlo Speedup",
+          "category": "Monte Carlo / Finance",
+          "speedup_class": "quadratic",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Monte Carlo Speedup: Monte Carlo / Finance. Speedup: quadratic. Montanaro 2015. Quadratic speedup for MC integration. Applied to finance and fluid dynamics. I/O + QEC overhead limits advantage. Classical: O(1/epsilon^2)",
+          "score": 0.0317540317773819
+        },
+        {
+          "name": "Quantum Amplitude Estimation (QAE)",
+          "category": "Monte Carlo / Finance",
+          "speedup_class": "quadratic",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Amplitude Estimation (QAE): Monte Carlo / Finance. Speedup: quadratic. Quadratic speedup proven. But QEC overhead requires \u03b5 < 10\u207b\u2074 for net advantage. Distribution loading is O(N). Classical: Monte Carlo O(1/\u03b5\u00b2)",
+          "score": 0.01666666753590107
+        },
+        {
+          "name": "Simon's Algorithm",
+          "category": "Oracle / Period Finding",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Simon's Algorithm: Oracle / Period Finding. Speedup: superpolynomial. Finds hidden period of 2-to-1 function. Inspired Shor's algorithm. First provable exponential quantum speedup for promise problem. Classical: O(2^(n/2)) queries",
+          "score": 0.01666666753590107
+        }
+      ],
+      "score": 0.0317540317773819
+    },
+    "opt-portfolio-alt": {
+      "matches": [
+        {
+          "name": "Quantum Monte Carlo Speedup",
+          "category": "Monte Carlo / Finance",
+          "speedup_class": "quadratic",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Monte Carlo Speedup: Monte Carlo / Finance. Speedup: quadratic. Montanaro 2015. Quadratic speedup for MC integration. Applied to finance and fluid dynamics. I/O + QEC overhead limits advantage. Classical: O(1/epsilon^2)",
+          "score": 0.032786883413791656
+        },
+        {
+          "name": "Nonlinear Differential Equations (Quantum)",
+          "category": "Numerics / PDE",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "INCONCLUSIVE",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Nonlinear Differential Equations (Quantum): Numerics / PDE. Speedup: superpolynomial. Carleman linearization approach. Limited to weakly nonlinear regime. Readout is O(N). Classical: poly(N)",
+          "score": 0.01666666753590107
+        },
+        {
+          "name": "Quantum Amplitude Estimation (QAE)",
+          "category": "Monte Carlo / Finance",
+          "speedup_class": "quadratic",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Amplitude Estimation (QAE): Monte Carlo / Finance. Speedup: quadratic. Quadratic speedup proven. But QEC overhead requires \u03b5 < 10\u207b\u2074 for net advantage. Distribution loading is O(N). Classical: Monte Carlo O(1/\u03b5\u00b2)",
+          "score": 0.01666666753590107
+        }
+      ],
+      "score": 0.032786883413791656
+    },
+    "ml-image": {
+      "matches": [
+        {
+          "name": "Nonlinear Differential Equations (Quantum)",
+          "category": "Numerics / PDE",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "INCONCLUSIVE",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Nonlinear Differential Equations (Quantum): Numerics / PDE. Speedup: superpolynomial. Carleman linearization approach. Limited to weakly nonlinear regime. Readout is O(N). Classical: poly(N)",
+          "score": 0.01666666753590107
+        },
+        {
+          "name": "Quantum Topological Data Analysis",
+          "category": "Machine Learning / Topology",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "INCONCLUSIVE",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Topological Data Analysis: Machine Learning / Topology. Speedup: superpolynomial. Lloyd-Garnerone-Zanardi. Computes Betti numbers. Data loading bottleneck. Partially dequantizable. Classical: Exponential for persistent homology",
+          "score": 0.01666666753590107
+        },
+        {
+          "name": "Adiabatic Quantum Computation",
+          "category": "Optimization",
+          "speedup_class": "varies",
+          "troyer_verdict": "INCONCLUSIVE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Adiabatic Quantum Computation: Optimization. Speedup: varies. Equivalent to circuit model with non-stoquastic Hamiltonians. Gap analysis notoriously hard. Classical: Varies; NP-hard problems remain hard",
+          "score": 0.016393441706895828
+        }
+      ],
+      "score": 0.01666666753590107
+    },
+    "ml-nlp": {
+      "matches": [
+        {
+          "name": "Quantum Support Vector Machine",
+          "category": "Machine Learning",
+          "speedup_class": "exponential_core",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Support Vector Machine: Machine Learning. Speedup: exponential_core. Rebentrost-Mohseni-Lloyd. Exponential kernel speedup IF data in QRAM. O(N) data loading negates advantage. Partially dequantized. Classical: O(N) classical SVM",
+          "score": 0.03333333507180214
+        },
+        {
+          "name": "Preparing Eigenstates and Thermal States",
+          "category": "Quantum Simulation",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Preparing Eigenstates and Thermal States: Quantum Simulation. Speedup: superpolynomial. Quantum Gibbs sampling, adiabatic state preparation, imaginary time evolution. Essential for quantum chemistry. Classical: Exponential in general",
+          "score": 0.016393441706895828
+        },
+        {
+          "name": "Quantum Machine Learning (Kernel Methods)",
+          "category": "Machine Learning",
+          "speedup_class": "exponential_core",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Machine Learning (Kernel Methods): Machine Learning. Speedup: exponential_core. Exponential kernel speedup exists but O(N) data loading negates it. Proven advantages only for specific contrived problems. Classical: Classical kernel methods / random features",
+          "score": 0.016393441706895828
+        }
+      ],
+      "score": 0.03333333507180214
+    },
+    "hpc-cfd": {
+      "matches": [
+        {
+          "name": "Open Quantum System Simulation",
+          "category": "Quantum Simulation",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Open Quantum System Simulation: Quantum Simulation. Speedup: superpolynomial. Simulates Lindblad master equations, dissipative dynamics. Relevant for quantum optics, quantum biology, decoherence. Classical: Exponential for general Lindbladian dynamics",
+          "score": 0.03279569745063782
+        },
+        {
+          "name": "Quantum Monte Carlo Speedup",
+          "category": "Monte Carlo / Finance",
+          "speedup_class": "quadratic",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Monte Carlo Speedup: Monte Carlo / Finance. Speedup: quadratic. Montanaro 2015. Quadratic speedup for MC integration. Applied to finance and fluid dynamics. I/O + QEC overhead limits advantage. Classical: O(1/epsilon^2)",
+          "score": 0.03226646035909653
+        },
+        {
+          "name": "Quantum Field Theory Simulation",
+          "category": "High Energy Physics",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Quantum Field Theory Simulation: High Energy Physics. Speedup: superpolynomial. Jordan-Lee-Preskill framework. Simulates scattering in scalar and fermionic QFTs. Classical: Sign problem for real-time; exponential for fermions",
+          "score": 0.03205128386616707
+        }
+      ],
+      "score": 0.03279569745063782
+    },
+    "hpc-weather": {
+      "matches": [
+        {
+          "name": "Quantum Topological Data Analysis",
+          "category": "Machine Learning / Topology",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "INCONCLUSIVE",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Quantum Topological Data Analysis: Machine Learning / Topology. Speedup: superpolynomial. Lloyd-Garnerone-Zanardi. Computes Betti numbers. Data loading bottleneck. Partially dequantizable. Classical: Exponential for persistent homology",
+          "score": 0.03333333507180214
+        },
+        {
+          "name": "Element Distinctness",
+          "category": "Search / Database",
+          "speedup_class": "polynomial",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Element Distinctness: Search / Database. Speedup: polynomial. Ambainis quantum walk algorithm. Optimal. Generalizes to k-distinctness. Foundation for many quantum walk-based algorithms. Classical: O(N)",
+          "score": 0.016393441706895828
+        },
+        {
+          "name": "Quantum Field Theory Simulation",
+          "category": "High Energy Physics",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Quantum Field Theory Simulation: High Energy Physics. Speedup: superpolynomial. Jordan-Lee-Preskill framework. Simulates scattering in scalar and fermionic QFTs. Classical: Sign problem for real-time; exponential for fermions",
+          "score": 0.016393441706895828
+        }
+      ],
+      "score": 0.03333333507180214
+    },
+    "quantum-hubbard": {
+      "matches": [
+        {
+          "name": "Preparing Eigenstates and Thermal States",
+          "category": "Quantum Simulation",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Preparing Eigenstates and Thermal States: Quantum Simulation. Speedup: superpolynomial. Quantum Gibbs sampling, adiabatic state preparation, imaginary time evolution. Essential for quantum chemistry. Classical: Exponential in general",
+          "score": 0.03279569745063782
+        },
+        {
+          "name": "Quantum Phase Estimation (QPE)",
+          "category": "Eigenvalue Problems",
+          "speedup_class": "exponential",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Quantum Phase Estimation (QPE): Eigenvalue Problems. Speedup: exponential. Exponential speedup for naturally quantum Hamiltonians. Core of quantum chemistry advantage. Classical: Full Configuration Interaction O(exp(n))",
+          "score": 0.03021353855729103
+        },
+        {
+          "name": "HHL Algorithm",
+          "category": "Linear Algebra",
+          "speedup_class": "exponential_core",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "HHL Algorithm: Linear Algebra. Speedup: exponential_core. Exponential core speedup but O(N) state prep and O(N) readout on both ends. Only useful if you need the quantum state, not the classical solution vector. Classical: Conjugate gradient O(N \u00b7 \u03ba)",
+          "score": 0.01666666753590107
+        }
+      ],
+      "score": 0.03279569745063782
+    },
+    "quantum-lattice-gauge": {
+      "matches": [
+        {
+          "name": "Lattice Gauge Theory (Real-Time)",
+          "category": "Quantum Field Theory",
+          "speedup_class": "exponential",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Lattice Gauge Theory (Real-Time): Quantum Field Theory. Speedup: exponential. Classical lattice QCD cannot do real-time dynamics (sign problem). Strongest long-term utility case. Classical: Lattice QCD (Euclidean only, sign problem for real-time)",
+          "score": 0.03279569745063782
+        },
+        {
+          "name": "Quantum Field Theory Simulation",
+          "category": "High Energy Physics",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Quantum Field Theory Simulation: High Energy Physics. Speedup: superpolynomial. Jordan-Lee-Preskill framework. Simulates scattering in scalar and fermionic QFTs. Classical: Sign problem for real-time; exponential for fermions",
+          "score": 0.03279569745063782
+        },
+        {
+          "name": "Lattice Gauge Theory (Real-Time)",
+          "category": "Quantum Field Theory",
+          "speedup_class": "exponential",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": true,
+          "content": "Lattice Gauge Theory (Real-Time): Quantum Field Theory. Speedup: exponential. Classical lattice QCD cannot do real-time dynamics (sign problem). Strongest long-term utility case. Classical: Lattice QCD (Euclidean only, sign problem for real-time)",
+          "score": 0.032786883413791656
+        }
+      ],
+      "score": 0.03279569745063782
+    },
+    "search-database": {
+      "matches": [
+        {
+          "name": "Grover's Search",
+          "category": "Search / Optimization",
+          "speedup_class": "quadratic",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Grover's Search: Search / Optimization. Speedup: quadratic. Provably optimal quadratic speedup but QRAM loading O(N) erases it. Oracle cost for real problems (AES, database) dominates. Classical: Linear scan O(N)",
+          "score": 0.03333333507180214
+        },
+        {
+          "name": "Element Distinctness",
+          "category": "Search / Database",
+          "speedup_class": "polynomial",
+          "troyer_verdict": "HPC_PREFERRED",
+          "io_bottleneck": true,
+          "naturally_quantum": false,
+          "content": "Element Distinctness: Search / Database. Speedup: polynomial. Ambainis quantum walk algorithm. Optimal. Generalizes to k-distinctness. Foundation for many quantum walk-based algorithms. Classical: O(N)",
+          "score": 0.032786883413791656
+        },
+        {
+          "name": "Bernstein-Vazirani",
+          "category": "Oracle / Learning",
+          "speedup_class": "superpolynomial",
+          "troyer_verdict": "QUANTUM_ADVANTAGE",
+          "io_bottleneck": false,
+          "naturally_quantum": false,
+          "content": "Bernstein-Vazirani: Oracle / Learning. Speedup: superpolynomial. Finds hidden bit string with single query. Recursive version gives exponential separation. Foundational for quantum learning theory. Classical: O(n) queries",
+          "score": 0.02982766181230545
+        }
+      ],
+      "score": 0.03333333507180214
+    }
+  }
+}

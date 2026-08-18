@@ -551,3 +551,130 @@ class TestAssessmentParsing:
         result = _evaluator_returning_raw("not json").evaluate(QUANTUM_PROBLEM)
 
         assert result["verdict"] == expected["verdict"]
+
+
+class TestStatePreparationFilter:
+    """F6, the guiding-state filter from arXiv:2409.08910.
+
+    Moerchen et al. show mean-field overlap decays with system size, so an
+    eigenvalue algorithm only earns its keep where the structure is genuinely
+    multi-configurational. Class-2 structures, FeMoco being the paper's
+    prototype, are the target. Class-1 structures are already answered by
+    coupled cluster, so running QPE on one is not an advantage.
+
+    The first five filters cannot express this: they are computed from the
+    algorithm record alone and never look at the problem text.
+    """
+
+    CHEMISTRY_MATCH = {
+        "name": "Quantum Phase Estimation for Chemistry",
+        "category": "chemistry",
+        "speedup_class": "superpolynomial",
+        "troyer_verdict": "QUANTUM_ADVANTAGE",
+        "io_bottleneck": False,
+        "naturally_quantum": True,
+        "score": 0.03,
+    }
+    FACTORING_MATCH = {
+        "name": "Shor's Algorithm",
+        "category": "cryptography",
+        "speedup_class": "superpolynomial",
+        "troyer_verdict": "QUANTUM_ADVANTAGE",
+        "io_bottleneck": False,
+        "naturally_quantum": True,
+        "score": 0.03,
+    }
+
+    def test_femoco_is_class_2(self):
+        from agents.classifier.platform_router import classify_electronic_structure
+
+        assert classify_electronic_structure(
+            "Compute the ground state of FeMoco, the nitrogenase cofactor"
+        ) == "class_2"
+
+    def test_closed_shell_is_class_1(self):
+        from agents.classifier.platform_router import classify_electronic_structure
+
+        assert classify_electronic_structure(
+            "Ground state of a closed-shell organic molecule at equilibrium geometry"
+        ) == "class_1"
+
+    def test_unmarked_problem_is_unknown(self):
+        from agents.classifier.platform_router import classify_electronic_structure
+
+        assert classify_electronic_structure("Factor a 2048-bit RSA modulus") == "unknown"
+
+    def test_class_2_chemistry_passes_f6(self):
+        from agents.classifier.platform_router import compute_troyer_filters
+
+        filters = compute_troyer_filters(
+            self.CHEMISTRY_MATCH,
+            "Simulate the FeMoco active site of nitrogenase",
+        )
+        assert filters["F6_state_preparation"] is True
+
+    def test_single_reference_chemistry_fails_f6(self):
+        """The case the original five filters had no way to reject."""
+        from agents.classifier.platform_router import compute_troyer_filters
+
+        filters = compute_troyer_filters(
+            self.CHEMISTRY_MATCH,
+            "Ground state of a closed-shell weakly correlated molecule at equilibrium geometry",
+        )
+        assert filters["F6_state_preparation"] is False
+        # Every other filter still passes, so F6 is doing the work on its own.
+        assert all(v for k, v in filters.items() if k != "F6_state_preparation")
+
+    def test_algorithms_without_a_guiding_state_are_unaffected(self):
+        from agents.classifier.platform_router import compute_troyer_filters
+
+        filters = compute_troyer_filters(
+            self.FACTORING_MATCH,
+            "Factor a closed-shell weakly correlated 2048-bit integer",
+        )
+        assert filters["F6_state_preparation"] is True
+
+    def test_f6_blocks_all_troyer_pass(self):
+        from agents.classifier.platform_router import compute_troyer_filters
+
+        filters = compute_troyer_filters(
+            self.CHEMISTRY_MATCH,
+            "Ground state of a closed-shell molecule at equilibrium geometry",
+        )
+        assert all(filters.values()) is False
+
+    def test_router_reports_the_structure_class(self):
+        result = route_platform(
+            "Simulate the FeMoco cofactor ground state energy",
+            [self.CHEMISTRY_MATCH],
+            0.03,
+        )
+        assert result["evidence"]["electronic_structure_class"] == "class_2"
+
+    def test_femoco_still_routes_quantum(self):
+        result = route_platform(
+            "Simulate the ground state energy of FeMoco, the nitrogenase cofactor, "
+            "a strongly correlated open-shell iron-sulfur cluster",
+            [self.CHEMISTRY_MATCH],
+            0.03,
+        )
+        assert result["platform"] == "QUANTUM"
+        assert result["evidence"]["troyer_filters"]["F6_state_preparation"] is True
+
+    def test_class_1_chemistry_is_denied_a_quantum_verdict(self):
+        """F6 has to change the answer, not just appear in the evidence.
+
+        This problem passes F1 to F5 and carries a curated QUANTUM_ADVANTAGE
+        match, so before F6 the router returned QUANTUM at 0.9.
+        """
+        problem = (
+            "Use quantum chemistry to get the ground state energy and electronic "
+            "structure of a closed-shell weakly correlated organic molecule at "
+            "equilibrium geometry"
+        )
+        result = route_platform(problem, [self.CHEMISTRY_MATCH], 0.03)
+
+        assert result["platform"] == "HPC"
+        assert result["evidence"]["quantum_corroborated"] is True
+        assert result["evidence"]["kb_match"]["verdict"] == "QUANTUM_ADVANTAGE"
+        assert "coupled cluster" in result["reason"]

@@ -76,7 +76,8 @@ OUTPUT FORMAT (JSON):
     "F2_io_survives": true/false,
     "F3_qec_survives": true/false,
     "F4_naturally_quantum": true/false,
-    "F5_crossover_feasible": true/false
+    "F5_crossover_feasible": true/false,
+    "F6_state_preparation": true/false
   },
   "divincenzo_assessment": {
     "scalable_qubits": "met | partial | not_yet",

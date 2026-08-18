@@ -118,7 +118,7 @@ export default function Home() {
         <section style={{ padding: '1.5rem 2rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
           <h2 style={{ marginTop: 0, fontSize: '1.4rem' }}>Troyer Utility-Scale Filters</h2>
           <p style={{ color: '#64748b', margin: '0.25rem 0 1rem', fontSize: '0.95rem' }}>
-            Every problem is evaluated against Dr. Matthias Troyer&apos;s 5 filters. Only problems that pass <strong>all five</strong> are classified as active candidates for quantum advantage.
+            Every problem is evaluated against Dr. Matthias Troyer&apos;s utility-scale filters. Only problems that pass <strong>all six</strong> are classified as active candidates for quantum advantage.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
             {[
@@ -127,6 +127,7 @@ export default function Home() {
               { id: 'F3', q: 'QEC survives?', kill: 'Overhead kills quadratic' },
               { id: 'F4', q: 'Naturally quantum?', kill: 'Feynman criterion' },
               { id: 'F5', q: 'Crossover feasible?', kill: 'Realistic problem size' },
+              { id: 'F6', q: 'Guiding state preparable?', kill: 'Single-reference: coupled cluster already wins' },
             ].map((f) => (
               <div key={f.id} style={{ background: 'white', borderRadius: '8px', padding: '0.75rem 1rem', border: '1px solid #e2e8f0' }}>
                 <strong style={{ color: '#334155' }}>{f.id}</strong>
@@ -231,7 +232,7 @@ export default function Home() {
               { val: '120+', label: 'Azure Quantum runs' },
               { val: '160', label: 'Resource estimates' },
               { val: '47', label: 'Algorithms indexed' },
-              { val: '5', label: 'Troyer filters' },
+              { val: '6', label: 'Troyer filters' },
             ].map((s) => (
               <div key={s.label}>
                 <div style={{ fontSize: '2rem', fontWeight: 700 }}>{s.val}</div>

@@ -10,6 +10,7 @@ interface TroyerFilters {
   F3_qec_survives?: boolean;
   F4_naturally_quantum?: boolean;
   F5_crossover_feasible?: boolean;
+  F6_state_preparation?: boolean;
   [key: string]: boolean | undefined;
 }
 
@@ -155,6 +156,7 @@ const FILTER_LABELS: Record<string, string> = {
   F3_qec_survives: 'F3: QEC Survives',
   F4_naturally_quantum: 'F4: Naturally Quantum',
   F5_crossover_feasible: 'F5: Crossover Feasible',
+  F6_state_preparation: 'F6: Guiding State Preparable',
 };
 
 export default function EvaluatePage() {

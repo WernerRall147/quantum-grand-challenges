@@ -61,7 +61,7 @@ have a completed item to transition to rather than watch a spinner. So:
 
 | Beat | Time | On screen | Notes |
 |---|---|---|---|
-| 1. The yes | 1:30-3:30 | Type the FeMoco prompt on the live site, submit | **Run this one live** so it is visibly real. Fill the wait by walking Troyer's 5 filters, which are the thing the audience needs to understand anyway. Lands on `QUANTUM_ADVANTAGE`, 0.9 confidence, QPE, with citations. |
+| 1. The yes | 1:30-3:30 | Type the FeMoco prompt on the live site, submit | **Run this one live** so it is visibly real. Fill the wait by walking Troyer's six filters, which are the thing the audience needs to understand anyway. F6 is the 2024 addition and FeMoco is the paper's own prototype, which is a good line to land. Lands on `QUANTUM_ADVANTAGE`, 0.9 confidence, QPE, with citations. |
 | 2. The no | 3:30-5:00 | Portfolio optimisation, 500 assets | **Pre-loaded in a second tab.** Say plainly that you ran it earlier. Explain why a quadratic speedup dies under QEC overhead. Lands on `HPC_PREFERRED`. This is the memorable beat. |
 | 3. The payoff | 5:00-6:30 | Generated Q# and a Bicep template | It does not just judge, it hands you the workspace. |
 | 4. The platform | 6:30-8:00 | Architecture, 1 slide | Foundry agent + model router, AI Search, Container Apps, managed identity, GitHub Actions. |

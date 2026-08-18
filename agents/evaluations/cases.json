@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "description": "Labelled cases for the deterministic platform router. Expected values are the routing outcome, not the LLM narrative, because route_platform() decides the verdict and the model only explains it.",
+  "cases": [
+    {
+      "id": "chem-femoco",
+      "problem": "Calculate the ground state energy of the FeMoco nitrogenase cofactor to chemical accuracy",
+      "expect_platform": "QUANTUM",
+      "expect_structure_class": "class_2",
+      "why": "Multi-reference iron-sulfur cluster, the canonical class-2 case in arXiv:2409.08910"
+    },
+    {
+      "id": "chem-catalyst",
+      "problem": "Simulate the ground state energy of a 50-atom transition metal catalyst active site",
+      "expect_platform": "QUANTUM",
+      "expect_structure_class": "class_2",
+      "why": "Transition metal cluster and active site are both class-2 markers"
+    },
+    {
+      "id": "chem-closed-shell",
+      "problem": "Compute the energy of a closed-shell organic molecule at equilibrium geometry where Hartree-Fock is sufficient",
+      "expect_platform": "HPC",
+      "expect_structure_class": "class_1",
+      "why": "F6 must reject this: coupled cluster already resolves single-reference systems"
+    },
+    {
+      "id": "crypto-rsa-integer",
+      "problem": "Factor a 2048-bit RSA integer to test post-quantum readiness",
+      "expect_platform": "QUANTUM",
+      "paraphrase_group": "rsa",
+      "why": "Shor has a structural superpolynomial speedup"
+    },
+    {
+      "id": "crypto-rsa-key",
+      "problem": "Factor a 2048-bit RSA key to assess post-quantum migration urgency",
+      "expect_platform": "QUANTUM",
+      "paraphrase_group": "rsa",
+      "why": "Same problem as crypto-rsa-integer. Different wording must not change the platform."
+    },
+    {
+      "id": "crypto-rsa-plain",
+      "problem": "Break RSA encryption by finding the prime factors of a large semiprime",
+      "expect_platform": "QUANTUM",
+      "paraphrase_group": "rsa",
+      "why": "Third phrasing of the same underlying problem"
+    },
+    {
+      "id": "opt-portfolio",
+      "problem": "Optimize a portfolio of 500 assets to maximize risk-adjusted return",
+      "expect_platform": "HPC",
+      "paraphrase_group": "portfolio",
+      "why": "Classical optimisation, no proven quantum advantage"
+    },
+    {
+      "id": "opt-portfolio-alt",
+      "problem": "Find the best allocation across 500 equities to maximise Sharpe ratio subject to risk limits",
+      "expect_platform": "HPC",
+      "paraphrase_group": "portfolio",
+      "why": "Paraphrase of opt-portfolio"
+    },
+    {
+      "id": "ml-image",
+      "problem": "Train an image classifier to detect manufacturing defects from photographs",
+      "expect_platform": "AI_ML",
+      "why": "Pattern recognition, squarely an AI/ML workload"
+    },
+    {
+      "id": "ml-nlp",
+      "problem": "Build a model that summarises customer support transcripts and extracts sentiment",
+      "expect_platform": "AI_ML",
+      "why": "NLP, no quantum or HPC case"
+    },
+    {
+      "id": "hpc-cfd",
+      "problem": "Run computational fluid dynamics simulation over an aircraft wing mesh",
+      "expect_platform": "HPC",
+      "why": "Large-scale numerical simulation, embarrassingly parallel"
+    },
+    {
+      "id": "hpc-weather",
+      "problem": "Run a finite element analysis of structural stress across a bridge design",
+      "expect_platform": "HPC",
+      "why": "Finite element analysis is a classic HPC workload"
+    },
+    {
+      "id": "quantum-hubbard",
+      "problem": "Find the ground state phase diagram of the two-dimensional Fermi-Hubbard model",
+      "expect_platform": "QUANTUM",
+      "why": "Naturally quantum, strongly correlated"
+    },
+    {
+      "id": "quantum-lattice-gauge",
+      "problem": "Simulate real-time dynamics of a lattice gauge theory with a fermion sign problem",
+      "expect_platform": "QUANTUM",
+      "why": "Sign problem makes this genuinely hard classically"
+    },
+    {
+      "id": "search-database",
+      "problem": "Search an unstructured database of 10 million records for a matching entry",
+      "expect_platform": "HPC",
+      "why": "Grover is quadratic and the QRAM loading cost erases it"
+    }
+  ]
+}

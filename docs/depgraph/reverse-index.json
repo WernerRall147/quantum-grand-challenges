@@ -14,6 +14,7 @@
     "agents/tests/test_cost_model.py"
   ],
   "agents/classifier/platform_router.py": [
+    "agents/evaluations/run_eval.py",
     "agents/orchestrator/evaluate.py",
     "agents/tests/test_evaluator_smoke.py"
   ],
@@ -27,6 +28,9 @@
   "agents/code_generator/generate.py": [
     "agents/api/main.py"
   ],
+  "agents/evaluations/run_eval.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
   "agents/orchestrator/evaluate.py": [
     "agents/api/main.py",
     "agents/tests/test_evaluator_smoke.py"
@@ -36,6 +40,7 @@
     "tooling/provision_foundry_agent.py"
   ],
   "knowledge/search/kb_client.py": [
+    "agents/evaluations/run_eval.py",
     "agents/orchestrator/evaluate.py"
   ],
   "problems/02_catalysis/python/analyze.py": [

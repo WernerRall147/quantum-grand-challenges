@@ -7,6 +7,7 @@ Results are saved to each problem's estimates/ directory.
 """
 
 import json
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -23,28 +24,20 @@ TARGET = "quantinuum.sim.h2-1sc"
 SHOTS = 10  # Syntax checker: minimal shots (returns all-zeros anyway)
 
 
-KERNEL_ENTRY = {
-    "01_hubbard": "HubbardVQEKernel",
-    "02_catalysis": "ChemistryVQEKernel",
-    "03_qae_risk": "IQAEKernelK0",
-    "04_linear_solvers": None,  # Uses full entry point (compiles OK)
-    "05_qaoa_maxcut": "QaoaMaxCutKernel",
-    "06_high_frequency_trading": "HFTKernel",
-    "07_drug_discovery": "DrugBindingKernel",
-    "08_protein_folding": "FoldingQaoaKernel",
-    "09_factorization": "ShorKernel",
-    "10_post_quantum_cryptography": "GroverKeyKernel",
-    "11_quantum_machine_learning": "SwapTestKernel",
-    "12_quantum_optimization": "SchedulingQaoaKernel",
-    "13_climate_modeling": "ClimateHHLKernel",
-    "14_materials_discovery": "MaterialsVQEKernel",
-    "15_database_search": "GroverSearchKernel",
-    "16_error_correction": "QECKernel",
-    "17_nuclear_physics": "NuclearVQEKernel",
-    "18_photovoltaics": "QuantumWalkKernel",
-    "19_quantum_chromodynamics": "LatticeGaugeKernel",
-    "20_space_mission_planning": "MissionQaoaKernel",
-}
+# Derived from the source rather than hardcoded: a previous map still named
+# HubbardVQEKernel, ChemistryVQEKernel, DrugBindingKernel, MaterialsVQEKernel
+# and NuclearVQEKernel months after those five kernels became QPE, so the
+# syntax check silently failed on the problems that matter most.
+KERNEL_ENTRY_RE = re.compile(r"@EntryPoint\(\)\s*\n\s*operation\s+(\w+)")
+
+
+def kernel_entry_point(qsharp_dir):
+    kernel_file = qsharp_dir / "HardwareKernel.qs"
+    if not kernel_file.exists():
+        return None
+    m = KERNEL_ENTRY_RE.search(kernel_file.read_text(encoding="utf-8"))
+    return m.group(1) if m else None
+
 
 
 def main():
@@ -86,7 +79,7 @@ def main():
             continue
 
         # Compile to QIR from HardwareKernel.qs
-        kernel_name = KERNEL_ENTRY.get(name)
+        kernel_name = kernel_entry_point(qsharp_dir)
 
         try:
             if kernel_name:

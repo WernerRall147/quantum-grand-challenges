@@ -1,10 +1,21 @@
 ===================================================================
-  Problem 11: Quantum ML  Swap Test Kernel (5-qubit)
-  Algorithm: Quantum Kernel Estimation via Swap Test
-  Qubits: 2 (regA) + 2 (regB) + 1 (ancilla) = 5
+  Problem 11: Quantum Machine Learning  [ARCHIVED]
+  Kernel: SwapTestKernel()  Encode feature vectors
+  Target profile: Adaptive_RI | Qubits: 5 | Measured: 1 | QIR: compiles
+  Source: problems/archived/11_quantum_machine_learning/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This is the circuit Azure Quantum receives. It is rendered from
+HardwareKernel.qs at the Adaptive_RI target profile, so the gates below
+are the decomposed hardware-facing form, not the source-level operations.
 
-q_0    ─ Ry(1.3051) ──── X ─────────────────── ● ─────────────────── ● ──── X ──────────────────────────────────────── ● ─────────────────── ● ──── |0〉 ──────────────────
-q_1    ───── S' ──────── H ─── Rz(0.4636) ──── X ─── Rz(-0.4636) ─── X ──── H ──── S ─── S' ──── H ─── Rz(1.2120) ──── X ─── Rz(-1.2120) ─── X ───── H ───── S ──── |0〉 ──
+It is a small representative kernel that compiles and runs on today's
+devices. It is not the utility-scale algorithm: see estimates/ for the
+fault-tolerant resource projection, which is orders of magnitude larger.
+
+q_0    ────── H ─────────────── ● ────────────────── ● ───── H ────── M ───── |0〉 ──
+                                │                    │                ╘═════════════
+q_1    ─ Ry(1.2000) ──── ● ──── X ──── ● ────────────┼───── |0〉 ────────────────────
+q_2    ─ Ry(0.6000) ─────┼──────┼──────┼───── ● ──── X ───── ● ───── |0〉 ───────────
+q_3    ─ Ry(0.9000) ──── X ──── ● ──── X ─────┼──────┼───────┼────── |0〉 ───────────
+q_4    ─ Ry(0.4000) ───────────────────────── X ──── ● ───── X ───── |0〉 ───────────

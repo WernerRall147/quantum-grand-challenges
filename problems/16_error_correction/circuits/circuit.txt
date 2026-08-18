@@ -1,11 +1,16 @@
 ===================================================================
-  Problem 16: Error Correction  3-Bit Repetition Code (5-qubit)
-  Algorithm: Quantum error correction (bit-flip code)
-  Qubits: 3 code + 2 syndrome = 5
+  Problem 16: Error Correction
+  Kernel: QECKernel()  Prepare superposition state to protect
+  Target profile: Adaptive_RI | Gate sequence: result-dependent | QIR: compiles
+  Source: problems/16_error_correction/qsharp/HardwareKernel.qs
 ===================================================================
 
-Traced gate-level circuit (from QDK simulator):
+This kernel has no single static circuit diagram, and that is the point.
 
-q_0    ── H ──── ● ──── ● ──── |0〉 ──
-q_1    ───────── X ─────┼───── |0〉 ──
-q_2    ──────────────── X ──── |0〉 ──
+It measures a syndrome mid-circuit and then branches on the outcome, so the
+gates that execute depend on results that do not exist until run time. A fixed
+diagram would have to pick one branch and pretend the others are not there.
+
+This is the capability the Adaptive_RI target profile exists to provide, and it
+is why this kernel cannot run on a Base-profile target. Read the source for the
+branch structure.

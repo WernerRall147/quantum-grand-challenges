@@ -230,7 +230,7 @@ export default function Home() {
             {[
               { val: '9', label: 'Active problems' },
               { val: '120+', label: 'Azure Quantum runs' },
-              { val: '160', label: 'Resource estimates' },
+              { val: '141', label: 'Resource estimates' },
               { val: '47', label: 'Algorithms indexed' },
               { val: '6', label: 'Troyer filters' },
             ].map((s) => (

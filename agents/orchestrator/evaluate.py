@@ -47,11 +47,16 @@ USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 # picked a different model per path (luna vs terra), so this compares the two
 # paths as configured, not agent plumbing overhead in isolation.
 #
-# Staying on chat: at n=22 the agent's only quality edge was references 22/22 vs
-# 21/22, and since citations are verified at the source that edge no longer
-# reaches the published output. 1.8x latency for one formatting case in 22 is not
-# a trade worth making. The agent stays provisioned as the migration path for when
-# a tool needs to be in the loop.
+# Recommendation is chat: at n=22 the agent's only quality edge was references
+# 22/22 vs 21/22, and since citations are verified at the source that edge no
+# longer reaches the published output. 1.8x latency for one formatting case in 22
+# is not a trade worth making, and on the website that is 52s of waiting instead
+# of 28s.
+#
+# NOTE: this default is NOT what production runs. Container App qgc-eval-api sets
+# QGC_USE_AGENT=1 as an env var, which wins over this default. Acting on the
+# recommendation means `az containerapp update -n qgc-eval-api -g qgc-evaluator
+# --set-env-vars QGC_USE_AGENT=0`, not editing this line.
 USE_AGENT = os.environ.get("QGC_USE_AGENT", "0") == "1"
 PROJECT_ENDPOINT = os.environ.get(
     "QGC_PROJECT_ENDPOINT",

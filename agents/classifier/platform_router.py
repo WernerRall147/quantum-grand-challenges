@@ -179,6 +179,22 @@ def compute_state_preparation_filter(algorithm: Dict[str, Any], problem_descript
     return classify_electronic_structure(problem_description) != "class_1"
 
 
+def is_platform_refinement(router_platform: str, model_platform: str) -> bool:
+    """Is the model's platform a refinement of the router's rather than a disagreement?
+
+    The router has no HYBRID in its vocabulary, so a model answering HYBRID where
+    the router said QUANTUM is describing the classical scaffolding around a
+    quantum core - orbital optimisation, state preparation, post-processing - not
+    contradicting the quantum claim. Counting that as dissent made 5 of 6 recorded
+    disagreements an artefact of vocabulary.
+
+    Every other pairing stays dissent: HYBRID over HPC, AI_ML or INCONCLUSIVE
+    asserts a quantum component the router declined to, which is the over-claiming
+    direction and the one worth seeing.
+    """
+    return model_platform == "HYBRID" and router_platform == "QUANTUM"
+
+
 def route_platform(
     problem_description: str,
     kb_matches: List[Dict[str, Any]],

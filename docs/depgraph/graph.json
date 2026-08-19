@@ -6,7 +6,7 @@
     "python": 168,
     "qsharp": 43,
     "ts": 13,
-    "edges": 164,
+    "edges": 165,
     "roots": 238,
     "reachable": 262
   },
@@ -360,6 +360,10 @@
     [
       "agents/evaluations/run_eval.py",
       "knowledge/search/kb_client.py"
+    ],
+    [
+      "agents/evaluations/score_narrative.py",
+      "agents/classifier/platform_router.py"
     ],
     [
       "agents/evaluations/score_narrative.py",

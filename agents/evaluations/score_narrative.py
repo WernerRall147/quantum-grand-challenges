@@ -45,6 +45,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
+sys.path.insert(0, str(REPO))
 CASES_PATH = HERE / "cases.json"
 RESPONSES_PATH = HERE / "narrative_responses.json"
 
@@ -222,6 +223,8 @@ CHECKS = [
 
 def score_record(record: dict) -> dict:
     """Run every check against one recorded evaluation."""
+    from agents.classifier.platform_router import is_platform_refinement
+
     assessment = record.get("llm_assessment")
     results: dict[str, tuple[str, str]] = {}
 
@@ -231,15 +234,21 @@ def score_record(record: dict) -> dict:
             continue
         results[name] = fn(record, assessment)
 
-    dissent = {}
+    dissent: dict[str, str] = {}
+    refinement: dict[str, str] = {}
     if isinstance(assessment, dict):
         if assessment.get("verdict") and assessment["verdict"] != record.get("router_verdict"):
             dissent["verdict"] = assessment["verdict"]
-        if (assessment.get("recommended_platform")
-                and assessment["recommended_platform"] != record.get("router_platform")):
-            dissent["platform"] = assessment["recommended_platform"]
 
-    return {"checks": results, "dissent": dissent}
+        model_platform = assessment.get("recommended_platform")
+        router_platform = record.get("router_platform")
+        if model_platform and model_platform != router_platform:
+            if is_platform_refinement(router_platform, model_platform):
+                refinement["platform"] = f"{router_platform} -> {model_platform}"
+            else:
+                dissent["platform"] = model_platform
+
+    return {"checks": results, "dissent": dissent, "refinement": refinement}
 
 
 def load_recorded() -> dict[str, dict]:
@@ -363,10 +372,17 @@ def main() -> int:
         print("\n".join(detail_lines))
 
     dissenting = {cid: r["dissent"] for cid, r in scored.items() if r["dissent"]}
-    print(f"\ndissent     {len(dissenting)}/{len(scored)} cases where the model's own "
-          f"verdict differs from the router's")
+    print(f"\ndissent     {len(dissenting)}/{len(scored)} cases where the model contradicts "
+          f"the router")
     for cid, dissent in dissenting.items():
         print(f"  {cid}: {dissent}")
+
+    refining = {cid: r["refinement"] for cid, r in scored.items() if r["refinement"]}
+    if refining:
+        print(f"\nrefinement  {len(refining)}/{len(scored)} cases where the model narrows the "
+              f"router without contradicting it")
+        for cid, refinement in refining.items():
+            print(f"  {cid}: {refinement}")
 
     if failed_thresholds and args.strict:
         print(f"\nbelow threshold: {', '.join(failed_thresholds)}")

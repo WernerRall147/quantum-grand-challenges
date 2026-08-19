@@ -51,26 +51,20 @@ sys.path.insert(0, str(REPO))
 CASES_PATH = HERE / "cases.json"
 RESPONSES_PATH = HERE / "narrative_responses.json"
 
-VERDICTS = {"QUANTUM_ADVANTAGE", "HPC_PREFERRED", "AI_ML_PREFERRED", "INCONCLUSIVE"}
-PLATFORMS = {"QUANTUM", "AI_ML", "HPC", "HYBRID"}
-ADVANTAGE_CLASSES = {"exponential", "superpolynomial", "quadratic", "none"}
-DIVINCENZO_VALUES = {"met", "partial", "not_yet"}
-DIVINCENZO_KEYS = [
-    "scalable_qubits", "initialization", "coherence", "universal_gates", "measurement",
-]
+# The contract lives in one place so the scorer and the agent's structured output
+# cannot drift apart, which is how F6 came to be demanded but never defined.
+from agents.orchestrator import output_schema as _schema  # noqa: E402
 
-REQUIRED_KEYS = [
-    "verdict", "confidence", "advantage_class", "recommended_algorithm",
-    "recommended_platform", "platform_reason", "workspace_guidance",
-    "troyer_filters", "divincenzo_assessment", "red_flags",
-    "hpc_alternative", "ai_alternative", "explanation",
-    "similar_problems", "references",
-]
+VERDICTS = set(_schema.VERDICTS)
+PLATFORMS = set(_schema.PLATFORMS)
+ADVANTAGE_CLASSES = set(_schema.ADVANTAGE_CLASSES)
+DIVINCENZO_VALUES = set(_schema.DIVINCENZO_VALUES)
+DIVINCENZO_KEYS = _schema.DIVINCENZO_KEYS
 
-FILTER_KEYS = [
-    "F1_proven_speedup", "F2_io_survives", "F3_qec_survives",
-    "F4_naturally_quantum", "F5_crossover_feasible", "F6_state_preparation",
-]
+# error_correction_codes is checked separately, only when QUANTUM is recommended.
+REQUIRED_KEYS = [k for k in _schema.REQUIRED_KEYS if k != "error_correction_codes"]
+
+FILTER_KEYS = _schema.FILTER_KEYS
 
 # A reference counts as grounded only if it can be looked up. "Recent literature"
 # cannot; "arXiv:2409.08910" can.

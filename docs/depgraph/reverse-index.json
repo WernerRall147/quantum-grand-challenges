@@ -45,6 +45,10 @@
     "agents/orchestrator/evaluate.py",
     "tooling/provision_foundry_agent.py"
   ],
+  "agents/orchestrator/output_schema.py": [
+    "agents/evaluations/score_narrative.py",
+    "tooling/provision_foundry_agent.py"
+  ],
   "knowledge/search/kb_client.py": [
     "agents/evaluations/run_eval.py",
     "agents/orchestrator/evaluate.py"

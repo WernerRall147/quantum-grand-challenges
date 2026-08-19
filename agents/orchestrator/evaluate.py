@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
 from knowledge.search.kb_client import QuantumKnowledgeBase
 from agents.orchestrator.instructions import SYSTEM_PROMPT
+from agents.orchestrator.citations import partition_references
 
 # Config
 OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
@@ -60,6 +61,11 @@ MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_MAX_COMPLETION_TOKENS", "4000"))
 # running after eight minutes. Without a bound that holds an API worker open for
 # the whole time. Tunable via QGC_REQUEST_TIMEOUT.
 REQUEST_TIMEOUT = float(os.environ.get("QGC_REQUEST_TIMEOUT", "180"))
+
+# Resolving citations puts network calls in the request path. That is a real cost,
+# accepted because a fabricated source is worse than a slower answer. Off in tests,
+# which must stay hermetic.
+VERIFY_CITATIONS = os.environ.get("QGC_VERIFY_CITATIONS", "1") == "1"
 
 # Retries multiply the timeout: the SDK default of 2 turns a 180s bound into a
 # 540s worst case. Kept at 2 so transient 429s still recover, but exposed so a
@@ -284,6 +290,14 @@ Provide your evaluation as JSON following the output format specified in your in
             kb_match=(kb_result.get("matches") or [{}])[0],
         )
 
+        # Both paths fabricate a source about 1 in 22, and the agent's Learn MCP
+        # did not prevent it, so a citation is only published once it resolves.
+        model_refs = llm_result.get("references", [])
+        if VERIFY_CITATIONS:
+            kept_refs, rejected_refs, _ = partition_references(model_refs)
+        else:
+            kept_refs, rejected_refs = model_refs, []
+
         result = {
             "problem": problem_description,
             "verdict": verdict,
@@ -298,7 +312,8 @@ Provide your evaluation as JSON following the output format specified in your in
             "ai_alternative": llm_result.get("ai_alternative", ""),
             "explanation": llm_result.get("explanation", ""),
             "similar_problems": llm_result.get("similar_problems", similar_ids),
-            "references": llm_result.get("references", []),
+            "references": kept_refs,
+            "rejected_references": rejected_refs,
             "model_dissent": dissent,
             "cost_analysis": cost_analysis,
             "routing_evidence": routing["evidence"],

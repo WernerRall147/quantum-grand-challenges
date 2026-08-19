@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1201,
-    "code_files": 226,
-    "python": 170,
+    "tracked": 1202,
+    "code_files": 227,
+    "python": 171,
     "qsharp": 43,
     "ts": 13,
-    "edges": 169,
+    "edges": 171,
     "roots": 239,
-    "reachable": 264
+    "reachable": 265
   },
   "nodes": [
     "agents/api/main.py",
@@ -20,6 +20,7 @@
     "agents/code_generator/generate.py",
     "agents/evaluations/run_eval.py",
     "agents/evaluations/score_narrative.py",
+    "agents/orchestrator/citations.py",
     "agents/orchestrator/evaluate.py",
     "agents/orchestrator/instructions.py",
     "agents/orchestrator/output_schema.py",
@@ -373,6 +374,10 @@
     ],
     [
       "agents/evaluations/score_narrative.py",
+      "agents/orchestrator/citations.py"
+    ],
+    [
+      "agents/evaluations/score_narrative.py",
       "agents/orchestrator/evaluate.py"
     ],
     [
@@ -386,6 +391,10 @@
     [
       "agents/orchestrator/evaluate.py",
       "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/orchestrator/evaluate.py",
+      "agents/orchestrator/citations.py"
     ],
     [
       "agents/orchestrator/evaluate.py",

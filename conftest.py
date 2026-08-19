@@ -1,8 +1,13 @@
 """Root conftest.py  auto-discovers test_baseline.py files and exposes them as a fixture."""
 
+import os
 from pathlib import Path
 
 import pytest
+
+# Citation resolution makes HTTP calls. Tests must not depend on a network, so it
+# is disabled here rather than in each test that happens to reach evaluate().
+os.environ.setdefault("QGC_VERIFY_CITATIONS", "0")
 
 _PROBLEMS_DIR = Path(__file__).parent / "problems"
 _ARCHIVED_DIR = _PROBLEMS_DIR / "archived"

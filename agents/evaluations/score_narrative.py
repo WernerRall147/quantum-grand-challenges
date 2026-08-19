@@ -41,6 +41,8 @@ import argparse
 import json
 import re
 import sys
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -91,6 +93,58 @@ WARNING_MARKERS = (
 
 PASS, FAIL, NA = "pass", "fail", "n/a"
 
+# A reference that is well-formed but fabricated is the most damaging thing this
+# tool can emit, and the references check above cannot see it: "arXiv:2409.08910"
+# and "arXiv:2409.99999" are equally well-formed. These resolve the ones that can
+# be resolved. Done when recording, so offline scoring stays hermetic.
+_ARXIV_RE = re.compile(r"arxiv[:\s/]*(\d{4}\.\d{4,5})", re.IGNORECASE)
+_BARE_ARXIV_RE = re.compile(r"\b(\d{4}\.\d{4,5})\b")
+_DOI_RE = re.compile(r"\b(10\.\d{4,9}/[^\s,;)\]]+)")
+_URL_RE = re.compile(r"(https?://[^\s,;)\]]+)")
+
+
+def citation_target(ref: str) -> tuple[str, str] | None:
+    """The kind of citation and a URL that should resolve if it is real."""
+    m = _ARXIV_RE.search(ref) or _BARE_ARXIV_RE.search(ref)
+    if m:
+        return "arxiv", f"https://arxiv.org/abs/{m.group(1)}"
+    m = _DOI_RE.search(ref)
+    if m:
+        return "doi", f"https://doi.org/{m.group(1).rstrip('.')}"
+    m = _URL_RE.search(ref)
+    if m:
+        return "url", m.group(1).rstrip(".,;)")
+    return None
+
+
+def verify_citations(refs) -> list[dict]:
+    """Resolve each citation that has a checkable target.
+
+    Only a definitive 404 or 410 counts as missing. A timeout or transport error
+    is recorded as unchecked, because a flaky network must not be reported as a
+    fabricated source.
+    """
+    results = []
+    for ref in refs or []:
+        if not isinstance(ref, str):
+            continue
+        target = citation_target(ref)
+        if target is None:
+            results.append({"ref": ref[:120], "kind": "unresolvable", "status": "no_target"})
+            continue
+
+        kind, url = target
+        request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "qgc-eval/1.0"})
+        try:
+            with urllib.request.urlopen(request, timeout=15) as response:
+                status = "resolved" if response.status < 400 else f"http_{response.status}"
+        except urllib.error.HTTPError as exc:
+            status = "missing" if exc.code in (404, 410) else f"http_{exc.code}"
+        except Exception as exc:  # noqa: BLE001 - network flake is not evidence of fabrication
+            status = f"unchecked ({type(exc).__name__})"
+        results.append({"ref": ref[:120], "kind": kind, "url": url, "status": status})
+    return results
+
 # Set from the measured baseline. Anything a well-formed answer must always do is
 # pinned at 1.00; the rest sit just under the observed rate so ordinary variance
 # does not fail a build but a real regression does.
@@ -100,6 +154,7 @@ THRESHOLDS = {
     "enums": 1.00,
     "filters": 1.00,
     "references": 0.90,
+    "citations": 1.00,
     "honesty": 1.00,
     "qec_codes": 0.90,
 }
@@ -210,12 +265,26 @@ def check_qec_codes(_record: dict, a: dict) -> tuple[str, str]:
     return FAIL, "quantum recommended with no error-correction codes named"
 
 
+def check_citations_resolve(record: dict, _a: dict) -> tuple[str, str]:
+    checks = record.get("citation_checks")
+    if not checks:
+        return NA, "not recorded (re-run live to capture)"
+    missing = [c for c in checks if c.get("status") == "missing"]
+    if missing:
+        return FAIL, "; ".join(f"{c['url']} not found" for c in missing)
+    checked = [c for c in checks if c.get("status") == "resolved"]
+    if not checked:
+        return NA, "nothing resolvable was checked"
+    return PASS, f"{len(checked)} of {len(checks)} resolved"
+
+
 CHECKS = [
     ("parse", check_parse),
     ("schema", check_schema),
     ("enums", check_enums),
     ("filters", check_filters),
     ("references", check_references),
+    ("citations", check_citations_resolve),
     ("honesty", check_honesty),
     ("qec_codes", check_qec_codes),
 ]
@@ -289,6 +358,8 @@ def collect_live(cases: list[dict], limit: int | None, only: set[str] | None,
         try:
             evaluator.evaluate(case["problem"])
             recorded[case["id"]] = dict(evaluator.last_diagnostics)
+            assessment = recorded[case["id"]].get("llm_assessment") or {}
+            recorded[case["id"]]["citation_checks"] = verify_citations(assessment.get("references"))
         except Exception as exc:  # noqa: BLE001 - one bad case must not lose the rest
             print(f"      call failed: {type(exc).__name__}: {exc}")
             recorded[case["id"]] = {
@@ -314,9 +385,21 @@ def main() -> int:
                     help="re-record cases that are already present")
     ap.add_argument("--strict", action="store_true",
                     help="fail on any check below its threshold")
+    ap.add_argument("--recheck-citations", action="store_true",
+                    help="re-resolve citations in the recorded responses without calling the model")
     args = ap.parse_args()
 
     cases = json.loads(CASES_PATH.read_text(encoding="utf-8"))["cases"]
+
+    if args.recheck_citations:
+        recorded = load_recorded()
+        for cid, record in recorded.items():
+            assessment = record.get("llm_assessment") or {}
+            record["citation_checks"] = verify_citations(assessment.get("references"))
+            statuses = [c["status"] for c in record["citation_checks"]]
+            print(f"  {cid:<26} {', '.join(statuses) or 'no references'}", flush=True)
+        save_recorded(recorded)
+        print(f"\nCitations re-resolved for {len(recorded)} cases\n")
 
     if args.offline:
         if not RESPONSES_PATH.exists():

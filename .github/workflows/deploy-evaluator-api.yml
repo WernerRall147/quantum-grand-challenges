@@ -99,6 +99,15 @@ jobs:
             --resource-group "${{ steps.tag.outputs.app_rg }}" \
             --image "${{ steps.tag.outputs.acr_name }}.azurecr.io/${{ steps.tag.outputs.image_name }}:${{ steps.tag.outputs.image_tag }}"
 
+      # The ingestion job runs the same image. Without this it stayed pinned to a
+      # 2026-07-27 tag for three weeks, silently running an ingester two fixes behind.
+      - name: Update ingestion job image
+        run: |
+          az containerapp job update \
+            --name qgc-ingest-job \
+            --resource-group "${{ steps.tag.outputs.app_rg }}" \
+            --image "${{ steps.tag.outputs.acr_name }}.azurecr.io/${{ steps.tag.outputs.image_name }}:${{ steps.tag.outputs.image_tag }}"
+
       - name: Wait for revision and health-check
         run: |
           set -e

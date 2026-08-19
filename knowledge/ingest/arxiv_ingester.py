@@ -202,7 +202,9 @@ def upsert_to_search_index(papers: List[Dict]) -> bool:
         result = client.upload_documents(documents=docs)
         succeeded = sum(1 for r in result if r.succeeded)
         print(f"  AI Search: indexed {succeeded}/{len(docs)} papers")
-        return succeeded > 0
+        # Every document must land. Accepting a partial write here is how a
+        # data-loss bug reports success.
+        return succeeded == len(docs)
     except Exception as e:
         print(f"  AI Search upsert failed: {e}")
         return False

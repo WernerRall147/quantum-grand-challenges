@@ -47,10 +47,12 @@
   ],
   "agents/orchestrator/instructions.py": [
     "agents/orchestrator/evaluate.py",
+    "agents/tests/test_evaluator_smoke.py",
     "tooling/provision_foundry_agent.py"
   ],
   "agents/orchestrator/output_schema.py": [
     "agents/evaluations/score_narrative.py",
+    "agents/tests/test_evaluator_smoke.py",
     "tooling/provision_foundry_agent.py"
   ],
   "knowledge/search/kb_client.py": [

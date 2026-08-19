@@ -678,3 +678,64 @@ class TestStatePreparationFilter:
         assert result["evidence"]["quantum_corroborated"] is True
         assert result["evidence"]["kb_match"]["verdict"] == "QUANTUM_ADVANTAGE"
         assert "coupled cluster" in result["reason"]
+
+
+class TestPromptMatchesSchema:
+    """The prompt and the schema have drifted apart twice.
+
+    First the prompt said "Troyer's 5 filters" and listed F1-F5 while the output
+    format demanded F6_state_preparation, so the model had to infer F6 from its
+    name. Then it advertised VQE for problems that had been rewritten to QPE.
+    Both were found by reading, not by a test.
+    """
+
+    def test_every_schema_key_appears_in_the_prompt(self):
+        from agents.orchestrator.instructions import SYSTEM_PROMPT
+        from agents.orchestrator.output_schema import REQUIRED_KEYS
+
+        missing = [k for k in REQUIRED_KEYS if k not in SYSTEM_PROMPT]
+        assert not missing, f"schema keys the prompt never mentions: {missing}"
+
+    def test_every_filter_is_enumerated_in_the_prompt(self):
+        """Catches a filter added to the schema that the prompt never mentions.
+
+        It would NOT have caught the F6 drift: F6_state_preparation was present
+        all along, inside the OUTPUT FORMAT block. The count test below is the
+        one that catches that.
+        """
+        from agents.orchestrator.instructions import SYSTEM_PROMPT
+        from agents.orchestrator.output_schema import FILTER_KEYS
+
+        missing = [k for k in FILTER_KEYS if k not in SYSTEM_PROMPT]
+        assert not missing, f"filters demanded but never defined: {missing}"
+
+    def test_the_prompt_does_not_miscount_the_filters(self):
+        """Every count stated near the word "filter" must match the schema.
+
+        The prompt said "Troyer's 5 utility-scale filters" in one place and "all
+        6 Troyer filters" in another. Matching a fixed phrase missed the first
+        and flagged the second, so this reads any number written within a few
+        words of "filter" and requires them all to agree with the schema.
+
+        Verified against the historical text: it reports 5 there and nothing on
+        the current prompt. The lookbehind keeps "class-1" and "F1" out.
+        """
+        import re
+
+        from agents.orchestrator.instructions import SYSTEM_PROMPT
+        from agents.orchestrator.output_schema import FILTER_KEYS
+
+        stated = set(re.findall(r"(?<![\w-])(\d+)(?=[^.\n]{0,40}?filters?\b)", SYSTEM_PROMPT))
+        wrong = sorted(s for s in stated if int(s) != len(FILTER_KEYS))
+        assert not wrong, (
+            f"prompt states {wrong} filters near the word 'filter' "
+            f"but the schema defines {len(FILTER_KEYS)}"
+        )
+
+    def test_every_enum_value_appears_in_the_prompt(self):
+        from agents.orchestrator.instructions import SYSTEM_PROMPT
+        from agents.orchestrator import output_schema as schema
+
+        values = schema.VERDICTS + schema.PLATFORMS + schema.DIVINCENZO_VALUES
+        missing = [v for v in values if v not in SYSTEM_PROMPT]
+        assert not missing, f"legal values the prompt never offers: {missing}"

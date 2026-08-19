@@ -201,8 +201,7 @@ quantum-grand-challenges/
 ├── agents/                   # AI agent definitions (GenAIOps)
 │   ├── orchestrator/         # Main evaluator agent + prompts
 │   ├── classifier/           # Troyer filters + deterministic platform router
-│   ├── fact_checker/         # Peer-review validation
-│   ├── hpc_comparator/       # Azure HPC comparison
+│   ├── evaluations/          # Router and narrative eval harnesses
 │   └── code_generator/       # Q# and Bicep generation
 ├── knowledge/                # Knowledge base management
 │   ├── ingest/               # arXiv + algorithm zoo ingestion

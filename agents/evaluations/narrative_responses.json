@@ -82,7 +82,49 @@
       },
       "router_verdict": "QUANTUM_ADVANTAGE",
       "router_platform": "QUANTUM",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Reiher et al., 'Elucidating reaction mechanisms on quantum computers,' arXiv:1605.03590, including FeMoco resource-estim",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1605.03590",
+          "status": "resolved"
+        },
+        {
+          "ref": "Aspuru-Guzik et al., 'Simulated Quantum Computation of Molecular Energies,' Science 2005, foundational quantum phase-est",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Babbush et al., 'Low-Depth Quantum Simulation of Materials,' arXiv:1706.00023, Hamiltonian simulation and resource consi",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1706.00023",
+          "status": "resolved"
+        },
+        {
+          "ref": "Moerchen et al., arXiv:2409.08910, guiding-state overlap and the distinction between single-reference and multiconfigura",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/2409.08910",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, 'Toward Practical Quantum Advantage,' Communications of the ACM 2023, utility-scale quantum",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Microsoft Learn, Azure Quantum Resource Estimator documentation: https://learn.microsoft.com/azure/quantum/intro-to-reso",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/quantum/intro-to-resource-estimation",
+          "status": "resolved"
+        },
+        {
+          "ref": "Quantum Error Correction Zoo, surface codes and QLDPC codes: https://errorcorrectionzoo.org/",
+          "kind": "url",
+          "url": "https://errorcorrectionzoo.org/",
+          "status": "resolved"
+        }
+      ]
     },
     "chem-catalyst": {
       "parse_ok": true,
@@ -162,7 +204,35 @@
       },
       "router_verdict": "QUANTUM_ADVANTAGE",
       "router_platform": "QUANTUM",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Hoefler, Haener, and Troyer, 'Quantum Computing is the Next Revolution,' Communications of the ACM, 2023",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Moerchen et al., arXiv:2409.08910, discussion of guiding-state overlap and eigenvalue-algorithm utility",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/2409.08910",
+          "status": "resolved"
+        },
+        {
+          "ref": "Abrams and Lloyd, 'Quantum Algorithm Providing Exponential Speed Increase for Finding Eigenvalues and Eigenvectors,' Phy",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure Quantum Resource Estimator documentation, learn.microsoft.com/azure/quantum/overview-resources-estimator",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Quantum Error Correction Zoo, surface codes and quantum LDPC codes, errorcorrectionzoo.org",
+          "kind": "unresolvable",
+          "status": "no_target"
+        }
+      ]
     },
     "chem-closed-shell": {
       "parse_ok": true,
@@ -236,7 +306,36 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Moerchen et al., arXiv:2409.08910, on quantum utility for eigenvalue problems and the guiding-state overlap criterion",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/2409.08910",
+          "status": "resolved"
+        },
+        {
+          "ref": "H. Hoefler, T. Haener, and M. Troyer, 'Let's Talk About Quantum Computing,' Communications of the ACM, 2023",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "A. Peruzzo et al., 'A variational eigenvalue solver on a photonic quantum processor,' Nature Communications 5, 4213 (201",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "T. Helgaker, P. Jorgensen, and J. Olsen, Molecular Electronic-Structure Theory, Wiley, 2000",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Microsoft Learn, Azure CycleCloud documentation: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        }
+      ]
     },
     "crypto-rsa-integer": {
       "parse_ok": true,
@@ -318,7 +417,43 @@
       },
       "router_verdict": "QUANTUM_ADVANTAGE",
       "router_platform": "QUANTUM",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Peter W. Shor, 'Algorithms for quantum computation: discrete logarithms and factoring,' FOCS 1994, DOI:10.1109/SFCS.1994",
+          "kind": "doi",
+          "url": "https://doi.org/10.1109/SFCS.1994.365700",
+          "status": "resolved"
+        },
+        {
+          "ref": "Craig Gidney and Martin Eker\u00e5, 'How to factor 2048 bit RSA integers in 8 hours using 20 million noisy qubits,' arXiv:190",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1905.09749",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, 'Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage,' Commu",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "NIST, FIPS 203 ML-KEM, FIPS 204 ML-DSA, and FIPS 205 SLH-DSA, post-quantum cryptography standards.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure Quantum Resource Estimator documentation: https://learn.microsoft.com/azure/quantum/intro-to-resource-estimation",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/quantum/intro-to-resource-estimation",
+          "status": "resolved"
+        },
+        {
+          "ref": "Error Correction Zoo, surface code and quantum LDPC code entries: https://errorcorrectionzoo.org/",
+          "kind": "url",
+          "url": "https://errorcorrectionzoo.org/",
+          "status": "resolved"
+        }
+      ]
     },
     "crypto-rsa-key": {
       "parse_ok": true,
@@ -400,7 +535,46 @@
       },
       "router_verdict": "QUANTUM_ADVANTAGE",
       "router_platform": "QUANTUM",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Peter W. Shor, \"Algorithms for quantum computation: discrete logarithms and factoring,\" FOCS 1994; arXiv:quant-ph/950802",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Craig Gidney and Martin Eker\u00e5, \"How to factor 2048-bit RSA integers in 8 hours using 20 million noisy qubits,\" arXiv:190",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1905.09749",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, \"The rise of quantum computing,\" Communications of the ACM, 2023",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "NIST FIPS 203, Module-Lattice-Based Key-Encapsulation Mechanism Standard (ML-KEM), 2024",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "NIST FIPS 204, Module-Lattice-Based Digital Signature Standard (ML-DSA), 2024",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Microsoft Learn, Azure Quantum resource estimator documentation",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Error Correction Zoo, surface codes: https://errorcorrectionzoo.org/c/surface",
+          "kind": "url",
+          "url": "https://errorcorrectionzoo.org/c/surface",
+          "status": "resolved"
+        }
+      ]
     },
     "crypto-rsa-plain": {
       "parse_ok": true,
@@ -479,7 +653,37 @@
       },
       "router_verdict": "QUANTUM_ADVANTAGE",
       "router_platform": "QUANTUM",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "P. W. Shor, \"Algorithms for quantum computation: discrete logarithms and factoring,\" Proceedings of FOCS 1994.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Craig Gidney and Martin Eker\u00e5, \"How to factor 2048-bit RSA integers in 8 hours using 20 million noisy qubits,\" arXiv:190",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1905.09749",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, \"Toward Practical Quantum Advantage,\" Communications of the ACM, 2023.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Microsoft Learn, Azure Quantum Resource Estimator documentation: https://learn.microsoft.com/azure/quantum/overview-reso",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/quantum/overview-resources-estimator",
+          "status": "resolved"
+        },
+        {
+          "ref": "Error Correction Zoo, surface codes and quantum LDPC codes: https://errorcorrectionzoo.org/",
+          "kind": "url",
+          "url": "https://errorcorrectionzoo.org/",
+          "status": "resolved"
+        }
+      ]
     },
     "opt-portfolio": {
       "parse_ok": true,
@@ -556,7 +760,36 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "H. Markowitz, Portfolio Selection, The Journal of Finance, 1952.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "G. Brassard, P. H\u00f8yer, M. Mosca, A. Tapp, Quantum Amplitude Amplification and Estimation, arXiv:quant-ph/0005055.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "T. Hoefler, T. Haener, M. Troyer, Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage, Co",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure CycleCloud documentation: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        },
+        {
+          "ref": "Azure HBv4-series virtual machines documentation: https://learn.microsoft.com/azure/virtual-machines/sizes/high-performa",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/virtual-machines/sizes/high-performance-compute/hbv4-series",
+          "status": "resolved"
+        }
+      ]
     },
     "opt-portfolio-alt": {
       "parse_ok": true,
@@ -635,7 +868,42 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Markowitz, H., 'Portfolio Selection,' Journal of Finance, 1952.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Brassard, G., Hoyer, P., Mosca, M., and Tapp, A., 'Quantum Amplitude Amplification and Estimation,' Contemporary Mathema",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Montanaro, A., 'Quantum speedup of Monte Carlo methods,' Proceedings of the Royal Society A 471, 2015; arXiv:1505.05424.",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1505.05424",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, T., Haener, T., and Troyer, M., 'Toward the Quantum Computing Supremacy Frontier,' Communications of the ACM, 2",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure CycleCloud documentation, Microsoft Learn: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        },
+        {
+          "ref": "Azure HBv4-series virtual machines documentation, Microsoft Learn: https://learn.microsoft.com/azure/virtual-machines/hb",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/virtual-machines/hbv4-series",
+          "status": "resolved"
+        }
+      ]
     },
     "ml-image": {
       "parse_ok": true,
@@ -710,7 +978,44 @@
       },
       "router_verdict": "AI_ML_PREFERRED",
       "router_platform": "AI_ML",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Hoefler, Haener, and Troyer, 'Faster quantum algorithms have not yet led to practical quantum advantage,' Communications",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Arute et al., 'A blueprint for demonstrating quantum advantage with machine learning,' arXiv:2004.08900.",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/2004.08900",
+          "status": "resolved"
+        },
+        {
+          "ref": "Dosovitskiy et al., 'An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale,' arXiv:2010.11929.",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/2010.11929",
+          "status": "resolved"
+        },
+        {
+          "ref": "Tan and Le, 'EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks,' arXiv:1905.11946.",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1905.11946",
+          "status": "resolved"
+        },
+        {
+          "ref": "Microsoft Learn, 'What is Azure AI Foundry?' https://learn.microsoft.com/azure/ai-foundry/what-is-azure-ai-foundry",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/ai-foundry/what-is-azure-ai-foundry",
+          "status": "resolved"
+        },
+        {
+          "ref": "Microsoft Learn, 'Azure Machine Learning GPU compute' https://learn.microsoft.com/azure/machine-learning/concept-compute",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/machine-learning/concept-compute-target",
+          "status": "resolved"
+        }
+      ]
     },
     "ml-nlp": {
       "parse_ok": true,
@@ -787,7 +1092,44 @@
       },
       "router_verdict": "AI_ML_PREFERRED",
       "router_platform": "AI_ML",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Vaswani et al., \"Attention Is All You Need,\" arXiv:1706.03762",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1706.03762",
+          "status": "resolved"
+        },
+        {
+          "ref": "Biamonte et al., \"Quantum machine learning,\" Nature 549, 195-202 (2017), DOI:10.1038/nature23474",
+          "kind": "doi",
+          "url": "https://doi.org/10.1038/nature23474",
+          "status": "resolved"
+        },
+        {
+          "ref": "Tang, \"A quantum-inspired classical algorithm for recommendation systems,\" arXiv:1811.00414, illustrating the importance",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1811.00414",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, \"Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage,\" Commu",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Microsoft Learn, \"What is Microsoft Foundry?\", https://learn.microsoft.com/azure/ai-foundry/what-is-azure-ai-foundry",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/ai-foundry/what-is-azure-ai-foundry",
+          "status": "resolved"
+        },
+        {
+          "ref": "Microsoft Learn, \"Azure Machine Learning documentation\", https://learn.microsoft.com/azure/machine-learning/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/machine-learning/",
+          "status": "resolved"
+        }
+      ]
     },
     "hpc-cfd": {
       "parse_ok": true,
@@ -865,7 +1207,42 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Hoefler, Haener, and Troyer, 'Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage,' Commu",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Lloyd, 'Universal Quantum Simulators,' Science 273, 1996, and subsequent quantum-simulation literature: applicability is",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Bravyi, Gosset, and Koenig, 'Quantum advantage with shallow circuits,' Science 362, 2018, illustrating that asymptotic q",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure CycleCloud documentation, Microsoft Learn: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        },
+        {
+          "ref": "Azure HBv4-series virtual machines, Microsoft Learn: https://learn.microsoft.com/azure/virtual-machines/hbv4-series",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/virtual-machines/hbv4-series",
+          "status": "resolved"
+        },
+        {
+          "ref": "Azure HPC Cache documentation, Microsoft Learn: https://learn.microsoft.com/azure/hpc-cache/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/hpc-cache/",
+          "status": "resolved"
+        }
+      ]
     },
     "hpc-weather": {
       "parse_ok": true,
@@ -941,7 +1318,43 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Hoefler, Haener, and Troyer, '\u9054?'; Utility-Scale Quantum Computing: Concepts, Considerations, and Applications, Communic",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Harrow, Hassidim, and Lloyd, 'Quantum Algorithm for Linear Systems of Equations', Physical Review Letters 103, 150502 (2",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/0811.3171",
+          "status": "resolved"
+        },
+        {
+          "ref": "Childs, Kothari, and Somma, 'Quantum Algorithm for Systems of Linear Equations with Exponentially Improved Dependence on",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1511.02306",
+          "status": "resolved"
+        },
+        {
+          "ref": "Troyer and Wiese, 'Computational Complexity and Fundamental Limits to Fermionic Quantum Monte Carlo Simulations', Physic",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure CycleCloud documentation: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        },
+        {
+          "ref": "Azure HBv4 virtual machine documentation: https://learn.microsoft.com/azure/virtual-machines/hbv4-series",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/virtual-machines/hbv4-series",
+          "status": "resolved"
+        }
+      ]
     },
     "quantum-hubbard": {
       "parse_ok": true,
@@ -1022,7 +1435,42 @@
       },
       "router_verdict": "QUANTUM_ADVANTAGE",
       "router_platform": "QUANTUM",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Quantum Phase Estimation: A. Kitaev, 'Quantum measurements and the Abelian Stabilizer Problem,' arXiv:quant-ph/9511026.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Moerchen et al., arXiv:2409.08910, discussion of guiding-state overlap and eigenvalue-algorithm utility.",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/2409.08910",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, 'Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage,' Commu",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "A. Wecker, M. B. Hastings, and M. Troyer, 'Progress towards practical quantum variational algorithms,' Physical Review A",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure Quantum Resource Estimator documentation: https://learn.microsoft.com/azure/quantum/intro-to-resource-estimation.",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/quantum/intro-to-resource-estimation",
+          "status": "resolved"
+        },
+        {
+          "ref": "Error Correction Zoo, surface codes and quantum LDPC codes: https://errorcorrectionzoo.org/.",
+          "kind": "url",
+          "url": "https://errorcorrectionzoo.org/",
+          "status": "resolved"
+        }
+      ]
     },
     "quantum-lattice-gauge": {
       "parse_ok": true,
@@ -1104,7 +1552,48 @@
       },
       "router_verdict": "QUANTUM_ADVANTAGE",
       "router_platform": "QUANTUM",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "S. Lloyd, 'Universal Quantum Simulators,' Science 273, 1073 (1996).",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "D. W. Berry et al., 'Simulating Hamiltonian Dynamics with a Truncated Taylor Series,' Physical Review Letters 114, 09050",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "S. P. Jordan, K. S. M. Lee, and J. Preskill, 'Quantum Algorithms for Quantum Field Theories,' Science 336, 1130 (2012), ",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1111.3633",
+          "status": "resolved"
+        },
+        {
+          "ref": "M. Troyer and U.-J. Wiese, 'Computational Complexity and Fundamental Limitations to Fermionic Quantum Monte Carlo Simula",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "M. Moerchen et al., 'The quantum advantage threshold for eigenvalue problems,' arXiv:2409.08910, for the guiding-state q",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/2409.08910",
+          "status": "resolved"
+        },
+        {
+          "ref": "Azure Quantum Resource Estimator documentation: https://learn.microsoft.com/azure/quantum/overview-resources-estimator",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/quantum/overview-resources-estimator",
+          "status": "resolved"
+        },
+        {
+          "ref": "Error Correction Zoo, surface codes and quantum LDPC codes: https://errorcorrectionzoo.org/",
+          "kind": "url",
+          "url": "https://errorcorrectionzoo.org/",
+          "status": "resolved"
+        }
+      ]
     },
     "search-database": {
       "parse_ok": true,
@@ -1178,7 +1667,30 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Grover, 'A fast quantum mechanical algorithm for database search,' arXiv:quant-ph/9605043",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Zalka, 'Grover's quantum searching algorithm is optimal,' arXiv:quant-ph/9711070",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Bennett et al., 'Strengths and weaknesses of quantum computing,' SIAM Journal on Computing 26, 1510-1523 (1997), includi",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Microsoft Learn, Azure CycleCloud documentation: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        }
+      ]
     },
     "adv-quantum-washed-ml": {
       "parse_ok": true,
@@ -1255,7 +1767,44 @@
       },
       "router_verdict": "AI_ML_PREFERRED",
       "router_platform": "AI_ML",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Havlicek et al., 'Supervised learning with quantum-enhanced feature spaces,' Nature 567, 209-212 (2019), arXiv:1804.1132",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1804.11326",
+          "status": "resolved"
+        },
+        {
+          "ref": "Schuld and Killoran, 'Quantum machine learning in feature Hilbert spaces,' Physical Review Letters 122, 040504 (2019), a",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1803.07134",
+          "status": "resolved"
+        },
+        {
+          "ref": "Tang, 'A quantum-inspired classical algorithm for recommendation systems,' Proceedings of STOC 2019, arXiv:1811.04989",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1811.04989",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, 'Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage,' Commu",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Microsoft Learn, 'What is Azure AI Foundry?' https://learn.microsoft.com/azure/ai-foundry/what-is-azure-ai-foundry",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/ai-foundry/what-is-azure-ai-foundry",
+          "status": "resolved"
+        },
+        {
+          "ref": "Microsoft Learn, 'What is Azure Machine Learning?' https://learn.microsoft.com/azure/machine-learning/overview-what-is-a",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/machine-learning/overview-what-is-azure-machine-learning",
+          "status": "resolved"
+        }
+      ]
     },
     "adv-quantum-inspired": {
       "parse_ok": true,
@@ -1333,7 +1882,38 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Peruzzo et al., A variational eigenvalue solver on a photonic quantum processor, Nature Communications 5, 4213 (2014), a",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1304.3061",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, H\u00e4ner, and Troyer, Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage, Communic",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Or\u00fas, A practical introduction to tensor networks: Matrix product states and projected entangled pair states, Annals of ",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1306.2164",
+          "status": "resolved"
+        },
+        {
+          "ref": "Microsoft Learn, Azure CycleCloud documentation: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        },
+        {
+          "ref": "Microsoft Learn, Azure HBv4-series virtual machines: https://learn.microsoft.com/azure/virtual-machines/hbv4-series",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/virtual-machines/hbv4-series",
+          "status": "resolved"
+        }
+      ]
     },
     "adv-symmetric-crypto": {
       "parse_ok": true,
@@ -1411,7 +1991,36 @@
       },
       "router_verdict": "INCONCLUSIVE",
       "router_platform": "INCONCLUSIVE",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "L. K. Grover, 'A Fast Quantum Mechanical Algorithm for Database Search,' arXiv:quant-ph/9605043 (1996).",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "M. Grassl, B. Langenberg, M. Roetteler, and R. Steinwandt, 'Applying Grover's Algorithm to AES: Quantum Resource Estimat",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1510.01431",
+          "status": "resolved"
+        },
+        {
+          "ref": "NIST SP 800-57 Part 1 Rev. 5, Recommendation for Key Management: AES-256 and security-strength guidance.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure Quantum Resource Estimator documentation, Microsoft Learn: https://learn.microsoft.com/azure/quantum/overview-reso",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/quantum/overview-resources-estimator",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, 'Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage,' Commu",
+          "kind": "unresolvable",
+          "status": "no_target"
+        }
+      ]
     },
     "adv-io-bound-quantum": {
       "parse_ok": true,
@@ -1490,7 +2099,44 @@
       },
       "router_verdict": "AI_ML_PREFERRED",
       "router_platform": "AI_ML",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Havl\u00ed\u010dek et al., \"Supervised learning with quantum-enhanced feature spaces,\" Nature 567, 209-212 (2019), doi:10.1038/s41",
+          "kind": "doi",
+          "url": "https://doi.org/10.1038/s41586-019-0980-2",
+          "status": "resolved"
+        },
+        {
+          "ref": "Huang et al., \"Power of data in quantum machine learning,\" Nature Communications 12, 2631 (2021), doi:10.1038/s41467-021",
+          "kind": "doi",
+          "url": "https://doi.org/10.1038/s41467-021-22539-9",
+          "status": "resolved"
+        },
+        {
+          "ref": "Tang, \"A quantum-inspired classical algorithm for recommendation systems,\" arXiv:1811.04909 (2019), illustrating how inp",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/1811.04909",
+          "status": "resolved"
+        },
+        {
+          "ref": "Hoefler, Haener, and Troyer, \"Quantum Computing for Computer Architects,\" Communications of the ACM 66(1) (2023), utilit",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure Machine Learning documentation, \"What is Azure Machine Learning?\", https://learn.microsoft.com/azure/machine-learn",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/machine-learning/overview-what-is-azure-machine-learning",
+          "status": "resolved"
+        },
+        {
+          "ref": "Azure AI Foundry documentation, https://learn.microsoft.com/azure/ai-foundry/what-is-azure-ai-foundry.",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/ai-foundry/what-is-azure-ai-foundry",
+          "status": "resolved"
+        }
+      ]
     },
     "adv-classical-hamiltonian": {
       "parse_ok": true,
@@ -1567,7 +2213,36 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Brassard, H\u00f8yer, Mosca, and Tapp, 'Quantum Amplitude Amplification and Estimation,' arXiv:quant-ph/0005055.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Hoefler, H\u00e4ner, and Troyer, 'Toward the Quantum Computing Era,' Communications of the ACM, 2023.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Troyer and Wiese, 'Computational Complexity and Fundamental Limitations to Fermionic Quantum Monte Carlo Simulations,' P",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure CycleCloud documentation, Microsoft Learn: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        },
+        {
+          "ref": "Azure HB-series virtual machine documentation, Microsoft Learn: https://learn.microsoft.com/azure/virtual-machines/hbv4-",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/virtual-machines/hbv4-series",
+          "status": "resolved"
+        }
+      ]
     },
     "adv-class1-subtle": {
       "parse_ok": true,
@@ -1640,7 +2315,36 @@
       },
       "router_verdict": "HPC_PREFERRED",
       "router_platform": "HPC",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Moerchen et al., arXiv:2409.08910, on guiding-state overlap and utility-scale quantum eigenvalue algorithms",
+          "kind": "arxiv",
+          "url": "https://arxiv.org/abs/2409.08910",
+          "status": "resolved"
+        },
+        {
+          "ref": "Kohn, J. Chem. Phys. 1996, and Bartlett and Musial, Rev. Mod. Phys. 79, 291 (2007), on coupled-cluster theory and CCSD(T",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Boys and Bernardi, Mol. Phys. 19, 553 (1970), counterpoise correction for basis-set superposition error",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Kitaev, arXiv:quant-ph/9511026, quantum phase estimation",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Azure CycleCloud documentation: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        }
+      ]
     },
     "adv-vague": {
       "parse_ok": true,
@@ -1649,19 +2353,19 @@
         "verdict": "INCONCLUSIVE",
         "confidence": 0.4,
         "advantage_class": "superpolynomial",
-        "recommended_algorithm": "Coupled Classical Oscillators Simulation (unverified retrieval match; do not treat as a confirmed algorithm choice)",
+        "recommended_algorithm": "Coupled Classical Oscillators Simulation (retrieval match only; not validated for the actual workload)",
         "recommended_platform": "HYBRID",
-        "platform_reason": "The request only says to make a simulation faster and provides no governing equations, workload size, numerical method, profiling data, or indication that the model is quantum-mechanical. A classical profiling and scaling baseline should therefore be established first, while quantum simulation can be evaluated only as a conditional feasibility study if the system is naturally quantum or maps to a validated oscillator Hamiltonian.",
+        "platform_reason": "The request only says to make a simulation faster and provides no information about the equations, discretization, scale, solver, parallelism, or data movement. Therefore, neither a quantum algorithm nor an HPC/AI workload can be selected reliably; the immediate recommendation is to profile the existing simulation and test an Azure HPC baseline while investigating whether the model is genuinely quantum-native.",
         "workspace_guidance": {
           "platform": "Azure CycleCloud",
           "setup_steps": [
-            "Step 1: Characterize the simulation: equations, discretization, timestep count, number of degrees of freedom, memory footprint, communication pattern, input/output volume, and accuracy requirements.",
-            "Step 2: Create an Azure CycleCloud cluster with SLURM and benchmark the current implementation on representative problem sizes.",
-            "Step 3: Profile CPU, memory bandwidth, network communication, GPU utilization, and I/O using MPI profilers, Nsight Systems where applicable, and application-level timers.",
-            "Step 4: Select an implementation path: MPI/OpenMP on HBv4 for CPU-bound numerical workloads, or CUDA/HIP on NDv6-class GPU nodes when the solver is GPU-compatible.",
-            "Step 5: If the model is genuinely quantum or has a validated oscillator-to-Hamiltonian mapping, create a separate Azure Quantum workspace for resource estimation and small-instance experiments on Quantinuum, IonQ, or Rigetti targets."
+            "Step 1: Collect workload details: governing equations, number of degrees of freedom, timestep count, numerical precision, solver type, memory footprint, input/output volume, and current wall-clock profile.",
+            "Step 2: Build a reproducible baseline in an Azure CycleCloud-managed SLURM cluster, measuring compute, memory bandwidth, communication, and I/O separately.",
+            "Step 3: Select the VM family from profiling: HBv4 for CPU/vectorized MPI workloads, or NDv6 for workloads with suitable GPU kernels.",
+            "Step 4: Optimize the dominant kernel using MPI, OpenMP, MPI-aware domain decomposition, GPU acceleration, checkpointing, and parallel storage as appropriate.",
+            "Step 5: Re-evaluate quantum applicability only if the simulation is a quantum Hamiltonian, quantum field, open-quantum-system, or otherwise naturally quantum problem with a precise input/output formulation."
           ],
-          "recommended_resources": "Start with Azure HBv4 VMs for CPU-intensive sparse linear algebra or MPI workloads; use NDv6 GPU nodes for highly parallel tensor, stencil, or CUDA-enabled kernels. Configure CycleCloud with SLURM, autoscaling, low-latency networking, and checkpointing. For the conditional quantum study, use Azure Quantum Resource Estimator with logical-qubit, gate-count, error-rate, QEC-code, and runtime assumptions before submitting hardware jobs."
+          "recommended_resources": "Start with an Azure HBv4 cluster using SLURM, MPI, and HBM for memory-bandwidth-bound numerical simulation. Benchmark a small NDv6 GPU partition with CUDA, cuBLAS, cuSPARSE, or an applicable GPU solver if profiling shows substantial data-parallel acceleration. Size the cluster from measured memory capacity, interconnect bandwidth, checkpoint volume, and strong/weak scaling rather than from the vague request alone."
         },
         "troyer_filters": {
           "F1_proven_speedup": true,
@@ -1677,32 +2381,30 @@
           "coherence": "not_yet",
           "universal_gates": "partial",
           "measurement": "partial",
-          "summary": "No hardware readiness claim can be made for this underspecified workload, and current quantum systems generally lack the fault-tolerant qubit counts, logical error rates, and circuit depth needed for an arbitrary large classical simulation."
+          "summary": "No quantum hardware recommendation is justified because the workload is unspecified, and present systems still have major qubit-count, error-correction, coherence, and circuit-depth limitations for utility-scale simulation."
         },
         "red_flags": [
-          "The deterministic match to Coupled Classical Oscillators Simulation is a retrieval artefact: the problem contains no evidence that the simulation is a coupled-oscillator model, a Hamiltonian simulation, or any other naturally quantum workload.",
-          "The reported superpolynomial speedup is conditional on the precise oscillator model, encoding, observable, oracle/access assumptions, and output requirements; it must not be generalized to 'make our simulation run faster.'",
-          "F4 is false, so the six-filter quantum recommendation rule is not satisfied even though the supplied knowledge-base values mark F1, F2, F3, F5, and F6 as true.",
-          "The supplied F3=true value should be treated as a knowledge-base classification rather than an established engineering result. Fault-tolerant simulation can incur large surface-code, color-code, or QLDPC overheads, and practical crossover points remain workload-specific.",
-          "If the simulation produces a large classical trajectory, field, or grid, state preparation and measurement can dominate runtime and invalidate an apparent quantum speedup.",
-          "If QAOA or VQE is later proposed merely because the simulation is difficult, there is no general proven advantage; these methods have at most problem-dependent or unproven scaling benefits and may be slower than classical solvers.",
-          "The description does not identify whether the bottleneck is computation, memory, communication, or I/O. Hardware selection before profiling could make the simulation slower or more expensive.",
-          "The similar-problem references 19_quantum_chromodynamics, 07_drug_discovery, and 18_photovoltaics are not evidence that this workload belongs to those domains."
+          "The deterministic match to Coupled Classical Oscillators Simulation is a retrieval artefact: a reported superpolynomial quantum speedup applies only to a precisely defined algorithmic problem and does not establish an advantage for an unspecified simulation.",
+          "F4 is false because the description does not establish that the simulated system is naturally quantum under the Feynman criterion; consequently, the six-filter quantum recommendation rule is not satisfied.",
+          "The database values for F1, F2, F3, and F5 are not evidence about this user's workload. They must be rechecked against the actual input representation, output requirements, oracle or Hamiltonian construction, and fault-tolerant resource estimates.",
+          "If this is a conventional PDE, finite-element, molecular-dynamics, or large linear-algebra simulation, Azure HPC is the more plausible near-term solution. The current description does not contain enough information to select the appropriate solver or VM family.",
+          "If a quantum approach such as Hamiltonian simulation or quantum phase estimation is eventually proposed, state preparation, observable measurement, error correction, and classical data extraction may dominate. Oracle and fault-tolerant gate costs must be included; an abstract superpolynomial result is not a practical speedup guarantee.",
+          "QAOA or VQE should not be selected merely because the word simulation appears: these methods have at most quadratic or no proven general advantage and would require a separate optimization or eigenvalue formulation."
         ],
-        "hpc_alternative": "Azure HPC is the most practical first baseline: use Azure CycleCloud with SLURM, HBv4 instances and MPI/OpenMP for CPU-bound PDE, finite-element, sparse-linear-algebra, or molecular-dynamics workloads, and NDv6 GPU nodes with CUDA-aware MPI for massively parallel kernels. Performance should be established through strong- and weak-scaling studies, profiling, and I/O benchmarking.",
-        "ai_alternative": "AI/ML is not indicated by the current description because no prediction, classification, pattern-recognition, surrogate-model, or unstructured-data task is stated. If repeated simulations are being run to generate outputs, Azure AI Foundry with PyTorch or a neural-operator/surrogate model could accelerate parameter sweeps after validating accuracy against the numerical solver; this would replace some simulations rather than speed up the underlying solver exactly.",
-        "explanation": "The published verdict remains INCONCLUSIVE because the only algorithmic match is Coupled Classical Oscillators Simulation, classified in the knowledge base as having a superpolynomial speedup. That classification cannot be applied from the phrase 'make our simulation run faster': there is no specification of the differential equations or Hamiltonian, system size, desired outputs, precision, data-access model, or whether the simulation is naturally quantum. In particular, F4 is false, so the all-filters quantum rule is not met. The supplied F1, F2, F3, F5, and F6 values should be preserved as conditional knowledge-base claims, not interpreted as proof of advantage for this workload.\n\nThe appropriate next action is a classical performance investigation on Azure CycleCloud. Most generic simulations benefit from algorithmic changes, domain decomposition, sparse solvers, vectorization, GPU acceleration, MPI communication reduction, checkpointing, or improved I/O rather than quantum hardware. If profiling shows an embarrassingly parallel parameter sweep, HPC parallelism is especially appropriate; if repeated runs share structure, a validated AI/ML surrogate may reduce total simulation cost. A quantum investigation becomes scientifically meaningful only after confirming a naturally quantum model or a rigorously justified mapping and then performing fault-tolerant resource estimation. Even then, output-size, oracle, state-preparation, and QEC costs must be included; current hardware does not satisfy the required DiVincenzo criteria for arbitrary utility-scale simulation.",
+        "hpc_alternative": "Use Azure CycleCloud with SLURM to run a profiled MPI/OpenMP baseline. HBv4 is a strong first choice for CPU vectorization, high memory bandwidth, and MPI numerical workloads; NDv6 is appropriate when the simulation has mature GPU kernels. Apply domain decomposition, nonblocking MPI, HBM-aware data placement, parallel checkpointing, and Azure managed parallel storage as dictated by profiling.",
+        "ai_alternative": "AI/ML is not currently indicated because no prediction, classification, surrogate-model, or unstructured-data task was specified. If repeated simulation calls are expensive, Azure AI Foundry or Azure Machine Learning could train a physics-informed neural network, operator-learning surrogate, or reduced-order model using simulation data, but accuracy, conservation laws, extrapolation behavior, and uncertainty must be validated against the numerical solver.",
+        "explanation": "The published verdict remains INCONCLUSIVE because the only available signal is a knowledge-base match to Coupled Classical Oscillators Simulation, classified there as having a superpolynomial quantum speedup. That classification cannot be transferred to the phrase \"make our simulation run faster\": the actual equations, system size, precision, initial conditions, observables, I/O requirements, and classical baseline are absent. The deterministic filters correctly mark F4 as false for the information provided, so the all-filters quantum condition is not met even though the database reports the other filters as true.\n\nA conventional numerical simulation would normally be evaluated first with profiling and an Azure HPC scaling experiment. Quantum simulation could become relevant if the workload is a naturally quantum Hamiltonian or open quantum system and has a compact quantum input, limited required observables, feasible state preparation, and a fault-tolerant resource estimate that beats classical tensor-network, sparse-linear-algebra, or HPC methods. For a generic classical simulation, however, current DiVincenzo limitations and data-loading/output costs make a quantum recommendation premature. AI/ML becomes relevant only if the goal is to learn a surrogate or reduced-order model rather than directly solve the simulation.",
         "similar_problems": [
           "19_quantum_chromodynamics",
           "07_drug_discovery",
           "18_photovoltaics"
         ],
         "references": [
-          "Hoefler, Haener, and Troyer, 'Toward the Quantum Simulation of Many-Body Systems,' Communications of the ACM, 2023; utility-scale quantum advantage criteria and data-movement/error-correction considerations.",
-          "M. Troyer and U.-J. Wiese, 'Computational Complexity and Fundamental Limitations to Fermionic Quantum Monte Carlo Simulations,' Physical Review Letters 94, 170201 (2005), https://doi.org/10.1103/PhysRevLett.94.170201.",
-          "Azure CycleCloud documentation, Microsoft Learn: https://learn.microsoft.com/azure/cyclecloud/",
-          "Azure Quantum Resource Estimator documentation, Microsoft Learn: https://learn.microsoft.com/azure/quantum/intro-resource-estimator",
-          "Error Correction Zoo, surface, color, and quantum LDPC code taxonomies: https://errorcorrectionzoo.org/"
+          "Hoefler, H\u00e4ner, and Troyer, \"Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage,\" Communications of the ACM, 2023.",
+          "Feynman, \"Simulating Physics with Computers,\" International Journal of Theoretical Physics, 1982.",
+          "Lloyd, \"Universal Quantum Simulators,\" Science, 1996.",
+          "Microsoft Learn, Azure CycleCloud documentation: https://learn.microsoft.com/azure/cyclecloud/",
+          "Error Correction Zoo, quantum error-correcting code taxonomy: https://errorcorrectionzoo.org/"
         ],
         "error_correction_codes": []
       },
@@ -1716,7 +2418,36 @@
       },
       "router_verdict": "INCONCLUSIVE",
       "router_platform": "INCONCLUSIVE",
-      "model_used": "gpt-5.6-luna-2026-07-09"
+      "model_used": "gpt-5.6-luna-2026-07-09",
+      "citation_checks": [
+        {
+          "ref": "Hoefler, H\u00e4ner, and Troyer, \"Disentangling Hype from Practicality: On Realistically Achieving Quantum Advantage,\" Commun",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Feynman, \"Simulating Physics with Computers,\" International Journal of Theoretical Physics, 1982.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Lloyd, \"Universal Quantum Simulators,\" Science, 1996.",
+          "kind": "unresolvable",
+          "status": "no_target"
+        },
+        {
+          "ref": "Microsoft Learn, Azure CycleCloud documentation: https://learn.microsoft.com/azure/cyclecloud/",
+          "kind": "url",
+          "url": "https://learn.microsoft.com/azure/cyclecloud/",
+          "status": "resolved"
+        },
+        {
+          "ref": "Error Correction Zoo, quantum error-correcting code taxonomy: https://errorcorrectionzoo.org/",
+          "kind": "url",
+          "url": "https://errorcorrectionzoo.org/",
+          "status": "resolved"
+        }
+      ]
     }
   }
 }

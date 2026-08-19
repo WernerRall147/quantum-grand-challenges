@@ -246,11 +246,10 @@ quantum-grand-challenges/
 ├── agents/                          # NEW: Agent definitions
 │   ├── orchestrator/
 │   │   ├── agent.yaml               # GenAIOps agent definition
-│   │   ├── prompts/                  # Versioned system prompts
-│   │   └── tools.py                  # Tool definitions
-│   ├── classifier/
-│   ├── fact_checker/
-│   ├── hpc_comparator/
+│   │   ├── instructions.py          # Deployed system prompt (single source)
+│   │   └── prompts/                 # Original design draft, superseded
+│   ├── classifier/                  # Deterministic router, filters, cost model
+│   ├── evaluations/                 # Router + narrative eval harnesses
 │   └── code_generator/
 ├── knowledge/                        # NEW: Knowledge base management
 │   ├── ingest/

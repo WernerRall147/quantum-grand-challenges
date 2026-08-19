@@ -25,9 +25,13 @@ tools:
 # Roadmap tools (not yet attached):
 #   - azure_ai_search:qgcsearcheval  -> RAG over the existing knowledge base
 #     (needs a project connection to the Search resource; use AzureAISearchTool)
-#   - classifier_agent / fact_checker_agent / hpc_comparator_agent /
-#     code_generator_agent -> wire as ConnectedAgentTool entries
 #   - get_problem_history -> FunctionTool or OpenApiTool over the history store
+#
+# Deliberately NOT a multi-agent system. Classification, fact-checking and HPC
+# comparison are roles, not security or team boundaries, and CAF guidance is to
+# start multi-agent only when one of those boundaries mandates separation. The
+# verdict is also owned by a deterministic function, so splitting it across
+# agents would hand a scientific claim back to a stochastic model.
 
 # Deployed instructions come from the shared module agents/orchestrator/instructions.py
 # (imported by both evaluate.py and tooling/provision_foundry_agent.py).

@@ -156,7 +156,7 @@ class QuantumEvaluator:
         kb_result = self.kb.classify_problem(problem_description)
 
         # Step 1b: Deterministic platform routing
-        from agents.classifier.platform_router import route_platform
+        from agents.classifier.platform_router import is_platform_refinement, route_platform
         kb_matches = kb_result.get("matches", [])
         search_score = kb_matches[0].get("score", 0) if kb_matches else 0
         routing = route_platform(problem_description, kb_matches, search_score)
@@ -269,7 +269,8 @@ Provide your evaluation as JSON following the output format specified in your in
         dissent = {}
         if model_verdict and model_verdict != verdict:
             dissent["verdict"] = model_verdict
-        if model_platform and model_platform != platform:
+        if (model_platform and model_platform != platform
+                and not is_platform_refinement(platform, model_platform)):
             dissent["recommended_platform"] = model_platform
 
         # Step 7: Compute cost-advantage analysis (Troyer Part 6 placeholder).

@@ -15,6 +15,7 @@
   ],
   "agents/classifier/platform_router.py": [
     "agents/evaluations/run_eval.py",
+    "agents/evaluations/score_narrative.py",
     "agents/orchestrator/evaluate.py",
     "agents/tests/test_evaluator_smoke.py"
   ],

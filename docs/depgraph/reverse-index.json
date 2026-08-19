@@ -17,7 +17,8 @@
     "agents/evaluations/run_eval.py",
     "agents/evaluations/score_narrative.py",
     "agents/orchestrator/evaluate.py",
-    "agents/tests/test_evaluator_smoke.py"
+    "agents/tests/test_evaluator_smoke.py",
+    "tooling/reporting/check_homepage_stats.py"
   ],
   "agents/code_generator/architecture.py": [
     "agents/api/main.py"
@@ -342,6 +343,9 @@
   ],
   "tooling/reporting/audit_azure_run_history_metrics.py": [
     ".github/workflows/nightly.yml"
+  ],
+  "tooling/reporting/check_homepage_stats.py": [
+    ".github/workflows/ci-cd.yml"
   ],
   "tooling/reporting/check_verification_matrix_freshness.py": [
     ".github/workflows/ci-cd.yml",

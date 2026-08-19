@@ -143,14 +143,17 @@ Set subscription context first:
 az account set --subscription 82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3
 ```
 
-**Fix A - instant, reversible fallback (do this if you are minutes from recording):**
-Switches the agent path to plain chat-completions on the model router (proven to work).
+**Fix A - already the default since 2026-08-19.** The live config is `QGC_USE_AGENT=0`,
+plain chat-completions on the model router, chosen on measured latency (~28s median
+against ~52s for the agent path). A 403 on the agents data plane therefore no longer
+takes the demo down. Confirm the setting is still in place:
 ```powershell
 az containerapp update -n qgc-eval-api -g qgc-evaluator --set-env-vars QGC_USE_AGENT=0
 ```
 
-**Fix B - proper fix (restores the full agent path):** re-grant the agents data-plane
-role, wait ~5-15 min for propagation, then flip back to the agent path.
+**Fix B - only if you deliberately want the agent path back** (Code Interpreter and the
+Learn MCP tool): re-grant the agents data-plane role, wait ~5-15 min for propagation,
+then flip. Expect responses to take roughly twice as long.
 ```powershell
 az role assignment create `
   --assignee-object-id ac6b9368-d212-45bf-8ce7-272ccc2799f3 `
@@ -188,9 +191,13 @@ a total cloud outage.
 - **Honesty angle:** 20 problems implemented; **11 honestly downgraded** (I/O, quadratic-
   only, QEC overhead), 9 active. The agent applies **6 utility-scale filters**
   and **DiVincenzo** hardware-readiness criteria - it is designed to *not* over-claim.
-- **Architecture:** agent `quantum-advantage-orchestrator` on Foundry project
-  `qgc-eval-proj` (account `admin-mo1q7owo-eastus2`, East US 2), model router, tools
-  (Code Interpreter + Microsoft Learn MCP); API on Container App `qgc-eval-api`
+- **Architecture:** the verdict comes from a deterministic router in code, not from the
+  model; the model writes the explanation and citations, and every citation is resolved
+  before it is shown. Requests run on Foundry's model router via chat-completions.
+  The Foundry agent `quantum-advantage-orchestrator` on project `qgc-eval-proj`
+  (account `admin-mo1q7owo-eastus2`, East US 2) with Code Interpreter and the Microsoft
+  Learn MCP stays provisioned but is off by default, on measured latency. API on
+  Container App `qgc-eval-api`
   (RG `qgc-evaluator`, `minReplicas` 1 so it never scales to zero); knowledge base served
   from files committed to the repo, with AI Search `qgcsearcheval` for retrieval; daily
   arXiv ingester on Azure Functions writing to AI Search.

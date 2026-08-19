@@ -177,20 +177,26 @@ The Quantinuum and Rigetti histograms are from April 2026. Five problems (01, 02
 ## Architecture
 
 ```
-Scientist → Chat Interface → Orchestrator Agent
-                                ├── Classifier (speedup class + Troyer filters)
-                                ├── Fact-Checker (peer-reviewed validation)
-                                ├── HPC Comparator (Azure HPC vs quantum)
+Scientist → Chat Interface → Evaluator API (Container Apps)
+                                ├── Deterministic router — owns the verdict and platform
+                                │     Troyer filters F1–F6 evaluated in code, not by the model
+                                ├── Language model (Foundry model-router) — explanation,
+                                │     red flags, alternatives, references. Disagreement is
+                                │     recorded as model_dissent, never applied.
+                                ├── Citation verifier — every reference must resolve
                                 ├── Q# Code Generator (quantum problems → Q# + resource estimate)
                                 └── Bicep Code Generator (HPC/AI/ML → Azure workspace template)
                                         ↓
-                              Knowledge Layer (Cosmos DB + AI Search)
+                              Knowledge Layer (Azure AI Search)
                                 ├── arXiv papers (daily ingestion)
                                 ├── Quantum Algorithm Zoo (47 algorithms indexed)
                                 ├── Error Correction Zoo (QEC code taxonomy)
-                                ├── GitHub Q# samples (MCP)
                                 └── 9 reference implementations
 ```
+
+This is a single agent, not a swarm. Classification and fact-checking are roles rather
+than security boundaries, and the verdict is owned by a deterministic function so that
+identical input always returns identical output.
 
 Full design: [docs/architecture.md](docs/architecture.md).
 

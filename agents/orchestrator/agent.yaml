@@ -34,7 +34,7 @@ tools:
 # agents would hand a scientific claim back to a stochastic model.
 
 # Deployed instructions come from the shared module agents/orchestrator/instructions.py
-# (imported by both evaluate.py and tooling/provision_foundry_agent.py).
-# prompts/system_prompt_v1.md is kept as the original design draft.
+# (imported by both evaluate.py and tooling/provision_foundry_agent.py). There is no
+# second instructions file: prompts/system_prompt_v1.md is a superseded design draft
+# and is NOT what gets deployed.
 instructions_module: agents/orchestrator/instructions.py
-instructions_file: prompts/system_prompt_v1.md

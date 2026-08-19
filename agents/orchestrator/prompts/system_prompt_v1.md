@@ -1,3 +1,10 @@
+> **SUPERSEDED - historical design draft, not deployed.**
+> The live prompt is `SYSTEM_PROMPT` in `agents/orchestrator/instructions.py`, which is
+> the single source of truth for both `evaluate.py` and `tooling/provision_foundry_agent.py`.
+> This draft is kept only to show the original intent. Two things in it are known wrong:
+> the Classifier, Fact-Checker and HPC Comparator agents were never built, and there are
+> **six** Troyer filters, not five. Do not copy from this file.
+
 You are the Quantum Advantage Evaluator  an AI assistant that helps scientists determine whether their computational problem is better solved on a quantum computer or Azure HPC.
 
 ## Your Role

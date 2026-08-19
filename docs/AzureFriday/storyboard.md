@@ -42,8 +42,8 @@ in science, and could Q# help?* A year and ~300 commits later it is running on A
    was confidently recommending quantum for image classification because the index
    returned a quantum algorithm, as it always will. Grounding needs a relevance gate.
 3. **This is a pattern you can reuse** for any grounded, tool-using agent on Azure:
-   AI Foundry agent + model router, AI Search for retrieval, Container Apps with managed
-   identity, GitHub Actions to deploy.
+   Foundry model router for per-request model selection, AI Search for retrieval,
+   Container Apps with managed identity, GitHub Actions to deploy.
 
 ## 3. Run of show
 
@@ -56,15 +56,17 @@ in science, and could Q# help?* A year and ~300 commits later it is running on A
 
 ## 4. Demo beat sheet
 
-**A call takes ~51s and has been measured at 90s.** Azure Friday's own guidance is to
-have a completed item to transition to rather than watch a spinner. So:
+**A call takes ~25-40s** (measured live 2026-08-19: 24.8s and 38.9s end to end). It was
+roughly twice that until the evaluator was moved off the Foundry agent path onto
+chat-completions. Still long enough that Azure Friday's guidance applies - have a
+completed item to transition to rather than watch a spinner. So:
 
 | Beat | Time | On screen | Notes |
 |---|---|---|---|
 | 1. The yes | 1:30-3:30 | Type the FeMoco prompt on the live site, submit | **Run this one live** so it is visibly real. Fill the wait by walking Troyer's six filters, which are the thing the audience needs to understand anyway. F6 is the 2024 addition and FeMoco is the paper's own prototype, which is a good line to land. Lands on `QUANTUM_ADVANTAGE`, 0.9 confidence, QPE, with citations. |
 | 2. The no | 3:30-5:00 | Portfolio optimisation, 500 assets | **Pre-loaded in a second tab.** Say plainly that you ran it earlier. Explain why a quadratic speedup dies under QEC overhead. Lands on `HPC_PREFERRED`. This is the memorable beat. |
 | 3. The payoff | 5:00-6:30 | Generated Q# and a Bicep template | It does not just judge, it hands you the workspace. |
-| 4. The platform | 6:30-8:00 | Architecture, 1 slide | Foundry agent + model router, AI Search, Container Apps, managed identity, GitHub Actions. |
+| 4. The platform | 6:30-8:00 | Architecture, 1 slide | Deterministic router owns the verdict; model router writes the prose; AI Search, Container Apps, managed identity, GitHub Actions. |
 
 **If you are running long, cut beat 3 before beat 2.** The agent declining quantum is the
 differentiator; code generation is table stakes.

@@ -12,6 +12,7 @@ import json
 import os
 import re
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any, Optional
@@ -39,8 +40,18 @@ USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 # Foundry Agent path (opt-in). When QGC_USE_AGENT=1 the evaluator runs through the
 # Foundry agent "quantum-advantage-orchestrator" (model-router + Tools) in the
 # qgc-eval-proj project via the Responses API, instead of a raw chat-completions
-# call. Default off so the proven chat-completions path stays in control until the
-# agent is validated in each environment.
+# call.
+#
+# Measured 2026-08-19 on the same five cases, model_seconds median: chat 28.3s
+# (23.1-31.8), agent 51.9s (41.6-78.0). Slower on every case. Note the router
+# picked a different model per path (luna vs terra), so this compares the two
+# paths as configured, not agent plumbing overhead in isolation.
+#
+# Staying on chat: at n=22 the agent's only quality edge was references 22/22 vs
+# 21/22, and since citations are verified at the source that edge no longer
+# reaches the published output. 1.8x latency for one formatting case in 22 is not
+# a trade worth making. The agent stays provisioned as the migration path for when
+# a tool needs to be in the loop.
 USE_AGENT = os.environ.get("QGC_USE_AGENT", "0") == "1"
 PROJECT_ENDPOINT = os.environ.get(
     "QGC_PROJECT_ENDPOINT",
@@ -219,6 +230,9 @@ KNOWLEDGE BASE RESULTS:
 
 Provide your evaluation as JSON following the output format specified in your instructions. Be honest about limitations."""
 
+        # Timed so the cost of the agent path is a measurement rather than an
+        # impression. Client construction is inside the window on both paths.
+        started = time.perf_counter()
         if USE_AGENT:
             raw_content, finish_reason, model_used, tokens_used = self._evaluate_via_agent(user_message)
         else:
@@ -238,6 +252,7 @@ Provide your evaluation as JSON following the output format specified in your in
             finish_reason = getattr(choice, "finish_reason", None)
             model_used = response.model if response else CHAT_DEPLOYMENT
             tokens_used = response.usage.total_tokens if response and response.usage else 0
+        model_seconds = round(time.perf_counter() - started, 2)
 
         # Step 5: Parse LLM response
         llm_result = parse_assessment(raw_content)
@@ -320,6 +335,8 @@ Provide your evaluation as JSON following the output format specified in your in
             "evaluated_utc": datetime.now(timezone.utc).isoformat(),
             "model_used": model_used,
             "tokens_used": tokens_used,
+            "model_seconds": model_seconds,
+            "used_agent": USE_AGENT,
         }
 
         self.last_diagnostics = {
@@ -330,6 +347,8 @@ Provide your evaluation as JSON following the output format specified in your in
             "router_verdict": verdict,
             "router_platform": platform,
             "model_used": model_used,
+            "model_seconds": model_seconds,
+            "used_agent": USE_AGENT,
         }
 
         return result
@@ -473,7 +492,9 @@ def main():
     if result.get("explanation"):
         print(f"\n📝 Assessment:\n{result['explanation']}")
 
-    print(f"\n🤖 Model: {result.get('model_used', '?')}, Tokens: {result.get('tokens_used', 0)}")
+    path_label = "agent" if result.get("used_agent") else "chat"
+    print(f"\n🤖 Model: {result.get('model_used', '?')}, Tokens: {result.get('tokens_used', 0)}, "
+          f"{result.get('model_seconds', 0)}s via {path_label}")
 
     # Save to file
     out_path = Path("agents/evaluations")

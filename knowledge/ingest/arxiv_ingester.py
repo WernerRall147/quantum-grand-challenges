@@ -1,8 +1,7 @@
 """Daily arxiv paper ingestion for the Quantum Advantage Evaluator.
 
-Fetches new papers from arxiv categories cs.QC and quant-ph,
-filters for relevance, generates embeddings, and indexes into
-Azure AI Search.
+Fetches every paper submitted in the window that matches any configured source,
+filters for relevance, generates embeddings, and indexes into Azure AI Search.
 
 Designed to run as an Azure Container Apps Job on a daily schedule.
 """
@@ -20,8 +19,33 @@ from typing import List, Dict, Any
 
 
 ARXIV_API = "https://export.arxiv.org/api/query"
-CATEGORIES = ["cs.QC", "quant-ph"]
-MAX_RESULTS_PER_CATEGORY = 50
+
+# (label for logs, URL-ready search_query fragment).
+#
+# cs.QC was listed here and returned 0 papers on every run for months. It is not an
+# arXiv category: https://arxiv.org/archive/cs lists 40 CS categories and cs.QC is
+# not among them, and `cat:cs.QC` reports 0 total results. quant-ph is the canonical
+# home (184,786 papers); cs.ET explicitly covers quantum technologies.
+#
+# Quantum work also appears in cs.LG, cs.CR and cs.CC. Those categories are swept by
+# abstract terms rather than wholesale, so a machine-learning paper only arrives if it
+# actually mentions quantum computing. Sources overlap; main() deduplicates by arxiv_id.
+SOURCES = [
+    ("cat:quant-ph", "cat:quant-ph"),
+    ("cat:cs.ET", "cat:cs.ET"),
+    ('abs:"quantum computing"', "abs:%22quantum+computing%22"),
+    ('abs:"quantum algorithm"', "abs:%22quantum+algorithm%22"),
+    ('abs:"quantum advantage"', "abs:%22quantum+advantage%22"),
+    ('abs:"post-quantum"', "abs:%22post-quantum%22"),
+]
+
+# arXiv caps a single response, so results are paged. Neither number is arbitrary:
+# 100-per-page timed out on every retry when measured, while 50 is the size this
+# job has fetched successfully every day for months. The delay is not optional
+# either - two back-to-back requests earned a 429.
+ARXIV_PAGE_SIZE = 50
+ARXIV_PAGE_DELAY = 4
+ARXIV_MAX_PAGES = 40
 
 # arXiv rate-limits with 429 and drops slow reads, so fetches are retried.
 ARXIV_MAX_ATTEMPTS = 4
@@ -75,25 +99,7 @@ def _open_arxiv_with_retry(req, timeout: int = 30):
     raise last_error
 
 
-def fetch_arxiv_papers(category: str, days_back: int = 1, max_results: int = 50) -> List[Dict[str, Any]]:
-    """Fetch recent papers from arxiv API."""
-    import urllib.request
-    import xml.etree.ElementTree as ET
-
-    # arxiv API date range
-    end_date = datetime.now(timezone.utc)
-    start_date = end_date - timedelta(days=days_back)
-
-    query = f"cat:{category}"
-    url = f"{ARXIV_API}?search_query={query}&sortBy=submittedDate&sortOrder=descending&max_results={max_results}"
-
-    req = urllib.request.Request(url, headers={"User-Agent": "QuantumGrandChallenges/2.0"})
-    response = _open_arxiv_with_retry(req, timeout=30)
-    xml_data = response.read().decode("utf-8")
-
-    root = ET.fromstring(xml_data)
-    ns = {"atom": "http://www.w3.org/2005/Atom", "arxiv": "http://arxiv.org/schemas/atom"}
-
+def _parse_entries(root, ns) -> List[Dict[str, Any]]:
     papers = []
     for entry in root.findall("atom:entry", ns):
         arxiv_id = entry.find("atom:id", ns).text.split("/abs/")[-1]
@@ -113,7 +119,43 @@ def fetch_arxiv_papers(category: str, days_back: int = 1, max_results: int = 50)
             "ingested_utc": datetime.now(timezone.utc).isoformat(),
             "source": "arxiv",
         })
+    return papers
 
+
+def fetch_arxiv_papers(query: str, days_back: int = 1,
+                       max_pages: int = ARXIV_MAX_PAGES) -> List[Dict[str, Any]]:
+    """Fetch every paper matching `query` submitted within the window.
+
+    The date window used to be computed and then left out of the request, so this
+    returned the newest max_results papers regardless of days_back - and with a cap
+    of 50 against a category that publishes more than that daily, the corpus was
+    silently truncated every run.
+    """
+    import urllib.request
+    import xml.etree.ElementTree as ET
+
+    end_date = datetime.now(timezone.utc)
+    start_date = end_date - timedelta(days=days_back)
+    window = f"[{start_date.strftime('%Y%m%d%H%M')}+TO+{end_date.strftime('%Y%m%d%H%M')}]"
+    search_query = f"{query}+AND+submittedDate:{window}"
+
+    ns = {"atom": "http://www.w3.org/2005/Atom", "arxiv": "http://arxiv.org/schemas/atom"}
+    papers: List[Dict[str, Any]] = []
+
+    for page in range(max_pages):
+        if page:
+            time.sleep(ARXIV_PAGE_DELAY)
+        url = (f"{ARXIV_API}?search_query={search_query}"
+               f"&sortBy=submittedDate&sortOrder=descending"
+               f"&start={page * ARXIV_PAGE_SIZE}&max_results={ARXIV_PAGE_SIZE}")
+        req = urllib.request.Request(url, headers={"User-Agent": "QuantumGrandChallenges/2.0"})
+        response = _open_arxiv_with_retry(req, timeout=60)
+        batch = _parse_entries(ET.fromstring(response.read().decode("utf-8")), ns)
+        papers.extend(batch)
+        if len(batch) < ARXIV_PAGE_SIZE:
+            return papers
+
+    print(f"    WARNING: hit the {max_pages}-page cap; this window is truncated")
     return papers
 
 
@@ -216,19 +258,19 @@ def main():
 
     all_papers = []
     failed_categories = []
-    for cat in CATEGORIES:
+    for label, query in SOURCES:
         try:
-            papers = fetch_arxiv_papers(cat, days_back=3, max_results=MAX_RESULTS_PER_CATEGORY)
-        except Exception as e:  # one bad category must not lose the whole run
-            failed_categories.append(cat)
-            print(f"  {cat}: FAILED after {ARXIV_MAX_ATTEMPTS} attempts -- {type(e).__name__}: {e}")
+            papers = fetch_arxiv_papers(query, days_back=3)
+        except Exception as e:  # one bad source must not lose the whole run
+            failed_categories.append(label)
+            print(f"  {label}: FAILED after {ARXIV_MAX_ATTEMPTS} attempts -- {type(e).__name__}: {e}")
             continue
-        print(f"  {cat}: fetched {len(papers)} papers")
+        print(f"  {label}: fetched {len(papers)} papers")
         all_papers.extend(papers)
 
-    if failed_categories and len(failed_categories) == len(CATEGORIES):
+    if failed_categories and len(failed_categories) == len(SOURCES):
         raise SystemExit(
-            f"Ingestion failed: every arXiv category failed ({', '.join(failed_categories)})"
+            f"Ingestion failed: every arXiv source failed ({', '.join(failed_categories)})"
         )
 
     # Deduplicate by arxiv_id

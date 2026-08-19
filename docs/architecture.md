@@ -35,25 +35,30 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 └──────────────────────────────┼───────────────────────────────────────┘
                                │ API
 ┌──────────────────────────────▼───────────────────────────────────────┐
-│                   AZURE AI FOUNDRY (Agent Hub)                       │
+│                    EVALUATOR (Azure Container Apps)                  │
 │                                                                      │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
-│  │  ORCHESTRATOR │  │  FACT-CHECKER │  │  CODE-GEN    │              │
-│  │  Agent        │→ │  Agent        │→ │  Agent       │              │
-│  │              │  │              │  │              │              │
-│  │ Routes problem│  │ Theory vs    │  │ Generates Q# │              │
-│  │ to specialist │  │ reality check│  │ + runs RE    │              │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘              │
-│         │                 │                 │                        │
-│  ┌──────▼───────┐  ┌──────▼───────┐  ┌──────▼───────┐              │
-│  │  CLASSIFIER   │  │  HPC-COMPARE │  │  ESTIMATOR   │              │
-│  │  Agent        │  │  Agent        │  │  Agent       │              │
-│  │              │  │              │  │              │              │
-│  │ Quantum class │  │ Azure HPC    │  │ qsharp RE    │              │
-│  │ of advantage  │  │ benchmarks   │  │ + syntax chk │              │
-│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│  ┌────────────────────────────────────────────────────────────────┐ │
+│  │ DETERMINISTIC ROUTER   agents/classifier/platform_router.py     │ │
+│  │ Owns the verdict and the platform. Troyer filters F1-F6 are     │ │
+│  │ evaluated in code, so identical input returns identical output. │ │
+│  │ The model cannot overrule it.                                   │ │
+│  └────────────────────────────┬───────────────────────────────────┘ │
+│                               │ routing decision + KB context        │
+│  ┌────────────────────────────▼───────────────────────────────────┐ │
+│  │ LANGUAGE MODEL   model-router (per-request model selection)     │ │
+│  │ Writes explanation, red flags, alternatives and references.     │ │
+│  │ Disagreement with the router is recorded as model_dissent,      │ │
+│  │ never applied. Citations must resolve before they are published.│ │
+│  │                                                                 │ │
+│  │ Two interchangeable paths, selected by QGC_USE_AGENT:           │ │
+│  │   0  chat-completions            ~28s median   << LIVE          │ │
+│  │   1  Foundry prompt agent        ~52s median                    │ │
+│  │      quantum-advantage-orchestrator, adds Code Interpreter      │ │
+│  │      and the Microsoft Learn MCP tool                           │ │
+│  └────────────────────────────────────────────────────────────────┘ │
 │                                                                      │
-│  GenAIOps: Hot-swappable agents, versioned prompts, eval pipelines  │
+│  GENERATORS  agents/code_generator/ - Q# and Bicep, invoked after    │
+│  the verdict. Ordinary Python modules, not agents.                   │
 └──────────────────────────────┬───────────────────────────────────────┘
                                │ MCP / Tools
 ┌──────────────────────────────▼───────────────────────────────────────┐
@@ -92,43 +97,53 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-## Agent Design (GenAIOps Pattern)
+## Component design
 
-### Agent 1: Orchestrator
-- **Model**: GPT-4.1 or latest available in Foundry
-- **Role**: Routes incoming problems, manages conversation flow
-- **Tools**: Calls other agents, accesses problem history
-- **Swappable**: Yes  new routing logic hot-swapped via prompt versioning
+This is deliberately **not** a multi-agent system. Classification, fact-checking and
+HPC comparison are roles, not security or team boundaries, and CAF guidance is to
+reach for multiple agents only when such a boundary mandates separation. The verdict
+is owned by a deterministic function, so splitting it across agents would hand a
+scientific claim back to a stochastic model.
 
-### Agent 2: Quantum Advantage Classifier
-- **Role**: Classifies the problem into:
-  - **Proven speedup** (exponential, superpolynomial)  with specific algorithm match
-  - **Quadratic only**  flags I/O and oracle cost limitations (Troyer filters)
-  - **Heuristic/unproven**  warns about VQE/QAOA limitations
-  - **No known advantage**  recommends HPC
-- **Tools**: Scientific KB search, Algorithm Zoo lookup, Problem History
-- **Output**: Classification + confidence + references
+An earlier draft of this document described five collaborating Foundry agents. Only
+one was ever deployed; the rest existed as YAML that nothing loaded. They were removed
+rather than left to imply a system that did not exist.
 
-### Agent 3: Fact-Checker
-- **Role**: Validates claims against peer-reviewed literature
-- **Checks**:
-  - Does the claimed speedup survive I/O costs? (Troyer filter F2)
-  - Does it survive QEC overhead? (Troyer filter F3)
-  - Is the oracle polynomial? (oracle cost filter)
-  - Is there a better classical algorithm the user didn't consider?
-- **Tools**: arxiv MCP, Algorithm Zoo, MS Docs MCP
-- **Output**: Red flags, debunked claims, honest assessment
+### Deterministic router - `agents/classifier/platform_router.py`
+- **Owns**: the verdict and the recommended platform. These are the claims the tool stands behind.
+- **Method**: Troyer filters F1-F6 plus electronic-structure classification, evaluated in code.
+- **Why in code**: a stochastic verdict made identical inputs return different answers.
+- **Output**: platform, verdict, confidence, and the filter evidence behind them.
 
-### Agent 4: HPC Comparator
-- **Role**: Compares quantum resource estimate against Azure HPC options
-- **Tools**: MS Docs MCP (Azure HPC specs, pricing), Azure VM catalog
-- **Output**: "Your problem needs 132k physical qubits (not yet available) vs. an ND96amsr A100 cluster that can solve it in 3 hours for $X"
+### Language model - `agents/orchestrator/evaluate.py`
+- **Owns**: explanation, red flags, HPC/AI alternatives, references, similar problems.
+- **Model**: Foundry `model-router`, which selects a model per request.
+- **Contract**: `agents/orchestrator/output_schema.py` is the single definition of the
+  response shape. `agents/tests/test_evaluator_smoke.py` fails the build if the prompt
+  and the schema drift apart, which has happened twice.
+- **Dissent**: if the model disagrees with the router it is recorded in `model_dissent`
+  and reviewed. It never changes the result.
+- **Citations**: `agents/orchestrator/citations.py` resolves every reference before
+  publication. Both paths fabricate a source roughly 1 time in 22, and the agent path's
+  Learn MCP tool did not prevent it, so verification happens at the source rather than
+  being delegated to a tool.
+- **Latency**: `model_seconds` is recorded on every evaluation.
 
-### Agent 5: Q# Code Generator + Estimator
-- **Role**: Generates Q# implementation, runs resource estimation, syntax check
-- **Tools**: GitHub MCP (Q# samples), qsharp Python package, Azure Quantum RE
-- **Pipeline**: Generate → Compile → Estimate → Compare → Optional: Submit to Azure
-- **Output**: Q# code, resource estimate, gate counts, qubit requirements
+### Q# generator and estimator - `agents/code_generator/`
+- **Role**: generates Q#, compiles it, runs resource estimation.
+- **Tools**: `qsharp` Python package, Azure Quantum Resource Estimator.
+- **Pipeline**: generate → compile → estimate → compare.
+
+### Bicep generator - `agents/code_generator/`
+- **Role**: for HPC and AI/ML verdicts, emits the Azure workspace template to provision instead.
+
+### Foundry agent - `quantum-advantage-orchestrator`
+- **Status**: provisioned and schema-bound, **not in the live request path**.
+- **Tools**: Code Interpreter, Microsoft Learn MCP.
+- **Why off**: measured at ~52s median against ~28s for chat-completions, and its only
+  quality advantage disappeared once citations were verified at the source. It stays
+  provisioned as the migration path for when a tool genuinely needs to be in the loop.
+- **Switch**: `QGC_USE_AGENT` on the Container App, not a code change.
 
 ## Knowledge Base Design
 
@@ -150,7 +165,7 @@ and could fail silently while the ingestion job still reported success.
 - **arxiv**: Fetch new cs.QC + quant-ph papers via arxiv API
 - **Filter**: Only peer-reviewed or >10 citations (for preprints)
 - **Embed**: Generate vector embeddings via Azure OpenAI
-- **Index**: Upsert into AI Search + Cosmos DB
+- **Index**: Upsert into AI Search
 
 ## MCP Servers
 
@@ -295,11 +310,14 @@ quantum-grand-challenges/
 
 ### Phase 2: Agent Framework (Completed)
 - [x] Deploy Azure AI Foundry project
-- [x] Build Orchestrator agent with GenAIOps pattern
-- [x] Build Classifier agent (Troyer filters as tools)
-- [x] Build Fact-Checker agent (paper search + claim validation)
-- [x] Build HPC Comparator agent (Azure VM specs via MS Docs MCP)
-- [x] Build Code Generator agent (Q# generation + qsharp.estimate())
+- [x] Build the orchestrator as a Foundry prompt agent (provisioned; off by default)
+- [x] Build the deterministic platform router (Troyer filters in code, owns the verdict)
+- [x] Build Code Generator (Q# generation + qsharp.estimate())
+- [x] Bind the agent to a single output schema and guard prompt/schema drift in CI
+- [x] Verify citations resolve before publishing them
+- [ ] Fact-Checker and HPC Comparator as separate agents - **dropped**, not built.
+      Both were YAML that nothing loaded. Their function lives in the router, the
+      citation verifier and the cost model.
 
 ### Phase 3: Knowledge Integration (Completed)
 - [x] Scientific Papers MCP server

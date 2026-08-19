@@ -66,6 +66,8 @@ class EvaluateResponse(BaseModel):
     error_correction_codes: list = []
     model_used: str = ""
     tokens_used: int = 0
+    model_seconds: float = 0.0
+    used_agent: bool = False
     qsharp_code: str = ""
     estimation: dict = {}
     resource_estimate_pareto: list = []

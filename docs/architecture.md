@@ -7,7 +7,7 @@ Transform the Quantum Grand Challenges project into a **live AI-powered platform
 ## Strategic Focus (April 2026)
 
 The primary mission is now **optimizing the Evaluation Agent** to help users:
-1. **Evaluate** their problem using Troyer's 5 utility-scale filters and the Troyer cost model
+1. **Evaluate** their problem using the 6 utility-scale filters and the Troyer cost model
 2. **Estimate** quantum resource requirements via Q# resource estimation
 3. **Compare** against Azure HPC and AI/ML alternatives with real pricing and benchmarks
 4. **Build** the right Azure workspace  Quantum (Azure Quantum), AI/ML (Azure AI Foundry), or HPC (Azure CycleCloud / NDv6 GPU clusters)

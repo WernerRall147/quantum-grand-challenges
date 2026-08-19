@@ -31,8 +31,12 @@
   "agents/evaluations/run_eval.py": [
     ".github/workflows/ci-cd.yml"
   ],
+  "agents/evaluations/score_narrative.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
   "agents/orchestrator/evaluate.py": [
     "agents/api/main.py",
+    "agents/evaluations/score_narrative.py",
     "agents/tests/test_evaluator_smoke.py"
   ],
   "agents/orchestrator/instructions.py": [

@@ -84,6 +84,8 @@ jobs:
         run: pytest agents/tests -v --tb=short
       - name: Router evaluation (offline, cached KB matches)
         run: python agents/evaluations/run_eval.py --offline
+      - name: Narrative evaluation (offline, recorded model responses)
+        run: python agents/evaluations/score_narrative.py --offline --strict
       - name: Verify matrix freshness + website schema
         run: |
           # Matrix freshness shells out to `make` per problem and can drift for

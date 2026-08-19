@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1201,
-    "code_files": 223,
-    "python": 167,
+    "tracked": 1203,
+    "code_files": 224,
+    "python": 168,
     "qsharp": 43,
     "ts": 13,
-    "edges": 162,
-    "roots": 237,
-    "reachable": 261
+    "edges": 164,
+    "roots": 238,
+    "reachable": 262
   },
   "nodes": [
     "agents/api/main.py",
@@ -19,6 +19,7 @@
     "agents/code_generator/bicep_generator.py",
     "agents/code_generator/generate.py",
     "agents/evaluations/run_eval.py",
+    "agents/evaluations/score_narrative.py",
     "agents/orchestrator/evaluate.py",
     "agents/orchestrator/instructions.py",
     "agents/tests/test_bicep_generator.py",
@@ -246,6 +247,10 @@
     ],
     [
       ".github/workflows/ci-cd.yml",
+      "agents/evaluations/score_narrative.py"
+    ],
+    [
+      ".github/workflows/ci-cd.yml",
       "problems/archived/03_qae_risk/python/write_runtime_config.py"
     ],
     [
@@ -355,6 +360,10 @@
     [
       "agents/evaluations/run_eval.py",
       "knowledge/search/kb_client.py"
+    ],
+    [
+      "agents/evaluations/score_narrative.py",
+      "agents/orchestrator/evaluate.py"
     ],
     [
       "agents/orchestrator/evaluate.py",

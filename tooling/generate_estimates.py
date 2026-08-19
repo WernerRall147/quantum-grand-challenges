@@ -16,6 +16,11 @@ from discover_problems import discover_all_problems
 from estimator_config import DEFAULT_QEC_SCHEME, DEFAULT_QUBIT_MODEL, ENTRY_POINTS, estimate_summary
 
 FRONTIERS_PATH = Path(__file__).resolve().parent.parent / "website" / "data" / "paretoFrontiers.json"
+# Was hand-maintained and never regenerated, so it still described the VQE kernels
+# that #176 replaced with QPE: 18 logical qubits and 45 rotations for Hubbard where
+# every qubit model now reports 12 and 12. Logical counts are hardware-independent,
+# so no configuration explained the gap - the file simply measured deleted code.
+ESTIMATES_PATH = Path(__file__).resolve().parent.parent / "website" / "data" / "resourceEstimates.json"
 
 _KERNEL_ENTRY_RE = re.compile(r"@EntryPoint\(\)\s*\n\s*operation\s+(\w+)")
 
@@ -38,6 +43,7 @@ def main():
     ok = 0
     fail = 0
     frontiers: dict[str, dict] = {}
+    site_estimates: dict[str, dict] = {}
 
     for pd in problem_dirs:
         qsharp_dir = pd / "qsharp"
@@ -97,6 +103,19 @@ def main():
                     "points": points,
                 }
 
+            # Flat map keyed by problem id: compare.tsx iterates Object.entries, so a
+            # wrapper object would render as a phantom row.
+            site_estimates[name] = {
+                "physicalQubits": summary.get("physicalQubits"),
+                "logicalQubits": summary.get("logicalQubits"),
+                "tCount": summary.get("tCount"),
+                "rotationCount": summary.get("rotationCount"),
+                "runtime": summary.get("runtime"),
+                "entryExpr": summary.get("entryExpr"),
+                "qubitModel": DEFAULT_QUBIT_MODEL,
+                "qecScheme": DEFAULT_QEC_SCHEME,
+            }
+
         except Exception as e:
             err = str(e)[:150]
             print(f"XX {name}: {err}")
@@ -119,6 +138,13 @@ def main():
             encoding="utf-8",
         )
         print(f"Frontiers for {len(frontiers)} problems -> {FRONTIERS_PATH.name}")
+
+    if site_estimates:
+        ESTIMATES_PATH.parent.mkdir(parents=True, exist_ok=True)
+        ESTIMATES_PATH.write_text(
+            json.dumps(site_estimates, indent=2, default=str), encoding="utf-8"
+        )
+        print(f"Estimates for {len(site_estimates)} problems -> {ESTIMATES_PATH.name}")
 
     print(f"\nDone: {ok} estimates generated, {fail} failed")
 

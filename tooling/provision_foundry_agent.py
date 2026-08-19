@@ -45,6 +45,7 @@ from azure.ai.projects.models import (
 )
 
 from agents.orchestrator.instructions import SYSTEM_PROMPT
+from agents.orchestrator.output_schema import RESPONSE_FORMAT
 
 # --- Config (env-overridable) ------------------------------------------------
 PROJECT_ENDPOINT = os.environ.get(
@@ -89,6 +90,10 @@ def create_or_update():
         model=MODEL_DEPLOYMENT,
         instructions=SYSTEM_PROMPT,
         tools=_build_tools(),
+        # Measurement showed the agent dropping schema keys the chat path never
+        # drops, because the chat path pins response_format and a request against
+        # an agent may not. Setting it on the definition is the only place allowed.
+        text={"format": RESPONSE_FORMAT},
     )
     agent = project.agents.create_version(
         agent_name=AGENT_NAME,

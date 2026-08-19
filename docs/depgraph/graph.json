@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1200,
-    "code_files": 225,
-    "python": 169,
+    "tracked": 1201,
+    "code_files": 226,
+    "python": 170,
     "qsharp": 43,
     "ts": 13,
-    "edges": 167,
+    "edges": 169,
     "roots": 239,
-    "reachable": 263
+    "reachable": 264
   },
   "nodes": [
     "agents/api/main.py",
@@ -22,6 +22,7 @@
     "agents/evaluations/score_narrative.py",
     "agents/orchestrator/evaluate.py",
     "agents/orchestrator/instructions.py",
+    "agents/orchestrator/output_schema.py",
     "agents/tests/test_bicep_generator.py",
     "agents/tests/test_cost_model.py",
     "agents/tests/test_estimator_config.py",
@@ -373,6 +374,10 @@
     [
       "agents/evaluations/score_narrative.py",
       "agents/orchestrator/evaluate.py"
+    ],
+    [
+      "agents/evaluations/score_narrative.py",
+      "agents/orchestrator/output_schema.py"
     ],
     [
       "agents/orchestrator/evaluate.py",
@@ -821,6 +826,10 @@
     [
       "tooling/provision_foundry_agent.py",
       "agents/orchestrator/instructions.py"
+    ],
+    [
+      "tooling/provision_foundry_agent.py",
+      "agents/orchestrator/output_schema.py"
     ],
     [
       "tooling/reporting/check_homepage_stats.py",

@@ -139,6 +139,9 @@ class QuantumEvaluator:
 
         project = AIProjectClient(endpoint=PROJECT_ENDPOINT, credential=self.credential)
         client = project.get_openai_client()
+        # The response format cannot be set here: the API rejects `text` with
+        # "Not allowed when agent is specified". It lives on the agent definition
+        # instead, applied by tooling/provision_foundry_agent.py.
         response = client.responses.create(
             input=user_message,
             extra_body={"agent_reference": {"type": "agent_reference", "name": AGENT_NAME}},

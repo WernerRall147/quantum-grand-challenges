@@ -92,6 +92,14 @@ GUIDING_STATE_MARKERS = [
     "vqe", "variational quantum eigensolver", "qpe",
 ]
 
+# Families whose advantage does not depend on a guiding state at all, so F6 does
+# not apply however chemical the problem wording happens to be.
+NO_GUIDING_STATE_MARKERS = [
+    "shor", "factoring", "factorisation", "factorization", "cryptography",
+    "cryptanalysis", "grover", "search", "amplitude estimation",
+    "amplitude amplification", "sampling", "discrete logarithm",
+]
+
 
 def _any_marker(text: str, markers: List[str]) -> bool:
     lowered = text.lower()
@@ -149,17 +157,26 @@ def compute_state_preparation_filter(algorithm: Dict[str, Any], problem_descript
 
     Algorithms that need no guiding state pass: the filter does not apply.
 
-    Applicability is decided from the problem as well as the matched algorithm.
-    Deciding it from the algorithm name alone meant a poor retrieval switched the
-    filter off entirely: a single-reference water dimer matched "Coupled Classical
-    Oscillators Simulation", no marker hit, and F6 passed by default on exactly
-    the kind of problem it exists to reject.
+    Applicability is decided in three steps, because "no marker matched" is not
+    the same as "needs no guiding state". Deciding it from the algorithm name
+    alone meant a poor retrieval switched the filter off entirely: a
+    single-reference water dimer matched "Coupled Classical Oscillators
+    Simulation", nothing hit, and F6 passed by default on exactly the problem
+    class it exists to reject. An unrecognised match now falls back to the
+    problem text, while genuinely guiding-state-free families still pass.
     """
-    structure = classify_electronic_structure(problem_description)
     identity = f"{algorithm.get('name', '')} {algorithm.get('category', '')}"
-    if not _any_marker(identity, GUIDING_STATE_MARKERS) and structure == "unknown":
+
+    if _any_marker(identity, GUIDING_STATE_MARKERS):
+        applies = True
+    elif _any_marker(identity, NO_GUIDING_STATE_MARKERS):
+        applies = False
+    else:
+        applies = classify_electronic_structure(problem_description) != "unknown"
+
+    if not applies:
         return True
-    return structure != "class_1"
+    return classify_electronic_structure(problem_description) != "class_1"
 
 
 def route_platform(

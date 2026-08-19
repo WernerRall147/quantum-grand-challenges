@@ -41,8 +41,6 @@ import argparse
 import json
 import re
 import sys
-import urllib.error
-import urllib.request
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -54,6 +52,7 @@ RESPONSES_PATH = HERE / "narrative_responses.json"
 # The contract lives in one place so the scorer and the agent's structured output
 # cannot drift apart, which is how F6 came to be demanded but never defined.
 from agents.orchestrator import output_schema as _schema  # noqa: E402
+from agents.orchestrator.citations import verify_citations  # noqa: E402
 
 VERDICTS = set(_schema.VERDICTS)
 PLATFORMS = set(_schema.PLATFORMS)
@@ -86,58 +85,6 @@ WARNING_MARKERS = (
 )
 
 PASS, FAIL, NA = "pass", "fail", "n/a"
-
-# A reference that is well-formed but fabricated is the most damaging thing this
-# tool can emit, and the references check above cannot see it: "arXiv:2409.08910"
-# and "arXiv:2409.99999" are equally well-formed. These resolve the ones that can
-# be resolved. Done when recording, so offline scoring stays hermetic.
-_ARXIV_RE = re.compile(r"arxiv[:\s/]*(\d{4}\.\d{4,5})", re.IGNORECASE)
-_BARE_ARXIV_RE = re.compile(r"\b(\d{4}\.\d{4,5})\b")
-_DOI_RE = re.compile(r"\b(10\.\d{4,9}/[^\s,;)\]]+)")
-_URL_RE = re.compile(r"(https?://[^\s,;)\]]+)")
-
-
-def citation_target(ref: str) -> tuple[str, str] | None:
-    """The kind of citation and a URL that should resolve if it is real."""
-    m = _ARXIV_RE.search(ref) or _BARE_ARXIV_RE.search(ref)
-    if m:
-        return "arxiv", f"https://arxiv.org/abs/{m.group(1)}"
-    m = _DOI_RE.search(ref)
-    if m:
-        return "doi", f"https://doi.org/{m.group(1).rstrip('.')}"
-    m = _URL_RE.search(ref)
-    if m:
-        return "url", m.group(1).rstrip(".,;)")
-    return None
-
-
-def verify_citations(refs) -> list[dict]:
-    """Resolve each citation that has a checkable target.
-
-    Only a definitive 404 or 410 counts as missing. A timeout or transport error
-    is recorded as unchecked, because a flaky network must not be reported as a
-    fabricated source.
-    """
-    results = []
-    for ref in refs or []:
-        if not isinstance(ref, str):
-            continue
-        target = citation_target(ref)
-        if target is None:
-            results.append({"ref": ref[:120], "kind": "unresolvable", "status": "no_target"})
-            continue
-
-        kind, url = target
-        request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "qgc-eval/1.0"})
-        try:
-            with urllib.request.urlopen(request, timeout=15) as response:
-                status = "resolved" if response.status < 400 else f"http_{response.status}"
-        except urllib.error.HTTPError as exc:
-            status = "missing" if exc.code in (404, 410) else f"http_{exc.code}"
-        except Exception as exc:  # noqa: BLE001 - network flake is not evidence of fabrication
-            status = f"unchecked ({type(exc).__name__})"
-        results.append({"ref": ref[:120], "kind": kind, "url": url, "status": status})
-    return results
 
 # Set from the measured baseline. Anything a well-formed answer must always do is
 # pinned at 1.00; the rest sit just under the observed rate so ordinary variance

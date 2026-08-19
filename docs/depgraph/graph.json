@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1203,
-    "code_files": 224,
-    "python": 168,
+    "tracked": 1204,
+    "code_files": 225,
+    "python": 169,
     "qsharp": 43,
     "ts": 13,
-    "edges": 165,
-    "roots": 238,
-    "reachable": 262
+    "edges": 167,
+    "roots": 239,
+    "reachable": 263
   },
   "nodes": [
     "agents/api/main.py",
@@ -200,6 +200,7 @@
     "tooling/generate_stage_d_evidence.py",
     "tooling/provision_foundry_agent.py",
     "tooling/reporting/audit_azure_run_history_metrics.py",
+    "tooling/reporting/check_homepage_stats.py",
     "tooling/reporting/check_verification_matrix_freshness.py",
     "tooling/reporting/problem_runnable_correctness_audit.py",
     "tooling/reporting/recommend_platform_targets.py",
@@ -276,6 +277,10 @@
     [
       ".github/workflows/ci-cd.yml",
       "tooling/ci_validate_schema.py"
+    ],
+    [
+      ".github/workflows/ci-cd.yml",
+      "tooling/reporting/check_homepage_stats.py"
     ],
     [
       ".github/workflows/ci-cd.yml",
@@ -816,6 +821,10 @@
     [
       "tooling/provision_foundry_agent.py",
       "agents/orchestrator/instructions.py"
+    ],
+    [
+      "tooling/reporting/check_homepage_stats.py",
+      "agents/classifier/platform_router.py"
     ],
     [
       "tooling/run_all_qsharp.py",

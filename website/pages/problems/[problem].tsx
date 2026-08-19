@@ -82,6 +82,16 @@ interface EstimateData {
   numQubits: number | null;
 }
 
+// Their emulator runs date from April 2026, before #176 replaced these problems'
+// VQE kernels with phase estimation. The histograms are real but describe deleted code.
+const STALE_EMULATOR_PROBLEMS = new Set([
+  '01_hubbard',
+  '02_catalysis',
+  '07_drug_discovery',
+  '14_materials_discovery',
+  '17_nuclear_physics',
+]);
+
 interface ProblemPageProps {
   problem: {
     title: string;
@@ -396,6 +406,19 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
         {problem.emulator && (
           <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#f5f3ff', borderRadius: '12px', border: '1px solid #ddd6fe' }}>
             <h2 style={{ marginTop: 0, color: '#5b21b6' }}>Cross-Platform Emulator Results (100 shots)</h2>
+            {STALE_EMULATOR_PROBLEMS.has(problem.id) && (
+              <div style={{ marginTop: '1rem', padding: '1rem 1.25rem', background: '#fffbeb', borderRadius: '8px', border: '1px solid #fcd34d' }}>
+                <div style={{ color: '#92400e', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.4rem' }}>
+                  These histograms predate the current kernel
+                </div>
+                <p style={{ color: '#78350f', fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>
+                  This run was recorded in April 2026 against a VQE kernel that has since been replaced by phase
+                  estimation. The shot distribution below is a real measurement, but it is a measurement of a program
+                  that no longer exists in this repository. Azure Quantum submission is currently blocked, so it has
+                  not been re-run.
+                </p>
+              </div>
+            )}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1rem' }}>
               <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', border: '1px solid #ddd6fe' }}>
                 <div style={{ fontSize: '0.85rem', color: '#5b21b6', fontWeight: 600 }}>Quantinuum H2-1E</div>

@@ -160,8 +160,8 @@ export default function ComparePage() {
         <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#fefce8', borderRadius: '10px' }}>
           <h3 style={{ marginTop: 0, color: '#92400e' }}>Key Observations</h3>
           <ul style={{ color: '#78350f', lineHeight: 1.8 }}>
-            <li><strong>Qubit range:</strong> 1.8k (QEC) to 293k (QAE risk)  166x variation across problems</li>
-            <li><strong>T-gate intensive:</strong> QAE (15), HHL (12), Climate HHL (3), and six problems tied at 6 (Shor plus the five QPE problems)  these require T-state factories</li>
+            <li><strong>Qubit range:</strong> 1.7k (QEC) to 369k (QAE risk)  212x variation across problems</li>
+            <li><strong>T-gate intensive:</strong> QAE (15), HHL (12), Shor (6), Climate HHL (3)  these require T-state factories. The QPE problems report none: their cost sits in rotations instead</li>
             <li><strong>Rotation dominated:</strong> QAOA, amplitude estimation, quantum walk, swap test and Trotter run with zero T-gates  simpler for near-term hardware</li>
             <li><strong>All estimates from real Azure Quantum Resource Estimator</strong>  not mock data</li>
           </ul>

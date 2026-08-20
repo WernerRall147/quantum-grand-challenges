@@ -45,6 +45,7 @@ SOURCES = [
 # either - two back-to-back requests earned a 429.
 ARXIV_PAGE_SIZE = 50
 ARXIV_PAGE_DELAY = 4
+ARXIV_SOURCE_DELAY = 15
 ARXIV_MAX_PAGES = 40
 
 # arXiv rate-limits with 429 and drops slow reads, so fetches are retried.
@@ -258,7 +259,11 @@ def main():
 
     all_papers = []
     failed_categories = []
-    for label, query in SOURCES:
+    for index, (label, query) in enumerate(SOURCES):
+        # The page delay only spaces requests within a source. Without this, six
+        # sources ran back to back and arXiv 429'd the fourth one out of the run.
+        if index:
+            time.sleep(ARXIV_SOURCE_DELAY)
         try:
             papers = fetch_arxiv_papers(query, days_back=3)
         except Exception as e:  # one bad source must not lose the whole run
@@ -305,13 +310,17 @@ def main():
         json.dump({"ingested_utc": datetime.now(timezone.utc).isoformat(), "count": len(relevant), "papers": relevant}, f, indent=2)
     print(f"Saved {len(relevant)} papers to {output_path}")
 
+    # Everything fetched is already indexed by this point, so failing here loses
+    # nothing. A dropped source is a hole in the corpus, and the same standard the
+    # sinks are held to applies: incomplete is not success.
+    problems = []
     if failed_categories:
-        print(f"WARNING: arXiv categories that failed: {', '.join(failed_categories)}")
-
+        problems.append(f"sources that failed: {', '.join(failed_categories)}")
     if failed_sinks:
-        raise SystemExit(
-            f"Ingestion incomplete: {', '.join(failed_sinks)} rejected the papers"
-        )
+        problems.append(f"{', '.join(failed_sinks)} rejected the papers")
+
+    if problems:
+        raise SystemExit(f"Ingestion incomplete: {'; '.join(problems)}")
 
 
 if __name__ == "__main__":

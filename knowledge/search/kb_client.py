@@ -173,17 +173,22 @@ class QuantumKnowledgeBase:
         confident quantum-flavoured support for any question at all - including the
         ones whose correct answer is "do not use a quantum computer".
 
-        Measured 2026-08-24 over the five demo prompts: the two highest-scoring
-        results in the whole set were "Quantum-Informed Portfolio Selection" (0.0323)
-        for portfolio optimisation and "Hybrid Quantum-Classical Neural Networks"
-        (0.0325) for image classification - the two prompts that must be declined.
-        FeMoco, which must be accepted, scored lower at 0.0242. Score runs against
-        correctness here, so a relevance threshold cannot separate them; only keeping
-        this out of the decision path can.
+        Re-measured 2026-08-24 over the five demo prompts, after the Zoo references
+        landed: portfolio optimisation still tops out at 0.0323 and image classification
+        at 0.0323, both of which must be declined, while FeMoco - which must be accepted -
+        scores 0.0290. Score still runs against correctness, so a relevance threshold
+        cannot separate them; only keeping this out of the decision path can. Ingesting
+        451 curated references did not shift this, which is the point: the imbalance is
+        in what the corpus is, not in how much of it there is.
 
-        Coverage is recent-only. Ingestion began in 2026, so the foundational
-        references these verdicts rest on - Reiher et al. arXiv:1605.03590 for FeMoco,
-        Shor for factoring - are absent.
+        The coverage gap is closed. Reiher et al. arXiv:1605.03590 for FeMoco and Shor
+        quant-ph/9508027 for factoring are both present now.
+
+        What the corpus mostly cannot do is state a speedup. Measured across all 2,239
+        documents by tooling/measure_corpus_decidability.py, only 4.6% carry a
+        classifiable speedup claim - 13.5% of the curated Zoo references against 2.3% of
+        the daily arXiv sweep. Over these five prompts retrieval returned 25 papers and
+        none of them were decidable, which is what a 2.3% rate predicts.
 
         Returns [] on any failure. A missing paper list must degrade the answer, never
         break it.
@@ -217,6 +222,10 @@ class QuantumKnowledgeBase:
                 "arxiv_id": r["arxiv_id"],
                 "published": (r.get("published") or "")[:10],
                 "authors": r.get("authors", ""),
+                # The index stores abstract[:2000]; this second cut keeps the recent-work
+                # block short in the prompt. Checked 2026-08-24 that it costs nothing
+                # downstream: classifying the same 25 retrieved papers at 400 characters
+                # and at full stored length decided on none of them either way.
                 "abstract": (r.get("abstract") or "")[:400],
                 "score": r["@search.score"],
             }

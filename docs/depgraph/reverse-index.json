@@ -14,8 +14,10 @@
     "agents/tests/test_cost_model.py"
   ],
   "agents/classifier/paper_classifier.py": [
+    "agents/tests/test_corpus_decidability.py",
     "agents/tests/test_paper_classifier.py",
-    "tooling/eval_paper_classifier.py"
+    "tooling/eval_paper_classifier.py",
+    "tooling/measure_corpus_decidability.py"
   ],
   "agents/classifier/platform_router.py": [
     "agents/evaluations/run_eval.py",
@@ -61,7 +63,8 @@
   ],
   "knowledge/search/kb_client.py": [
     "agents/evaluations/run_eval.py",
-    "agents/orchestrator/evaluate.py"
+    "agents/orchestrator/evaluate.py",
+    "tooling/measure_corpus_decidability.py"
   ],
   "problems/02_catalysis/python/analyze.py": [
     "problems/02_catalysis/Makefile"
@@ -357,6 +360,9 @@
   ],
   "tooling/generate_estimates.py": [
     ".github/workflows/nightly.yml"
+  ],
+  "tooling/measure_corpus_decidability.py": [
+    "agents/tests/test_corpus_decidability.py"
   ],
   "tooling/reporting/audit_azure_run_history_metrics.py": [
     ".github/workflows/nightly.yml"

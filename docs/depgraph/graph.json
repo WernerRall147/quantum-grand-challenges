@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1211,
-    "code_files": 234,
-    "python": 178,
+    "tracked": 1213,
+    "code_files": 236,
+    "python": 180,
     "qsharp": 43,
     "ts": 13,
-    "edges": 176,
-    "roots": 245,
-    "reachable": 272
+    "edges": 180,
+    "roots": 247,
+    "reachable": 274
   },
   "nodes": [
     "agents/api/main.py",
@@ -26,6 +26,7 @@
     "agents/orchestrator/instructions.py",
     "agents/orchestrator/output_schema.py",
     "agents/tests/test_bicep_generator.py",
+    "agents/tests/test_corpus_decidability.py",
     "agents/tests/test_cost_model.py",
     "agents/tests/test_estimator_config.py",
     "agents/tests/test_evaluator_smoke.py",
@@ -206,6 +207,7 @@
     "tooling/generate_multimodel_estimates.py",
     "tooling/generate_stage_d_evidence.py",
     "tooling/ingest_zoo_references.py",
+    "tooling/measure_corpus_decidability.py",
     "tooling/provision_foundry_agent.py",
     "tooling/reporting/audit_azure_run_history_metrics.py",
     "tooling/reporting/check_homepage_stats.py",
@@ -422,6 +424,14 @@
     [
       "agents/tests/test_bicep_generator.py",
       "agents/code_generator/bicep_generator.py"
+    ],
+    [
+      "agents/tests/test_corpus_decidability.py",
+      "agents/classifier/paper_classifier.py"
+    ],
+    [
+      "agents/tests/test_corpus_decidability.py",
+      "tooling/measure_corpus_decidability.py"
     ],
     [
       "agents/tests/test_cost_model.py",
@@ -858,6 +868,14 @@
     [
       "tooling/generate_multimodel_estimates.py",
       "tooling/estimator_config.py"
+    ],
+    [
+      "tooling/measure_corpus_decidability.py",
+      "agents/classifier/paper_classifier.py"
+    ],
+    [
+      "tooling/measure_corpus_decidability.py",
+      "knowledge/search/kb_client.py"
     ],
     [
       "tooling/provision_foundry_agent.py",

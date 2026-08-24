@@ -60,11 +60,11 @@ in science, and could Q# help?* A year and ~300 commits later it is running on A
 
 ## 4. Demo beat sheet
 
-**A call takes ~38s** (two full runs of all five demo prompts, 2026-08-24, 10 calls:
-median 38.2s, min 32.0s, max 46.4s, zero mismatches both times). That is meaningfully
-faster than the Foundry agent path it replaced (~52s median). Still long enough that
-Azure Friday's guidance applies - have a completed item to transition to rather than
-watch a spinner. So:
+**A call takes ~38s** (three full runs of all five demo prompts, 2026-08-24, 15 calls:
+median 38.0s, min 28.9s, max 58.9s, zero mismatches on every run). That is meaningfully
+faster than the Foundry agent path it replaced (~52s median), but plan for a 60s worst
+case rather than the median. Azure Friday's guidance applies either way - have a
+completed item to transition to rather than watch a spinner. So:
 
 | Beat | Time | On screen | Notes |
 |---|---|---|---|

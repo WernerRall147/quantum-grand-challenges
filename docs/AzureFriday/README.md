@@ -7,12 +7,14 @@ demo). Everything here is grounded in the real, deployed system.
 verdict against the live API, model `gpt-5.6-luna-2026-07-09` via the model router,
 5-7 references, `used_agent: false`.
 
-**Latency, two full runs of all five prompts on 2026-08-24 (10 calls):** median 38.2s,
-mean 37.4s, min 32.0s, max 46.4s. Rehearse against **50s** and you will not be caught out.
+**Latency, three full runs of all five prompts on 2026-08-24 (15 calls):** median 38.0s,
+mean 38.0s, min 28.9s, max 58.9s. Rehearse against **60s**.
 
-> Two runs, not one. The first five calls alone gave a 33.2s median; the second five
-> gave 39.2s. Quoting the faster set would have been the same mistake this project
-> exists to avoid, so the figures above are all ten calls.
+> Three runs, not one. The per-run medians were 33.2s, 39.2s and 34.1s, so the middle of
+> the distribution is stable and 38s is a fair number to plan narration around. The worst
+> single call is what moved: 46.4s after ten samples, 58.9s after fifteen. The median is
+> what you plan for; the max is what catches you out live, and it needs more samples to
+> find. Quoting the first five calls alone would have given 33.2s and a false sense of it.
 
 > Earlier revisions of this file quoted a 51.5s median and told you to rehearse
 > against 90s. Those were measured on the **Foundry agent** path. Production moved to
@@ -57,10 +59,10 @@ Scott carry the rest. Full beat sheet and submission draft in
 
 ### Demo beat sheet
 
-A call takes about 38s and has been measured at 46s. Azure Friday's own prep guidance is
+A call takes about 38s and has been measured at 59s. Azure Friday's own prep guidance is
 to have a completed item to transition to rather than watch something finish, so **run
 beat 1 live and pre-load beat 2 in a second tab**. One live call proves it is real; two
-spends most of a minute and a half of a six minute demo on a spinner.
+could spend two minutes of a six minute demo on a spinner.
 
 | Beat | Time | On screen | Notes |
 |---|---|---|---|
@@ -104,7 +106,7 @@ python tooling/verify_demo_prompts.py
 
 Exit code 0 means every prompt returned its expected verdict. Non-zero means **do not
 record against it** - the output names which prompt drifted. Takes about three minutes.
-Median 38.2s per call, max seen 46.4s; past ~90s is worth investigating before you go live.
+Median 38.0s per call, max seen 58.9s; past ~90s is worth investigating before you go live.
 
 If you would rather poke it by hand:
 

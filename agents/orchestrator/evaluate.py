@@ -15,7 +15,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, List, Optional
 
 from azure.identity import DefaultAzureCredential
 from openai import AzureOpenAI
@@ -53,11 +53,22 @@ USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 # is not a trade worth making, and on the website that is 52s of waiting instead
 # of 28s.
 #
-# NOTE: this default is NOT what production runs. Container App qgc-eval-api sets
-# QGC_USE_AGENT=1 as an env var, which wins over this default. Acting on the
-# recommendation means `az containerapp update -n qgc-eval-api -g qgc-evaluator
-# --set-env-vars QGC_USE_AGENT=0`, not editing this line.
+# NOTE: this default is NOT authoritative. Container App qgc-eval-api sets
+# QGC_USE_AGENT as an env var, which wins over this default. Since 2026-08-19 it is
+# set to 0 (chat-completions, ~38s median against ~52s for the agent path). Change it
+# with `az containerapp update -n qgc-eval-api -g qgc-evaluator --set-env-vars
+# QGC_USE_AGENT=...`, not by editing this line.
 USE_AGENT = os.environ.get("QGC_USE_AGENT", "0") == "1"
+
+# Recent-arXiv context, off by default and deliberately so. The quantum-papers index
+# is an arXiv quant-ph sweep, so every document in it is a quantum paper and retrieval
+# argues for quantum on every question. Measured 2026-08-24 across the five demo
+# prompts, its most confident hits were portfolio optimisation (0.0323) and image
+# classification (0.0325) - the two that must be declined - while FeMoco, which must be
+# accepted, scored 0.0242. A score threshold cannot separate those, so the corpus is
+# kept out of the decision path entirely and passed to the model as labelled reading.
+# Turn on with QGC_USE_PAPERS=1 only after re-running tooling/verify_demo_prompts.py.
+USE_PAPERS = os.environ.get("QGC_USE_PAPERS", "0") == "1"
 PROJECT_ENDPOINT = os.environ.get(
     "QGC_PROJECT_ENDPOINT",
     "https://admin-mo1q7owo-eastus2.services.ai.azure.com/api/projects/qgc-eval-proj",
@@ -174,6 +185,32 @@ class QuantumEvaluator:
         tokens_used = getattr(usage, "total_tokens", 0) or 0
         return text, "stop", model_used, tokens_used
 
+    @staticmethod
+    def _recent_work_block(papers: List[Dict[str, Any]]) -> str:
+        """Render recent arXiv hits in their own block, marked as not-evidence.
+
+        Kept separate from KNOWLEDGE BASE RESULTS on purpose. The corpus only contains
+        quantum papers, so it supports a quantum answer for anything, and merging it
+        into the evidence block would invite the model to read it as corroboration.
+        """
+        if not papers:
+            return ""
+        lines = [
+            "",
+            "RECENT ARXIV WORK (context only - NOT evidence for the verdict):",
+            "This index contains quantum papers exclusively, so it returns quantum-adjacent",
+            "results for every query, including problems that should not use quantum. It is",
+            "also recent-only and does not contain the foundational references. Cite these as",
+            "current related work if genuinely relevant. Do not treat them as support for the",
+            "verdict, and do not let them displace canonical citations.",
+        ]
+        for paper in papers:
+            lines.append(
+                f"- {paper['title']} (arXiv:{paper['arxiv_id']}, {paper['published']})"
+            )
+        lines.append("")
+        return "\n".join(lines)
+
     def evaluate(self, problem_description: str) -> Dict[str, Any]:
         """Full evaluation pipeline for a quantum problem."""
 
@@ -213,6 +250,13 @@ class QuantumEvaluator:
             ],
         }, indent=2)
 
+        # Recent arXiv work, off by default. The corpus is an arXiv quant-ph sweep, so
+        # it argues for quantum on every question - measured, its most confident hits
+        # were for the two demo prompts that must be declined. It is passed to the model
+        # in its own labelled block, never merged into KNOWLEDGE BASE RESULTS, and never
+        # reaches route_platform(), which has already produced the verdict by this point.
+        recent_papers = self.kb.search_papers(problem_description) if USE_PAPERS else []
+
         # Step 4: LLM generates detailed assessment
         user_message = f"""Evaluate this quantum computing problem:
 
@@ -232,7 +276,7 @@ specific algorithm and speedup class - a disagreement is recorded and reviewed r
 
 KNOWLEDGE BASE RESULTS:
 {kb_context}
-
+{self._recent_work_block(recent_papers)}
 Provide your evaluation as JSON following the output format specified in your instructions. Be honest about limitations."""
 
         # Timed so the cost of the agent path is a measurement rather than an

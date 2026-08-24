@@ -70,6 +70,7 @@ class QuantumKnowledgeBase:
     def __init__(self):
         self.credential = DefaultAzureCredential()
         self.search_client = None
+        self._papers_search_client = None
         self.last_search_mode = "uninitialised"
 
         # AI Search  use key if available, otherwise Entra ID
@@ -160,6 +161,87 @@ class QuantumKnowledgeBase:
     def get_algorithm(self, name: str) -> Optional[Dict[str, Any]]:
         """Get a specific algorithm by name from the algorithm zoo."""
         return _algorithms_by_name().get(_normalise(name))
+
+    # === Scientific Paper Tools ===
+
+    def search_papers(self, query: str, top: int = 3) -> List[Dict[str, Any]]:
+        """Hybrid search over the ingested arXiv papers. Recent work only.
+
+        This corpus cannot be used as evidence for a verdict, and callers must not
+        treat it that way. Every document in it came from an arXiv quant-ph sweep, so
+        it holds quantum papers and nothing else, and it will therefore return
+        confident quantum-flavoured support for any question at all - including the
+        ones whose correct answer is "do not use a quantum computer".
+
+        Measured 2026-08-24 over the five demo prompts: the two highest-scoring
+        results in the whole set were "Quantum-Informed Portfolio Selection" (0.0323)
+        for portfolio optimisation and "Hybrid Quantum-Classical Neural Networks"
+        (0.0325) for image classification - the two prompts that must be declined.
+        FeMoco, which must be accepted, scored lower at 0.0242. Score runs against
+        correctness here, so a relevance threshold cannot separate them; only keeping
+        this out of the decision path can.
+
+        Coverage is recent-only. Ingestion began in 2026, so the foundational
+        references these verdicts rest on - Reiher et al. arXiv:1605.03590 for FeMoco,
+        Shor for factoring - are absent.
+
+        Returns [] on any failure. A missing paper list must degrade the answer, never
+        break it.
+        """
+        client = self._papers_client()
+        if not client:
+            return []
+
+        select = ["title", "arxiv_id", "abstract", "published", "authors", "category"]
+        try:
+            embedding = self._embed(query)
+            from azure.search.documents.models import VectorizedQuery
+            results = client.search(
+                search_text=query,
+                vector_queries=[
+                    VectorizedQuery(vector=embedding, k_nearest_neighbors=top, fields="embedding")
+                ],
+                top=top,
+                select=select,
+            )
+        except Exception as exc:
+            logger.warning(
+                "Paper search failed, continuing without recent-work context: %s: %s",
+                type(exc).__name__, str(exc)[:200],
+            )
+            return []
+
+        return [
+            {
+                "title": r["title"],
+                "arxiv_id": r["arxiv_id"],
+                "published": (r.get("published") or "")[:10],
+                "authors": r.get("authors", ""),
+                "abstract": (r.get("abstract") or "")[:400],
+                "score": r["@search.score"],
+            }
+            for r in results
+        ]
+
+    def _papers_client(self) -> Optional[SearchClient]:
+        """Lazily build the papers client so it costs nothing when the flag is off."""
+        if self._papers_search_client is not None:
+            return self._papers_search_client
+        try:
+            search_key = os.environ.get("SEARCH_ADMIN_KEY")
+            search_cred = AzureKeyCredential(search_key) if search_key else self.credential
+            self._papers_search_client = SearchClient(
+                endpoint=SEARCH_ENDPOINT,
+                index_name="quantum-papers",
+                credential=search_cred,
+            )
+        except Exception as exc:
+            logger.warning(
+                "AI Search papers client could not be created, paper search will "
+                "return nothing: %s: %s", type(exc).__name__, str(exc)[:200]
+            )
+            return None
+        return self._papers_search_client
 
     def classify_problem(self, problem_description: str) -> Dict[str, Any]:
         """Classify a quantum problem using Troyer's filters.

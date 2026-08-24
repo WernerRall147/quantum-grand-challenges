@@ -739,3 +739,49 @@ class TestPromptMatchesSchema:
         values = schema.VERDICTS + schema.PLATFORMS + schema.DIVINCENZO_VALUES
         missing = [v for v in values if v not in SYSTEM_PROMPT]
         assert not missing, f"legal values the prompt never offers: {missing}"
+
+
+class TestRecentPapersStayOutOfTheVerdict:
+    """The arXiv corpus is quantum-only, so it must never reach the decision path.
+
+    Measured 2026-08-24 over the five demo prompts: the highest-scoring paper hits
+    were for portfolio optimisation and image classification, the two problems whose
+    correct answer is that quantum is the wrong tool. Score runs against correctness,
+    so the separation has to be structural rather than a threshold.
+    """
+
+    def test_defaults_to_off(self):
+        import os
+        assert os.environ.get("QGC_USE_PAPERS", "0") != "1", (
+            "QGC_USE_PAPERS is set in this environment; the tests below assume the "
+            "default-off path"
+        )
+
+    def test_no_papers_adds_nothing_to_the_prompt(self):
+        from agents.orchestrator.evaluate import QuantumEvaluator
+
+        assert QuantumEvaluator._recent_work_block([]) == ""
+
+    def test_block_marks_itself_as_not_evidence(self):
+        from agents.orchestrator.evaluate import QuantumEvaluator
+
+        block = QuantumEvaluator._recent_work_block(
+            [{"title": "Quantum-Informed Portfolio Selection",
+              "arxiv_id": "2607.00001", "published": "2026-07-01"}]
+        )
+        assert "NOT evidence" in block
+        assert "Quantum-Informed Portfolio Selection" in block
+
+    def test_router_signature_cannot_accept_papers(self):
+        """route_platform owns the verdict and takes no paper argument.
+
+        If someone later adds one, this fails and they have to justify it.
+        """
+        import inspect
+        from agents.classifier.platform_router import route_platform
+
+        params = set(inspect.signature(route_platform).parameters)
+        assert not {p for p in params if "paper" in p.lower()}, (
+            f"route_platform grew a paper-shaped parameter: {params}"
+        )
+

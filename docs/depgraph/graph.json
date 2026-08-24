@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1205,
-    "code_files": 229,
-    "python": 173,
+    "tracked": 1206,
+    "code_files": 230,
+    "python": 174,
     "qsharp": 43,
     "ts": 13,
     "edges": 174,
-    "roots": 241,
-    "reachable": 267
+    "roots": 242,
+    "reachable": 268
   },
   "nodes": [
     "agents/api/main.py",
@@ -28,6 +28,7 @@
     "agents/tests/test_cost_model.py",
     "agents/tests/test_estimator_config.py",
     "agents/tests/test_evaluator_smoke.py",
+    "agents/tests/test_ingest_balance.py",
     "conftest.py",
     "knowledge/ingest/algorithm_zoo_parser.py",
     "knowledge/ingest/arxiv_ingester.py",

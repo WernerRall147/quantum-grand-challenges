@@ -37,7 +37,22 @@ SOURCES = [
     ('abs:"quantum algorithm"', "abs:%22quantum+algorithm%22"),
     ('abs:"quantum advantage"', "abs:%22quantum+advantage%22"),
     ('abs:"post-quantum"', "abs:%22post-quantum%22"),
+    # Counter-evidence. Everything above finds work arguing FOR quantum, which is how
+    # the corpus ended up one-sided: 1,788 documents and not one of them saying the
+    # classical method is fine. Retrieval over it therefore supported quantum for any
+    # question asked, most confidently for the two demo prompts that must be declined.
+    # These find limits results, classical simulations that match a quantum result, and
+    # speedups that turn out to need extra structure.
+    ('abs:"no quantum speedup"', "abs:%22no+quantum+speedup%22"),
+    ('abs:"classically simulable"', "abs:%22classically+simulable%22"),
+    ('abs:"classical simulation of quantum"', "abs:%22classical+simulation+of+quantum%22"),
 ]
+
+# Rejected as a source after measuring it: abs:"dequantization" returns 295 results and
+# they are about neural-network quantization - CellFill, FluxBin LLM inference,
+# quantization-aware training. "Dequantized" is a homonym, and the machine-learning
+# sense dominates arXiv. It stays in the keyword list below, where it is safe, because
+# a paper only reaches the filter if one of the sources above already returned it.
 
 # arXiv caps a single response, so results are paged. Neither number is arbitrary:
 # 100-per-page timed out on every retry when measured, while 50 is the size this
@@ -45,7 +60,11 @@ SOURCES = [
 # either - two back-to-back requests earned a 429.
 ARXIV_PAGE_SIZE = 50
 ARXIV_PAGE_DELAY = 4
-ARXIV_SOURCE_DELAY = 15
+# Raised from 15s when the source count went from 6 to 9. The 2026-08-24 06:05 run
+# exhausted all three 429 retries at six sources and only recovered on the last one,
+# so it was already at the edge; half again as many requests at the same spacing
+# would have tipped it over.
+ARXIV_SOURCE_DELAY = 20
 ARXIV_MAX_PAGES = 40
 
 # arXiv rate-limits with 429 and drops slow reads, so fetches are retried.
@@ -160,20 +179,41 @@ def fetch_arxiv_papers(query: str, days_back: int = 1,
     return papers
 
 
-def filter_quantum_computing_relevance(papers: List[Dict]) -> List[Dict]:
-    """Filter papers for quantum computing relevance."""
-    keywords = [
-        "quantum advantage", "quantum speedup", "quantum algorithm",
-        "quantum error correction", "quantum simulation", "QPE",
-        "quantum phase estimation", "grover", "shor", "VQE", "QAOA",
-        "resource estimation", "fault-tolerant", "logical qubit",
-        "quantum chemistry", "hamiltonian simulation", "quantum supremacy",
-        "quantum utility", "quantum computing", "qubit",
-    ]
+# Terms that mark a paper as being about quantum computing at all.
+QUANTUM_KEYWORDS = [
+    "quantum advantage", "quantum speedup", "quantum algorithm",
+    "quantum error correction", "quantum simulation", "QPE",
+    "quantum phase estimation", "grover", "shor", "VQE", "QAOA",
+    "resource estimation", "fault-tolerant", "logical qubit",
+    "quantum chemistry", "hamiltonian simulation", "quantum supremacy",
+    "quantum utility", "quantum computing", "qubit",
+]
+
+# Terms that mark a paper as arguing the other way. Without these the gate above throws
+# away exactly what the counter-evidence sources were added to fetch. Measured
+# 2026-08-24 on a sample of five from abs:"tensor network simulation": "Fast classical
+# simulation of ..." was DROPPED, while "QuantumPhaseNet: A Gauge-Covariant Geometric
+# and Quantum-Spectral Theory of Semantic ..." - a natural-language paper borrowing
+# quantum vocabulary - was KEPT. The gate was selecting for quantum framing, not for
+# relevance to whether quantum wins.
+COUNTEREVIDENCE_KEYWORDS = [
+    "classically simulable", "classical simulation", "classical algorithm",
+    "no quantum speedup", "no quantum advantage", "requires structure",
+    "quantum-inspired", "dequantization", "dequantized", "outperforms quantum",
+]
+
+
+def filter_advantage_relevance(papers: List[Dict]) -> List[Dict]:
+    """Keep papers bearing on whether quantum wins - arguing either side.
+
+    Previously this kept only papers matching quantum keywords, which is a filter for
+    quantum framing rather than for relevance, and it is half the reason retrieval over
+    this corpus could only ever argue one way.
+    """
     relevant = []
     for p in papers:
         text = (p["title"] + " " + p["abstract"]).lower()
-        if any(kw in text for kw in keywords):
+        if any(kw.lower() in text for kw in QUANTUM_KEYWORDS + COUNTEREVIDENCE_KEYWORDS):
             relevant.append(p)
     return relevant
 
@@ -288,9 +328,9 @@ def main():
 
     print(f"Total unique papers: {len(unique)}")
 
-    # Filter for quantum computing relevance
-    relevant = filter_quantum_computing_relevance(unique)
-    print(f"Relevant to quantum computing: {len(relevant)}")
+    # Filter for relevance to the advantage question, either side of it
+    relevant = filter_advantage_relevance(unique)
+    print(f"Relevant to the advantage question: {len(relevant)}")
 
     # Generate embeddings
     if relevant:

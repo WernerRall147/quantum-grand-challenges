@@ -38,6 +38,7 @@
     "agents/tests/test_cost_model.py",
     "agents/tests/test_estimator_config.py",
     "agents/tests/test_evaluator_smoke.py",
+    "agents/tests/test_ingest_balance.py",
     "conftest.py",
     "problems/01_hubbard/python/test_baseline.py",
     "problems/02_catalysis/python/test_baseline.py",

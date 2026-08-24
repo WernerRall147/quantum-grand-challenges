@@ -3,14 +3,24 @@
 Runbook for presenting the **Quantum Advantage Evaluator** on Azure Friday (or any live
 demo). Everything here is grounded in the real, deployed system.
 
-**Last verified working:** 2026-08-14 - all five demo prompts returned the correct
-verdict against the live API, model `gpt-5.6-terra-2026-07-09` via the model router,
-5-7 references and ~2,000-character explanations.
+**Last verified working:** 2026-08-24 - all five demo prompts returned the correct
+verdict against the live API, model `gpt-5.6-luna-2026-07-09` via the model router,
+5-7 references, `used_agent: false`.
 
-**Latency, measured from the scheduled probe:** median 51.5s, mean 51.1s, min 36.0s,
-max 78.5s. A direct run of all five prompts on 2026-08-18 saw 42.8s to 90.1s, so treat
-90s as the number to rehearse against, not 78s. Plan the narration around ~50s and be
-ready for 90.
+**Latency, three full runs of all five prompts on 2026-08-24 (15 calls):** median 38.0s,
+mean 38.0s, min 28.9s, max 58.9s. Rehearse against **60s**.
+
+> Three runs, not one. The per-run medians were 33.2s, 39.2s and 34.1s, so the middle of
+> the distribution is stable and 38s is a fair number to plan narration around. The worst
+> single call is what moved: 46.4s after ten samples, 58.9s after fifteen. The median is
+> what you plan for; the max is what catches you out live, and it needs more samples to
+> find. Quoting the first five calls alone would have given 33.2s and a false sense of it.
+
+> Earlier revisions of this file quoted a 51.5s median and told you to rehearse
+> against 90s. Those were measured on the **Foundry agent** path. Production moved to
+> chat-completions on 2026-08-19 (`QGC_USE_AGENT=0`), which is roughly 35% faster, so
+> the old figures overstated the gap you need to fill by about half.
+
 See section 5 for the verified verdict table.
 
 **Recording:** virtual, via **StreamYard**. Target length is **10-12 minutes** total, of
@@ -49,10 +59,10 @@ Scott carry the rest. Full beat sheet and submission draft in
 
 ### Demo beat sheet
 
-A call takes about 51s and has been measured at 90s. Azure Friday's own prep guidance is
+A call takes about 38s and has been measured at 59s. Azure Friday's own prep guidance is
 to have a completed item to transition to rather than watch something finish, so **run
 beat 1 live and pre-load beat 2 in a second tab**. One live call proves it is real; two
-spends up to two and a half minutes of a six minute demo on a spinner.
+could spend two minutes of a six minute demo on a spinner.
 
 | Beat | Time | On screen | Notes |
 |---|---|---|---|
@@ -87,14 +97,22 @@ Azure Quantum (resource estimation) - GitHub Actions.
 
 ## 4. Pre-show smoke test (run ~15 min before recording)
 
+One command. It reads the five prompts straight out of section 5 below, so it checks the
+exact text you will type on air rather than a copy that can drift:
+
+```powershell
+python tooling/verify_demo_prompts.py
+```
+
+Exit code 0 means every prompt returned its expected verdict. Non-zero means **do not
+record against it** - the output names which prompt drifted. Takes about three minutes.
+Median 38.0s per call, max seen 58.9s; past ~90s is worth investigating before you go live.
+
+If you would rather poke it by hand:
+
 ```powershell
 $base = "https://qgc-eval-api.jollysea-98a0f8cb.eastus.azurecontainerapps.io"
-# 1) health - expect: status=ok
-Invoke-RestMethod "$base/"
-# 2) core demo - expect: verdict + model_used + references populated
-# Median 51.5s, max seen 90.1s. Past ~120s is worth investigating before you go live.
-Invoke-RestMethod "$base/api/evaluate" -Method POST -ContentType application/json `
-  -Body '{"problem":"I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design","generate_code":false}'
+Invoke-RestMethod "$base/"   # expect: status=ok
 ```
 
 Also open the site and click through one evaluation:
@@ -111,7 +129,8 @@ verdict is `QUANTUM_ADVANTAGE`, records latency, and opens a GitHub issue labell
 
 ## 5. Sample prompts that demo well
 
-All five verified against the live API on 2026-08-14. Use these exact wordings; the
+All five verified against the live API on 2026-08-24, on the chat-completions path that
+production actually runs. Use these exact wordings; the
 router reads the problem text, so paraphrasing can change the answer.
 
 | Prompt | Verdict | Platform | Why it's a good demo |
@@ -127,7 +146,12 @@ The portfolio and AI prompts are the money shot: the agent talks you *out* of qu
 > These two were wrong until #159. The router was accepting any top retrieval hit as
 > proof of quantum advantage, so portfolio optimisation matched "Probabilistic Sampling
 > (Quantum Supremacy)" and came back `QUANTUM_ADVANTAGE` at 0.9 confidence. **Re-verify
-> all five after any change to the router, the algorithm zoo, or the search index.**
+> all five after any change to the router, the algorithm zoo, or the search index** -
+> `python tooling/verify_demo_prompts.py`. That instruction was here before and went
+> unactioned through a whole model-path change, which is why it is now one command.
+>
+> The tool parses this table. If you edit it, keep the shape
+> `| "prompt" | ` + "`VERDICT`" + ` | ... |` or the tool will fail rather than quietly check nothing.
 
 ---
 

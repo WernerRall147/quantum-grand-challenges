@@ -2,6 +2,12 @@
 
 *This work is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You are free to share and adapt for non-commercial purposes with attribution.*
 
+> **Erratum, 2026-08-24.** Sections 4.1 and 5 of this repository copy report the
+> toolchain as qsharp 1.31.0. The archived v3.0.0 record
+> (DOI 10.5281/zenodo.19222021, released 2026-04-12) reports 1.27, which was accurate
+> at that date; the repository pin moved to 1.31.0 on 2026-08-03 (#151) and the paper
+> text was not updated at the time.
+
 ## Authors
 
 Werner Rall
@@ -91,7 +97,7 @@ For Stage C/D problems, we assess five DiVincenzo criteria: scalable qubit syste
 
 ### 4.1 Toolchain
 
-- **Quantum:** Microsoft Q# with modern QDK (qsharp 1.27, Python-hosted, no .NET dependency)
+- **Quantum:** Microsoft Q# with modern QDK (qsharp 1.31.0, Python-hosted, no .NET dependency)
 - **Classical:** Python 3.11 with NumPy, SciPy, Matplotlib
 - **Cloud:** Azure Quantum with Quantinuum and Rigetti providers
 - **CI/CD:** GitHub Actions with 7 automated checks
@@ -156,7 +162,7 @@ Current coverage: 20/20 problems have advantage contracts, estimator summaries, 
 
 ### 6.1 Circuit Validation
 
-Twenty quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum, compiled from Q# to QIR using the modern QDK (qsharp 1.27):
+Twenty quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum, compiled from Q# to QIR using the modern QDK (qsharp 1.31.0):
 
 | Circuit | Algorithm | Qubits | Gates | Status |
 |---|---|---|---|---|
@@ -291,7 +297,7 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 
 - ~~Obtain real Azure Quantum Resource Estimator profiles~~ (completed April 2026: all 20 problems profiled)
 - ~~Promote Stage D candidates~~ (completed April 2026: QAE, QAOA, Grover DB, Grover PQC with scaling analysis + fairness reviews)
-- ~~Multi-model resource estimation~~ (completed April 2026: 6 qubit models × 2 QEC schemes = 160 estimates across all 20 problems)
+- ~~Multi-model resource estimation~~ (completed April 2026: 4 qubit models × surface code = 80 estimates across all 20 problems. The Majorana profiles and floquet_code were retired because QRE v3 does not realise them for these traces.)
 - ~~Evaluator agent for honest quantum/HPC/AI platform recommendation~~ (completed April 2026: Troyer 5-filter classifier + DiVincenzo overlay + GPT-5.4-mini orchestrator with deterministic pre-routing)
 - ~~Code generation for recommended platform~~ (completed April 2026: Q# generator for quantum problems, Bicep workspace generator for HPC/AI Foundry/Quantum infrastructure)
 - Execute 2-qubit circuits on Quantinuum H1 QPU to compare noisy hardware results against simulator baselines

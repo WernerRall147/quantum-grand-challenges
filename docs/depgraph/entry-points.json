@@ -305,6 +305,7 @@
     "tooling/submit_all_syntax_check.py",
     "tooling/submit_hardware_kernels.py",
     "tooling/trace_circuits.py",
+    "tooling/verify_demo_prompts.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py"
   ]

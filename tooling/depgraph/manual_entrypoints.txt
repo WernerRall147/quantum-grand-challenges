@@ -43,3 +43,6 @@ tooling/extract_readmes.py
 # === Knowledge-base ingestion CLIs (run manually to (re)build the KB) ===
 knowledge/ingest/
 knowledge/seed_knowledge_base.py
+
+# === Live-demo pre-flight (run by hand before recording / after router changes) ===
+tooling/verify_demo_prompts.py

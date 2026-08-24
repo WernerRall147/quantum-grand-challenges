@@ -7,8 +7,12 @@ demo). Everything here is grounded in the real, deployed system.
 verdict against the live API, model `gpt-5.6-luna-2026-07-09` via the model router,
 5-7 references, `used_agent: false`.
 
-**Latency, direct run of all five prompts on 2026-08-24:** median 33.2s, mean 36.5s,
-min 32.0s, max 46.4s. Rehearse against **50s** and you will not be caught out.
+**Latency, two full runs of all five prompts on 2026-08-24 (10 calls):** median 38.2s,
+mean 37.4s, min 32.0s, max 46.4s. Rehearse against **50s** and you will not be caught out.
+
+> Two runs, not one. The first five calls alone gave a 33.2s median; the second five
+> gave 39.2s. Quoting the faster set would have been the same mistake this project
+> exists to avoid, so the figures above are all ten calls.
 
 > Earlier revisions of this file quoted a 51.5s median and told you to rehearse
 > against 90s. Those were measured on the **Foundry agent** path. Production moved to
@@ -53,7 +57,7 @@ Scott carry the rest. Full beat sheet and submission draft in
 
 ### Demo beat sheet
 
-A call takes about 33s and has been measured at 46s. Azure Friday's own prep guidance is
+A call takes about 38s and has been measured at 46s. Azure Friday's own prep guidance is
 to have a completed item to transition to rather than watch something finish, so **run
 beat 1 live and pre-load beat 2 in a second tab**. One live call proves it is real; two
 spends most of a minute and a half of a six minute demo on a spinner.
@@ -91,14 +95,22 @@ Azure Quantum (resource estimation) - GitHub Actions.
 
 ## 4. Pre-show smoke test (run ~15 min before recording)
 
+One command. It reads the five prompts straight out of section 5 below, so it checks the
+exact text you will type on air rather than a copy that can drift:
+
+```powershell
+python tooling/verify_demo_prompts.py
+```
+
+Exit code 0 means every prompt returned its expected verdict. Non-zero means **do not
+record against it** - the output names which prompt drifted. Takes about three minutes.
+Median 38.2s per call, max seen 46.4s; past ~90s is worth investigating before you go live.
+
+If you would rather poke it by hand:
+
 ```powershell
 $base = "https://qgc-eval-api.jollysea-98a0f8cb.eastus.azurecontainerapps.io"
-# 1) health - expect: status=ok
-Invoke-RestMethod "$base/"
-# 2) core demo - expect: verdict + model_used + references populated
-# Median 33.2s, max seen 46.4s. Past ~90s is worth investigating before you go live.
-Invoke-RestMethod "$base/api/evaluate" -Method POST -ContentType application/json `
-  -Body '{"problem":"I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design","generate_code":false}'
+Invoke-RestMethod "$base/"   # expect: status=ok
 ```
 
 Also open the site and click through one evaluation:
@@ -132,7 +144,12 @@ The portfolio and AI prompts are the money shot: the agent talks you *out* of qu
 > These two were wrong until #159. The router was accepting any top retrieval hit as
 > proof of quantum advantage, so portfolio optimisation matched "Probabilistic Sampling
 > (Quantum Supremacy)" and came back `QUANTUM_ADVANTAGE` at 0.9 confidence. **Re-verify
-> all five after any change to the router, the algorithm zoo, or the search index.**
+> all five after any change to the router, the algorithm zoo, or the search index** -
+> `python tooling/verify_demo_prompts.py`. That instruction was here before and went
+> unactioned through a whole model-path change, which is why it is now one command.
+>
+> The tool parses this table. If you edit it, keep the shape
+> `| "prompt" | ` + "`VERDICT`" + ` | ... |` or the tool will fail rather than quietly check nothing.
 
 ---
 

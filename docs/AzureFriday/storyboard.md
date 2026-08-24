@@ -60,10 +60,11 @@ in science, and could Q# help?* A year and ~300 commits later it is running on A
 
 ## 4. Demo beat sheet
 
-**A call takes ~33s** (all five demo prompts measured end to end 2026-08-24: median
-33.2s, min 32.0s, max 46.4s, zero mismatches). That is roughly a third faster than the
-Foundry agent path it replaced (~52s median). Still long enough that Azure Friday's
-guidance applies - have a completed item to transition to rather than watch a spinner. So:
+**A call takes ~38s** (two full runs of all five demo prompts, 2026-08-24, 10 calls:
+median 38.2s, min 32.0s, max 46.4s, zero mismatches both times). That is meaningfully
+faster than the Foundry agent path it replaced (~52s median). Still long enough that
+Azure Friday's guidance applies - have a completed item to transition to rather than
+watch a spinner. So:
 
 | Beat | Time | On screen | Notes |
 |---|---|---|---|
@@ -73,7 +74,7 @@ guidance applies - have a completed item to transition to rather than watch a sp
 | 4. The platform | 6:30-8:00 | Architecture, 1 slide | Deterministic router owns the verdict; model router writes the prose; AI Search, Container Apps, managed identity, GitHub Actions. |
 
 **The narration is now the constraint, not the call.** At ~52s on the agent path the
-model was the thing you had to talk over. At ~33s, beat 1's two minutes are mostly
+model was the thing you had to talk over. At ~38s, beat 1's two minutes are mostly
 yours. Do not rush Troyer's six filters to fill a gap that no longer exists - they are
 the substance of the segment, not padding.
 

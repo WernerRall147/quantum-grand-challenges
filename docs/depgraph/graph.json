@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1202,
-    "code_files": 227,
-    "python": 171,
+    "tracked": 1203,
+    "code_files": 228,
+    "python": 172,
     "qsharp": 43,
     "ts": 13,
     "edges": 173,
-    "roots": 239,
-    "reachable": 265
+    "roots": 240,
+    "reachable": 266
   },
   "nodes": [
     "agents/api/main.py",
@@ -223,6 +223,7 @@
     "tooling/test_all_qsharp.py",
     "tooling/test_qsharp_validation.py",
     "tooling/trace_circuits.py",
+    "tooling/verify_demo_prompts.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py",
     "website/components/CostReference.tsx",

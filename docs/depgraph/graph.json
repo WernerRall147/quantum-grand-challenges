@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1204,
-    "code_files": 228,
-    "python": 172,
+    "tracked": 1205,
+    "code_files": 229,
+    "python": 173,
     "qsharp": 43,
     "ts": 13,
-    "edges": 173,
-    "roots": 240,
-    "reachable": 266
+    "edges": 174,
+    "roots": 241,
+    "reachable": 267
   },
   "nodes": [
     "agents/api/main.py",
@@ -183,6 +183,7 @@
     "tooling/azure/validate_azure_env.py",
     "tooling/azure/write_smoke_report.py",
     "tooling/azure_submit_kernels.py",
+    "tooling/check_algorithm_index_drift.py",
     "tooling/ci_validate_qsharp.py",
     "tooling/ci_validate_schema.py",
     "tooling/collect_and_compare.py",
@@ -304,6 +305,10 @@
     [
       ".github/workflows/depgraph-drift.yml",
       "tooling/depgraph/build_graph.py"
+    ],
+    [
+      ".github/workflows/nightly.yml",
+      "tooling/check_algorithm_index_drift.py"
     ],
     [
       ".github/workflows/nightly.yml",

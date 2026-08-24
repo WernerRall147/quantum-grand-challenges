@@ -785,3 +785,47 @@ class TestRecentPapersStayOutOfTheVerdict:
             f"route_platform grew a paper-shaped parameter: {params}"
         )
 
+
+class TestAlgorithmIndexDriftDetection:
+    """The drift check has to catch the drift that actually happened.
+
+    On 2026-08-24 the index held 48 documents against 47 in the file, because an
+    id-scheme change orphaned lattice_gauge_theory_real-time alongside
+    lattice_gauge_theory_realtime. Both carried the same name, so comparing name
+    sets found nothing - which is exactly the mistake made while diagnosing it.
+    """
+
+    @staticmethod
+    def _drift(*args, **kwargs):
+        sys.path.insert(0, str(ROOT / "tooling"))
+        from check_algorithm_index_drift import find_drift
+        return find_drift(*args, **kwargs)
+
+    def test_matching_index_reports_nothing(self):
+        docs = [{"id": "a", "name": "Shor's Algorithm"}, {"id": "b", "name": "Grover"}]
+        assert self._drift(["Shor's Algorithm", "Grover"], 2, docs, 2) == []
+
+    def test_catches_the_same_name_duplicate(self):
+        docs = [
+            {"id": "lattice_gauge_theory_realtime", "name": "Lattice Gauge Theory (Real-Time)"},
+            {"id": "lattice_gauge_theory_real-time", "name": "Lattice Gauge Theory (Real-Time)"},
+        ]
+        problems = self._drift(["Lattice Gauge Theory (Real-Time)"], 1, docs, 2)
+        assert any("2 documents named" in p for p in problems), problems
+        assert any("lattice_gauge_theory_real-time" in p for p in problems), problems
+
+    def test_catches_a_missing_algorithm(self):
+        docs = [{"id": "a", "name": "Shor's Algorithm"}]
+        problems = self._drift(["Shor's Algorithm", "Grover"], 2, docs, 1)
+        assert any("not indexed" in p for p in problems), problems
+
+    def test_catches_a_stale_total_in_the_file(self):
+        docs = [{"id": "a", "name": "Shor's Algorithm"}]
+        problems = self._drift(["Shor's Algorithm"], 47, docs, 1)
+        assert any("total_algorithms=47" in p for p in problems), problems
+
+    def test_catches_a_truncated_page(self):
+        docs = [{"id": "a", "name": "Shor's Algorithm"}]
+        problems = self._drift(["Shor's Algorithm"], 1, docs, 1000)
+        assert any("page size" in p for p in problems), problems
+

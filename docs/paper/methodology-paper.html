@@ -1,30 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
+<html><head>
+<meta charset=utf-8>
 <title>Quantum Grand Challenges - Methodology Paper</title>
 <style>
-body { font-family: Georgia, 'Times New Roman', serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; line-height: 1.7; color: #1a1a1a; font-size: 11pt; }
-h1 { font-size: 1.8rem; border-bottom: 2px solid #333; padding-bottom: 0.5rem; }
-h2 { font-size: 1.4rem; margin-top: 2rem; color: #2c3e50; }
-h3 { font-size: 1.15rem; color: #34495e; }
-code { background: #f4f4f4; padding: 0.15em 0.4em; border-radius: 3px; font-size: 0.9em; }
-pre { background: #f8f8f8; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #ddd; }
-pre code { background: none; padding: 0; }
-table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-th, td { border: 1px solid #ddd; padding: 0.5rem 0.75rem; text-align: left; }
-th { background: #f0f4ff; font-weight: 600; }
-blockquote { border-left: 4px solid #667eea; margin: 1rem 0; padding: 0.5rem 1rem; background: #f8f9ff; }
-a { color: #2563eb; }
-ul, ol { padding-left: 1.5rem; }
-li { margin-bottom: 0.3rem; }
+@page { size: A4; margin: 25mm; }
 @media print { body { font-size: 10pt; } }
-@page { size: A4; margin: 2cm; }
+body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; line-height: 1.65; color: #1a1a1a; }
+h1 { font-size: 20pt; color: #1a1a2e; margin-bottom: 0.3em; }
+h2 { font-size: 14pt; color: #16213e; border-bottom: 2px solid #667eea; padding-bottom: 4px; margin-top: 2em; }
+h3 { font-size: 12pt; color: #0f3460; }
+table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 9.5pt; }
+th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+th { background: #f0f4ff; font-weight: 600; color: #16213e; }
+tr:nth-child(even) { background: #fafafa; }
+code { background: #f5f5f5; padding: 2px 5px; border-radius: 3px; font-size: 9.5pt; font-family: 'Cascadia Code', Consolas, monospace; }
+pre { background: #f5f5f5; padding: 14px; border-radius: 6px; overflow-x: auto; font-size: 9pt; border: 1px solid #e0e0e0; }
+blockquote { border-left: 3px solid #667eea; margin-left: 0; padding-left: 1em; color: #555; font-style: italic; }
+a { color: #0f3460; text-decoration: none; }
+a:hover { text-decoration: underline; }
+em { color: #555; }
+strong { color: #1a1a2e; }
 </style>
-</head>
-<body>
+</head><body>
 <h1 id="a-software-engineering-framework-for-reproducible-quantum-algorithm-development-maturity-gates-automated-validation-and-honest-limitations-across-20-problem-domains">A Software Engineering Framework for Reproducible Quantum Algorithm Development: Maturity Gates, Automated Validation, and Honest Limitations Across 20 Problem Domains</h1>
 <p><em>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. You are free to share and adapt for non-commercial purposes with attribution.</em></p>
+<blockquote>
+<p><strong>Erratum, 2026-08-24.</strong> Sections 4.1 and 5 of this repository copy report the
+toolchain as qsharp 1.31.0. The archived v3.0.0 record
+(DOI 10.5281/zenodo.19222021, released 2026-04-12) reports 1.27, which was accurate
+at that date; the repository pin moved to 1.31.0 on 2026-08-03 (#151) and the paper
+text was not updated at the time.</p>
+</blockquote>
 <h2 id="authors">Authors</h2>
 <p>Werner Rall</p>
 <h2 id="abstract">Abstract</h2>
@@ -86,7 +92,7 @@ li { margin-bottom: 0.3rem; }
 <h2 id="4-implementation">4. Implementation</h2>
 <h3 id="41-toolchain">4.1 Toolchain</h3>
 <ul>
-<li><strong>Quantum:</strong> Microsoft Q# with modern QDK (qsharp 1.27, Python-hosted, no .NET dependency)</li>
+<li><strong>Quantum:</strong> Microsoft Q# with modern QDK (qsharp 1.31.0, Python-hosted, no .NET dependency)</li>
 <li><strong>Classical:</strong> Python 3.11 with NumPy, SciPy, Matplotlib</li>
 <li><strong>Cloud:</strong> Azure Quantum with Quantinuum and Rigetti providers</li>
 <li><strong>CI/CD:</strong> GitHub Actions with 7 automated checks</li>
@@ -194,7 +200,7 @@ li { margin-bottom: 0.3rem; }
 <p>Current coverage: 20/20 problems have advantage contracts, estimator summaries, and backend assumptions.</p>
 <h2 id="6-azure-quantum-integration">6. Azure Quantum Integration</h2>
 <h3 id="61-circuit-validation">6.1 Circuit Validation</h3>
-<p>Twenty quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum, compiled from Q# to QIR using the modern QDK (qsharp 1.27):</p>
+<p>Twenty quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum, compiled from Q# to QIR using the modern QDK (qsharp 1.31.0):</p>
 <table>
 <thead>
 <tr>
@@ -595,7 +601,10 @@ li { margin-bottom: 0.3rem; }
 <p><strong>Classical baselines are deliberately weak.</strong> We use textbook algorithms (brute-force, naive Monte Carlo) for cross-domain standardization. Any comparative statement must acknowledge that state-of-the-art classical methods would perform far better. Quantum advantage claims have repeatedly vanished when classical heuristics were properly benchmarked [6].</p>
 </li>
 <li>
-<p><strong>Resource estimates use the Quantum Resource Estimator v3.</strong> All 20 problems have been profiled via <code>qdk.qre</code> against a gate-based superconducting architecture with a surface code, reporting the minimum-qubit point of the returned Pareto frontier. Physical qubit counts range from 1,746 (QEC) to 369,400 (QAE risk). These are credible lower bounds for fault-tolerant execution, though they apply to toy-scale instances and should not be extrapolated to production problem sizes without careful scaling analysis.</p>
+<p><strong>Resource estimates use the Quantum Resource Estimator v3.</strong> All 20 problems have been profiled via <code>qdk.qre</code> against a gate-based superconducting architecture with a surface code, reporting the minimum-qubit point of the returned Pareto frontier. Physical qubit counts range from 1,746 (QEC) to 369,400 (QAE risk). These are credible lower bounds for fault-tolerant execution, though they apply to toy-scale instances and should not be extrapolated to production problem sizes without careful scaling analysis. Multi-model estimation across 4 hardware configurations (superconducting ns and trapped ion μs, each at 10⁻³ and 10⁻⁴ error rates) reveals physical qubit requirements varying by up to 44× for the same problem depending on hardware assumptions — underscoring that resource estimates are meaningless without specifying the target architecture.</p>
+</li>
+<li>
+<p><strong>Troyer utility-scale classification.</strong> Following Dr. Matthias Troyer's "Building the Modern Quantum Architecture" framework, we classify all 20 problems into three categories: (a) 5 problems with <strong>proven speedup</strong> (QAE, Shor, Grover ×2, HHL  with caveats), (b) 10 problems with <strong>heuristic/unproven advantage</strong> (VQE ×6, QAOA ×4  highest-risk claims), and (c) 5 problems with <strong>simulation-native advantage potential</strong> (quantum simulation, QEC, HHL for PDEs). Only category (a) has a clear path to utility-scale quantum advantage; category (b) problems may never achieve it. This classification is displayed on every problem's detail page.</p>
 </li>
 <li>
 <p><strong>Toy instances reveal nothing about asymptotic behavior.</strong> A 2-qubit VQE or 4-qubit QAOA demonstrates circuit correctness but says nothing about how the algorithm behaves at 50, 100, or 1000 qubits. The scaling analysis in Section 7.3 illustrates how rapidly resource requirements grow.</p>
@@ -607,11 +616,15 @@ li { margin-bottom: 0.3rem; }
 <h2 id="9-future-work">9. Future Work</h2>
 <ul>
 <li>~~Obtain real Azure Quantum Resource Estimator profiles~~ (completed April 2026: all 20 problems profiled)</li>
+<li>~~Promote Stage D candidates~~ (completed April 2026: QAE, QAOA, Grover DB, Grover PQC with scaling analysis + fairness reviews)</li>
+<li>~~Multi-model resource estimation~~ (completed April 2026: 6 qubit models × 2 QEC schemes = 160 estimates across all 20 problems)</li>
+<li>~~Evaluator agent for honest quantum/HPC/AI platform recommendation~~ (completed April 2026: Troyer 5-filter classifier + DiVincenzo overlay + GPT-5.4-mini orchestrator with deterministic pre-routing)</li>
+<li>~~Code generation for recommended platform~~ (completed April 2026: Q# generator for quantum problems, Bicep workspace generator for HPC/AI Foundry/Quantum infrastructure)</li>
 <li>Execute 2-qubit circuits on Quantinuum H1 QPU to compare noisy hardware results against simulator baselines</li>
 <li>Replace at least one classical baseline with a state-of-the-art competitor (Goemans-Williamson for MaxCut, importance sampling for QAE)</li>
 <li>Extend scaling analysis to QAOA and VQE with noise models at different error rates</li>
 <li>Investigate whether the maturity gate model can be extended with complexity-theoretic checks (scaling slope verification, classical hardness evidence requirements)</li>
-<li>Promote Stage D candidates (QAE, QAOA, Grover) with full advantage evidence packages</li>
+<li>Integrate Troyer Part 6 cost model when published  adds quantum vs HPC vs AI cost-advantage analysis to evaluator output</li>
 </ul>
 <h2 id="10-conclusion">10. Conclusion</h2>
 <p>We have presented a software engineering framework for quantum algorithm development that prioritizes honest assessment over optimistic claims. The framework's primary value is not in the quantum implementations  which are toy-scale and classically trivial  but in the methodology: standardized structure, automated validation, and maturity gates that explicitly prevent claiming more than the evidence supports.</p>
@@ -780,8 +793,4 @@ li { margin-bottom: 0.3rem; }
 </tr>
 </tbody>
 </table>
-<footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #666; font-size: 0.85rem;">
-  <p>Generated: April 2026 | License: CC BY-NC-SA 4.0 | Repository: github.com/WernerRall147/quantum-grand-challenges</p>
-</footer>
-</body>
-</html>
+</body></html>

@@ -2,6 +2,12 @@
 
 *This work is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You are free to share and adapt for non-commercial purposes with attribution.*
 
+> **Erratum, 2026-08-24.** Sections 4.1 and 5 of this repository copy report the
+> toolchain as qsharp 1.31.0. The archived v3.0.0 record
+> (DOI 10.5281/zenodo.19222021, released 2026-04-12) reports 1.27, which was accurate
+> at that date; the repository pin moved to 1.31.0 on 2026-08-03 (#151) and the paper
+> text was not updated at the time.
+
 ## Authors
 
 Werner Rall
@@ -91,7 +97,7 @@ For Stage C/D problems, we assess five DiVincenzo criteria: scalable qubit syste
 
 ### 4.1 Toolchain
 
-- **Quantum:** Microsoft Q# with modern QDK (qsharp 1.27, Python-hosted, no .NET dependency)
+- **Quantum:** Microsoft Q# with modern QDK (qsharp 1.31.0, Python-hosted, no .NET dependency)
 - **Classical:** Python 3.11 with NumPy, SciPy, Matplotlib
 - **Cloud:** Azure Quantum with Quantinuum and Rigetti providers
 - **CI/CD:** GitHub Actions with 7 automated checks
@@ -156,7 +162,7 @@ Current coverage: 20/20 problems have advantage contracts, estimator summaries, 
 
 ### 6.1 Circuit Validation
 
-Twenty quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum, compiled from Q# to QIR using the modern QDK (qsharp 1.27):
+Twenty quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum, compiled from Q# to QIR using the modern QDK (qsharp 1.31.0):
 
 | Circuit | Algorithm | Qubits | Gates | Status |
 |---|---|---|---|---|

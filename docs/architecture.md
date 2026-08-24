@@ -66,22 +66,22 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 │                                                                      │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐     │
 │  │ SCIENTIFIC KB    │  │ ALGORITHM ZOO   │  │ REFERENCE CODE  │     │
-│  │ (Cosmos DB +     │  │ (Indexed from   │  │ (GitHub MCP +   │     │
+│  │ (repo files +    │  │ (Indexed from   │  │ (GitHub MCP +   │     │
 │  │  AI Search)      │  │  quantumalgo-   │  │  Q# samples)    │     │
 │  │                 │  │  rithmzoo.org)  │  │                 │     │
 │  │ • arxiv papers  │  │ • 400+ algos    │  │ • microsoft/qsharp│    │
 │  │ • Daily ingest  │  │ • Speedup class │  │ • Proven patterns│     │
-│  │ • Peer-reviewed │  │ • Gate counts   │  │ • Azure samples  │     │
+│  │ • Preprints     │  │ • Gate counts   │  │ • Azure samples  │     │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘     │
 │                                                                      │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐     │
-│  │ PROBLEM HISTORY  │  │ MS DOCS MCP     │  │ ARXIV MCP       │     │
-│  │ (Cosmos DB)      │  │ (Azure HPC      │  │ (Daily paper    │     │
-│  │                 │  │  specs, pricing) │  │  ingestion)     │     │
-│  │ • User problems │  │ • VM specs      │  │ • cs.QC, quant-ph│    │
-│  │ • Past results  │  │ • HPC clusters  │  │ • Filtered by   │     │
-│  │ • Algorithm map │  │ • GPU benchmarks│  │   peer review   │     │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘     │
+│  ┌─────────────────┐  ┌─────────────────┐                          │
+│  │ MS DOCS MCP     │  │ ARXIV INGEST    │                          │
+│  │ (Azure HPC      │  │ (Container Apps │                          │
+│  │  specs, pricing) │  │  Job, daily)    │                          │
+│  │ • VM specs      │  │ • quant-ph,cs.ET│                          │
+│  │ • HPC clusters  │  │ • +4 abs terms  │                          │
+│  │ • GPU benchmarks│  │ • Relevance gate│                          │
+│  └─────────────────┘  └─────────────────┘                          │
 │                                                                      │
 │  ┌─────────────────────────────────────────────────────────────┐    │
 │  │ OUR 9 ACTIVE PROBLEMS  Reference implementations           │    │

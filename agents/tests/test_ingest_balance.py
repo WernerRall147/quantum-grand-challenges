@@ -74,3 +74,41 @@ class TestSourcesCoverBothSides:
     def test_keyword_lists_stay_separate(self):
         overlap = set(QUANTUM_KEYWORDS) & set(COUNTEREVIDENCE_KEYWORDS)
         assert not overlap, f"a term cannot mean both sides: {overlap}"
+
+
+class TestZooReferenceParsing:
+    """The Zoo's own markup is irregular, and guessing around it loses entries."""
+
+    @staticmethod
+    def _mod():
+        sys.path.insert(0, str(ROOT / "tooling"))
+        import ingest_zoo_references
+        return ingest_zoo_references
+
+    def test_known_speedup_classes_pass_through(self):
+        normalise = self._mod().normalise_speedup
+        assert normalise("Superpolynomial") == ("Superpolynomial", "Superpolynomial")
+        assert normalise("  Polynomial.  ") == ("Polynomial", "Polynomial")
+
+    def test_prose_is_left_unclassified_rather_than_guessed(self):
+        """Adiabatic Algorithms carries a sentence where a class word should be.
+
+        Taking it literally labelled 40 citations with a truncated sentence. Inventing
+        a class the source does not state would be worse.
+        """
+        normalise = self._mod().normalise_speedup
+        cls, raw = normalise("A plausible example of superpolynomial speedup appears in [")
+        assert cls == "unclassified"
+        assert raw.startswith("A plausible example")
+
+    def test_compound_speedup_is_not_forced_into_one_class(self):
+        normalise = self._mod().normalise_speedup
+        cls, _ = normalise("Polynomial Directly, Superpolynomial Recursively")
+        assert cls == "unclassified"
+
+    def test_marker_matches_every_entry_variant(self):
+        """60 of the 74 use the bare form; matching only that silently loses fourteen."""
+        marker = self._mod().ALGORITHM_MARKER
+        for variant in ("<b>Algorithm:</b>", '<b id="abelian_HSP">Algorithm:</b>',
+                        "<b>Algorithm: </b>"):
+            assert marker.search(variant), variant

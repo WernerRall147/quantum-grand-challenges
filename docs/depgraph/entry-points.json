@@ -286,6 +286,7 @@
     "tooling/generate_calibration_ensemble.py",
     "tooling/generate_multimodel_estimates.py",
     "tooling/generate_stage_d_evidence.py",
+    "tooling/ingest_zoo_references.py",
     "tooling/provision_foundry_agent.py",
     "tooling/reporting/audit_azure_run_history_metrics.py",
     "tooling/reporting/check_homepage_stats.py",

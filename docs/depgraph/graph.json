@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1206,
-    "code_files": 230,
-    "python": 174,
+    "tracked": 1208,
+    "code_files": 231,
+    "python": 175,
     "qsharp": 43,
     "ts": 13,
     "edges": 174,
-    "roots": 242,
-    "reachable": 268
+    "roots": 243,
+    "reachable": 269
   },
   "nodes": [
     "agents/api/main.py",
@@ -202,6 +202,7 @@
     "tooling/generate_estimates.py",
     "tooling/generate_multimodel_estimates.py",
     "tooling/generate_stage_d_evidence.py",
+    "tooling/ingest_zoo_references.py",
     "tooling/provision_foundry_agent.py",
     "tooling/reporting/audit_azure_run_history_metrics.py",
     "tooling/reporting/check_homepage_stats.py",

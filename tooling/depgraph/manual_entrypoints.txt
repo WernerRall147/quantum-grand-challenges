@@ -46,3 +46,6 @@ knowledge/seed_knowledge_base.py
 
 # === Live-demo pre-flight (run by hand before recording / after router changes) ===
 tooling/verify_demo_prompts.py
+
+# === One-off corpus backfill (run by hand; the Zoo changes rarely) ===
+tooling/ingest_zoo_references.py

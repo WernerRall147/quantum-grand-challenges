@@ -1,19 +1,20 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1208,
-    "code_files": 231,
-    "python": 175,
+    "tracked": 1211,
+    "code_files": 234,
+    "python": 178,
     "qsharp": 43,
     "ts": 13,
-    "edges": 174,
-    "roots": 243,
-    "reachable": 269
+    "edges": 176,
+    "roots": 245,
+    "reachable": 272
   },
   "nodes": [
     "agents/api/main.py",
     "agents/classifier/azure_pricing.py",
     "agents/classifier/cost_model.py",
+    "agents/classifier/paper_classifier.py",
     "agents/classifier/platform_router.py",
     "agents/code_generator/architecture.py",
     "agents/code_generator/bicep_generator.py",
@@ -29,6 +30,7 @@
     "agents/tests/test_estimator_config.py",
     "agents/tests/test_evaluator_smoke.py",
     "agents/tests/test_ingest_balance.py",
+    "agents/tests/test_paper_classifier.py",
     "conftest.py",
     "knowledge/ingest/algorithm_zoo_parser.py",
     "knowledge/ingest/arxiv_ingester.py",
@@ -195,6 +197,7 @@
     "tooling/estimator/run_estimation.py",
     "tooling/estimator/run_real_estimation.py",
     "tooling/estimator_config.py",
+    "tooling/eval_paper_classifier.py",
     "tooling/expand_algorithm_zoo.py",
     "tooling/extract_readmes.py",
     "tooling/generate_advantage_claims.py",
@@ -451,6 +454,10 @@
     [
       "agents/tests/test_evaluator_smoke.py",
       "agents/orchestrator/output_schema.py"
+    ],
+    [
+      "agents/tests/test_paper_classifier.py",
+      "agents/classifier/paper_classifier.py"
     ],
     [
       "problems/01_hubbard/Makefile",
@@ -827,6 +834,10 @@
     [
       "tooling/ci_validate_qsharp.py",
       "tooling/discover_problems.py"
+    ],
+    [
+      "tooling/eval_paper_classifier.py",
+      "agents/classifier/paper_classifier.py"
     ],
     [
       "tooling/generate_calibration_ensemble.py",

@@ -13,6 +13,10 @@
     "agents/orchestrator/evaluate.py",
     "agents/tests/test_cost_model.py"
   ],
+  "agents/classifier/paper_classifier.py": [
+    "agents/tests/test_paper_classifier.py",
+    "tooling/eval_paper_classifier.py"
+  ],
   "agents/classifier/platform_router.py": [
     "agents/evaluations/run_eval.py",
     "agents/evaluations/score_narrative.py",

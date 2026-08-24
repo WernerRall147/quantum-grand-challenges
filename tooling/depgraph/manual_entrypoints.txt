@@ -49,3 +49,6 @@ tooling/verify_demo_prompts.py
 
 # === One-off corpus backfill (run by hand; the Zoo changes rarely) ===
 tooling/ingest_zoo_references.py
+
+# === Classifier evaluation harness (run by hand; needs the search index) ===
+tooling/eval_paper_classifier.py

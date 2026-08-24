@@ -319,6 +319,9 @@
   "tooling/azure/check_secret_hygiene.py": [
     ".github/workflows/azure-secret-hygiene.yml"
   ],
+  "tooling/check_algorithm_index_drift.py": [
+    ".github/workflows/nightly.yml"
+  ],
   "tooling/ci_validate_qsharp.py": [
     ".github/workflows/ci-cd.yml"
   ],

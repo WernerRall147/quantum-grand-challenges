@@ -141,10 +141,8 @@ jobs:
 
   # Daily arxiv paper ingestion.
   # The ingestion itself runs as the qgc-ingest-job Container Apps Job on its own
-  # cron (0 6 * * *). Cosmos has publicNetworkAccess=Disabled and only bypasses
-  # for trusted Azure services, so a GitHub-hosted runner can never write to it;
-  # the job runs inside Azure and authenticates with its managed identity.
-  # This job only exists so the ingestion can be kicked off manually.
+  # cron (0 6 * * *). The job runs inside Azure and authenticates with its managed
+  # identity. This job only exists so the ingestion can be kicked off manually.
   arxiv-ingestion:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
@@ -180,4 +178,36 @@ jobs:
           done
           echo "Timed out waiting for ingestion job"
           exit 1
+
+  # Every published verdict comes from the quantum-algorithms search index, which is
+  # seeded from a committed JSON file. Nothing kept the two in step: on 2026-08-24 the
+  # index held 48 documents against 47 in the file, an orphan left by an id-scheme
+  # change, and it had been taking an evidence slot for months unnoticed.
+  algorithm-index-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install dependencies
+        run: pip install azure-identity azure-search-documents==11.6.0
+
+      - name: Azure login (service principal)
+        uses: azure/login@v2
+        with:
+          creds: |
+            {
+              "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+              "tenantId": "dc692f3e-104b-4247-b52c-23692694684a",
+              "subscriptionId": "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3"
+            }
+
+      - name: Compare the deployed index against the committed file
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: dc692f3e-104b-4247-b52c-23692694684a
+        run: python tooling/check_algorithm_index_drift.py
 

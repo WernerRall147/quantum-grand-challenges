@@ -69,7 +69,7 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 │  │ (repo files +    │  │ (Indexed from   │  │ (GitHub MCP +   │     │
 │  │  AI Search)      │  │  quantumalgo-   │  │  Q# samples)    │     │
 │  │                 │  │  rithmzoo.org)  │  │                 │     │
-│  │ • arxiv papers  │  │ • 400+ algos    │  │ • microsoft/qsharp│    │
+│  │ • arxiv papers  │  │ • 47 algorithms │  │ • microsoft/qsharp│    │
 │  │ • Daily ingest  │  │ • Speedup class │  │ • Proven patterns│     │
 │  │ • Preprints     │  │ • Gate counts   │  │ • Azure samples  │     │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘     │

@@ -297,7 +297,7 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 
 - ~~Obtain real Azure Quantum Resource Estimator profiles~~ (completed April 2026: all 20 problems profiled)
 - ~~Promote Stage D candidates~~ (completed April 2026: QAE, QAOA, Grover DB, Grover PQC with scaling analysis + fairness reviews)
-- ~~Multi-model resource estimation~~ (completed April 2026: 6 qubit models × 2 QEC schemes = 160 estimates across all 20 problems)
+- ~~Multi-model resource estimation~~ (completed April 2026: 4 qubit models × surface code = 80 estimates across all 20 problems. The Majorana profiles and floquet_code were retired because QRE v3 does not realise them for these traces.)
 - ~~Evaluator agent for honest quantum/HPC/AI platform recommendation~~ (completed April 2026: Troyer 5-filter classifier + DiVincenzo overlay + GPT-5.4-mini orchestrator with deterministic pre-routing)
 - ~~Code generation for recommended platform~~ (completed April 2026: Q# generator for quantum problems, Bicep workspace generator for HPC/AI Foundry/Quantum infrastructure)
 - Execute 2-qubit circuits on Quantinuum H1 QPU to compare noisy hardware results against simulator baselines

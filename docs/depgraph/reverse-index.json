@@ -37,7 +37,8 @@
   "agents/code_generator/generate.py": [
     "Dockerfile",
     "agents/api/main.py",
-    "agents/tests/test_container_contents.py"
+    "agents/tests/test_container_contents.py",
+    "agents/tests/test_entry_expression.py"
   ],
   "agents/evaluations/run_eval.py": [
     ".github/workflows/ci-cd.yml"

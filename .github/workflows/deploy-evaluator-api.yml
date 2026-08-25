@@ -237,7 +237,32 @@ jobs:
               print('::error::generate_code=true returned no Q#. '
                     f'estimation says: {str(estimation.get("error"))[:300]}')
               sys.exit(1)
-          print(f'Q# generation OK - {len(qsharp)} chars, verdict {data.get("verdict")}')
+
+          # Non-empty Q# is not the same as usable Q#. The estimator invokes an entry by
+          # expression, and when it could not resolve one the response still carried 3k
+          # characters of source while every Pareto row held a compiler error.
+          failed = False
+          if estimation.get('estimate_error'):
+              print(f'::error::resource estimation failed: {estimation["estimate_error"][:300]}')
+              failed = True
+          elif estimation.get('physical_qubits') is None:
+              print('::error::resource estimation returned no physical_qubits. '
+                    f'entry_expression={estimation.get("entry_expression")!r}')
+              failed = True
+
+          pareto = data.get('resource_estimate_pareto') or []
+          broken = [r for r in pareto if r.get('error')]
+          if broken:
+              print(f'::error::{len(broken)}/{len(pareto)} Pareto rows errored, '
+                    f'first: {str(broken[0].get("error"))[:250]}')
+              failed = True
+          if failed:
+              sys.exit(1)
+
+          print(f'Q# generation OK - {len(qsharp)} chars, verdict {data.get("verdict")}, '
+                f'entry {estimation.get("entry_expression")}, '
+                f'{estimation.get("physical_qubits")} physical qubits, '
+                f'{len(pareto)} Pareto rows')
           PY
 
       - name: Deployment summary

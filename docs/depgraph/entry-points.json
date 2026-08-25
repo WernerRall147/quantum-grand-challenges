@@ -39,6 +39,7 @@
     "agents/tests/test_container_contents.py",
     "agents/tests/test_corpus_decidability.py",
     "agents/tests/test_cost_model.py",
+    "agents/tests/test_entry_expression.py",
     "agents/tests/test_estimator_config.py",
     "agents/tests/test_evaluator_smoke.py",
     "agents/tests/test_ingest_balance.py",

@@ -1,4 +1,6 @@
-# Whitelist: only include what the Dockerfile needs
+# Whitelist: only include what the Dockerfile needs.
+# Every COPY in the Dockerfile needs a matching rule here or the build dies in ACR with
+# "file not found in build context" - agents/tests/test_container_contents.py checks both.
 *
 !agents/
 !agents/**
@@ -6,3 +8,13 @@
 !knowledge/**
 !problems/reference_index.json
 !Dockerfile
+
+# generate.py imports estimator_config from /app/tooling
+!tooling/estimator_config.py
+
+# Exemplars generate.py feeds the model, one per REFERENCE_IMPLEMENTATIONS entry
+!problems/01_hubbard/qsharp/src/Main.qs
+!problems/09_factorization/qsharp/src/Main.qs
+!problems/19_quantum_chromodynamics/qsharp/src/Main.qs
+!problems/18_photovoltaics/qsharp/src/Main.qs
+!problems/16_error_correction/qsharp/src/Main.qs

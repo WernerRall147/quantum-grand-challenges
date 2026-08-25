@@ -18,6 +18,7 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 
 DOCKERFILE = REPO / "Dockerfile"
+DOCKERIGNORE = REPO / ".dockerignore"
 
 
 def copied_paths() -> list[str]:
@@ -30,6 +31,32 @@ def copied_paths() -> list[str]:
     return paths
 
 
+def dockerignore_rules() -> list[str]:
+    return [line.strip() for line in DOCKERIGNORE.read_text(encoding="utf-8").splitlines()
+            if line.strip() and not line.strip().startswith("#")]
+
+
+def in_build_context(relative: str, rules: list[str]) -> bool:
+    """True when .dockerignore lets a path reach the build context.
+
+    Only models the whitelist form this repo uses - a bare `*` excluding everything,
+    then `!` rules re-including named paths. That is enough to catch the failure this
+    was written for: a COPY of a path nothing re-includes.
+    """
+    target = relative.replace("\\", "/")
+    if "*" not in rules:
+        return True
+    for rule in rules:
+        if not rule.startswith("!"):
+            continue
+        allowed = rule[1:].rstrip("/")
+        if allowed.endswith("/**"):
+            allowed = allowed[:-3]
+        if target == allowed or target.startswith(allowed + "/"):
+            return True
+    return False
+
+
 def is_in_image(relative: str, copied: list[str]) -> bool:
     """True when a repo-relative path is covered by a COPY, directly or via its directory."""
     target = relative.replace("\\", "/")
@@ -40,10 +67,16 @@ def is_in_image(relative: str, copied: list[str]) -> bool:
     return False
 
 
+def reaches_the_image(relative: str) -> bool:
+    """Both gates. A COPY of a path .dockerignore drops fails the build, not the request."""
+    return (is_in_image(relative, copied_paths())
+            and in_build_context(relative, dockerignore_rules()))
+
+
 class TestTheImageHasWhatTheApiNeeds:
     def test_estimator_config_is_copied(self):
         """The exact import that was failing in production."""
-        assert is_in_image("tooling/estimator_config.py", copied_paths()), (
+        assert reaches_the_image("tooling/estimator_config.py"), (
             "generate.py imports estimator_config from /app/tooling. Without it, Q# "
             "generation raises and the API returns an empty string instead of code."
         )
@@ -51,9 +84,8 @@ class TestTheImageHasWhatTheApiNeeds:
     def test_every_reference_implementation_is_copied(self):
         from agents.code_generator.generate import REFERENCE_IMPLEMENTATIONS
 
-        copied = copied_paths()
         missing = [rel for rel in REFERENCE_IMPLEMENTATIONS.values()
-                   if not is_in_image(rel, copied)]
+                   if not reaches_the_image(rel)]
         assert missing == [], (
             "generate.py feeds these to the model as exemplars and falls back to an empty "
             f"snippet when they are absent, so the loss is invisible: {missing}"
@@ -67,8 +99,21 @@ class TestTheImageHasWhatTheApiNeeds:
                    if not (REPO / rel).exists()]
         assert missing == [], f"referenced but not in the repo: {missing}"
 
+    def test_every_copied_path_survives_dockerignore(self):
+        """The hole that let PR #204 fail. Checking the Dockerfile alone is not enough.
+
+        .dockerignore is a whitelist here, so adding a COPY without a matching `!` rule
+        builds green locally and dies in ACR with "file not found in build context".
+        """
+        rules = dockerignore_rules()
+        dropped = [src for src in copied_paths()
+                   if src != "Dockerfile" and not in_build_context(src.rstrip("/"), rules)]
+        assert dropped == [], (
+            f"COPY targets excluded by .dockerignore, so the image build will fail: {dropped}"
+        )
+
     def test_the_api_package_is_copied(self):
-        assert is_in_image("agents/api/main.py", copied_paths())
+        assert reaches_the_image("agents/api/main.py")
 
 
 class TestTheCoverageCheckItself:
@@ -83,3 +128,12 @@ class TestTheCoverageCheckItself:
     def test_a_prefix_that_is_not_a_directory_boundary_does_not_match(self):
         """"tooling_extra/x.py" must not be satisfied by a COPY of "tooling"."""
         assert not is_in_image("tooling_extra/x.py", ["tooling"])
+
+    def test_the_whitelist_reader_drops_what_nothing_reincludes(self):
+        rules = ["*", "!agents/", "!agents/**"]
+        assert in_build_context("agents/api/main.py", rules)
+        assert not in_build_context("tooling/estimator_config.py", rules)
+
+    def test_without_a_bare_star_nothing_is_excluded(self):
+        assert in_build_context("tooling/estimator_config.py", ["node_modules/"])
+

@@ -1,3 +1,12 @@
 {
-    "activestate.promptRuntimeCreation": false
+    "activestate.promptRuntimeCreation": false,
+
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    // Empty on purpose. VS Code defaults to ["."], which overrides testpaths in
+    // pytest.ini and collects a different set than CI runs - the Test panel and the
+    // build would disagree about what the suite is.
+    "python.testing.pytestArgs": [],
+    "python.testing.cwd": "${workspaceFolder}",
+    "python.testing.autoTestDiscoverOnSaveEnabled": true
 }

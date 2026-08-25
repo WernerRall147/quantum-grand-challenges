@@ -1,0 +1,86 @@
+{
+  "_comment": "Every algorithm in the Quantum Algorithm Zoo must have a disposition here, or tooling/reconcile_algorithm_zoo.py fails. Exact name matches against algorithm_zoo_index.json need no entry - only judgement calls are recorded, because only judgement calls need a human. Keys are Zoo names normalised to lowercase alphanumerics separated by single spaces.",
+  "reconciled": "2026-08-25",
+  "source": "knowledge/data/zoo_references.json",
+
+  "aliases": {
+    "_comment": "Same algorithm, different name. The Zoo names the problem; we tend to name the algorithm or its author. Values must exist verbatim in algorithm_zoo_index.json.",
+
+    "factoring": "Shor's Algorithm",
+    "discrete log": "Discrete Logarithm",
+    "searching": "Grover's Search",
+    "linear systems": "HHL Algorithm",
+    "machine learning": "Quantum Machine Learning (Kernel Methods)",
+    "adiabatic algorithms": "Adiabatic Quantum Computation",
+    "collision finding and element distinctness": "Collision Finding",
+    "formula evaluation": "Formula Evaluation (NAND Trees)",
+    "gradient estimation and learning polynomials": "Gradient Estimation",
+    "knot invariants": "Knot and 3-Manifold Invariants",
+    "three manifold invariants": "Knot and 3-Manifold Invariants",
+    "lattice problems by filtering": "Lattice Problems (Quantum)",
+    "optimization by decoded quantum interferometry": "Decoded Quantum Interferometry (DQI)",
+    "probabilistic sampling": "Probabilistic Sampling (Quantum Supremacy)",
+    "quantum approximate optimization": "QAOA (Quantum Approximate Optimization)",
+    "quantum dynamic programming for path in the hypercube": "Quantum Dynamic Programming",
+    "semidefinite programming": "Semidefinite Programming (Quantum)",
+    "simulated annealing": "Simulated Annealing (Quantum Speedup)",
+    "simulating quantum hamiltonian dynamics": "Hamiltonian Simulation (Product Formulas)",
+    "solving linear differential equations": "Linear Differential Equations (Quantum)",
+    "solving nonlinear differential equations": "Nonlinear Differential Equations (Quantum)",
+    "welded tree": "Welded Tree / Graph Traversal"
+  },
+
+  "excluded": {
+    "_comment": "Deliberately absent. A polynomial or constant-factor speedup does not survive error-correction overhead, so these fail Troyer F3 and cannot produce a QUANTUM verdict even if indexed. Recorded rather than ignored so the decision is visible and can be revisited if the QEC picture changes.",
+
+    "approximating nash equilibria": "Polynomial speedup; fails F3.",
+    "center of radial function": "Polynomial speedup; fails F3.",
+    "computing the principal eigenvector": "Polynomial speedup; fails F3.",
+    "counterfeit coins": "Polynomial speedup; fails F3.",
+    "graph collision": "Polynomial speedup; fails F3.",
+    "graph properties in the adjacency list model": "Polynomial speedup; fails F3.",
+    "graph properties in the adjacency matrix model": "Polynomial speedup; fails F3.",
+    "group commutativity": "Polynomial speedup; fails F3.",
+    "junta testing and group testing": "Polynomial speedup; fails F3.",
+    "matrix commutativity": "Polynomial speedup; fails F3.",
+    "matrix multiplication over semirings": "Polynomial speedup; fails F3.",
+    "matrix rank": "Polynomial speedup; fails F3.",
+    "network flows": "Polynomial speedup; fails F3.",
+    "ordered search": "Constant-factor speedup only; fails F3 outright.",
+    "polynomial quantum speedups for constraint satisfaction problems": "Polynomial speedup; fails F3.",
+    "primality proving": "Polynomial speedup; fails F3, and classical AKS is already polynomial.",
+    "search with wildcards": "Polynomial speedup; fails F3.",
+    "solving exponential congruences": "Polynomial speedup; fails F3.",
+    "statistical difference": "Polynomial speedup; fails F3.",
+    "subset finding": "Polynomial speedup; fails F3.",
+    "subset sum": "Polynomial speedup; fails F3.",
+    "verifying matrix products": "Polynomial speedup; fails F3."
+  },
+
+  "candidates": {
+    "_comment": "Absent from the index, and absent for no good reason. These carry a superpolynomial or exponential claim, or an unresolved one, which means the router can never return QUANTUM for a problem they would answer. Listed so the gap is counted rather than discovered. Promotion needs a speedup class, I/O and guiding-state assessment per entry, which is human work.",
+
+    "class group": "Superpolynomial. Hidden-subgroup family, no counterpart indexed.",
+    "electrical resistance": "Exponential. No counterpart indexed.",
+    "estimating determinants and other spectral sums": "Superpolynomial. No counterpart indexed.",
+    "finite rings and ideals": "Superpolynomial. No counterpart indexed.",
+    "gauss sums": "Superpolynomial. No counterpart indexed.",
+    "group isomorphism": "Superpolynomial. No counterpart indexed.",
+    "group order and membership": "Superpolynomial. No counterpart indexed.",
+    "hidden nonlinear structures": "Superpolynomial. Generalises hidden-subgroup; nothing indexed covers it.",
+    "matrix elements and multiplicity coefficients of group representations": "Superpolynomial. No counterpart indexed.",
+    "matrix powers": "Superpolynomial. No counterpart indexed.",
+    "non abelian hidden subgroup": "Superpolynomial. We index the abelian case only, and the non-abelian case is the harder and largely open one.",
+    "pattern matching": "Superpolynomial. No counterpart indexed.",
+    "principal ideal": "Superpolynomial. Related to Pell's Equation, which we do index, but not the same problem.",
+    "string rewriting": "Superpolynomial. No counterpart indexed.",
+    "unit group": "Superpolynomial. No counterpart indexed.",
+    "weight enumerators": "Superpolynomial. No counterpart indexed.",
+    "zeta functions": "Superpolynomial. No counterpart indexed.",
+
+    "decoding": "Speedup recorded as Varies; needs a per-case reading before it can carry a verdict.",
+    "polynomial interpolation": "Speedup recorded as Varies; needs a per-case reading.",
+    "double bracket quantum algorithms": "Speedup recorded as Unknown; too recent for the Zoo to have classified.",
+    "tensor principal component analysis": "Speedup unclassified in the Zoo source; needs a reading."
+  }
+}

@@ -51,14 +51,20 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 │  │ never applied. Citations must resolve before they are published.│ │
 │  │                                                                 │ │
 │  │ Two interchangeable paths, selected by QGC_USE_AGENT:           │ │
-│  │   0  chat-completions            ~28s median   << LIVE          │ │
-│  │   1  Foundry prompt agent        ~52s median                    │ │
+│  │   0  chat-completions       ~28s model time    << LIVE          │ │
+│  │   1  Foundry prompt agent   ~52s model time                     │ │
 │  │      quantum-advantage-orchestrator, adds Code Interpreter      │ │
 │  │      and the Microsoft Learn MCP tool                           │ │
+│  │                                                                 │ │
+│  │ Model time, not end to end. A request measures ~38s median      │ │
+│  │ (15 calls, 2026-08-24), and ~78s when code generation is on.    │ │
 │  └────────────────────────────────────────────────────────────────┘ │
 │                                                                      │
-│  GENERATORS  agents/code_generator/ - Q# and Bicep, invoked after    │
-│  the verdict. Ordinary Python modules, not agents.                   │
+│  GENERATORS  agents/code_generator/ - invoked after the verdict,     │
+│  ordinary Python modules, not agents.                                │
+│    Q#    generated, then compiled and costed through the Azure       │
+│          Quantum Resource Estimator (qdk.qre) in the request path    │
+│    Bicep generated, then validated with `az bicep build`             │
 └──────────────────────────────┬───────────────────────────────────────┘
                                │ MCP / Tools
 ┌──────────────────────────────▼───────────────────────────────────────┐

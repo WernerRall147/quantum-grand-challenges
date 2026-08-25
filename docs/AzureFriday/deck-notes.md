@@ -235,3 +235,127 @@ the decision corpus are separate right now, and only one of them is wired in."*
 
 None of this is needed before 3 September. The demo works and the verdicts are correct.
 It is the honest answer to "what would you do next", which is a question Scott asks.
+
+---
+
+# Section C - the engineer track
+
+Written after the prep call, where the failure mode was going broad on the problem domain
+instead of the engineering. This is the material to pull from when Scott asks a question,
+and the source for the beat narration. **Pick two or three. Do not recite it.**
+
+The test for whether something belongs on air: *does it change a decision an engineer
+would make, or is it background?* Quantum background is background.
+
+## C1. The components, and what each one is actually doing
+
+| Component | Doing what | The bit worth saying |
+|---|---|---|
+| **Container Apps** `qgc-eval-api` | Hosts the FastAPI evaluator | `minReplicas: 1`, so it never scales to zero. The ~38s is model inference, not a cold start - pre-warming would not help, which is why one beat is pre-loaded. |
+| **AI Foundry model router** | Picks a model per request | Convenience with a sharp edge: it selects reasoning models, whose thinking counts against `max_completion_tokens`. That is a real, Azure-specific gotcha - see C3. |
+| **AI Search** `qgcsearcheval` | Hybrid keyword + vector retrieval | Two indexes. `quantum-algorithms` (47 entries) feeds the router and decides verdicts. `quantum-papers` (2,239) is read by nothing that decides - deliberately, see C3. |
+| **Managed identity** | Every Azure call | No keys anywhere in the app. Also the main operational risk: a governance job stripped the data-plane role once, silently. |
+| **ACR** | Builds the image | Build context is not the repo. `.dockerignore` is a whitelist here, which bit us - C3. |
+| **Container Apps Job** | Daily arXiv ingest | Runs, succeeds, and feeds an index nothing reads. Honest answer to "what would you cut". |
+| **GitHub Actions** | Build, deploy, nightly checks, uptime probe | Deploy now includes a behavioural smoke test, not just a schema one. |
+| **GitHub Pages** | The static front end | Next.js static export. Calls the Container App directly; falls back to DEMO MODE if that fails. |
+| **Azure Quantum** | Resource estimation | The estimator runs in-process via `qdk.qre`. Hardware submission is currently blocked - C5. |
+
+## C2. Good practices, with the evidence rather than the claim
+
+- **The verdict is deterministic and the model cannot override it.** `route_platform()`
+  runs before the model and never sees its output. Disagreement lands in `model_dissent`.
+  A test pins the router's signature so papers cannot be passed into it by accident.
+- **Pure functions for anything that decides.** `find_drift`, `reconcile`, `validate`,
+  `classify_paper`, `sweep_is_pure_dilution` all take plain data and return plain data, so
+  the tests drive them with synthetic cases instead of writing bad records into production.
+- **Guards are verified by breaking something.** Every check added this month was watched
+  failing first: the ledger with a disposition deleted, the index with HHL relabelled, the
+  prompt-verifier pointed at LICENSE. A guard nobody has seen fail is not a guard.
+- **Rules derived from the data, not invented.** The index validator's rules were tested
+  against all 47 entries and only the ones that held were kept. One obvious candidate -
+  `QUANTUM_ADVANTAGE` implies naturally quantum - is violated by 11 entries *correctly*,
+  because Shor and friends are structural speedups. It is now pinned by a test so nobody
+  adds it later.
+- **Measure before adopting.** The Foundry agent path was dropped on latency (52s vs 38s
+  median, n=22). The papers corpus was kept out of the decision path on a measurement, not
+  a hunch. Numbers in the docs carry their sample size.
+- **Reconciliation over inventory.** Every one of the Zoo's 74 algorithms must be matched,
+  excluded with a reason, or counted as a gap. Anything undispositioned fails the build.
+- **Citations resolved before they are shown.** The model proposes references; they are
+  link-checked at the source. A fabricated source is worse than a slow answer.
+
+## C3. Bad practices, and the debt still on the board
+
+This is the half that makes the other half credible. Scott will respect it more than a
+feature list.
+
+- **Swallowing exceptions into empty strings.** `/api/evaluate` caught the code generator's
+  failure and returned `qsharp_code: ""`. The site renders that field only when it is
+  non-empty. So a dead feature and an unticked checkbox produced an identical page, with
+  HTTP 200 throughout. **Q# generation was broken in production and nothing said so.**
+- **Three faults stacked, each hiding the next.** `tooling/` was not in the image; then
+  `.dockerignore` excluded the files added to fix it; then `max_completion_tokens=1500`
+  let reasoning tokens eat the whole budget so the model returned nothing at all. Fixing
+  one only revealed the next.
+- **A guard that measured the wrong layer.** The test for the missing files read the
+  Dockerfile, found the `COPY`, and passed - while the build could never succeed, because
+  `.dockerignore` dropped those paths. Green check, impossible build.
+- **Schema tests mistaken for behaviour tests.** The deploy checked that
+  `/api/generate-bicep` was in the OpenAPI spec and that `bicep_template` was declared.
+  Both true, both useless: they cannot notice that generation returns nothing.
+- **The same bug fixed in one place and not the other.** The token-budget failure was
+  already documented in `evaluate.py` and raised to 4000 there. `generate.py` sat at 1500
+  and failed the same way, in the same repo.
+- **A hand-edited file that every verdict rests on.** `algorithm_zoo_index.json` was last
+  generated 2026-04-18 and its regeneration script is in no workflow.
+- **An upserting seeder.** It writes by id without reconciling, so an id-scheme change
+  orphaned a duplicate that then took ranks 1 *and* 2 of a top-3.
+- **A pipeline attached at one end only.** ~100 papers a day into an index nothing reads,
+  and only 2.3% of that sweep carries a claim the filters could use.
+
+## C4. PRs and the GitHub side
+
+370 commits, 173 merged PRs. Worth showing only if Scott asks how it is actually built.
+
+- **Every change is a PR with five required checks**: build-and-test, quick-estimation,
+  dependency-graph drift, secret hygiene, GitGuardian. Squash merge, delete branch.
+- **The dependency graph is committed and drift-checked.** `docs/depgraph/` is regenerated
+  from the tree; CI fails if it is stale. It exists so that deleting code is evidence-based
+  rather than brave - it knows what is reachable from an entry point and what is not.
+- **Nightly jobs check the things a PR cannot see**: the deployed search index against the
+  committed file, and the live Quantum Algorithm Zoo against our reconciliation ledger, so
+  an upstream addition becomes a build failure instead of a note in someone's head.
+- **The commit message carries the measurement.** Over-claim rates, latency samples,
+  confusion matrices go in the message, so `git log` is the record of what was true when.
+- **The uptime probe opens a GitHub issue** labelled `uptime` when the live API fails a
+  real evaluation, every 30 minutes.
+
+## C5. The quantum piece, kept to what an engineer can use
+
+- **Modern QDK, no .NET.** `qsharp.json` projects, `pip install qdk`, run from Python. The
+  legacy `Microsoft.Quantum.Sdk` toolchain is gone.
+- **Generated Q# is compiled and estimated in the request path.** Not emitted and hoped
+  over - `qdk.qre` gives physical qubits and runtime across qubit models. That number is
+  what makes "quantum advantage" falsifiable: RSA-2048 needs roughly 4,000 logical qubits.
+- **80 resource estimates**, four qubit models against the surface code across 20 problems.
+  Majorana and floquet codes were dropped because the current estimator does not realise
+  them - worth saying if the deck's old "160" comes up.
+- **11 of the 20 problems were honestly downgraded** on I/O, quadratic-only speedups or
+  QEC overhead. That is the project's actual result and it is a negative one.
+- **Hardware submission is currently blocked.** Azure Quantum job containers live in the
+  managed storage account, which subscription policy holds disabled; every workaround was
+  tested and none survived. Around a hundred jobs ran against Quantinuum and Rigetti
+  simulators before that. Say it plainly if it comes up - it is a better story than a
+  vague claim about hardware runs.
+
+## C6. Likely questions, with the engineer answer
+
+| Question | Answer to reach for |
+|---|---|
+| How do you stop it over-claiming? | Deterministic router, the relevance gate from C2, `model_dissent`, and the over-claim rate is measured: 1.7% on 358 labelled papers. |
+| Why not just let the model decide? | It reaches different conclusions and we record them. Also the corpus it would read is one-sided - retrieval scores portfolio optimisation *above* FeMoco, so score runs against correctness. |
+| What is the hardest bug you hit? | The empty string. Three stacked faults, HTTP 200 throughout, months undetected, and the smoke test that was supposed to catch it was asking a schema question. |
+| Is this production-grade? | The verdict path is. The knowledge pipeline has real debt - C3 - and it is written down rather than papered over. |
+| What would you do next? | Make the algorithm index a build artefact, and either wire the papers index into retrieval behind a relevance gate or stop paying for the job. |
+| When does quantum actually arrive? | Not a date. The filters answer it per problem: strong speedup, I/O survives, QEC survives, naturally quantum, crossover feasible. Most things fail one of them. |

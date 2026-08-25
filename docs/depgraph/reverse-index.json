@@ -35,7 +35,9 @@
     "agents/tests/test_bicep_generator.py"
   ],
   "agents/code_generator/generate.py": [
-    "agents/api/main.py"
+    "Dockerfile",
+    "agents/api/main.py",
+    "agents/tests/test_container_contents.py"
   ],
   "agents/evaluations/run_eval.py": [
     ".github/workflows/ci-cd.yml"
@@ -354,6 +356,7 @@
     "problems/archived/15_database_search/Makefile"
   ],
   "tooling/estimator_config.py": [
+    "Dockerfile",
     "agents/tests/test_estimator_config.py",
     "tooling/generate_calibration_ensemble.py",
     "tooling/generate_estimates.py",

@@ -22,6 +22,20 @@ COPY agents/ /app/agents/
 COPY knowledge/ /app/knowledge/
 COPY problems/reference_index.json /app/problems/reference_index.json
 
+# generate.py puts /app/tooling on sys.path and imports estimator_config from it. Without
+# this the import raises, /api/evaluate swallows it into an empty qsharp_code, and the site
+# renders nothing at all - a broken feature that looks like an absent one.
+COPY tooling/estimator_config.py /app/tooling/estimator_config.py
+
+# The exemplars generate.py feeds the model, one per algorithm in REFERENCE_IMPLEMENTATIONS.
+# Missing files degrade silently to an empty snippet rather than failing, so the generator
+# would keep working and quietly get worse.
+COPY problems/01_hubbard/qsharp/src/Main.qs /app/problems/01_hubbard/qsharp/src/Main.qs
+COPY problems/09_factorization/qsharp/src/Main.qs /app/problems/09_factorization/qsharp/src/Main.qs
+COPY problems/19_quantum_chromodynamics/qsharp/src/Main.qs /app/problems/19_quantum_chromodynamics/qsharp/src/Main.qs
+COPY problems/18_photovoltaics/qsharp/src/Main.qs /app/problems/18_photovoltaics/qsharp/src/Main.qs
+COPY problems/16_error_correction/qsharp/src/Main.qs /app/problems/16_error_correction/qsharp/src/Main.qs
+
 # Expose port
 EXPOSE 8000
 

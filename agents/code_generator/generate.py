@@ -43,6 +43,11 @@ ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
 # the direct CHAT_DEPLOYMENT on qgc-openai instead.
 USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 
+# Must cover the model's reasoning tokens as well as the Q# it emits. evaluate.py hit
+# this first: the router picks reasoning models, 1000 was consumed by thinking alone, and
+# the answer came back empty. This path kept 1500 and failed the same way, silently.
+MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_CODEGEN_MAX_TOKENS", "4000"))
+
 # Map orchestrator-recommended algorithms to reference implementations
 REFERENCE_IMPLEMENTATIONS = {
     "QPE": "problems/01_hubbard/qsharp/src/Main.qs",
@@ -124,9 +129,21 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_msg},
             ],
-            max_completion_tokens=1500,
+            max_completion_tokens=MAX_COMPLETION_TOKENS,
         )
-        code = resp.choices[0].message.content or ""
+        choice = resp.choices[0]
+        code = choice.message.content or ""
+        if not code.strip():
+            # `or ""` used to hide this, and the API turns an empty string into a page
+            # with no code block on it. Say what happened instead: the router picks
+            # reasoning models whose thinking counts against the same budget, so an
+            # exhausted budget returns a valid response carrying nothing.
+            usage = getattr(resp, "usage", None)
+            raise RuntimeError(
+                f"model returned no content (finish_reason={choice.finish_reason}, "
+                f"model={getattr(resp, 'model', '?')}, "
+                f"max_completion_tokens={MAX_COMPLETION_TOKENS}, usage={usage})"
+            )
         return self._strip_fences(code)
 
     # Pareto sweep matrix is sourced from tooling/estimator_config.QUBIT_MODELS

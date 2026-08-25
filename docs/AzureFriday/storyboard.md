@@ -38,53 +38,64 @@ in science, and could Q# help?* A year and ~300 commits later it is running on A
 
 ## 2. Key takeaways
 
-1. **An honest AI advisor needs a deterministic core.** The verdict comes from a rules
-   engine over a curated algorithm database, not from the model. The model explains and
-   stress-tests the decision; if it disagrees, that is recorded as `model_dissent` rather
-   than allowed to change the answer. Same question, same answer, every time.
-2. **Retrieval is not evidence.** Vector search returns a top hit for every query. Ours
-   was confidently recommending quantum for image classification because the index
-   returned a quantum algorithm, as it always will. Grounding needs a relevance gate.
-3. **This is a pattern you can reuse** for any grounded, tool-using agent on Azure:
-   Foundry model router for per-request model selection, AI Search for retrieval,
-   Container Apps with managed identity, GitHub Actions to deploy.
+Pitched at someone who builds this kind of thing, not someone deciding whether quantum
+is interesting. The quantum problem is the setting; the engineering is the subject.
+
+1. **Retrieval is not evidence, and this bug is probably in your app too.** Vector search
+   returns a top hit for every query - there is no "no match". Ours confidently returned
+   `QUANTUM_ADVANTAGE` at 0.9 confidence, with citations, for portfolio optimisation,
+   because the index matched "Probabilistic Sampling (Quantum Supremacy)". The fix is a
+   relevance gate: the problem text itself has to corroborate before a retrieved hit is
+   allowed to carry a verdict.
+2. **An honest advisor needs a deterministic core.** The verdict, confidence and platform
+   come from a rules engine over a curated database. The model writes the explanation and
+   stress-tests the decision; when it disagrees that goes into `model_dissent` and is
+   never applied. Same question, same answer, and you can diff it.
+3. **A green check is not evidence either.** Q# generation was dead in production while
+   every check passed, because the API caught the generator's exception and returned an
+   empty string, and the deploy check only asked whether the field was *declared*. Schema
+   tests answer schema questions.
 
 ## 3. Run of show
 
 | Time | Segment | Content |
 |---|---|---|
-| 0:00-1:30 | Setup with Scott | The premise: should this be quantum? Why most answers are hype. Origin story in one line. |
+| 0:00-1:30 | Setup with Scott | Premise in about 30 seconds - "should this run on a quantum computer" is the question, most answers are hype - then straight into the fact that this thing used to be confidently wrong. Origin story is **one line**, not a segment. |
 | 1:30-8:00 | **Demo** (see below) | |
-| 8:00-11:00 | Conversation | Ad hoc questions from Scott. Likely: how do you stop it over-claiming, what is Troyer's filter set, what would change the verdict, when does quantum actually arrive. |
-| 11:00-12:00 | Takeaway | "This is how you build any grounded, tool-using Azure agent." |
+| 8:00-11:00 | Conversation | Scott's questions. Prepared answers in [deck-notes.md](deck-notes.md) Section C. |
+| 11:00-12:00 | Takeaway | Takeaway 2 - the deterministic-core pattern generalises to any grounded agent. |
+
+> **The failure mode from the prep call was going broad on the problem domain.** Twenty
+> hardest problems in science, what a qubit is, why quantum matters - that is a keynote,
+> and it eats the clock without telling an engineer anything they can use. Domain detail
+> only earns its place when it explains a decision in the code. Troyer's filters are worth
+> naming because they *are* the rules engine; they are not worth teaching.
 
 ## 4. Demo beat sheet
 
-**A call takes ~38s** (three full runs of all five demo prompts, 2026-08-24, 15 calls:
-median 38.0s, min 28.9s, max 58.9s, zero mismatches on every run). That is meaningfully
-faster than the Foundry agent path it replaced (~52s median), but plan for a 60s worst
-case rather than the median. Azure Friday's guidance applies either way - have a
-completed item to transition to rather than watch a spinner. So:
+**A verdict-only call takes ~38s** (three full runs of all five prompts, 2026-08-24, 15
+calls: median 38.0s, min 28.9s, max 58.9s, zero mismatches). **With code generation it
+takes ~78s** (measured once, in the deploy smoke test on 2026-08-25). Beat 3 is
+pre-loaded for that reason.
 
-| Beat | Time | On screen | Notes |
+| Beat | Time | On screen | The engineering point |
 |---|---|---|---|
-| 1. The yes | 1:30-3:30 | Type the FeMoco prompt on the live site, submit | **Run this one live** so it is visibly real. Fill the wait by walking Troyer's six filters, which are the thing the audience needs to understand anyway. F6 is the 2024 addition and FeMoco is the paper's own prototype, which is a good line to land. Lands on `QUANTUM_ADVANTAGE`, 0.9 confidence, QPE, with citations. |
-| 2. The no | 3:30-5:00 | Portfolio optimisation, 500 assets | **Pre-loaded in a second tab.** Say plainly that you ran it earlier. Explain why a quadratic speedup dies under QEC overhead. Lands on `HPC_PREFERRED`. This is the memorable beat. |
-| 3. The payoff | 5:00-6:30 | Generated Q# and a Bicep template | It does not just judge, it hands you the workspace. |
-| 4. The platform | 6:30-8:00 | Architecture, 1 slide | Deterministic router owns the verdict; model router writes the prose; AI Search, Container Apps, managed identity, GitHub Actions. |
+| 1. The bug you also have | 1:30-3:00 | Portfolio optimisation, 500 assets. **Live.** | Retrieval always returns something. Say what it *used* to answer and why that was worse than useless - confident, cited and wrong. Then the relevance gate. Lands on `HPC_PREFERRED`. |
+| 2. The model does not get a vote | 3:00-4:30 | The raw JSON response, `model_dissent` visible | Verdict comes from `route_platform()` in code. Run the same prompt twice, same answer. This is the reusable pattern and the reason the thing can be trusted. |
+| 3. The quantum part, and what Azure does | 4:30-6:30 | FeMoco -> `QUANTUM_ADVANTAGE`, generated **Q#**, **resource estimate**. **Pre-loaded.** | The Q# is not just emitted - it is compiled and run through the Azure Quantum Resource Estimator in the request path. Physical qubits and runtime are what decide whether "advantage" means anything. |
+| 4. How it ships, how we know it works | 6:30-8:00 | Architecture slide, then the deploy log line | Managed identity end to end, Container Apps, ACR, GitHub Actions. Then the honest bit: the deploy now posts a real prompt and fails if no Q# comes back, because the schema check never noticed the feature was dead. |
 
-**The narration is now the constraint, not the call.** At ~52s on the agent path the
-model was the thing you had to talk over. At ~38s, beat 1's two minutes are mostly
-yours. Do not rush Troyer's six filters to fill a gap that no longer exists - they are
-the substance of the segment, not padding.
+**Demo runs 1:30-8:00 = 6m30s**, inside Chris's 6-9 minute ceiling.
 
-**Demo runs 1:30-8:00 = 6m30s**, inside Chris's 6-9 minute ceiling with room to spare.
+**Beat 1 is the live one.** It is the shortest call and the most interesting failure, so if
+anything is going to be real on camera, make it that one.
 
-**If you are running long, cut beat 3 before beat 2.** The agent declining quantum is the
-differentiator; code generation is table stakes.
+**If you are running long, cut beat 3 to just the resource estimate** and drop the Q#
+scroll. The estimator number is the quantum content; the generated source is decoration.
 
-**Fallback:** if beat 1 fails live, switch to a pre-recorded run of the same prompt and
-keep talking. Have it open before you start.
+**Fallback:** if beat 1 fails live, switch to the pre-recorded run and keep talking. Have
+it open before you start.
+
 
 ## 5. Slides
 

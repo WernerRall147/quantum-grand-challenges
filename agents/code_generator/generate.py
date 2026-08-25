@@ -65,7 +65,10 @@ CRITICAL RULES:
 - Use modern Q# syntax (qsharp.json project format, NOT the legacy .NET namespace style)
 - Start with `import Std.Arrays.*; import Std.Canon.*; import Std.Convert.*; import Std.Diagnostics.*; import Std.Math.*;`
 - Do NOT emit `namespace ... { ... }` blocks  modern QDK is flat
-- Define an `operation Main() : Result[]` or similar as the entry point
+- The entry point MUST be `operation Main() : Result[]` - exactly that name, and no
+  parameters. Resource estimation invokes `Main()` by name; any other name or any
+  parameter list makes the program unestimatable.
+- Put every other operation behind `Main`, called from it
 - Keep the implementation compilable (valid types, use `mutable` for variables reassigned in loops, `set` for reassignment)
 - Target a modest qubit count (4-12 qubits) so resource estimation runs quickly
 - Include brief /// doc comments explaining each operation
@@ -73,11 +76,29 @@ CRITICAL RULES:
 OUTPUT: Return ONLY the Q# source code. No markdown fences, no explanations. Just compilable Q# starting with the `import` statements.
 """
 
+# Operations the estimator can be pointed at: a name, then a parameter list we require to
+# be empty. Estimation invokes the entry by expression, so an operation taking arguments
+# cannot be one however well it is named.
+_OPERATION = re.compile(r"^\s*operation\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", re.M)
+
+
+def entry_expression(code: str) -> str:
+    """Return the call expression to estimate, preferring Main.
+
+    The prompt asks for Main and the estimator assumed it, which held until it did not:
+    the model named the operation after the problem instead and every row of the Pareto
+    sweep rendered `Qdk.Qsc.Resolve.NotFound ... 'Main' not found` on screen. Reading the
+    name out of the source removes the dependency on the model obeying.
+    """
+    names = _OPERATION.findall(code)
+    if not names:
+        return "Main()"  # nothing parameterless to call; let the estimator report it
+    return "Main()" if "Main" in names else f"{names[0]}()"
+
 
 class QSharpCodeGenerator:
     def __init__(self):
         self.credential = DefaultAzureCredential()
-
     def _client(self) -> AzureOpenAI:
         token = self.credential.get_token("https://cognitiveservices.azure.com/.default")
         endpoint = ROUTER_ENDPOINT if USE_ROUTER else OPENAI_ENDPOINT
@@ -194,11 +215,13 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
                 return {"compiled": False, "error": f"compile failed: {str(e)[:500]}"}
 
             result: Dict[str, Any] = {"compiled": True}
+            entry = entry_expression(code)
+            result["entry_expression"] = entry
 
             # Default-profile estimate (kept at top level for backwards compat).
             try:
                 summary = self._extract_estimate(
-                    estimate_summary("Main()", DEFAULT_QUBIT_MODEL, DEFAULT_QEC_SCHEME)
+                    estimate_summary(entry, DEFAULT_QUBIT_MODEL, DEFAULT_QEC_SCHEME)
                 )
                 result.update({
                     "physical_qubits": summary.get("physical_qubits"),
@@ -209,11 +232,11 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
                 result["estimate_error"] = str(e)[:500]
 
             if multi_profile:
-                result["pareto_table"] = self._run_pareto_sweep()
+                result["pareto_table"] = self._run_pareto_sweep(entry)
 
             return result
 
-    def _run_pareto_sweep(self) -> list:
+    def _run_pareto_sweep(self, entry: str = "Main()") -> list:
         """Evaluate every (qubit, QEC) combination in QUBIT_MODELS.
 
         QRE v3 explores code distances and factories internally, so each
@@ -235,7 +258,7 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
         pareto: list = []
         for model, qec, key in triples:
             try:
-                summary = self._extract_estimate(estimate_summary("Main()", model.name, qec))
+                summary = self._extract_estimate(estimate_summary(entry, model.name, qec))
                 pareto.append(_annotate(summary, model, qec, key))
             except Exception as e:  # noqa: BLE001  skip incompatible combos
                 pareto.append({

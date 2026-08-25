@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1219,
-    "code_files": 241,
-    "python": 185,
+    "tracked": 1220,
+    "code_files": 242,
+    "python": 186,
     "qsharp": 43,
     "ts": 13,
-    "edges": 188,
-    "roots": 254,
-    "reachable": 279
+    "edges": 189,
+    "roots": 255,
+    "reachable": 280
   },
   "nodes": [
     "agents/api/main.py",
@@ -30,6 +30,7 @@
     "agents/tests/test_container_contents.py",
     "agents/tests/test_corpus_decidability.py",
     "agents/tests/test_cost_model.py",
+    "agents/tests/test_entry_expression.py",
     "agents/tests/test_estimator_config.py",
     "agents/tests/test_evaluator_smoke.py",
     "agents/tests/test_ingest_balance.py",
@@ -469,6 +470,10 @@
     [
       "agents/tests/test_cost_model.py",
       "agents/classifier/cost_model.py"
+    ],
+    [
+      "agents/tests/test_entry_expression.py",
+      "agents/code_generator/generate.py"
     ],
     [
       "agents/tests/test_estimator_config.py",

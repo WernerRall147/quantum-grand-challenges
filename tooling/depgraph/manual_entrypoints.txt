@@ -54,3 +54,4 @@ tooling/ingest_zoo_references.py
 tooling/eval_paper_classifier.py
 tooling/measure_corpus_decidability.py
 tooling/reconcile_algorithm_zoo.py
+tooling/validate_algorithm_index.py

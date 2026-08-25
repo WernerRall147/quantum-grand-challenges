@@ -24,7 +24,8 @@
     "agents/evaluations/score_narrative.py",
     "agents/orchestrator/evaluate.py",
     "agents/tests/test_evaluator_smoke.py",
-    "tooling/reporting/check_homepage_stats.py"
+    "tooling/reporting/check_homepage_stats.py",
+    "tooling/validate_algorithm_index.py"
   ],
   "agents/code_generator/architecture.py": [
     "agents/api/main.py"
@@ -397,6 +398,9 @@
   ],
   "tooling/run_all_qsharp.py": [
     ".github/workflows/ci-cd.yml"
+  ],
+  "tooling/validate_algorithm_index.py": [
+    "agents/tests/test_algorithm_index_validation.py"
   ],
   "website/components/CostReference.tsx": [
     "website/pages/costs.tsx"

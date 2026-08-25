@@ -16,6 +16,34 @@ STRONG_QUANTUM_SPEEDUPS = {"exponential", "superpolynomial"}
 WEAK_QUANTUM_SPEEDUPS = {"quadratic", "quadratic_at_most", "polynomial"}
 NO_QUANTUM_ADVANTAGE = {"none_proven", "dequantized", "varies"}
 
+# Classes that deliberately sit outside all three sets above, so they match none of the
+# membership tests and cannot reach a QUANTUM verdict through the KB. That is the point:
+# each carries a qualification that a bare "exponential" would throw away. Declared here
+# rather than left implicit because the failure mode is silent - relabel HHL as plain
+# "exponential" and every other field stays valid while the reason classical wins is lost.
+# tooling/validate_algorithm_index.py rejects that specific edit, and an unknown class.
+QUALIFIED_SPEEDUPS = {
+    "exponential_core": (
+        "Exponential in the core routine, destroyed by state preparation and readout. "
+        "Requires io_bottleneck=True; HHL, QML kernels and QSVM are the cases."
+    ),
+    "exponential_deterministic": (
+        "Exponential only against exact classical computation. Randomised classical "
+        "algorithms close the gap, so it is not a usable advantage."
+    ),
+    "not_applicable": (
+        "Infrastructure rather than an algorithm with a speedup, such as the surface code."
+    ),
+}
+
+KNOWN_SPEEDUPS = (
+    STRONG_QUANTUM_SPEEDUPS | WEAK_QUANTUM_SPEEDUPS
+    | NO_QUANTUM_ADVANTAGE | set(QUALIFIED_SPEEDUPS)
+)
+
+TROYER_VERDICTS = {"QUANTUM_ADVANTAGE", "HPC_PREFERRED", "INFRASTRUCTURE", "INCONCLUSIVE"}
+
+
 # AI/ML domain indicators  if these dominate, recommend AI_ML
 AI_ML_KEYWORDS = [
     "classify", "classifier", "classification", "image recognition", "object detection",

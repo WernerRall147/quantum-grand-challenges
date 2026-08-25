@@ -8,4 +8,7 @@ azure-search-documents==11.6.0
 azure-ai-projects==2.4.0
 httpx==0.28.1
 openai==2.32.0
-qdk==1.31.0
+# [qre] pulls pandas, which qdk declares only for that extra. tooling/estimator_config.py
+# imports qdk.qre, so without it Q# generation raises ModuleNotFoundError and the API
+# returns an empty string. agents/tests/test_container_contents.py enforces the extra.
+qdk[qre]==1.31.0

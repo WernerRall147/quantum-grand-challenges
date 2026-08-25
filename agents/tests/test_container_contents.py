@@ -116,6 +116,38 @@ class TestTheImageHasWhatTheApiNeeds:
         assert reaches_the_image("agents/api/main.py")
 
 
+class TestExtrasTheImportsNeed:
+    """Shipping a file is not enough if its dependencies were never installed.
+
+    Fixing the missing COPY only moved the error along: estimator_config imported, then
+    `No module named 'pandas'`. qdk declares `pandas>=2.1 ; extra == 'qre'`, and
+    requirements.txt pinned bare `qdk==1.31.0`. Derived from the import rather than
+    hardcoded, so dropping the extra fails with the reason attached.
+    """
+
+    def test_qre_extra_is_requested_when_the_code_imports_qdk_qre(self):
+        requirements = (REPO / "agents" / "api" / "requirements.txt").read_text(encoding="utf-8")
+
+        # Only what ships. A test or a scratch file mentioning qdk.qre says nothing about
+        # what the container needs, and this test matches its own source otherwise.
+        pattern = re.compile(r"^\s*(from|import)\s+qdk\.qre", re.M)
+        importers = [
+            path.relative_to(REPO).as_posix()
+            for path in (list((REPO / "agents").rglob("*.py")) + list((REPO / "tooling").rglob("*.py")))
+            if "tests" not in path.parts
+            and reaches_the_image(path.relative_to(REPO).as_posix())
+            and pattern.search(path.read_text(encoding="utf-8", errors="ignore"))
+        ]
+        if not importers:
+            return
+
+        assert re.search(r"^qdk\[[^\]]*\bqre\b[^\]]*\]", requirements, re.M), (
+            f"these ship in the image and import qdk.qre, which needs the [qre] extra "
+            f"for pandas: {importers}"
+        )
+
+
+
 class TestTheCoverageCheckItself:
     """A matcher that always returns True would make the tests above meaningless."""
 

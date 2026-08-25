@@ -242,7 +242,13 @@ jobs:
           # expression, and when it could not resolve one the response still carried 3k
           # characters of source while every Pareto row held a compiler error.
           failed = False
-          if estimation.get('estimate_error'):
+          # `error` is the compile-failure key and `estimate_error` the estimation one.
+          # Checking only the second reported "no physical_qubits" for a program that had
+          # not compiled at all, which said nothing about why.
+          if estimation.get('error'):
+              print(f'::error::{estimation["error"][:400]}')
+              failed = True
+          elif estimation.get('estimate_error'):
               print(f'::error::resource estimation failed: {estimation["estimate_error"][:300]}')
               failed = True
           elif estimation.get('physical_qubits') is None:

@@ -70,6 +70,10 @@ CRITICAL RULES:
   parameter list makes the program unestimatable.
 - Put every other operation behind `Main`, called from it
 - Keep the implementation compilable (valid types, use `mutable` for variables reassigned in loops, `set` for reassignment)
+- An operation that is `is Adj`, `is Adj + Ctl`, or ever used via `Adjoint`/`Controlled`
+  must contain NO `set` assignment, `while`, `repeat`, or `return`. Q# generates the
+  adjoint by inverting the body and cannot invert those. Compute such values in a
+  `function`, or before the adjointable operation, and pass them in as parameters.
 - Target a modest qubit count (4-12 qubits) so resource estimation runs quickly
 - Include brief /// doc comments explaining each operation
 
@@ -209,13 +213,16 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
             src_dir.mkdir()
             (src_dir / "Main.qs").write_text(code, encoding="utf-8")
 
+            # Derived before init so a compile failure still reports what would have run.
+            entry = entry_expression(code)
+
             try:
                 qsharp.init(project_root=str(proj))
             except Exception as e:  # noqa: BLE001  surface compile failures to the UI
-                return {"compiled": False, "error": f"compile failed: {str(e)[:500]}"}
+                return {"compiled": False, "entry_expression": entry,
+                        "error": f"compile failed: {str(e)[:500]}"}
 
             result: Dict[str, Any] = {"compiled": True}
-            entry = entry_expression(code)
             result["entry_expression"] = entry
 
             # Default-profile estimate (kept at top level for backwards compat).

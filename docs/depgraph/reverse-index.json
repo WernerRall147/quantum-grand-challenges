@@ -361,8 +361,15 @@
   "tooling/generate_estimates.py": [
     ".github/workflows/nightly.yml"
   ],
+  "tooling/ingest_zoo_references.py": [
+    ".github/workflows/nightly.yml"
+  ],
   "tooling/measure_corpus_decidability.py": [
     "agents/tests/test_corpus_decidability.py"
+  ],
+  "tooling/reconcile_algorithm_zoo.py": [
+    ".github/workflows/nightly.yml",
+    "agents/tests/test_zoo_reconciliation.py"
   ],
   "tooling/reporting/audit_azure_run_history_metrics.py": [
     ".github/workflows/nightly.yml"

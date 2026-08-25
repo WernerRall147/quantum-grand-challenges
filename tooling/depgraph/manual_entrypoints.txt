@@ -53,3 +53,4 @@ tooling/ingest_zoo_references.py
 # === Classifier evaluation harness (run by hand; needs the search index) ===
 tooling/eval_paper_classifier.py
 tooling/measure_corpus_decidability.py
+tooling/reconcile_algorithm_zoo.py

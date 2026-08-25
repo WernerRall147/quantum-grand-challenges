@@ -211,3 +211,29 @@ jobs:
           AZURE_TENANT_ID: dc692f3e-104b-4247-b52c-23692694684a
         run: python tooling/check_algorithm_index_drift.py
 
+  zoo-reconciliation:
+    # The committed Zoo file reconciles in the test suite already. What that cannot see is
+    # the Zoo itself changing upstream, so re-fetch it here and reconcile against the live
+    # source. A newly published algorithm arrives with no disposition and fails the run,
+    # which is the only thing that stops it waiting for someone to remember.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Re-fetch the live Quantum Algorithm Zoo
+        # Dry by default, and stdlib-only in that mode, so no dependencies and no
+        # writes to the search index. It does rewrite the committed JSON, which is
+        # exactly what the next step needs to see.
+        run: python tooling/ingest_zoo_references.py
+
+      - name: Account for every algorithm in it
+        run: python tooling/reconcile_algorithm_zoo.py --list-candidates
+
+      - name: Show what changed upstream
+        if: failure()
+        run: git --no-pager diff --stat knowledge/data/zoo_references.json
+
+

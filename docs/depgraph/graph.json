@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1213,
-    "code_files": 236,
-    "python": 180,
+    "tracked": 1216,
+    "code_files": 238,
+    "python": 182,
     "qsharp": 43,
     "ts": 13,
-    "edges": 180,
-    "roots": 247,
-    "reachable": 274
+    "edges": 183,
+    "roots": 249,
+    "reachable": 276
   },
   "nodes": [
     "agents/api/main.py",
@@ -32,6 +32,7 @@
     "agents/tests/test_evaluator_smoke.py",
     "agents/tests/test_ingest_balance.py",
     "agents/tests/test_paper_classifier.py",
+    "agents/tests/test_zoo_reconciliation.py",
     "conftest.py",
     "knowledge/ingest/algorithm_zoo_parser.py",
     "knowledge/ingest/arxiv_ingester.py",
@@ -209,6 +210,7 @@
     "tooling/ingest_zoo_references.py",
     "tooling/measure_corpus_decidability.py",
     "tooling/provision_foundry_agent.py",
+    "tooling/reconcile_algorithm_zoo.py",
     "tooling/reporting/audit_azure_run_history_metrics.py",
     "tooling/reporting/check_homepage_stats.py",
     "tooling/reporting/check_verification_matrix_freshness.py",
@@ -320,6 +322,14 @@
     [
       ".github/workflows/nightly.yml",
       "tooling/generate_estimates.py"
+    ],
+    [
+      ".github/workflows/nightly.yml",
+      "tooling/ingest_zoo_references.py"
+    ],
+    [
+      ".github/workflows/nightly.yml",
+      "tooling/reconcile_algorithm_zoo.py"
     ],
     [
       ".github/workflows/nightly.yml",
@@ -468,6 +478,10 @@
     [
       "agents/tests/test_paper_classifier.py",
       "agents/classifier/paper_classifier.py"
+    ],
+    [
+      "agents/tests/test_zoo_reconciliation.py",
+      "tooling/reconcile_algorithm_zoo.py"
     ],
     [
       "problems/01_hubbard/Makefile",

@@ -8,7 +8,7 @@ from pathlib import Path
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 
 
-def test_problem(problem_dir: Path) -> dict:
+def check_problem(problem_dir: Path) -> dict:
     """Test a single problem: compile + run entry point."""
     from qdk import qsharp
 
@@ -60,7 +60,7 @@ def main():
             print(f"⏭️  {pd.name}: no qsharp.json")
             continue
 
-        r = test_problem(pd)
+        r = check_problem(pd)
         results.append(r)
         icon = "✅" if r["compile"] else "❌"
         err = f"  {r['error']}" if r["error"] else ""

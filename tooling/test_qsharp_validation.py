@@ -52,19 +52,30 @@ def qsharp_problem(request):
     return request.param
 
 
+def _resolve_qsharp_dir(problem: str) -> Path | None:
+    """Find a problem's Q# project whether it is still active or has been archived.
+
+    Archiving moves the directory but not the Q#, and this file hardcoded the active
+    path - so 05_qaoa_maxcut and 15_database_search failed on "No qsharp/ directory"
+    rather than on anything about the programs, which still compile and run.
+    """
+    for base in (PROBLEMS_DIR, PROBLEMS_DIR / "archived"):
+        candidate = base / problem / "qsharp"
+        if (candidate / "qsharp.json").is_file():
+            return candidate
+    return None
+
+
 def test_qsharp_output_validation(qsharp_problem, capsys):
     """Run a Q# program and verify output contains expected scientific content."""
     entry_point, patterns = VALIDATION_CASES[qsharp_problem]
-    qsharp_dir = PROBLEMS_DIR / qsharp_problem / "qsharp"
+    qsharp_dir = _resolve_qsharp_dir(qsharp_problem)
 
-    assert qsharp_dir.is_dir(), f"No qsharp/ directory for {qsharp_problem}"
-    assert (qsharp_dir / "qsharp.json").is_file(), f"No qsharp.json for {qsharp_problem}"
-
-    # Compile and run
-    qsharp.init(project_root=str(qsharp_dir))
+    assert qsharp_dir is not None, (
+        f"No qsharp.json for {qsharp_problem} under problems/ or problems/archived/"
+    )
 
     # Collect Message() output via callback
-    messages = []
     qsharp.init(project_root=str(qsharp_dir))
 
     result = qsharp.run(entry_point, shots=1, on_result=lambda r: None)

@@ -66,10 +66,19 @@ could spend two minutes of a six minute demo on a spinner.
 
 | Beat | Time | On screen | Notes |
 |---|---|---|---|
-| 1. The yes | 0:00-2:00 | Type the FeMoco prompt, hit Evaluate | **Live.** Fill the wait by walking Troyer's six filters, which the audience needs anyway. Lands on `QUANTUM_ADVANTAGE`, 0.9, QPE, with citations. |
+| 1. The yes | 0:00-2:00 | Type the FeMoco prompt, hit Evaluate | **Live**, with *Generate code* left **unticked**. Fill the wait by walking Troyer's six filters, which the audience needs anyway. Lands on `QUANTUM_ADVANTAGE`, 0.9, QPE, with citations. |
 | 2. The no | 2:00-3:30 | Portfolio optimisation, 500 assets | **Pre-loaded.** Say plainly you ran it earlier. Why a quadratic speedup dies under QEC overhead. Lands on `HPC_PREFERRED`. The memorable beat. |
-| 3. The payoff | 3:30-5:00 | Generated **Q#** and a **Bicep** template | It does not just judge, it hands you the workspace. |
+| 3. The payoff | 3:30-5:00 | Generated **Q#** and a **Bicep** template | **Pre-loaded, and it must be.** Ticking *Generate code* adds the generator and the resource estimator to the request; the page's own wait text says "a few minutes". Running this live would spend the whole demo on a spinner. |
 | 4. The platform | 5:00-6:30 | Architecture, one slide | Container Apps, **managed identity** (no keys), AI Search, model router, GitHub Actions. |
+
+> **Q# generation was broken in production until 2026-08-25** and nothing reported it. The
+> image did not contain `tooling/estimator_config.py`, which `generate.py` imports, so
+> generation raised, `/api/evaluate` caught the exception and returned `qsharp_code: ""`,
+> and the site renders that field only when it is non-empty. HTTP 200 throughout. Bicep
+> was unaffected and worked the whole time. Fixed by copying the module and the five
+> reference implementations into the image; the site now shows a failure panel instead of
+> nothing. **Re-measure beat 3 end to end before the recording** - the old latency figures
+> never covered it, see below.
 
 If you are short on time, cut beat 3 before beat 2. The agent declining quantum is the
 differentiator; code generation is table stakes.
@@ -107,6 +116,12 @@ python tooling/verify_demo_prompts.py
 Exit code 0 means every prompt returned its expected verdict. Non-zero means **do not
 record against it** - the output names which prompt drifted. Takes about three minutes.
 Median 38.0s per call, max seen 58.9s; past ~90s is worth investigating before you go live.
+
+> **This does not cover beat 3.** The tool posts `generate_code: false`, so every latency
+> figure in this runbook is for a verdict without code generation, and a totally broken
+> generator passes the smoke test. That is exactly how Q# generation stayed dead without
+> anyone noticing. Until the tool covers it, tick *Generate code* by hand on the FeMoco
+> prompt once during the dry run and confirm Q# actually appears.
 
 If you would rather poke it by hand:
 
@@ -199,6 +214,7 @@ a total cloud outage.
 | HTTP 500, `ModuleNotFoundError` in logs | an unpinned dependency drifted on rebuild | `agents/api/requirements.txt` is now pinned exactly. Redeploy a known-good image tag. |
 | A wall of raw JSON where the explanation should be | the model fenced its answer and the parse fell through | Fixed in #162. If it recurs, the verdict is still correct; only the prose is affected. |
 | A confident `QUANTUM_ADVANTAGE` on an obviously classical problem | the router trusted an irrelevant retrieval hit | Fixed in #159. Re-run all five prompts in section 5. |
+| *Generate code* ticked, verdict fine, no code block appears | the generator raised and the API returned an empty string | The site now shows a red failure panel with the error rather than rendering nothing. Check the panel text; a `ModuleNotFoundError` means a file the generator needs is missing from the image - see `agents/tests/test_container_contents.py`. |
 
 > A recurring lesson: a green status is not evidence. The ingester reported success for
 > 17 days while every write was rejected, the deploy workflow reported success while

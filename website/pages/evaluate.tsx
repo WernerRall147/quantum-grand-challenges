@@ -44,6 +44,9 @@ interface EvaluationResult {
   error_correction_codes?: string[];
   model_used?: string;
   tokens_used?: number;
+  // Set by the client, not the API. Without it an empty qsharp_code cannot be told apart
+  // from a request that never asked for code, and a broken generator renders as nothing.
+  code_requested?: boolean;
   qsharp_code?: string;
   estimation?: Record<string, unknown>;
   resource_estimate_pareto?: Array<{
@@ -202,7 +205,7 @@ export default function EvaluatePage() {
       }
 
       const data = await res.json();
-      setResult(data);
+      setResult({ ...data, code_requested: generateCode });
     } catch {
       // Fallback: show a demo result for the static site
       setResult({
@@ -553,6 +556,24 @@ export default function EvaluatePage() {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            )}
+
+            {/* Code generation was asked for and produced nothing. The API swallows
+                generator exceptions into an empty string, so without this the failure is
+                indistinguishable from never having ticked the box. */}
+            {result.code_requested && !result.qsharp_code && !result.bicep_template && (
+              <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#7f1d1d', borderRadius: '10px', border: '1px solid #b91c1c' }}>
+                <h3 style={{ marginTop: 0, color: '#fecaca' }}>Code generation did not return anything</h3>
+                <p style={{ color: '#fca5a5', fontSize: '0.9rem', margin: '0 0 0.5rem' }}>
+                  The verdict above is unaffected — it is produced by the router, not the
+                  generator. Only the generated artefact is missing.
+                </p>
+                {typeof (result.estimation as { error?: string })?.error === 'string' && (
+                  <pre style={{ margin: 0, padding: '0.6rem', background: '#450a0a', borderRadius: '6px', color: '#fecaca', fontSize: '0.8rem', whiteSpace: 'pre-wrap' }}>
+                    {(result.estimation as { error?: string }).error}
+                  </pre>
+                )}
               </div>
             )}
 

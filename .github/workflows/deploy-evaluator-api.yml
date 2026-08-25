@@ -210,6 +210,36 @@ jobs:
             exit 1
           fi
 
+      - name: Smoke-test code generation end to end
+        # The checks above confirm the endpoint is registered and the field is declared.
+        # Neither notices when generation itself is dead: /api/evaluate catches generator
+        # exceptions and returns an empty string, so the schema stays perfect while the
+        # feature produces nothing. That is how Q# generation stayed broken in production.
+        run: |
+          set -e
+          FQDN=$(az containerapp show \
+            --name "${{ steps.tag.outputs.app_name }}" \
+            --resource-group "${{ steps.tag.outputs.app_rg }}" \
+            --query properties.configuration.ingress.fqdn -o tsv)
+
+          curl -sS -X POST "https://${FQDN}/api/evaluate" \
+            -H 'Content-Type: application/json' \
+            --max-time 600 \
+            -d '{"problem":"I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design","generate_code":true}' \
+            -o /tmp/codegen.json
+
+          python3 - <<'PY'
+          import json, sys
+          data = json.load(open('/tmp/codegen.json'))
+          qsharp = data.get('qsharp_code') or ''
+          estimation = data.get('estimation') or {}
+          if not qsharp:
+              print('::error::generate_code=true returned no Q#. '
+                    f'estimation says: {str(estimation.get("error"))[:300]}')
+              sys.exit(1)
+          print(f'Q# generation OK - {len(qsharp)} chars, verdict {data.get("verdict")}')
+          PY
+
       - name: Deployment summary
         if: always()
         run: |

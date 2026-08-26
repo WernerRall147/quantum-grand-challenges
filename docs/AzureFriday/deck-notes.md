@@ -22,8 +22,8 @@ says so, rather than being rounded up.
 | **20 problems, 9 active / 11 archived** | correct | `problems/`, `problems/archived/` |
 | **Stage B 8, C 9, D 3** | correct | `docs/objective-kpis.json` |
 | **100 Azure Quantum jobs, 70 succeeded** | **deck says "130+", unconfirmed** | `az quantum job list` returns exactly 100, which looks like a page cap |
-| **~38s per evaluation** | correct | 10 calls, 2026-08-24, median 38.2s, max 46.4s |
-| **116 tests passing** | correct | `pytest -q` |
+| **~38s per evaluation** | correct, verdict only | 15 calls, 2026-08-24, median 38.0s, max 58.9s. Code generation is a separate, slower path |
+| **214 tests passing** | correct | `pytest -q`, 2026-08-26 |
 
 Two things to fix in the deck itself:
 

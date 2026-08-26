@@ -37,6 +37,7 @@
   "agents/code_generator/generate.py": [
     "Dockerfile",
     "agents/api/main.py",
+    "agents/tests/test_codegen_retry.py",
     "agents/tests/test_container_contents.py",
     "agents/tests/test_entry_expression.py"
   ],

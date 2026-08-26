@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1220,
-    "code_files": 242,
-    "python": 186,
+    "tracked": 1221,
+    "code_files": 243,
+    "python": 187,
     "qsharp": 43,
     "ts": 13,
-    "edges": 189,
-    "roots": 255,
-    "reachable": 280
+    "edges": 190,
+    "roots": 256,
+    "reachable": 281
   },
   "nodes": [
     "agents/api/main.py",
@@ -27,6 +27,7 @@
     "agents/orchestrator/output_schema.py",
     "agents/tests/test_algorithm_index_validation.py",
     "agents/tests/test_bicep_generator.py",
+    "agents/tests/test_codegen_retry.py",
     "agents/tests/test_container_contents.py",
     "agents/tests/test_corpus_decidability.py",
     "agents/tests/test_cost_model.py",
@@ -450,6 +451,10 @@
     [
       "agents/tests/test_bicep_generator.py",
       "agents/code_generator/bicep_generator.py"
+    ],
+    [
+      "agents/tests/test_codegen_retry.py",
+      "agents/code_generator/generate.py"
     ],
     [
       "agents/tests/test_container_contents.py",

@@ -3,9 +3,10 @@
 Runbook for presenting the **Quantum Advantage Evaluator** on Azure Friday (or any live
 demo). Everything here is grounded in the real, deployed system.
 
-**Last verified working:** 2026-08-24 - all five demo prompts returned the correct
+**Last verified working:** 2026-08-26 - all five demo prompts returned the correct
 verdict against the live API, model `gpt-5.6-luna-2026-07-09` via the model router,
-5-7 references, `used_agent: false`.
+5-7 references, `used_agent: false`. Code generation verified the same day: 2,981 chars
+of Q#, compiled, 4 clean Pareto rows.
 
 **Latency, three full runs of all five prompts on 2026-08-24 (15 calls):** median 38.0s,
 mean 38.0s, min 28.9s, max 58.9s. Rehearse against **60s**.
@@ -23,10 +24,10 @@ mean 38.0s, min 28.9s, max 58.9s. Rehearse against **60s**.
 
 See section 5 for the verified verdict table.
 
-**Recording:** virtual, via **StreamYard**. Target length is **10-12 minutes** total, of
-which **6-8 minutes is live demo**, the rest conversational Q&A with Scott. The
-invitation email says 12-16 minutes and the production deck says 10-12; build to the
-shorter number. A **storyboard is due one week before the recording** (draft in
+**Recording:** virtual, via **StreamYard**. Target length is **11-13 minutes** total, of
+which **6-9 minutes is live demo**, the rest conversational Q&A with Scott. Chris's prep
+mail is the authoritative number and the most recent; the invitation email's 12-16 and an
+earlier 10-12 in this file both predate it. A **storyboard is due one week before the recording** (draft in
 [storyboard.md](storyboard.md)), and there is a 30-minute prep call about a week before.
 Show notes are due 1-2 business days after recording. Post-production takes about two
 weeks; episodes publish Thursdays at 5:00 PM PT.
@@ -38,7 +39,7 @@ weeks; episodes publish Thursdays at 5:00 PM PT.
 > **The AI agent that talks you *out* of quantum computing - building an honest advisor on Azure AI Foundry.**
 >
 > It started with one ChatGPT question in August 2025: *"What are the 20 hardest problems
-> in science, and could Q# help solve them?"* A year and ~375 commits later, that
+> in science, and could Q# help solve them?"* A year and ~380 commits later, that
 > brainstorm is a live, honest AI advisor running on Azure - and I'll show exactly how
 > it's built.
 >
@@ -51,37 +52,23 @@ runbook.
 
 ---
 
-## 2. Run of show (10-12 min total, 6-8 min demo)
+## 2. Run of show (11-13 min total, 6-9 min demo)
 
-The demo is the middle of the episode, not the whole of it. Budget 6-8 minutes and let
-Scott carry the rest. Full beat sheet and submission draft in
-[storyboard.md](storyboard.md).
+**The beat sheet lives in [script.md](script.md).** It used to be duplicated here, and the
+two copies drifted into describing different demos - this file opened live with FeMoco,
+the storyboard opened live with portfolio optimisation. One source now.
 
-### Demo beat sheet
+The short version: **portfolio optimisation runs live** because it is the shortest call
+and it delivers the episode's title. FeMoco and code generation are **pre-executed**
+because that path is 58-79s. Bicep is cut - Chris asked for no feature parade.
 
-A call takes about 38s and has been measured at 59s. Azure Friday's own prep guidance is
-to have a completed item to transition to rather than watch something finish, so **run
-beat 1 live and pre-load beat 2 in a second tab**. One live call proves it is real; two
-could spend two minutes of a six minute demo on a spinner.
-
-| Beat | Time | On screen | Notes |
-|---|---|---|---|
-| 1. The yes | 0:00-2:00 | Type the FeMoco prompt, hit Evaluate | **Live**, with *Generate code* left **unticked**. Fill the wait by walking Troyer's six filters, which the audience needs anyway. Lands on `QUANTUM_ADVANTAGE`, 0.9, QPE, with citations. |
-| 2. The no | 2:00-3:30 | Portfolio optimisation, 500 assets | **Pre-loaded.** Say plainly you ran it earlier. Why a quadratic speedup dies under QEC overhead. Lands on `HPC_PREFERRED`. The memorable beat. |
-| 3. The payoff | 3:30-5:00 | Generated **Q#** and a **Bicep** template | **Pre-loaded, and it must be.** Ticking *Generate code* adds the generator and the resource estimator to the request; the page's own wait text says "a few minutes". Running this live would spend the whole demo on a spinner. |
-| 4. The platform | 5:00-6:30 | Architecture, one slide | Container Apps, **managed identity** (no keys), AI Search, model router, GitHub Actions. |
-
-> **Q# generation was broken in production until 2026-08-25** and nothing reported it. The
+> **Q# generation was broken in production until 2026-08-26** and nothing reported it. The
 > image did not contain `tooling/estimator_config.py`, which `generate.py` imports, so
 > generation raised, `/api/evaluate` caught the exception and returned `qsharp_code: ""`,
-> and the site renders that field only when it is non-empty. HTTP 200 throughout. Bicep
-> was unaffected and worked the whole time. Fixed by copying the module and the five
-> reference implementations into the image; the site now shows a failure panel instead of
-> nothing. **Re-measure beat 3 end to end before the recording** - the old latency figures
-> never covered it, see below.
-
-If you are short on time, cut beat 3 before beat 2. The agent declining quantum is the
-differentiator; code generation is table stakes.
+> and the site renders that field only when it is non-empty. HTTP 200 throughout. Six
+> stacked faults in total; the last was the estimator resolving `Main()` when the callable
+> is `Main.Main()`. Generated Q# is now compiled inside the request and retried with the
+> compiler error on failure, and `verify_demo_prompts.py` covers the whole path.
 
 ### Latency
 
@@ -95,9 +82,14 @@ with no failures. Re-read them before recording rather than trusting this line.
 
 ## 3. Azure services to name-check
 
-Azure AI Foundry (agents, model router, Code Interpreter + MCP tools) - Azure Container
-Apps - Azure AI Search - Azure Functions (timer trigger) - Managed Identity -
-Azure Quantum (resource estimation) - GitHub Actions.
+Azure AI Foundry (**model router**) - Azure Container Apps - Azure AI Search - Azure
+Functions (timer trigger) - Managed Identity - Azure Quantum (resource estimation) -
+GitHub Actions.
+
+> Do not name-check Foundry **agents**, Code Interpreter or the Learn MCP tool. All three
+> exist on `qgc-eval-proj` but `QGC_USE_AGENT=0`, so none of them are in the request path.
+> If asked, the honest line is "we built it, measured it at 1.8x the latency for no
+> quality gain, and left it off".
 
 > Cosmos DB was retired in #156. The knowledge base is now served from files committed
 > to the repo, with AI Search for retrieval. Do not name-check Cosmos DB on air.
@@ -117,11 +109,11 @@ Exit code 0 means every prompt returned its expected verdict. Non-zero means **d
 record against it** - the output names which prompt drifted. Takes about three minutes.
 Median 38.0s per call, max seen 58.9s; past ~90s is worth investigating before you go live.
 
-> **This does not cover beat 3.** The tool posts `generate_code: false`, so every latency
-> figure in this runbook is for a verdict without code generation, and a totally broken
-> generator passes the smoke test. That is exactly how Q# generation stayed dead without
-> anyone noticing. Until the tool covers it, tick *Generate code* by hand on the FeMoco
-> prompt once during the dry run and confirm Q# actually appears.
+> **This now covers code generation.** It used to post `generate_code: false` only, which
+> is exactly how Q# generation stayed dead without anyone noticing - a totally broken
+> generator passed the smoke test. The tool now also runs the FeMoco prompt with code
+> generation on and fails on empty Q#, a compile error, a failed estimate or any errored
+> Pareto row. Pass `--no-codegen` to skip it if you only want the verdicts.
 
 If you would rather poke it by hand:
 
@@ -226,7 +218,7 @@ a total cloud outage.
 ## 7. Key facts and talking points
 
 - **Origin:** began as a ChatGPT brainstorm on **2025-08-14** ("top 20 hardest problems,
-  can Q# help?"); first commit the same day. ~375 commits since. See
+  can Q# help?"); first commit the same day. ~380 commits since. See
   [../planning/original-chatgpt-conversation.md](../planning/original-chatgpt-conversation.md).
 - **Honesty angle:** 20 problems implemented; **11 honestly downgraded** (I/O, quadratic-
   only, QEC overhead), 9 active. The agent applies **6 utility-scale filters**

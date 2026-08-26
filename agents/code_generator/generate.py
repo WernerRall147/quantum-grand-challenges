@@ -86,18 +86,21 @@ OUTPUT: Return ONLY the Q# source code. No markdown fences, no explanations. Jus
 _OPERATION = re.compile(r"^\s*operation\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", re.M)
 
 
-def entry_expression(code: str) -> str:
-    """Return the call expression to estimate, preferring Main.
+def entry_expression(code: str, module: str = "Main") -> str:
+    """Return the call expression to estimate, preferring Main, qualified by module.
 
-    The prompt asks for Main and the estimator assumed it, which held until it did not:
-    the model named the operation after the problem instead and every row of the Pareto
-    sweep rendered `Qdk.Qsc.Resolve.NotFound ... 'Main' not found` on screen. Reading the
-    name out of the source removes the dependency on the model obeying.
+    Two things had to be measured to get this right. The prompt asks for an operation
+    named Main and the estimator assumed it, until the model named it after the problem
+    instead and every Pareto row read `Qdk.Qsc.Resolve.NotFound ... 'Main' not found`.
+    Reading the name out of the source fixed that and produced the identical error, because
+    the name alone is not enough: src/Main.qs defines a module, so the callable is
+    Main.Main. Checked directly against generated source - `Main()` does not resolve,
+    `Main.Main()` returns 67,105 physical qubits. The repo's own Q# tests already used the
+    qualified form.
     """
     names = _OPERATION.findall(code)
-    if not names:
-        return "Main()"  # nothing parameterless to call; let the estimator report it
-    return "Main()" if "Main" in names else f"{names[0]}()"
+    chosen = "Main" if (not names or "Main" in names) else names[0]
+    return f"{module}.{chosen}()"
 
 
 class QSharpCodeGenerator:
@@ -243,7 +246,7 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
 
             return result
 
-    def _run_pareto_sweep(self, entry: str = "Main()") -> list:
+    def _run_pareto_sweep(self, entry: str = "Main.Main()") -> list:
         """Evaluate every (qubit, QEC) combination in QUBIT_MODELS.
 
         QRE v3 explores code distances and factories internally, so each

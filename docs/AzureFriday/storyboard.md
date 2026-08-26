@@ -33,7 +33,7 @@ tells you to use classical compute, because a quadratic speedup does not survive
 error-correction overhead. That "no" is the product.
 
 It started as a single ChatGPT question in August 2025: *what are the 20 hardest problems
-in science, and could Q# help?* A year and ~375 commits later it is running on Azure, and
+in science, and could Q# help?* A year and ~380 commits later it is running on Azure, and
 11 of those 20 problems have been honestly downgraded.
 
 ## 2. Key takeaways
@@ -73,16 +73,17 @@ is interesting. The quantum problem is the setting; the engineering is the subje
 
 ## 4. Demo beat sheet
 
-**A verdict-only call takes ~38s** (three full runs of all five prompts, 2026-08-24, 15
-calls: median 38.0s, min 28.9s, max 58.9s, zero mismatches). **With code generation it
-takes ~78s** (measured once, in the deploy smoke test on 2026-08-25). Beat 3 is
-pre-loaded for that reason.
+**A verdict-only call lands in 20-60s**, and the spread matters more than the median: 15
+calls on 2026-08-24 gave median 38.0s (min 28.9, max 58.9), 5 calls on 2026-08-26 gave
+median 23.4s (min 21.3, max 26.5). Zero mismatches across both. **With code generation it
+takes 58-79s** (57.8s local, 79s in CI, both 2026-08-26). Quote the range on camera, not a
+number. Beat 3 is pre-loaded for that reason.
 
 | Beat | Time | On screen | The engineering point |
 |---|---|---|---|
 | 1. The bug you also have | 1:30-3:00 | Portfolio optimisation, 500 assets. **Live.** | Retrieval always returns something. Say what it *used* to answer and why that was worse than useless - confident, cited and wrong. Then the relevance gate. Lands on `HPC_PREFERRED`. |
 | 2. The model does not get a vote | 3:00-4:30 | The raw JSON response, `model_dissent` visible | Verdict comes from `route_platform()` in code. Run the same prompt twice, same answer. This is the reusable pattern and the reason the thing can be trusted. |
-| 3. The quantum part, and what Azure does | 4:30-6:30 | FeMoco -> `QUANTUM_ADVANTAGE`, generated **Q#**, **resource estimate**. **Pre-loaded.** | The Q# is not just emitted - it is compiled and run through the Azure Quantum Resource Estimator in the request path. Physical qubits and runtime are what decide whether "advantage" means anything. |
+| 3. The quantum part, and what Azure does | 4:30-6:30 | FeMoco -> `QUANTUM_ADVANTAGE`, generated **Q#**, **resource estimate**. **Pre-loaded.** | The Q# is not just emitted - it is compiled in the request path, and a compile error goes back to the model to try again, so what you are shown provably built. Then the Azure Quantum Resource Estimator. Physical qubits and runtime are what decide whether "advantage" means anything. |
 | 4. How it ships, how we know it works | 6:30-8:00 | Architecture slide, then the deploy log line | Managed identity end to end, Container Apps, ACR, GitHub Actions. Then the honest bit: the deploy now posts a real prompt and fails if no Q# comes back, because the schema check never noticed the feature was dead. |
 
 **Demo runs 1:30-8:00 = 6m30s**, inside Chris's 6-9 minute ceiling.

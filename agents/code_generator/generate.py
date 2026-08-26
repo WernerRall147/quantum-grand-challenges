@@ -48,6 +48,10 @@ USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
 # the answer came back empty. This path kept 1500 and failed the same way, silently.
 MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_CODEGEN_MAX_TOKENS", "4000"))
 
+# Generation is not reliable enough to trust once. Three consecutive runs of the same
+# prompt gave an adjoint violation, a clean compile, and legacy for-loop parentheses.
+MAX_GENERATION_ATTEMPTS = int(os.environ.get("QGC_CODEGEN_ATTEMPTS", "3"))
+
 # Map orchestrator-recommended algorithms to reference implementations
 REFERENCE_IMPLEMENTATIONS = {
     "QPE": "problems/01_hubbard/qsharp/src/Main.qs",
@@ -65,6 +69,9 @@ CRITICAL RULES:
 - Use modern Q# syntax (qsharp.json project format, NOT the legacy .NET namespace style)
 - Start with `import Std.Arrays.*; import Std.Canon.*; import Std.Convert.*; import Std.Diagnostics.*; import Std.Math.*;`
 - Do NOT emit `namespace ... { ... }` blocks  modern QDK is flat
+- Loops and conditionals take NO parentheses around the header. Write
+  `for i in 0..Length(xs) - 1 {` and `if x > 0 {`, never `for (i in ...)` or `if (x > 0)`.
+  The parenthesised form is legacy Q# and is a parse error in modern QDK.
 - The entry point MUST be `operation Main() : Result[]` - exactly that name, and no
   parameters. Resource estimation invokes `Main()` by name; any other name or any
   parameter list makes the program unestimatable.
@@ -287,10 +294,65 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
         algorithm: str = "QPE",
         multi_profile: bool = False,
     ) -> Dict[str, Any]:
-        """Full pipeline: generate + compile + estimate (optionally multi-profile)."""
-        code = self.generate(problem, algorithm)
-        est = self.compile_and_estimate(code, multi_profile=multi_profile)
+        """Generate, compile, and retry with the compiler's own message on failure.
+
+        One shot at generation was never going to be enough. Three consecutive runs of the
+        same prompt produced an adjoint violation, a clean compile, and legacy `for (i in
+        ...)` parentheses - so whether the demo showed working code came down to luck. The
+        compiler already says precisely what is wrong; handing that back is far more
+        effective than another rule in the prompt, and the rules do not have to anticipate
+        every mistake.
+
+        Returns compiled=False after the last attempt rather than raising. Callers must not
+        present code that did not compile, which is what the UI was doing.
+        """
+        attempts: list[dict] = []
+        code = ""
+        est: Dict[str, Any] = {}
+
+        for attempt in range(1, MAX_GENERATION_ATTEMPTS + 1):
+            if attempt == 1:
+                code = self.generate(problem, algorithm)
+            else:
+                code = self.repair(code, est.get("error", ""), problem, algorithm)
+
+            est = self.compile_and_estimate(code, multi_profile=multi_profile)
+            attempts.append({"attempt": attempt, "compiled": bool(est.get("compiled")),
+                             "error": (est.get("error") or "")[:300]})
+            if est.get("compiled"):
+                break
+
+        est["attempts"] = attempts
+        est["attempt_count"] = len(attempts)
         return {"qsharp_code": code, "estimation": est, "algorithm": algorithm}
+
+    def repair(self, code: str, error: str, problem: str, algorithm: str) -> str:
+        """Ask for a fix using the compiler's message, rather than guessing at the rule."""
+        user_msg = f"""This Q# failed to compile. Fix it and return the corrected program.
+
+COMPILER ERROR:
+{error[:1500]}
+
+PROGRAM:
+{code}
+
+Return ONLY the corrected Q#. Keep the same algorithm ({algorithm}) and the same problem
+({problem[:200]}). The entry point must still be `operation Main() : Result[]` with no
+parameters."""
+
+        resp = self._client().chat.completions.create(
+            model=self._deployment(),
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_msg},
+            ],
+            max_completion_tokens=MAX_COMPLETION_TOKENS,
+        )
+        fixed = (resp.choices[0].message.content or "").strip()
+        # A repair that returns nothing must not blank the code; keep the last attempt so
+        # the reported error stays the real one.
+        return self._strip_fences(fixed) if fixed else code
+
 
 
 def main() -> None:

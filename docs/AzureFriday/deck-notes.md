@@ -22,7 +22,8 @@ says so, rather than being rounded up.
 | **20 problems, 9 active / 11 archived** | correct | `problems/`, `problems/archived/` |
 | **Stage B 8, C 9, D 3** | correct | `docs/objective-kpis.json` |
 | **100 Azure Quantum jobs, 70 succeeded** | **deck says "130+", unconfirmed** | `az quantum job list` returns exactly 100, which looks like a page cap |
-| **~38s per evaluation** | correct, verdict only | 15 calls, 2026-08-24, median 38.0s, max 58.9s. Code generation is a separate, slower path |
+| **20-60s per evaluation** | verdict only, varies run to run | 15 calls 2026-08-24 median 38.0s max 58.9s; 5 calls 2026-08-26 median 23.4s max 26.5s. Quote the range, not a median |
+| **~60-80s for code generation** | beat 3, measured with estimation working | 57.8s local and 79s in CI, 2026-08-26. Slower than a verdict because it compiles, retries on error, then costs the circuit |
 | **214 tests passing** | correct | `pytest -q`, 2026-08-26 |
 
 Two things to fix in the deck itself:
@@ -316,7 +317,7 @@ feature list.
 
 ## C4. PRs and the GitHub side
 
-370 commits, 173 merged PRs. Worth showing only if Scott asks how it is actually built.
+378 commits, 181 merged PRs. Worth showing only if Scott asks how it is actually built.
 
 - **Every change is a PR with five required checks**: build-and-test, quick-estimation,
   dependency-graph drift, secret hygiene, GitGuardian. Squash merge, delete branch.

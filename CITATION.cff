@@ -15,12 +15,20 @@ doi: "10.5281/zenodo.19222021"
 abstract: >-
   A systematic framework for quantum algorithm development covering 20 scientific
   problem domains with standardized maturity gates, automated validation, resource
-  estimation pipelines, and Azure Quantum integration. All 20 problems at Stage C
-  with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles
-  (1.8k to 401k physical qubits). Implements 10 algorithm families (VQE, QAOA, Grover,
-  HHL, Shor, IQAE, swap test, QEC, quantum walk, Trotter simulation) using the modern
-  Microsoft QDK (qsharp 1.31.0, no .NET dependency). Includes cross-problem comparison
-  dashboard, per-problem detail pages with charts, and embedded README documentation.
+  estimation pipelines, and Azure Quantum integration. Problems are held to explicit
+  maturity gates rather than assumed to pass them: 9 problems are at Stage C, 8 remain
+  at Stage B, and 3 have reached Stage D, with 20-run calibration ensembles and real
+  Azure Quantum Resource Estimator profiles (1.8k to 401k physical qubits). No problem
+  currently demonstrates quantum advantage on available hardware, and 11 of the 20 were
+  downgraded on I/O bottlenecks or quadratic-only speedups. Implements 10 algorithm
+  families (VQE, QAOA, Grover, HHL, Shor, IQAE, swap test, QEC, quantum walk, Trotter
+  simulation) using the modern Microsoft QDK (qsharp 1.31.0, no .NET dependency).
+  Also includes a deployed evaluation service that routes a natural-language problem
+  description to one of five verdicts using a deterministic rule set rather than model
+  judgement, a paper classifier measured for over-claim rate against a labelled corpus,
+  and generated Q# that is compiled and resource-estimated before it is reported.
+  Includes cross-problem comparison dashboard, per-problem detail pages with charts,
+  and embedded README documentation.
 keywords:
   - quantum computing
   - quantum algorithms

@@ -84,7 +84,7 @@ number. Beat 3 is pre-loaded for that reason.
 | 1. The bug you also have | 1:30-3:00 | Portfolio optimisation, 500 assets. **Live.** | Retrieval always returns something. Say what it *used* to answer and why that was worse than useless - confident, cited and wrong. Then the relevance gate. Lands on `HPC_PREFERRED`. |
 | 2. The model does not get a vote | 3:00-4:30 | The raw JSON response, `model_dissent` visible | Verdict comes from `route_platform()` in code. Run the same prompt twice, same answer. This is the reusable pattern and the reason the thing can be trusted. |
 | 3. The quantum part, and what Azure does | 4:30-6:30 | FeMoco -> `QUANTUM_ADVANTAGE`, generated **Q#**, **resource estimate**. **Pre-loaded.** | The Q# is not just emitted - it is compiled in the request path, and a compile error goes back to the model to try again, so what you are shown provably built. Then the Azure Quantum Resource Estimator. Physical qubits and runtime are what decide whether "advantage" means anything. |
-| 4. How it ships, how we know it works | 6:30-8:00 | Architecture slide, then the deploy log line | Managed identity end to end, Container Apps, ACR, GitHub Actions. Then the honest bit: the deploy now posts a real prompt and fails if no Q# comes back, because the schema check never noticed the feature was dead. |
+| 4. How it ships, how we know it works | 6:30-8:00 | The deploy log line | Managed identity end to end, Container Apps, ACR, GitHub Actions - referring back to the prologue slide, not showing a second one. Then the honest bit: the deploy now posts a real prompt and fails if no Q# comes back, because the schema check never noticed the feature was dead. |
 
 **Demo runs 1:30-8:00 = 6m30s**, inside Chris's 6-9 minute ceiling.
 
@@ -100,7 +100,9 @@ it open before you start.
 
 ## 5. Slides
 
-One slide, used in beat 4: the architecture diagram. Nothing else.
+Two, both outside the demo. **Architecture in the prologue, 60 seconds** - Chris will stop
+and restart the recording if slides run past 60-90s, and the form treats slides as part of
+the prologue. A call-to-action slide closes the episode and is the last browser tab.
 
 ## 6. Resources for show notes
 

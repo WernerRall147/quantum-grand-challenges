@@ -33,7 +33,7 @@ tells you to use classical compute, because a quadratic speedup does not survive
 error-correction overhead. That "no" is the product.
 
 It started as a single ChatGPT question in August 2025: *what are the 20 hardest problems
-in science, and could Q# help?* A year and ~300 commits later it is running on Azure, and
+in science, and could Q# help?* A year and ~375 commits later it is running on Azure, and
 11 of those 20 problems have been honestly downgraded.
 
 ## 2. Key takeaways

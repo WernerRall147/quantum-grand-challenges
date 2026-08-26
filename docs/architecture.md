@@ -282,7 +282,7 @@ For each user-submitted problem, the system produces:
 | Component | Technology | Why |
 |-----------|-----------|-----|
 | Agent Framework | Azure AI Foundry + Agent Framework SDK | GenAIOps, hot-swappable agents |
-| Knowledge Store | Cosmos DB (NoSQL) | Flexible schema, global distribution |
+| Knowledge Store | Repo files + Azure AI Search | Cosmos DB was retired in #156 - see below |
 | Search | Azure AI Search | Vector + keyword hybrid search |
 | Embeddings | Azure OpenAI (text-embedding-3-large) | Best-in-class for scientific text |
 | Agent Model | GPT-4.1 / latest in Foundry | Reasoning over scientific content |
@@ -299,10 +299,18 @@ For each user-submitted problem, the system produces:
 | Azure AI Foundry project | Agent hosting | Included in subscription |
 | Azure OpenAI (GPT-4.1) | Agent model | ~$0.01/1k tokens |
 | Azure OpenAI (embeddings) | Vector embeddings | ~$0.00002/1k tokens |
-| Cosmos DB (serverless) | Knowledge store | ~$0.25/RU + storage |
 | Azure AI Search (Basic) | Hybrid search index | ~$75/month |
 | Azure Functions | Daily ingestion | ~$0/month (consumption) |
 | Existing: Azure Quantum | Q# resource estimation | Already provisioned |
+
+> **Cosmos DB is retired in code but still provisioned.** #156 removed every read and
+> write, and this document said so in one place while two tables below still listed it as
+> the knowledge store. The account `qgccosmoseval` in `qgc-evaluator` is nevertheless
+> still deployed, `infrastructure/main.bicep` still creates one, and
+> `agents/api/requirements.txt` still pins `azure-cosmos` because
+> `knowledge/seed_knowledge_base.py` imports `CosmosClient` at module level and ships in
+> the same image. Retiring the code is not the same as de-provisioning the resource, and
+> until the account is removed the honest statement is that it exists and is unused.
 
 ## Directory Structure
 
@@ -319,8 +327,7 @@ quantum-grand-challenges/
 ├── knowledge/                        # NEW: Knowledge base management
 │   ├── ingest/
 │   │   ├── arxiv_ingester.py        # Daily arxiv paper fetcher
-│   │   ├── algorithm_zoo_parser.py  # Quantum Algorithm Zoo scraper
-│   │   └── cosmos_loader.py         # Cosmos DB uploader
+│   │   └── algorithm_zoo_parser.py  # Hand-curated zoo entries, not a scraper
 │   ├── search/
 │   │   ├── index_schema.json        # AI Search index definition
 │   │   └── search_client.py         # Hybrid search wrapper
@@ -329,7 +336,6 @@ quantum-grand-challenges/
 │       └── algorithm_zoo_mcp.py     # MCP server for algorithm zoo
 ├── infrastructure/                   # NEW: Azure resource definitions
 │   ├── main.bicep                   # All Azure resources
-│   ├── cosmos.bicep                 # Cosmos DB
 │   ├── search.bicep                 # AI Search
 │   └── foundry.bicep               # AI Foundry project
 ├── problems/                         # EXISTING: Reference implementations

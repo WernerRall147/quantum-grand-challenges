@@ -38,7 +38,7 @@ weeks; episodes publish Thursdays at 5:00 PM PT.
 > **The AI agent that talks you *out* of quantum computing - building an honest advisor on Azure AI Foundry.**
 >
 > It started with one ChatGPT question in August 2025: *"What are the 20 hardest problems
-> in science, and could Q# help solve them?"* A year and ~300 commits later, that
+> in science, and could Q# help solve them?"* A year and ~375 commits later, that
 > brainstorm is a live, honest AI advisor running on Azure - and I'll show exactly how
 > it's built.
 >
@@ -226,7 +226,7 @@ a total cloud outage.
 ## 7. Key facts and talking points
 
 - **Origin:** began as a ChatGPT brainstorm on **2025-08-14** ("top 20 hardest problems,
-  can Q# help?"); first commit the same day. ~300 commits since. See
+  can Q# help?"); first commit the same day. ~375 commits since. See
   [../planning/original-chatgpt-conversation.md](../planning/original-chatgpt-conversation.md).
 - **Honesty angle:** 20 problems implemented; **11 honestly downgraded** (I/O, quadratic-
   only, QEC overhead), 9 active. The agent applies **6 utility-scale filters**

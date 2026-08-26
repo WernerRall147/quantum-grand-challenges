@@ -50,8 +50,8 @@ def parse_prompts(path: Path) -> List[Tuple[str, str]]:
     return rows
 
 
-def evaluate(base: str, problem: str, timeout: int) -> Tuple[dict, float]:
-    body = json.dumps({"problem": problem, "generate_code": False}).encode()
+def evaluate(base: str, problem: str, timeout: int, generate_code: bool = False) -> Tuple[dict, float]:
+    body = json.dumps({"problem": problem, "generate_code": generate_code}).encode()
     request = urllib.request.Request(
         f"{base}/api/evaluate",
         data=body,
@@ -64,10 +64,56 @@ def evaluate(base: str, problem: str, timeout: int) -> Tuple[dict, float]:
     return payload, time.perf_counter() - started
 
 
+def check_codegen(base: str, problem: str, timeout: int) -> int:
+    """Run the beat-3 path and report why it is unusable, not just that it is.
+
+    The five checks above all post generate_code=false, so this tool passed clean while
+    Q# generation was dead in production for months, and again while it returned 3,182
+    characters of source whose every resource estimate was a compiler error. Non-empty is
+    not usable, so this asserts the estimate too.
+    """
+    print(f"\ncode generation ({problem[:40]}...)")
+    try:
+        data, seconds = evaluate(base, problem, timeout, generate_code=True)
+    except Exception as exc:
+        print(f"  FAIL: request failed: {str(exc)[:200]}")
+        return 1
+
+    qsharp = data.get("qsharp_code") or ""
+    estimation = data.get("estimation") or {}
+    pareto = data.get("resource_estimate_pareto") or []
+    broken = [r for r in pareto if r.get("error")]
+
+    print(f"  {seconds:.1f}s   this is the beat 3 number - rehearse against it, not the median above")
+
+    if not qsharp:
+        print(f"  FAIL: no Q# returned. {str(estimation.get('error'))[:200]}")
+        return 1
+    if estimation.get("error"):
+        print(f"  FAIL: {str(estimation['error'])[:250]}")
+        return 1
+    if estimation.get("estimate_error"):
+        print(f"  FAIL: estimation failed: {str(estimation['estimate_error'])[:200]}")
+        return 1
+    if estimation.get("physical_qubits") is None:
+        print(f"  FAIL: no physical_qubits, entry={estimation.get('entry_expression')!r}")
+        return 1
+    if broken:
+        print(f"  FAIL: {len(broken)}/{len(pareto)} Pareto rows errored: "
+              f"{str(broken[0]['error'])[:200]}")
+        return 1
+
+    print(f"  OK   {len(qsharp)} chars of Q#, entry {estimation.get('entry_expression')}, "
+          f"{estimation.get('physical_qubits')} physical qubits, {len(pareto)} Pareto rows")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base", default=DEFAULT_BASE, help="evaluator API base URL")
     parser.add_argument("--timeout", type=int, default=180, help="per-request timeout, seconds")
+    parser.add_argument("--no-codegen", action="store_true",
+                        help="skip the beat 3 check; it costs another minute or two")
     args = parser.parse_args()
 
     prompts = parse_prompts(RUNBOOK)
@@ -112,6 +158,17 @@ def main() -> int:
         print(f"\nlatency: median {median:.1f}s, min {ordered[0]:.1f}s, max {ordered[-1]:.1f}s")
 
     print(f"mismatches: {failures} of {len(prompts)}")
+
+    if not args.no_codegen:
+        # The first prompt the runbook expects to be accepted - that is the one whose
+        # verdict puts generated Q# and a resource estimate on screen.
+        quantum = next((p for p, v in prompts if v == "QUANTUM_ADVANTAGE"), None)
+        if quantum is None:
+            print("\nFAIL: no QUANTUM_ADVANTAGE prompt in the table, so beat 3 is unchecked.")
+            failures += 1
+        else:
+            failures += check_codegen(args.base, quantum, max(args.timeout, 600))
+
     if failures:
         print("\nDo not record against this. Re-check the router, the algorithm zoo and the search index.")
     return 1 if failures else 0

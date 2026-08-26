@@ -1,23 +1,48 @@
 # Azure Friday storyboard - Quantum Advantage Evaluator
 
-Submission draft. Paste into the storyboard form when the link arrives.
+**SUBMITTED 2026-08-26.** This is the record of what the producers have. They build the
+episode around it, so the delivery plan in [script.md](script.md) has to match it - if the
+two drift, the submitted version wins or you renegotiate on the prep call.
 
 | | |
 |---|---|
-| **Working title** | The AI agent that talks you *out* of quantum computing |
+| **Working title** (locked) | Quantum Advantage Evaluator - the form uses this to link back to the episode submission, do not change it |
+| **Go-live title** (candidate) | The AI agent that talks you *out* of quantum computing - can be changed before publish |
 | **Presenter** | Werner Rall |
 | **Host** | Scott Hanselman |
 | **Recording** | **Thu 3 Sept 2026, 12:00 PM PT** - virtual, via StreamYard |
-| **Prep call** | 30 min. Offered: Mon 24 Aug 09:00 PT / Tue 25 Aug 09:00 PT / Wed 26 Aug 10:00 PT |
+| **Prep call** | Held 26 Aug |
 | **Studio link** | In Chris's prep mail - deliberately not committed, this repo is public |
-| **Storyboard due** | One week before the recording -> **27 Aug** |
+| **Storyboard** | Submitted 26 Aug |
 | **Show notes due** | 1-2 business days after recording |
 | **Target length** | 11-13 min total, of which **6-9 min max** demo |
 
 > Three different lengths have been quoted. The invitation email said 12-16, the
 > production deck said 10-12, and Chris's prep mail - the most recent and the one
-> specific to this episode - says **11-13 total with a 6-9 minute demo ceiling**.
-> Build to Chris's numbers; landing at 11 is safe under all three.
+> specific to this episode - says **11-13 total with a 6-9 minute demo ceiling**. The
+> storyboard form says demos should be 5-8. A 6m30s demo is the only figure that satisfies
+> every version, which is why the beat sheet targets it.
+
+---
+
+## 0. What was submitted
+
+Six answers went into the form. Everything below this section is supporting detail; this
+is the part the producers actually read.
+
+| Form question | Answer, in short |
+|---|---|
+| 1. Working title | Quantum Advantage Evaluator (locked) |
+| 2. Intro teaser | Honest verdict - quantum, AI/ML or Azure HPC - on Container Apps against the **Azure AI Foundry model-router**. The "no" is the product. |
+| 3. Prologue | The premise, then the confession: it used to return `QUANTUM_ADVANTAGE` at 0.9 confidence with citations for portfolio optimisation. Not a hallucination - retrieval has no "no match". |
+| 4. Slides | **Yes.** Architecture in the prologue (~60s) and a closing call-to-action. None mid-demo. |
+| 5. Demo | Four beats, 6m30s. Portfolio **live**; FeMoco + Q# + resource estimate **pre-executed**; raw JSON and `evaluate()` in the editor; deploy log. No portal. |
+| 6. Wrap | The deterministic-core pattern generalises to any grounded agent, then the CTA slide. |
+
+> **Check before the prep call:** the teaser must say model-router, not "an AI agent
+> running in AI Foundry". The agent `quantum-advantage-orchestrator` is provisioned but
+> `QGC_USE_AGENT=0`, so it is not in the request path. If the earlier wording went in, flag
+> it to Chris rather than let Scott ask which agent.
 
 ---
 
@@ -86,7 +111,9 @@ number. Beat 3 is pre-loaded for that reason.
 | 3. The quantum part, and what Azure does | 4:30-6:30 | FeMoco -> `QUANTUM_ADVANTAGE`, generated **Q#**, **resource estimate**. **Pre-loaded.** | The Q# is not just emitted - it is compiled in the request path, and a compile error goes back to the model to try again, so what you are shown provably built. Then the Azure Quantum Resource Estimator. Physical qubits and runtime are what decide whether "advantage" means anything. |
 | 4. How it ships, how we know it works | 6:30-8:00 | The deploy log line | Managed identity end to end, Container Apps, ACR, GitHub Actions - referring back to the prologue slide, not showing a second one. Then the honest bit: the deploy now posts a real prompt and fails if no Q# comes back, because the schema check never noticed the feature was dead. |
 
-**Demo runs 1:30-8:00 = 6m30s**, inside Chris's 6-9 minute ceiling.
+**Demo runs 6m30s**, inside Chris's 6-9 minute ceiling and the form's 5-8. Exact clock
+times live in [script.md](script.md) - it is the only copy, because the last time a beat
+sheet existed in two files the two drifted into describing different demos.
 
 **Beat 1 is the live one.** It is the shortest call and the most interesting failure, so if
 anything is going to be real on camera, make it that one.

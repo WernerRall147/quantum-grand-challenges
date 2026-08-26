@@ -4,6 +4,21 @@ Step-by-step for **Thu 3 Sept 2026, 12:00 PM PT**. Read [README.md](README.md) f
 operational runbook and [deck-notes.md](deck-notes.md) Section C for Scott's likely
 questions. This file is what you actually follow on the day.
 
+**The storyboard was submitted on 2026-08-26** ([storyboard.md](storyboard.md) section 0
+is the record). The producers build the episode around it, so every beat below traces to
+something that was promised:
+
+| Submitted | Delivered by |
+|---|---|
+| Prologue: premise, then the confession about being confidently wrong | Prologue, 0:45-1:45 |
+| Slides: architecture in the prologue, CTA at the end, none mid-demo | Prologue slide; beat 4 refers back rather than showing a second |
+| Demo: portfolio **live**, FeMoco + Q# + estimate **pre-executed** | Beats 1 and 3 |
+| Demo: raw JSON, `evaluate()` in the editor, deploy log, no portal | Beats 2 and 4 |
+| Wrap: deterministic core generalises, then CTA | Wrap, 11:30-12:30 |
+
+If you improvise past this on the day, you are improvising past what Chris and Scott
+prepared against.
+
 ---
 
 ## The decision: which demo

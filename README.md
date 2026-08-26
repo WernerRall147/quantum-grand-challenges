@@ -211,10 +211,10 @@ quantum-grand-challenges/
 │   └── code_generator/       # Q# and Bicep generation
 ├── knowledge/                # Knowledge base management
 │   ├── ingest/               # arXiv + algorithm zoo ingestion
-│   ├── search/               # KB query client (Cosmos + AI Search)
+│   ├── search/               # KB query client (AI Search)
 │   └── data/                 # Algorithm zoo index
 ├── infrastructure/           # Azure resource definitions
-│   └── main.bicep            # Cosmos DB, AI Search, Functions
+│   └── main.bicep            # AI Search, Functions (still creates a Cosmos account)
 ├── problems/                 # 9 active + 11 archived, each self-contained
 │   ├── 01_hubbard/           # qsharp/ circuits/ python/ instances/ estimates/
 │   └── archived/             # Filter failures, kept with their reasons
@@ -228,7 +228,7 @@ quantum-grand-challenges/
 | Resource | Name | Purpose |
 |----------|------|---------|
 | Azure OpenAI | qgc-openai | GPT-5.4-mini + model-router + text-embedding-3-large |
-| Cosmos DB | qgccosmoseval | Knowledge store (papers, algorithms, history) |
+| Cosmos DB | qgccosmoseval | **Unused.** Retired from the code in #156; the account is still deployed |
 | AI Search | qgcsearcheval | Hybrid vector + keyword search |
 | Azure Quantum | Quantum-Grand-Challenges | Q# resource estimation + emulators |
 

@@ -64,6 +64,9 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 │  ordinary Python modules, not agents.                                │
 │    Q#    generated, then compiled and costed through the Azure       │
 │          Quantum Resource Estimator (qdk.qre) in the request path    │
+│          A failed compile is fed back to the model and retried, up   │
+│          to 3 attempts. Code that never compiles is reported as a    │
+│          failure, not rendered as output.                            │
 │    Bicep generated, then validated with `az bicep build`             │
 └──────────────────────────────┬───────────────────────────────────────┘
                                │ MCP / Tools

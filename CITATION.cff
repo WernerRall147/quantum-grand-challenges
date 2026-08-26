@@ -9,8 +9,8 @@ authors:
 repository-code: "https://github.com/WernerRall147/quantum-grand-challenges"
 url: "https://wernerrall147.github.io/quantum-grand-challenges/"
 license: AGPL-3.0-or-later
-version: "3.0.0"
-date-released: "2026-04-12"
+version: "3.1.0"
+date-released: "2026-08-26"
 doi: "10.5281/zenodo.19222021"
 abstract: >-
   A systematic framework for quantum algorithm development covering 20 scientific

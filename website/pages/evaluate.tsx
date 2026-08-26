@@ -461,8 +461,10 @@ export default function EvaluatePage() {
               </div>
             )}
 
-            {/* Q# Code */}
-            {result.qsharp_code && (
+            {/* Q# Code. Gated on the compile result: showing source that does not build,
+                under a heading that says "Generated Q# Code", presents a failure as a
+                deliverable. The panel below reports it instead. */}
+            {result.qsharp_code && (result.estimation as { compiled?: boolean })?.compiled !== false && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#1e1e2e', borderRadius: '10px', border: '1px solid #313244' }}>
                 <h3 style={{ marginTop: 0, color: '#cdd6f4' }}>Generated Q# Code</h3>
                 <pre style={{ margin: 0, color: '#a6e3a1', fontSize: '0.85rem', overflow: 'auto', maxHeight: '400px', lineHeight: 1.5 }}>
@@ -559,15 +561,21 @@ export default function EvaluatePage() {
               </div>
             )}
 
-            {/* Code generation was asked for and produced nothing. The API swallows
-                generator exceptions into an empty string, so without this the failure is
-                indistinguishable from never having ticked the box. */}
-            {result.code_requested && !result.qsharp_code && !result.bicep_template && (
+            {/* Code generation was asked for and produced nothing usable - either no code
+                at all, or code that failed to compile after every retry. */}
+            {result.code_requested && !result.bicep_template
+              && (!result.qsharp_code || (result.estimation as { compiled?: boolean })?.compiled === false) && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#7f1d1d', borderRadius: '10px', border: '1px solid #b91c1c' }}>
-                <h3 style={{ marginTop: 0, color: '#fecaca' }}>Code generation did not return anything</h3>
+                <h3 style={{ marginTop: 0, color: '#fecaca' }}>
+                  {result.qsharp_code ? 'Generated Q# did not compile' : 'Code generation did not return anything'}
+                </h3>
                 <p style={{ color: '#fca5a5', fontSize: '0.9rem', margin: '0 0 0.5rem' }}>
                   The verdict above is unaffected — it is produced by the router, not the
                   generator. Only the generated artefact is missing.
+                  {typeof (result.estimation as { attempt_count?: number })?.attempt_count === 'number' && (
+                    <> Retried {(result.estimation as { attempt_count?: number }).attempt_count} times
+                    with the compiler error fed back.</>
+                  )}
                 </p>
                 {typeof (result.estimation as { error?: string })?.error === 'string' && (
                   <pre style={{ margin: 0, padding: '0.6rem', background: '#450a0a', borderRadius: '6px', color: '#fecaca', fontSize: '0.8rem', whiteSpace: 'pre-wrap' }}>
@@ -576,6 +584,7 @@ export default function EvaluatePage() {
                 )}
               </div>
             )}
+
 
             {/* Bicep Workspace Template (HPC / AI_ML) */}
             {result.bicep_template && (

@@ -1,3 +1,22 @@
+# Code knowledge graph for .NET cleanup - external design note
+
+> **This does not describe this repository.** It is design advice for a different
+> codebase: a .NET estate of roughly twenty `.sln` files analysed with Roslyn. This repo
+> has one solution file and is Python, Q# and TypeScript.
+>
+> **Nothing below is implemented here.** It recommends Cosmos DB adjacency storage and
+> custom MCP servers. Cosmos was retired from the code in #156, and no MCP server exists
+> in this repository - the Foundry agent *consumes* Microsoft's public Learn MCP server.
+> The dependency-graph problem was solved instead by `tooling/depgraph/`, a stdlib-only
+> in-repo JSON graph. See [repo-cleanup.md](repo-cleanup.md), where the Azure and MCP
+> phase is recorded as *"Deferred (optional; in-repo JSON graph is sufficient)"*.
+>
+> Kept because the reasoning about why semantic search cannot answer "is this unused?" is
+> worth having. It lived at the repository root unlabelled until 2026-08-27, where it read
+> as a description of this system.
+
+---
+
 The smartest design is **not** “put the whole repo into a vector DB.”
 For your scenario, I’d build a **Code Knowledge Graph + Azure AI Search + Copilot MCP tool layer**.
 

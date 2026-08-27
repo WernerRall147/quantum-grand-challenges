@@ -318,41 +318,51 @@ For each user-submitted problem, the system produces:
 
 ## Directory Structure
 
+Kept honest by `tooling/test_architecture_claims.py`: every file named below must exist.
+This tree previously listed seven files that were never written.
+
 ```
 quantum-grand-challenges/
-├── agents/                          # NEW: Agent definitions
+├── agents/
 │   ├── orchestrator/
-│   │   ├── agent.yaml               # GenAIOps agent definition
+│   │   ├── agent.yaml               # GenAIOps agent definition (provisioned, off)
 │   │   ├── instructions.py          # Deployed system prompt (single source)
-│   │   └── prompts/                 # Original design draft, superseded
+│   │   └── evaluate.py              # The pipeline; route_platform runs before the model
 │   ├── classifier/                  # Deterministic router, filters, cost model
 │   ├── evaluations/                 # Router + narrative eval harnesses
+│   ├── api/                         # FastAPI app deployed to Container Apps
 │   └── code_generator/
-├── knowledge/                        # NEW: Knowledge base management
+├── knowledge/
+│   ├── data/
+│   │   ├── algorithm_zoo_index.json # The 47 indexed algorithms
+│   │   ├── zoo_references.json      # Curated citations behind the verdicts
+│   │   └── zoo_reconciliation.json  # Aliases, exclusions, candidates for the Zoo's 74
 │   ├── ingest/
 │   │   ├── arxiv_ingester.py        # Daily arxiv paper fetcher
-│   │   └── algorithm_zoo_parser.py  # Hand-curated zoo entries, not a scraper
+│   │   ├── algorithm_zoo_parser.py  # Hand-curated zoo entries, not a scraper
+│   │   └── mit_xpro_ingester.py
 │   ├── search/
-│       ├── index_schema.json        # AI Search index definition
-│       └── search_client.py         # Hybrid search wrapper
-├── infrastructure/                   # NEW: Azure resource definitions
-│   ├── main.bicep                   # All Azure resources
-│   ├── search.bicep                 # AI Search
-│   └── foundry.bicep               # AI Foundry project
-├── problems/                         # EXISTING: Reference implementations
-│   ├── 01_hubbard/ (QPE)           # 9 active problems as examples
-│   ├── ...
+│   │   └── kb_client.py             # Hybrid search wrapper
+│   └── seed_knowledge_base.py       # Still imports CosmosClient at module level
+├── infrastructure/
+│   ├── main.bicep                   # All Azure resources, still creates Cosmos
+│   ├── cosmos-deploy.json
+│   └── openai-create.json
+├── problems/                        # Reference implementations
+│   ├── 01_hubbard/                  # 9 active, 11 archived
 │   └── reference_index.json         # Maps problems to algorithm classes
-├── website/                          # EXISTING: Add chat interface
+├── website/
 │   ├── pages/
-│   │   ├── evaluate.tsx             # NEW: Problem evaluation chat page
-│   │   └── ...
+│   │   ├── evaluate.tsx             # Problem evaluation page
+│   │   ├── architecture.tsx
+│   │   └── compare.tsx
 │   └── components/
-│       └── ChatInterface.tsx        # NEW: Embedded agent chat
-├── tooling/                          # EXISTING: Keep estimation tools
+│       ├── CostReference.tsx
+│       └── MermaidDiagram.tsx
+├── tooling/                         # Estimation, validation and claim tests
 └── docs/
     ├── architecture.md              # This file
-    └── paper/                       # Existing methodology paper
+    └── paper/                       # Methodology paper
 ```
 
 ## Implementation Phases

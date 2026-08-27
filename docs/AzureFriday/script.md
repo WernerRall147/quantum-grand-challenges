@@ -113,6 +113,12 @@ The premise, roughly thirty seconds:
 > and almost every answer is marketing. The useful answer is usually no. Being able to say
 > no, with a reason you can audit, is the whole product.
 
+One line of where it came from - **one line, not the chronology**:
+
+> I started this because I thought AI plus quantum was going to let me solve one of the
+> hardest problems in science. I was wrong in an interesting way, and the app is what is
+> left after finding out.
+
 Then the confession, which is what earns the demo:
 
 > This thing used to be confidently wrong. Ask it about portfolio optimisation and it came
@@ -194,6 +200,19 @@ Verdict **QUANTUM_ADVANTAGE**. Scroll the generated Q#, then the resource estima
 > qubits and runtime - and that number is the point. "Quantum advantage" means nothing
 > until you know it needs a machine nobody has yet.
 
+If there is room, the line that makes the estimate land - Troyer's constraint, and the
+best piece of domain content available because it changes a decision rather than teaching
+physics:
+
+> The naive plan is: run the quantum job, get the state back, analyse it classically. Try
+> that with a thousand qubits. The state you would be copying is larger than anything you
+> can move over a network or put on disk - you would still be transferring it long after
+> the machine was scrapped. So the quantum part cannot hand you raw state. It has to hand
+> you an answer. That constraint is why the estimator matters more than the circuit.
+
+**Do not attach a specific figure to that.** The point is the order of magnitude, and an
+exact byte count invites a correction you do not need on camera.
+
 **Do not script a specific qubit count.** It varies run to run because the generated
 circuit varies - two runs on 2026-08-26 gave 98,705 and 137,265. Read whatever is on
 screen.
@@ -225,6 +244,73 @@ screen.
 
 ---
 
+## The journey - answers, not narration
+
+This is the strongest material available and the easiest way to lose the episode. Told as
+a chronology it is ten topics and about three minutes, which is the keynote Chris asked
+you not to give: *"not a Build or Ignite marketing talk"*, *"not a feature parade"*, *"do
+not plan to talk nonstop for several minutes"*.
+
+So none of it is narrated. It is held here as answers, and Scott decides which get used.
+One line of the arc is already in the prologue; that is the whole budget for autobiography.
+
+**"How did this start?"**
+> A ChatGPT question in August 2025 - what are the twenty hardest problems in science, and
+> could Q# help. I was in full shiny-object mode, half convinced AI plus quantum was going
+> to hand me something Nobel-shaped. I wrote the Q# with AI, structured it like any other
+> architecture job, and ran around a hundred jobs on Azure Quantum hoping for a light at
+> the end of the tunnel.
+
+**"What changed your mind?"** - the best answer you have, so leave room for it:
+> I met Dr Matthias Troyer, and he nullified several of my problems in about an hour. Not
+> the physics - the plumbing. The naive plan is to run the quantum job and analyse the
+> state classically. At a thousand qubits that state is bigger than anything you can move
+> over a network or store, so you would still be copying it long after the machine was
+> scrapped. The quantum part cannot hand you raw state; it has to hand you an answer. Half
+> of what I had assumed died on that constraint alone.
+
+**"What did you throw away?"**
+> A Cosmos graph database linking the sources - built it, then removed it, the knowledge
+> base is committed JSON with AI Search over it. Two agents, a fact-checker and an HPC
+> comparator - they were YAML that nothing ever loaded. And the Foundry agent itself is
+> still provisioned but switched off, because I measured it at 1.8x the latency of plain
+> chat-completions for one formatting improvement in twenty-two cases.
+
+**"Why the grounding work?"**
+> I wanted the model standing on something. arXiv for current work, and the Quantum
+> Algorithm Zoo - which I only found because someone on my MITx course pointed me at it -
+> for the algorithms. Both go into a search index. The zoo is the part that carries
+> verdicts, because it is curated; the arXiv sweep turned out to be decidable about 2% of
+> the time against 13.5% for the curated references.
+
+**"What does the evaluator actually decide?"**
+> Quantum, AI/ML or HPC. Sometimes classical wins outright on sheer available compute, and
+> that is a real answer, not a cop-out. Then I wanted three things the verdict alone does
+> not give you: what the code would look like, what it would cost, and whether you could
+> run it today at all.
+
+## Say it this way
+
+Eight things in the draft narrative would misfire on camera. These are checkable, and
+Azure Friday is exactly where someone checks.
+
+| Do not say | Say | Why |
+|---|---|---|
+| "container instance" | **Azure Container Apps** | ACI and ACA are different products; wrong one on Azure Friday is a bad look |
+| "I created an MCP server" | "I attached Microsoft's public **Learn MCP** server to a Foundry agent" | there is no MCP server in this repo - `*mcp*.py` returns nothing. You consumed one |
+| "we use Cosmos as a graph db" | "I built it on Cosmos, then took it out" | retired in #156; past tense is honest and a better story |
+| "300 commits" | **380 commits, 181 merged PRs** | measured 2026-08-26 |
+| "over a hundred simulations" | "around a hundred" | `az quantum job list` returns exactly 100, which looks like a page cap rather than a count |
+| "Divencenzo" | **DiVincenzo** | spelling, and the audience will include people who know the name |
+| "the agents had to pass the DiVincenzo criteria" | "each **problem** is scored against DiVincenzo hardware-readiness criteria" | agents do not pass criteria; problems are evaluated against them |
+| "an AI agent running in AI Foundry" | "the Azure AI Foundry **model-router**" | `QGC_USE_AGENT=0` - the agent is not in the request path |
+
+> The MCP one is the dangerous one, and it is not your fault: `docs/architecture.md` ticked
+> "Scientific Papers MCP server" and "Algorithm Zoo MCP server" as complete while the same
+> file said "Not built" a hundred and fifty lines above. The doc has been corrected.
+
+---
+
 ## Pre-flight, day of
 
 - [ ] `python tooling/verify_demo_prompts.py` ~15 min before - covers all five verdicts
@@ -240,7 +326,10 @@ screen.
 ## Do not say
 
 - "An AI agent running in AI Foundry" - it is the model-router; the agent is off.
-- Cosmos DB - retired in #156.
+- "I created an MCP server" - there is none in this repo; the Learn MCP is consumed.
+- "Azure Container Instances" - it is Container Apps.
+- Cosmos DB in the present tense - retired in #156.
 - Any specific physical-qubit count - it varies per run.
+- Any specific byte figure for the thousand-qubit state - the order of magnitude is the point.
 - "By the time you see this" - record as though it publishes that day.
 - All 20 problems are at Stage C - it is 9 at C, 8 at B, 3 at D.

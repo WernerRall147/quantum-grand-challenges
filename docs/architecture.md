@@ -229,9 +229,10 @@ is no MCP server in front of it, and `get_paper`, `get_related_algorithms` and
 `check_claims` do not exist in any form.
 
 ### 2. Algorithm Zoo MCP (Custom)
-- `search_algorithms(problem_type)`  Find relevant quantum algorithms
-- `get_algorithm(name)`  Get speedup class, gate counts, I/O requirements
-- `compare_classical(algorithm, problem_size)`  Classical vs quantum complexity
+Not built either. The zoo is read from committed JSON through the knowledge base client;
+`search_algorithms`, `get_algorithm` and `compare_classical` do not exist as MCP tools.
+The only MCP in this system is Microsoft's public Learn server, which the Foundry agent
+consumes - we did not author an MCP server.
 
 ### 3. GitHub MCP (Existing)
 - Search `microsoft/qsharp` samples for reference implementations
@@ -332,11 +333,8 @@ quantum-grand-challenges/
 │   │   ├── arxiv_ingester.py        # Daily arxiv paper fetcher
 │   │   └── algorithm_zoo_parser.py  # Hand-curated zoo entries, not a scraper
 │   ├── search/
-│   │   ├── index_schema.json        # AI Search index definition
-│   │   └── search_client.py         # Hybrid search wrapper
-│   └── mcp/
-│       ├── scientific_papers_mcp.py # MCP server for papers
-│       └── algorithm_zoo_mcp.py     # MCP server for algorithm zoo
+│       ├── index_schema.json        # AI Search index definition
+│       └── search_client.py         # Hybrid search wrapper
 ├── infrastructure/                   # NEW: Azure resource definitions
 │   ├── main.bicep                   # All Azure resources
 │   ├── search.bicep                 # AI Search
@@ -378,11 +376,16 @@ quantum-grand-challenges/
       Both were YAML that nothing loaded. Their function lives in the router, the
       citation verifier and the cost model.
 
-### Phase 3: Knowledge Integration (Completed)
-- [x] Scientific Papers MCP server
-- [x] Algorithm Zoo MCP server
-- [x] GitHub MCP integration for Q# samples
-- [x] MS Docs MCP for Azure HPC specs
+### Phase 3: Knowledge Integration (Partially completed)
+- [ ] Scientific Papers MCP server - **not built**, see above. `search_papers()` is called
+      in-process; nothing sits in front of it.
+- [ ] Algorithm Zoo MCP server - **not built**. No MCP server exists in this repo; a
+      search for `*mcp*.py` returns nothing.
+- [ ] GitHub MCP integration for Q# samples - **not attached**. `agent.yaml` attaches
+      `code_interpreter` and `mcp:microsoft_learn`, and nothing else.
+- [x] MS Docs MCP for Azure HPC specs - the public Learn MCP server is attached to the
+      Foundry agent, which is **consumed, not authored**, and is off in production
+      (`QGC_USE_AGENT=0`).
 - [x] Daily ingestion pipeline live
 
 ### Phase 4: Website Integration (Completed)

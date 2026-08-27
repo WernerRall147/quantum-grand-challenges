@@ -23,6 +23,13 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CITATION = REPO_ROOT / "CITATION.cff"
 KPIS = REPO_ROOT / "docs" / "objective-kpis.json"
 
+# Zenodo mints two DOIs: one per version, and one "concept" DOI for the record as a
+# whole that always resolves to the newest version. CITATION.cff wants the concept DOI.
+# 10.5281/zenodo.19222021 is the version DOI for the v1.0.1 archive from 2026-03-25, and
+# it sat here beside `version: 3.1.0` for months - a citation pointing five versions back.
+CONCEPT_DOI = "10.5281/zenodo.19222020"
+VERSION_DOI_V1 = "10.5281/zenodo.19222021"
+
 
 def _abstract() -> str:
     """The abstract block, unwrapped to a single line.
@@ -104,4 +111,18 @@ def test_citation_declares_release_identity(field: str) -> None:
     text = CITATION.read_text(encoding="utf-8")
     assert re.search(rf"^{re.escape(field)}:\s*\S+", text, re.M), (
         f"CITATION.cff is missing {field}"
+    )
+
+
+def test_doi_is_the_concept_doi() -> None:
+    """The DOI must resolve to the newest version, not to whichever one was current once.
+
+    A version DOI freezes the citation at one release. Anyone following it lands on the
+    archive it was minted for, however many versions have shipped since.
+    """
+    text = CITATION.read_text(encoding="utf-8")
+    assert CONCEPT_DOI in text, f"CITATION.cff should cite the concept DOI {CONCEPT_DOI}"
+    assert VERSION_DOI_V1 not in text, (
+        f"CITATION.cff cites {VERSION_DOI_V1}, which is the version DOI for the v1.0.1 "
+        f"archive. Use the concept DOI {CONCEPT_DOI}."
     )

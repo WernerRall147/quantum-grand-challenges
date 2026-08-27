@@ -273,3 +273,29 @@ This repo maintains a deterministic dependency + reachability map under `docs/de
   the danger list (Q# entry points; anything invoked by Makefile/workflow/Dockerfile/pytest/npm;
   FastAPI routes; dynamic/DI imports; schema-validated data; papers/PDFs/citations; problems/archived),
   or whose removal is not proven safe by a green build + tests.
+
+## A green check is not evidence
+
+Four checks in this repo passed for months while the thing they guarded was broken. The
+pattern each time was a check measuring something adjacent to what mattered.
+
+- The deploy smoke test read the **OpenAPI schema** - endpoint registered, field declared -
+  and never called the endpoint. Q# generation was dead in production the whole time.
+- `test_container_contents.py` read the **Dockerfile**, found the `COPY`, and passed, while
+  `.dockerignore` made that build impossible.
+- A smoke test asserted the generated Q# was **non-empty**. It was: 3,182 characters, every
+  Pareto row a compiler error.
+- The ingester reported success for 17 days while every write was rejected.
+
+So:
+
+1. **Assert behaviour, not shape.** Call the endpoint. Run the build. Execute the query.
+2. **Watch a new check fail before trusting it.** Break the thing deliberately, confirm it
+   goes red, then restore. `test_citation_claims.py` and `test_architecture_claims.py` were
+   both verified this way - and the first prover was itself wrong, reporting success while
+   the test file could not even be collected, because it counted any non-zero exit as caught.
+3. **Only the returned value counts, not the exit code.** A process that exits 0 having
+   written nothing has still failed.
+4. **`gh pr checks` can report stale status.** Query the run (`gh run view <id> --json
+   status,conclusion`), not the PR summary.
+

@@ -29,7 +29,6 @@ ARCHIVAL = (
     "docs/planning/",
     "docs/MILESTONE_",
     "docs/QAE_PROJECT_COMPLETION",
-    "ProjectCleanup/",
 )
 
 _SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "out", ".next", "problems"}

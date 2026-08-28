@@ -171,12 +171,40 @@ are switching. Do not narrate a spinner.
 
 **Screen: raw JSON, then `evaluate()` in the editor.**
 
-Show `model_dissent` in the response. Then show the function, and scroll to the step
-comments - this is the strongest thirty seconds in the episode because it is checkable:
+Point at **`red_flags`**, not `model_dissent`. Measured against production on 2026-08-28,
+`model_dissent` is `{}` on this prompt across three consecutive calls, and that is correct
+behaviour: it only fills when the model returns a *different verdict*, and here the model
+agreed the answer was HPC. What it objected to was the evidence, and that lands in
+`red_flags`:
+
+> "The knowledge-base classification as 'Probabilistic Sampling (Quantum Supremacy)' is
+> not a valid algorithmic match for mean-variance optimisation."
+>
+> "The deterministic routing is retained as required, but the supplied all-true Troyer
+> filters are scientifically misleading for this problem."
+
+That second sentence is the whole episode in the app's own output: the model objects, says
+so, and the routing stands. It is a better prop than an empty object, and it names the
+exact bad match from beat 1.
+
+If Scott asks what `model_dissent` is for, the honest answer is short: *"it fills when the
+model wants a different verdict. It agreed here, so it is empty. The rate is tracked,
+because a rising one means the prompt has stopped landing."*
+
+Then show the function, and scroll to the step comments - this is the strongest thirty
+seconds in the episode because it is checkable:
 
 > `route_platform` is step 1b. The model call is step 4. The verdict is already decided
 > and gets passed in as *input*. The model writes the explanation and is allowed to
-> disagree - when it does, that goes in `model_dissent` and is never applied.
+> disagree - when it does, it is recorded and never applied.
+
+**Expect this question, because it is on screen:** all six Troyer filters read `true` next
+to a verdict of `HPC_PREFERRED`. That is not a bug and the answer is good:
+
+> The filters describe the algorithm the search *retrieved*, not the problem you asked
+> about. It retrieved a quantum-supremacy sampling result, and that algorithm does pass
+> the filters. The gate is what refuses to let an unrelated match carry the verdict. The
+> model spots the same thing and says so in `red_flags`.
 
 Run the same prompt again. Same verdict.
 

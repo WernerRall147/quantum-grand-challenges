@@ -129,6 +129,75 @@ class TestBicepValidation:
             assert "skipped" in result or "error" in result
 
 
+class TestEmptyOutputIsNotSuccess:
+    """The failure the website showed: an artefact-free response reported as fine.
+
+    `az bicep build` on an empty file exits 0 and writes 295 bytes of valid ARM
+    JSON, so "the compiler produced output" was true while there was no template.
+    Production returned bicep_validation {'validated': True} beside a
+    zero-character bicep_template, and the page rendered an error with no reason.
+    """
+
+    @pytest.mark.parametrize("code", ["", "   ", "\n\n\t "])
+    def test_empty_template_does_not_validate(self, code):
+        result = BicepWorkspaceGenerator.__new__(BicepWorkspaceGenerator).validate_bicep(code)
+
+        assert result["validated"] is False
+        assert "error" in result
+
+    def test_empty_model_response_raises_instead_of_returning_nothing(self):
+        gen = BicepWorkspaceGenerator.__new__(BicepWorkspaceGenerator)
+        gen._client = lambda: _FakeClient(content=None)
+        gen._deployment = lambda: "fake-deployment"
+
+        with pytest.raises(RuntimeError) as excinfo:
+            gen.generate("any problem", platform="AI_ML", customize=True)
+
+        # The message has to carry why, or the next person sees a blank page again.
+        assert "finish_reason" in str(excinfo.value)
+        assert "max_completion_tokens" in str(excinfo.value)
+
+    def test_normal_response_still_returns_the_template(self):
+        gen = BicepWorkspaceGenerator.__new__(BicepWorkspaceGenerator)
+        gen._client = lambda: _FakeClient(content="param location string = 'eastus'")
+        gen._deployment = lambda: "fake-deployment"
+
+        assert gen.generate("any problem", platform="AI_ML") == "param location string = 'eastus'"
+
+
+class _FakeClient:
+    """Minimal stand-in for AzureOpenAI: only the one call the generator makes."""
+
+    class _Message:
+        def __init__(self, content):
+            self.content = content
+
+    class _Choice:
+        def __init__(self, content):
+            self.message = _FakeClient._Message(content)
+            self.finish_reason = "length"
+
+    class _Response:
+        def __init__(self, content):
+            self.choices = [_FakeClient._Choice(content)]
+            self.usage = None
+            self.model = "fake"
+
+    class _Completions:
+        def __init__(self, content):
+            self._content = content
+
+        def create(self, **kwargs):
+            return _FakeClient._Response(self._content)
+
+    class _Chat:
+        def __init__(self, content):
+            self.completions = _FakeClient._Completions(content)
+
+    def __init__(self, content):
+        self.chat = _FakeClient._Chat(content)
+
+
 class TestAPIBicepIntegration:
     """Verify API model includes new Bicep fields."""
 

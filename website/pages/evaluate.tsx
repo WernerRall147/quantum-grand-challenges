@@ -582,6 +582,11 @@ export default function EvaluatePage() {
                     {(result.estimation as { error?: string }).error}
                   </pre>
                 )}
+                {result.bicep_validation?.error && (
+                  <pre style={{ margin: 0, padding: '0.6rem', background: '#450a0a', borderRadius: '6px', color: '#fecaca', fontSize: '0.8rem', whiteSpace: 'pre-wrap' }}>
+                    {result.bicep_validation.error}
+                  </pre>
+                )}
               </div>
             )}
 

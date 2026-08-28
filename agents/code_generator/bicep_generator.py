@@ -35,6 +35,9 @@ OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.open
 CHAT_DEPLOYMENT = os.environ.get("QGC_CHAT_DEPLOYMENT", "gpt-54-mini")
 ROUTER_ENDPOINT = os.environ.get("QGC_ROUTER_ENDPOINT", "https://admin-mo1q7owo-eastus2.cognitiveservices.azure.com/")
 ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
+# Reasoning models spend this budget on thinking before they emit anything, so 2500
+# returned a valid response carrying no content. generate.py hit the same wall first.
+MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_BICEPGEN_MAX_TOKENS", "4000"))
 # Default to the Azure AI Foundry model-router; set QGC_USE_ROUTER=0 to use
 # the direct CHAT_DEPLOYMENT on qgc-openai instead.
 USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
@@ -348,9 +351,19 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_msg},
             ],
-            max_completion_tokens=2500,
+            max_completion_tokens=MAX_COMPLETION_TOKENS,
         )
-        code = resp.choices[0].message.content or ""
+        choice = resp.choices[0]
+        code = choice.message.content or ""
+        if not code.strip():
+            # `or ""` hid this, and an empty template compiles, so validation called it
+            # a success and the page rendered with no code on it.
+            usage = getattr(resp, "usage", None)
+            raise RuntimeError(
+                f"model returned no content (finish_reason={choice.finish_reason}, "
+                f"model={getattr(resp, 'model', '?')}, "
+                f"max_completion_tokens={MAX_COMPLETION_TOKENS}, usage={usage})"
+            )
         return self._strip_fences(code)
 
     def validate_bicep(self, code: str) -> Dict[str, Any]:
@@ -361,6 +374,16 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
         though it successfully produced the ARM JSON output. We use the presence
         of the output JSON file as the source of truth for "did this compile?".
         """
+        # An empty .bicep file compiles: exit 0, and 295 bytes of valid ARM JSON. So
+        # "the compiler produced output" answered a neighbouring question to "is there
+        # a template", and reported success for nothing at all.
+        if not code.strip():
+            return {
+                "validated": False,
+                "error": "no Bicep source to validate (generator returned an empty template)",
+                "output_produced": False,
+            }
+
         if not shutil.which("az"):
             return {"validated": False, "skipped": True, "reason": "az CLI not installed"}
 

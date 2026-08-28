@@ -271,6 +271,55 @@ jobs:
                 f'{len(pareto)} Pareto rows')
           PY
 
+      - name: Smoke-test Bicep generation end to end
+        # The Q# check above passed for months while this path was dead: an AI/ML verdict
+        # returned bicep_template="" with bicep_validation {'validated': True}, because an
+        # empty .bicep file compiles and the validator read "compiler produced output".
+        # Two generators, so two smoke tests - the quantum prompt never exercises this one.
+        run: |
+          set -e
+          FQDN=$(az containerapp show \
+            --name "${{ steps.tag.outputs.app_name }}" \
+            --resource-group "${{ steps.tag.outputs.app_rg }}" \
+            --query properties.configuration.ingress.fqdn -o tsv)
+
+          curl -sS -X POST "https://${FQDN}/api/evaluate" \
+            -H 'Content-Type: application/json' \
+            --max-time 600 \
+            -d '{"problem":"Train a neural network on 10 million images for medical diagnosis","generate_code":true}' \
+            -o /tmp/bicepgen.json
+
+          python3 - <<'PY'
+          import json, sys
+          data = json.load(open('/tmp/bicepgen.json'))
+          platform = data.get('recommended_platform')
+          template = data.get('bicep_template') or ''
+          validation = data.get('bicep_validation') or {}
+
+          if platform not in ('AI_ML', 'HPC'):
+              print(f'::error::expected a non-quantum verdict to exercise the Bicep path, '
+                    f'got recommended_platform={platform!r}')
+              sys.exit(1)
+
+          if not template.strip():
+              print('::error::generate_code=true returned no Bicep. '
+                    f'bicep_validation says: {str(validation)[:300]}')
+              sys.exit(1)
+
+          # A template that does not declare a resource is not a workspace, and would
+          # still compile.
+          if 'resource ' not in template:
+              print(f'::error::Bicep template declares no resources ({len(template)} chars)')
+              sys.exit(1)
+
+          if validation.get('validated') is not True:
+              print(f'::error::Bicep did not validate: {str(validation)[:400]}')
+              sys.exit(1)
+
+          print(f'Bicep generation OK - {len(template)} chars, platform {platform}, '
+                f'{template.count("resource ")} resource declarations')
+          PY
+
       - name: Deployment summary
         if: always()
         run: |

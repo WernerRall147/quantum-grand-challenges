@@ -2,11 +2,22 @@
 
 *This work is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You are free to share and adapt for non-commercial purposes with attribution.*
 
-> **Erratum, 2026-08-24.** Sections 4.1 and 5 of this repository copy report the
-> toolchain as qsharp 1.31.0. The archived v3.0.0 record
-> (DOI 10.5281/zenodo.19222021, released 2026-04-12) reports 1.27, which was accurate
+> **Erratum, 2026-08-24, revised 2026-08-27.** Sections 4.1 and 5 of this repository copy
+> report the toolchain as qsharp 1.31.0. The archived v2.0.0 record
+> (DOI 10.5281/zenodo.19660251, released 2026-04-20) reports 1.27, which was accurate
 > at that date; the repository pin moved to 1.31.0 on 2026-08-03 (#151) and the paper
-> text was not updated at the time.
+> text was not updated at the time. The current archive, v3.1.0
+> (DOI 10.5281/zenodo.22126595), reports 1.31.0.
+
+> **Erratum, 2026-08-28.** Sections 7.1 and 9 and the conclusion of the archived v1.0.1
+> and v2.0.0 records state that all 20 problems had reached Stage C and that four had <!-- historical -->
+> reached Stage D. That was not accurate at either date: when v2.0.0 was archived on
+> 2026-04-20, `docs/objective-kpis.json` recorded 3 problems at Stage C, 17 at Stage B <!-- historical -->
+> and none at Stage D. The first Stage D promotion landed on 2026-05-06 (#89), after both
+> archives. This repository copy now states the figures that file records - 9 at Stage C,
+> 8 at Stage B, 3 at Stage D - and `tooling/test_doc_claims.py` fails the build when the
+> two disagree. A paper arguing that maturity gates prevent premature claims should not
+> have overstated its own.
 
 ## Authors
 
@@ -14,7 +25,7 @@ Werner Rall
 
 ## Abstract
 
-We present a software engineering framework for organizing quantum algorithm development across multiple problem domains. The framework provides standardized project structure, automated CI/CD validation, and a four-stage maturity gate model that explicitly prevents premature quantum advantage claims. We apply the framework to 20 problem domains using Microsoft Q#, implementing nine algorithm families at toy scale (2-8 qubits) where classical simulation is trivial. **We do not claim quantum advantage for any problem.** All implementations use small, highly structured instances specifically chosen for correctness validation, not for demonstrating quantum utility. Simulator results confirm algorithmic correctness but reveal nothing about noise resilience or practical scalability. The primary contribution is the methodology itself  particularly the maturity gate model that forces honest assessment of what has and has not been demonstrated  not the individual quantum implementations. We include a scaling analysis for Grover search showing the expected O(√N) query complexity alongside the corresponding growth in circuit depth and gate count that would be required for practically relevant problem sizes. The framework and all implementations are open-source (DOI: 10.5281/zenodo.19222021).
+We present a software engineering framework for organizing quantum algorithm development across multiple problem domains. The framework provides standardized project structure, automated CI/CD validation, and a four-stage maturity gate model that explicitly prevents premature quantum advantage claims. We apply the framework to 20 problem domains using Microsoft Q#, implementing nine algorithm families at toy scale (2-8 qubits) where classical simulation is trivial. **We do not claim quantum advantage for any problem.** All implementations use small, highly structured instances specifically chosen for correctness validation, not for demonstrating quantum utility. Simulator results confirm algorithmic correctness but reveal nothing about noise resilience or practical scalability. The primary contribution is the methodology itself  particularly the maturity gate model that forces honest assessment of what has and has not been demonstrated  not the individual quantum implementations. We include a scaling analysis for Grover search showing the expected O(√N) query complexity alongside the corresponding growth in circuit depth and gate count that would be required for practically relevant problem sizes. The framework and all implementations are open-source (DOI: 10.5281/zenodo.19222020).
 
 **Keywords:** quantum software engineering, development methodology, maturity gates, reproducibility, Q#, CI/CD
 
@@ -195,7 +206,7 @@ A problem-agnostic Azure submission pipeline (`tooling/azure/smoke_problem.py`) 
 
 ### 7.1 What the Framework Demonstrates (and What It Does Not)
 
-The maturity gate model successfully enforces honest assessment: of 20 implemented problems, all 20 have reached Stage C (hardware-aware validation with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles), and **4 have reached Stage D** (advantage evidence with explicit claim contracts). The 4 Stage D candidates (QAE, QAOA MaxCut, Grover DB Search, Grover PQC) each filed honest advantage claim contracts: QAE and QAOA as "theoretical" (no practical advantage demonstrated), Grover variants as "projected" (provably optimal O(√N) speedup, practical at N>10⁶).
+The maturity gate model successfully enforces honest assessment: of 20 implemented problems, 9 have reached Stage C (hardware-aware validation with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles), 8 remain at Stage B, and **3 have reached Stage D** (advantage evidence with explicit claim contracts). The 3 Stage D problems (QAE risk analysis, QAOA MaxCut, Grover database search) each filed honest advantage claim contracts: QAE and QAOA as "theoretical" (no practical advantage demonstrated), Grover database search as "projected" (provably optimal O(√N) speedup, practical at N>10⁶).
 
 Critically, the framework prevented inflated claims: the QAOA MaxCut Stage D contract explicitly states "no proven constant-depth advantage" and identifies the Goemans-Williamson 0.878-approximation as the polynomial-time classical competitor.
 
@@ -296,7 +307,7 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 ## 9. Future Work
 
 - ~~Obtain real Azure Quantum Resource Estimator profiles~~ (completed April 2026: all 20 problems profiled)
-- ~~Promote Stage D candidates~~ (completed April 2026: QAE, QAOA, Grover DB, Grover PQC with scaling analysis + fairness reviews)
+- ~~Promote Stage D candidates~~ (completed 2026-05-06, #89: QAE, QAOA MaxCut, Grover database search with scaling analysis + fairness reviews. Grover PQC was a candidate but remains at Stage B.)
 - ~~Multi-model resource estimation~~ (completed April 2026: 4 qubit models × surface code = 80 estimates across all 20 problems. The Majorana profiles and floquet_code were retired because QRE v3 does not realise them for these traces.)
 - ~~Evaluator agent for honest quantum/HPC/AI platform recommendation~~ (completed April 2026: Troyer 5-filter classifier + DiVincenzo overlay + GPT-5.4-mini orchestrator with deterministic pre-routing)
 - ~~Code generation for recommended platform~~ (completed April 2026: Q# generator for quantum problems, Bicep workspace generator for HPC/AI Foundry/Quantum infrastructure)
@@ -310,11 +321,11 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 
 We have presented a software engineering framework for quantum algorithm development that prioritizes honest assessment over optimistic claims. The framework's primary value is not in the quantum implementations  which are toy-scale and classically trivial  but in the methodology: standardized structure, automated validation, and maturity gates that explicitly prevent claiming more than the evidence supports.
 
-Of 20 implemented problems, all have reached Stage C (hardware-aware validation with calibration ensembles and real resource estimates), and 4 have reached Stage D (advantage evidence with filed claim contracts). No problem claims demonstrated practical quantum advantage  the Stage D contracts are explicitly tagged as "theoretical" or "projected" with documented residual risks. The maturity gate model correctly identifies that emulator results on small instances, even with cross-platform validation, do not constitute evidence of quantum utility.
+Of 20 implemented problems, 9 have reached Stage C (hardware-aware validation with calibration ensembles and real resource estimates), 8 remain at Stage B, and 3 have reached Stage D (advantage evidence with filed claim contracts). No problem claims demonstrated practical quantum advantage  the Stage D contracts are explicitly tagged as "theoretical" or "projected" with documented residual risks. The maturity gate model correctly identifies that emulator results on small instances, even with cross-platform validation, do not constitute evidence of quantum utility.
 
 The practical lessons  that placeholders masquerade as implementations, that encoding bugs survive validation, that mock estimates create false confidence  are transferable to any quantum development effort. We hope the framework's insistence on honest self-assessment contributes to healthier practices in the quantum computing community.
 
-All code, data, and tooling are available at https://github.com/WernerRall147/quantum-grand-challenges (DOI: 10.5281/zenodo.19222021).
+All code, data, and tooling are available at https://github.com/WernerRall147/quantum-grand-challenges (DOI: 10.5281/zenodo.19222020).
 
 ## References
 

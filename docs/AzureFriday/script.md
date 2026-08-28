@@ -332,4 +332,4 @@ Azure Friday is exactly where someone checks.
 - Any specific physical-qubit count - it varies per run.
 - Any specific byte figure for the thousand-qubit state - the order of magnitude is the point.
 - "By the time you see this" - record as though it publishes that day.
-- All 20 problems are at Stage C - it is 9 at C, 8 at B, 3 at D.
+- All 20 problems are at Stage C - it is 9 at C, 8 at B, 3 at D. <!-- not-a-claim -->

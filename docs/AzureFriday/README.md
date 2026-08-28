@@ -237,7 +237,7 @@ a total cloud outage.
   platform; the model writes the explanation and stress-tests the decision. If it
   disagrees, that is recorded in `model_dissent` rather than changing the answer. This is
   worth saying on air: it is why the same question gives the same answer twice.
-- **Published:** methodology paper, DOI `10.5281/zenodo.19222021`.
+- **Published:** methodology paper, DOI `10.5281/zenodo.19222020`.
 
 ---
 

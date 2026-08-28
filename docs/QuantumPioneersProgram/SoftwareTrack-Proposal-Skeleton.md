@@ -48,7 +48,7 @@ that *enforces* this honesty, and that targets measurement-based / topological
 execution specifically, is a software foundation the field currently lacks.
 
 ### 1.2 Prior work by the team (foundation this builds on)
-This proposal extends an existing, open-source framework (DOI: 10.5281/zenodo.19222021):
+This proposal extends an existing, open-source framework (DOI: 10.5281/zenodo.19222020):
 - A **four-stage maturity-gate model (A->D)** that blocks premature advantage claims,
   with **CI/CD that rejects merges** when a maturity claim is not backed by evidence
   artifacts.
@@ -184,7 +184,7 @@ collaboration slots directly into a working pipeline.
 *Target length: ~0.5 page. This section is strong because most of it already exists.*
 
 **Already available (this team):**
-- Open-source framework and 20-domain implementation base (DOI: 10.5281/zenodo.19222021),
+- Open-source framework and 20-domain implementation base (DOI: 10.5281/zenodo.19222020),
   AGPL-3.0, with methodology paper.
 - Microsoft **Q# / modern QDK** toolchain (Python-hosted, no .NET dependency).
 - **Azure Quantum** workspace with Quantinuum and Rigetti providers; **GitHub Actions**
@@ -226,7 +226,7 @@ community engagement, prior funded work, and role on this proposal.
 | Resource-estimation artifacts (and mock caveat) | `problems/02_catalysis/estimates/latest.json`, `*surface_code*`, `*qubit_gate_ns_e3*` |
 | DiVincenzo readiness overlay | `docs/paper/methodology-paper.md` sec 3.4 |
 | Toolchain (Q#, Azure Quantum, CI) | `docs/paper/methodology-paper.md` sec 4.1 |
-| Published artifact | Zenodo DOI 10.5281/zenodo.19222021 |
+| Published artifact | Zenodo DOI 10.5281/zenodo.19222020 |
 
 ## Appendix B - How each section maps to the judging criteria
 

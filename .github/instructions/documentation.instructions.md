@@ -6,7 +6,7 @@ description: "Rules for editing documentation in this repo, derived from claims 
 # Editing documentation here
 
 Four false claims shipped in one week, all the same shape: a document asserting something
-the code contradicted. `CITATION.cff` said all 20 problems reached Stage C (it is 9 at C,
+the code contradicted. `CITATION.cff` said all 20 problems reached Stage C (it is 9 at C, <!-- not-a-claim -->
 8 at B, 3 at D). `architecture.md` ticked two MCP servers as built while saying "Not
 built" 150 lines above, and its directory tree named seven files that were never written.
 A quotable table said 116 tests when there were 214, and 214 when there were 243. <!-- historical -->

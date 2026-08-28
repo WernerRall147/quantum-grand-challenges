@@ -40,7 +40,7 @@ Financial institutions need to estimate tail risk  the probability that portfoli
 | Classical baselines | 20 / 20 |
 | CI checks (automated, every PR) | 7 |
 | PRs merged | 30 |
-| DOI | 10.5281/zenodo.19222021 |
+| DOI | 10.5281/zenodo.19222020 |
 
 ### Time and Effort Estimate
 | Phase | Effort | Calendar Time |
@@ -127,7 +127,7 @@ Our entire workflow runs on Azure. Q# compiles via .NET, circuits submit to Azur
 - **Grover at 4 qubits: 96% noiseless → 6% at 1% error rate**
 - **QAE requires 594K physical qubits for a problem a laptop solves in milliseconds**
 - **0 of 20 problems demonstrate quantum advantage** (this is honest, and the framework correctly identifies this)
-- **DOI: 10.5281/zenodo.19222021**  citable, reproducible, open-source
+- **DOI: 10.5281/zenodo.19222020**  citable, reproducible, open-source
 
 ---
 
@@ -176,5 +176,5 @@ python tooling/reporting/stage_kpis.py
 ### Key URLs to Have Open
 - **GitHub**: https://github.com/WernerRall147/quantum-grand-challenges
 - **Website**: https://wernerrall147.github.io/quantum-grand-challenges/
-- **DOI**: https://doi.org/10.5281/zenodo.19222021
+- **DOI**: https://doi.org/10.5281/zenodo.19222020
 - **Paper**: docs/paper/methodology-paper.html (open locally in browser)

@@ -24,7 +24,7 @@ says so, rather than being rounded up.
 | **100 Azure Quantum jobs, 70 succeeded** | **deck says "130+", unconfirmed** | `az quantum job list` returns exactly 100, which looks like a page cap |
 | **20-60s per evaluation** | verdict only, varies run to run | 15 calls 2026-08-24 median 38.0s max 58.9s; 5 calls 2026-08-26 median 23.4s max 26.5s. Quote the range, not a median |
 | **~60-80s for code generation** | beat 3, measured with estimation working | 57.8s local and 79s in CI, 2026-08-26. Slower than a verdict because it compiles, retries on error, then costs the circuit |
-| **244 tests passing** | kept current by `tooling/test_doc_claims.py` | `pytest -q`. This line was 116 when the suite was 214, and 214 when it was 243 |
+| **246 tests passing** | kept current by `tooling/test_doc_claims.py` | `pytest -q`. This line was 116 when the suite was 214, and 214 when it was 243 |
 
 Two things to fix in the deck itself:
 
@@ -83,7 +83,7 @@ Make this a page, not a slide, and leave it open.
 
 - Live: `wernerrall147.github.io/quantum-grand-challenges`
 - Repo: `github.com/WernerRall147/quantum-grand-challenges` (AGPL-3.0)
-- Paper: DOI `10.5281/zenodo.19222021`
+- Paper: DOI `10.5281/zenodo.19222020`
 - Troyer utility-scale criteria - `arXiv:2409.08910`
 - `errorcorrectionzoo.org`
 

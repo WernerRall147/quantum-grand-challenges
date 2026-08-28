@@ -259,7 +259,7 @@ export default function Home() {
   author = {Rall, Werner},
   title = {Quantum Grand Challenges},
   year = {2026},
-  doi = {10.5281/zenodo.19222021}
+  doi = {10.5281/zenodo.19222020}
 }`}</pre>
           </div>
         </section>
@@ -370,7 +370,7 @@ export default function Home() {
         <footer style={{ marginTop: '4rem', padding: '1.5rem 0', borderTop: '1px solid #e2e8f0', textAlign: 'center', color: '#94a3b8', fontSize: '0.9rem' }}>
           <p style={{ margin: '0 0 0.5rem' }}>
             Built with Q#, Python, and Next.js &middot; AGPL-3.0 &middot;{' '}
-            <a href="https://doi.org/10.5281/zenodo.19222021" style={{ color: '#667eea', textDecoration: 'none' }}>DOI: 10.5281/zenodo.19222021</a>
+            <a href="https://doi.org/10.5281/zenodo.19222020" style={{ color: '#667eea', textDecoration: 'none' }}>DOI: 10.5281/zenodo.19222020</a>
           </p>
           <a href="https://github.com/WernerRall147/quantum-grand-challenges" style={{ color: '#667eea', textDecoration: 'none' }}>
             View on GitHub &rarr;

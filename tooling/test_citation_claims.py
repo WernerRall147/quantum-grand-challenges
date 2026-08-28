@@ -126,3 +126,53 @@ def test_doi_is_the_concept_doi() -> None:
         f"CITATION.cff cites {VERSION_DOI_V1}, which is the version DOI for the v1.0.1 "
         f"archive. Use the concept DOI {CONCEPT_DOI}."
     )
+
+
+# Fixing CITATION.cff alone left the same stale DOI in eleven other places, including the
+# README badge and the website's BibTeX block. One owner per fact only works if something
+# checks the other owners, so this walks the tree rather than trusting a one-line fix.
+_SKIP_DIRS = frozenset(
+    {".git", "node_modules", "out", ".next", "__pycache__", ".venv", "venv", ".pytest_cache"}
+)
+_CITING_SUFFIXES = frozenset({".md", ".cff", ".tsx", ".ts", ".html", ".py", ".json", ".yml"})
+
+# Documents that record something already sent or already published are not rewritten in
+# place. The storyboard says so itself: it is "the record of what the producers have".
+_RECORDS = (
+    "docs/Hackathon2026/",
+    "docs/AzureFriday/storyboard.md",
+    "tooling/test_citation_claims.py",
+)
+
+
+def _live_files_citing(doi: str) -> list[str]:
+    found = []
+    stack = [REPO_ROOT]
+    while stack:
+        for entry in stack.pop().iterdir():
+            if entry.is_dir():
+                if entry.name not in _SKIP_DIRS:
+                    stack.append(entry)
+                continue
+            if entry.suffix not in _CITING_SUFFIXES:
+                continue
+            rel = entry.relative_to(REPO_ROOT).as_posix()
+            if rel.startswith(_RECORDS):
+                continue
+            if doi in entry.read_text(encoding="utf-8", errors="ignore"):
+                found.append(rel)
+    return sorted(found)
+
+
+def test_no_live_document_cites_the_superseded_version_doi() -> None:
+    """The v1.0.1 DOI must not appear anywhere a reader would take as the project's DOI.
+
+    Version DOIs are legitimate when you mean that release - the paper's erratum cites
+    v2.0.0 deliberately. This one is different: it was pasted around as the project DOI
+    while five versions shipped, so any live occurrence is the stale-citation bug again.
+    """
+    offenders = _live_files_citing(VERSION_DOI_V1)
+    assert not offenders, (
+        f"{len(offenders)} live file(s) cite {VERSION_DOI_V1}, the superseded v1.0.1 "
+        f"version DOI: {', '.join(offenders)}. Use the concept DOI {CONCEPT_DOI}."
+    )

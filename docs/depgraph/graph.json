@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1244,
-    "code_files": 262,
-    "python": 196,
+    "tracked": 1248,
+    "code_files": 265,
+    "python": 199,
     "qsharp": 53,
     "ts": 13,
-    "edges": 192,
-    "roots": 264,
-    "reachable": 289
+    "edges": 194,
+    "roots": 265,
+    "reachable": 291
   },
   "nodes": [
     "agents/api/main.py",
@@ -19,6 +19,7 @@
     "agents/code_generator/architecture.py",
     "agents/code_generator/bicep_generator.py",
     "agents/code_generator/generate.py",
+    "agents/code_generator/stdlib_index.py",
     "agents/evaluations/run_eval.py",
     "agents/evaluations/score_narrative.py",
     "agents/orchestrator/citations.py",
@@ -39,6 +40,7 @@
     "agents/tests/test_ingest_balance.py",
     "agents/tests/test_kb_endpoints.py",
     "agents/tests/test_paper_classifier.py",
+    "agents/tests/test_stdlib_index.py",
     "agents/tests/test_zoo_reconciliation.py",
     "conftest.py",
     "knowledge/ingest/algorithm_zoo_parser.py",
@@ -257,6 +259,7 @@
     "tooling/trace_circuits.py",
     "tooling/validate_algorithm_index.py",
     "tooling/vendor_qdk_samples.py",
+    "tooling/vendor_qdk_stdlib_index.py",
     "tooling/verify_demo_prompts.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py",
@@ -416,6 +419,10 @@
       "agents/classifier/azure_pricing.py"
     ],
     [
+      "agents/code_generator/generate.py",
+      "agents/code_generator/stdlib_index.py"
+    ],
+    [
       "agents/evaluations/run_eval.py",
       "agents/classifier/platform_router.py"
     ],
@@ -530,6 +537,10 @@
     [
       "agents/tests/test_paper_classifier.py",
       "agents/classifier/paper_classifier.py"
+    ],
+    [
+      "agents/tests/test_stdlib_index.py",
+      "agents/code_generator/stdlib_index.py"
     ],
     [
       "agents/tests/test_zoo_reconciliation.py",

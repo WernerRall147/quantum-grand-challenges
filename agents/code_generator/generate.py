@@ -23,6 +23,8 @@ from typing import Any, Dict, Optional
 from azure.identity import DefaultAzureCredential
 from openai import AzureOpenAI
 
+from agents.code_generator.stdlib_index import diagnose
+
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tooling"))
@@ -363,12 +365,19 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
         return {"qsharp_code": code, "estimation": est, "algorithm": algorithm}
 
     def repair(self, code: str, error: str, problem: str, algorithm: str) -> str:
-        """Ask for a fix using the compiler's message, rather than guessing at the rule."""
+        """Ask for a fix using the compiler's message, plus what the message cannot say.
+
+        A parse error locates the problem without naming the replacement, which is why
+        three attempts in a row failed on `new Result[n]`. stdlib_index checks the called
+        names against the library's own export list and suggests real ones.
+        """
+        hint = diagnose(code)
+        name_check = f"\nNAME CHECK:\n{hint}\n" if hint else ""
         user_msg = f"""This Q# failed to compile. Fix it and return the corrected program.
 
 COMPILER ERROR:
 {error[:1500]}
-
+{name_check}
 PROGRAM:
 {code}
 

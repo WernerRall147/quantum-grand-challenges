@@ -43,6 +43,10 @@
     "agents/tests/test_entry_expression.py",
     "tooling/test_qdk_samples_provenance.py"
   ],
+  "agents/code_generator/stdlib_index.py": [
+    "agents/code_generator/generate.py",
+    "agents/tests/test_stdlib_index.py"
+  ],
   "agents/evaluations/run_eval.py": [
     ".github/workflows/ci-cd.yml"
   ],

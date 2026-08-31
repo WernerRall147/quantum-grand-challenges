@@ -38,9 +38,9 @@ ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
 # Reasoning models spend this budget on thinking before they emit anything, so 2500
 # returned a valid response carrying no content. generate.py hit the same wall first.
 MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_BICEPGEN_MAX_TOKENS", "4000"))
-# Default to the Azure AI Foundry model-router; set QGC_USE_ROUTER=0 to use
-# the direct CHAT_DEPLOYMENT on qgc-openai instead.
-USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
+# Pinned for the same reason as the Q# generator: the router's model choice varies per
+# request and a reasoning-heavy pick returns nothing. Verdicts still use the router.
+USE_ROUTER = os.environ.get("QGC_CODEGEN_USE_ROUTER", "0") == "1"
 
 
 # Reference templates per platform  minimal, working starting points

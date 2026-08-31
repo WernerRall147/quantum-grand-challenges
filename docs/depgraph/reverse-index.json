@@ -40,7 +40,8 @@
     "agents/tests/test_codegen_retry.py",
     "agents/tests/test_codegen_syntax_rules.py",
     "agents/tests/test_container_contents.py",
-    "agents/tests/test_entry_expression.py"
+    "agents/tests/test_entry_expression.py",
+    "tooling/test_qdk_samples_provenance.py"
   ],
   "agents/evaluations/run_eval.py": [
     ".github/workflows/ci-cd.yml"

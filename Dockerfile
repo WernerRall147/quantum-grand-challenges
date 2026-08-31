@@ -35,6 +35,7 @@ COPY problems/09_factorization/qsharp/src/Main.qs /app/problems/09_factorization
 COPY problems/19_quantum_chromodynamics/qsharp/src/Main.qs /app/problems/19_quantum_chromodynamics/qsharp/src/Main.qs
 COPY problems/18_photovoltaics/qsharp/src/Main.qs /app/problems/18_photovoltaics/qsharp/src/Main.qs
 COPY problems/16_error_correction/qsharp/src/Main.qs /app/problems/16_error_correction/qsharp/src/Main.qs
+COPY libs/qdk_samples/ /app/libs/qdk_samples/
 
 # Expose port
 EXPOSE 8000

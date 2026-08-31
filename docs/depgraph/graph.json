@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1230,
-    "code_files": 250,
-    "python": 194,
-    "qsharp": 43,
+    "tracked": 1244,
+    "code_files": 262,
+    "python": 196,
+    "qsharp": 53,
     "ts": 13,
-    "edges": 191,
-    "roots": 263,
-    "reachable": 288
+    "edges": 192,
+    "roots": 264,
+    "reachable": 289
   },
   "nodes": [
     "agents/api/main.py",
@@ -47,6 +47,16 @@
     "knowledge/search/kb_client.py",
     "knowledge/seed_knowledge_base.py",
     "libs/common/src/Utils.qs",
+    "libs/qdk_samples/BernsteinVazirani.qs",
+    "libs/qdk_samples/DeutschJozsa.qs",
+    "libs/qdk_samples/Grover.qs",
+    "libs/qdk_samples/HiddenShift.qs",
+    "libs/qdk_samples/PhaseEstimation.qs",
+    "libs/qdk_samples/QRNG.qs",
+    "libs/qdk_samples/SimpleVQE.qs",
+    "libs/qdk_samples/SuperdenseCoding.qs",
+    "libs/qdk_samples/Teleportation.qs",
+    "libs/qdk_samples/ThreeQubitRepetitionCode.qs",
     "problems/01_hubbard/python/analyze.py",
     "problems/01_hubbard/python/classical_baseline.py",
     "problems/01_hubbard/python/test_baseline.py",
@@ -242,9 +252,11 @@
     "tooling/test_citation_claims.py",
     "tooling/test_doc_claims.py",
     "tooling/test_estimate_provenance.py",
+    "tooling/test_qdk_samples_provenance.py",
     "tooling/test_qsharp_validation.py",
     "tooling/trace_circuits.py",
     "tooling/validate_algorithm_index.py",
+    "tooling/vendor_qdk_samples.py",
     "tooling/verify_demo_prompts.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py",
@@ -950,6 +962,10 @@
     [
       "tooling/run_noisy_simulation.py",
       "tooling/discover_problems.py"
+    ],
+    [
+      "tooling/test_qdk_samples_provenance.py",
+      "agents/code_generator/generate.py"
     ],
     [
       "tooling/validate_algorithm_index.py",

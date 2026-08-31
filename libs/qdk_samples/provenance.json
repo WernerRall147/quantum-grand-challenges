@@ -1,0 +1,56 @@
+{
+  "qsharp_version": "1.31.0",
+  "samples": {
+    "Bernstein-Vazirani": {
+      "file": "BernsteinVazirani.qs",
+      "sha256": "22af12d95d3fa363c1949b3be525e526b878f2d2702ac2bb9041e5c490cb34e7",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/BernsteinVazirani.qs"
+    },
+    "Deutsch-Jozsa": {
+      "file": "DeutschJozsa.qs",
+      "sha256": "8377b1b6bfcebf3c5ae63d8b0553306774f32f6277d678205adf65c62c826e58",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/DeutschJozsa.qs"
+    },
+    "Grover": {
+      "file": "Grover.qs",
+      "sha256": "32fd6ccdaf95b845335043b9ca042283428a7c23a0acfb05bb62c5d669f22d33",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/Grover.qs"
+    },
+    "Hidden Shift": {
+      "file": "HiddenShift.qs",
+      "sha256": "0c328d80b54bc8e3031efdf065c5614d9caa9822c02ba4416520f71ef7618844",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/HiddenShift.qs"
+    },
+    "Phase Estimation": {
+      "file": "PhaseEstimation.qs",
+      "sha256": "17c0247b4485d339101e7f7f47701602dcbffe93f7dbef4cf07d0eb294f7d841",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/PhaseEstimation.qs"
+    },
+    "QRNG": {
+      "file": "QRNG.qs",
+      "sha256": "8f6daa3b29b3260e13e078e35a210412269e5231786ece5c8a7541ebb7153f90",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/QRNG.qs"
+    },
+    "Repetition Code": {
+      "file": "ThreeQubitRepetitionCode.qs",
+      "sha256": "4fd170211daaea6d6f84864a6701e32e8e35a773c48876c3c81edf8303177a4b",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/ThreeQubitRepetitionCode.qs"
+    },
+    "Superdense Coding": {
+      "file": "SuperdenseCoding.qs",
+      "sha256": "a90906148e59dfd67ccdfff24ea429ad4073ead158bf1ff13076e436f602e190",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/SuperdenseCoding.qs"
+    },
+    "Teleportation": {
+      "file": "Teleportation.qs",
+      "sha256": "f95fa5db6682f9d377aff435fa92b0bbb6e7bd7f196f868598ce018508c1ab88",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/Teleportation.qs"
+    },
+    "VQE": {
+      "file": "SimpleVQE.qs",
+      "sha256": "b5b462b9969781fc787740621c959ccf3ca3b7e6ffdc797a97b7e0c402545937",
+      "source": "https://raw.githubusercontent.com/microsoft/qdk/v1.31.0/samples/algorithms/SimpleVQE.qs"
+    }
+  },
+  "tag": "v1.31.0"
+}

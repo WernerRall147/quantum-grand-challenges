@@ -70,10 +70,22 @@ REFERENCE_IMPLEMENTATIONS = {
     "Trotter": "problems/19_quantum_chromodynamics/qsharp/src/Main.qs",
     "Quantum Walk": "problems/18_photovoltaics/qsharp/src/Main.qs",
     "QEC": "problems/16_error_correction/qsharp/src/Main.qs",
+    # Vendored from microsoft/qdk v1.31.0 by tooling/vendor_qdk_samples.py, which keeps
+    # only samples that compile against the pinned compiler and define Main.
+    "VQE": "libs/qdk_samples/SimpleVQE.qs",
+    "Grover": "libs/qdk_samples/Grover.qs",
+    "Bernstein-Vazirani": "libs/qdk_samples/BernsteinVazirani.qs",
+    "Deutsch-Jozsa": "libs/qdk_samples/DeutschJozsa.qs",
+    "Hidden Shift": "libs/qdk_samples/HiddenShift.qs",
+    "Phase Estimation": "libs/qdk_samples/PhaseEstimation.qs",
+    "Teleportation": "libs/qdk_samples/Teleportation.qs",
+    "QRNG": "libs/qdk_samples/QRNG.qs",
+    "Repetition Code": "libs/qdk_samples/ThreeQubitRepetitionCode.qs",
+    "Superdense Coding": "libs/qdk_samples/SuperdenseCoding.qs",
 }
 
-# VQE, QAOA, Grover and HHL are all outside the map above, and used to get no example at
-# all - the model was left to recall modern Q# syntax unaided for exactly those requests.
+# QAOA, HHL and anything else unmapped used to get no example at all - the model was left
+# to recall modern Q# syntax unaided for exactly those requests.
 DEFAULT_REFERENCE = "problems/01_hubbard/qsharp/src/Main.qs"
 
 SYSTEM_PROMPT = """You are a Q# code generator for the modern Azure Quantum Development Kit (QDK 1.27+).

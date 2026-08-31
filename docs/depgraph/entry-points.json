@@ -44,6 +44,7 @@
     "agents/tests/test_estimator_config.py",
     "agents/tests/test_evaluator_smoke.py",
     "agents/tests/test_ingest_balance.py",
+    "agents/tests/test_kb_endpoints.py",
     "agents/tests/test_paper_classifier.py",
     "agents/tests/test_zoo_reconciliation.py",
     "conftest.py",

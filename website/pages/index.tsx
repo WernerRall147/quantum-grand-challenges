@@ -267,6 +267,13 @@ export default function Home() {
         {/* Quick Start */}
         <section style={{ marginTop: '2.5rem' }}>
           <h2 style={{ fontSize: '1.4rem' }}>Quick Start</h2>
+          <p style={{ color: '#475569', fontSize: '0.95rem', margin: '0.25rem 0 0' }}>
+            Problems run offline with nothing but Python. Evaluating a problem queries a
+            knowledge-base index, so it needs either access to ours or{' '}
+            <a href="https://github.com/WernerRall147/quantum-grand-challenges#self-host-the-evaluator" style={{ color: '#667eea' }}>
+              your own Azure AI Search and OpenAI resources
+            </a>.
+          </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
             <CommandBlock title="Setup" commands={[
               'git clone https://github.com/WernerRall147/quantum-grand-challenges.git',
@@ -281,8 +288,18 @@ export default function Home() {
             ]} />
             <CommandBlock title="Evaluate" commands={[
               'pip install azure-identity azure-search-documents openai',
+              'az login',
               'python agents/orchestrator/evaluate.py \\',
               '  "Simulate ground state of a 50-atom catalyst"',
+            ]} />
+            <CommandBlock title="Run the App Yourself" commands={[
+              'export SEARCH_ENDPOINT="https://<your>.search.windows.net"',
+              'export AZURE_OPENAI_ENDPOINT="https://<your>.openai.azure.com/"',
+              'python knowledge/seed_knowledge_base.py',
+              '',
+              'uvicorn agents.api.main:app --reload --port 8000',
+              'docker run --rm -p 8000:8000 qgc-eval-api:local',
+              'cd website && npm install && npm run dev',
             ]} />
           </div>
         </section>

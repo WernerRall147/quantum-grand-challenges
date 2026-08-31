@@ -26,10 +26,12 @@ from openai import AzureOpenAI
 
 logger = logging.getLogger(__name__)
 
-# Config
-SEARCH_ENDPOINT = "https://qgcsearcheval.search.windows.net"
-OPENAI_ENDPOINT = "https://qgc-openai.openai.azure.com/"
-EMBEDDING_DEPLOYMENT = "text-embedding-3-large"
+# These were literals, so the knowledge base could only ever point at one tenant's
+# resources and nobody else could run the evaluator without editing this file. The
+# names match the variables the Container App already sets, which until now nothing read.
+SEARCH_ENDPOINT = os.environ.get("SEARCH_ENDPOINT", "https://qgcsearcheval.search.windows.net")
+OPENAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
+EMBEDDING_DEPLOYMENT = os.environ.get("QGC_EMBEDDING_DEPLOYMENT", "text-embedding-3-large")
 
 ROOT = Path(__file__).resolve().parents[2]
 ALGORITHM_ZOO_PATH = ROOT / "knowledge" / "data" / "algorithm_zoo_index.json"

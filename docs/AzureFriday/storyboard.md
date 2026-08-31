@@ -98,11 +98,15 @@ is interesting. The quantum problem is the setting; the engineering is the subje
 
 ## 4. Demo beat sheet
 
-**A verdict-only call lands in 20-60s**, and the spread matters more than the median: 15
-calls on 2026-08-24 gave median 38.0s (min 28.9, max 58.9), 5 calls on 2026-08-26 gave
-median 23.4s (min 21.3, max 26.5). Zero mismatches across both. **With code generation it
-takes 58-79s** (57.8s local, 79s in CI, both 2026-08-26). Quote the range on camera, not a
-number. Beat 3 is pre-loaded for that reason.
+**A verdict-only call usually lands under a minute, but do not quote a number on camera.**
+The spread matters more than the median and it keeps moving: 15 calls on 2026-08-24 gave
+median 38.0s (max 58.9), 5 calls on 2026-08-26 gave median 23.4s (max 26.5), and 5 calls on
+2026-08-31 gave median 40.7s with a **98.0s** outlier on the image-classifier prompt. Zero
+mismatches across all three. **Code generation takes around 50s** (50.2s on 2026-08-31).
+Beat 3 is pre-loaded for that reason.
+
+> The 2026-08-31 spread followed production moving to the Foundry model-router, which
+> chooses the model per request. A range measured once is not a range.
 
 | Beat | Time | On screen | The engineering point |
 |---|---|---|---|

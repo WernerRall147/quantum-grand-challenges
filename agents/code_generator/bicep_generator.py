@@ -42,6 +42,10 @@ MAX_COMPLETION_TOKENS = int(os.environ.get("QGC_BICEPGEN_MAX_TOKENS", "4000"))
 # request and a reasoning-heavy pick returns nothing. Verdicts still use the router.
 USE_ROUTER = os.environ.get("QGC_CODEGEN_USE_ROUTER", "0") == "1"
 
+# Same deployment as the Q# generator, and for the same reason: the verdict path's model
+# is not a code model.
+CODEGEN_DEPLOYMENT = os.environ.get("QGC_CODEGEN_DEPLOYMENT", "qgc-codegen")
+
 
 # Reference templates per platform  minimal, working starting points
 HPC_REFERENCE = """// Azure CycleCloud + Slurm HPC cluster
@@ -306,7 +310,7 @@ class BicepWorkspaceGenerator:
         )
 
     def _deployment(self) -> str:
-        return ROUTER_DEPLOYMENT if USE_ROUTER else CHAT_DEPLOYMENT
+        return ROUTER_DEPLOYMENT if USE_ROUTER else CODEGEN_DEPLOYMENT
 
     @staticmethod
     def _strip_fences(code: str) -> str:

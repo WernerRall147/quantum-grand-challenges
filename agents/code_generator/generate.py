@@ -46,6 +46,14 @@ ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
 # set QGC_CODEGEN_USE_ROUTER=1 to opt generation back in.
 USE_ROUTER = os.environ.get("QGC_CODEGEN_USE_ROUTER", "0") == "1"
 
+# CHAT_DEPLOYMENT is the verdict path's model. Pointing generation at it produced Q# that
+# never compiled: the deployment named gpt-54-mini serves gpt-4.1-mini from April 2025,
+# which writes `import Std.Math::*` and imports without semicolons however plainly the
+# system prompt states otherwise. Three retries, three parse errors, no estimate.
+# gpt-53-codex is not the answer either - codex serves the Responses API and returns
+# 400 to chat.completions. qgc-codegen is gpt-5.4-mini, measured compiling.
+CODEGEN_DEPLOYMENT = os.environ.get("QGC_CODEGEN_DEPLOYMENT", "qgc-codegen")
+
 # Must cover the model's reasoning tokens as well as the Q# it emits. evaluate.py hit
 # this first: the router picks reasoning models, 1000 was consumed by thinking alone, and
 # the answer came back empty. This path kept 1500 and failed the same way, silently.
@@ -116,6 +124,7 @@ def entry_expression(code: str, module: str = "Main") -> str:
 class QSharpCodeGenerator:
     def __init__(self):
         self.credential = DefaultAzureCredential()
+        self.last_model_used: str | None = None
     def _client(self) -> AzureOpenAI:
         token = self.credential.get_token("https://cognitiveservices.azure.com/.default")
         endpoint = ROUTER_ENDPOINT if USE_ROUTER else OPENAI_ENDPOINT
@@ -126,7 +135,7 @@ class QSharpCodeGenerator:
         )
 
     def _deployment(self) -> str:
-        return ROUTER_DEPLOYMENT if USE_ROUTER else CHAT_DEPLOYMENT
+        return ROUTER_DEPLOYMENT if USE_ROUTER else CODEGEN_DEPLOYMENT
 
     def _load_reference(self, algorithm: str) -> str:
         """Return a short reference snippet for the algorithm, or empty string."""
@@ -170,6 +179,7 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
             max_completion_tokens=MAX_COMPLETION_TOKENS,
         )
         choice = resp.choices[0]
+        self.last_model_used = getattr(resp, "model", None)
         code = choice.message.content or ""
         if not code.strip():
             # `or ""` used to hide this, and the API turns an empty string into a page
@@ -327,6 +337,11 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
 
         est["attempts"] = attempts
         est["attempt_count"] = len(attempts)
+        # Which model wrote this. Three different models produced three different failures
+        # on 2026-08-31 - empty output, uncompilable imports, and a 400 - and none of the
+        # responses said which one had been used, so every diagnosis started from scratch.
+        est["codegen_deployment"] = ROUTER_DEPLOYMENT if USE_ROUTER else CODEGEN_DEPLOYMENT
+        est["codegen_model"] = getattr(self, "last_model_used", None)
         return {"qsharp_code": code, "estimation": est, "algorithm": algorithm}
 
     def repair(self, code: str, error: str, problem: str, algorithm: str) -> str:

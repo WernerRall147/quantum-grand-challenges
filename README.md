@@ -496,7 +496,7 @@ Current as of August 2026.
 | Azure Quantum jobs | 130 runs recorded: 89 succeeded, 41 unresolved, across H2-1SC, H2-1E and Rigetti QVM |
 | Resource estimates | 141 unique, after deduplication |
 | Algorithms indexed | 47 |
-| Evaluator tests | 208 |
+| Evaluator tests | 213 |
 
 <details>
 <summary><strong>Milestone history</strong></summary>

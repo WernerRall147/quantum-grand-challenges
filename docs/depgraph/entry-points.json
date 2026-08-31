@@ -77,6 +77,7 @@
     "tooling/test_architecture_claims.py",
     "tooling/test_citation_claims.py",
     "tooling/test_doc_claims.py",
+    "tooling/test_estimate_provenance.py",
     "tooling/test_qsharp_validation.py"
   ],
   "npm_next": [

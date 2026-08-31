@@ -39,9 +39,12 @@ OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.open
 CHAT_DEPLOYMENT = os.environ.get("QGC_CHAT_DEPLOYMENT", "gpt-54-mini")
 ROUTER_ENDPOINT = os.environ.get("QGC_ROUTER_ENDPOINT", "https://admin-mo1q7owo-eastus2.cognitiveservices.azure.com/")
 ROUTER_DEPLOYMENT = os.environ.get("QGC_ROUTER_DEPLOYMENT", "model-router")
-# Default to the Azure AI Foundry model-router; set QGC_USE_ROUTER=0 to use
-# the direct CHAT_DEPLOYMENT on qgc-openai instead.
-USE_ROUTER = os.environ.get("QGC_USE_ROUTER", "1") == "1"
+# The router picks a different model per request, and gpt-5.6-sol spends the entire
+# budget reasoning and returns no content: measured empty on 2 of 4 production calls
+# 2026-08-31. Raising the budget to 12000 only moved the failure to a gateway timeout,
+# so generation is pinned to one deployment. The verdict path still uses the router;
+# set QGC_CODEGEN_USE_ROUTER=1 to opt generation back in.
+USE_ROUTER = os.environ.get("QGC_CODEGEN_USE_ROUTER", "0") == "1"
 
 # Must cover the model's reasoning tokens as well as the Q# it emits. evaluate.py hit
 # this first: the router picks reasoning models, 1000 was consumed by thinking alone, and

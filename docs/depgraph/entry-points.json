@@ -36,6 +36,7 @@
   "pytest": [
     "agents/tests/test_algorithm_index_validation.py",
     "agents/tests/test_bicep_generator.py",
+    "agents/tests/test_codegen_deployment.py",
     "agents/tests/test_codegen_retry.py",
     "agents/tests/test_container_contents.py",
     "agents/tests/test_corpus_decidability.py",

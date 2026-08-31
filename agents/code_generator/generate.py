@@ -72,6 +72,10 @@ REFERENCE_IMPLEMENTATIONS = {
     "QEC": "problems/16_error_correction/qsharp/src/Main.qs",
 }
 
+# VQE, QAOA, Grover and HHL are all outside the map above, and used to get no example at
+# all - the model was left to recall modern Q# syntax unaided for exactly those requests.
+DEFAULT_REFERENCE = "problems/01_hubbard/qsharp/src/Main.qs"
+
 SYSTEM_PROMPT = """You are a Q# code generator for the modern Azure Quantum Development Kit (QDK 1.27+).
 
 Generate a single self-contained Q# operation that implements the requested algorithm for the user's problem.
@@ -83,6 +87,10 @@ CRITICAL RULES:
 - Loops and conditionals take NO parentheses around the header. Write
   `for i in 0..Length(xs) - 1 {` and `if x > 0 {`, never `for (i in ...)` or `if (x > 0)`.
   The parenthesised form is legacy Q# and is a parse error in modern QDK.
+- Build arrays with `[value, size = n]`, or `Repeated(value, n)` from Std.Arrays. Write
+  `mutable rs = [Zero, size = n];`, never `mutable rs = new Result[n];`. `new T[n]` and
+  `ConstantArray` were removed from the language: `new` is a parse error and
+  `ConstantArray` does not resolve. Grow an array with `set xs += [x];`.
 - The entry point MUST be `operation Main() : Result[]` - exactly that name, and no
   parameters. Resource estimation invokes `Main()` by name; any other name or any
   parameter list makes the program unestimatable.
@@ -138,10 +146,8 @@ class QSharpCodeGenerator:
         return ROUTER_DEPLOYMENT if USE_ROUTER else CODEGEN_DEPLOYMENT
 
     def _load_reference(self, algorithm: str) -> str:
-        """Return a short reference snippet for the algorithm, or empty string."""
-        rel = REFERENCE_IMPLEMENTATIONS.get(algorithm)
-        if not rel:
-            return ""
+        """Return a short reference snippet for the algorithm, falling back to a known-good one."""
+        rel = REFERENCE_IMPLEMENTATIONS.get(algorithm, DEFAULT_REFERENCE)
         path = ROOT / rel
         if not path.exists():
             return ""

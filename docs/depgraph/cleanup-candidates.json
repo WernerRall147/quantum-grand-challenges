@@ -1,9 +1,99 @@
 {
   "summary": {
-    "total_candidates": 0,
+    "total_candidates": 11,
     "safe_review": 0,
-    "needs_review": 0,
+    "needs_review": 11,
     "python_unparsable": []
   },
-  "candidates": []
+  "candidates": [
+    {
+      "file": "libs/qdk_samples/BernsteinVazirani.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/DeutschJozsa.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/Grover.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/HiddenShift.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/PhaseEstimation.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/QRNG.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/SimpleVQE.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/SuperdenseCoding.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/Teleportation.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "libs/qdk_samples/ThreeQubitRepetitionCode.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/vendor_qdk_samples.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main",
+        "dynamic_import"
+      ],
+      "category": "needs_review"
+    }
+  ]
 }

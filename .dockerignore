@@ -18,3 +18,9 @@
 !problems/19_quantum_chromodynamics/qsharp/src/Main.qs
 !problems/18_photovoltaics/qsharp/src/Main.qs
 !problems/16_error_correction/qsharp/src/Main.qs
+
+# Samples vendored from microsoft/qdk, pinned by tooling/vendor_qdk_samples.py.
+# libs/common is deliberately not whitelisted - the API does not import it.
+!libs/
+!libs/qdk_samples/
+!libs/qdk_samples/**

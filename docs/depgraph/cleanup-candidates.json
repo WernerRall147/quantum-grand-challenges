@@ -1,8 +1,8 @@
 {
   "summary": {
-    "total_candidates": 11,
+    "total_candidates": 12,
     "safe_review": 0,
-    "needs_review": 11,
+    "needs_review": 12,
     "python_unparsable": []
   },
   "candidates": [
@@ -88,6 +88,15 @@
     },
     {
       "file": "tooling/vendor_qdk_samples.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main",
+        "dynamic_import"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/vendor_qdk_stdlib_index.py",
       "inbound": [],
       "risk_flags": [
         "cli_main",

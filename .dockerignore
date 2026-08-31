@@ -24,3 +24,7 @@
 !libs/
 !libs/qdk_samples/
 !libs/qdk_samples/**
+
+# The standard library export index generate.py checks generated names against
+!libs/qdk_stdlib/
+!libs/qdk_stdlib/**

@@ -20,7 +20,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from azure.identity import DefaultAzureCredential
-from azure.cosmos import CosmosClient
 from azure.search.documents.indexes import SearchIndexClient
 from azure.search.documents.indexes.models import (
     SearchIndex,
@@ -36,11 +35,15 @@ from azure.search.documents.indexes.models import (
 from azure.search.documents import SearchClient
 from openai import AzureOpenAI
 
-# Config
-COSMOS_ENDPOINT = "https://qgccosmoseval.documents.azure.com:443/"
-COSMOS_DATABASE = "quantum_kb"
-SEARCH_ENDPOINT = "https://qgcsearcheval.search.windows.net"
-OPENAI_ENDPOINT = "https://qgc-openai.openai.azure.com/"
+# Config - endpoints follow the environment so this runs against your own resources.
+COSMOS_ENDPOINT = os.environ.get("COSMOS_ENDPOINT", "https://qgccosmoseval.documents.azure.com:443/")
+COSMOS_DATABASE = os.environ.get("COSMOS_DATABASE", "quantum_kb")
+SEARCH_ENDPOINT = os.environ.get("SEARCH_ENDPOINT", "https://qgcsearcheval.search.windows.net")
+OPENAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
+
+# The evaluator stopped reading Cosmos in #156; AI Search is the only store it queries.
+# Seeding it is off by default so self-hosting does not require an account nothing reads.
+SEED_COSMOS = os.environ.get("QGC_SEED_COSMOS", "0") == "1"
 EMBEDDING_DEPLOYMENT = "text-embedding-3-large"
 EMBEDDING_DIMENSIONS = 3072
 
@@ -62,6 +65,8 @@ def get_search_credential():
 
 def get_cosmos_client():
     """Use key for Cosmos if available, otherwise DefaultAzureCredential."""
+    from azure.cosmos import CosmosClient  # imported here so the seeder runs without it
+
     key = os.environ.get("COSMOS_KEY")
     if key:
         return CosmosClient(COSMOS_ENDPOINT, credential=key)
@@ -296,18 +301,20 @@ def main():
 
     # 2. Initialize clients
     print("\nStep 2: Connecting to Azure services...")
-    cosmos_client = get_cosmos_client()
     openai_client = get_openai_client(credential)
-    print("  Cosmos DB: connected")
     print("  OpenAI: connected")
 
-    # 3. Seed algorithm zoo
-    print("\nStep 3: Seeding algorithm zoo...")
-    seed_algorithm_zoo(cosmos_client, openai_client)
+    if SEED_COSMOS:
+        cosmos_client = get_cosmos_client()
+        print("  Cosmos DB: connected")
 
-    # 4. Seed reference problems
-    print("\nStep 4: Seeding reference problems...")
-    seed_reference_problems(cosmos_client, openai_client)
+        print("\nStep 3: Seeding algorithm zoo...")
+        seed_algorithm_zoo(cosmos_client, openai_client)
+
+        print("\nStep 4: Seeding reference problems...")
+        seed_reference_problems(cosmos_client, openai_client)
+    else:
+        print("  Cosmos DB: skipped (set QGC_SEED_COSMOS=1 to seed it)")
 
     # 5. Index in AI Search
     print("\nStep 5: Indexing in AI Search...")

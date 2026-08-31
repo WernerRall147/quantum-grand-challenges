@@ -19,7 +19,8 @@ Pick the row that matches what you want to do.
 |---|---|---|
 | **Try it, no setup** | Open the [live evaluator](https://wernerrall147.github.io/quantum-grand-challenges/evaluate/) | Nothing |
 | **Run a problem locally** | [Run a problem](#run-a-problem) | Python 3.11+ |
-| **Evaluate my own problem from the CLI** | [CLI evaluator](#cli-evaluator) | Python + `az login` |
+| **Run the whole app myself** | [Self-host the evaluator](#self-host-the-evaluator) | Azure sub with AI Search + OpenAI |
+| **Evaluate my own problem from the CLI** | [CLI evaluator](#cli-evaluator) | Access to a knowledge-base index |
 | **Understand the science** | [How it decides](#how-it-decides) | Nothing |
 | **Submit to real Azure Quantum** | [Azure runbooks](#azure-runbooks) | Azure subscription |
 
@@ -44,14 +45,50 @@ GitHub Codespaces works too: click **Open in Codespaces** for Python 3.11 and No
 
 ### CLI evaluator
 
-`az login` is enough. AI Search is queried with your Entra identity, so no API key is needed. You need the `Search Index Data Reader` role on `qgcsearcheval`.
+**This needs a knowledge-base index to query.** The defaults point at `qgcsearcheval`,
+which is private, so `az login` alone only works if you have been granted
+`Search Index Data Reader` on it. Everyone else should [self-host](#self-host-the-evaluator)
+and point the same command at their own resources.
 
 ```bash
-az login --tenant dc692f3e-104b-4247-b52c-23692694684a
+az login
 python agents/orchestrator/evaluate.py "Simulate the ground state energy of a 50-atom catalyst"
 ```
 
 > **Phrasing.** The knowledge base uses hybrid keyword plus vector search, so paraphrases of the same problem route the same way. `agents/evaluations/run_eval.py` enforces that. If vector search ever fails, the client logs a warning and reports `keyword-fallback`; treat verdicts from that mode with suspicion, because keyword-only ranking is measurably worse.
+
+### Self-host the evaluator
+
+Every endpoint is an environment variable, so nothing is pinned to this project's
+subscription. You need your own Azure AI Search index and an Azure OpenAI (or Foundry)
+deployment; `infrastructure/main.bicep` creates the search side.
+
+```bash
+export SEARCH_ENDPOINT="https://<your-search>.search.windows.net"
+export AZURE_OPENAI_ENDPOINT="https://<your-openai>.openai.azure.com/"
+export QGC_OPENAI_ENDPOINT="https://<your-openai>.openai.azure.com/"
+export QGC_USE_ROUTER=0          # 1 if you have a Foundry model-router deployment
+export QGC_CHAT_DEPLOYMENT="<your-chat-deployment>"
+
+python knowledge/seed_knowledge_base.py    # populate the index
+```
+
+Run the API and the site:
+
+```bash
+# 1. API on http://localhost:8000
+uvicorn agents.api.main:app --reload --port 8000
+
+# 2. or the same thing containerised
+docker build -t qgc-eval-api:local -f Dockerfile .
+docker run --rm -p 8000:8000 qgc-eval-api:local
+
+# 3. website on http://localhost:3000
+cd website && npm install && npm run dev
+```
+
+Deployment detail, including managed identity and the role assignments the API needs:
+[docs/deploy-evaluator-api.md](docs/deploy-evaluator-api.md).
 
 ---
 
@@ -456,10 +493,10 @@ Current as of August 2026.
 |---|---|
 | Active problems | 9, passing all six filters |
 | Archived problems | 11, each with a stated filter failure |
-| Azure Quantum jobs | 191 submitted, 147 succeeded, across H2-1SC, H2-1E and Rigetti QVM |
+| Azure Quantum jobs | 130 runs recorded: 89 succeeded, 41 unresolved, across H2-1SC, H2-1E and Rigetti QVM |
 | Resource estimates | 141 unique, after deduplication |
 | Algorithms indexed | 47 |
-| Evaluator tests | 92 |
+| Evaluator tests | 201 |
 
 <details>
 <summary><strong>Milestone history</strong></summary>

@@ -1,11 +1,19 @@
 {
   "summary": {
-    "total_candidates": 12,
+    "total_candidates": 14,
     "safe_review": 0,
-    "needs_review": 12,
+    "needs_review": 14,
     "python_unparsable": []
   },
   "candidates": [
+    {
+      "file": "agents/observability/__init__.py",
+      "inbound": [],
+      "risk_flags": [
+        "protected_path"
+      ],
+      "category": "needs_review"
+    },
     {
       "file": "libs/qdk_samples/BernsteinVazirani.qs",
       "inbound": [],
@@ -83,6 +91,14 @@
       "inbound": [],
       "risk_flags": [
         "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/show_trace.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
       ],
       "category": "needs_review"
     },

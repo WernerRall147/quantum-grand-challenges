@@ -305,6 +305,7 @@ For each user-submitted problem, the system produces:
 | Azure OpenAI (embeddings) | Vector embeddings | ~$0.00002/1k tokens |
 | Azure AI Search (Basic) | Hybrid search index | ~$75/month |
 | Azure Functions | Daily ingestion | ~$0/month (consumption) |
+| Application Insights | Request tracing (`qgc-eval-insights`) | ~$0/month (inside the 5 GB free grant) |
 | Existing: Azure Quantum | Q# resource estimation | Already provisioned |
 
 > **Cosmos DB is retired in code but still provisioned.** #156 removed every read and
@@ -315,6 +316,21 @@ For each user-submitted problem, the system produces:
 > `knowledge/seed_knowledge_base.py` imports `CosmosClient` at module level and ships in
 > the same image. Retiring the code is not the same as de-provisioning the resource, and
 > until the account is removed the honest statement is that it exists and is unused.
+
+## Observability
+
+Every `POST /api/evaluate` returns a `trace`: each pipeline step, in order, with
+what it decided. It needs no configuration and no portal round-trip, and it exists
+to make the ordering claim above checkable rather than asserted - `route_platform()`
+closes before the model span opens, or the trace says otherwise.
+
+`agents/tests/test_trace_ordering.py` fails if any routing span starts after the
+model call. `tooling/show_trace.py` draws the timeline and makes the same assertion
+against a live API. When `APPLICATIONINSIGHTS_CONNECTION_STRING` is set the same
+spans go to Application Insights under one `operation_Id` per request, which the
+response returns so a call can be found in the portal.
+
+Full detail, including the KQL: [tracing.md](tracing.md).
 
 ## Directory Structure
 
@@ -330,6 +346,8 @@ quantum-grand-challenges/
 │   │   └── evaluate.py              # The pipeline; route_platform runs before the model
 │   ├── classifier/                  # Deterministic router, filters, cost model
 │   ├── evaluations/                 # Router + narrative eval harnesses
+│   ├── observability/
+│   │   └── trace.py                 # Per-request spans; proves the router runs first
 │   ├── api/                         # FastAPI app deployed to Container Apps
 │   └── code_generator/
 ├── knowledge/

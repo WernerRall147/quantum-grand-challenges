@@ -1,7 +1,7 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1255,
+    "tracked": 1256,
     "code_files": 270,
     "python": 203,
     "qsharp": 53,
@@ -1016,7 +1016,7 @@
       "website/data/azureRunHistory.json"
     ],
     [
-      "website/pages/_app.tsx",
+      "website/pages/_document.tsx",
       "website/lib/clarity.ts"
     ],
     [

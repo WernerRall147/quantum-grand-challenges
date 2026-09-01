@@ -13,8 +13,14 @@ something that was promised:
 | Prologue: premise, then the confession about being confidently wrong | Prologue, 0:45-1:45 |
 | Slides: architecture in the prologue, CTA at the end, none mid-demo | Prologue slide; beat 4 refers back rather than showing a second |
 | Demo: portfolio **live**, FeMoco + Q# + estimate **pre-executed** | Beats 1 and 3 |
-| Demo: raw JSON, `evaluate()` in the editor, deploy log, no portal | Beats 2 and 4 |
+| Demo: raw JSON, `evaluate()` in the editor, deploy log, no portal | Beats 2 and 4 - **with one change, below** |
 | Wrap: deterministic core generalises, then CTA | Wrap, 11:30-12:30 |
+
+> **One delta to raise on the prep call.** The form said beat 2 would show `evaluate()` in
+> the editor. It now shows the request's own trace instead: same claim, same screen count,
+> but the ordering is *demonstrated* rather than read out of source comments. Still no
+> portal. Tell Chris rather than let it be a surprise - it is a swap, not an addition, and
+> it does not move the running time.
 
 If you improvise past this on the day, you are improvising past what Chris and Scott
 prepared against.
@@ -73,6 +79,11 @@ POST /api/evaluate
 policy or a prompt instruction - it is call order, and it is why the same question gives
 the same answer twice. If Scott pushes on "how do you stop the model overriding it", the
 honest answer is "it is never asked".
+
+**Since #238 this is no longer a claim you have to take on trust.** Every response carries
+a `trace` of those steps with what each one decided, so the ordering is visible on screen
+in beat 2, and `agents/tests/test_trace_ordering.py` fails the build if a routing decision
+ever moves after the model call. See [../tracing.md](../tracing.md).
 
 Two details worth having ready:
 
@@ -194,12 +205,60 @@ If Scott asks what `model_dissent` is for, the honest answer is short: *"it fill
 model wants a different verdict. It agreed here, so it is empty. The rate is tracked,
 because a rising one means the prompt has stopped landing."*
 
-Then show the function, and scroll to the step comments - this is the strongest thirty
-seconds in the episode because it is checkable:
+Then show the proof. **This is the strongest thirty seconds in the episode, because it is
+the one claim in the whole demo that the app checks on itself.**
 
-> `route_platform` is step 1b. The model call is step 4. The verdict is already decided
-> and gets passed in as *input*. The model writes the explanation and is allowed to
-> disagree - when it does, it is recorded and never applied.
+Every response now carries a `trace`: each step of the pipeline, in order, with what it
+decided. Open it on the result you just got.
+
+```powershell
+python tooling/show_trace.py --demo "Optimize a portfolio of 500 assets using mean-variance optimisation"
+```
+
+`--demo` matters here. Without it every attribute prints, including a seventeen-digit
+float and a full sentence of routing reason - correct for debugging, unreadable at 1080p.
+
+```
+1. kb.classify_problem                       |#                             |   332.1 ms
+                                              top_match=Probabilistic Sampling (Quantum Supremacy)
+                                              top_score=0.0167
+                                              kb_verdict=QUANTUM_ADVANTAGE
+                                              model_called=False
+1b. route_platform  <-- VERDICT DECIDED HERE | #                            |     0.1 ms
+                                              verdict=HPC_PREFERRED
+                                              model_called=False
+4. model call                                | ############################ | 25085.6 ms
+                                              verdict_already_decided=HPC_PREFERRED
+                                              model_used=gpt-5.6-luna-2026-07-09
+6. merge  <-- router's verdict wins          |                             #|     0.0 ms
+                                              published_verdict=HPC_PREFERRED
+                                              dissent_recorded=False
+```
+
+Three sentences, pointing at the screen:
+
+> Retrieval hands back *Probabilistic Sampling, Quantum Supremacy* and a knowledge-base
+> verdict of QUANTUM_ADVANTAGE - the old bug is still right there. The score is 0.0167,
+> the gate refuses it, and the router publishes HPC_PREFERRED. Then look at the order: the
+> verdict is decided at step 1b, and the model is not called until step 4. It goes in as
+> input.
+
+> The verdict costs a fraction of a millisecond. The prose costs twenty-odd seconds. The
+> expensive part of this system is not the part that decides.
+
+*Say it as a ratio, not a number.* The model call has been measured anywhere from 21s to
+98s; the router has never been above a millisecond. The gap is five orders of magnitude
+either way, so the point survives whatever is on screen - an exact figure does not.
+
+**Why this replaced scrolling the source.** The previous version of this beat opened
+`evaluate()` in the editor and read the step comments aloud. That is not checkable - it
+asks the viewer to trust that code runs the way it reads. A recorded trace is the thing
+itself, and `agents/tests/test_trace_ordering.py` fails the build if any routing span ever
+starts after the model call. **If Scott asks "what stops that regressing", the answer is a
+test, and it was watched failing before it was trusted.**
+
+*Do not read the millisecond figures off this page.* They move; read what is on screen.
+The measured example above is production on 2026-09-01.
 
 **Expect this question, because it is on screen:** all six Troyer filters read `true` next
 to a verdict of `HPC_PREFERRED`. That is not a bug and the answer is good:
@@ -260,6 +319,22 @@ screen.
 > caught the generator's exception and returned an empty string, and the deploy check only
 > asked whether the field was *declared* in the OpenAPI schema. Schema tests answer schema
 > questions. The deploy now posts a real prompt and fails if no Q# comes back.
+
+Then close the loop back to the trace from beat 2 - **two sentences, no portal tour**:
+
+> That trace is not just for me. It goes to Application Insights under one operation id
+> per request, so every one of those steps is queryable after the fact - which is how you
+> find out that the model disagreed and was overruled, without anyone having to notice at
+> the time.
+
+**Do not open the Azure portal.** Chris: *"not a feature parade"*. The trace was already
+on screen in beat 2; this is one line saying where it goes, not a second demo. If Scott
+asks to see it, that is his call and it is a good one - have the query ready
+(`docs/tracing.md`), do not volunteer it.
+
+**Do not mention Microsoft Clarity.** It is running on the site and it is genuinely
+useful, but it is a third thing, it is not on screen, and session replay of yourself is
+not interesting television. Its value is the traffic this episode drives afterwards.
 
 **>> Hand off into the conversation.**
 

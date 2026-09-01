@@ -57,11 +57,22 @@ await page.addInitScript(() => {
 
 await page.goto(`${base}/evaluate/`, { waitUntil: 'networkidle' });
 
+// The snippet must be in <head> in the served HTML, not injected after React
+// mounts. Injecting later means Clarity starts recording after hydration and
+// misses first paint, the first scroll, and rage clicks on a slow load - which
+// is the part worth seeing. Asserted against the raw markup, because a script
+// that ends up in the DOM tells you nothing about when it got there.
+const rawHtml = await (await fetch(`${base}/evaluate/`)).text();
+const headHtml = rawHtml.slice(0, rawHtml.indexOf('</head>'));
+check('the Clarity snippet is in <head> of the served HTML',
+  headHtml.includes('clarity.ms/tag/'),
+  'not found before </head> - it is being injected at runtime instead');
+
 const tagRequested = await page.evaluate(
   () => performance.getEntriesByType('resource').some((r) => r.name.includes('clarity.ms/tag/')),
 );
 check('the Clarity tag script is requested', tagRequested,
-  'nothing fetched clarity.ms/tag/ - loadClarity() did not run');
+  'nothing fetched clarity.ms/tag/ - the snippet did not run');
 
 const clarityDefined = await page.evaluate(() => typeof window.clarity === 'function');
 check('window.clarity is callable', clarityDefined);

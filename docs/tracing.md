@@ -15,6 +15,10 @@ is ever called - and a trace is the only way to show that rather than assert it.
 python tooling/show_trace.py "Optimize a portfolio of 500 assets using mean-variance optimisation"
 ```
 
+Add `--demo` to print only the attributes that carry the argument. The full set is right
+for debugging and too dense for a shared screen - a seventeen-digit float and a sentence
+of routing reason are noise when the point is the order of two spans.
+
 Measured against the live API on 2026-09-01:
 
 ```

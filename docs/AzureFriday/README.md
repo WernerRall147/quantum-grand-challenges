@@ -119,6 +119,16 @@ Calls ran 29.3s to 98.0s on 2026-08-31; past ~120s is worth investigating before
 day-of sequence, and adds the checks around it: the uptime issue, the pre-executed beats,
 the tab order.
 
+**Beat 2 now shows a trace, so check it renders before you record.** This is the exact
+command you run on air, and it exits non-zero if the router ever stopped closing before
+the model call:
+
+```powershell
+python tooling/show_trace.py "Optimize a portfolio of 500 assets using mean-variance optimisation"
+```
+
+Full detail on what it draws and how to read it: [../tracing.md](../tracing.md).
+
 If you would rather poke it by hand:
 
 ```powershell
@@ -313,6 +323,8 @@ call-to-action last. Budget eight minutes; most of it is the smoke test.
 - [ ] Run the section 4 smoke test ~15 minutes before
 - [ ] Re-run all five prompts in section 5 and confirm the verdicts match
 - [ ] Site loads and does not show DEMO MODE
+- [ ] `show_trace.py` renders and exits 0 - it is a prop in beat 2, and a font size
+      that is unreadable at 1080p is discovered on camera otherwise
 
 After the recording:
 

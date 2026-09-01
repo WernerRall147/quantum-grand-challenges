@@ -25,6 +25,8 @@ says so, rather than being rounded up.
 | **Evaluation latency** | do not quote a number on air | Five calls 2026-08-31: 29.3s, 32.3s, 40.7s, 46.1s, 98.0s. The router picks the model and the spread moved between two runs on the same afternoon, so the old "20-60s" was true when written and false four hours later |
 | **~50s for code generation** | beat 3, estimation working | 50.2s on 2026-08-31, revision 0000080. Slower than a verdict because it compiles, retries on error, then costs the circuit |
 | **414 tests passing** | kept current by `tooling/test_doc_claims.py` | `pytest -q`. This line was 116 when the suite was 214, and 214 when it was 243 |
+| **The router decides in well under a millisecond** | beat 2's line, and the one figure worth saying out loud | Production 2026-09-01: `route_platform` 0.1 ms in requests whose model call took 21.5 s and 25.1 s. Say it as a ratio - "a fraction of a millisecond against twenty-odd seconds" - because the model call has been seen at 98s and the ratio survives that, an exact figure does not |
+| **The ordering is enforced, not asserted** | a test, not a comment | `agents/tests/test_trace_ordering.py` fails if any routing span starts after the model span. Watched failing under deliberate sabotage before it was trusted - the first version of the check passed anyway, because it compared only the first name match |
 
 Two things to fix in the deck itself:
 
@@ -263,6 +265,8 @@ would make, or is it background?* Quantum background is background.
 | **GitHub Actions** | Build, deploy, nightly checks, uptime probe | Deploy now includes a behavioural smoke test, not just a schema one. |
 | **GitHub Pages** | The static front end | Next.js static export. Calls the Container App directly; falls back to DEMO MODE if that fails. |
 | **Azure Quantum** | Resource estimation | The estimator runs in-process via `qdk.qre`. Hardware submission is currently blocked - C5. |
+| **Application Insights** `qgc-eval-insights` | Per-request tracing | Workspace-based on the Log Analytics workspace the Container App environment already had. One `operation_Id` per request returns the whole tree - our named steps plus the AI Search call nested inside classification. |
+| **Microsoft Clarity** | Session replay on the site | The browser half. Joined to the backend by a `qgc_operation_id` custom tag taken from the response. **Not part of the demo** - see the script. |
 
 ## C2. Good practices, with the evidence rather than the claim
 
@@ -362,3 +366,8 @@ feature list.
 | Is this production-grade? | The verdict path is. The knowledge pipeline has real debt - C3 - and it is written down rather than papered over. |
 | What would you do next? | Make the algorithm index a build artefact, and either wire the papers index into retrieval behind a relevance gate or stop paying for the job. |
 | When does quantum actually arrive? | Not a date. The filters answer it per problem: strong speedup, I/O survives, QEC survives, naturally quantum, crossover feasible. Most things fail one of them. |
+| How do I know the verdict really was decided before the model ran? | The trace on screen in beat 2 - `route_platform` closes at step 1b, `model call` opens at step 4. That is the recorded request, not the source. And a test fails the build if a routing decision ever moves after the model. |
+| Isn't a trace in the response just a debug flag someone will turn off? | There is deliberately no switch for it. Azure export can be turned off; the trace in the response cannot, because it is the evidence for the claim the rest of the system rests on. |
+| What does that cost you? | 1-2 KB on a response that already carries the explanation and often generated Q#, and about 17 records per evaluation in Application Insights, which is inside the free grant. |
+| Could you have done this with logs? | You could log the same facts. What you get from spans is the *order* and the nesting for free, which is the thing being claimed - and one id that joins the browser session to the backend request. |
+| Do you know if anyone gets stuck waiting? | That is the one thing the backend trace cannot tell you, which is why Clarity is on the site. It answers "did they wait", the trace answers "what happened while they did". **Only if asked** - do not raise it. |

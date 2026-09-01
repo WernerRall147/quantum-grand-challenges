@@ -32,6 +32,24 @@ from agents.observability.trace import render  # noqa: E402
 
 DEFAULT_BASE = "https://qgc-eval-api.jollysea-98a0f8cb.eastus.azurecontainerapps.io"
 
+# The attributes that carry the argument. Everything else is right for debugging
+# and too dense to read on a shared screen - a 17-digit float and a full sentence
+# of routing reason are noise when the point is the order of two spans.
+DEMO_ATTRIBUTES = [
+    "top_match",
+    "top_score",
+    "kb_verdict",
+    "verdict",
+    "model_called",
+    "verdict_already_decided",
+    "model_used",
+    "published_verdict",
+    "dissent_recorded",
+    "compiled",
+    "physical_qubits",
+    "rejected",
+]
+
 # The two spans whose relative order is the architectural claim.
 ROUTER_SPAN = "route_platform"
 MODEL_SPAN = "model call"
@@ -124,6 +142,8 @@ def main() -> int:
                         help="render a saved trace or response instead of calling the API")
     parser.add_argument("--save", help="write the trace JSON here")
     parser.add_argument("--width", type=int, default=44, help="timeline width in characters")
+    parser.add_argument("--demo", action="store_true",
+                        help="show only the attributes that carry the argument, for a shared screen")
     args = parser.parse_args()
 
     if args.json_path:
@@ -153,7 +173,7 @@ def main() -> int:
         print("FAIL: the response carried no trace. Is this an older revision of the API?")
         return 1
 
-    print(render(trace, width=args.width))
+    print(render(trace, width=args.width, only=DEMO_ATTRIBUTES if args.demo else None))
 
     if args.save:
         Path(args.save).write_text(json.dumps(trace, indent=2), encoding="utf-8")

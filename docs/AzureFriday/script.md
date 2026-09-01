@@ -27,6 +27,73 @@ prepared against.
 
 ---
 
+## Everything you open, in order
+
+One place to click from, so you are not hunting for a path on camera. Tabs are in the
+order Chris asked for: the **last** one becomes the closing background.
+
+### Browser tabs, left to right
+
+| # | Tab | Used in |
+|---|---|---|
+| 1 | [The evaluator](https://wernerrall147.github.io/quantum-grand-challenges/evaluate/) - **type here** | Beat 1, live |
+| 2 | Beat 3 pre-executed - FeMoco, Q# and estimate already on screen | Beat 3 |
+| 3 | [Deploy runs](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/deploy-evaluator-api.yml) - open the most recent green one | Beat 4 |
+| 4 | [The repo](https://github.com/WernerRall147/quantum-grand-challenges) - **last tab, closing background** | Wrap |
+
+Tab 2 is produced by `Prep-DemoMachine.ps1 -PreFlight`, which runs the beat and leaves the
+result on disk:
+
+- `%LOCALAPPDATA%\AzureFridayPrep\beat3-raw.json` - the full response
+- `%LOCALAPPDATA%\AzureFridayPrep\beat3-generated.qs` - the Q# that compiled
+- `%LOCALAPPDATA%\AzureFridayPrep\beat2-raw.json` - spare, if Scott asks for raw JSON
+
+**Not committed, deliberately:** the StreamYard studio link. This repo is public; it is in
+Chris's prep mail.
+
+### Terminal, in beat order
+
+```powershell
+# Beat 2 - the proof. This is the one you run on camera.
+python tooling/show_trace.py --demo "Optimize a portfolio of 500 assets using mean-variance optimisation"
+
+# ~15 min before: five prompts + code generation, against production
+python tooling/verify_demo_prompts.py
+
+# Day-of machine + demo readiness, one command
+.\docs\AzureFriday\Prep-DemoMachine.ps1 -PreFlight
+```
+
+### Files, if a question takes you into the code
+
+Only open these if Scott asks. The trace in beat 2 replaced scrolling source, and going
+back to it unprompted spends time you do not have.
+
+| File | The question it answers |
+|---|---|
+| [agents/orchestrator/evaluate.py](../../agents/orchestrator/evaluate.py) | "show me the call order" - steps 1, 1b, 2, 3, 4 are labelled |
+| [agents/classifier/platform_router.py](../../agents/classifier/platform_router.py) | "what is the relevance gate?" - the beat 1 fix |
+| [agents/tests/test_trace_ordering.py](../../agents/tests/test_trace_ordering.py) | "what stops the ordering regressing?" |
+| [tooling/show_trace.py](../../tooling/show_trace.py) | "how are you drawing that?" |
+| [.github/workflows/deploy-evaluator-api.yml](../../.github/workflows/deploy-evaluator-api.yml) | "how do you know a deploy works?" - the behavioural smoke test |
+
+### The other documents
+
+| File | What it owns |
+|---|---|
+| [README.md](README.md) | Runbook, the five prompts, what to do when it breaks |
+| [deck-notes.md](deck-notes.md) | Verified numbers, and Section C - Scott's likely questions |
+| [storyboard.md](storyboard.md) | What was actually submitted to the producers |
+| [../tracing.md](../tracing.md) | How the trace works, and the KQL behind it |
+
+### If it breaks
+
+Fallback recording open **before** you start. [README.md](README.md) section 6 has the
+failure modes and the fix for each; the one that has actually happened is the managed
+identity losing its data-plane role, which shows as **DEMO MODE** on the site.
+
+---
+
 ## The decision: which demo
 
 **Lead live with the "no" - portfolio optimisation. Pre-record the "yes".**
@@ -148,7 +215,7 @@ Then the slide, thirty seconds, pointing at the request path above:
 
 ## Beat 1 - the bug you also have (1:45-3:15) **LIVE**
 
-**Screen: the live site.**
+**Screen: [the live site](https://wernerrall147.github.io/quantum-grand-challenges/evaluate/) - tab 1.**
 
 Type, exactly - the router reads the problem text and paraphrasing can change the answer:
 
@@ -276,7 +343,9 @@ Run the same prompt again. Same verdict.
 
 ## Beat 3 - the quantum part (4:45-6:45) **PRE-EXECUTED**
 
-**Screen: second tab, already loaded.** Say plainly that you ran it earlier.
+**Screen: second tab, already loaded.** Say plainly that you ran it earlier. The response
+and the generated Q# are on disk from `-PreFlight`:
+`%LOCALAPPDATA%\AzureFridayPrep\beat3-raw.json` and `beat3-generated.qs`.
 
 ```
 I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design
@@ -313,7 +382,8 @@ screen.
 
 ## Beat 4 - how we know it works (6:45-8:15)
 
-**Screen: the deploy log line. No slide** - the architecture already ran in the prologue.
+**Screen: [the deploy log](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/deploy-evaluator-api.yml) - tab 3, most recent green run. No slide** -
+the architecture already ran in the prologue.
 
 > Q# generation was dead in production for weeks and every check stayed green. The API
 > caught the generator's exception and returned an empty string, and the deploy check only
@@ -346,7 +416,8 @@ not interesting television. Its value is the traffic this episode drives afterwa
 > decision in a deterministic core and let the model explain it rather than make it. You
 > get reproducibility, an audit trail, and somewhere to record when the model disagrees.
 
-**Screen: CTA tab** - this is the last tab, and becomes the closing background.
+**Screen: CTA tab** - [the repo](https://github.com/WernerRall147/quantum-grand-challenges),
+tab 4. This is the last tab, and becomes the closing background.
 
 ---
 

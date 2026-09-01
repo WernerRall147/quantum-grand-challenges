@@ -8,19 +8,19 @@ verdict against the live API, model `gpt-5.6-luna-2026-07-09` via the model rout
 5-7 references, `used_agent: false`. Code generation verified the same day: 2,981 chars
 of Q#, compiled, 4 clean Pareto rows.
 
-**Latency, three full runs of all five prompts on 2026-08-24 (15 calls):** median 38.0s,
-mean 38.0s, min 28.9s, max 58.9s. Rehearse against **60s**.
+**Latency, five prompts on 2026-08-31 (revision 0000080):** 29.3s, 32.3s, 40.7s, 46.1s,
+98.0s. Rehearse against **two minutes**, and do not quote a number on air - the router
+picks the model, and the spread moved between two runs on the same afternoon.
 
-> Three runs, not one. The per-run medians were 33.2s, 39.2s and 34.1s, so the middle of
-> the distribution is stable and 38s is a fair number to plan narration around. The worst
-> single call is what moved: 46.4s after ten samples, 58.9s after fifteen. The median is
-> what you plan for; the max is what catches you out live, and it needs more samples to
-> find. Quoting the first five calls alone would have given 33.2s and a false sense of it.
+> The max is what catches you out live, and it keeps moving. Fifteen calls on 2026-08-24
+> gave a 38.0s median and a 58.9s worst case, which held until it didn't: five calls on
+> 2026-08-31 produced a 98.0s outlier on the image-classifier prompt. A range measured
+> once is not a range. Plan narration you can stop early, not narration you must stretch.
 
 > Earlier revisions of this file quoted a 51.5s median and told you to rehearse
 > against 90s. Those were measured on the **Foundry agent** path. Production moved to
-> chat-completions on 2026-08-19 (`QGC_USE_AGENT=0`), which is roughly 35% faster, so
-> the old figures overstated the gap you need to fill by about half.
+> chat-completions on 2026-08-19 (`QGC_USE_AGENT=0`), and to the Foundry model-router on
+> 2026-08-31 (`QGC_USE_ROUTER=1`), which is what reintroduced the spread.
 
 See section 5 for the verified verdict table.
 
@@ -60,7 +60,7 @@ the storyboard opened live with portfolio optimisation. One source now.
 
 The short version: **portfolio optimisation runs live** because it is the shortest call
 and it delivers the episode's title. FeMoco and code generation are **pre-executed**
-because that path is 58-79s. Bicep is cut - Chris asked for no feature parade.
+because that path is around 50s. Bicep is cut - Chris asked for no feature parade.
 
 > **Q# generation was broken in production until 2026-08-26** and nothing reported it. The
 > image did not contain `tooling/estimator_config.py`, which `generate.py` imports, so
@@ -106,14 +106,18 @@ python tooling/verify_demo_prompts.py
 ```
 
 Exit code 0 means every prompt returned its expected verdict. Non-zero means **do not
-record against it** - the output names which prompt drifted. Takes about three minutes.
-Median 38.0s per call, max seen 58.9s; past ~90s is worth investigating before you go live.
+record against it** - the output names which prompt drifted. Takes about four minutes.
+Calls ran 29.3s to 98.0s on 2026-08-31; past ~120s is worth investigating before you go live.
 
 > **This now covers code generation.** It used to post `generate_code: false` only, which
 > is exactly how Q# generation stayed dead without anyone noticing - a totally broken
 > generator passed the smoke test. The tool now also runs the FeMoco prompt with code
 > generation on and fails on empty Q#, a compile error, a failed estimate or any errored
 > Pareto row. Pass `--no-codegen` to skip it if you only want the verdicts.
+
+`Prep-DemoMachine.ps1 -PreFlight` (section 9) runs this smoke test as one step of the
+day-of sequence, and adds the checks around it: the uptime issue, the pre-executed beats,
+the tab order.
 
 If you would rather poke it by hand:
 
@@ -269,6 +273,28 @@ Ahead of the day:
 
 Machine setup, the day before (from the production prep doc):
 
+`Prep-DemoMachine.ps1` does the ones a script can do, and reports the rest:
+
+```powershell
+.\docs\AzureFriday\Prep-DemoMachine.ps1 -Check   # audit, changes nothing
+.\docs\AzureFriday\Prep-DemoMachine.ps1          # apply, the day before
+.\docs\AzureFriday\Prep-DemoMachine.ps1 -Restore # afterwards, put it all back
+```
+
+It sets the resolution, clears the wallpaper to a solid colour, takes the icons off the
+desktop, hides the tray clock, turns off toasts and the widget and task-view buttons,
+stops the screen sleeping, points Edge at `about:blank`, and closes Outlook, Teams and the
+other pop-up sources. It records every original value first, so `-Restore` gives the
+machine back.
+
+Two things worth knowing before you trust the output. On a policy-managed device some of
+those values are locked - the run says which, and gives you the Settings click-path rather
+than pretending it worked. And a status of `PASS` means behaviour was observed (the shell
+was asked where the icons are, the adapter was asked what mode it is in), while `SET`
+means a value was written and read back but the visible effect was not checked. That
+distinction is not decoration: the first version of the restore path wrote `HideIcons=0`,
+reported the icons as visible, and left a bare desktop.
+
 - [ ] Display 1920x1080, solid colour background
 - [ ] Default browser opens to `about:blank`
 - [ ] Hide the date in the taskbar, Quiet Hours on
@@ -277,6 +303,11 @@ Machine setup, the day before (from the production prep doc):
 - [ ] Browser zoom set so the verdict and filters are legible at 1080p
 
 On the day:
+
+`Prep-DemoMachine.ps1 -PreFlight` covers the first four in one run - it re-audits the
+machine, checks for an open `uptime` issue, runs the section 4 smoke test, pre-executes
+beats 2 and 3 against the live API, and opens the tabs in storyboard order with the
+call-to-action last. Budget eight minutes; most of it is the smoke test.
 
 - [ ] No open GitHub issue labelled `uptime`
 - [ ] Run the section 4 smoke test ~15 minutes before

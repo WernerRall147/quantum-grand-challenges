@@ -21,9 +21,9 @@ says so, rather than being rounded up.
 | **80 resource estimates** | corrected, deck says 160 | `iter_model_configs()` yields 4 configs x 20 problems |
 | **20 problems, 9 active / 11 archived** | correct | `problems/`, `problems/archived/` |
 | **Stage B 8, C 9, D 3** | correct | `docs/objective-kpis.json` |
-| **100 Azure Quantum jobs, 70 succeeded** | **deck says "130+", unconfirmed** | `az quantum job list` returns exactly 100, which looks like a page cap |
-| **20-60s per evaluation** | verdict only, varies run to run | 15 calls 2026-08-24 median 38.0s max 58.9s; 5 calls 2026-08-26 median 23.4s max 26.5s. Quote the range, not a median |
-| **~60-80s for code generation** | beat 3, measured with estimation working | 57.8s local and 79s in CI, 2026-08-26. Slower than a verdict because it compiles, retries on error, then costs the circuit |
+| **130 Azure Quantum jobs, 89 succeeded** | **deck's "130+" was right** | `azureRunHistory.json`: 130 runs, 89 succeeded, 41 unresolved. `az quantum job list` returns exactly 100, which is a page cap - this note previously "corrected" the deck down to 100 on that basis |
+| **Evaluation latency** | do not quote a number on air | Five calls 2026-08-31: 29.3s, 32.3s, 40.7s, 46.1s, 98.0s. The router picks the model and the spread moved between two runs on the same afternoon, so the old "20-60s" was true when written and false four hours later |
+| **~50s for code generation** | beat 3, estimation working | 50.2s on 2026-08-31, revision 0000080. Slower than a verdict because it compiles, retries on error, then costs the circuit |
 | **414 tests passing** | kept current by `tooling/test_doc_claims.py` | `pytest -q`. This line was 116 when the suite was 214, and 214 when it was 243 |
 
 Two things to fix in the deck itself:
@@ -32,10 +32,12 @@ Two things to fix in the deck itself:
   `floquet_code` were retired because QRE v3 does not realise them, which halved the count.
 - Slide 17 says the repo is **"All Rights Reserved"**. `LICENSE` is **GNU AGPL v3**.
 
-On **"130+ Azure Quantum runs"**: the CLI shows 100 jobs, 70 succeeded, 30 failed, spanning
-2026-04-12 to 2026-06-10 with nothing since. 100 is suspiciously round so the real figure
-may be higher, but two caveats matter on air. Roughly a third failed, and none are recent.
-Safer phrasing: *"about a hundred jobs against Quantinuum and Rigetti simulators."* It is
+On **"130+ Azure Quantum runs"**: `azureRunHistory.json` records 130 runs, 89 succeeded,
+41 unresolved, spanning 2026-04-12 to 2026-06-10 with nothing since. The deck's figure was
+right. `az quantum job list` returns exactly 100, which is a page cap, and this note
+previously treated that cap as the truth and "corrected" the deck downwards. Two caveats
+still matter on air. Roughly a third did not succeed, and none are recent. Safer phrasing:
+*"about a hundred and thirty jobs against Quantinuum and Rigetti simulators."* It is
 true, checkable, and does not invite a follow-up you cannot answer.
 
 ---

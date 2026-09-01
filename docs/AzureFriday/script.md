@@ -33,8 +33,8 @@ filters. That is the older plan and it loses, for three reasons:
    "no" is the promise. Deliver it in the first ninety seconds, not at 2:00.
 2. **Filling a wait by teaching Troyer's filters is the exact failure the prep call
    flagged** - going broad on the domain. Chris: *"not a Build or Ignite marketing talk"*.
-3. **Portfolio is the fastest call.** Verdict-only lands in 20-60s; the code-generation
-   path is 58-79s. Put the short one on camera.
+3. **Portfolio is the fastest call.** It was the quickest of the five on 2026-08-31 at
+   29.3s; code generation is around 50s. Put the short one on camera.
 
 The README itself already concedes it: *"The portfolio and AI prompts are the money shot:
 the agent talks you out of quantum."*
@@ -147,7 +147,10 @@ Optimize a portfolio of 500 assets using mean-variance optimisation
 
 Leave **Generate code unticked**. Hit Evaluate.
 
-**The wait is 20-60s.** Do not fill it with quantum theory. Fill it with the bug:
+**The wait is usually under a minute, but do not quote a number on air.** Five calls on
+2026-08-31 ran 29.3s, 32.3s, 40.7s, 46.1s and 98.0s - the router picks the model, and the
+spread is not ours to promise. Have two minutes of material ready and stop when the
+result lands. Do not fill it with quantum theory. Fill it with the bug:
 
 > Grover gives you a quadratic speedup on search. Sounds great. It does not survive
 > error-correction overhead - you spend more on the correction than you win on the
@@ -245,7 +248,7 @@ exact byte count invites a correction you do not need on camera.
 circuit varies - two runs on 2026-08-26 gave 98,705 and 137,265. Read whatever is on
 screen.
 
-**Pre-executed because this path is 58-79s**, and the retry loop can push it further.
+**Pre-executed because this path takes around 50s**, and the retry loop can push it further.
 
 ---
 

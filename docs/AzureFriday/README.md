@@ -58,9 +58,11 @@ runbook.
 two copies drifted into describing different demos - this file opened live with FeMoco,
 the storyboard opened live with portfolio optimisation. One source now.
 
-The short version: **portfolio optimisation runs live** because it is the shortest call
-and it delivers the episode's title. FeMoco and code generation are **pre-executed**
-because that path is around 50s. Bicep is cut - Chris asked for no feature parade.
+The short version, **rewritten 2026-09-01** after the Azure Friday run-through: **one
+problem, unsorted search, and all of it live.** The app declines it, the algorithm is then
+shown working, and the Azure Quantum Resource Estimator explains why "it works" and "use
+it" are different questions. Portfolio optimisation, FeMoco, code generation and Bicep are
+all cut - the feedback was that two worked examples were too long and too specialised.
 
 > **Q# generation was broken in production until 2026-08-26** and nothing reported it. The
 > image did not contain `tooling/estimator_config.py`, which `generate.py` imports, so
@@ -124,10 +126,23 @@ command you run on air, and it exits non-zero if the router ever stopped closing
 the model call:
 
 ```powershell
-python tooling/show_trace.py "Optimize a portfolio of 500 assets using mean-variance optimisation"
+python tooling/show_trace.py --demo "Search an unsorted database of 10 million records for a matching entry"
 ```
 
-Full detail on what it draws and how to read it: [../tracing.md](../tracing.md).
+**The other three beats are props too, and all of them are live.** Run them in order as a
+rehearsal - the full list is in [script.md](script.md) under *Pre-flight, day of*:
+
+```powershell
+# beat 3 - the algorithm working, then what it costs fault-tolerantly
+python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/15_database_search/qsharp'); qsharp.run('Main.RunGroverDemonstration()', shots=1)"
+type problems\archived\15_database_search\circuits\estimate.json
+
+# beat 4 - real Azure Quantum. Needs a valid login, so check it, not just the app.
+az quantum job list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -l eastus -o table `
+  --query "[?contains(name,'database_search')].{Job:name, Status:status, Target:target}"
+```
+
+Full detail on what the trace draws and how to read it: [../tracing.md](../tracing.md).
 
 If you would rather poke it by hand:
 
@@ -150,19 +165,21 @@ verdict is `QUANTUM_ADVANTAGE`, records latency, and opens a GitHub issue labell
 
 ## 5. Sample prompts that demo well
 
-All five verified against the live API on 2026-08-24, on the chat-completions path that
-production actually runs. Use these exact wordings; the
-router reads the problem text, so paraphrasing can change the answer.
+Verified against the live API on the chat-completions path that production actually runs.
+Use these exact wordings; the router reads the problem text, so paraphrasing can change
+the answer.
 
 | Prompt | Verdict | Platform | Why it's a good demo |
 |---|---|---|---|
+| "Search an unsorted database of 10 million records for a matching entry" | `HPC_PREFERRED` | HPC | **The one that gets recorded.** Grover, declined. Needs no mathematics to follow, and `15_database_search` has real Azure Quantum jobs and a 10-second local run behind it. Verified 2026-09-01. |
 | "I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design" | `QUANTUM_ADVANTAGE` | QUANTUM | Troyer's flagship chemistry example; rich, cited answer. |
 | "Factor a 2048-bit RSA integer to test post-quantum readiness" | `QUANTUM_ADVANTAGE` | QUANTUM | Shor - the clean utility case, and structural rather than naturally quantum. |
 | "Optimize a portfolio of 500 assets using mean-variance optimisation" | `HPC_PREFERRED` | HPC | The agent *declining* quantum. The honesty angle. |
 | "Train an image classifier on 10 million medical photos" | `AI_ML_PREFERRED` | AI_ML | Third verdict class on screen. |
 | "Simulate turbulent airflow over an aircraft wing using CFD" | `HPC_PREFERRED` | HPC | Spare, in case a prompt misbehaves. |
 
-The portfolio and AI prompts are the money shot: the agent talks you *out* of quantum.
+**Only the first one is in the recording.** The rest stay because the smoke test reads this
+table and checking all six is a better regression net than checking one.
 
 > These two were wrong until #159. The router was accepting any top retrieval hit as
 > proof of quantum advantage, so portfolio optimisation matched "Probabilistic Sampling

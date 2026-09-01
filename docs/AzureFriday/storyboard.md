@@ -98,32 +98,31 @@ is interesting. The quantum problem is the setting; the engineering is the subje
 
 ## 4. Demo beat sheet
 
+**The beat sheet is in [script.md](script.md) and only there.** It used to be duplicated
+between this file and `README.md`, and the two drifted into describing different demos.
+
+**It was rewritten on 2026-09-01** after the Azure Friday team's run-through. What was
+submitted on this form - two problems, portfolio live and FeMoco pre-executed with code
+generation - is no longer what will be recorded. The replacement is a single problem,
+unsorted search, carried end to end with substantially more Azure Quantum on screen. The
+full delta and the feedback that caused it are at the top of `script.md`; raise it with
+Chris before the recording.
+
 **A verdict-only call usually lands under a minute, but do not quote a number on camera.**
 The spread matters more than the median and it keeps moving: 15 calls on 2026-08-24 gave
 median 38.0s (max 58.9), 5 calls on 2026-08-26 gave median 23.4s (max 26.5), and 5 calls on
 2026-08-31 gave median 40.7s with a **98.0s** outlier on the image-classifier prompt. Zero
-mismatches across all three. **Code generation takes around 50s** (50.2s on 2026-08-31).
-Beat 3 is pre-loaded for that reason.
+mismatches across all three.
 
 > The 2026-08-31 spread followed production moving to the Foundry model-router, which
 > chooses the model per request. A range measured once is not a range.
 
-| Beat | Time | On screen | The engineering point |
-|---|---|---|---|
-| 1. The bug you also have | 1:30-3:00 | Portfolio optimisation, 500 assets. **Live.** | Retrieval always returns something. Say what it *used* to answer and why that was worse than useless - confident, cited and wrong. Then the relevance gate. Lands on `HPC_PREFERRED`. |
-| 2. The model does not get a vote | 3:00-4:30 | The raw JSON response, `model_dissent` visible | Verdict comes from `route_platform()` in code. Run the same prompt twice, same answer. This is the reusable pattern and the reason the thing can be trusted. |
-| 3. The quantum part, and what Azure does | 4:30-6:30 | FeMoco -> `QUANTUM_ADVANTAGE`, generated **Q#**, **resource estimate**. **Pre-loaded.** | The Q# is not just emitted - it is compiled in the request path, and a compile error goes back to the model to try again, so what you are shown provably built. Then the Azure Quantum Resource Estimator. Physical qubits and runtime are what decide whether "advantage" means anything. |
-| 4. How it ships, how we know it works | 6:30-8:00 | The deploy log line | Managed identity end to end, Container Apps, ACR, GitHub Actions - referring back to the prologue slide, not showing a second one. Then the honest bit: the deploy now posts a real prompt and fails if no Q# comes back, because the schema check never noticed the feature was dead. |
+**Demo now runs 5m30s**, deliberately under Chris's 6-9 minute floor, because the note that
+mattered most was that it played as a lecture rather than a conversation.
 
-**Demo runs 6m30s**, inside Chris's 6-9 minute ceiling and the form's 5-8. Exact clock
-times live in [script.md](script.md) - it is the only copy, because the last time a beat
-sheet existed in two files the two drifted into describing different demos.
-
-**Beat 1 is the live one.** It is the shortest call and the most interesting failure, so if
-anything is going to be real on camera, make it that one.
-
-**If you are running long, cut beat 3 to just the resource estimate** and drop the Q#
-scroll. The estimator number is the quantum content; the generated source is decoration.
+**Beat 1 is the live one**, and so are beats 3 and 4 - nothing is pre-executed any more.
+The longest single wait is the beat 1 evaluation; everything after it is local or a CLI
+call.
 
 **Fallback:** if beat 1 fails live, switch to the pre-recorded run and keep talking. Have
 it open before you start.

@@ -10,18 +10,30 @@ something that was promised:
 
 | Submitted | Delivered by |
 |---|---|
-| Prologue: premise, then the confession about being confidently wrong | Prologue, 0:45-1:45 |
-| Slides: architecture in the prologue, CTA at the end, none mid-demo | Prologue slide; beat 4 refers back rather than showing a second |
-| Demo: portfolio **live**, FeMoco + Q# + estimate **pre-executed** | Beats 1 and 3 |
-| Demo: raw JSON, `evaluate()` in the editor, deploy log, no portal | Beats 2 and 4 - **two changes, below** |
-| Wrap: deterministic core generalises, then CTA | Wrap, 11:30-12:30 |
+| Prologue: premise, then the confession about being confidently wrong | Prologue, 0:45-1:30 - **confession cut, see below** |
+| Slides: architecture in the prologue, CTA at the end, none mid-demo | Unchanged |
+| Demo: portfolio **live**, FeMoco + Q# + estimate **pre-executed** | **Replaced.** One problem, all live |
+| Demo: raw JSON, `evaluate()` in the editor, deploy log, no portal | **Replaced.** Trace, local run, estimator, Azure Quantum jobs. Still no portal |
+| Wrap: deterministic core generalises, then CTA | Unchanged |
 
-> **Two deltas to raise on the prep call.** The form said beat 2 would show raw JSON and
-> `evaluate()` in the editor. It now shows the request's own trace instead, and the
-> `red_flags` the JSON was there for are already rendered on the site.
+> ## This is a different demo from the one on the form. Tell Chris before the recording.
 >
-> Same claim, **fewer** screens, still no portal. Tell Chris rather than let it be a
-> surprise: it is a swap that shortens the beat, not an addition.
+> Not a tweak - the storyboard promised two problems and code generation, and this is one
+> problem with neither. It was rewritten after the Azure Friday team's run-through, whose
+> feedback is quoted in full in the next section. In their words it was *"way too long"*,
+> *"less dialogue and more lecture"*, and the two worked examples were *"way over regular
+> folks heads"*.
+>
+> **What is gone:** FeMoco, portfolio optimisation, Q# generation, Bicep, the RAG confession
+> in the prologue, and about a minute of runtime.
+>
+> **What replaces it:** one problem - unsorted search - carried end to end, with far more
+> Azure Quantum on screen: the Resource Estimator, real submitted jobs, and the provider
+> and queue-time list.
+>
+> **The through-line still holds.** The episode is still the tool talking you out of quantum;
+> it now does it with a working algorithm and a number from an Azure service instead of two
+> problems nobody in the audience recognises.
 
 If you improvise past this on the day, you are improvising past what Chris and Scott
 prepared against.
@@ -38,16 +50,14 @@ order Chris asked for: the **last** one becomes the closing background.
 | # | Tab | Used in |
 |---|---|---|
 | 1 | [The evaluator](https://wernerrall147.github.io/quantum-grand-challenges/evaluate/) - **type here** | Beat 1, live |
-| 2 | Beat 3 pre-executed - FeMoco, Q# and estimate already on screen | Beat 3 |
-| 3 | [Deploy runs](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/deploy-evaluator-api.yml) - open the most recent green one | Beat 4 |
-| 4 | [The repo](https://github.com/WernerRall147/quantum-grand-challenges) - **last tab, closing background** | Wrap |
+| 2 | Fallback recording of beat 1 - **open before you start**, do not use unless it stalls | Beat 1 insurance |
+| 3 | [The repo](https://github.com/WernerRall147/quantum-grand-challenges) - **last tab, closing background** | Wrap |
 
-Tab 2 is produced by `Prep-DemoMachine.ps1 -PreFlight`, which runs the beat and leaves the
-result on disk:
+Beats 2, 3 and 4 are **all terminal**. That is deliberate: it is one window, no tab
+hunting, and it is where the Azure Quantum content lives.
 
-- `%LOCALAPPDATA%\AzureFridayPrep\beat3-raw.json` - the full response
-- `%LOCALAPPDATA%\AzureFridayPrep\beat3-generated.qs` - the Q# that compiled
-- `%LOCALAPPDATA%\AzureFridayPrep\beat2-raw.json` - spare, if Scott asks for raw JSON
+Have a terminal open and sized so twelve lines are legible at 1080p - beat 3's output is
+twenty lines and beat 4's job table is wide.
 
 **Not committed, deliberately:** the StreamYard studio link. This repo is public; it is in
 Chris's prep mail.
@@ -55,14 +65,31 @@ Chris's prep mail.
 ### Terminal, in beat order
 
 ```powershell
-# Beat 2 - the proof. This is the one you run on camera.
-python tooling/show_trace.py --demo "Optimize a portfolio of 500 assets using mean-variance optimisation"
+# Beat 2 - who decided the verdict, and when
+python tooling/show_trace.py --demo "Search an unsorted database of 10 million records for a matching entry"
+
+# Beat 3 - the algorithm actually working, ~10s
+python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/15_database_search/qsharp'); qsharp.run('Main.RunGroverDemonstration()', shots=1)"
+
+# Beat 3 - and what it costs fault-tolerantly
+type problems\archived\15_database_search\circuits\estimate.json
+
+# Beat 4 - real Azure Quantum
+az quantum job list   -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -l eastus -o table
+az quantum target list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -l eastus -o table
 
 # ~15 min before: five prompts + code generation, against production
 python tooling/verify_demo_prompts.py
 
 # Day-of machine + demo readiness, one command
 .\docs\AzureFriday\Prep-DemoMachine.ps1 -PreFlight
+```
+
+**Run `az quantum workspace set` once before you go live** so the workspace is cached and
+the two commands above do not prompt:
+
+```powershell
+az quantum workspace set -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -l eastus
 ```
 
 ### Files, if a question takes you into the code
@@ -95,32 +122,67 @@ identity losing its data-plane role, which shows as **DEMO MODE** on the site.
 
 ---
 
-## The decision: which demo
+## The decision: one problem, and why this one
 
-**Lead live with the "no" - portfolio optimisation. Pre-record the "yes".**
+**Grover's algorithm on an unsorted search. Nothing else.**
 
-[README.md](README.md) and [storyboard.md](storyboard.md) disagreed on this. The README
-beat sheet opens live with FeMoco (the yes) and fills the wait by walking Troyer's six
-filters. That is the older plan and it loses, for three reasons:
+This replaces the two-problem demo (portfolio optimisation *and* FeMoco) after the run-
+through with the Azure Friday team. Their feedback, verbatim:
 
-1. **The episode is titled "the agent that talks you *out* of quantum computing".** The
-   "no" is the promise. Deliver it in the first ninety seconds, not at 2:00.
-2. **Filling a wait by teaching Troyer's filters is the exact failure the prep call
-   flagged** - going broad on the domain. Chris: *"not a Build or Ignite marketing talk"*.
-3. **Portfolio is the fastest call.** It was the quickest of the five on 2026-08-31 at
-   29.3s; code generation is around 50s. Put the short one on camera.
+> you basically spoke for 10 straight minutes - that's way too long. Even though Scott
+> isn't a Quantum expert, this was less dialogue and more lecture
+>
+> spend more time on the Quantum Azure stuff - I'm guessing 99% of the people have never
+> done this, and it's all going over their head
+>
+> Spend less time talking about the math problems - you cut it down but it really needs to
+> be less - those two different math problems are way over regular folks heads most likely
+>
+> Is this tool something regular folks have access to? If not, it kinda isn't as
+> interesting because you don't show enough of how the app actually interfaces with the
+> quantum stuff behind it
 
-The README itself already concedes it: *"The portfolio and AI prompts are the money shot:
-the agent talks you out of quantum."*
+Four separate instructions, and one problem fixes all four.
 
-**What gets cut.** Bicep generation. Chris: *"This is not a feature parade. Do not show
-every option, screen, or workflow possible."* Q# plus a resource estimate plus Bicep is a
-parade. The estimator is the quantum content; Bicep is a second code block that makes the
-same point.
+**Why unsorted search.** "Find one record in ten million" needs no explanation and no
+mathematics. Nobody has to be told what a nitrogenase cofactor is, or what mean-variance
+optimisation is. That was the complaint, and this is the fix.
 
-**Timings.** Chris's prep mail is authoritative and the most recent: **11-13 min total,
-6-9 min demo, slides 60-90s**. The README's 10-12/6-8 predates it. The storyboard form's
-"5-8" is generic boilerplate; 6m30s satisfies both.
+**Why this one specifically - it is the only candidate where every piece is real:**
+
+| Piece | Grover / `15_database_search` | Measured |
+|---|---|---|
+| The app declines it | `HPC_PREFERRED`, 0.7 confidence | 2026-09-01 |
+| The algorithm actually works | 4 targets in 4,096 items, **50/50 successes** against 99.8% predicted | 2026-09-01, 9.9s |
+| A real Azure Quantum resource estimate | **61,122 physical qubits**, 18 logical, 63% T-factories | committed `circuits/estimate.json` |
+| Real Azure Quantum jobs | **6 succeeded** on Quantinuum H2 + Rigetti QVM | `azureRunHistory.json` |
+| Anyone can run it | two commands, no Azure account | README "Try it, no setup" |
+
+**Shor was the obvious alternative and it fails on evidence.** Factoring is the more famous
+story, and the app does return `QUANTUM_ADVANTAGE` for RSA-2048 with Q# that compiled 3
+times out of 3. But the local demo does not actually factor 15 - quantum period finding
+returns r=8 where the classical period is 4, and the GCDs come back 15 and 1 rather than 3
+and 5. And the generated circuit's estimate swung **60,665 → 17 → 17** physical qubits
+across three runs on 2026-09-01. Saying "this is what breaking RSA costs" over the number
+17 is a credibility failure with a live audience. Grover is the one that survives contact.
+
+**The spine of the episode, in one number:**
+
+> It takes **61,122 physical qubits** to reliably search **sixteen items**. Classically
+> that is four comparisons.
+
+That is the whole thesis, it comes from an Azure service rather than from an opinion, and
+it needs no mathematics to land.
+
+**What gets cut, and it is a lot.** Code generation, Bicep, FeMoco, portfolio
+optimisation, Troyer's six filters as a walkthrough, and the origin story beyond one line.
+Chris: *"not a feature parade"*. The Azure Friday team: *"way too long"*. The Q# on screen
+is the repository's own - the code that actually ran on Azure Quantum - not something the
+model wrote during the recording.
+
+**Timings.** Chris's prep mail: 11-13 min total, 6-9 min demo, slides 60-90s. This demo
+targets **5m30s**, deliberately under the floor, because the note that mattered most was
+that it played as a lecture. The recovered time goes to Scott.
 
 ---
 
@@ -172,273 +234,241 @@ Two details worth having ready:
 | Time | Segment | |
 |---|---|---|
 | 0:00-0:45 | Scott's intro + premise | conversational |
-| 0:45-1:45 | Prologue + architecture slide | **60s max on the slide** |
-| 1:45-8:15 | **Demo**, four beats | 6m30s |
-| 8:15-11:30 | Conversation with Scott | [deck-notes.md](deck-notes.md) Section C |
+| 0:45-1:30 | Prologue + architecture slide | **45s on the slide, not 60** |
+| 1:30-7:00 | **Demo**, four beats | 5m30s |
+| 7:00-11:30 | Conversation with Scott | [deck-notes.md](deck-notes.md) Section C |
 | 11:30-12:30 | Takeaway + CTA slide | |
 
-Chris: *"Do not plan to talk nonstop for several minutes."* The **>>** marks below are
-deliberate hand-offs - stop talking there and let Scott in.
+**The demo lost a full minute and the conversation gained 90 seconds.** That is the point
+of this revision. Chris: *"Do not plan to talk nonstop for several minutes."* Azure
+Friday: *"less dialogue and more lecture."*
+
+The **>>** marks below are deliberate hand-offs. There are now **five** of them in five and
+a half minutes, and none is optional. If Scott does not take one, ask him a direct
+question - the suggested ones are written in.
+
+**No block below is longer than four sentences.** That is the rule that fixes the note.
 
 ---
 
-## Prologue (0:45-1:45)
+## Prologue (0:45-1:30)
 
-**Screen: architecture slide. One minute. Chris will stop the recording if it runs.**
+**Screen: architecture slide. Forty-five seconds.**
 
-The premise, roughly thirty seconds:
+The premise, about twenty seconds:
 
-> Every team now has someone asking whether their workload belongs on a quantum computer,
-> and almost every answer is marketing. The useful answer is usually no. Being able to say
-> no, with a reason you can audit, is the whole product.
+> Everyone has someone asking whether their workload should run on a quantum computer, and
+> almost every answer out there is marketing. The useful answer is usually no. Being able
+> to say no, with a number behind it, is the whole product.
 
-One line of where it came from - **one line, not the chronology**:
+One line of origin - **one line**:
 
-> I started this because I thought AI plus quantum was going to let me solve one of the
-> hardest problems in science. I was wrong in an interesting way, and the app is what is
-> left after finding out.
+> This started as a ChatGPT question about the twenty hardest problems in science, and
+> whether Q# could touch any of them. The app is what is left after finding out.
 
-Then the confession, which is what earns the demo:
+**>> Hand off.** *"Have you had people ask you whether they should be doing quantum yet?"*
 
-> This thing used to be confidently wrong. Ask it about portfolio optimisation and it came
-> back QUANTUM_ADVANTAGE, 0.9 confidence, with citations. That was not a hallucination -
-> vector search did its job and returned its best match, because there is no "no match".
+Then the slide, twenty seconds. Do not read the boxes out:
 
-**>> Hand off here.** That line lands with anyone who has shipped RAG. Let Scott react.
-
-Then the slide, thirty seconds, pointing at the request path above:
-
-> Container Apps, managed identity end to end, AI Search over a curated corpus, the Foundry
-> model-router. The one thing that matters: the verdict is decided in code, before the
-> model is called.
+> Container Apps, AI Search over a curated corpus, the Foundry model-router, and Azure
+> Quantum for the estimates. The only part that matters today: the verdict is decided in
+> code, before the model is ever called.
 
 ---
 
-## Beat 1 - the bug you also have (1:45-3:15) **LIVE**
+## Beat 1 - ask it (1:30-2:45) **LIVE**
 
 **Screen: [the live site](https://wernerrall147.github.io/quantum-grand-challenges/evaluate/) - tab 1.**
 
-Type, exactly - the router reads the problem text and paraphrasing can change the answer:
+Type, exactly:
 
 ```
-Optimize a portfolio of 500 assets using mean-variance optimisation
+Search an unsorted database of 10 million records for a matching entry
 ```
 
 Leave **Generate code unticked**. Hit Evaluate.
 
-**The wait is usually under a minute, but do not quote a number on air.** Five calls on
-2026-08-31 ran 29.3s, 32.3s, 40.7s, 46.1s and 98.0s - the router picks the model, and the
-spread is not ours to promise. Have two minutes of material ready and stop when the
-result lands. Do not fill it with quantum theory. Fill it with the bug:
+Set it up in two sentences while it thinks - **no mathematics, and do not teach Grover**:
 
-> Grover gives you a quadratic speedup on search. Sounds great. It does not survive
-> error-correction overhead - you spend more on the correction than you win on the
-> search. So the honest answer here is classical. The old version could not tell you
-> that, because it matched an index entry called "Probabilistic Sampling, Quantum
-> Supremacy" and took the match as evidence.
+> There is a famous quantum algorithm for exactly this, from 1996, and it is one of the very
+> few where the speedup is actually proven rather than conjectured. It has been the poster
+> child for quantum search ever since.
 
-**>> Hand off.** Ask Scott whether he has seen a retrieval hit treated as proof.
+**Precision matters on that line.** Grover is provably *optimal* for unstructured search -
+there is a matching lower bound, which is genuinely rare. Do not say "the only thing
+quantum is provably better at", and do not say "exponential": it is quadratic, and the
+whole point of the episode is that quadratic is not enough.
 
-Lands on **HPC_PREFERRED**. Then the fix, in one sentence:
+**>> Hand off.** *"If I told you quantum could search ten million records faster, would you
+buy it?"* Let him answer. **The call takes twenty to sixty seconds - do not fill it.**
 
-> The fix is a relevance gate. The problem text itself has to corroborate before a
-> retrieved hit is allowed to carry a verdict.
+Lands on **HPC_PREFERRED**, confidence 0.7.
 
-*If it runs long past 60s:* keep talking, switch to the fallback tab, say plainly that you
-are switching. Do not narrate a spinner.
+> So it says no. Use a classical machine.
+
+**>> Hand off.** *"That surprise you?"*
+
+*If it runs past 60s:* switch to the fallback tab and say plainly that you are switching.
+Do not narrate a spinner.
 
 ---
 
-## Beat 2 - the model does not get a vote (3:15-4:45)
+## Beat 2 - who decided that, and when (2:45-3:30)
 
-**Screen: stay on the site, then the terminal. There is no raw-JSON step.**
-
-That is a change from the submitted storyboard and from earlier drafts of this file, and
-it is worth being precise about, because "show raw JSON" is easy to half-remember on the
-day and then hunt for:
-
-| What beat 2 shows | Where it already is |
-|---|---|
-| `red_flags` | **Rendered on the site**, in the red *Red Flags* panel, from beat 1's result. Scroll to it - do not fetch JSON to read it. |
-| The step order | The terminal, via `show_trace.py --demo` below. |
-| `model_dissent` | **Nowhere.** The site does not render it, and it is `{}` on this prompt. Do not go looking for it. |
-
-If Scott explicitly asks to see the raw response, it is on disk from `-PreFlight` at
-`%LOCALAPPDATA%\AzureFridayPrep\beat2-raw.json`. Open it only if asked.
-
-Point at **`red_flags`**, not `model_dissent`. Measured against production on 2026-08-28
-and again on 2026-09-01, `model_dissent` is `{}` on this prompt, and that is correct
-behaviour: it only fills when the model returns a *different verdict*, and here the model
-agreed the answer was HPC. What it objected to was the evidence, and that lands in
-`red_flags`.
-
-**Do not read a scripted quote off this page.** These are written fresh by the model on
-every call and the wording moves - the 2026-09-01 run returned **seven** flags, none
-word-for-word what an earlier draft of this script quoted. Read the first two off the
-screen and stop; scrolling seven dense paragraphs on camera is worse than showing two.
-
-The first two are reliably the two that matter, because they are the two the routing
-evidence provokes. On 2026-09-01 they were, in substance:
-
-> The knowledge-base classification as Probabilistic Sampling (Quantum Supremacy) is not a
-> valid match for mean-variance optimization.
->
-> The supplied all-true Troyer-filter result is scientifically inconsistent with this
-> problem.
-
-That second one is the whole episode in the app's own output: the model objects, says so,
-and the routing stands. It names the exact bad match from beat 1.
-
-If Scott asks what `model_dissent` is for, the honest answer is short: *"it fills when the
-model wants a different verdict. It agreed here, so it is empty. The rate is tracked,
-because a rising one means the prompt has stopped landing."*
-
-Then show the proof. **This is the strongest thirty seconds in the episode, because it is
-the one claim in the whole demo that the app checks on itself.**
-
-Every response now carries a `trace`: each step of the pipeline, in order, with what it
-decided. Open it on the result you just got.
+**Screen: the terminal.**
 
 ```powershell
-python tooling/show_trace.py --demo "Optimize a portfolio of 500 assets using mean-variance optimisation"
+python tooling/show_trace.py --demo "Search an unsorted database of 10 million records for a matching entry"
 ```
 
-`--demo` matters here. Without it every attribute prints, including a seventeen-digit
-float and a full sentence of routing reason - correct for debugging, unreadable at 1080p.
+Every response carries a trace of what each step decided. Three sentences, pointing at it:
 
-```
-1. kb.classify_problem                       |#                             |   332.1 ms
-                                              top_match=Probabilistic Sampling (Quantum Supremacy)
-                                              top_score=0.0167
-                                              kb_verdict=QUANTUM_ADVANTAGE
-                                              model_called=False
-1b. route_platform  <-- VERDICT DECIDED HERE | #                            |     0.1 ms
-                                              verdict=HPC_PREFERRED
-                                              model_called=False
-4. model call                                | ############################ | 25085.6 ms
-                                              verdict_already_decided=HPC_PREFERRED
-                                              model_used=gpt-5.6-luna-2026-07-09
-6. merge  <-- router's verdict wins          |                             #|     0.0 ms
-                                              published_verdict=HPC_PREFERRED
-                                              dissent_recorded=False
-```
+> The verdict is decided at step 1b, in code, in a fraction of a millisecond. The model is
+> not called until step 4, and by then the answer is already an input it is being asked to
+> explain. It is allowed to disagree, and when it does that gets recorded and thrown away.
 
-Three sentences, pointing at the screen:
+> That is not a policy or a prompt. It is call order, and there is a test that fails the
+> build if it ever changes.
 
-> Retrieval hands back *Probabilistic Sampling, Quantum Supremacy* and a knowledge-base
-> verdict of QUANTUM_ADVANTAGE - the old bug is still right there. The score is 0.0167,
-> the gate refuses it, and the router publishes HPC_PREFERRED. Then look at the order: the
-> verdict is decided at step 1b, and the model is not called until step 4. It goes in as
-> input.
+**>> Hand off.** *"That is the bit I would steal for any agent - has that bitten you?"*
 
-> The verdict costs a fraction of a millisecond. The prose costs twenty-odd seconds. The
-> expensive part of this system is not the part that decides.
-
-*Say it as a ratio, not a number.* The model call has been measured anywhere from 21s to
-98s; the router has never been above a millisecond. The gap is five orders of magnitude
-either way, so the point survives whatever is on screen - an exact figure does not.
-
-**Why this replaced scrolling the source.** The previous version of this beat opened
-`evaluate()` in the editor and read the step comments aloud. That is not checkable - it
-asks the viewer to trust that code runs the way it reads. A recorded trace is the thing
-itself, and `agents/tests/test_trace_ordering.py` fails the build if any routing span ever
-starts after the model call. **If Scott asks "what stops that regressing", the answer is a
-test, and it was watched failing before it was trusted.**
-
-*Do not read the millisecond figures off this page.* They move; read what is on screen.
-The measured example above is production on 2026-09-01.
-
-**Expect this question, because it is on screen:** all six Troyer filters read `true` next
-to a verdict of `HPC_PREFERRED`. That is not a bug and the answer is good:
-
-> The filters describe the algorithm the search *retrieved*, not the problem you asked
-> about. It retrieved a quantum-supremacy sampling result, and that algorithm does pass
-> the filters. The gate is what refuses to let an unrelated match carry the verdict. The
-> model spots the same thing and says so in `red_flags`.
-
-Run the same prompt again. Same verdict.
-
-**>> Hand off.** This is the reusable pattern; Scott will have a question about it.
+*Do not quote the millisecond figure.* Read what is on screen. The ratio is what matters:
+the deciding is free, the writing is twenty-odd seconds.
 
 ---
 
-## Beat 3 - the quantum part (4:45-6:45) **PRE-EXECUTED**
+## Beat 3 - but the algorithm works (3:30-5:15) **LIVE**
 
-**Screen: second tab, already loaded.** Say plainly that you ran it earlier. The response
-and the generated Q# are on disk from `-PreFlight`:
-`%LOCALAPPDATA%\AzureFridayPrep\beat3-raw.json` and `beat3-generated.qs`.
+**Screen: the terminal. This is the heart of the episode.**
+
+> Here is the awkward part. The algorithm is not broken. Watch it run.
+
+```powershell
+python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/15_database_search/qsharp'); qsharp.run('Main.RunGroverDemonstration()', shots=1)"
+```
+
+**Takes about ten seconds.** Measured 9.0-9.9s on 2026-09-01. Let it finish, then point at
+the two things that matter - the success rate, and the summary line it ends on:
 
 ```
-I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design
+Demo 3: Large search space (12 qubits, 4096 items)
+  Target indices: [42, 137, 999, 2048]
+  Optimal iterations: 24
+  Predicted success probability: 0.9984
+  Empirical success rate: 1.0 (50/50)
+
+Demo 3 (4096 items): Classical~1024, Quantum=24, Speedup~42.7x
 ```
 
-Verdict **QUANTUM_ADVANTAGE**. Scroll the generated Q#, then the resource estimate.
+> Four needles in four thousand haystacks. Twenty-four quantum steps instead of about a
+> thousand classical checks - forty times fewer. Fifty runs, fifty successes, and the
+> theory predicted 99.8%, so it works exactly as much as the mathematics says it should.
 
-> The Q# is not just emitted. It is compiled inside the request, and if it does not
-> compile the compiler error goes back to the model and it tries again. What you are
-> looking at provably built. Then the Azure Quantum Resource Estimator gives physical
-> qubits and runtime - and that number is the point. "Quantum advantage" means nothing
-> until you know it needs a machine nobody has yet.
+**>> Hand off.** *"So why did the tool tell me not to use it?"* - if Scott does not ask
+this, ask it yourself out loud. It is the pivot of the whole episode.
 
-If there is room, the line that makes the estimate land - Troyer's constraint, and the
-best piece of domain content available because it changes a decision rather than teaching
-physics:
+Then the answer, and **this is the most important thing on screen all episode**:
 
-> The naive plan is: run the quantum job, get the state back, analyse it classically. Try
-> that with a thousand qubits. The state you would be copying is larger than anything you
-> can move over a network or put on disk - you would still be transferring it long after
-> the machine was scrapped. So the quantum part cannot hand you raw state. It has to hand
-> you an answer. That constraint is why the estimator matters more than the circuit.
+```powershell
+type problems\archived\15_database_search\circuits\estimate.json
+```
 
-**Do not attach a specific figure to that.** The point is the order of magnitude, and an
-exact byte count invites a correction you do not need on camera.
+> That run was on a simulator, and a simulator does not make mistakes. A real quantum
+> computer does, constantly, so you wrap the whole thing in error correction. The Azure
+> Quantum Resource Estimator tells you what that costs.
 
-**Do not script a specific qubit count.** It varies run to run because the generated
-circuit varies - two runs on 2026-08-26 gave 98,705 and 137,265. Read whatever is on
-screen.
+> **Sixty-one thousand physical qubits. To reliably search sixteen items.** Eighteen useful
+> qubits, and sixty-three percent of the machine doing nothing but manufacturing the special
+> states the algorithm needs.
 
-**Pre-executed because this path takes around 50s**, and the retry loop can push it further.
+> Classically, searching sixteen items is four comparisons. That is the answer, and it is a
+> number from an Azure service rather than an opinion from me.
+
+**>> Hand off.** *"That gap is the whole industry right now."*
+
+**Read the numbers off the screen, not off this page.** They are stable - the file is
+committed - but read them anyway.
 
 ---
 
-## Beat 4 - how we know it works (6:45-8:15)
+## Beat 4 - it is real, and you can run it tonight (5:15-7:00)
 
-**Screen: [the deploy log](https://github.com/WernerRall147/quantum-grand-challenges/actions/workflows/deploy-evaluator-api.yml) - tab 3, most recent green run. No slide** -
-the architecture already ran in the prologue.
+**Screen: the terminal, Azure Quantum.**
 
-> Q# generation was dead in production for weeks and every check stayed green. The API
-> caught the generator's exception and returned an empty string, and the deploy check only
-> asked whether the field was *declared* in the OpenAPI schema. Schema tests answer schema
-> questions. The deploy now posts a real prompt and fails if no Q# comes back.
+> That estimate is not a simulation of a simulation. The same circuit has been submitted to
+> Azure Quantum for real.
 
-Then close the loop back to the trace from beat 2 - **two sentences, no portal tour**:
+```powershell
+az quantum job list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -l eastus -o table `
+  --query "[?contains(name,'database_search')].{Job:name, Status:status, Target:target}"
+```
 
-> That trace is not just for me. It goes to Application Insights under one operation id
-> per request, so every one of those steps is queryable after the fact - which is how you
-> find out that the model disagreed and was overruled, without anyone having to notice at
-> the time.
+Five rows, and they tell the whole story on their own:
 
-**Do not open the Azure portal.** Chris: *"not a feature parade"*. The trace was already
-on screen in beat 2; this is one line saying where it goes, not a second demo. If Scott
-asks to see it, that is his call and it is a good one - have the query ready
-(`docs/tracing.md`), do not volunteer it.
+```
+Job                               Status     Target
+--------------------------------  ---------  ---------------------
+qgc-15_database_search-1000shots  Succeeded  quantinuum.sim.h2-1e
+qgc-rigetti-15_database_search    Succeeded  rigetti.sim.qvm
+qgc-15_database_search            Failed     quantinuum.sim.h2-1sc
+qgc-15_database_search            Succeeded  quantinuum.sim.h2-1e
+qgc-15_database_search            Succeeded  quantinuum.sim.h2-1sc
+```
 
-**Do not mention Microsoft Clarity.** It is running on the site and it is genuinely
-useful, but it is a third thing, it is not on screen, and session replay of yourself is
-not interesting television. Its value is the traffic this episode drives afterwards.
+> Same circuit, two different vendors' machines, submitted from one workspace. One of them
+> failed. That is what this actually looks like.
 
-**>> Hand off into the conversation.**
+**The `--query` is not decoration.** The full table is seven columns wide and wraps at
+1080p; this is three. Do not drop it on the day.
+
+Then the part almost nobody watching has seen:
+
+```powershell
+az quantum target list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -l eastus -o table
+```
+
+> Quantinuum, Rigetti, IonQ, Pasqal - the machines and emulators you can submit to from one
+> Azure workspace. Note the queue times, and note that some of them say Unavailable right
+> now. That is what the quantum industry looks like from a terminal.
+
+**The queue column is the best unscripted moment available.** On 2026-09-01 `h2-1e` was
+about **three hours**. Read whatever it says; "there is a three hour queue for the quantum
+computer" tells the audience more about the state of the field than any slide.
+
+**>> Hand off.** *"Have you ever seen a queue time on a quantum computer before?"*
+
+Then close the loop - **this is the answer to "can regular folks use this?", and it is the
+line the episode is for**:
+
+> Everything you have just watched, apart from the Azure jobs, runs on a laptop with no
+> Azure account. Two commands: `pip install qdk`, then run the problem. The evaluator itself
+> is a public web page - no login, no subscription, no waitlist.
+
+> Twenty problems in the repository, nine of them still standing, eleven honestly downgraded
+> exactly like this one. All of it is open, and the downgrades are the interesting part.
+
+**Do not open the portal.** The storyboard said no portal and the terminal is better on
+camera anyway.
 
 ---
 
 ## Wrap (11:30-12:30)
 
-> The pattern generalises past quantum. If you are building any grounded agent, put the
-> decision in a deterministic core and let the model explain it rather than make it. You
-> get reproducibility, an audit trail, and somewhere to record when the model disagrees.
+Two takeaways, and the second one is the one the episode is for.
+
+> The engineering pattern generalises past quantum. If you are building any grounded agent,
+> put the decision in a deterministic core and let the model explain it rather than make it.
+> You get reproducibility, an audit trail, and somewhere to record when the model disagrees.
+
+> And the quantum one: the interesting work right now is not finding the next algorithm. It
+> is being honest about which of the ones we already have are worth the machine. Eleven of
+> my twenty are downgraded. That is not a failure, it is the actual state of the field, and
+> anyone can go and check my reasoning because all of it is in the open.
+
+**>> Hand off.** Leave him the last word.
 
 **Screen: CTA tab** - [the repo](https://github.com/WernerRall147/quantum-grand-challenges),
-tab 4. This is the last tab, and becomes the closing background.
+the last tab, which becomes the closing background.
 
 ---
 
@@ -511,14 +541,19 @@ Azure Friday is exactly where someone checks.
 
 ## Pre-flight, day of
 
-- [ ] `python tooling/verify_demo_prompts.py` ~15 min before - covers all five verdicts
-      **and** code generation
-- [ ] `python tooling/show_trace.py --demo "..."` renders and exits 0 - it is beat 2's prop
+Every one of these is a prop in the new demo. Run them in beat order - that also rehearses
+the sequence.
+
+- [ ] `python tooling/verify_demo_prompts.py` ~15 min before - all five verdicts
+- [ ] **Beat 1** - the site returns `HPC_PREFERRED` for the search prompt, and is not in
+      DEMO MODE
+- [ ] **Beat 2** - `show_trace.py --demo` renders and exits 0
+- [ ] **Beat 3** - the Grover run finishes in about ten seconds and Demo 3 reads 50/50
+- [ ] **Beat 3** - `estimate.json` opens and 61,122 is legible at 1080p
+- [ ] **Beat 4** - `az quantum workspace set` cached, then `job list` and `target list` both
+      return a table. **These need network and a valid login - check them, not just the app**
 - [ ] No open GitHub issue labelled `uptime`
-- [ ] Site does not show DEMO MODE
-- [ ] **Four** tabs, in the order at the top of this file - live site, beat 3 pre-loaded,
-      deploy runs, CTA last. Not six: raw JSON and the editor are no longer beats.
-- [ ] Fallback recording open behind tab 1
+- [ ] **Three** tabs - live site, fallback recording, CTA last. Beats 2-4 are all terminal
 - [ ] `QGC_USE_AGENT` still `0`:
       `az containerapp show -n qgc-eval-api -g qgc-evaluator -o json`
 

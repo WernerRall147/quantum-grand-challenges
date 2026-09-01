@@ -1,0 +1,6 @@
+Okay great. Lets rework our script. After demoing it to the azure friday team we realized 2 problems are too long to try and showcase. Lets start with 1 problem that we know will work well and be interesting for the azure friday audience and we know Q# code will generate. Or align it with one of our existing problems tat we have run on Azure Quantum so we can actually show the job and how I ran the small version of the app
+
+you basically spoke for 10 straight minutes - that's way too long.  Even though Scott isn't a Quantum expert, this was less dialogue and more lecture
+spend more time on the Quantum Azure stuff - I'm guessing 99% of the people have never done this, and it's all going over there head
+Spend less time talking about the math problems - you cut it down but it really needs to be less - those two different math problems are way over regular folks heads most likely
+Is this tool something regular folks have access to?  If not, it kinda isn't as interesting because you don't show enough of how the app actually interfaces with the quantum stuff behind it

@@ -465,7 +465,7 @@
     "website/pages/problems/[problem].tsx"
   ],
   "website/lib/clarity.ts": [
-    "website/pages/_app.tsx",
+    "website/pages/_document.tsx",
     "website/pages/evaluate.tsx"
   ],
   "website/pages/costs.tsx": [

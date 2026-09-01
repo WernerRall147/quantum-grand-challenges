@@ -18,6 +18,10 @@
  * the repository variable and rebuilding removes the script entirely, with no
  * code change. Nothing here throws: analytics that can break the evaluator is
  * worse than no analytics.
+ *
+ * The tag itself is emitted into `<head>` by `pages/_document.tsx`, which is
+ * where Clarity's install page puts it. This module owns the tagging that
+ * happens afterwards.
  */
 
 export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || '';
@@ -32,39 +36,6 @@ declare global {
 
 export function isClarityConfigured(): boolean {
   return CLARITY_PROJECT_ID.length > 0;
-}
-
-/**
- * The official snippet, inlined rather than added as a dependency.
- *
- * It is injected from `_app.tsx` after mount so it never blocks first paint,
- * and it queues calls made before the remote script arrives - `window.clarity`
- * is defined synchronously as a queue, so tagging immediately after a fetch
- * resolves is safe even on a cold load.
- */
-export function loadClarity(): void {
-  if (typeof window === 'undefined' || !isClarityConfigured()) return;
-  if (window.clarity) return; // already loaded, or loaded twice by a re-render
-
-  try {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const w = window as any;
-    w.clarity = w.clarity || function (...args: unknown[]) {
-      (w.clarity.q = w.clarity.q || []).push(args);
-    };
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = 'https://www.clarity.ms/tag/' + CLARITY_PROJECT_ID;
-    const first = document.getElementsByTagName('script')[0];
-    if (first && first.parentNode) {
-      first.parentNode.insertBefore(script, first);
-    } else {
-      document.head.appendChild(script);
-    }
-    /* eslint-enable @typescript-eslint/no-explicit-any */
-  } catch {
-    // A blocked or failed tag must not affect the page.
-  }
 }
 
 /** Set a custom tag. Filterable under Filters > Custom tags in the dashboard. */

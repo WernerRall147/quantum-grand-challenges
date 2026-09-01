@@ -385,12 +385,17 @@ def annotate(**attributes: Any) -> None:
         span_obj.set(**attributes)
 
 
-def render(trace_dict: Dict[str, Any], width: int = 44) -> str:
+def render(trace_dict: Dict[str, Any], width: int = 44,
+           only: Optional[List[str]] = None) -> str:
     """Draw a trace as a text timeline.
 
     This is what turns a list of timings into something you can hand to someone
     who has never seen the codebase: the bars show that the router finished
     before the model started, which is the whole argument.
+
+    `only` restricts which attributes are printed. The full set is right for
+    debugging and too dense to read on a shared screen - a 17-digit float and a
+    full sentence of routing reason are noise when the point is the order.
     """
     spans = trace_dict.get("spans") or []
     if not spans:
@@ -433,6 +438,10 @@ def render(trace_dict: Dict[str, Any], width: int = 44) -> str:
         lines.append(f"{label.ljust(label_width)} |{bar}| {duration:8.1f} ms{marker}")
 
         for key, value in (entry.get("attributes") or {}).items():
+            if only is not None and key not in only:
+                continue
+            if isinstance(value, float):
+                value = round(value, 4)
             lines.append(f"{' ' * label_width}  {key}={value}")
         if entry.get("error"):
             lines.append(f"{' ' * label_width}  ERROR {entry['error']}")

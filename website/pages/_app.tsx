@@ -1,13 +1,7 @@
-import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
-import { loadClarity } from '../lib/clarity';
 
 export default function App({ Component, pageProps }: AppProps) {
-  // After mount, so the tag never blocks first paint. No-ops unless
-  // NEXT_PUBLIC_CLARITY_PROJECT_ID was set at build time.
-  useEffect(() => {
-    loadClarity();
-  }, []);
-
+  // The Clarity tag is in <head> via _document.tsx, so it records from first
+  // paint rather than from after hydration. Nothing to load here.
   return <Component {...pageProps} />;
 }

@@ -26,6 +26,7 @@ sys.path.insert(0, str(ROOT))
 from knowledge.search.kb_client import QuantumKnowledgeBase
 from agents.orchestrator.instructions import SYSTEM_PROMPT
 from agents.orchestrator.citations import partition_references
+from agents.observability.trace import span
 
 # Config
 OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
@@ -215,47 +216,80 @@ class QuantumEvaluator:
         """Full evaluation pipeline for a quantum problem."""
 
         # Step 1: KB classification (fast, no LLM needed)
-        kb_result = self.kb.classify_problem(problem_description)
+        with span("1. kb.classify_problem", source="Azure AI Search over the curated corpus") as s:
+            kb_result = self.kb.classify_problem(problem_description)
+            _matches = kb_result.get("matches", [])
+            s.set(
+                match_count=len(_matches),
+                top_match=(_matches[0].get("name") if _matches else None),
+                top_score=(_matches[0].get("score") if _matches else None),
+                kb_verdict=kb_result.get("verdict"),
+                model_called=False,
+            )
 
         # Step 1b: Deterministic platform routing
         from agents.classifier.platform_router import is_platform_refinement, route_platform
         kb_matches = kb_result.get("matches", [])
         search_score = kb_matches[0].get("score", 0) if kb_matches else 0
-        routing = route_platform(problem_description, kb_matches, search_score)
+        # This is the span that carries the architectural claim. It closes before
+        # "4. model.chat" opens, and test_trace_ordering.py asserts that against a
+        # real evaluation rather than trusting the comment.
+        with span("1b. route_platform  <-- VERDICT DECIDED HERE",
+                  decided_by="deterministic rules over the algorithm database, no model") as s:
+            routing = route_platform(problem_description, kb_matches, search_score)
+            s.set(
+                verdict=routing["verdict"],
+                platform=routing["platform"],
+                confidence=routing["confidence"],
+                reason=routing["reason"],
+                search_score=search_score,
+                model_called=False,
+            )
 
         # Step 2: Find similar reference problems
-        similar = self.kb.find_similar_problems(problem_description)
-        similar_ids = [s.get("problem_id", "?") for s in similar]
+        with span("2. kb.find_similar_problems") as s:
+            similar = self.kb.find_similar_problems(problem_description)
+            similar_ids = [s2.get("problem_id", "?") for s2 in similar]
+            s.set(count=len(similar_ids), problem_ids=", ".join(similar_ids[:5]) or "none")
 
         # Step 3: Build context for LLM
-        kb_context = json.dumps({
-            "deterministic_routing": {
-                "platform": routing["platform"],
-                "verdict": routing["verdict"],
-                "confidence": routing["confidence"],
-                "reason": routing["reason"],
-                "keyword_scores": routing["evidence"]["keyword_scores"],
-                "troyer_filters": routing["evidence"]["troyer_filters"],
-            },
-            "kb_classification": {
-                "verdict": kb_result["verdict"],
-                "best_algorithm": kb_result.get("best_algorithm", "Unknown"),
-                "speedup_class": kb_result.get("speedup_class", "unknown"),
-                "troyer_filters": kb_result.get("filters", {}),
-            },
-            "similar_reference_problems": similar_ids,
-            "algorithm_matches": [
-                {"name": m["name"], "speedup": m["speedup_class"], "verdict": m["troyer_verdict"]}
-                for m in kb_result.get("matches", [])
-            ],
-        }, indent=2)
+        with span("3. build_context_json",
+                  note="the already-decided routing goes IN as input") as _ctx_span:
+            kb_context = json.dumps({
+                "deterministic_routing": {
+                    "platform": routing["platform"],
+                    "verdict": routing["verdict"],
+                    "confidence": routing["confidence"],
+                    "reason": routing["reason"],
+                    "keyword_scores": routing["evidence"]["keyword_scores"],
+                    "troyer_filters": routing["evidence"]["troyer_filters"],
+                },
+                "kb_classification": {
+                    "verdict": kb_result["verdict"],
+                    "best_algorithm": kb_result.get("best_algorithm", "Unknown"),
+                    "speedup_class": kb_result.get("speedup_class", "unknown"),
+                    "troyer_filters": kb_result.get("filters", {}),
+                },
+                "similar_reference_problems": similar_ids,
+                "algorithm_matches": [
+                    {"name": m["name"], "speedup": m["speedup_class"], "verdict": m["troyer_verdict"]}
+                    for m in kb_result.get("matches", [])
+                ],
+            }, indent=2)
+            _ctx_span.set(context_chars=len(kb_context),
+                          carries_verdict=routing["verdict"])
 
         # Recent arXiv work, off by default. The corpus is an arXiv quant-ph sweep, so
         # it argues for quantum on every question - measured, its most confident hits
         # were for the two demo prompts that must be declined. It is passed to the model
         # in its own labelled block, never merged into KNOWLEDGE BASE RESULTS, and never
         # reaches route_platform(), which has already produced the verdict by this point.
-        recent_papers = self.kb.search_papers(problem_description) if USE_PAPERS else []
+        if USE_PAPERS:
+            with span("3b. kb.search_papers", corpus="arXiv quant-ph") as s:
+                recent_papers = self.kb.search_papers(problem_description)
+                s.set(count=len(recent_papers))
+        else:
+            recent_papers = []
 
         # Step 4: LLM generates detailed assessment
         user_message = f"""Evaluate this quantum computing problem:
@@ -282,30 +316,37 @@ Provide your evaluation as JSON following the output format specified in your in
         # Timed so the cost of the agent path is a measurement rather than an
         # impression. Client construction is inside the window on both paths.
         started = time.perf_counter()
-        if USE_AGENT:
-            raw_content, finish_reason, model_used, tokens_used = self._evaluate_via_agent(user_message)
-        else:
-            client = self._get_chat_client()
-            deployment = self._get_deployment()
-            response = client.chat.completions.create(
-                model=deployment,
-                messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": user_message},
-                ],
-                max_completion_tokens=MAX_COMPLETION_TOKENS,
-                response_format={"type": "json_object"},
-            )
-            choice = response.choices[0] if response.choices else None
-            raw_content = (choice.message.content if choice else "") or ""
-            finish_reason = getattr(choice, "finish_reason", None)
-            model_used = response.model if response else CHAT_DEPLOYMENT
-            tokens_used = response.usage.total_tokens if response and response.usage else 0
+        with span("4. model call", writes="the prose; may disagree -> model_dissent") as _model_span:
+            _model_span.set(path="foundry-agent" if USE_AGENT else "chat-completions",
+                            verdict_already_decided=routing["verdict"])
+            if USE_AGENT:
+                raw_content, finish_reason, model_used, tokens_used = self._evaluate_via_agent(user_message)
+            else:
+                client = self._get_chat_client()
+                deployment = self._get_deployment()
+                response = client.chat.completions.create(
+                    model=deployment,
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": user_message},
+                    ],
+                    max_completion_tokens=MAX_COMPLETION_TOKENS,
+                    response_format={"type": "json_object"},
+                )
+                choice = response.choices[0] if response.choices else None
+                raw_content = (choice.message.content if choice else "") or ""
+                finish_reason = getattr(choice, "finish_reason", None)
+                model_used = response.model if response else CHAT_DEPLOYMENT
+                tokens_used = response.usage.total_tokens if response and response.usage else 0
+            _model_span.set(model_used=model_used, tokens_used=tokens_used,
+                            finish_reason=finish_reason)
         model_seconds = round(time.perf_counter() - started, 2)
 
         # Step 5: Parse LLM response
-        llm_result = parse_assessment(raw_content)
-        parse_ok = llm_result is not None
+        with span("5. parse_assessment") as _parse_span:
+            llm_result = parse_assessment(raw_content)
+            parse_ok = llm_result is not None
+            _parse_span.set(parse_ok=parse_ok, raw_chars=len(raw_content or ""))
         if llm_result is None:
             # Never surface raw_content here. It is the model's unparsed output,
             # and a failed parse once put 17,000 characters of JSON on screen
@@ -346,21 +387,37 @@ Provide your evaluation as JSON following the output format specified in your in
                 and not is_platform_refinement(platform, model_platform)):
             dissent["recommended_platform"] = model_platform
 
+        # Recorded as its own span because "the model disagreed and we kept the
+        # router's answer anyway" is the single most important thing a reader of
+        # this trace can be shown. published_verdict is always the router's.
+        with span("6. merge  <-- router's verdict wins") as _merge_span:
+            _merge_span.set(
+                published_verdict=verdict,
+                published_platform=platform,
+                model_proposed_verdict=model_verdict or "(none)",
+                dissent_recorded=bool(dissent),
+                dissent_applied=False,
+            )
+
         # Step 7: Compute cost-advantage analysis (Troyer Part 6 placeholder).
         # Heuristic order-of-magnitude estimates from agents/classifier/cost_model.py.
-        cost_analysis = self._compute_cost_analysis(
-            platform=platform,
-            algorithm=llm_result.get("recommended_algorithm", kb_result.get("best_algorithm", "")),
-            kb_match=(kb_result.get("matches") or [{}])[0],
-        )
+        with span("7. cost_analysis"):
+            cost_analysis = self._compute_cost_analysis(
+                platform=platform,
+                algorithm=llm_result.get("recommended_algorithm", kb_result.get("best_algorithm", "")),
+                kb_match=(kb_result.get("matches") or [{}])[0],
+            )
 
         # Both paths fabricate a source about 1 in 22, and the agent's Learn MCP
         # did not prevent it, so a citation is only published once it resolves.
         model_refs = llm_result.get("references", [])
-        if VERIFY_CITATIONS:
-            kept_refs, rejected_refs, _ = partition_references(model_refs)
-        else:
-            kept_refs, rejected_refs = model_refs, []
+        with span("8. verify_citations", enabled=VERIFY_CITATIONS) as _cite_span:
+            if VERIFY_CITATIONS:
+                kept_refs, rejected_refs, _ = partition_references(model_refs)
+            else:
+                kept_refs, rejected_refs = model_refs, []
+            _cite_span.set(proposed=len(model_refs), kept=len(kept_refs),
+                           rejected=len(rejected_refs))
 
         result = {
             "problem": problem_description,

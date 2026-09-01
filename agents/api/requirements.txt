@@ -12,3 +12,8 @@ openai==2.32.0
 # imports qdk.qre, so without it Q# generation raises ModuleNotFoundError and the API
 # returns an empty string. agents/tests/test_container_contents.py enforces the extra.
 qdk[qre]==1.31.0
+# Ships the spans recorded in agents/observability/trace.py to Application Insights.
+# Optional at runtime: with no APPLICATIONINSIGHTS_CONNECTION_STRING the tracer still
+# collects locally and still returns the trace in the response, so a telemetry problem
+# degrades visibility rather than taking /api/evaluate down.
+azure-monitor-opentelemetry==1.6.4

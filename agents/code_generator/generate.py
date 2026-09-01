@@ -24,6 +24,7 @@ from azure.identity import DefaultAzureCredential
 from openai import AzureOpenAI
 
 from agents.code_generator.stdlib_index import diagnose
+from agents.observability.trace import span
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
@@ -344,16 +345,32 @@ Generate a compilable Q# `Main` operation implementing {algorithm} for this prob
         est: Dict[str, Any] = {}
 
         for attempt in range(1, MAX_GENERATION_ATTEMPTS + 1):
-            if attempt == 1:
-                code = self.generate(problem, algorithm)
-            else:
-                code = self.repair(code, est.get("error", ""), problem, algorithm)
+            with span(f"codegen.attempt {attempt}") as _attempt_span:
+                if attempt == 1:
+                    with span("codegen.generate") as _gen_span:
+                        code = self.generate(problem, algorithm)
+                        _gen_span.set(chars=len(code or ""), algorithm=algorithm)
+                else:
+                    with span("codegen.repair", from_error=(est.get("error") or "")[:120]) as _rep_span:
+                        code = self.repair(code, est.get("error", ""), problem, algorithm)
+                        _rep_span.set(chars=len(code or ""))
 
-            est = self.compile_and_estimate(code, multi_profile=multi_profile)
-            attempts.append({"attempt": attempt, "compiled": bool(est.get("compiled")),
-                             "error": (est.get("error") or "")[:300]})
-            if est.get("compiled"):
-                break
+                with span("codegen.compile_and_estimate") as _est_span:
+                    est = self.compile_and_estimate(code, multi_profile=multi_profile)
+                    _est_span.set(
+                        compiled=bool(est.get("compiled")),
+                        entry_expression=est.get("entry_expression"),
+                        physical_qubits=est.get("physical_qubits"),
+                        pareto_rows=len(est.get("pareto_table") or []),
+                    )
+                    if est.get("error"):
+                        _est_span.set(compile_error=(est.get("error") or "")[:200])
+
+                attempts.append({"attempt": attempt, "compiled": bool(est.get("compiled")),
+                                 "error": (est.get("error") or "")[:300]})
+                _attempt_span.set(compiled=bool(est.get("compiled")))
+                if est.get("compiled"):
+                    break
 
         est["attempts"] = attempts
         est["attempt_count"] = len(attempts)

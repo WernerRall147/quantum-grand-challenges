@@ -20,6 +20,13 @@ from pydantic import BaseModel
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
 
+from agents.observability.trace import (  # noqa: E402  must follow sys.path setup
+    exporter_status,
+    span,
+    start_trace,
+    trace_payload,
+)
+
 app = FastAPI(
     title="Quantum Advantage Evaluator API",
     description="Evaluates whether a scientific problem is better solved on quantum or HPC",
@@ -79,6 +86,11 @@ class EvaluateResponse(BaseModel):
     architecture: dict = {}
     architecture_diagram: str = ""
     solution_pricing: dict = {}
+    # Every step of the pipeline that produced the fields above, in order, with
+    # what each one decided. Costs about 1-2 KB. This is what makes the ordering
+    # claim - router first, model fourth - checkable by whoever is reading the
+    # response rather than a promise made in the docs.
+    trace: dict = {}
 
 
 class CodeRequest(BaseModel):
@@ -123,7 +135,14 @@ def get_bicepgen():
 
 @app.get("/")
 def health():
-    return {"status": "ok", "service": "quantum-advantage-evaluator"}
+    # The exporter's own status is reported rather than assumed. An exporter that
+    # silently does nothing is the failure mode this repo has shipped before, so
+    # "why is Azure export off" is answerable without reading container logs.
+    return {
+        "status": "ok",
+        "service": "quantum-advantage-evaluator",
+        "tracing": exporter_status(),
+    }
 
 
 @app.post("/api/evaluate", response_model=EvaluateResponse)
@@ -135,74 +154,84 @@ def evaluate(request: EvaluateRequest):
         raise HTTPException(status_code=400, detail="Problem description too long (max 5000 chars)")
 
     try:
-        evaluator = get_evaluator()
-        result = evaluator.evaluate(request.problem.strip())
-        if request.generate_code:
-            verdict = result.get("verdict", "").upper()
-            platform = result.get("recommended_platform", "").upper()
-            # Quantum verdicts → generate Q# code
-            if verdict == "QUANTUM_ADVANTAGE" or platform == "QUANTUM":
-                try:
-                    codegen = get_codegen()
-                    code_out = codegen.generate_with_estimate(
-                        request.problem.strip(),
-                        algorithm=result.get("recommended_algorithm", "QPE"),
-                        multi_profile=True,
-                    )
-                    result["qsharp_code"] = code_out.get("qsharp_code", "")
-                    estimation = code_out.get("estimation", {})
-                    result["estimation"] = estimation
-                    result["resource_estimate_pareto"] = estimation.get("pareto_table", [])
-                except Exception as e:  # noqa: BLE001
-                    result["qsharp_code"] = ""
-                    result["estimation"] = {"error": str(e)[:200]}
-                    result["resource_estimate_pareto"] = []
-            # Non-quantum verdicts → generate Bicep workspace template
-            elif platform in ("HPC", "AI_ML"):
-                try:
-                    bicepgen = get_bicepgen()
-                    bicep_out = bicepgen.generate_with_validation(
-                        request.problem.strip(), platform=platform,
-                    )
-                    result["bicep_template"] = bicep_out.get("bicep_template", "")
-                    result["bicep_validation"] = bicep_out.get("validation", {})
-                    result["bicep_deploy_commands"] = bicep_out.get("deploy_commands", "")
-                    result["bicep_post_deploy_note"] = bicep_out.get("post_deploy_note", "")
-                except Exception as e:  # noqa: BLE001
-                    result["bicep_template"] = ""
-                    result["bicep_validation"] = {"error": str(e)[:200]}
+        with start_trace("POST /api/evaluate") as tr:
+            evaluator = get_evaluator()
+            result = evaluator.evaluate(request.problem.strip())
+            if request.generate_code:
+                verdict = result.get("verdict", "").upper()
+                platform = result.get("recommended_platform", "").upper()
+                # Quantum verdicts → generate Q# code
+                if verdict == "QUANTUM_ADVANTAGE" or platform == "QUANTUM":
+                    try:
+                        with span("9. generate Q# + resource estimate"):
+                            codegen = get_codegen()
+                            code_out = codegen.generate_with_estimate(
+                                request.problem.strip(),
+                                algorithm=result.get("recommended_algorithm", "QPE"),
+                                multi_profile=True,
+                            )
+                            result["qsharp_code"] = code_out.get("qsharp_code", "")
+                            estimation = code_out.get("estimation", {})
+                            result["estimation"] = estimation
+                            result["resource_estimate_pareto"] = estimation.get("pareto_table", [])
+                    except Exception as e:  # noqa: BLE001
+                        result["qsharp_code"] = ""
+                        result["estimation"] = {"error": str(e)[:200]}
+                        result["resource_estimate_pareto"] = []
+                # Non-quantum verdicts → generate Bicep workspace template
+                elif platform in ("HPC", "AI_ML"):
+                    try:
+                        with span("9. generate Bicep workspace", platform=platform) as _bicep_span:
+                            bicepgen = get_bicepgen()
+                            bicep_out = bicepgen.generate_with_validation(
+                                request.problem.strip(), platform=platform,
+                            )
+                            result["bicep_template"] = bicep_out.get("bicep_template", "")
+                            result["bicep_validation"] = bicep_out.get("validation", {})
+                            result["bicep_deploy_commands"] = bicep_out.get("deploy_commands", "")
+                            result["bicep_post_deploy_note"] = bicep_out.get("post_deploy_note", "")
+                            _bicep_span.set(
+                                chars=len(result["bicep_template"]),
+                                valid=bool((result["bicep_validation"] or {}).get("valid")),
+                            )
+                    except Exception as e:  # noqa: BLE001
+                        result["bicep_template"] = ""
+                        result["bicep_validation"] = {"error": str(e)[:200]}
 
-            # Final steps after code-gen: draw the solution architecture and
-            # guesstimate the run cost. Gated on confidence ("high probability").
-            try:
-                confidence = float(result.get("confidence") or 0.0)
-                min_conf = float(os.environ.get("QGC_ARCH_MIN_CONFIDENCE", "0.6"))
-                if confidence >= min_conf:
-                    from agents.code_generator.architecture import build_architecture
-                    from agents.classifier.cost_model import price_solution
-                    is_quantum = verdict == "QUANTUM_ADVANTAGE" or platform in ("QUANTUM", "HYBRID")
-                    resolved_platform = platform or ("QUANTUM" if is_quantum else "AI_ML")
-                    q_target = (result.get("cost_analysis") or {}).get("recommended_quantum_target") if is_quantum else None
-                    estimation = result.get("estimation") or {}
-                    arch = build_architecture(
-                        platform=resolved_platform,
-                        algorithm=result.get("recommended_algorithm", ""),
-                        estimation=estimation,
-                        quantum_target=q_target,
-                        confidence=confidence,
-                    )
-                    result["architecture"] = arch
-                    result["architecture_diagram"] = arch.get("mermaid", "")
-                    result["solution_pricing"] = price_solution(
-                        platform=resolved_platform,
-                        algorithm=result.get("recommended_algorithm", ""),
-                        estimation=estimation,
-                        quantum_target=q_target,
-                    )
-            except Exception as e:  # noqa: BLE001
-                result.setdefault("architecture", {})
-                result.setdefault("architecture_diagram", "")
-                result.setdefault("solution_pricing", {"error": str(e)[:200]})
+                # Final steps after code-gen: draw the solution architecture and
+                # guesstimate the run cost. Gated on confidence ("high probability").
+                try:
+                    confidence = float(result.get("confidence") or 0.0)
+                    min_conf = float(os.environ.get("QGC_ARCH_MIN_CONFIDENCE", "0.6"))
+                    if confidence >= min_conf:
+                        with span("10. architecture + pricing", confidence=confidence):
+                            from agents.code_generator.architecture import build_architecture
+                            from agents.classifier.cost_model import price_solution
+                            is_quantum = verdict == "QUANTUM_ADVANTAGE" or platform in ("QUANTUM", "HYBRID")
+                            resolved_platform = platform or ("QUANTUM" if is_quantum else "AI_ML")
+                            q_target = (result.get("cost_analysis") or {}).get("recommended_quantum_target") if is_quantum else None
+                            estimation = result.get("estimation") or {}
+                            arch = build_architecture(
+                                platform=resolved_platform,
+                                algorithm=result.get("recommended_algorithm", ""),
+                                estimation=estimation,
+                                quantum_target=q_target,
+                                confidence=confidence,
+                            )
+                            result["architecture"] = arch
+                            result["architecture_diagram"] = arch.get("mermaid", "")
+                            result["solution_pricing"] = price_solution(
+                                platform=resolved_platform,
+                                algorithm=result.get("recommended_algorithm", ""),
+                                estimation=estimation,
+                                quantum_target=q_target,
+                            )
+                except Exception as e:  # noqa: BLE001
+                    result.setdefault("architecture", {})
+                    result.setdefault("architecture_diagram", "")
+                    result.setdefault("solution_pricing", {"error": str(e)[:200]})
+
+            result["trace"] = trace_payload()
 
         return EvaluateResponse(**{k: result.get(k, EvaluateResponse.model_fields[k].default)
                                    for k in EvaluateResponse.model_fields})

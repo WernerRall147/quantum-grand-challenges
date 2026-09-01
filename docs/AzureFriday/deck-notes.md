@@ -24,7 +24,7 @@ says so, rather than being rounded up.
 | **130 Azure Quantum jobs, 89 succeeded** | **deck's "130+" was right** | `azureRunHistory.json`: 130 runs, 89 succeeded, 41 unresolved. `az quantum job list` returns exactly 100, which is a page cap - this note previously "corrected" the deck down to 100 on that basis |
 | **Evaluation latency** | do not quote a number on air | Five calls 2026-08-31: 29.3s, 32.3s, 40.7s, 46.1s, 98.0s. The router picks the model and the spread moved between two runs on the same afternoon, so the old "20-60s" was true when written and false four hours later |
 | **~50s for code generation** | beat 3, estimation working | 50.2s on 2026-08-31, revision 0000080. Slower than a verdict because it compiles, retries on error, then costs the circuit |
-| **403 tests passing** | kept current by `tooling/test_doc_claims.py` | `pytest -q`. This line was 116 when the suite was 214, and 214 when it was 243 |
+| **414 tests passing** | kept current by `tooling/test_doc_claims.py` | `pytest -q`. This line was 116 when the suite was 214, and 214 when it was 243 |
 
 Two things to fix in the deck itself:
 

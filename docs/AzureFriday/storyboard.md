@@ -146,12 +146,16 @@ the prologue. A call-to-action slide closes the episode and is the last browser 
 ## 7. Machine setup
 
 From the production prep doc. Do this the day before, not on the day.
+`Prep-DemoMachine.ps1` applies the ones a script can apply and reports the rest; the
+command lines live in [README.md](README.md) section 9, not here.
 
 - [ ] Display card name and title decided (Chris asks for this ahead of the recording)
 - [ ] Display 1920x1080, solid colour background
 - [ ] Machine is current-gen - Chris warns a five-year-old laptop will struggle
 - [ ] **Hardwired ethernet**, not Wi-Fi
-- [ ] Headset **wired**, not Bluetooth
+- [ ] Headset: **deliberately Bluetooth**, against Chris's ask for wired. Test it in
+      StreamYard and listen back - Windows can drop to the hands-free profile once the
+      browser takes the mic, which sounds much worse.
 - [ ] Desktop widgets off
 - [ ] Default browser opens to `about:blank`
 - [ ] Hide the date in the taskbar, clock off
@@ -164,6 +168,8 @@ From the production prep doc. Do this the day before, not on the day.
 - [ ] Fallback recording open and ready
 
 ## 8. Pre-flight
+
+`Prep-DemoMachine.ps1 -PreFlight` runs all four. Details in [README.md](README.md) section 9.
 
 - [ ] No open GitHub issue labelled `uptime`
 - [ ] Section 4 smoke test in `README.md` run ~15 min before

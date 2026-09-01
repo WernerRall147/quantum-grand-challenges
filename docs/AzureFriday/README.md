@@ -115,6 +115,10 @@ Calls ran 29.3s to 98.0s on 2026-08-31; past ~120s is worth investigating before
 > generation on and fails on empty Q#, a compile error, a failed estimate or any errored
 > Pareto row. Pass `--no-codegen` to skip it if you only want the verdicts.
 
+`Prep-DemoMachine.ps1 -PreFlight` (section 9) runs this smoke test as one step of the
+day-of sequence, and adds the checks around it: the uptime issue, the pre-executed beats,
+the tab order.
+
 If you would rather poke it by hand:
 
 ```powershell
@@ -269,6 +273,28 @@ Ahead of the day:
 
 Machine setup, the day before (from the production prep doc):
 
+`Prep-DemoMachine.ps1` does the ones a script can do, and reports the rest:
+
+```powershell
+.\docs\AzureFriday\Prep-DemoMachine.ps1 -Check   # audit, changes nothing
+.\docs\AzureFriday\Prep-DemoMachine.ps1          # apply, the day before
+.\docs\AzureFriday\Prep-DemoMachine.ps1 -Restore # afterwards, put it all back
+```
+
+It sets the resolution, clears the wallpaper to a solid colour, takes the icons off the
+desktop, hides the tray clock, turns off toasts and the widget and task-view buttons,
+stops the screen sleeping, points Edge at `about:blank`, and closes Outlook, Teams and the
+other pop-up sources. It records every original value first, so `-Restore` gives the
+machine back.
+
+Two things worth knowing before you trust the output. On a policy-managed device some of
+those values are locked - the run says which, and gives you the Settings click-path rather
+than pretending it worked. And a status of `PASS` means behaviour was observed (the shell
+was asked where the icons are, the adapter was asked what mode it is in), while `SET`
+means a value was written and read back but the visible effect was not checked. That
+distinction is not decoration: the first version of the restore path wrote `HideIcons=0`,
+reported the icons as visible, and left a bare desktop.
+
 - [ ] Display 1920x1080, solid colour background
 - [ ] Default browser opens to `about:blank`
 - [ ] Hide the date in the taskbar, Quiet Hours on
@@ -277,6 +303,11 @@ Machine setup, the day before (from the production prep doc):
 - [ ] Browser zoom set so the verdict and filters are legible at 1080p
 
 On the day:
+
+`Prep-DemoMachine.ps1 -PreFlight` covers the first four in one run - it re-audits the
+machine, checks for an open `uptime` issue, runs the section 4 smoke test, pre-executes
+beats 2 and 3 against the live API, and opens the tabs in storyboard order with the
+call-to-action last. Budget eight minutes; most of it is the smoke test.
 
 - [ ] No open GitHub issue labelled `uptime`
 - [ ] Run the section 4 smoke test ~15 minutes before

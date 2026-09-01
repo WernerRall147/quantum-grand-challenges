@@ -1,0 +1,26 @@
+﻿Azure Quantum snapshot - captured 2026-09-01 17:19 UTC
+Workspace: Quantum-Grand-Challenges (eastus). Regenerate with Prep-DemoMachine.ps1 -PreFlight.
+Fallback prop for beat 4. The live commands are in script.md; this is what they printed.
+
+> az quantum job list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -o table --query "[?contains(name,'database_search')].{Job:name, Status:status, Target:target}"
+
+Job                               Status     Target
+--------------------------------  ---------  ---------------------
+qgc-15_database_search-1000shots  Succeeded  quantinuum.sim.h2-1e
+qgc-rigetti-15_database_search    Succeeded  rigetti.sim.qvm
+qgc-15_database_search            Failed     quantinuum.sim.h2-1sc
+qgc-15_database_search            Succeeded  quantinuum.sim.h2-1e
+qgc-15_database_search            Succeeded  quantinuum.sim.h2-1sc
+
+> az quantum target list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -o table
+
+Provider    Target-id                    Current Availability    Average Queue Time (seconds)
+----------  ---------------------------  ----------------------  ------------------------------
+quantinuum  quantinuum.sim.h2-1sc        Available               335
+quantinuum  quantinuum.sim.h2-1e         Available               18252
+rigetti     rigetti.sim.qvm              Available               5
+ionq        ionq.qpu.aria-1              Unavailable             0
+ionq        ionq.simulator               Available               0
+ionq        ionq.qpu.forte-1             Unavailable             0
+ionq        ionq.qpu.forte-enterprise-1  Available               0
+pasqal      pasqal.sim.emu-free          Available               1

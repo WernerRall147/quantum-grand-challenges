@@ -1225,78 +1225,63 @@ function Invoke-PreExecutedBeats {
         }
     }
 
-    # Beat 3: FeMoco with code generation, which is the ~50s path.
-    #
-    # Generation is not deterministic. On one run here the API returned 3,990 characters of
-    # Q# whose every compile attempt failed on an R1Frac type error, minutes after the same
-    # prompt produced 2,784 characters that compiled and estimated cleanly. So this asks
-    # again rather than reporting a red light you would have fixed by pressing go twice -
-    # and it tells you how many goes it took, because that is the number that decides
-    # whether you trust this beat live.
-    if ($accepted) {
-        $maxAttempts = 3
-        $succeeded = $false
-        for ($attempt = 1; $attempt -le $maxAttempts -and -not $succeeded; $attempt++) {
-            try {
-                Write-Host "  ... beat 3: the quantum prompt with code generation, attempt $attempt of $maxAttempts. Around a minute." -ForegroundColor DarkGray
-                $response = Invoke-Evaluate -Problem $accepted.Prompt -GenerateCode
+    # Beat 3 is the local Grover run and the committed estimate, not code generation -
+    # the demo was rebuilt around one problem on 2026-09-01. Checking a codegen path the
+    # episode no longer uses is the "adjacent measurement" failure this repo keeps hitting;
+    # `verify_demo_prompts.py` still covers generation as an API regression net.
+    $repoQsharp = Join-Path $RepoRoot 'problems\archived\15_database_search\qsharp'
+    $estimatePath = Join-Path $RepoRoot 'problems\archived\15_database_search\circuits\estimate.json'
+    $python = Get-PythonCommand
 
-                $path = Join-Path $ArtifactDir 'beat3-raw.json'
-                $response | ConvertTo-Json -Depth 20 | Set-Content -Path $path -Encoding UTF8
-                if ($files -notcontains $path) {
-                    $files += $path
-                    $null = $script:Artifacts.Add($path)
-                }
+    if (-not $python) {
+        Add-Result -Area 'Beats' -Item 'Beat 3 local Grover run' -Status 'FAIL' -Detail 'no python on PATH'
+    }
+    elseif (-not (Test-Path $repoQsharp)) {
+        Add-Result -Area 'Beats' -Item 'Beat 3 local Grover run' -Status 'FAIL' -Detail "Q# project missing at $repoQsharp"
+    }
+    else {
+        Write-Host '  ... beat 3: the local Grover run. About ten seconds.' -ForegroundColor DarkGray
+        $snippet = "from qdk import qsharp; qsharp.init(project_root=r'$repoQsharp'); qsharp.run('Main.RunGroverDemonstration()', shots=1)"
+        $started = Get-Date
+        $arguments = @($python.Prefix + @('-c', $snippet)) | Where-Object { $_ }
+        $groverOut = (& $python.File @arguments 2>&1 | Out-String)
+        $seconds = ((Get-Date) - $started).TotalSeconds
 
-                $code = "$($response.qsharp_code)"
-                $qubits = $response.estimation.physical_qubits
-                $broken = @($response.resource_estimate_pareto | Where-Object { $_.error })
-                $reason = $null
+        # Assert on the result, not the exit code. A run that prints nothing also exits 0.
+        # Demo 3 is the one on camera, so report the LAST rate rather than the first.
+        $rates = [regex]::Matches($groverOut, 'Empirical success rate: ([\d.]+) \((\d+)/(\d+)\)')
+        if ($rates.Count -eq 0) {
+            Add-Result -Area 'Beats' -Item 'Beat 3 local Grover run' -Status 'FAIL' `
+                -Detail 'no success rate in the output - the prop would be blank on camera'
+        }
+        else {
+            $rate = $rates[$rates.Count - 1]
+            $found = [regex]::Matches($groverOut, 'Found targets: \[([^\]]*)\]').Count
+            $speedup = [regex]::Match($groverOut, 'Demo 3 \(4096 items\).*?Speedup~([\d.]+)x')
+            $status = if ([double]$rate.Groups[1].Value -ge 0.9) { 'PASS' } else { 'WARN' }
+            $detail = "demo 3 on camera: $($rate.Groups[2].Value)/$($rate.Groups[3].Value) successes, $found target sets found, $([math]::Round($seconds,1))s"
+            if ($speedup.Success) { $detail += ", $($speedup.Groups[1].Value)x speedup on screen" }
+            Add-Result -Area 'Beats' -Item 'Beat 3 local Grover run' -Status $status -Detail $detail
+        }
+    }
 
-                if ([string]::IsNullOrWhiteSpace($code)) {
-                    $reason = "no Q# came back at all. $($response.estimation.error)"
-                }
-                elseif ($response.estimation.error) {
-                    $firstLine = (("$($response.estimation.error)" -split "`n") | Select-Object -First 1)
-                    $reason = "$($code.Length) chars of Q# that did not build after $($response.estimation.attempt_count) compile attempts: $firstLine"
-                }
-                elseif ($null -eq $qubits) {
-                    $reason = "Q# built but no physical_qubits came back. entry=$($response.estimation.entry_expression)"
-                }
-                elseif ($broken.Count -gt 0) {
-                    $reason = "$($broken.Count) Pareto rows errored: $("$($broken[0].error)" -replace '\s+', ' ')"
-                }
-
-                if ($null -eq $reason) {
-                    $succeeded = $true
-                    $qsPath = Join-Path $ArtifactDir 'beat3-generated.qs'
-                    $code | Set-Content -Path $qsPath -Encoding UTF8
-                    if ($files -notcontains $qsPath) {
-                        $files += $qsPath
-                        $null = $script:Artifacts.Add($qsPath)
-                    }
-                    $status = if ($attempt -eq 1) { 'PASS' } else { 'WARN' }
-                    $note = if ($attempt -eq 1) { '' } else { " It took $attempt requests - generation is flaky, so keep the fallback recording to hand." }
-                    Add-Result -Area 'Beats' -Item 'Beat 3 Q# and resource estimate' -Status $status `
-                        -Detail "$($code.Length) chars of Q#, $qubits physical qubits, $(@($response.resource_estimate_pareto).Count) clean Pareto rows.$note"
-                }
-                elseif ($attempt -eq $maxAttempts) {
-                    Add-Result -Area 'Beats' -Item 'Beat 3 Q# and resource estimate' -Status 'FAIL' `
-                        -Detail "$maxAttempts requests all failed. Last: $reason"
-                }
-                else {
-                    Write-Host "      attempt $attempt failed: $reason" -ForegroundColor DarkYellow
-                }
+    if (Test-Path $estimatePath) {
+        try {
+            $est = Get-Content $estimatePath -Raw | ConvertFrom-Json
+            if ($est.physicalQubits) {
+                Add-Result -Area 'Beats' -Item 'Beat 3 resource estimate' -Status 'PASS' `
+                    -Detail "$($est.physicalQubits) physical qubits, $($est.logicalQubits) logical - this is the number the episode turns on"
             }
-            catch {
-                if ($attempt -eq $maxAttempts) {
-                    Add-Result -Area 'Beats' -Item 'Beat 3 pre-execution' -Status 'FAIL' -Detail $_.Exception.Message
-                }
-                else {
-                    Write-Host "      attempt $attempt errored: $($_.Exception.Message)" -ForegroundColor DarkYellow
-                }
+            else {
+                Add-Result -Area 'Beats' -Item 'Beat 3 resource estimate' -Status 'FAIL' -Detail 'no physicalQubits in estimate.json'
             }
         }
+        catch {
+            Add-Result -Area 'Beats' -Item 'Beat 3 resource estimate' -Status 'FAIL' -Detail $_.Exception.Message
+        }
+    }
+    else {
+        Add-Result -Area 'Beats' -Item 'Beat 3 resource estimate' -Status 'FAIL' -Detail "missing $estimatePath"
     }
 
     return $files
@@ -1632,6 +1617,73 @@ function Invoke-MachineSection {
     Test-AudioDevices
 }
 
+function Update-QuantumSnapshot {
+    <#
+      Beat 4 runs two `az quantum` commands live. The extension is preview and talks to an
+      API mid-migration: on 2026-09-01 it returned NoRegisteredProviderFound on one shell
+      and worked in another minutes later. Retrying a preview CLI on camera is how thirty
+      seconds becomes ninety, so the beat has a committed fallback and this refreshes it
+      with today's real output.
+
+      `-l` is deliberately absent. It is deprecated, and it is what pinned the request to
+      the retiring API version.
+    #>
+    $workspace = 'Quantum-Grand-Challenges'
+    $snapshot = Join-Path $RepoRoot 'docs\AzureFriday\azure-quantum-snapshot.txt'
+
+    if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
+        Add-Result -Area 'Beats' -Item 'Beat 4 Azure Quantum' -Status 'SKIP' -Detail 'az CLI not on PATH'
+        return
+    }
+
+    $jobQuery = "[?contains(name,'database_search')].{Job:name, Status:status, Target:target}"
+    $jobs = & az quantum job list -g $workspace -w $workspace -o table --only-show-errors --query $jobQuery 2>&1
+    $jobsOk = ($LASTEXITCODE -eq 0)
+    $targets = & az quantum target list -g $workspace -w $workspace -o table --only-show-errors 2>&1
+    $targetsOk = ($LASTEXITCODE -eq 0)
+
+    if (-not ($jobsOk -and $targetsOk)) {
+        $why = (($jobs, $targets) | Where-Object { $_ } | Select-Object -First 1) -join ' '
+        Add-Result -Area 'Beats' -Item 'Beat 4 Azure Quantum (live)' -Status 'WARN' `
+            -Detail "the preview CLI errored, so beat 4 must use the committed snapshot: $($why -replace '\s+',' ')".Substring(0, [Math]::Min(220, "the preview CLI errored, so beat 4 must use the committed snapshot: $($why -replace '\s+',' ')".Length))
+        if (Test-Path $snapshot) {
+            Add-Result -Area 'Beats' -Item 'Beat 4 fallback' -Status 'PASS' `
+                -Detail "committed snapshot is present: $snapshot"
+        }
+        else {
+            Add-Result -Area 'Beats' -Item 'Beat 4 fallback' -Status 'FAIL' `
+                -Detail "no snapshot at $snapshot and the live command failed - beat 4 has nothing to show"
+        }
+        return
+    }
+
+    # Assert on content, not exit code: a table with no database_search rows is a pass by
+    # exit code and a dead beat on camera.
+    $jobText = ($jobs | Out-String)
+    if ($jobText -notmatch 'database_search') {
+        Add-Result -Area 'Beats' -Item 'Beat 4 Azure Quantum (live)' -Status 'FAIL' `
+            -Detail 'the command succeeded but returned no database_search jobs'
+        return
+    }
+
+    $header = @(
+        "Azure Quantum snapshot - captured $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm')) UTC",
+        "Workspace: $workspace (eastus). Regenerate with Prep-DemoMachine.ps1 -PreFlight.",
+        "Fallback prop for beat 4. The live commands are in script.md; this is what they printed.",
+        "",
+        "> az quantum job list -g $workspace -w $workspace -o table --query `"$jobQuery`"",
+        ""
+    )
+    $body = $header + $jobText.TrimEnd() + @("", "> az quantum target list -g $workspace -w $workspace -o table", "") + ($targets | Out-String).TrimEnd()
+    $body | Set-Content -Path $snapshot -Encoding UTF8
+    $null = $script:Artifacts.Add($snapshot)
+
+    $rows = ($jobText -split "`n" | Where-Object { $_ -match 'database_search' }).Count
+    $queue = if (($targets | Out-String) -match 'h2-1e\s+\w+\s+(\d+)') { "$([int]$Matches[1]) s queue on h2-1e" } else { 'queue unread' }
+    Add-Result -Area 'Beats' -Item 'Beat 4 Azure Quantum (live)' -Status 'PASS' `
+        -Detail "$rows database_search jobs, $queue; snapshot refreshed"
+}
+
 function Invoke-ReadinessSection {
     param([switch]$RunSmoke, [switch]$PreExecute, [switch]$Tabs)
 
@@ -1647,6 +1699,11 @@ function Invoke-ReadinessSection {
     if ($PreExecute -and $healthy) {
         Write-Section 'Pre-executed beats'
         $beatFiles = Invoke-PreExecutedBeats
+    }
+
+    if ($PreExecute) {
+        Write-Section 'Beat 4 - Azure Quantum'
+        Update-QuantumSnapshot
     }
 
     if ($Tabs) {

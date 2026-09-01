@@ -34,7 +34,32 @@ jobs:
 
       - name: Build static site
         working-directory: website
+        env:
+          # Microsoft Clarity session replay. Inlined at build time because the
+          # site is a static export, so this is what decides whether the tag
+          # ships at all - clearing the repository variable and re-running this
+          # workflow removes it entirely, with no code change.
+          NEXT_PUBLIC_CLARITY_PROJECT_ID: ${{ vars.CLARITY_PROJECT_ID }}
         run: npm run build
+
+      # The bundle containing "clarity.ms" is shape. This drives the built page
+      # in Chromium and asserts the custom tags actually fire, because a tag
+      # that loads and never tags is indistinguishable from a working one in the
+      # Clarity dashboard until you go looking for a filter that is not there.
+      - name: Verify Clarity tags fire
+        if: vars.CLARITY_PROJECT_ID != ''
+        working-directory: website
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+          mkdir -p /tmp/site/quantum-grand-challenges
+          cp -r out/* /tmp/site/quantum-grand-challenges/
+          (cd /tmp/site && python3 -m http.server 8090 &)
+          for i in $(seq 1 20); do
+            curl -sf "http://127.0.0.1:8090/quantum-grand-challenges/evaluate/" >/dev/null && break
+            sleep 1
+          done
+          node scripts/verify-clarity.mjs http://127.0.0.1:8090/quantum-grand-challenges
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

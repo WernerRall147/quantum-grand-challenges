@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import MermaidDiagram from '../components/MermaidDiagram';
 import { LAST_COST_KEY } from './costs';
+import { tagEvaluation } from '../lib/clarity';
 
 interface TroyerFilters {
   F1_proven_speedup?: boolean;
@@ -44,6 +45,21 @@ interface EvaluationResult {
   error_correction_codes?: string[];
   model_used?: string;
   tokens_used?: number;
+  // Every step the API took to produce this, with what each one decided.
+  // operation_id is the Application Insights operation_Id for the same request.
+  trace?: {
+    trace_id?: string;
+    operation_id?: string;
+    total_ms?: number;
+    spans?: Array<{
+      name: string;
+      start_ms: number;
+      duration_ms: number;
+      depth?: number;
+      status?: string;
+      attributes?: Record<string, unknown>;
+    }>;
+  };
   // Set by the client, not the API. Without it an empty qsharp_code cannot be told apart
   // from a request that never asked for code, and a broken generator renders as nothing.
   code_requested?: boolean;
@@ -205,10 +221,14 @@ export default function EvaluatePage() {
       }
 
       const data = await res.json();
-      setResult({ ...data, code_requested: generateCode });
+      const evaluated = { ...data, code_requested: generateCode };
+      setResult(evaluated);
+      // Carries trace.operation_id into the session recording, so a replay can
+      // be resolved to the backend trace behind it. See website/lib/clarity.ts.
+      tagEvaluation(evaluated);
     } catch {
       // Fallback: show a demo result for the static site
-      setResult({
+      const demo: EvaluationResult = {
         verdict: 'DEMO_MODE',
         confidence: 0,
         advantage_class: 'unknown',
@@ -219,7 +239,11 @@ export default function EvaluatePage() {
         explanation: 'The Quantum Advantage Evaluator is a Python backend that connects to the Azure AI Foundry model router and the knowledge base (Azure AI Search). On the static GitHub Pages site, the backend is not available. Run it locally or deploy as an Azure Function for live evaluations.',
         similar_problems: [],
         references: [],
-      });
+      };
+      setResult(demo);
+      // Tagged so DEMO MODE is countable. The uptime probe checks the API; it
+      // has never checked what a visitor's browser actually rendered.
+      tagEvaluation(demo);
     } finally {
       setLoading(false);
     }

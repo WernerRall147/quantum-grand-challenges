@@ -53,6 +53,13 @@
   "agents/evaluations/score_narrative.py": [
     ".github/workflows/ci-cd.yml"
   ],
+  "agents/observability/trace.py": [
+    "agents/api/main.py",
+    "agents/code_generator/generate.py",
+    "agents/orchestrator/evaluate.py",
+    "agents/tests/test_trace_ordering.py",
+    "tooling/show_trace.py"
+  ],
   "agents/orchestrator/citations.py": [
     "agents/evaluations/score_narrative.py",
     "agents/orchestrator/evaluate.py"
@@ -60,7 +67,8 @@
   "agents/orchestrator/evaluate.py": [
     "agents/api/main.py",
     "agents/evaluations/score_narrative.py",
-    "agents/tests/test_evaluator_smoke.py"
+    "agents/tests/test_evaluator_smoke.py",
+    "agents/tests/test_trace_ordering.py"
   ],
   "agents/orchestrator/instructions.py": [
     "agents/orchestrator/evaluate.py",

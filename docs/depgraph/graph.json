@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1248,
-    "code_files": 265,
-    "python": 199,
+    "tracked": 1253,
+    "code_files": 269,
+    "python": 203,
     "qsharp": 53,
     "ts": 13,
-    "edges": 194,
-    "roots": 265,
-    "reachable": 291
+    "edges": 200,
+    "roots": 266,
+    "reachable": 293
   },
   "nodes": [
     "agents/api/main.py",
@@ -22,6 +22,8 @@
     "agents/code_generator/stdlib_index.py",
     "agents/evaluations/run_eval.py",
     "agents/evaluations/score_narrative.py",
+    "agents/observability/__init__.py",
+    "agents/observability/trace.py",
     "agents/orchestrator/citations.py",
     "agents/orchestrator/evaluate.py",
     "agents/orchestrator/instructions.py",
@@ -41,6 +43,7 @@
     "agents/tests/test_kb_endpoints.py",
     "agents/tests/test_paper_classifier.py",
     "agents/tests/test_stdlib_index.py",
+    "agents/tests/test_trace_ordering.py",
     "agents/tests/test_zoo_reconciliation.py",
     "conftest.py",
     "knowledge/ingest/algorithm_zoo_parser.py",
@@ -247,6 +250,7 @@
     "tooling/run_noisy_simulation.py",
     "tooling/run_paper_analyses.py",
     "tooling/run_simulator_matrix.py",
+    "tooling/show_trace.py",
     "tooling/submit_all_syntax_check.py",
     "tooling/submit_hardware_kernels.py",
     "tooling/test_all_qsharp.py",
@@ -408,6 +412,10 @@
     ],
     [
       "agents/api/main.py",
+      "agents/observability/trace.py"
+    ],
+    [
+      "agents/api/main.py",
       "agents/orchestrator/evaluate.py"
     ],
     [
@@ -421,6 +429,10 @@
     [
       "agents/code_generator/generate.py",
       "agents/code_generator/stdlib_index.py"
+    ],
+    [
+      "agents/code_generator/generate.py",
+      "agents/observability/trace.py"
     ],
     [
       "agents/evaluations/run_eval.py",
@@ -453,6 +465,10 @@
     [
       "agents/orchestrator/evaluate.py",
       "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/orchestrator/evaluate.py",
+      "agents/observability/trace.py"
     ],
     [
       "agents/orchestrator/evaluate.py",
@@ -541,6 +557,14 @@
     [
       "agents/tests/test_stdlib_index.py",
       "agents/code_generator/stdlib_index.py"
+    ],
+    [
+      "agents/tests/test_trace_ordering.py",
+      "agents/observability/trace.py"
+    ],
+    [
+      "agents/tests/test_trace_ordering.py",
+      "agents/orchestrator/evaluate.py"
     ],
     [
       "agents/tests/test_zoo_reconciliation.py",
@@ -973,6 +997,10 @@
     [
       "tooling/run_noisy_simulation.py",
       "tooling/discover_problems.py"
+    ],
+    [
+      "tooling/show_trace.py",
+      "agents/observability/trace.py"
     ],
     [
       "tooling/test_qdk_samples_provenance.py",

@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1253,
-    "code_files": 269,
+    "tracked": 1255,
+    "code_files": 270,
     "python": 203,
     "qsharp": 53,
-    "ts": 13,
-    "edges": 200,
+    "ts": 14,
+    "edges": 202,
     "roots": 266,
-    "reachable": 293
+    "reachable": 294
   },
   "nodes": [
     "agents/api/main.py",
@@ -270,6 +270,7 @@
     "website/components/CostReference.tsx",
     "website/components/MermaidDiagram.tsx",
     "website/data/projectStatus.ts",
+    "website/lib/clarity.ts",
     "website/next-env.d.ts",
     "website/pages/404.tsx",
     "website/pages/_app.tsx",
@@ -1015,6 +1016,10 @@
       "website/data/azureRunHistory.json"
     ],
     [
+      "website/pages/_app.tsx",
+      "website/lib/clarity.ts"
+    ],
+    [
       "website/pages/architecture.tsx",
       "website/components/MermaidDiagram.tsx"
     ],
@@ -1033,6 +1038,10 @@
     [
       "website/pages/evaluate.tsx",
       "website/components/MermaidDiagram.tsx"
+    ],
+    [
+      "website/pages/evaluate.tsx",
+      "website/lib/clarity.ts"
     ],
     [
       "website/pages/evaluate.tsx",

@@ -214,6 +214,89 @@ characters, and a trace is capped at 200 spans.
 |---|---|
 | `APPLICATIONINSIGHTS_CONNECTION_STRING` unset | local tracing only; the response still carries `trace` |
 | `QGC_TRACE_TO_AZURE=0` | keeps the connection string but stops exporting |
+| `CLARITY_PROJECT_ID` repo variable cleared | the Clarity tag is not built into the site at all |
 
 There is deliberately no switch that removes `trace` from the response. It is
 the evidence for the claim the rest of the system is built on.
+
+## The browser half: Microsoft Clarity
+
+Everything above starts at `POST /api/evaluate`. The part a person actually
+experiences - landing on the page, typing a problem, ticking *generate code*,
+then waiting twenty to fifty seconds - is not in it. Application Insights can
+tell you a request took 31 seconds. It cannot tell you whether anyone waited.
+
+[Microsoft Clarity](https://clarity.microsoft.com/) covers that half: session
+recordings, heatmaps, and rage/dead-click detection. It is free and has no
+sampling. It does **not** understand backend spans, and it is not a second copy
+of the trace above - the two tools each know half of a story.
+
+### What joins them
+
+Every evaluation sets `qgc_operation_id` as a Clarity custom tag, taken from
+`trace.operation_id` in the response. So the sequence is:
+
+1. Watch a session recording in Clarity.
+2. Read the `qgc_operation_id` badge on that session.
+3. Run the query from *Finding a request in the portal* above with that id.
+
+You now have the browser interaction and the backend decisions for the same
+request. Neither tool does that alone.
+
+### Tags that are set
+
+| Tag | Why it is worth filtering on |
+|---|---|
+| `qgc_operation_id` | the join to Application Insights |
+| `qgc_verdict` | do people behave differently when told *no*? |
+| `qgc_platform` | `QUANTUM` / `HPC` / `AI_ML` |
+| `qgc_latency_bucket` | `under_10s`, `10_30s`, `30_60s`, `over_60s` - bucketed, because Clarity filters on equality |
+| `qgc_code_requested` | the slow path, opted into |
+| `qgc_demo_mode` | **the blind spot this closes** |
+
+`qgc_demo_mode` is the one that earns its place. When the backend call fails the
+site renders a plausible DEMO MODE page, so a broken demo and a working one look
+the same from outside. The uptime probe checks the API; it has never checked what
+a browser rendered. This makes that countable.
+
+Events `qgc_evaluation_shown` and `qgc_demo_mode` are recorded too, so sessions
+can be filtered by what happened rather than only by what was set.
+
+### Turning it on and off
+
+One repository variable, `CLARITY_PROJECT_ID`, read by
+`.github/workflows/deploy-website.yml`. The site is a static export, so the value
+is inlined at build time: clear the variable, re-run the workflow, and the tag is
+gone from the bundle entirely. There is no runtime switch and no code change.
+
+With it unset, `website/lib/clarity.ts` no-ops and nothing is requested -
+verified by building both ways and grepping the output.
+
+### Verified in a browser, not in the bundle
+
+`website/scripts/verify-clarity.mjs` drives the built site in Chromium, stubs the
+Clarity CDN, and asserts on the arguments actually passed to `clarity()` - both
+for a good response and for a failed one. It runs in the deploy workflow when the
+variable is set.
+
+Grepping the bundle for `clarity.ms` would have been shape. It was watched
+failing first: rebuilt with the variable cleared, the verifier reports 2/11 with
+`nothing fetched clarity.ms/tag/ - loadClarity() did not run`. The two that still
+pass are the two that should - no DEMO MODE tag, and no page errors, which is
+also the evidence that the site is unharmed with Clarity off.
+
+### What it will not do
+
+- It cannot show the pipeline. There is no Clarity view in which
+  `route_platform` precedes the model call; that is the timeline above.
+- It records the public demo site only. The API has no browser.
+- Text is masked by default. Recordings show *that* someone typed a problem, not
+  necessarily what they typed - the verdict tag is the reliable signal.
+
+### A note for the recording
+
+Do not demo Clarity on Azure Friday. The brief is 6-9 minutes and explicitly not
+a feature parade, and a session replay of yourself is not interesting television.
+Its value is the traffic the episode drives afterwards, which is the one moment
+this project will have real users to learn from.
+

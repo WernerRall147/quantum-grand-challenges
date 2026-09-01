@@ -464,6 +464,10 @@
   "website/data/troyerAssessment.json": [
     "website/pages/problems/[problem].tsx"
   ],
+  "website/lib/clarity.ts": [
+    "website/pages/_app.tsx",
+    "website/pages/evaluate.tsx"
+  ],
   "website/pages/costs.tsx": [
     "website/pages/evaluate.tsx"
   ]

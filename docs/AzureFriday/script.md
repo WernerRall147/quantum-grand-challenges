@@ -13,14 +13,15 @@ something that was promised:
 | Prologue: premise, then the confession about being confidently wrong | Prologue, 0:45-1:45 |
 | Slides: architecture in the prologue, CTA at the end, none mid-demo | Prologue slide; beat 4 refers back rather than showing a second |
 | Demo: portfolio **live**, FeMoco + Q# + estimate **pre-executed** | Beats 1 and 3 |
-| Demo: raw JSON, `evaluate()` in the editor, deploy log, no portal | Beats 2 and 4 - **with one change, below** |
+| Demo: raw JSON, `evaluate()` in the editor, deploy log, no portal | Beats 2 and 4 - **two changes, below** |
 | Wrap: deterministic core generalises, then CTA | Wrap, 11:30-12:30 |
 
-> **One delta to raise on the prep call.** The form said beat 2 would show `evaluate()` in
-> the editor. It now shows the request's own trace instead: same claim, same screen count,
-> but the ordering is *demonstrated* rather than read out of source comments. Still no
-> portal. Tell Chris rather than let it be a surprise - it is a swap, not an addition, and
-> it does not move the running time.
+> **Two deltas to raise on the prep call.** The form said beat 2 would show raw JSON and
+> `evaluate()` in the editor. It now shows the request's own trace instead, and the
+> `red_flags` the JSON was there for are already rendered on the site.
+>
+> Same claim, **fewer** screens, still no portal. Tell Chris rather than let it be a
+> surprise: it is a swap that shortens the beat, not an addition.
 
 If you improvise past this on the day, you are improvising past what Chris and Scott
 prepared against.
@@ -250,23 +251,43 @@ are switching. Do not narrate a spinner.
 
 ## Beat 2 - the model does not get a vote (3:15-4:45)
 
-**Screen: raw JSON, then `evaluate()` in the editor.**
+**Screen: stay on the site, then the terminal. There is no raw-JSON step.**
 
-Point at **`red_flags`**, not `model_dissent`. Measured against production on 2026-08-28,
-`model_dissent` is `{}` on this prompt across three consecutive calls, and that is correct
+That is a change from the submitted storyboard and from earlier drafts of this file, and
+it is worth being precise about, because "show raw JSON" is easy to half-remember on the
+day and then hunt for:
+
+| What beat 2 shows | Where it already is |
+|---|---|
+| `red_flags` | **Rendered on the site**, in the red *Red Flags* panel, from beat 1's result. Scroll to it - do not fetch JSON to read it. |
+| The step order | The terminal, via `show_trace.py --demo` below. |
+| `model_dissent` | **Nowhere.** The site does not render it, and it is `{}` on this prompt. Do not go looking for it. |
+
+If Scott explicitly asks to see the raw response, it is on disk from `-PreFlight` at
+`%LOCALAPPDATA%\AzureFridayPrep\beat2-raw.json`. Open it only if asked.
+
+Point at **`red_flags`**, not `model_dissent`. Measured against production on 2026-08-28
+and again on 2026-09-01, `model_dissent` is `{}` on this prompt, and that is correct
 behaviour: it only fills when the model returns a *different verdict*, and here the model
 agreed the answer was HPC. What it objected to was the evidence, and that lands in
-`red_flags`:
+`red_flags`.
 
-> "The knowledge-base classification as 'Probabilistic Sampling (Quantum Supremacy)' is
-> not a valid algorithmic match for mean-variance optimisation."
+**Do not read a scripted quote off this page.** These are written fresh by the model on
+every call and the wording moves - the 2026-09-01 run returned **seven** flags, none
+word-for-word what an earlier draft of this script quoted. Read the first two off the
+screen and stop; scrolling seven dense paragraphs on camera is worse than showing two.
+
+The first two are reliably the two that matter, because they are the two the routing
+evidence provokes. On 2026-09-01 they were, in substance:
+
+> The knowledge-base classification as Probabilistic Sampling (Quantum Supremacy) is not a
+> valid match for mean-variance optimization.
 >
-> "The deterministic routing is retained as required, but the supplied all-true Troyer
-> filters are scientifically misleading for this problem."
+> The supplied all-true Troyer-filter result is scientifically inconsistent with this
+> problem.
 
-That second sentence is the whole episode in the app's own output: the model objects, says
-so, and the routing stands. It is a better prop than an empty object, and it names the
-exact bad match from beat 1.
+That second one is the whole episode in the app's own output: the model objects, says so,
+and the routing stands. It names the exact bad match from beat 1.
 
 If Scott asks what `model_dissent` is for, the honest answer is short: *"it fills when the
 model wants a different verdict. It agreed here, so it is empty. The rate is tracked,
@@ -492,10 +513,11 @@ Azure Friday is exactly where someone checks.
 
 - [ ] `python tooling/verify_demo_prompts.py` ~15 min before - covers all five verdicts
       **and** code generation
+- [ ] `python tooling/show_trace.py --demo "..."` renders and exits 0 - it is beat 2's prop
 - [ ] No open GitHub issue labelled `uptime`
 - [ ] Site does not show DEMO MODE
-- [ ] Tab order: **1** live site (empty) - **2** beat 3 pre-loaded - **3** raw JSON -
-      **4** `evaluate.py` - **5** deploy log - **6** CTA
+- [ ] **Four** tabs, in the order at the top of this file - live site, beat 3 pre-loaded,
+      deploy runs, CTA last. Not six: raw JSON and the editor are no longer beats.
 - [ ] Fallback recording open behind tab 1
 - [ ] `QGC_USE_AGENT` still `0`:
       `az containerapp show -n qgc-eval-api -g qgc-evaluator -o json`

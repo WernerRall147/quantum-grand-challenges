@@ -82,7 +82,8 @@
     "tooling/test_doc_claims.py",
     "tooling/test_estimate_provenance.py",
     "tooling/test_qdk_samples_provenance.py",
-    "tooling/test_qsharp_validation.py"
+    "tooling/test_qsharp_validation.py",
+    "tooling/test_submit_one_kernel.py"
   ],
   "npm_next": [
     "website/package.json",

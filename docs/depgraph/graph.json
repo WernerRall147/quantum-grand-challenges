@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1258,
-    "code_files": 270,
-    "python": 203,
+    "tracked": 1260,
+    "code_files": 272,
+    "python": 205,
     "qsharp": 53,
     "ts": 14,
-    "edges": 202,
-    "roots": 266,
-    "reachable": 294
+    "edges": 203,
+    "roots": 267,
+    "reachable": 296
   },
   "nodes": [
     "agents/api/main.py",
@@ -253,6 +253,7 @@
     "tooling/show_trace.py",
     "tooling/submit_all_syntax_check.py",
     "tooling/submit_hardware_kernels.py",
+    "tooling/submit_one_kernel.py",
     "tooling/test_all_qsharp.py",
     "tooling/test_architecture_claims.py",
     "tooling/test_citation_claims.py",
@@ -260,6 +261,7 @@
     "tooling/test_estimate_provenance.py",
     "tooling/test_qdk_samples_provenance.py",
     "tooling/test_qsharp_validation.py",
+    "tooling/test_submit_one_kernel.py",
     "tooling/trace_circuits.py",
     "tooling/validate_algorithm_index.py",
     "tooling/vendor_qdk_samples.py",
@@ -1006,6 +1008,10 @@
     [
       "tooling/test_qdk_samples_provenance.py",
       "agents/code_generator/generate.py"
+    ],
+    [
+      "tooling/test_submit_one_kernel.py",
+      "tooling/submit_one_kernel.py"
     ],
     [
       "tooling/validate_algorithm_index.py",

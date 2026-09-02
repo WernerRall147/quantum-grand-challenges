@@ -380,31 +380,63 @@ account behind the workspace is locked down by tenant policy. It's the least qua
 imaginable, and it's exactly the kind of thing you actually hit."*
 
 **What is actually happening.** Every Azure Quantum job uploads its payload to a blob
-container in the workspace's linked storage account before the provider ever sees it. The
-policy assignment `mcapsgovdeploypolicies`, at the tenant root management group, carries two
-**Modify** effects - `StorageAccount_PublicNetwork_Modify` and
-`StorageAccount_DisableLocalAuth_Modify` - that force `publicNetworkAccess=Disabled` and
-`allowSharedKeyAccess=False` on every storage account in the subscription. Azure Quantum
-cannot reach the container, so submission fails with `StorageAccountInaccessible`.
+container before the provider ever sees it - and for this workspace that container lives in
+the **service-managed (MOBO) storage account**, `7ffkjkws4bgsw` in the managed resource group
+`mrg-Quantum-Grand-Challenges`, *not* the customer-linked account named in
+`properties.storageAccount`. That account has `publicNetworkAccess=Disabled` and
+`allowSharedKeyAccess=false`, so Azure Quantum cannot mint a SAS for it and submission fails
+with `StorageAccountInaccessible`.
 
-**What was ruled out, on 2026-09-02:**
+It is locked down by `mcapsgovdeploypolicies`, at the tenant root management group, which
+carries two **Modify** effects - `StorageAccount_PublicNetwork_Modify` and
+`StorageAccount_DisableLocalAuth_Modify` - that force exactly those two values on every
+storage account in the subscription.
+
+**Why it cannot be worked around.** That policy has two deliberate escape hatches, and
+neither can be applied where it is needed:
+
+- a `SecurityControl=Ignore` tag on the resource **or its resource group**, and
+- `publicNetworkAccess=SecuredByPerimeter`, which the rule explicitly excludes.
+
+The managed resource group sits behind a **deny assignment**. Writing to the storage account
+*and* tagging the resource group both fail with `DenyAssignmentAuthorizationFailed`, as
+subscription **Owner**. So the tag cannot reach the one account that matters, and only the
+Quantum service itself can rewrite it.
+
+**What was ruled out, on 2026-09-02 - each one measured, not assumed:**
 
 | Checked | Result |
 |---|---|
-| Is RBAC missing? | No. The workspace identity already holds **Storage Blob Data Contributor** *and* Storage Account Contributor on the linked account. The error names RBAC as one of two options; the other one is the problem. |
-| Can the property just be set? | No. `az storage account update` and a direct REST `PATCH` both **return success with the old value still in place** - a Modify policy rewrites the request rather than refusing it. |
-| Is it an SDK bug? | No. The Python SDK and `az quantum job submit` are independent code paths and fail identically, so the block is service-side. |
-| Is the data plane reachable at all? | No - not even as subscription Owner. `az storage container list --auth-mode login` returns *"blocked by network rules"*. |
-| Would the service-managed storage help? | No. The MOBO account in `mrg-Quantum-Grand-Challenges` carries the same two settings. |
+| Is RBAC missing? | No. The workspace identity already holds **Storage Blob Data Contributor** *and* Storage Account Contributor. The error names RBAC as one of two options; the other one is the problem. |
+| Can the property just be set? | No. `az storage account update` and a direct REST `PATCH` both **return success with the old value still in place** - a Modify policy rewrites the request rather than refusing it. Only re-reading afterwards shows it never changed. |
+| Is it an SDK bug? | No. The Python SDK and `az quantum job submit` are independent code paths and fail identically. |
+| Does the `SecurityControl=Ignore` tag work? | **Yes - and it proves the point.** Applied to the linked account, `publicNetworkAccess=Enabled` stuck where the direct write had silently no-op'd. Submission still failed, because the linked account was never the blocker. |
+| Is it slow propagation? | No. Fully open - `Enabled` + `defaultAction=Allow` + `sharedKey=true` - and left **11 minutes** for `allowSharedKeyAccess` to propagate. Same error. |
+| Which account does the service actually want? | The **managed** one. Supplying the customer-linked account client-side changes the error to `StorageAccountMismatch` - *"not referring to the storage account linked to the workspace"*. That upload succeeded; the service rejected the container. |
+| Can the managed account be opened? | No. `DenyAssignmentAuthorizationFailed` on the account and on tagging its resource group. Its keys are readable, but it refuses key auth and its data plane is network-blocked. |
+| Can the service be made to reopen it? | No. Forcing a workspace reconcile failed and left the managed account unchanged. |
+| **Would a network security perimeter help?** | **No - it makes it worse.** Tried in full: perimeter, profile, association in Transition mode, and a subscription-based inbound rule. Association *does* set `publicNetworkAccess=SecuredByPerimeter`, which satisfies the policy - but every submission still failed. Azure Quantum is **not onboarded to NSP**, and the Storage NSP documentation is explicit that non-onboarded services are *"blocked by default, even if trusted on the storage account firewall rules"*. Removed again. |
 | Would a private endpoint help? | No. The service's own error says firewall and network restrictions are *"currently not compatible with Azure Quantum"*. |
 
-**Why it was not fixed.** The only remaining route is a policy exemption on a corporate MCAPS
-security control. That is a compliance decision for the subscription owner, not something to
-take unilaterally to make a demo prettier - so it was left in place and written down instead.
+**Everything above was reverted.** The storage account is back to
+`publicNetworkAccess=Disabled` / `allowSharedKeyAccess=false` / no tags, the resource-group
+tag and a temporary subscription-scope blob role assignment were removed, and the perimeter
+was deleted. Verified 2026-09-02.
+
+> **One cosmetic residue.** The workspace now reports `provisioningState: Failed`. That is the
+> pre-existing **ionq** provider failure - it was already `Failed` before any of this - being
+> surfaced by a full PUT during the reconcile attempt. `usable` is still `Yes` and both beat 4
+> commands return green. It was left alone deliberately: clearing it means removing the failed
+> ionq provider, and beat 4's target list showing IonQ is part of the script.
+
+**Why it was not forced.** The remaining route is a policy exemption on a corporate MCAPS
+security control at a scope broad enough to cover a Microsoft-managed resource group. That is
+a compliance decision for the subscription owner, and it would not have worked anyway - only
+the Quantum service can write to that account.
 
 **What still works, and why beat 4 is safe.** Reading is a control-plane operation and never
 touches storage. `az quantum job list` and `az quantum target list` - the only two commands
-in beat 4 - were both re-run green on 2026-09-02.
+in beat 4 - were re-run green after every change above.
 
 **If the exemption is ever granted**, one command produces the job, and it asserts on the
 histogram rather than the status:

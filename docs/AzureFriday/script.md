@@ -463,17 +463,18 @@ of the field than any slide.
 > ### If Scott asks you to submit one live, say no - and say why
 >
 > Job submission from this workspace is **blocked**, and it is not a quantum problem. Every
-> job uploads its payload to the workspace's linked storage account first, and tenant policy
-> `mcapsgovdeploypolicies` forces `publicNetworkAccess=Disabled` on every storage account in
-> the subscription. Azure Quantum cannot reach it, so `submit` returns
-> `StorageAccountInaccessible`. **Reading** jobs and targets is unaffected, which is why both
-> commands above still work.
+> job stages its payload in a storage account first - for this workspace, the
+> **service-managed** one inside a Microsoft-managed resource group - and tenant policy
+> forces `publicNetworkAccess=Disabled` on it. Azure Quantum cannot reach it, so `submit`
+> returns `StorageAccountInaccessible`. That resource group is behind a deny assignment, so
+> even as subscription **Owner** it cannot be changed. **Reading** jobs and targets is
+> unaffected, which is why both commands above still work.
 >
 > This is a genuinely good answer, not an excuse: *"I can list them but I can't submit one
 > right now - the storage account behind the workspace is locked down by tenant policy. It's
 > the least quantum problem imaginable, and it's the kind of thing you actually hit."*
 >
-> Full diagnosis - including why the fix is not mine to make - is in
+> Full diagnosis - including the ten things that were tried and ruled out - is in
 > [deck-notes.md](deck-notes.md), "Can you submit a job right now?".
 
 **>> Hand off.** *"Have you ever seen a queue time on a quantum computer before?"*

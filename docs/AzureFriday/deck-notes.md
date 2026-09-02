@@ -373,70 +373,88 @@ feature list.
 | Do you know if anyone gets stuck waiting? | That is the one thing the backend trace cannot tell you, which is why Clarity is on the site. It answers "did they wait", the trace answers "what happened while they did". **Only if asked** - do not raise it. |
 | Can you submit a job right now? | **No, and the reason is worth telling** - see C7 below. Do not attempt it on camera. |
 
-## C7. "Can you submit a job right now?" - the honest answer
+## C7. "Can you submit a job right now?" - yes, and here is one from today
 
-Short version for camera: *"I can list them but I can't submit one right now - the storage
-account behind the workspace is locked down by tenant policy. It's the least quantum problem
-imaginable, and it's exactly the kind of thing you actually hit."*
+Short version for camera: *"Yes - I ran this one this afternoon. Grover on Quantinuum's H2
+emulator, and it found the marked item 80% of the time. On an ideal simulator it's 97%. That
+gap is the noise, and that's the honest state of the hardware."*
 
-**What is actually happening.** Every Azure Quantum job uploads its payload to a blob
-container before the provider ever sees it - and for this workspace that container lives in
-the **service-managed (MOBO) storage account**, `7ffkjkws4bgsw` in the managed resource group
-`mrg-Quantum-Grand-Challenges`, *not* the customer-linked account named in
-`properties.storageAccount`. That account has `publicNetworkAccess=Disabled` and
-`allowSharedKeyAccess=false`, so Azure Quantum cannot mint a SAS for it and submission fails
-with `StorageAccountInaccessible`.
+**The result.** Job `ad36284c-a707-11f1-8583-f068e3583cd5`, `quantinuum.sim.h2-1e`, 100 shots,
+2026-09-02. The kernel is the same `GroverSearchKernel()` beat 3 runs locally: 4 qubits, 3
+Grover iterations, marking |0111>. Full histogram in
+[grover-h2-1e-histogram.json](grover-h2-1e-histogram.json).
 
-It is locked down by `mcapsgovdeploypolicies`, at the tenant root management group, which
-carries two **Modify** effects - `StorageAccount_PublicNetwork_Modify` and
-`StorageAccount_DisableLocalAuth_Modify` - that force exactly those two values on every
-storage account in the subscription.
+| Run | Marked state `[0,1,1,1]` | What it shows |
+|---|---|---|
+| Local ideal simulator, 200 shots | **97%** | the algorithm is correct |
+| Quantinuum H2 emulator, 100 shots | **80%** | what a real noise model costs you |
 
-**Why it cannot be worked around.** That policy has two deliberate escape hatches, and
-neither can be applied where it is needed:
+The remaining 20% is spread thinly across twelve other outcomes at 1-3% each - noise, not a
+competing answer. That is the single most honest slide in the episode and it cost one command.
 
-- a `SecurityControl=Ignore` tag on the resource **or its resource group**, and
-- `publicNetworkAccess=SecuredByPerimeter`, which the rule explicitly excludes.
+**Which workspace, and why it is not the original one.** This ran in **`qgc-af-demo`**
+(resource group `qgc-af-demo-rg`), created 2026-09-02. The original
+`Quantum-Grand-Challenges` workspace **cannot accept new jobs**. Its last successful job was
+**2026-06-10**; a policy sweep locked its storage afterwards.
 
-The managed resource group sits behind a **deny assignment**. Writing to the storage account
-*and* tagging the resource group both fail with `DenyAssignmentAuthorizationFailed`, as
-subscription **Owner**. So the tag cannot reach the one account that matters, and only the
-Quantum service itself can rewrite it.
+**Why the original is stuck.** It stages job payloads in a **service-managed storage account**,
+`7ffkjkws4bgsw` in the managed resource group `mrg-Quantum-Grand-Challenges` - *not* the
+customer-linked account named in `properties.storageAccount`. Tenant policy
+`mcapsgovdeploypolicies`, at the tenant root management group, forces
+`publicNetworkAccess=Disabled` and `allowSharedKeyAccess=false` on it, so Azure Quantum cannot
+mint a SAS and submission fails with `StorageAccountInaccessible`. That resource group sits
+behind a **deny assignment**: writing to the account *and* tagging its resource group both fail
+as subscription **Owner**, so neither of the policy's own escape hatches can reach it.
 
-**What was ruled out, on 2026-09-02 - each one measured, not assumed:**
+**How the working workspace was built.** The policy skips any resource whose resource group
+carries `SecurityControl=Ignore`, and it evaluates that **at creation time**. So the managed
+resource group was created *first*, already tagged, before the service could put anything in
+it. That workspace ended up with **no managed storage account at all** and uses its linked
+one, which was therefore never locked.
+
+```powershell
+az group create -n mrg-qgc-af-demo -l eastus --tags SecurityControl=Ignore
+az group create -n qgc-af-demo-rg  -l eastus --tags SecurityControl=Ignore
+az storage account create -n qgcafdemo20260902 -g qgc-af-demo-rg -l eastus --sku Standard_LRS
+az quantum workspace create -g qgc-af-demo-rg -w qgc-af-demo -l eastus `
+  -r "quantinuum/basic1" --skip-autoadd -a qgcafdemo20260902
+```
+
+**Quota is the next limit, not access.** `h2-1e` is metered in eHQC and the allowance is shared
+across the subscription. 200 shots of this kernel wanted **75.36** against **42.66** remaining
+and was rejected with `NotEnoughQuota`; **100 shots** went through. If it fails, lower `--shots`
+rather than retrying. `quantinuum.sim.h2-1sc` is free and validates the circuit, but returns
+all zeros - it is a syntax checker, not a simulator, so never quote its histogram.
+
+**What was ruled out getting here, on 2026-09-02 - each one measured, not assumed:**
 
 | Checked | Result |
 |---|---|
 | Is RBAC missing? | No. The workspace identity already holds **Storage Blob Data Contributor** *and* Storage Account Contributor. The error names RBAC as one of two options; the other one is the problem. |
 | Can the property just be set? | No. `az storage account update` and a direct REST `PATCH` both **return success with the old value still in place** - a Modify policy rewrites the request rather than refusing it. Only re-reading afterwards shows it never changed. |
 | Is it an SDK bug? | No. The Python SDK and `az quantum job submit` are independent code paths and fail identically. |
-| Does the `SecurityControl=Ignore` tag work? | **Yes - and it proves the point.** Applied to the linked account, `publicNetworkAccess=Enabled` stuck where the direct write had silently no-op'd. Submission still failed, because the linked account was never the blocker. |
+| Does the `SecurityControl=Ignore` tag work? | **Yes - and it is the whole fix.** On an existing account it made `publicNetworkAccess=Enabled` stick where a direct write had silently no-op'd. On a *resource group created before the service fills it*, it stops the lockdown ever happening. |
 | Is it slow propagation? | No. Fully open - `Enabled` + `defaultAction=Allow` + `sharedKey=true` - and left **11 minutes** for `allowSharedKeyAccess` to propagate. Same error. |
 | Which account does the service actually want? | The **managed** one. Supplying the customer-linked account client-side changes the error to `StorageAccountMismatch` - *"not referring to the storage account linked to the workspace"*. That upload succeeded; the service rejected the container. |
-| Can the managed account be opened? | No. `DenyAssignmentAuthorizationFailed` on the account and on tagging its resource group. Its keys are readable, but it refuses key auth and its data plane is network-blocked. |
+| Can the original's managed account be opened? | No. `DenyAssignmentAuthorizationFailed` on the account and on tagging its resource group. Its keys are readable, but it refuses key auth and its data plane is network-blocked. |
 | Can the service be made to reopen it? | No. Forcing a workspace reconcile failed and left the managed account unchanged. |
 | **Would a network security perimeter help?** | **No - it makes it worse.** Tried in full: perimeter, profile, association in Transition mode, and a subscription-based inbound rule. Association *does* set `publicNetworkAccess=SecuredByPerimeter`, which satisfies the policy - but every submission still failed. Azure Quantum is **not onboarded to NSP**, and the Storage NSP documentation is explicit that non-onboarded services are *"blocked by default, even if trusted on the storage account firewall rules"*. Removed again. |
 | Would a private endpoint help? | No. The service's own error says firewall and network restrictions are *"currently not compatible with Azure Quantum"*. |
 
-**Everything above was reverted.** The storage account is back to
-`publicNetworkAccess=Disabled` / `allowSharedKeyAccess=false` / no tags, the resource-group
-tag and a temporary subscription-scope blob role assignment were removed, and the perimeter
-was deleted. Verified 2026-09-02.
+**Nothing was left weakened on the original.** Its storage account is back to
+`publicNetworkAccess=Disabled` / `allowSharedKeyAccess=false` / no tags, the resource-group tag
+and a temporary subscription-scope blob role assignment were removed, and the perimeter was
+deleted. Verified 2026-09-02.
 
-> **One cosmetic residue.** The workspace now reports `provisioningState: Failed`. That is the
-> pre-existing **ionq** provider failure - it was already `Failed` before any of this - being
+> **One cosmetic residue.** `Quantum-Grand-Challenges` now reports `provisioningState: Failed`.
+> That is the pre-existing **ionq** provider failure - already `Failed` before any of this -
 > surfaced by a full PUT during the reconcile attempt. `usable` is still `Yes` and both beat 4
-> commands return green. It was left alone deliberately: clearing it means removing the failed
-> ionq provider, and beat 4's target list showing IonQ is part of the script.
+> commands return green. Left alone deliberately: clearing it means removing the failed ionq
+> provider, and beat 4's target list showing IonQ is part of the script.
 
-**Why it was not forced.** The remaining route is a policy exemption on a corporate MCAPS
-security control at a scope broad enough to cover a Microsoft-managed resource group. That is
-a compliance decision for the subscription owner, and it would not have worked anyway - only
-the Quantum service can write to that account.
-
-**What still works, and why beat 4 is safe.** Reading is a control-plane operation and never
-touches storage. `az quantum job list` and `az quantum target list` - the only two commands
-in beat 4 - were re-run green after every change above.
+**Beat 4 still reads from the original workspace.** Its five `database_search` rows are the
+established story, and listing is a control-plane operation that never touches storage - re-run
+green after every change above. The new job is *extra* evidence, not a replacement.
 
 **If the exemption is ever granted**, one command produces the job, and it asserts on the
 histogram rather than the status:

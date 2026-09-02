@@ -79,6 +79,9 @@ az quantum job list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -o t
   --query "[?contains(name,'database_search')].{Job:name, Status:status, Target:target}"
 az quantum target list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -o table
 
+# Beat 4 - the job I ran today: Grover on Quantinuum's H2 emulator
+type docs\AzureFriday\grover-h2-1e-histogram.json
+
 # Beat 4 fallback, if the preview CLI errors. Do not retry live.
 type docs\AzureFriday\azure-quantum-snapshot.txt
 
@@ -460,22 +463,33 @@ on your screen** - do not quote either number from memory. Whatever it says, the
 lands: "there is a queue for the quantum computer" tells the audience more about the state
 of the field than any slide.
 
-> ### If Scott asks you to submit one live, say no - and say why
+> ### If Scott asks whether you can submit one right now - you can, and you did
 >
-> Job submission from this workspace is **blocked**, and it is not a quantum problem. Every
-> job stages its payload in a storage account first - for this workspace, the
-> **service-managed** one inside a Microsoft-managed resource group - and tenant policy
-> forces `publicNetworkAccess=Disabled` on it. Azure Quantum cannot reach it, so `submit`
-> returns `StorageAccountInaccessible`. That resource group is behind a deny assignment, so
-> even as subscription **Owner** it cannot be changed. **Reading** jobs and targets is
-> unaffected, which is why both commands above still work.
+> Show the result you already have rather than submitting live; the emulator queue moves and
+> quota is finite. It is on disk at
+> [grover-h2-1e-histogram.json](grover-h2-1e-histogram.json):
 >
-> This is a genuinely good answer, not an excuse: *"I can list them but I can't submit one
-> right now - the storage account behind the workspace is locked down by tenant policy. It's
-> the least quantum problem imaginable, and it's the kind of thing you actually hit."*
+> ```powershell
+> type docs\AzureFriday\grover-h2-1e-histogram.json
+> ```
 >
-> Full diagnosis - including the ten things that were tried and ruled out - is in
-> [deck-notes.md](deck-notes.md), "Can you submit a job right now?".
+> > *"I ran this one this afternoon. Same Grover circuit you just watched, on Quantinuum's H2
+> > emulator. It found the marked item 80% of the time. On the ideal simulator it's 97%. That
+> > gap is the noise - and that's the honest state of the hardware right now."*
+>
+> **97% ideal against 80% emulated** is the most honest number in the episode. The other 20%
+> is spread across twelve outcomes at 1-3% each - noise, not a competing answer.
+>
+> **Do not submit live on camera.** Quota is shared across the subscription and metered in
+> eHQC: 200 shots of this kernel was rejected as `NotEnoughQuota`, 100 shots went through. And
+> do not quote the `h2-1sc` histogram if you ever run it - that target is a syntax checker,
+> returns all zeros, and proves nothing about the algorithm.
+>
+> One caveat worth having ready, because it is a good story rather than a bad one: this job ran
+> in a **second workspace**, created that afternoon. The original one cannot accept new jobs -
+> its storage sits in a Microsoft-managed resource group that tenant policy locked down and a
+> deny assignment protects, so not even the subscription Owner can open it. Full diagnosis, and
+> the ten things ruled out getting there, in [deck-notes.md](deck-notes.md) C7.
 
 **>> Hand off.** *"Have you ever seen a queue time on a quantum computer before?"*
 
@@ -595,6 +609,8 @@ the sequence.
 - [ ] **Beat 4** - `az quantum job list` and `target list` both return a table, **without
       `-l`**. These need network and a valid login, and the extension is preview - check
       them, not just the app
+- [ ] **Beat 4** - the histogram opens and `[0, 1, 1, 1]` reads `0.8` at 1080p:
+      `type docs\AzureFriday\grover-h2-1e-histogram.json`
 - [ ] **Beat 4 fallback** - `docs\AzureFriday\azure-quantum-snapshot.txt` regenerated today
       and legible. If the live command failed above, this is the beat
 - [ ] No open GitHub issue labelled `uptime`

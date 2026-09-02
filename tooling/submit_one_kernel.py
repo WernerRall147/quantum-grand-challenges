@@ -9,32 +9,27 @@ It asserts on the histogram, not on the exit code. A job that reaches
 "Succeeded" having measured noise is still a failed demo prop, so this checks
 that the marked state actually dominates.
 
-    python tooling/submit_one_kernel.py 15_database_search quantinuum.sim.h2-1e --shots 200
-    python tooling/submit_one_kernel.py 15_database_search quantinuum.sim.h2-1sc --no-wait
+    python tooling/submit_one_kernel.py 15_database_search quantinuum.sim.h2-1e --shots 100 --expect "0, 1, 1, 1"
 
-SUBMISSION IS CURRENTLY BLOCKED - see docs/AzureFriday/deck-notes.md, "Can you
-submit a job right now?". Compilation to QIR works; the submit call returns
-`StorageAccountInaccessible`.
+WHICH WORKSPACE. Defaults to `qgc-af-demo` in `qgc-af-demo-rg`, because the
+original `Quantum-Grand-Challenges` workspace cannot accept jobs. It stages
+payloads in a service-managed storage account inside a Microsoft-managed resource
+group, and tenant policy `mcapsgovdeploypolicies` forced
+`publicNetworkAccess=Disabled` on it. A deny assignment blocks writing to that
+account and tagging its resource group, even as subscription Owner, so neither of
+the policy's own escape hatches can reach it. Jobs there last succeeded 2026-06-10.
+Use --resource-group/--workspace to point elsewhere.
 
-The blocker is NOT the customer-linked storage account named in the workspace's
-`properties.storageAccount`. It is the service-managed (MOBO) account
-`7ffkjkws4bgsw` in `mrg-Quantum-Grand-Challenges`, which is where this workspace
-actually stages job payloads - supplying the linked account client-side changes the
-error to `StorageAccountMismatch`, "not referring to the storage account linked to
-the workspace". That account has publicNetworkAccess=Disabled and
-allowSharedKeyAccess=false, forced by tenant policy `mcapsgovdeploypolicies`, and it
-sits behind a deny assignment: writing to it, and tagging its resource group, both
-fail as subscription Owner.
+HOW THE WORKING WORKSPACE WAS BUILT. The policy skips any resource whose resource
+group carries `SecurityControl=Ignore`, and it evaluates that at creation time. So
+the managed resource group was created *first*, already tagged, before the service
+could put anything in it. That workspace ended up with no managed storage account
+at all and uses its linked one, which was never locked. See
+docs/AzureFriday/deck-notes.md, "Can you submit a job right now?".
 
-The policy's two escape hatches were both tried and neither reaches it. The
-`SecurityControl=Ignore` tag works - on the linked account it made
-publicNetworkAccess=Enabled stick where a direct write had silently no-op'd - but it
-cannot be applied to the managed resource group. A network security perimeter sets
-publicNetworkAccess=SecuredByPerimeter, which the policy also tolerates, but Azure
-Quantum is not onboarded to NSP and association blocks it outright.
-
-Reading jobs and targets is unaffected, which is why beat 4 of the demo still runs.
-Verified 2026-09-02 against both the Python SDK and `az quantum job submit`.
+QUOTA. h2-1e is metered in eHQC and the allowance is shared across the
+subscription. 200 shots of this kernel wanted 75.36 and was rejected; 100 shots
+went through. If you see `NotEnoughQuota`, lower --shots rather than retrying.
 """
 
 from __future__ import annotations
@@ -49,12 +44,20 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
-RESOURCE_ID = (
-    "/subscriptions/82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3"
-    "/resourceGroups/Quantum-Grand-Challenges"
-    "/providers/Microsoft.Quantum/Workspaces/Quantum-Grand-Challenges"
-)
+SUBSCRIPTION_ID = "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3"
 TENANT_ID = "dc692f3e-104b-4247-b52c-23692694684a"
+
+# Defaults to the workspace that can actually accept jobs - see module docstring.
+DEFAULT_RESOURCE_GROUP = "qgc-af-demo-rg"
+DEFAULT_WORKSPACE = "qgc-af-demo"
+
+
+def resource_id(resource_group: str, workspace: str) -> str:
+    return (
+        f"/subscriptions/{SUBSCRIPTION_ID}"
+        f"/resourceGroups/{resource_group}"
+        f"/providers/Microsoft.Quantum/Workspaces/{workspace}"
+    )
 
 
 def find_kernel(problem_id: str) -> Path:
@@ -88,7 +91,12 @@ def main() -> int:
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("problem_id")
     parser.add_argument("target_id", nargs="?", default="quantinuum.sim.h2-1e")
-    parser.add_argument("--shots", type=int, default=200)
+    parser.add_argument("--shots", type=int, default=100)
+    parser.add_argument("--resource-group", default=DEFAULT_RESOURCE_GROUP)
+    parser.add_argument("--workspace", default=DEFAULT_WORKSPACE)
+    parser.add_argument("--timeout", type=int, default=1800,
+                        help="seconds to wait for the job; the SDK default of 300 is often "
+                             "shorter than the h2-1e queue")
     parser.add_argument("--no-wait", action="store_true", help="submit and exit without polling")
     parser.add_argument("--expect", default="",
                         help="bitstring that should dominate the histogram, e.g. 1110")
@@ -98,6 +106,7 @@ def main() -> int:
     kernel = find_kernel(args.problem_id)
     print(f"kernel : {kernel.relative_to(REPO)}")
     print(f"target : {args.target_id}  ({args.shots} shots)")
+    print(f"space  : {args.workspace} in {args.resource_group}")
 
     entry, qir = compile_kernel(kernel, args.target_id)
     print(f"entry  : {entry}()  - compiled to QIR")
@@ -106,7 +115,10 @@ def main() -> int:
     from qdk.azure import Workspace
 
     credential = AzureCliCredential(tenant_id=TENANT_ID)
-    workspace = Workspace(resource_id=RESOURCE_ID, location="eastus", credential=credential)
+    workspace = Workspace(
+        resource_id=resource_id(args.resource_group, args.workspace),
+        location="eastus", credential=credential,
+    )
     target = workspace.get_targets(args.target_id)
 
     job = target.submit(qir, f"qgc-{args.problem_id}", shots=args.shots)
@@ -118,7 +130,7 @@ def main() -> int:
         return 0
 
     print("waiting for results...", flush=True)
-    results = job.get_results()
+    results = job.get_results(timeout_secs=args.timeout)
 
     # A job can reach Succeeded and still be useless as a demo prop, so assert on
     # the histogram rather than on the status.

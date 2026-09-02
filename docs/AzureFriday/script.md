@@ -454,10 +454,27 @@ az quantum target list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -
 > Azure workspace. Note the queue times, and note that some of them say Unavailable right
 > now. That is what the quantum industry looks like from a terminal.
 
-**The queue column is the best unscripted moment available.** On 2026-09-01 `h2-1e` was
-about **five hours**, and it moved by two hours over the same afternoon. Read whatever it
-says; "there is a five hour queue for the quantum computer" tells the audience more about
-the state of the field than any slide.
+**The queue column is the best unscripted moment available.** It swings hard: `h2-1e` read
+about **five hours** on 2026-09-01 and **three minutes** on 2026-09-02. **Read whatever is
+on your screen** - do not quote either number from memory. Whatever it says, the point
+lands: "there is a queue for the quantum computer" tells the audience more about the state
+of the field than any slide.
+
+> ### If Scott asks you to submit one live, say no - and say why
+>
+> Job submission from this workspace is **blocked**, and it is not a quantum problem. Every
+> job uploads its payload to the workspace's linked storage account first, and tenant policy
+> `mcapsgovdeploypolicies` forces `publicNetworkAccess=Disabled` on every storage account in
+> the subscription. Azure Quantum cannot reach it, so `submit` returns
+> `StorageAccountInaccessible`. **Reading** jobs and targets is unaffected, which is why both
+> commands above still work.
+>
+> This is a genuinely good answer, not an excuse: *"I can list them but I can't submit one
+> right now - the storage account behind the workspace is locked down by tenant policy. It's
+> the least quantum problem imaginable, and it's the kind of thing you actually hit."*
+>
+> Full diagnosis - including why the fix is not mine to make - is in
+> [deck-notes.md](deck-notes.md), "Can you submit a job right now?".
 
 **>> Hand off.** *"Have you ever seen a queue time on a quantum computer before?"*
 

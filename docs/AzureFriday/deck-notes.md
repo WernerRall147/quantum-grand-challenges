@@ -24,7 +24,7 @@ says so, rather than being rounded up.
 | **130 Azure Quantum jobs, 89 succeeded** | **deck's "130+" was right** | `azureRunHistory.json`: 130 runs, 89 succeeded, 41 unresolved. `az quantum job list` returns exactly 100, which is a page cap - this note previously "corrected" the deck down to 100 on that basis |
 | **Evaluation latency** | do not quote a number on air | Five calls 2026-08-31: 29.3s, 32.3s, 40.7s, 46.1s, 98.0s. The router picks the model and the spread moved between two runs on the same afternoon, so the old "20-60s" was true when written and false four hours later |
 | **~50s for code generation** | beat 3, estimation working | 50.2s on 2026-08-31, revision 0000080. Slower than a verdict because it compiles, retries on error, then costs the circuit |
-| **414 tests passing** | kept current by `tooling/test_doc_claims.py` | `pytest -q`. This line was 116 when the suite was 214, and 214 when it was 243 |
+| **419 tests passing** | kept current by `tooling/test_doc_claims.py` | `pytest -q`. This line was 116 when the suite was 214, and 214 when it was 243 |
 | **The router decides in well under a millisecond** | beat 2's line, and the one figure worth saying out loud | Production 2026-09-01: `route_platform` 0.1 ms in requests whose model call took 21.5 s and 25.1 s. Say it as a ratio - "a fraction of a millisecond against twenty-odd seconds" - because the model call has been seen at 98s and the ratio survives that, an exact figure does not |
 | **The ordering is enforced, not asserted** | a test, not a comment | `agents/tests/test_trace_ordering.py` fails if any routing span starts after the model span. Watched failing under deliberate sabotage before it was trusted - the first version of the check passed anyway, because it compared only the first name match |
 
@@ -371,3 +371,44 @@ feature list.
 | What does that cost you? | 1-2 KB on a response that already carries the explanation and often generated Q#, and about 17 records per evaluation in Application Insights, which is inside the free grant. |
 | Could you have done this with logs? | You could log the same facts. What you get from spans is the *order* and the nesting for free, which is the thing being claimed - and one id that joins the browser session to the backend request. |
 | Do you know if anyone gets stuck waiting? | That is the one thing the backend trace cannot tell you, which is why Clarity is on the site. It answers "did they wait", the trace answers "what happened while they did". **Only if asked** - do not raise it. |
+| Can you submit a job right now? | **No, and the reason is worth telling** - see C7 below. Do not attempt it on camera. |
+
+## C7. "Can you submit a job right now?" - the honest answer
+
+Short version for camera: *"I can list them but I can't submit one right now - the storage
+account behind the workspace is locked down by tenant policy. It's the least quantum problem
+imaginable, and it's exactly the kind of thing you actually hit."*
+
+**What is actually happening.** Every Azure Quantum job uploads its payload to a blob
+container in the workspace's linked storage account before the provider ever sees it. The
+policy assignment `mcapsgovdeploypolicies`, at the tenant root management group, carries two
+**Modify** effects - `StorageAccount_PublicNetwork_Modify` and
+`StorageAccount_DisableLocalAuth_Modify` - that force `publicNetworkAccess=Disabled` and
+`allowSharedKeyAccess=False` on every storage account in the subscription. Azure Quantum
+cannot reach the container, so submission fails with `StorageAccountInaccessible`.
+
+**What was ruled out, on 2026-09-02:**
+
+| Checked | Result |
+|---|---|
+| Is RBAC missing? | No. The workspace identity already holds **Storage Blob Data Contributor** *and* Storage Account Contributor on the linked account. The error names RBAC as one of two options; the other one is the problem. |
+| Can the property just be set? | No. `az storage account update` and a direct REST `PATCH` both **return success with the old value still in place** - a Modify policy rewrites the request rather than refusing it. |
+| Is it an SDK bug? | No. The Python SDK and `az quantum job submit` are independent code paths and fail identically, so the block is service-side. |
+| Is the data plane reachable at all? | No - not even as subscription Owner. `az storage container list --auth-mode login` returns *"blocked by network rules"*. |
+| Would the service-managed storage help? | No. The MOBO account in `mrg-Quantum-Grand-Challenges` carries the same two settings. |
+| Would a private endpoint help? | No. The service's own error says firewall and network restrictions are *"currently not compatible with Azure Quantum"*. |
+
+**Why it was not fixed.** The only remaining route is a policy exemption on a corporate MCAPS
+security control. That is a compliance decision for the subscription owner, not something to
+take unilaterally to make a demo prettier - so it was left in place and written down instead.
+
+**What still works, and why beat 4 is safe.** Reading is a control-plane operation and never
+touches storage. `az quantum job list` and `az quantum target list` - the only two commands
+in beat 4 - were both re-run green on 2026-09-02.
+
+**If the exemption is ever granted**, one command produces the job, and it asserts on the
+histogram rather than the status:
+
+```powershell
+python tooling/submit_one_kernel.py 15_database_search quantinuum.sim.h2-1e --shots 200 --expect "0, 1, 1, 1"
+```

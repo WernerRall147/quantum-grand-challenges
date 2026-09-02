@@ -14,15 +14,27 @@ that the marked state actually dominates.
 
 SUBMISSION IS CURRENTLY BLOCKED - see docs/AzureFriday/deck-notes.md, "Can you
 submit a job right now?". Compilation to QIR works; the submit call returns
-`StorageAccountInaccessible` because tenant policy `mcapsgovdeploypolicies`
-(management group dc692f3e..., Modify effect) forces `publicNetworkAccess=Disabled`
-and `allowSharedKeyAccess=False` on every storage account in the subscription,
-including the workspace's linked account. RBAC is already correct - the workspace
-identity holds Storage Blob Data Contributor - so the block is purely network.
-Verified 2026-09-01 against both the Python SDK and `az quantum job submit`,
-which fail identically, and the write is silently reverted rather than refused:
-a REST PATCH setting the property returns 200 with the old value still in place.
+`StorageAccountInaccessible`.
+
+The blocker is NOT the customer-linked storage account named in the workspace's
+`properties.storageAccount`. It is the service-managed (MOBO) account
+`7ffkjkws4bgsw` in `mrg-Quantum-Grand-Challenges`, which is where this workspace
+actually stages job payloads - supplying the linked account client-side changes the
+error to `StorageAccountMismatch`, "not referring to the storage account linked to
+the workspace". That account has publicNetworkAccess=Disabled and
+allowSharedKeyAccess=false, forced by tenant policy `mcapsgovdeploypolicies`, and it
+sits behind a deny assignment: writing to it, and tagging its resource group, both
+fail as subscription Owner.
+
+The policy's two escape hatches were both tried and neither reaches it. The
+`SecurityControl=Ignore` tag works - on the linked account it made
+publicNetworkAccess=Enabled stick where a direct write had silently no-op'd - but it
+cannot be applied to the managed resource group. A network security perimeter sets
+publicNetworkAccess=SecuredByPerimeter, which the policy also tolerates, but Azure
+Quantum is not onboarded to NSP and association blocks it outright.
+
 Reading jobs and targets is unaffected, which is why beat 4 of the demo still runs.
+Verified 2026-09-02 against both the Python SDK and `az quantum job submit`.
 """
 
 from __future__ import annotations

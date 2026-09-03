@@ -1,8 +1,8 @@
 {
   "summary": {
-    "total_candidates": 14,
+    "total_candidates": 15,
     "safe_review": 0,
-    "needs_review": 14,
+    "needs_review": 15,
     "python_unparsable": []
   },
   "candidates": [
@@ -91,6 +91,14 @@
       "inbound": [],
       "risk_flags": [
         "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "tooling/fetch_azure_job.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
       ],
       "category": "needs_review"
     },

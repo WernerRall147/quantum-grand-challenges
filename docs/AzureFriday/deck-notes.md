@@ -376,21 +376,29 @@ feature list.
 ## C7. "Can you submit a job right now?" - yes, and here is one from today
 
 Short version for camera: *"Yes - I ran this one this afternoon. Grover on Quantinuum's H2
-emulator, and it found the marked item 80% of the time. On an ideal simulator it's 97%. That
-gap is the noise, and that's the honest state of the hardware."*
+emulator. It found the marked item in 80 shots out of 100. With no noise at all that circuit
+is about 96%. That gap is the noise, and that's the honest state of the hardware."*
 
 **The result.** Job `ad36284c-a707-11f1-8583-f068e3583cd5`, `quantinuum.sim.h2-1e`, 100 shots,
 2026-09-02. The kernel is the same `GroverSearchKernel()` beat 3 runs locally: 4 qubits, 3
-Grover iterations, marking |0111>. Full histogram in
-[grover-h2-1e-histogram.json](grover-h2-1e-histogram.json).
+Grover iterations, marking |0111>. The full record - job metadata, the exact QIR submitted,
+the raw payload returned, and an explanation - is committed next to the problem at
+[`problems/archived/15_database_search/azure_runs/2026-09-02-grover-h2-1e/`](../../problems/archived/15_database_search/azure_runs/2026-09-02-grover-h2-1e/README.md).
 
 | Run | Marked state `[0,1,1,1]` | What it shows |
 |---|---|---|
-| Local ideal simulator, 200 shots | **97%** | the algorithm is correct |
-| Quantinuum H2 emulator, 100 shots | **80%** | what a real noise model costs you |
+| Analytic, noiseless | **96.1%** | the ceiling for this circuit |
+| Local ideal simulator, 200 shots | 92-97% across runs | the algorithm is correct |
+| Quantinuum H2 emulator, 100 shots | **80 of 100** | what a real noise model costs you |
 
-The remaining 20% is spread thinly across twelve other outcomes at 1-3% each - noise, not a
-competing answer. That is the single most honest slide in the episode and it cost one command.
+> **Say "80 out of 100 shots" against "about 96%".** The emulator count is exact. The ideal
+> is analytic - `sin²((2k+1)·arcsin(sqrt(M/N)))` - *not* a simulator run. This line said
+> "97%" until 2026-09-03, which was one lucky 200-shot sample; repeat runs gave 92.5%, 93.5%
+> and 96.0%. Quoting a sampled number as a constant is how a demo gets contradicted live.
+
+The remaining 20 shots are spread thinly across twelve other outcomes at 1-3 shots each -
+noise, not a competing answer. That is the single most honest slide in the episode and it
+cost one command.
 
 **Which workspace, and why it is not the original one.** This ran in **`qgc-af-demo`**
 (resource group `qgc-af-demo-rg`), created 2026-09-02. The original
@@ -455,6 +463,44 @@ deleted. Verified 2026-09-02.
 **Beat 4 still reads from the original workspace.** Its five `database_search` rows are the
 established story, and listing is a control-plane operation that never touches storage - re-run
 green after every change above. The new job is *extra* evidence, not a replacement.
+
+**But it can only *list*.** `az quantum job show` and `az quantum job output` fail with
+`InternalError` on every job in that workspace, because those payloads are in the locked
+managed account. Confirmed on three separate jobs 2026-09-03. If you need to *open* a job on
+camera, use `qgc-af-demo`, where `job output` renders a proper histogram.
+
+## C8. The temporary storage exclusion, and undoing it
+
+**Why it exists.** With its storage locked, the original workspace reports
+`provisioningState: Failed`. It is still `usable: Yes` and every beat 4 command works, but a
+red *Failed* on screen is not something to explain mid-recording.
+
+**The cause was not what it looked like.** It was assumed to be the pre-existing `ionq`
+provider failure. It was not: a full PUT to the workspace fails while it cannot reach its own
+storage, and that is what left the state stale. Re-opening the storage and reconciling cleared
+it to **Succeeded** on 2026-09-03 with `ionq` still `Failed` - so beat 4's target list still
+shows the IonQ *Unavailable* rows, which are part of the script.
+
+**How it is opened.** [`Set-AzureDemoAccess.ps1`](Set-AzureDemoAccess.ps1) applies the policy's
+own sanctioned exclusion - a `SecurityControl=Ignore` tag - to the resource group and the
+storage account, opens the account, and reconciles the workspace. It asserts on the resulting
+values rather than exit codes, because a Modify policy discards writes while still returning
+success.
+
+```powershell
+.\docs\AzureFriday\Set-AzureDemoAccess.ps1 -Check     # what is open right now
+.\docs\AzureFriday\Set-AzureDemoAccess.ps1 -Apply     # before the recording
+.\docs\AzureFriday\Set-AzureDemoAccess.ps1 -Revert    # AFTER the recording - do not skip
+```
+
+Both directions were verified by a real round trip on 2026-09-03: revert locked it and removed
+both tags, apply reopened it and returned the workspace to `Succeeded`.
+
+> **This is a deliberate, temporary weakening of a corporate security control on one storage
+> account.** It is scoped to `qgcqstore20260304` and its resource group, it is visible in the
+> tags, and `-Revert` puts it back. Run the revert once the recording is done. If Scott asks
+> what the tag is, the honest answer is that the policy ships with an exclusion for exactly
+> this and it is being used briefly and put back.
 
 **If the exemption is ever granted**, one command produces the job, and it asserts on the
 histogram rather than the status:

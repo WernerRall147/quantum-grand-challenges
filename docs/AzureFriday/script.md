@@ -79,8 +79,9 @@ az quantum job list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -o t
   --query "[?contains(name,'database_search')].{Job:name, Status:status, Target:target}"
 az quantum target list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -o table
 
-# Beat 4 - the job I ran today: Grover on Quantinuum's H2 emulator
-type docs\AzureFriday\grover-h2-1e-histogram.json
+# Beat 4 - the job I ran yesterday: Grover on Quantinuum's H2 emulator, rendered
+az quantum job output -g qgc-af-demo-rg -w qgc-af-demo `
+  -j ad36284c-a707-11f1-8583-f068e3583cd5 -o table
 
 # Beat 4 fallback, if the preview CLI errors. Do not retry live.
 type docs\AzureFriday\azure-quantum-snapshot.txt
@@ -119,6 +120,8 @@ back to it unprompted spends time you do not have.
 | [deck-notes.md](deck-notes.md) | Verified numbers, and Section C - Scott's likely questions |
 | [storyboard.md](storyboard.md) | What was actually submitted to the producers |
 | [../tracing.md](../tracing.md) | How the trace works, and the KQL behind it |
+| [Set-AzureDemoAccess.ps1](Set-AzureDemoAccess.ps1) | Opens the Azure Quantum storage exclusion so the workspace does not read *Failed*. **`-Revert` after the recording** |
+| [../../problems/archived/15_database_search/azure_runs/2026-09-02-grover-h2-1e/](../../problems/archived/15_database_search/azure_runs/2026-09-02-grover-h2-1e/README.md) | The Quantinuum run: submitted QIR, raw result, and what the numbers mean |
 
 ### If it breaks
 
@@ -466,30 +469,41 @@ of the field than any slide.
 > ### If Scott asks whether you can submit one right now - you can, and you did
 >
 > Show the result you already have rather than submitting live; the emulator queue moves and
-> quota is finite. It is on disk at
-> [grover-h2-1e-histogram.json](grover-h2-1e-histogram.json):
+> quota is finite. Azure renders it as a histogram, which reads better on camera than JSON:
 >
 > ```powershell
-> type docs\AzureFriday\grover-h2-1e-histogram.json
+> az quantum job output -g qgc-af-demo-rg -w qgc-af-demo `
+>   -j ad36284c-a707-11f1-8583-f068e3583cd5 -o table
 > ```
 >
-> > *"I ran this one this afternoon. Same Grover circuit you just watched, on Quantinuum's H2
-> > emulator. It found the marked item 80% of the time. On the ideal simulator it's 97%. That
-> > gap is the noise - and that's the honest state of the hardware right now."*
+> > *"I ran this one yesterday. Same Grover circuit you just watched, on Quantinuum's H2
+> > emulator. It found the marked item in 80 shots out of 100. With no noise at all that
+> > circuit is about 96% - so that gap is the noise, and that's the honest state of the
+> > hardware right now."*
 >
-> **97% ideal against 80% emulated** is the most honest number in the episode. The other 20%
-> is spread across twelve outcomes at 1-3% each - noise, not a competing answer.
+> **Say "80 out of 100" against "about 96%".** The 80 is an exact count. The 96% is analytic,
+> not a simulator run - repeat simulator runs gave 92.5%, 93.5%, 96.0%, and a single earlier
+> run gave 97%. Do not quote a sampled number as a constant. The other 20 shots are spread
+> across twelve outcomes at 1-3 shots each - noise, not a competing answer.
+>
+> The full record - the exact QIR submitted, the raw payload returned, and the explanation -
+> is committed at
+> [`problems/archived/15_database_search/azure_runs/2026-09-02-grover-h2-1e/`](../../problems/archived/15_database_search/azure_runs/2026-09-02-grover-h2-1e/README.md).
 >
 > **Do not submit live on camera.** Quota is shared across the subscription and metered in
-> eHQC: 200 shots of this kernel was rejected as `NotEnoughQuota`, 100 shots went through. And
-> do not quote the `h2-1sc` histogram if you ever run it - that target is a syntax checker,
-> returns all zeros, and proves nothing about the algorithm.
+> eHQC: 200 shots of this kernel was rejected as `NotEnoughQuota`, 100 shots went through and
+> consumed 40.18. And do not quote the `h2-1sc` histogram if you ever run it - that target is a
+> syntax checker, returns all zeros, and proves nothing about the algorithm.
 >
 > One caveat worth having ready, because it is a good story rather than a bad one: this job ran
 > in a **second workspace**, created that afternoon. The original one cannot accept new jobs -
 > its storage sits in a Microsoft-managed resource group that tenant policy locked down and a
 > deny assignment protects, so not even the subscription Owner can open it. Full diagnosis, and
 > the ten things ruled out getting there, in [deck-notes.md](deck-notes.md) C7.
+>
+> **The original workspace can list jobs but not open them.** `az quantum job show` and
+> `job output` fail on every job there, because those older payloads live in that same locked
+> account. If you need to open a job on camera, use `qgc-af-demo` as above.
 
 **>> Hand off.** *"Have you ever seen a queue time on a quantum computer before?"*
 
@@ -606,11 +620,14 @@ the sequence.
 - [ ] **Beat 2** - `show_trace.py --demo` renders and exits 0
 - [ ] **Beat 3** - the Grover run finishes in about ten seconds and Demo 3 reads 50/50
 - [ ] **Beat 3** - `estimate.json` opens and 61,122 is legible at 1080p
+- [ ] **Azure access open** - `.\docs\AzureFriday\Set-AzureDemoAccess.ps1 -Check` shows
+      `publicNetworkAccess: Enabled` and `provisioningState: Succeeded`. If the workspace
+      reads **Failed**, run `-Apply`. **Run `-Revert` after the recording.**
 - [ ] **Beat 4** - `az quantum job list` and `target list` both return a table, **without
       `-l`**. These need network and a valid login, and the extension is preview - check
       them, not just the app
-- [ ] **Beat 4** - the histogram opens and `[0, 1, 1, 1]` reads `0.8` at 1080p:
-      `type docs\AzureFriday\grover-h2-1e-histogram.json`
+- [ ] **Beat 4** - the rendered histogram shows `[0, 1, 1, 1]` at `0.80` and is legible at
+      1080p: `az quantum job output -g qgc-af-demo-rg -w qgc-af-demo -j ad36284c-a707-11f1-8583-f068e3583cd5 -o table`
 - [ ] **Beat 4 fallback** - `docs\AzureFriday\azure-quantum-snapshot.txt` regenerated today
       and legible. If the live command failed above, this is the beat
 - [ ] No open GitHub issue labelled `uptime`

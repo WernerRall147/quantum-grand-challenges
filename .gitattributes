@@ -1,3 +1,9 @@
 # Keep the generated dependency graph byte-identical across OSes so the CI drift
 # check is reliable (the mapper writes LF; store + check out LF here).
 docs/depgraph/*.json text eol=lf
+
+# Azure Quantum job artifacts are the exact bytes submitted to and returned by the
+# service. They are evidence, so they must not be line-ending normalised - a QIR
+# payload rewritten with CRLF is no longer the thing that ran.
+problems/**/azure_runs/**/*.ll  -text
+problems/**/azure_runs/**/*.json -text

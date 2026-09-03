@@ -84,6 +84,7 @@
     "tooling/test_grover_run_evidence.py",
     "tooling/test_qdk_samples_provenance.py",
     "tooling/test_qsharp_validation.py",
+    "tooling/test_script_claims.py",
     "tooling/test_submit_one_kernel.py",
     "tooling/test_verify_demo_prompts_codegen.py"
   ],

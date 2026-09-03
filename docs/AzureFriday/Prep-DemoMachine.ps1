@@ -1106,12 +1106,12 @@ function Get-PythonCommand {
 function Invoke-SmokeTest {
     $tool = Join-Path $RepoRoot 'tooling\verify_demo_prompts.py'
     if (-not (Test-Path $tool)) {
-        Add-Result -Area 'Demo' -Item 'Five prompts + code generation' -Status 'FAIL' -Detail "not found at $tool"
+        Add-Result -Area 'Demo' -Item 'Demo prompts + code generation' -Status 'FAIL' -Detail "not found at $tool"
         return
     }
     $python = Get-PythonCommand
     if (-not $python) {
-        Add-Result -Area 'Demo' -Item 'Five prompts + code generation' -Status 'FAIL' -Detail 'no python on PATH'
+        Add-Result -Area 'Demo' -Item 'Demo prompts + code generation' -Status 'FAIL' -Detail 'no python on PATH'
         return
     }
 
@@ -1139,7 +1139,7 @@ function Invoke-SmokeTest {
     $codegenLine = [regex]::Match($text, 'OK\s+(\d+)\s+chars of Q#')
 
     if (-not $mismatchLine.Success) {
-        Add-Result -Area 'Demo' -Item 'Five prompts + code generation' -Status 'FAIL' `
+        Add-Result -Area 'Demo' -Item 'Demo prompts + code generation' -Status 'FAIL' `
             -Detail "the tool never reported a mismatch count. See $logPath"
         return
     }
@@ -1147,15 +1147,15 @@ function Invoke-SmokeTest {
     $total = [int]$mismatchLine.Groups[2].Value
 
     if ($exit -eq 0 -and $bad -eq 0 -and $total -ge 5 -and $codegenLine.Success) {
-        Add-Result -Area 'Demo' -Item 'Five prompts + code generation' -Status 'PASS' `
+        Add-Result -Area 'Demo' -Item 'Demo prompts + code generation' -Status 'PASS' `
             -Detail "$total/$total verdicts matched, $($codegenLine.Groups[1].Value) chars of Q# compiled and estimated"
     }
     elseif ($exit -eq 0 -and $bad -eq 0 -and $total -ge 5) {
-        Add-Result -Area 'Demo' -Item 'Five prompts + code generation' -Status 'WARN' `
-            -Detail "verdicts matched but no Q# line was printed. Beat 3 is unproven. See $logPath"
+        Add-Result -Area 'Demo' -Item 'Demo prompts + code generation' -Status 'WARN' `
+            -Detail "verdicts matched; Q# generation did not produce a usable estimate. Not a demo beat - do not tick Generate code on camera. See $logPath"
     }
     else {
-        Add-Result -Area 'Demo' -Item 'Five prompts + code generation' -Status 'FAIL' `
+        Add-Result -Area 'Demo' -Item 'Demo prompts + code generation' -Status 'FAIL' `
             -Detail "$bad of $total prompts drifted (exit $exit). Do not record against this. See $logPath"
     }
 
@@ -1693,7 +1693,7 @@ function Invoke-ReadinessSection {
     Test-UptimeIssue
 
     if ($RunSmoke -and $healthy) { Invoke-SmokeTest }
-    elseif ($RunSmoke) { Add-Result -Area 'Demo' -Item 'Five prompts + code generation' -Status 'SKIP' -Detail 'API health failed, so the smoke test would only repeat it' }
+    elseif ($RunSmoke) { Add-Result -Area 'Demo' -Item 'Demo prompts + code generation' -Status 'SKIP' -Detail 'API health failed, so the smoke test would only repeat it' }
 
     $beatFiles = @()
     if ($PreExecute -and $healthy) {

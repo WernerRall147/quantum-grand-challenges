@@ -424,6 +424,9 @@
   "tooling/validate_algorithm_index.py": [
     "agents/tests/test_algorithm_index_validation.py"
   ],
+  "tooling/verify_demo_prompts.py": [
+    "tooling/test_verify_demo_prompts_codegen.py"
+  ],
   "website/components/CostReference.tsx": [
     "website/pages/costs.tsx"
   ],

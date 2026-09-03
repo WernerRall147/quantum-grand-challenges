@@ -1,9 +1,9 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1262,
-    "code_files": 273,
-    "python": 206,
+    "tracked": 1267,
+    "code_files": 274,
+    "python": 207,
     "qsharp": 53,
     "ts": 14,
     "edges": 204,
@@ -224,6 +224,7 @@
     "tooling/eval_paper_classifier.py",
     "tooling/expand_algorithm_zoo.py",
     "tooling/extract_readmes.py",
+    "tooling/fetch_azure_job.py",
     "tooling/generate_advantage_claims.py",
     "tooling/generate_calibration_ensemble.py",
     "tooling/generate_estimates.py",

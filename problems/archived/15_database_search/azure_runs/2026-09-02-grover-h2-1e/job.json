@@ -1,0 +1,47 @@
+{
+  "beginExecutionTime": "2026-09-02T19:58:09.922164Z",
+  "cancellationTime": null,
+  "containerUri": "https://qgcafdemo20260902.blob.core.windows.net/job-ad36284c-a707-11f1-8583-f068e3583cd5?<sas-stripped>",
+  "costEstimate": {
+    "currencyCode": "USD",
+    "estimatedTotal": 0.0,
+    "events": [
+      {
+        "amountBilled": 40.18,
+        "amountConsumed": 40.18,
+        "dimensionId": "ehqc",
+        "dimensionName": "EHQC",
+        "measureUnit": "hqc",
+        "unitPrice": 0.0
+      }
+    ]
+  },
+  "creationTime": "2026-09-02T19:51:29.5512524Z",
+  "endExecutionTime": null,
+  "errorData": null,
+  "id": "ad36284c-a707-11f1-8583-f068e3583cd5",
+  "inputDataFormat": "qir.v1",
+  "inputDataUri": "https://qgcafdemo20260902.blob.core.windows.net/job-ad36284c-a707-11f1-8583-f068e3583cd5/inputData?<sas-stripped>",
+  "inputParams": {
+    "arguments": [],
+    "entryPoint": "ENTRYPOINT__main",
+    "shots": 100,
+    "target_profile": "Adaptive_RI"
+  },
+  "isCancelling": false,
+  "itemType": "Job",
+  "jobType": "QuantumComputing",
+  "lastModifiedTime": "2026-09-02T19:58:15.1234609Z",
+  "metadata": null,
+  "name": "qgc-15_database_search-grover",
+  "outputDataFormat": "microsoft.quantum-results.v2",
+  "outputDataUri": "https://qgcafdemo20260902.blob.core.windows.net/job-ad36284c-a707-11f1-8583-f068e3583cd5/outputData?<sas-stripped>",
+  "providerId": "quantinuum",
+  "quantumComputingData": {
+    "count": 1
+  },
+  "sessionId": null,
+  "status": "Succeeded",
+  "tags": [],
+  "target": "quantinuum.sim.h2-1e"
+}

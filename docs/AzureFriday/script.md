@@ -4,41 +4,10 @@ Step-by-step for **Thu 3 Sept 2026, 12:00 PM PT**. Read [README.md](README.md) f
 operational runbook and [deck-notes.md](deck-notes.md) Section C for Scott's likely
 questions. This file is what you actually follow on the day.
 
-**The storyboard was submitted on 2026-08-26** ([storyboard.md](storyboard.md) section 0
-is the record). The producers build the episode around it, so every beat below traces to
-something that was promised:
-
-| Submitted | Delivered by |
-|---|---|
-| Prologue: premise, then the confession about being confidently wrong | Prologue, 0:45-1:30 - **confession cut, see below** |
-| Slides: architecture in the prologue, CTA at the end, none mid-demo | Unchanged |
-| Demo: portfolio **live**, FeMoco + Q# + estimate **pre-executed** | **Replaced.** One problem, all live |
-| Demo: raw JSON, `evaluate()` in the editor, deploy log, no portal | **Replaced.** Trace, local run, estimator, Azure Quantum jobs. Still no portal |
-| Wrap: deterministic core generalises, then CTA | Unchanged |
-
-> ## This is a different demo from the one on the form. Tell Chris before the recording.
->
-> Not a tweak - the storyboard promised two problems and code generation, and this is one
-> problem with neither. It was rewritten after the Azure Friday team's run-through, whose
-> feedback is quoted in full in the next section. In their words it was *"way too long"*,
-> *"less dialogue and more lecture"*, and the two worked examples were *"way over regular
-> folks heads"*.
->
-> **What is gone:** FeMoco, portfolio optimisation, Q# generation, Bicep, the RAG confession
-> in the prologue, and about a minute of runtime.
->
-> **What replaces it:** one problem - unsorted search - carried end to end, with far more
-> Azure Quantum on screen: the Resource Estimator, real submitted jobs, and the provider
-> and queue-time list.
->
-> **The through-line still holds.** The episode is still the tool talking you out of quantum;
-> it now does it with a working algorithm and a number from an Azure service instead of two
-> problems nobody in the audience recognises.
-
-If you improvise past this on the day, you are improvising past what Chris and Scott
-prepared against.
-
----
+**The storyboard was submitted on 2026-08-26**, and what you are about to record is
+deliberately not it - one problem instead of two, and no code generation. The full delta,
+and the note to flag it to Chris before you start, is in
+[storyboard.md](storyboard.md).
 
 ## Everything you open, in order
 
@@ -55,12 +24,6 @@ order Chris asked for: the **last** one becomes the closing background.
 
 Beats 2, 3 and 4 are **all terminal**. That is deliberate: it is one window, no tab
 hunting, and it is where the Azure Quantum content lives.
-
-Have a terminal open and sized so twelve lines are legible at 1080p - beat 3's output is
-twenty lines and beat 4's job table is wide.
-
-**Not committed, deliberately:** the StreamYard studio link. This repo is public; it is in
-Chris's prep mail.
 
 ### Terminal, in beat order
 
@@ -167,18 +130,14 @@ optimisation is. That was the complaint, and this is the fix.
 | Real Azure Quantum jobs | **6 succeeded** on Quantinuum H2 + Rigetti QVM | `azureRunHistory.json` |
 | Anyone can run it | two commands, no Azure account | README "Try it, no setup" |
 
-**Shor was the obvious alternative and it fails on evidence.** Factoring is the more famous
-story, and the app does return `QUANTUM_ADVANTAGE` for RSA-2048 with Q# that compiled 3
-times out of 3. But the local demo does not actually factor 15 - quantum period finding
-returns r=8 where the classical period is 4, and the GCDs come back 15 and 1 rather than 3
-and 5. And the generated circuit's estimate swung **60,665 → 17 → 17** physical qubits
-across three runs on 2026-09-01. Saying "this is what breaking RSA costs" over the number
-17 is a credibility failure with a live audience. Grover is the one that survives contact.
+**If asked why not Shor** - factoring is the more famous story, and it fails on evidence:
+the local demo does not actually factor 15, and the generated estimate swung 60,665 → 17 →
+17 qubits across three runs. The full answer is in [deck-notes.md](deck-notes.md) C6.
 
 **The spine of the episode, in one number:**
 
 > It takes **61,122 physical qubits** to reliably search **sixteen items**. Classically
-> that is four comparisons.
+> that is eight comparisons on average, on hardware you already own.
 
 That is the whole thesis, it comes from an Azure service rather than from an opinion, and
 it needs no mathematics to land.
@@ -252,9 +211,10 @@ Two details worth having ready:
 of this revision. Chris: *"Do not plan to talk nonstop for several minutes."* Azure
 Friday: *"less dialogue and more lecture."*
 
-The **>>** marks below are deliberate hand-offs. There are now **five** of them in five and
-a half minutes, and none is optional. If Scott does not take one, ask him a direct
-question - the suggested ones are written in.
+The **>>** marks below are deliberate hand-offs. There are **six** of them inside the demo -
+two in beat 1, one in beat 2, two in beat 3, one in beat 4 - across five and a half minutes,
+and none is optional. If Scott does not take one, ask him a direct question - the suggested
+ones are written in. Two more sit in the prologue and the wrap.
 
 **No block below is longer than four sentences.** That is the rule that fixes the note.
 
@@ -279,9 +239,18 @@ One line of origin - **one line**:
 
 Then the slide, twenty seconds. Do not read the boxes out:
 
-> Container Apps, AI Search over a curated corpus, the Foundry model-router, and Azure
-> Quantum for the estimates. The only part that matters today: the verdict is decided in
-> code, before the model is ever called.
+> It is an app on Azure Container Apps. It searches a curated set of quantum algorithms,
+> calls a model through Azure AI Foundry to write the explanation, and calls Azure Quantum
+> for the hardware estimates. But the verdict itself is decided in code, before the model
+> is ever asked.
+
+**That last sentence is the setup for beat 2, so do not skip it.** It is the first time the
+audience hears there is a model in the loop at all, and it plants the question beat 2
+answers: if a model writes the answer, who decided it?
+
+> **Say "a model", not "an agent".** `QGC_USE_AGENT=0` - the Foundry agent is switched off
+> and the model-router is what runs. "An AI agent running in AI Foundry" is on the do-not-say
+> list at the end of this file, and Scott is exactly the audience who would ask which agent.
 
 ---
 
@@ -300,7 +269,7 @@ Leave **Generate code unticked**. Hit Evaluate.
 Set it up in two sentences while it thinks - **no mathematics, and do not teach Grover**:
 
 > There is a famous quantum algorithm for exactly this, from 1996, and it is one of the very
-> few where the speedup is actually proven rather than conjectured. It has been the poster
+> few where the speedup is actually proven. It has been the poster
 > child for quantum search ever since.
 
 **Precision matters on that line.** Grover is provably *optimal* for unstructured search -
@@ -336,8 +305,25 @@ Every response carries a trace of what each step decided. Three sentences, point
 > not called until step 4, and by then the answer is already an input it is being asked to
 > explain. It is allowed to disagree, and when it does that gets recorded and thrown away.
 
-> That is not a policy or a prompt. It is call order, and there is a test that fails the
-> build if it ever changes.
+> That is not a policy or a prompt. It is the order the code runs in, and there is a test
+> that fails the build if it ever changes.
+
+**If Scott asks what actually decides it - "is that the AI?"** The honest answer is no, and
+it is three things in order, all visible on screen:
+
+| Step | What it does | Is it the model? |
+|---|---|---|
+| 1. `classify_problem` | searches the curated set of 20 problems for the closest known algorithm - here it found **Element Distinctness**, already marked `HPC_PREFERRED` | no |
+| 1b. `route_platform` | scores the wording for quantum / HPC / AI signals and applies the physics criteria, then picks a verdict from a fixed decision table | no |
+| 4. `model call` | writes the prose explanation, having been handed the verdict as an input | yes, and only here |
+
+> So: **retrieval finds the precedent, rules make the call, the model writes it up.** The
+> word "agent" does not appear anywhere in that sentence, and neither does "the AI decided".
+
+**"Call order" means literally the order the functions run in.** That is the point worth
+landing: the model cannot overrule the verdict because *it has not been called yet* when the
+verdict is set. It is not being trusted to behave - it is not in the room. Say it that way
+if the phrase "call order" lands flat.
 
 **>> Hand off.** *"That is the bit I would steal for any agent - has that bitten you?"*
 
@@ -350,7 +336,7 @@ the deciding is free, the writing is twenty-odd seconds.
 
 **Screen: the terminal. This is the heart of the episode.**
 
-> Here is the awkward part. The algorithm is not broken. Watch it run.
+> Here is the awkward part. The algorithm is not broken. Watch it run. 
 
 ```powershell
 python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/15_database_search/qsharp'); qsharp.run('Main.RunGroverDemonstration()', shots=1)"
@@ -391,8 +377,30 @@ type problems\archived\15_database_search\circuits\estimate.json
 > qubits, and sixty-three percent of the machine doing nothing but manufacturing the special
 > states the algorithm needs.
 
-> Classically, searching sixteen items is four comparisons. That is the answer, and it is a
-> number from an Azure service rather than an opinion from me.
+> Classically, searching sixteen items is eight comparisons on average - sixteen if you are
+> unlucky. That is the answer, and it is a number from an Azure service rather than an
+> opinion from me.
+
+> **Say eight, not four.** Unsorted search is O(N), so the average is N/2 = 8 and the worst
+> case is 16 - that is the repo's own convention (`searchSpace / 2`, "average for 1 target",
+> in `Main.qs`). Four is `log₂(16)`, which is binary search on a **sorted** list, and this
+> whole episode is about the *unsorted* case. The contrast is overwhelming either way, so
+> there is nothing to gain from the wrong number and an audience correction to lose.
+
+**If you say only one more thing here, say this.** Plain version, no mathematics - this is
+the line for the developer watching who has never touched a qubit:
+
+> Think of it as a discount you have to pay an enormous joining fee for. Quantum search does
+> cut the work - roughly the square root, so ten million lookups becomes a couple of thousand
+> rounds. But you only get that discount on a machine that does not exist yet, and the
+> estimator just told us the entry price: sixty-one thousand physical qubits to search sixteen
+> items. Your laptop finds one of sixteen in about eight comparisons. The discount is real and
+> the joining fee is astronomical, so the tool says use the machine you already own.
+
+**Why the tool says HPC, in one sentence, if he pushes:** the speedup is quadratic, and
+quadratic is not steep enough to outrun the cost of error correction. That is the whole
+episode. Do not reach for a bigger word than "quadratic" - Grover is not an exponential
+speedup, and claiming one is the exact over-claim this app exists to stop.
 
 **>> Hand off.** *"That gap is the whole industry right now."*
 
@@ -412,12 +420,6 @@ committed - but read them anyway.
 az quantum job list -g Quantum-Grand-Challenges -w Quantum-Grand-Challenges -o table `
   --query "[?contains(name,'database_search')].{Job:name, Status:status, Target:target}"
 ```
-
-> **No `-l`.** The `--location` flag is deprecated, and it pins the request to API version
-> `2023-11-13-preview` which the service is in the middle of retiring. On 2026-09-01 that
-> combination returned `NoRegisteredProviderFound` on one machine and worked on another
-> minutes later. Without the flag the CLI resolves the location itself. Six runs each way
-> succeeded afterwards, so this is **intermittent, not fixed** - see the fallback below.
 
 Five rows, and they tell the whole story on their own:
 
@@ -637,6 +639,8 @@ the sequence.
 
 ## Do not say
 
+- "Searching sixteen items is four comparisons" - it is **eight** on average, sixteen worst
+  case. Four is `log₂(16)`, which is binary search on a *sorted* list.
 - "An AI agent running in AI Foundry" - it is the model-router; the agent is off.
 - "I created an MCP server" - there is none in this repo; the Learn MCP is consumed.
 - "Azure Container Instances" - it is Container Apps.

@@ -372,6 +372,7 @@ feature list.
 | Could you have done this with logs? | You could log the same facts. What you get from spans is the *order* and the nesting for free, which is the thing being claimed - and one id that joins the browser session to the backend request. |
 | Do you know if anyone gets stuck waiting? | That is the one thing the backend trace cannot tell you, which is why Clarity is on the site. It answers "did they wait", the trace answers "what happened while they did". **Only if asked** - do not raise it. |
 | Can you submit a job right now? | **No, and the reason is worth telling** - see C7 below. Do not attempt it on camera. |
+| Why search, and not factoring? Shor is the famous one. | **Because search is the one that survives contact.** The app does return `QUANTUM_ADVANTAGE` for RSA-2048, and the Q# compiled 3 times out of 3 - but the local demo does not actually factor 15. Quantum period finding returns r=8 where the classical period is 4, and the GCDs come back 15 and 1 rather than 3 and 5. The generated circuit's estimate also swung **60,665 → 17 → 17** physical qubits across three runs on 2026-09-01. Saying "this is what breaking RSA costs" over the number 17 is a credibility failure with a live audience. Grover runs, is provably optimal, and its estimate is stable. |
 
 ## C7. "Can you submit a job right now?" - yes, and here is one from today
 

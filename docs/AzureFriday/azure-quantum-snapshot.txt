@@ -1,4 +1,4 @@
-Azure Quantum snapshot - captured 2026-09-02 14:46 UTC
+Azure Quantum snapshot - captured 2026-09-03 06:04 UTC
 Workspace: Quantum-Grand-Challenges (eastus). Regenerate with Prep-DemoMachine.ps1 -PreFlight.
 Fallback prop for beat 4. The live commands are in script.md; this is what they printed.
 
@@ -16,11 +16,11 @@ qgc-15_database_search            Succeeded  quantinuum.sim.h2-1sc
 
 Provider    Target-id                    Current Availability    Average Queue Time (seconds)
 ----------  ---------------------------  ----------------------  ------------------------------
-quantinuum  quantinuum.sim.h2-1sc        Available               0
-quantinuum  quantinuum.sim.h2-1e         Available               187
+quantinuum  quantinuum.sim.h2-1sc        Available               3
+quantinuum  quantinuum.sim.h2-1e         Available               0
 rigetti     rigetti.sim.qvm              Available               5
 ionq        ionq.qpu.aria-1              Unavailable             0
-ionq        ionq.simulator               Available               36
+ionq        ionq.simulator               Available               3
 ionq        ionq.qpu.forte-1             Unavailable             0
 ionq        ionq.qpu.forte-enterprise-1  Available               0
-pasqal      pasqal.sim.emu-free          Available               1
+pasqal      pasqal.sim.emu-free          Available               0

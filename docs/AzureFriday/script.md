@@ -85,7 +85,7 @@ type docs\AzureFriday\grover-h2-1e-histogram.json
 # Beat 4 fallback, if the preview CLI errors. Do not retry live.
 type docs\AzureFriday\azure-quantum-snapshot.txt
 
-# ~15 min before: five prompts + code generation, against production
+# ~15 min before: six prompts + code generation, against production
 python tooling/verify_demo_prompts.py
 
 # Day-of machine + demo readiness, one command
@@ -115,7 +115,7 @@ back to it unprompted spends time you do not have.
 
 | File | What it owns |
 |---|---|
-| [README.md](README.md) | Runbook, the five prompts, what to do when it breaks |
+| [README.md](README.md) | Runbook, the six prompts, what to do when it breaks |
 | [deck-notes.md](deck-notes.md) | Verified numbers, and Section C - Scott's likely questions |
 | [storyboard.md](storyboard.md) | What was actually submitted to the producers |
 | [../tracing.md](../tracing.md) | How the trace works, and the KQL behind it |
@@ -600,7 +600,7 @@ Azure Friday is exactly where someone checks.
 Every one of these is a prop in the new demo. Run them in beat order - that also rehearses
 the sequence.
 
-- [ ] `python tooling/verify_demo_prompts.py` ~15 min before - all five verdicts
+- [ ] `python tooling/verify_demo_prompts.py` ~15 min before - all six verdicts
 - [ ] **Beat 1** - the site returns `HPC_PREFERRED` for the search prompt, and is not in
       DEMO MODE
 - [ ] **Beat 2** - `show_trace.py --demo` renders and exits 0

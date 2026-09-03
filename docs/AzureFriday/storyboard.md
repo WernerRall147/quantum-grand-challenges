@@ -172,7 +172,7 @@ command lines live in [README.md](README.md) section 9, not here.
 
 - [ ] No open GitHub issue labelled `uptime`
 - [ ] Section 4 smoke test in `README.md` run ~15 min before
-- [ ] All five prompts in `README.md` section 5 re-verified, verdicts match
+- [ ] All six prompts in `README.md` section 5 re-verified, verdicts match
 - [ ] Site loads and does not show DEMO MODE
 
 ## 9. Notes on framing

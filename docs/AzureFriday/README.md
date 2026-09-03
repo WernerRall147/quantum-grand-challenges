@@ -100,7 +100,7 @@ GitHub Actions.
 
 ## 4. Pre-show smoke test (run ~15 min before recording)
 
-One command. It reads the five prompts straight out of section 5 below, so it checks the
+One command. It reads the six prompts straight out of section 5 below, so it checks the
 exact text you will type on air rather than a copy that can drift:
 
 ```powershell
@@ -236,7 +236,7 @@ a total cloud outage.
 |---|---|---|
 | HTTP 500, `ModuleNotFoundError` in logs | an unpinned dependency drifted on rebuild | `agents/api/requirements.txt` is now pinned exactly. Redeploy a known-good image tag. |
 | A wall of raw JSON where the explanation should be | the model fenced its answer and the parse fell through | Fixed in #162. If it recurs, the verdict is still correct; only the prose is affected. |
-| A confident `QUANTUM_ADVANTAGE` on an obviously classical problem | the router trusted an irrelevant retrieval hit | Fixed in #159. Re-run all five prompts in section 5. |
+| A confident `QUANTUM_ADVANTAGE` on an obviously classical problem | the router trusted an irrelevant retrieval hit | Fixed in #159. Re-run all six prompts in section 5. |
 | *Generate code* ticked, verdict fine, no code block appears | the generator raised and the API returned an empty string | The site now shows a red failure panel with the error rather than rendering nothing. Check the panel text; a `ModuleNotFoundError` means a file the generator needs is missing from the image - see `agents/tests/test_container_contents.py`. |
 
 > A recurring lesson: a green status is not evidence. The ingester reported success for
@@ -338,7 +338,7 @@ call-to-action last. Budget eight minutes; most of it is the smoke test.
 
 - [ ] No open GitHub issue labelled `uptime`
 - [ ] Run the section 4 smoke test ~15 minutes before
-- [ ] Re-run all five prompts in section 5 and confirm the verdicts match
+- [ ] Re-run all six prompts in section 5 and confirm the verdicts match
 - [ ] Site loads and does not show DEMO MODE
 - [ ] `show_trace.py` renders and exits 0 - it is a prop in beat 2, and a font size
       that is unreadable at 1080p is discovered on camera otherwise

@@ -65,43 +65,50 @@ def evaluate(base: str, problem: str, timeout: int, generate_code: bool = False)
 
 
 def check_codegen(base: str, problem: str, timeout: int) -> int:
-    """Run the beat-3 path and report why it is unusable, not just that it is.
+    """Run the code-generation path and report why it is unusable, not just that it is.
 
     The five checks above all post generate_code=false, so this tool passed clean while
     Q# generation was dead in production for months, and again while it returned 3,182
     characters of source whose every resource estimate was a compiler error. Non-empty is
     not usable, so this asserts the estimate too.
+
+    Returns 0 even when generation is broken, and says so loudly instead. No beat in the
+    reworked demo shows generated Q#: beat 1 says "leave Generate code unticked" and beat 3
+    is the local Grover run. Blocking a recording on a path that is never on camera trains
+    you to ignore a red check, which is worse than not having one.
     """
-    print(f"\ncode generation ({problem[:40]}...)")
+    print(f"\ncode generation - NOT a demo beat, does not block the recording")
     try:
         data, seconds = evaluate(base, problem, timeout, generate_code=True)
     except Exception as exc:
-        print(f"  FAIL: request failed: {str(exc)[:200]}")
-        return 1
+        print(f"  WARN: request failed: {str(exc)[:200]}")
+        return 0
 
     qsharp = data.get("qsharp_code") or ""
     estimation = data.get("estimation") or {}
     pareto = data.get("resource_estimate_pareto") or []
     broken = [r for r in pareto if r.get("error")]
 
-    print(f"  {seconds:.1f}s   this is the beat 3 number - rehearse against it, not the median above")
+    print(f"  {seconds:.1f}s   ({problem[:40]}...)")
+
+    def warn(detail: str) -> int:
+        print(f"  WARN: {detail}")
+        print("  Generation is flaky and is not on camera. Do not tick 'Generate code' live,")
+        print("  and if Scott asks whether it writes Q#, say it does and that it is the")
+        print("  least reliable part - which is true, and a better answer than a demo.")
+        return 0
 
     if not qsharp:
-        print(f"  FAIL: no Q# returned. {str(estimation.get('error'))[:200]}")
-        return 1
+        return warn(f"no Q# returned. {str(estimation.get('error'))[:200]}")
     if estimation.get("error"):
-        print(f"  FAIL: {str(estimation['error'])[:250]}")
-        return 1
+        return warn(str(estimation["error"])[:250])
     if estimation.get("estimate_error"):
-        print(f"  FAIL: estimation failed: {str(estimation['estimate_error'])[:200]}")
-        return 1
+        return warn(f"estimation failed: {str(estimation['estimate_error'])[:200]}")
     if estimation.get("physical_qubits") is None:
-        print(f"  FAIL: no physical_qubits, entry={estimation.get('entry_expression')!r}")
-        return 1
+        return warn(f"no physical_qubits, entry={estimation.get('entry_expression')!r}")
     if broken:
-        print(f"  FAIL: {len(broken)}/{len(pareto)} Pareto rows errored: "
-              f"{str(broken[0]['error'])[:200]}")
-        return 1
+        return warn(f"{len(broken)}/{len(pareto)} Pareto rows errored: "
+                    f"{str(broken[0]['error'])[:200]}")
 
     print(f"  OK   {len(qsharp)} chars of Q#, entry {estimation.get('entry_expression')}, "
           f"{estimation.get('physical_qubits')} physical qubits, {len(pareto)} Pareto rows")
@@ -113,7 +120,7 @@ def main() -> int:
     parser.add_argument("--base", default=DEFAULT_BASE, help="evaluator API base URL")
     parser.add_argument("--timeout", type=int, default=180, help="per-request timeout, seconds")
     parser.add_argument("--no-codegen", action="store_true",
-                        help="skip the beat 3 check; it costs another minute or two")
+                        help="skip the code-generation report; it costs another minute or two")
     args = parser.parse_args()
 
     prompts = parse_prompts(RUNBOOK)
@@ -160,14 +167,13 @@ def main() -> int:
     print(f"mismatches: {failures} of {len(prompts)}")
 
     if not args.no_codegen:
-        # The first prompt the runbook expects to be accepted - that is the one whose
-        # verdict puts generated Q# and a resource estimate on screen.
+        # Generated Q# is not on camera in the reworked demo - beat 1 leaves "Generate
+        # code" unticked - so this reports and never adds to `failures`.
         quantum = next((p for p, v in prompts if v == "QUANTUM_ADVANTAGE"), None)
         if quantum is None:
-            print("\nFAIL: no QUANTUM_ADVANTAGE prompt in the table, so beat 3 is unchecked.")
-            failures += 1
+            print("\nWARN: no QUANTUM_ADVANTAGE prompt in the table, so generation is unchecked.")
         else:
-            failures += check_codegen(args.base, quantum, max(args.timeout, 600))
+            check_codegen(args.base, quantum, max(args.timeout, 600))
 
     if failures:
         print("\nDo not record against this. Re-check the router, the algorithm zoo and the search index.")

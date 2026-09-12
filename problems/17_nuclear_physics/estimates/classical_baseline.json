@@ -14,7 +14,7 @@
           "name": "singlet",
           "l": 0,
           "spins": 0,
-          "binding_energy_mev": -1.5334097309396348,
+          "binding_energy_mev": -1.533409730939635,
           "scattering_length_fm": 2.400600097019005e-08,
           "effective_range_fm": 0.004
         },
@@ -22,7 +22,7 @@
           "name": "triplet",
           "l": 1,
           "spins": 1,
-          "binding_energy_mev": -2.6163666510443333,
+          "binding_energy_mev": -2.616366651044336,
           "scattering_length_fm": 1.739565287694931e-08,
           "effective_range_fm": 0.004
         },
@@ -30,12 +30,12 @@
           "name": "d-wave",
           "l": 2,
           "spins": 1,
-          "binding_energy_mev": -3.1903668388207174,
+          "binding_energy_mev": -3.190366838820712,
           "scattering_length_fm": 1.5388462160378238e-08,
           "effective_range_fm": 0.004
         }
       ],
-      "lowest_channel_energy_mev": -3.1903668388207174
+      "lowest_channel_energy_mev": -3.190366838820712
     },
     {
       "instance_id": "medium",
@@ -48,7 +48,7 @@
           "name": "singlet",
           "l": 0,
           "spins": 0,
-          "binding_energy_mev": -1.5210755264085336,
+          "binding_energy_mev": -1.5210755264085334,
           "scattering_length_fm": 1.6002739882437738e-07,
           "effective_range_fm": 0.005714285714285714
         },
@@ -56,12 +56,12 @@
           "name": "triplet",
           "l": 1,
           "spins": 1,
-          "binding_energy_mev": -2.610557874900945,
+          "binding_energy_mev": -2.610557874900946,
           "scattering_length_fm": 1.1596188320607057e-07,
           "effective_range_fm": 0.005714285714285714
         }
       ],
-      "lowest_channel_energy_mev": -2.610557874900945
+      "lowest_channel_energy_mev": -2.610557874900946
     },
     {
       "instance_id": "small",
@@ -74,7 +74,7 @@
           "name": "singlet",
           "l": 0,
           "spins": 0,
-          "binding_energy_mev": -1.964335816764429,
+          "binding_energy_mev": -1.9643358167644294,
           "scattering_length_fm": 2.505005941247841e-06,
           "effective_range_fm": 0.01
         },

@@ -1,6 +1,6 @@
 ---
 applyTo: "tooling/estimator/**,tooling/azure/**,problems/*/estimates/**"
-description: "Hackathon workstream A - real resource estimates. Directory ownership, the trap that was removed, and what the guards now enforce."
+description: "Hackathon workstream A - one resource-estimate pipeline. Directory ownership, the trap that was removed, and what the guards now enforce."
 ---
 
 # Workstream A - resource estimates
@@ -27,28 +27,43 @@ non-zero when nothing was estimated.
 
 `tooling/test_estimate_provenance.py`:
 
-- No estimate artifact under an active `problems/*/estimates/` may carry mock provenance
-  (`build.qdk_version == "mock"`, or an `estimator_version` starting `mock-`). Every
-  artifact is checked, not just `latest.json` - 30 of them were mock while `latest.json`
-  was already real.
-- `estimates/latest.json` must agree with `circuits/estimate.json` on logical and physical
-  qubits. Two independently-driven pipelines, one truth; a fabricated value in either
-  diverges immediately.
+- **The single estimate must name its estimator.** `circuits/estimate.json` carries
+  `build.qdkVersion`, `estimatorVersion`, commit and timestamp; a missing, `unknown` or
+  `mock` version fails. An estimate that cannot say what produced it is not evidence.
+- **No second estimate store.** Nothing under an active `problems/*/estimates/` may be an
+  estimate artifact (a mapping carrying `estimator_target`). Two stores is precisely how a
+  fabricated constant sat unnoticed one directory away from real numbers for six months.
+  Classical baselines, Azure job manifests, run results and calibration ensembles live in
+  that directory, describe different things, and stay.
+- The original operation-name check still applies: an estimate naming a Q# operation the
+  code no longer defines is describing a ghost.
 
-Deliberately **not** "every problem must report a different budget". `02_catalysis`,
-`07_drug_discovery` and `17_nuclear_physics` genuinely coincide at 12 logical / 57,764
-physical because they share one VQE-shaped ansatz, so a distinctness rule would fail on
-true data. A check with known false positives is one people learn to ignore.
+Both new guards were watched failing - mock provenance set on the surviving estimate, and
+a stray `latest.json` dropped back into `estimates/` - before being trusted.
 
-Both guards were watched failing - mock provenance restored, and a qubit count edited back
-to the old 35,200 - before being trusted.
+Deliberately **not** "every problem must report a different budget", which #255 proposed.
+`02_catalysis`, `07_drug_discovery` and `17_nuclear_physics` genuinely coincide at
+12 logical / 57,764 physical because they share one VQE-shaped ansatz, so a distinctness
+rule would fail on true data. A check with known false positives is one people learn to
+ignore.
 
-## What is left (slice 2)
+## One pipeline (slice 2, done)
 
-One pipeline. `problems/*/estimates/` and `problems/*/circuits/estimate.json` both still
-exist and are now kept consistent by a test rather than by construction. Decide whether the
-former is generated from the latter or retired, and repoint
-`tooling/azure/assess_problem_readiness.py` and `prepare_problem_manifest.py` accordingly.
+`tooling/generate_estimates.py` is the only thing that measures. It writes
+`problems/<id>/circuits/estimate.json` for all 20 problems plus the website data.
+
+`problems/<id>/estimates/` is **retired as an estimate store** for active problems.
+`tooling/estimator/run_estimation.py` refuses to write there without
+`--allow-retired-store`, and the consumers now read the single source:
+
+| Consumer | Reads |
+| --- | --- |
+| `tooling/azure/assess_problem_readiness.py` | `circuits/estimate.json` |
+| `tooling/azure/prepare_problem_manifest.py` | `circuits/estimate.json` |
+| `tooling/estimator/generate_summary.py` | `circuits/estimate.json` |
+
+Archived problems keep their historical store: they are a record of downgraded work, and
+CI still regenerates `05_qaoa_maxcut` with `--mock`.
 
 ## You own
 
@@ -62,14 +77,12 @@ to cross a seam, say so in the pull request rather than crossing it quietly.
 ## Regenerating
 
 ```
-python tooling/estimator/run_estimation.py --all \
-  --problem 01_hubbard,02_catalysis,07_drug_discovery,09_factorization,14_materials_discovery,16_error_correction,17_nuclear_physics,18_photovoltaics,19_quantum_chromodynamics \
-  --targets surface_code_generic_v1,qubit_gate_ns_e3
-python tooling/estimator/generate_summary.py
+python tooling/generate_estimates.py        # the measurement, all 20 problems
+python tooling/estimator/generate_summary.py  # the derived markdown summaries
 ```
 
-Never pass `--mock` for an active problem: the artifacts it writes are explicitly labelled
-simulated output, and the guard above will fail the build.
+Never pass `--mock` for an active problem. The artifacts it writes are explicitly
+labelled simulated output, and both guards above will fail the build.
 
 Shared rules - branching, the depgraph regeneration that trips most red builds,
 verification expectations - are in `.github/copilot-instructions.md` and the pull request

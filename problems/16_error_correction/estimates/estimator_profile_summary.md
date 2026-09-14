@@ -1,8 +1,7 @@
 # Repetition Code QEC Estimator Summary
 
-Auto-generated from latest target artifacts in `estimates/`.
+Auto-generated from `circuits/estimate.json`, the single source of truth for this problem's resource estimate.
 
 | Instance | Target | Logical Qubits | Physical Qubits | T Count | Runtime (s) | Source |
 |---|---|---:|---:|---:|---:|---|
-| not instance-specific | surface_code_generic_v1 | 18 | 1,746 | n/a | 7.35e-06 | `16_error_correction/estimates/surface_code_generic_v1_2026-09-14T141258.772210Z.json` |
-| not instance-specific | qubit_gate_ns_e3 | 18 | 1,746 | n/a | 7.35e-06 | `16_error_correction/estimates/qubit_gate_ns_e3_2026-09-14T141258.960822Z.json` |
+| not instance-specific | qubit_gate_ns_e3 + surface_code | 18 | 1,746 | n/a | 7.35e-06 | `problems/16_error_correction/circuits/estimate.json` |

@@ -52,6 +52,18 @@ REAL_TARGET_PROFILES = {
     "qubit_gate_ns_e4": ("qubit_gate_ns_e4", "surface_code", 1e-4),
 }
 
+# Active problems keep exactly one estimate: problems/<id>/circuits/estimate.json,
+# written by tooling/generate_estimates.py. A second store under
+# problems/<id>/estimates/ is what let a fabricated constant sit undetected next to
+# real numbers, so this script refuses to recreate it. Archived problems still use it:
+# they are a record of downgraded work, and CI regenerates 05_qaoa_maxcut with --mock.
+ACTIVE_STORE_RETIRED_MESSAGE = (
+    "problems/{problem_id}/estimates/ is retired as an estimate store. The single "
+    "source of truth is problems/{problem_id}/circuits/estimate.json - regenerate it "
+    "with `python tooling/generate_estimates.py`. Pass --allow-retired-store only if "
+    "you intend to reintroduce a second set of numbers for this problem."
+)
+
 # estimator_config lives one level up, beside the other tooling modules.
 _TOOLING_DIR = Path(__file__).resolve().parents[1]
 if str(_TOOLING_DIR) not in sys.path:
@@ -155,7 +167,8 @@ class EstimationManager:
         params_file_override: Optional[str] = None,
         dry_run: bool = False,
         summary_output: Optional[Path] = None,
-        simulate: bool = False
+        simulate: bool = False,
+        allow_retired_store: bool = False
     ) -> Dict[str, Any]:
         problems_cfg = self.config.get("problems", [])
         if not isinstance(problems_cfg, list):
@@ -205,7 +218,13 @@ class EstimationManager:
                 print(f"Warning: {exc}", file=sys.stderr)
                 continue
 
-            estimator = ResourceEstimator(problem_dir)
+            try:
+                estimator = ResourceEstimator(
+                    problem_dir, allow_retired_store=allow_retired_store
+                )
+            except RuntimeError as exc:
+                print(f"Skipping {problem_id}: {exc}", file=sys.stderr)
+                continue
             instance_details = self._load_instance_details(problem, problem_dir)
             algorithm = problem.get("algorithm", "unknown")
             estimator_params = problem.get("estimator_params", {})
@@ -327,10 +346,22 @@ class EstimationManager:
 class ResourceEstimator:
     """Wrapper for Azure Quantum Resource Estimator."""
     
-    def __init__(self, problem_dir: Path):
+    def __init__(self, problem_dir: Path, allow_retired_store: bool = False):
         self.problem_dir = Path(problem_dir)
         self.estimates_dir = self.problem_dir / "estimates"
+        self.allow_retired_store = allow_retired_store
+        if self._writes_to_retired_store():
+            raise RuntimeError(
+                ACTIVE_STORE_RETIRED_MESSAGE.format(problem_id=self.problem_dir.name)
+            )
         self.estimates_dir.mkdir(exist_ok=True)
+
+    def _writes_to_retired_store(self) -> bool:
+        """True when this would add a second estimate store for an active problem."""
+        if self.allow_retired_store:
+            return False
+        # Archived problems keep their historical store; only live problems converge.
+        return "archived" not in self.problem_dir.resolve().parts
 
     @staticmethod
     def _normalize_label(value: object) -> Optional[str]:
@@ -804,6 +835,10 @@ def main():
                         help="Override estimator parameters_file path for selected batch problems (relative to problem dir)")
     parser.add_argument("--mock", action="store_true",
                         help="Simulate estimator outputs instead of calling Azure Resource Estimator")
+    parser.add_argument("--allow-retired-store", action="store_true",
+                        help="Write into problems/<id>/estimates/ for an active problem. "
+                             "That store is retired in favour of circuits/estimate.json; "
+                             "use only to deliberately reintroduce a second set of numbers.")
 
     args = parser.parse_args()
 
@@ -835,7 +870,8 @@ def main():
             params_file_override=args.params_file,
             dry_run=args.dry_run,
             summary_output=summary_path,
-            simulate=args.mock
+            simulate=args.mock,
+            allow_retired_store=args.allow_retired_store
         )
         if args.dry_run:
             print("[INFO] Dry run completed. No estimations executed.")
@@ -881,7 +917,9 @@ def main():
     if not args.problem_dir:
         parser.error("problem_dir is required in single-run mode.")
 
-    estimator = ResourceEstimator(args.problem_dir)
+    estimator = ResourceEstimator(
+        args.problem_dir, allow_retired_store=args.allow_retired_store
+    )
 
     # Load instance parameters if provided (accept JSON or YAML).
     instance_params = None

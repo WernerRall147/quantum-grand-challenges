@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-14T14:18:06Z",
+  "generated_utc": "2026-09-14T15:01:34Z",
   "summary": {
     "total_problems": 20,
     "ready_now": 9,
@@ -13,7 +13,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/01_hubbard/estimates/latest.json",
+      "sample_evidence_path": "problems/01_hubbard/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {
@@ -23,7 +23,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/02_catalysis/estimates/latest.json",
+      "sample_evidence_path": "problems/02_catalysis/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {
@@ -73,7 +73,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/07_drug_discovery/estimates/latest.json",
+      "sample_evidence_path": "problems/07_drug_discovery/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {
@@ -93,7 +93,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/09_factorization/estimates/latest.json",
+      "sample_evidence_path": "problems/09_factorization/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {
@@ -143,7 +143,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/14_materials_discovery/estimates/latest.json",
+      "sample_evidence_path": "problems/14_materials_discovery/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {
@@ -163,7 +163,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/16_error_correction/estimates/latest.json",
+      "sample_evidence_path": "problems/16_error_correction/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {
@@ -173,7 +173,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/17_nuclear_physics/estimates/latest.json",
+      "sample_evidence_path": "problems/17_nuclear_physics/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {
@@ -183,7 +183,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/18_photovoltaics/estimates/latest.json",
+      "sample_evidence_path": "problems/18_photovoltaics/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {
@@ -193,7 +193,7 @@
       "qsharp_dir": true,
       "estimates_dir": true,
       "evidence_found": true,
-      "sample_evidence_path": "problems/19_quantum_chromodynamics/estimates/latest.json",
+      "sample_evidence_path": "problems/19_quantum_chromodynamics/circuits/estimate.json",
       "shared_workflow_ready": true
     },
     {

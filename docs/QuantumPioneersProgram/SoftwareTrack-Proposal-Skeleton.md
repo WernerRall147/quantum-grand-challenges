@@ -101,17 +101,20 @@ build if a fabricated artifact reappears.
 
 | Problem (real estimate) | Logical qubits | Physical qubits | T-count | T-depth | Runtime | Code distance |
 |---|---|---|---|---|---|---|
-| 02_catalysis - VQE H2 (`qubit_gate_ns_e3`) | 12 | 57,764 | not reported | 12 | 0.97 ms | 23 |
-| 02_catalysis - VQE H2 (`surface_code_generic_v1`) | 12 | 57,764 | not reported | 12 | 0.97 ms | 23 |
-| 09_factorization - Shor N=15 (`qubit_gate_ns_e3`) | 25 | 53,065 | 6 | 13 | 0.29 ms | 17 |
+| 02_catalysis - VQE H2 | 12 | 57,764 | not reported | 12 | 0.97 ms | 23 |
+| 09_factorization - Shor N=15 | 25 | 53,065 | 6 | 13 | 0.29 ms | 17 |
 
-*Source: `problems/*/estimates/latest*.json` (`qdk_version: 1.31.0`), cross-checked
-against `problems/*/circuits/estimate.json` by `tooling/test_estimate_provenance.py`.
-The two catalysis rows agree because `surface_code_generic_v1` predates the
-qubit-model/QEC split and resolves to the same machine as `qubit_gate_ns_e3`; the
-artifact records the resolved triple, so the agreement is visible rather than assumed.
-T-count is recorded as "not reported" rather than zero where the trace does not expose
-it. Extending these to measurement-based logical budgets remains **Aim 1**.*
+*Source: `problems/*/circuits/estimate.json` (`build.qdkVersion: 1.31.0`,
+`qubit_gate_ns_e3 + surface_code`), the single source of truth for a problem's resource
+estimate. A second store under `problems/*/estimates/` previously held a fabricated
+constant beside these real numbers; it is retired, and
+`tooling/test_estimate_provenance.py` fails the build if it reappears or if the surviving
+estimate cannot name the estimator that produced it. The catalysis row is listed once
+rather than per target profile: `surface_code_generic_v1` predates the qubit-model/QEC
+split and resolves to the same machine as `qubit_gate_ns_e3`, so reporting both printed
+one measurement as two. T-count is recorded as "not reported" rather than zero where the
+trace does not expose it. Extending these to measurement-based logical budgets remains
+**Aim 1**.*
 
 **Scientifically-grounded targets (documented, literature-based).** The utility
 thresholds the hardened pipeline would estimate honestly (from

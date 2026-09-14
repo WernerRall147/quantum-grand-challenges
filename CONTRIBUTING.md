@@ -153,11 +153,21 @@ make estimate  # Runs resource estimation pipeline
 
 ### 2. Create a Branch
 
+`main` is protected: pull requests are required, force pushes and deletions are blocked,
+and the rules apply to administrators too. Nobody pushes straight to `main`.
+
+Approvals required is **0** — CI is the gate, so you can self-merge once it is green.
+Request a review when you want one, not because the branch demands it. Note that
+unresolved review conversations *do* block merge.
+
 ```bash
 git checkout main
 git pull origin main
-git checkout -b feature/your-feature-name
+git checkout -b feat/your-feature-name
 ```
+
+Use the prefix that matches the change: `feat/`, `fix/`, `docs/`, `test/`, `chore/`.
+Pull requests are squash-merged, so the PR title becomes the commit message.
 
 ### 3. Implement Your Changes
 
@@ -171,7 +181,7 @@ cd problems/XX_problem_name
 make classical
 make analyze
 
-# Q# build (requires local .NET 6.0 runtime)
+# Q# compile + run (modern QDK via the qsharp Python package - no .NET required)
 make build
 
 # (Optional) Run resource estimation wrappers
@@ -187,39 +197,19 @@ make estimate
 
 ## 📝 Pull Request Template
 
-When submitting a pull request, please include:
+The template lives in [`.github/pull_request_template.md`](.github/pull_request_template.md)
+and GitHub applies it automatically when you open a pull request. It is the single source
+of truth — this file does not restate it.
 
-```markdown
-## Description
-Brief description of the changes
+Two items in it catch people out:
 
-## Type of Change
-- [ ] New problem implementation
-- [ ] Algorithm improvement
-- [ ] Bug fix
-- [ ] Documentation update
-- [ ] Performance optimization
-
-## Problem Details (for new implementations)
-- **Problem**: Which grand challenge does this address?
-- **Algorithm**: What quantum algorithm is implemented?
-- **Quantum Advantage**: What speedup/advantage does this provide?
-- **Resources**: What are the estimated resource requirements?
-
-## Testing
-- [ ] Q# code compiles without errors
-- [ ] Unit tests pass
-- [ ] Classical baseline implemented and tested
-- [ ] Resource estimation completed
-- [ ] Documentation updated
-
-## Checklist
-- [ ] Code follows style guidelines
-- [ ] Self-review completed
-- [ ] Documentation updated
-- [ ] Tests added/updated
-- [ ] No breaking changes (or clearly documented)
-```
+- **Regenerate the dependency graph.** If your PR touches any `.py`, `.qs`, `.ts`, `.tsx`,
+  `Makefile`, `Dockerfile`, `.github/workflows/**` or `website/package.json`, run
+  `python tooling/depgraph/build_graph.py` and commit `docs/depgraph/*` in the same PR.
+  Otherwise the `depgraph-drift` check fails. This is the most common red build here.
+- **Watch a new check fail before trusting it.** Break the thing deliberately, confirm the
+  check goes red, then restore. See [`.github/copilot-instructions.md`](.github/copilot-instructions.md),
+  *"A green check is not evidence"*.
 
 ## 🚨 Issue Templates
 

@@ -50,6 +50,7 @@
     "agents/tests/test_paper_classifier.py",
     "agents/tests/test_stdlib_index.py",
     "agents/tests/test_trace_ordering.py",
+    "agents/tests/test_verdict_evaluator.py",
     "agents/tests/test_zoo_reconciliation.py",
     "conftest.py",
     "problems/01_hubbard/python/test_baseline.py",

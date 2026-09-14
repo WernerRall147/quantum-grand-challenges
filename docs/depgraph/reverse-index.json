@@ -21,9 +21,11 @@
   ],
   "agents/classifier/platform_router.py": [
     "agents/evaluations/run_eval.py",
+    "agents/evaluations/run_foundry_eval.py",
     "agents/evaluations/score_narrative.py",
     "agents/orchestrator/evaluate.py",
     "agents/tests/test_evaluator_smoke.py",
+    "agents/tests/test_verdict_evaluator.py",
     "tooling/reporting/check_homepage_stats.py",
     "tooling/validate_algorithm_index.py"
   ],
@@ -50,8 +52,15 @@
   "agents/evaluations/run_eval.py": [
     ".github/workflows/ci-cd.yml"
   ],
+  "agents/evaluations/run_foundry_eval.py": [
+    "agents/tests/test_verdict_evaluator.py"
+  ],
   "agents/evaluations/score_narrative.py": [
     ".github/workflows/ci-cd.yml"
+  ],
+  "agents/evaluations/verdict_evaluator.py": [
+    "agents/evaluations/run_foundry_eval.py",
+    "agents/tests/test_verdict_evaluator.py"
   ],
   "agents/observability/trace.py": [
     "agents/api/main.py",
@@ -62,6 +71,7 @@
   ],
   "agents/orchestrator/citations.py": [
     "agents/evaluations/score_narrative.py",
+    "agents/evaluations/verdict_evaluator.py",
     "agents/orchestrator/evaluate.py"
   ],
   "agents/orchestrator/evaluate.py": [
@@ -82,6 +92,7 @@
   ],
   "knowledge/search/kb_client.py": [
     "agents/evaluations/run_eval.py",
+    "agents/evaluations/run_foundry_eval.py",
     "agents/orchestrator/evaluate.py",
     "tooling/measure_corpus_decidability.py"
   ],

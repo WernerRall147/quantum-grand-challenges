@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1269,
-    "code_files": 276,
-    "python": 209,
+    "tracked": 1272,
+    "code_files": 279,
+    "python": 212,
     "qsharp": 53,
     "ts": 14,
-    "edges": 204,
-    "roots": 270,
-    "reachable": 299
+    "edges": 211,
+    "roots": 271,
+    "reachable": 302
   },
   "nodes": [
     "agents/api/main.py",
@@ -21,7 +21,9 @@
     "agents/code_generator/generate.py",
     "agents/code_generator/stdlib_index.py",
     "agents/evaluations/run_eval.py",
+    "agents/evaluations/run_foundry_eval.py",
     "agents/evaluations/score_narrative.py",
+    "agents/evaluations/verdict_evaluator.py",
     "agents/observability/__init__.py",
     "agents/observability/trace.py",
     "agents/orchestrator/citations.py",
@@ -44,6 +46,7 @@
     "agents/tests/test_paper_classifier.py",
     "agents/tests/test_stdlib_index.py",
     "agents/tests/test_trace_ordering.py",
+    "agents/tests/test_verdict_evaluator.py",
     "agents/tests/test_zoo_reconciliation.py",
     "conftest.py",
     "knowledge/ingest/algorithm_zoo_parser.py",
@@ -450,6 +453,18 @@
       "knowledge/search/kb_client.py"
     ],
     [
+      "agents/evaluations/run_foundry_eval.py",
+      "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/evaluations/run_foundry_eval.py",
+      "agents/evaluations/verdict_evaluator.py"
+    ],
+    [
+      "agents/evaluations/run_foundry_eval.py",
+      "knowledge/search/kb_client.py"
+    ],
+    [
       "agents/evaluations/score_narrative.py",
       "agents/classifier/platform_router.py"
     ],
@@ -464,6 +479,10 @@
     [
       "agents/evaluations/score_narrative.py",
       "agents/orchestrator/output_schema.py"
+    ],
+    [
+      "agents/evaluations/verdict_evaluator.py",
+      "agents/orchestrator/citations.py"
     ],
     [
       "agents/orchestrator/evaluate.py",
@@ -572,6 +591,18 @@
     [
       "agents/tests/test_trace_ordering.py",
       "agents/orchestrator/evaluate.py"
+    ],
+    [
+      "agents/tests/test_verdict_evaluator.py",
+      "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/tests/test_verdict_evaluator.py",
+      "agents/evaluations/run_foundry_eval.py"
+    ],
+    [
+      "agents/tests/test_verdict_evaluator.py",
+      "agents/evaluations/verdict_evaluator.py"
     ],
     [
       "agents/tests/test_zoo_reconciliation.py",

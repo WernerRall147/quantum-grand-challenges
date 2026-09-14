@@ -7,23 +7,29 @@
   },
   "estimator_target": "qubit_gate_ns_e3",
   "metrics": {
-    "logical_qubits": 16,
-    "physical_qubits": 35200,
-    "t_count": 65536,
-    "t_depth": 4096,
-    "clifford_count": 262144,
-    "runtime_seconds": 480.0,
-    "runtime_days": 0.005555555555555556
+    "logical_qubits": 12,
+    "physical_qubits": 57764,
+    "t_depth": 12,
+    "runtime_seconds": 0.000966,
+    "runtime_days": 1.1180555555555554e-08
   },
   "build": {
-    "commit": "2b4198b280e0767d75d6f4484ccda20ccfb3de03",
-    "qdk_version": "mock",
-    "estimator_version": "mock-qubit_gate_ns_e3",
-    "date_utc": "2026-03-24T17:22:44.404097Z"
+    "commit": "ba290207d25872da5f8ba08e6c12b0e4a6702f84",
+    "qdk_version": "1.31.0",
+    "estimator_version": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
+    "date_utc": "2026-09-14T14:12:59.421029Z"
   },
   "notes": "Estimated using qubit_gate_ns_e3 target profile",
+  "estimator_inputs": {
+    "entry_expr": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 1)",
+    "qubit_model": "qubit_gate_ns_e3",
+    "qec_scheme": "surface_code",
+    "max_error": 0.001,
+    "code_distance": 23,
+    "pareto_points": 11
+  },
   "_metadata": {
-    "artifact_path": "02_catalysis/estimates/qubit_gate_ns_e3_2026-03-24T172244.404097Z.json",
-    "generated_at_utc": "2026-03-24T17:22:44.404097Z"
+    "artifact_path": "02_catalysis/estimates/qubit_gate_ns_e3_2026-09-14T141259.421029Z.json",
+    "generated_at_utc": "2026-09-14T14:12:59.421029Z"
   }
 }

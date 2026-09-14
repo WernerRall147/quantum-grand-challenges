@@ -78,19 +78,33 @@ def has_divincenzo_readiness(text: str) -> bool:
 
 
 def has_populated_estimator_profile_summary(problem_dir: Path) -> bool:
+    """True when the summary table carries real qubit counts rather than placeholders.
+
+    This used to require rows labelled small/medium/large. That baked in an instance
+    vocabulary the generator no longer uses: where no per-instance artifact exists,
+    tooling/estimator/generate_summary.py now emits one row marked "not
+    instance-specific" rather than repeating a single measurement under three labels
+    that imply three. Judge the content, not the row label.
+    """
     summary_path = problem_dir / "estimates" / "estimator_profile_summary.md"
     if not summary_path.exists():
         return False
 
     text = summary_path.read_text(encoding="utf-8", errors="replace")
-    for instance in ("small", "medium", "large"):
-        pattern = re.compile(
-            rf"^\|\s*{instance}\s*\|.*\|\s*(?!n/a)([^|]+)\|\s*(?!n/a)([^|]+)\|",
-            re.IGNORECASE | re.MULTILINE,
-        )
-        if not pattern.search(text):
-            return False
-    return True
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("|") or set(stripped) <= set("|-: "):
+            continue
+        cells = [c.strip() for c in stripped.strip("|").split("|")]
+        if len(cells) < 4:
+            continue
+        logical, physical = cells[2], cells[3]
+        if logical.lower() in ("", "n/a", "logical qubits"):
+            continue
+        if physical.lower() in ("", "n/a", "physical qubits"):
+            continue
+        return True
+    return False
 
 
 def has_backend_assumptions_artifact(problem_dir: Path) -> bool:

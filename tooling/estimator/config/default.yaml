@@ -4,7 +4,6 @@ problems:
 - id: "01_hubbard"
   path: "problems/01_hubbard"
   algorithm: "vqe_demo"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Two-site Hubbard half-filling demo instance"
@@ -19,7 +18,6 @@ problems:
 - id: "03_qae_risk"
   path: "problems/03_qae_risk"
   algorithm: "canonical_qae"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Log-normal tail risk benchmark"
@@ -35,7 +33,6 @@ problems:
 - id: "04_linear_solvers"
   path: "problems/04_linear_solvers"
   algorithm: "hhl"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "2x2 Poisson system HHL demo"
@@ -50,7 +47,6 @@ problems:
 - id: "15_database_search"
   path: "problems/15_database_search"
   algorithm: "grover"
-  qs_file: "qsharp/GroverEstimation.qs"
   instance:
     name: "small"
     description: "12-qubit Grover search estimation"
@@ -65,7 +61,6 @@ problems:
 - id: "05_qaoa_maxcut"
   path: "problems/05_qaoa_maxcut"
   algorithm: "qaoa_depth1"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Weighted triangle max-cut benchmark"
@@ -81,7 +76,6 @@ problems:
 - id: "09_factorization"
   path: "problems/09_factorization"
   algorithm: "shor_period_finding"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Shor factoring N=15"
@@ -96,7 +90,6 @@ problems:
 - id: "10_post_quantum_cryptography"
   path: "problems/10_post_quantum_cryptography"
   algorithm: "grover_key_search"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Grover attack on symmetric key search"
@@ -111,7 +104,6 @@ problems:
 - id: "11_quantum_machine_learning"
   path: "problems/11_quantum_machine_learning"
   algorithm: "swap_test_kernel"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Swap test quantum kernel estimation"
@@ -126,7 +118,6 @@ problems:
 - id: "12_quantum_optimization"
   path: "problems/12_quantum_optimization"
   algorithm: "qaoa_scheduling"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "QAOA weighted job scheduling"
@@ -141,7 +132,6 @@ problems:
 - id: "16_error_correction"
   path: "problems/16_error_correction"
   algorithm: "repetition_code"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "3-qubit bit-flip repetition code"
@@ -156,7 +146,6 @@ problems:
 - id: "02_catalysis"
   path: "problems/02_catalysis"
   algorithm: "vqe_chemistry"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "VQE H2 molecular energy"
@@ -171,7 +160,6 @@ problems:
 - id: "06_high_frequency_trading"
   path: "problems/06_high_frequency_trading"
   algorithm: "quantum_var"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Quantum VaR estimation"
@@ -186,7 +174,6 @@ problems:
 - id: "07_drug_discovery"
   path: "problems/07_drug_discovery"
   algorithm: "vqe_binding"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "VQE molecular binding energy"
@@ -201,7 +188,6 @@ problems:
 - id: "08_protein_folding"
   path: "problems/08_protein_folding"
   algorithm: "qaoa_folding"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "QAOA lattice conformation"
@@ -216,7 +202,6 @@ problems:
 - id: "13_climate_modeling"
   path: "problems/13_climate_modeling"
   algorithm: "hhl_diffusion"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "HHL thermal diffusion PDE"
@@ -231,7 +216,6 @@ problems:
 - id: "14_materials_discovery"
   path: "problems/14_materials_discovery"
   algorithm: "vqe_bandgap"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "VQE band gap estimation"
@@ -246,7 +230,6 @@ problems:
 - id: "17_nuclear_physics"
   path: "problems/17_nuclear_physics"
   algorithm: "vqe_deuteron"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "VQE deuteron binding energy"
@@ -261,7 +244,6 @@ problems:
 - id: "18_photovoltaics"
   path: "problems/18_photovoltaics"
   algorithm: "quantum_walk"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Quantum walk exciton transport"
@@ -276,7 +258,6 @@ problems:
 - id: "19_quantum_chromodynamics"
   path: "problems/19_quantum_chromodynamics"
   algorithm: "trotter_gauge"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "Trotter lattice gauge simulation"
@@ -291,7 +272,6 @@ problems:
 - id: "20_space_mission_planning"
   path: "problems/20_space_mission_planning"
   algorithm: "qaoa_trajectory"
-  qs_file: "qsharp/Program.qs"
   instance:
     name: "small"
     description: "QAOA trajectory optimization"

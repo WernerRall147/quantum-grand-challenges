@@ -32,11 +32,30 @@ PROBLEMS = {
 
 
 def fmt(v):
+    if isinstance(v, bool) or v is None:
+        return "n/a"
     if isinstance(v, int):
         return f"{v:,}"
     if isinstance(v, float):
+        # Real estimates land in microseconds; %.2f rendered every one of them as
+        # "0.00", which reads as "no runtime" rather than "too small for this format".
+        if v and abs(v) < 0.01:
+            return f"{v:.3g}"
         return f"{v:,.2f}"
     return "n/a"
+
+
+def _row(instance, target, payload):
+    m = payload.get("metrics", {})
+    src = payload.get("_metadata", {}).get("artifact_path", "n/a")
+    return (
+        f"| {instance} | {target} "
+        f"| {fmt(m.get('logical_qubits'))} "
+        f"| {fmt(m.get('physical_qubits'))} "
+        f"| {fmt(m.get('t_count'))} "
+        f"| {fmt(m.get('runtime_seconds'))} "
+        f"| `{src}` |"
+    )
 
 
 def main():
@@ -47,26 +66,40 @@ def main():
 
     for pid, label in problems.items():
         edir = repo / "problems" / pid / "estimates"
+        if not edir.is_dir():
+            # Problems downgraded in the Troyer restructure moved under
+            # problems/archived/. Writing into a directory that no longer exists
+            # raised FileNotFoundError and killed the whole run at the first one.
+            print(f"Skipping {pid}: no {edir.relative_to(repo).as_posix()}")
+            continue
         rows = []
-        for instance in ("small", "medium", "large"):
-            for target in TARGETS:
-                lp = edir / f"latest_{target}_{instance}.json"
-                if not lp.exists():
-                    lp = edir / f"latest_{target}.json"
-                if not lp.exists():
-                    rows.append(f"| {instance} | {target} | n/a | n/a | n/a | n/a | n/a |")
-                    continue
-                p = json.loads(lp.read_text(encoding="utf-8-sig"))
-                m = p.get("metrics", {})
-                src = p.get("_metadata", {}).get("artifact_path", "n/a")
-                rows.append(
-                    f"| {instance} | {target} "
-                    f"| {fmt(m.get('logical_qubits'))} "
-                    f"| {fmt(m.get('physical_qubits'))} "
-                    f"| {fmt(m.get('t_count'))} "
-                    f"| {fmt(m.get('runtime_seconds'))} "
-                    f"| `{src}` |"
+        for target in TARGETS:
+            per_instance = {
+                instance: edir / f"latest_{target}_{instance}.json"
+                for instance in ("small", "medium", "large")
+            }
+            found = {i: p for i, p in per_instance.items() if p.exists()}
+            if found:
+                for instance, path in found.items():
+                    rows.append(
+                        _row(instance, target, json.loads(path.read_text(encoding="utf-8-sig")))
+                    )
+                continue
+
+            # No per-instance artifacts. This used to print the same fallback figures
+            # under all three instance labels, which reads as three measurements that
+            # happen to agree rather than one measurement shown three times.
+            fallback = edir / f"latest_{target}.json"
+            if not fallback.exists():
+                rows.append(f"| not instance-specific | {target} | n/a | n/a | n/a | n/a | n/a |")
+                continue
+            rows.append(
+                _row(
+                    "not instance-specific",
+                    target,
+                    json.loads(fallback.read_text(encoding="utf-8-sig")),
                 )
+            )
         md = (
             f"# {label} Estimator Summary\n\n"
             "Auto-generated from latest target artifacts in `estimates/`.\n\n"

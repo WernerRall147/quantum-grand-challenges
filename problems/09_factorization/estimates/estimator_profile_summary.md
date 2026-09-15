@@ -1,12 +1,7 @@
 # Shor Factorization Estimator Summary
 
-Auto-generated from latest target artifacts in `estimates/`.
+Auto-generated from `circuits/estimate.json`, the single source of truth for this problem's resource estimate.
 
 | Instance | Target | Logical Qubits | Physical Qubits | T Count | Runtime (s) | Source |
 |---|---|---:|---:|---:|---:|---|
-| small | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `09_factorization/estimates/surface_code_generic_v1_2026-03-24T153712.290918Z.json` |
-| small | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `09_factorization/estimates/qubit_gate_ns_e3_2026-03-24T153712.362698Z.json` |
-| medium | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `09_factorization/estimates/surface_code_generic_v1_2026-03-24T153712.290918Z.json` |
-| medium | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `09_factorization/estimates/qubit_gate_ns_e3_2026-03-24T153712.362698Z.json` |
-| large | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `09_factorization/estimates/surface_code_generic_v1_2026-03-24T153712.290918Z.json` |
-| large | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `09_factorization/estimates/qubit_gate_ns_e3_2026-03-24T153712.362698Z.json` |
+| not instance-specific | qubit_gate_ns_e3 + surface_code | 25 | 53,065 | 6 | 0.000292 | `problems/09_factorization/circuits/estimate.json` |

@@ -41,6 +41,34 @@ ESTIMATOR_TARGETS = {
     }
 }
 
+# How each target profile above maps onto the modern QDK estimator's parameters:
+# (qubit model, QEC scheme, max error). surface_code_generic_v1 predates the
+# qubit-model/QEC split and is an alias of the default gate-based model, so it and
+# qubit_gate_ns_e3 describe the same machine and are expected to agree. The artifact
+# records the resolved triple, so that agreement is visible rather than a coincidence.
+REAL_TARGET_PROFILES = {
+    "surface_code_generic_v1": ("qubit_gate_ns_e3", "surface_code", 1e-3),
+    "qubit_gate_ns_e3": ("qubit_gate_ns_e3", "surface_code", 1e-3),
+    "qubit_gate_ns_e4": ("qubit_gate_ns_e4", "surface_code", 1e-4),
+}
+
+# Active problems keep exactly one estimate: problems/<id>/circuits/estimate.json,
+# written by tooling/generate_estimates.py. A second store under
+# problems/<id>/estimates/ is what let a fabricated constant sit undetected next to
+# real numbers, so this script refuses to recreate it. Archived problems still use it:
+# they are a record of downgraded work, and CI regenerates 05_qaoa_maxcut with --mock.
+ACTIVE_STORE_RETIRED_MESSAGE = (
+    "problems/{problem_id}/estimates/ is retired as an estimate store. The single "
+    "source of truth is problems/{problem_id}/circuits/estimate.json - regenerate it "
+    "with `python tooling/generate_estimates.py`. Pass --allow-retired-store only if "
+    "you intend to reintroduce a second set of numbers for this problem."
+)
+
+# estimator_config lives one level up, beside the other tooling modules.
+_TOOLING_DIR = Path(__file__).resolve().parents[1]
+if str(_TOOLING_DIR) not in sys.path:
+    sys.path.insert(0, str(_TOOLING_DIR))
+
 
 def _require_yaml() -> Any:
     if yaml is None:
@@ -61,6 +89,18 @@ def _load_yaml_file(path: Path) -> Dict[str, Any]:
 
 def _resolve_repo_root() -> Path:
     return Path(__file__).resolve().parents[2]
+
+
+def _qdk_version() -> str:
+    """The installed QDK version, recorded on every real estimate for provenance."""
+    from importlib import metadata
+
+    for dist in ("qdk", "qsharp"):
+        try:
+            return metadata.version(dist)
+        except metadata.PackageNotFoundError:
+            continue
+    return "unknown"
 
 
 class EstimationManager:
@@ -106,14 +146,19 @@ class EstimationManager:
             "source": relative_instance_path
         }
 
-    def _resolve_qs_file(self, problem_dir: Path, qs_file: Optional[str]) -> Path:
-        if qs_file:
-            candidate = (problem_dir / qs_file).resolve()
-        else:
-            candidate = (problem_dir / "qsharp" / "Program.qs").resolve()
-        if not candidate.exists():
-            raise FileNotFoundError(f"Q# file not found: {candidate}")
-        return candidate
+    def _resolve_qsharp_project(self, problem_dir: Path) -> Path:
+        """The Q# project directory the estimator will load.
+
+        The modern QDK estimates a project (qsharp.json plus src/), not a single
+        file. The config still carries a legacy ``qs_file: qsharp/Program.qs`` key
+        pointing at a path that has not existed since the QDK migration, so
+        requiring that file skipped every problem in the batch - quietly, because
+        a skip only warned and the run still exited 0.
+        """
+        project = (problem_dir / "qsharp").resolve()
+        if not (project / "qsharp.json").exists():
+            raise FileNotFoundError(f"No Q# project (qsharp.json) under {project}")
+        return project
 
     def run_all(
         self,
@@ -122,7 +167,8 @@ class EstimationManager:
         params_file_override: Optional[str] = None,
         dry_run: bool = False,
         summary_output: Optional[Path] = None,
-        simulate: bool = False
+        simulate: bool = False,
+        allow_retired_store: bool = False
     ) -> Dict[str, Any]:
         problems_cfg = self.config.get("problems", [])
         if not isinstance(problems_cfg, list):
@@ -167,12 +213,18 @@ class EstimationManager:
 
             qs_file = None
             try:
-                qs_file = self._resolve_qs_file(problem_dir, problem.get("qs_file"))
+                self._resolve_qsharp_project(problem_dir)
             except FileNotFoundError as exc:
                 print(f"Warning: {exc}", file=sys.stderr)
                 continue
 
-            estimator = ResourceEstimator(problem_dir)
+            try:
+                estimator = ResourceEstimator(
+                    problem_dir, allow_retired_store=allow_retired_store
+                )
+            except RuntimeError as exc:
+                print(f"Skipping {problem_id}: {exc}", file=sys.stderr)
+                continue
             instance_details = self._load_instance_details(problem, problem_dir)
             algorithm = problem.get("algorithm", "unknown")
             estimator_params = problem.get("estimator_params", {})
@@ -294,10 +346,22 @@ class EstimationManager:
 class ResourceEstimator:
     """Wrapper for Azure Quantum Resource Estimator."""
     
-    def __init__(self, problem_dir: Path):
+    def __init__(self, problem_dir: Path, allow_retired_store: bool = False):
         self.problem_dir = Path(problem_dir)
         self.estimates_dir = self.problem_dir / "estimates"
+        self.allow_retired_store = allow_retired_store
+        if self._writes_to_retired_store():
+            raise RuntimeError(
+                ACTIVE_STORE_RETIRED_MESSAGE.format(problem_id=self.problem_dir.name)
+            )
         self.estimates_dir.mkdir(exist_ok=True)
+
+    def _writes_to_retired_store(self) -> bool:
+        """True when this would add a second estimate store for an active problem."""
+        if self.allow_retired_store:
+            return False
+        # Archived problems keep their historical store; only live problems converge.
+        return "archived" not in self.problem_dir.resolve().parts
 
     @staticmethod
     def _normalize_label(value: object) -> Optional[str]:
@@ -352,13 +416,10 @@ class ResourceEstimator:
         """
         if target_name not in ESTIMATOR_TARGETS:
             raise ValueError(f"Unknown target: {target_name}")
-            
-        if qs_file is None:
-            qs_file = self.problem_dir / "qsharp" / "Program.qs"
-            
-        if not qs_file.exists():
-            raise FileNotFoundError(f"Q# file not found: {qs_file}")
-            
+
+        # qs_file is legacy: the modern QDK estimates the whole Q# project, which
+        # _real_estimate resolves from the problem directory. Kept in the signature
+        # for callers that still pass it, but no longer required to exist.
         params_file: Optional[Path] = None
 
         if simulate:
@@ -369,46 +430,16 @@ class ResourceEstimator:
                 mock_overrides=mock_overrides
             )
         else:
-            # Prepare estimation command
-            cmd = [
-                "qsharp-re",  # Resource Estimator CLI
-                "--input", str(qs_file),
-                "--target", target_name,
-                "--output", "json"
-            ]
-
-            if entry_point:
-                cmd.extend([entry_point_flag, entry_point])
-
-            if extra_cli_args:
-                if isinstance(extra_cli_args, str):
-                    cmd.append(extra_cli_args)
-                else:
-                    cmd.extend(list(extra_cli_args))
-
-            # Add instance parameters if provided
+            # Prepare instance parameters for the estimator run. The estimator itself
+            # is called below via the modern QDK, not a subprocess.
             if instance_params:
                 params_file = self.estimates_dir / "temp_params.json"
                 with open(params_file, 'w') as f:
                     json.dump(instance_params, f)
-                cmd.extend(["--params", str(params_file)])
 
         try:
             if not simulate:
-                try:
-                    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-                    raw_output = json.loads(result.stdout)
-                except FileNotFoundError:
-                    print(
-                        "Warning: qsharp-re executable not found. Falling back to mock estimation output.",
-                        file=sys.stderr
-                    )
-                    raw_output = self._generate_mock_output(
-                        target_name,
-                        metadata_parameters=metadata_parameters,
-                        algorithm=algorithm,
-                        mock_overrides=mock_overrides
-                    )
+                raw_output = self._real_estimate(target_name, algorithm=algorithm)
             # Transform to our standard schema
             
             standardized = self._standardize_output(
@@ -464,6 +495,83 @@ class ResourceEstimator:
             if params_file and params_file.exists():
                 params_file.unlink(missing_ok=True)
                 
+    def _real_estimate(self, target_name: str, algorithm: Optional[str]) -> Dict[str, Any]:
+        """Estimate this problem with the modern QDK Resource Estimator.
+
+        This used to shell out to a ``qsharp-re`` executable. No installed package
+        provides that command, so every non-mock run raised FileNotFoundError, was
+        caught, and silently returned fabricated numbers - which is how nine
+        unrelated problems came to report an identical 16 logical / 35,200 physical.
+
+        Calls the same API as tooling/generate_estimates.py, so the two pipelines
+        agree by construction rather than by coincidence. Failures propagate: an
+        estimate that cannot be computed must not be invented.
+        """
+        from estimator_config import ENTRY_POINTS, estimate_summary
+
+        profile = REAL_TARGET_PROFILES.get(target_name)
+        if profile is None:
+            raise ValueError(
+                f"No modern-QDK profile for estimator target '{target_name}'. "
+                f"Add one to REAL_TARGET_PROFILES in {Path(__file__).name}."
+            )
+        qubit_model, qec_scheme, max_error = profile
+
+        problem_id = self.problem_dir.name
+        entry = ENTRY_POINTS.get(problem_id)
+        if entry is None:
+            raise RuntimeError(
+                f"No estimator entry point mapped for '{problem_id}'. "
+                f"Add one to tooling/estimator_config.py ENTRY_POINTS, or run with "
+                f"--mock to produce explicitly-labelled simulated output."
+            )
+
+        qsharp_dir = self.problem_dir / "qsharp"
+        if not (qsharp_dir / "qsharp.json").exists():
+            raise FileNotFoundError(
+                f"No Q# project at {qsharp_dir}; cannot estimate '{problem_id}'."
+            )
+
+        from qdk import qsharp
+
+        qsharp.init(project_root=str(qsharp_dir))
+        entry_expr = entry.expr()
+        summary = estimate_summary(entry_expr, qubit_model, qec_scheme, max_error=max_error)
+
+        logical_qubits = summary.get("logicalQubits")
+        physical_qubits = summary.get("physicalQubits")
+        if not logical_qubits or not physical_qubits:
+            raise RuntimeError(
+                f"Estimator returned no qubit counts for '{problem_id}' on "
+                f"'{target_name}' (entry expression: {entry_expr})."
+            )
+
+        # QRE v3 reports runtime in nanoseconds.
+        runtime_ns = summary.get("runtime")
+        runtime_seconds = float(runtime_ns) / 1e9 if runtime_ns else None
+
+        version = _qdk_version()
+        return {
+            "logicalQubits": logical_qubits,
+            "physicalQubits": physical_qubits,
+            # Left as None when the trace does not report them, so that
+            # _standardize_output omits the metric rather than recording a zero
+            # that reads as a measurement.
+            "tCount": summary.get("tCount"),
+            "tDepth": summary.get("logicalDepth"),
+            "cliffordCount": None,
+            "runtimeSeconds": runtime_seconds,
+            "qdkVersion": version,
+            "estimatorVersion": f"qdk-{version}/{qubit_model}+{qec_scheme}",
+            "algorithm": algorithm or "unknown",
+            "entryExpr": entry_expr,
+            "qubitModel": qubit_model,
+            "qecScheme": qec_scheme,
+            "maxError": max_error,
+            "codeDistance": summary.get("codeDistance"),
+            "paretoPoints": summary.get("paretoPoints"),
+        }
+
     def _generate_mock_output(
         self,
         target_name: str,
@@ -612,6 +720,19 @@ class ResourceEstimator:
         problem_id = self.problem_dir.name
         
         # Build standardized result
+        metrics = {
+            "logical_qubits": raw_output.get("logicalQubits", 0),
+            "physical_qubits": raw_output.get("physicalQubits", 0),
+            "t_count": raw_output.get("tCount", 0),
+            "t_depth": raw_output.get("tDepth", 0),
+            "clifford_count": raw_output.get("cliffordCount", 0),
+            "runtime_seconds": raw_output.get("runtimeSeconds", 0)
+        }
+        # A metric the estimator did not report is dropped rather than written as 0.
+        # Zero T gates and "we could not count the T gates" are different claims, and
+        # only one of them is true.
+        metrics = {k: v for k, v in metrics.items() if v is not None}
+
         result = {
             "problem_id": problem_id,
             "algorithm": algorithm or "unknown",
@@ -620,14 +741,7 @@ class ResourceEstimator:
                 "parameters": metadata_parameters if metadata_parameters is not None else (instance_params or {})
             },
             "estimator_target": target_name,
-            "metrics": {
-                "logical_qubits": raw_output.get("logicalQubits", 0),
-                "physical_qubits": raw_output.get("physicalQubits", 0),
-                "t_count": raw_output.get("tCount", 0),
-                "t_depth": raw_output.get("tDepth", 0),
-                "clifford_count": raw_output.get("cliffordCount", 0),
-                "runtime_seconds": raw_output.get("runtimeSeconds", 0)
-            },
+            "metrics": metrics,
             "build": {
                 "commit": commit,
                 "qdk_version": raw_output.get("qdkVersion", "unknown"),
@@ -636,9 +750,26 @@ class ResourceEstimator:
             },
             "notes": f"Estimated using {target_name} target profile"
         }
-        
+
+        # Provenance for real runs: which Q# expression was estimated, and under which
+        # resolved qubit model / QEC scheme. Absent from mock output by design.
+        estimator_inputs = {
+            key: raw_output.get(camel)
+            for key, camel in (
+                ("entry_expr", "entryExpr"),
+                ("qubit_model", "qubitModel"),
+                ("qec_scheme", "qecScheme"),
+                ("max_error", "maxError"),
+                ("code_distance", "codeDistance"),
+                ("pareto_points", "paretoPoints"),
+            )
+            if raw_output.get(camel) is not None
+        }
+        if estimator_inputs:
+            result["estimator_inputs"] = estimator_inputs
+
         # Add runtime in days for convenience
-        if result["metrics"]["runtime_seconds"] > 0:
+        if result["metrics"].get("runtime_seconds", 0) > 0:
             result["metrics"]["runtime_days"] = result["metrics"]["runtime_seconds"] / 86400
             
         return result
@@ -704,6 +835,10 @@ def main():
                         help="Override estimator parameters_file path for selected batch problems (relative to problem dir)")
     parser.add_argument("--mock", action="store_true",
                         help="Simulate estimator outputs instead of calling Azure Resource Estimator")
+    parser.add_argument("--allow-retired-store", action="store_true",
+                        help="Write into problems/<id>/estimates/ for an active problem. "
+                             "That store is retired in favour of circuits/estimate.json; "
+                             "use only to deliberately reintroduce a second set of numbers.")
 
     args = parser.parse_args()
 
@@ -735,12 +870,42 @@ def main():
             params_file_override=args.params_file,
             dry_run=args.dry_run,
             summary_output=summary_path,
-            simulate=args.mock
+            simulate=args.mock,
+            allow_retired_store=args.allow_retired_store
         )
         if args.dry_run:
             print("[INFO] Dry run completed. No estimations executed.")
         else:
             print(f"[INFO] Batch run completed. Summary: {summary.get('summary_path')}")
+            # A batch that estimated nothing, or failed every target, used to exit 0
+            # with a summary full of error entries. Exiting 0 having produced no
+            # estimate is indistinguishable from success to any caller or CI step.
+            failures = [
+                (problem["id"], err.get("target"), err.get("error"))
+                for problem in summary.get("problems", [])
+                for err in problem.get("errors", [])
+            ]
+            completed = sum(
+                1
+                for problem in summary.get("problems", [])
+                for target in problem.get("targets", [])
+                if target.get("status") == "completed"
+            )
+            for problem_id, target, message in failures:
+                print(f"[FAIL] {problem_id} :: {target}: {message}", file=sys.stderr)
+            if failures:
+                print(
+                    f"[ERROR] {len(failures)} estimation(s) failed, {completed} succeeded.",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+            if completed == 0:
+                print(
+                    "[ERROR] No estimations ran. Check the --problem/--targets filters "
+                    "against the config.",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
         return
 
     if args.targets or args.problem or args.output_dir or args.dry_run or args.summary_path:
@@ -752,7 +917,9 @@ def main():
     if not args.problem_dir:
         parser.error("problem_dir is required in single-run mode.")
 
-    estimator = ResourceEstimator(args.problem_dir)
+    estimator = ResourceEstimator(
+        args.problem_dir, allow_retired_store=args.allow_retired_store
+    )
 
     # Load instance parameters if provided (accept JSON or YAML).
     instance_params = None

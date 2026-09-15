@@ -41,6 +41,9 @@ def _candidate_evidence_paths(problem_dir: Path, instance: str, depth: int) -> L
     estimates = problem_dir / "estimates"
     return [
         estimates / f"quantum_baseline_{instance}_d{depth}.json",
+        # The single source of truth for a resource estimate. The instance-specific
+        # baseline above still wins, because this one is not instance-specific.
+        problem_dir / "circuits" / "estimate.json",
         estimates / "quantum_estimate_ensemble.json",
         estimates / "quantum_estimate.json",
         estimates / "latest.json",

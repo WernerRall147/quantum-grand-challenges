@@ -14,8 +14,11 @@ interface ProblemRow {
   status: string;
   physicalQubits: number;
   logicalQubits: number;
-  tCount: number;
-  rotationCount: number;
+  // null means the estimator trace did not report a count. Zero T gates and "we
+  // could not count the T gates" are different claims, and only one of them is true
+  // for these circuits: 16 of the 20 report null, none report a genuine zero.
+  tCount: number | null;
+  rotationCount: number | null;
   runtime: number;
 }
 
@@ -45,8 +48,49 @@ function fmtRuntime(ns: number): string {
   return `${ns}ns`;
 }
 
+const NOT_REPORTED = '—';
+
+/** A count the trace did not report, rendered as absent rather than as zero. */
+function fmtCount(n: number | null): string {
+  return n === null || n === undefined ? NOT_REPORTED : String(n);
+}
+
+/** Sorts nulls last in both directions: "unknown" is not "smallest". */
+function compareCounts(a: number | null, b: number | null, asc: boolean): number {
+  if (a === null && b === null) return 0;
+  if (a === null) return 1;
+  if (b === null) return -1;
+  return asc ? a - b : b - a;
+}
+
+/** The maturity stage from the problem's recorded status, not an assumption.
+ *
+ * Every row used to render a hardcoded "Stage C" badge while the computed status
+ * sat unused. The repository's own distribution is 8 at B, 9 at C and 3 at D, with
+ * 11 of the 20 archived after an honest downgrade - so the badge contradicted the
+ * project's central claim on the page most likely to be read.
+ */
+function stageBadge(status: string): { label: string; background: string; color: string } {
+  const archived = /archived/i.test(status);
+  if (archived) {
+    return { label: 'Archived', background: '#fee2e2', color: '#991b1b' };
+  }
+  const match = status.match(/Stage\s+([A-D])/i);
+  if (!match) {
+    return { label: 'Stage unrecorded', background: '#f1f5f9', color: '#475569' };
+  }
+  const stage = match[1].toUpperCase();
+  const palette: Record<string, { background: string; color: string }> = {
+    A: { background: '#f1f5f9', color: '#475569' },
+    B: { background: '#fef3c7', color: '#92400e' },
+    C: { background: '#dcfce7', color: '#166534' },
+    D: { background: '#dbeafe', color: '#1e40af' },
+  };
+  return { label: `Stage ${stage}`, ...palette[stage] };
+}
+
 export default function ComparePage() {
-  const rows: ProblemRow[] = Object.entries(resourceEstimates as unknown as Record<string, Record<string, number>>)
+  const rows: ProblemRow[] = Object.entries(resourceEstimates as unknown as Record<string, Record<string, number | null>>)
     .map(([id, est]) => {
       const highlight = problemHighlights.find((p) => p.href.includes(`/${id}`));
       return {
@@ -54,11 +98,12 @@ export default function ComparePage() {
         name: highlight?.title || id.replace(/^\d+_/, '').replace(/_/g, ' '),
         algorithm: ALGORITHM_MAP[id] || '?',
         status: highlight?.status || 'Unknown',
-        physicalQubits: est.physicalQubits || 0,
-        logicalQubits: est.logicalQubits || 0,
-        tCount: est.tCount || 0,
-        rotationCount: est.rotationCount || 0,
-        runtime: est.runtime || 0,
+        physicalQubits: (est.physicalQubits as number) || 0,
+        logicalQubits: (est.logicalQubits as number) || 0,
+        // Deliberately not `|| 0`: that turned "not reported" into a measurement of zero.
+        tCount: est.tCount ?? null,
+        rotationCount: est.rotationCount ?? null,
+        runtime: (est.runtime as number) || 0,
       };
     })
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -67,6 +112,9 @@ export default function ComparePage() {
   const [sortAsc, setSortAsc] = useState(true);
 
   const sorted = [...rows].sort((a, b) => {
+    if (sortKey === 'tCount' || sortKey === 'rotationCount') {
+      return compareCounts(a[sortKey], b[sortKey], sortAsc);
+    }
     const va = a[sortKey];
     const vb = b[sortKey];
     if (typeof va === 'string' && typeof vb === 'string') return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
@@ -133,7 +181,9 @@ export default function ComparePage() {
               </tr>
             </thead>
             <tbody>
-              {sorted.map((r, i) => (
+              {sorted.map((r, i) => {
+                const badge = stageBadge(r.status);
+                return (
                 <tr key={r.id} style={{ borderTop: '1px solid #e2e8f0', background: i % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
                   <td style={{ padding: '0.75rem' }}>
                     <Link href={`/problems/${r.id}/`} style={{ color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}>
@@ -142,17 +192,24 @@ export default function ComparePage() {
                   </td>
                   <td style={{ padding: '0.75rem', color: '#475569' }}>{r.algorithm}</td>
                   <td style={{ padding: '0.75rem' }}>
-                    <span style={{ background: '#dcfce7', color: '#166534', fontWeight: 600, fontSize: '0.75rem', borderRadius: '999px', padding: '0.15rem 0.5rem' }}>
-                      Stage C
+                    <span title={r.status} style={{ background: badge.background, color: badge.color, fontWeight: 600, fontSize: '0.75rem', borderRadius: '999px', padding: '0.15rem 0.5rem' }}>
+                      {badge.label}
                     </span>
                   </td>
                   <td style={{ padding: '0.75rem', fontWeight: 600, color: '#1e293b' }}>{fmtNum(r.physicalQubits)}</td>
                   <td style={{ padding: '0.75rem', color: '#475569' }}>{r.logicalQubits}</td>
-                  <td style={{ padding: '0.75rem', color: r.tCount > 0 ? '#dc2626' : '#475569', fontWeight: r.tCount > 0 ? 700 : 400 }}>{r.tCount}</td>
-                  <td style={{ padding: '0.75rem', color: '#475569' }}>{r.rotationCount}</td>
+                  <td
+                    title={r.tCount === null ? 'The estimator trace did not report a T-gate count for this circuit' : undefined}
+                    style={{ padding: '0.75rem', color: r.tCount ? '#dc2626' : '#94a3b8', fontWeight: r.tCount ? 700 : 400 }}
+                  >{fmtCount(r.tCount)}</td>
+                  <td
+                    title={r.rotationCount === null ? 'The estimator trace did not report a rotation count for this circuit' : undefined}
+                    style={{ padding: '0.75rem', color: r.rotationCount === null ? '#94a3b8' : '#475569' }}
+                  >{fmtCount(r.rotationCount)}</td>
                   <td style={{ padding: '0.75rem', color: '#475569' }}>{fmtRuntime(r.runtime)}</td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </section>

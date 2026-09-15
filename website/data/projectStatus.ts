@@ -57,7 +57,7 @@ export const problemHighlights = [
   {
     title: 'Hubbard Model',
     status: 'Stage B - QPE (upgraded from VQE)',
-    description: 'QPE for 2-site Hubbard ground state. 132k physical qubits, 18 logical. Exponential speedup for strongly-correlated systems. Naturally quantum.',
+    description: 'QPE for 2-site Hubbard ground state. 54k physical qubits, 12 logical. Exponential speedup for strongly-correlated systems. Naturally quantum.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/01_hubbard',
   },
   {
@@ -69,7 +69,7 @@ export const problemHighlights = [
   {
     title: 'Catalysis Simulation',
     status: 'Stage B - QPE (upgraded from VQE)',
-    description: 'QPE for H₂ molecular ground state (STO-3G). 132k physical qubits, 18 logical. Exponential speedup for quantum chemistry.',
+    description: 'QPE for H₂ molecular ground state (STO-3G). 58k physical qubits, 12 logical. Exponential speedup for quantum chemistry.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/02_catalysis',
   },
   {
@@ -93,7 +93,7 @@ export const problemHighlights = [
   {
     title: 'Drug Discovery',
     status: 'Stage B - QPE (upgraded from VQE)',
-    description: 'QPE for molecular binding energy. 130k physical qubits, 18 logical. Exponential speedup for pharmaceutical Hamiltonians.',
+    description: 'QPE for molecular binding energy. 58k physical qubits, 12 logical. Exponential speedup for pharmaceutical Hamiltonians.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/07_drug_discovery',
   },
   {
@@ -136,7 +136,7 @@ export const problemHighlights = [
   {
     title: 'Materials Discovery',
     status: 'Stage B - QPE (upgraded from VQE)',
-    description: 'QPE for band gap estimation via tight-binding Hamiltonian. 132k physical qubits, 18 logical. Exponential speedup for correlated materials.',
+    description: 'QPE for band gap estimation via tight-binding Hamiltonian. 163k physical qubits, 12 logical. Exponential speedup for correlated materials.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/14_materials_discovery',
   },
   {
@@ -154,19 +154,19 @@ export const problemHighlights = [
   {
     title: 'Nuclear Physics',
     status: 'Stage B - QPE (upgraded from VQE)',
-    description: 'QPE for deuteron binding energy via EFT Hamiltonian. 132k physical qubits, 18 logical. Exponential speedup for nuclear many-body systems.',
+    description: 'QPE for deuteron binding energy via EFT Hamiltonian. 58k physical qubits, 12 logical. Exponential speedup for nuclear many-body systems.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/17_nuclear_physics',
   },
   {
     title: 'Photovoltaics',
     status: 'Stage C - Calibrated',
-    description: 'Quantum walk exciton transport with 20-run calibration ensemble. 138k physical qubits, 12 logical.',
+    description: 'Quantum walk exciton transport with 20-run calibration ensemble. 47k physical qubits, 12 logical.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/18_photovoltaics',
   },
   {
     title: 'Quantum Chromodynamics',
     status: 'Stage C - Calibrated',
-    description: 'Trotter lattice gauge with 20-run ensemble (Wilson=0.47 \u00b1 0.066, 95% CI). 131k physical qubits, 9 logical.',
+    description: 'Trotter lattice gauge with 20-run ensemble (Wilson=0.47 \u00b1 0.066, 95% CI). 55k physical qubits, 9 logical.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/19_quantum_chromodynamics',
   },
   {

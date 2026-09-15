@@ -80,3 +80,101 @@ def test_estimate_names_operations_that_still_exist(problem, path):
         + "; ".join(missing)
         + ". Regenerate the estimate, or correct the field."
     )
+
+
+# ---------------------------------------------------------------------------
+# The other way an estimate lies: the numbers were never measured.
+#
+# tooling/estimator/run_estimation.py shelled out to a `qsharp-re` executable that no
+# installed package provides. The FileNotFoundError was caught and answered with
+# _generate_mock_output(), so every "live" run returned a fabricated constant - which is
+# how nine unrelated problems came to report an identical 16 logical / 35,200 physical.
+#
+# That survived because there were two estimate stores. circuits/estimate.json held
+# measurements; problems/<id>/estimates/ held the constant, and fed
+# tooling/azure/assess_problem_readiness.py and prepare_problem_manifest.py, so the
+# fabrication reached readiness claims while the real numbers sat one directory away.
+#
+# There is now one store. These two checks keep it that way: the survivor must carry
+# real provenance, and the retired one must stay retired.
+#
+# Archived problems are excluded from the retirement rule: they are downgraded work
+# kept as a record, and CI still regenerates 05_qaoa_maxcut with --mock.
+# ---------------------------------------------------------------------------
+
+ACTIVE_PROBLEM_DIRS = sorted(
+    path.parent.parent
+    for path in (REPO_ROOT / "problems").glob("*/qsharp/qsharp.json")
+    if "archived" not in path.parts
+)
+
+
+def _problem_id(path: Path) -> str:
+    return path.relative_to(REPO_ROOT).parts[1]
+
+
+def test_every_active_problem_was_discovered():
+    """Guard the guard: an empty glob would make both checks below vacuous."""
+    assert len(ACTIVE_PROBLEM_DIRS) >= 9, (
+        f"expected at least 9 active problems, found {len(ACTIVE_PROBLEM_DIRS)}"
+    )
+
+
+@pytest.mark.parametrize(
+    "problem_dir", ACTIVE_PROBLEM_DIRS, ids=[_problem_id(p) for p in ACTIVE_PROBLEM_DIRS]
+)
+def test_the_single_estimate_carries_real_provenance(problem_dir):
+    """circuits/estimate.json must say which estimator produced it, and not be mock."""
+    problem = _problem_id(problem_dir)
+    path = problem_dir / "circuits" / "estimate.json"
+    assert path.exists(), (
+        f"{problem}: no circuits/estimate.json. It is the single source of truth for "
+        f"this problem's resource estimate - run `python tooling/generate_estimates.py`."
+    )
+
+    build = json.loads(path.read_text(encoding="utf-8-sig")).get("build", {})
+    qdk_version = str(build.get("qdkVersion", ""))
+    estimator_version = str(build.get("estimatorVersion", ""))
+
+    assert qdk_version and qdk_version not in ("mock", "unknown"), (
+        f"{problem}: circuits/estimate.json build.qdkVersion is {qdk_version!r}. "
+        f"An estimate that cannot name the estimator that produced it is not evidence. "
+        f"Regenerate with `python tooling/generate_estimates.py`."
+    )
+    assert not estimator_version.startswith("mock-"), (
+        f"{problem}: build.estimatorVersion is {estimator_version!r}, so these numbers "
+        f"are simulated output regardless of the qdkVersion recorded."
+    )
+
+
+@pytest.mark.parametrize(
+    "problem_dir", ACTIVE_PROBLEM_DIRS, ids=[_problem_id(p) for p in ACTIVE_PROBLEM_DIRS]
+)
+def test_active_problems_keep_only_one_estimate_store(problem_dir):
+    """No second set of resource estimates under problems/<id>/estimates/.
+
+    Selected by shape rather than filename: an estimate artifact from the retired
+    pipeline is a mapping carrying estimator_target. Classical baselines, Azure job
+    manifests, run results and calibration ensembles live in the same directory,
+    describe different things, and stay.
+    """
+    problem = _problem_id(problem_dir)
+    strays = []
+    for path in sorted((problem_dir / "estimates").glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8-sig"))
+        except (ValueError, OSError):
+            continue
+        if isinstance(data, dict) and "estimator_target" in data:
+            strays.append(path.name)
+
+    assert not strays, (
+        f"{problem}: a second estimate store has reappeared under estimates/ - "
+        + ", ".join(strays)
+        + ". circuits/estimate.json is the single source of truth; two stores is how a "
+        "fabricated constant went unnoticed beside real numbers for six months. "
+        "tooling/estimator/run_estimation.py refuses to write here without "
+        "--allow-retired-store."
+    )
+
+

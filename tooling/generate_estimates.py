@@ -25,6 +25,32 @@ ESTIMATES_PATH = Path(__file__).resolve().parent.parent / "website" / "data" / "
 _KERNEL_ENTRY_RE = re.compile(r"@EntryPoint\(\)\s*\n\s*operation\s+(\w+)")
 
 
+def _qdk_version() -> str:
+    """The installed QDK version, recorded on every estimate."""
+    from importlib import metadata
+
+    for dist in ("qdk", "qsharp"):
+        try:
+            return metadata.version(dist)
+        except metadata.PackageNotFoundError:
+            continue
+    return "unknown"
+
+
+def _git_commit() -> str:
+    import subprocess
+
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=Path(__file__).resolve().parent.parent,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
+        return "unknown"
+
+
 def kernel_entry_point(qsharp_dir: Path) -> str | None:
     """The operation Azure Quantum actually executes, which is not what we estimate."""
 
@@ -40,6 +66,8 @@ def main():
 
     problem_dirs = discover_all_problems()
 
+    qdk_version = _qdk_version()
+    commit = _git_commit()
     ok = 0
     fail = 0
     frontiers: dict[str, dict] = {}
@@ -78,6 +106,18 @@ def main():
                 "hardwareKernelEntryPoint": kernel_entry_point(qsharp_dir),
                 "qubitModel": DEFAULT_QUBIT_MODEL,
                 "qecScheme": DEFAULT_QEC_SCHEME,
+                # Provenance on the single source of truth. Without it, "was this
+                # measured or invented?" is unanswerable from the artifact alone -
+                # which is exactly how a fabricated constant survived in
+                # problems/*/estimates/ for six months.
+                "build": {
+                    "commit": commit,
+                    "qdkVersion": qdk_version,
+                    "estimatorVersion": (
+                        f"qdk-{qdk_version}/{DEFAULT_QUBIT_MODEL}+{DEFAULT_QEC_SCHEME}"
+                    ),
+                    "dateUtc": datetime.now(timezone.utc).isoformat(),
+                },
                 **estimate_summary(ep.expr(), DEFAULT_QUBIT_MODEL, DEFAULT_QEC_SCHEME),
             }
 

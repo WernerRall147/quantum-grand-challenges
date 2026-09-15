@@ -27,6 +27,10 @@ def _load_registry() -> List[Dict[str, str]]:
 def _candidate_evidence_paths(problem_dir: Path) -> List[Path]:
     estimates = problem_dir / "estimates"
     return [
+        # The single source of truth for a resource estimate. problems/<id>/estimates/
+        # is retired as an estimate store for active problems: it held a fabricated
+        # constant next to these real numbers for six months.
+        problem_dir / "circuits" / "estimate.json",
         estimates / "quantum_estimate_ensemble.json",
         estimates / "quantum_estimate.json",
         estimates / "latest.json",

@@ -1,12 +1,7 @@
 # Repetition Code QEC Estimator Summary
 
-Auto-generated from latest target artifacts in `estimates/`.
+Auto-generated from `circuits/estimate.json`, the single source of truth for this problem's resource estimate.
 
 | Instance | Target | Logical Qubits | Physical Qubits | T Count | Runtime (s) | Source |
 |---|---|---:|---:|---:|---:|---|
-| small | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `16_error_correction/estimates/surface_code_generic_v1_2026-03-24T153713.498157Z.json` |
-| small | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `16_error_correction/estimates/qubit_gate_ns_e3_2026-03-24T153713.567297Z.json` |
-| medium | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `16_error_correction/estimates/surface_code_generic_v1_2026-03-24T153713.498157Z.json` |
-| medium | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `16_error_correction/estimates/qubit_gate_ns_e3_2026-03-24T153713.567297Z.json` |
-| large | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `16_error_correction/estimates/surface_code_generic_v1_2026-03-24T153713.498157Z.json` |
-| large | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `16_error_correction/estimates/qubit_gate_ns_e3_2026-03-24T153713.567297Z.json` |
+| not instance-specific | qubit_gate_ns_e3 + surface_code | 18 | 1,746 | n/a | 7.35e-06 | `problems/16_error_correction/circuits/estimate.json` |

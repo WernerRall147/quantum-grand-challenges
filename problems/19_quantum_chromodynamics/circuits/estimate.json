@@ -5,6 +5,12 @@
   "hardwareKernelEntryPoint": "LatticeGaugeKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
+  "build": {
+    "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+    "qdkVersion": "1.31.0",
+    "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
+    "dateUtc": "2026-09-14T15:01:19.837299+00:00"
+  },
   "physicalQubits": 54593,
   "runtime": 716450,
   "logicalQubits": 9,

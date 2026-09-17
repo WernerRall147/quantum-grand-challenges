@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Quantum Grand Challenges visualization manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "description", "problems"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "description": {"type": "string"},
+    "problems": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/problem"}
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "nullableNumber": {"type": ["number", "null"], "minimum": 0},
+    "nullableCount": {"type": ["integer", "null"], "minimum": 0},
+    "estimate": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["source", "entry_point", "target", "qubit_model", "qec_scheme", "build", "logical_qubits", "physical_qubits", "runtime_ns"],
+      "properties": {
+        "source": {"$ref": "#/$defs/source"},
+        "entry_point": {"type": ["string", "null"]},
+        "target": {"type": ["string", "null"]},
+        "qubit_model": {"type": ["string", "null"]},
+        "qec_scheme": {"type": ["string", "null"]},
+        "build": {"type": ["object", "null"]},
+        "logical_qubits": {"$ref": "#/$defs/nullableCount"},
+        "physical_qubits": {"$ref": "#/$defs/nullableCount"},
+        "runtime_ns": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "source", "source_generated_utc", "execution", "target", "entry_point", "shots", "histogram"],
+      "properties": {
+        "status": {"enum": ["available", "missing"]},
+        "source": {"oneOf": [{"$ref": "#/$defs/source"}, {"type": "null"}]},
+        "source_generated_utc": {"type": ["string", "null"]},
+        "execution": {"type": ["string", "null"]},
+        "target": {"type": ["string", "null"]},
+        "entry_point": {"type": ["string", "null"]},
+        "shots": {"$ref": "#/$defs/nullableCount"},
+        "histogram": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["outcome", "count"],
+            "properties": {
+              "outcome": {"type": "string"},
+              "count": {"type": "integer", "minimum": 0}
+            }
+          }
+        }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "media_type", "width", "height", "sha256", "alt"],
+      "properties": {
+        "kind": {"const": "poster"},
+        "path": {"type": "string", "pattern": "^assets/[a-zA-Z0-9_/-]+\\.png$"},
+        "media_type": {"const": "image/png"},
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "alt": {"type": "string", "minLength": 1}
+      }
+    },
+    "problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "archived", "stage", "metadata_source", "estimate", "run", "warnings", "render_status", "assets"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[0-9]{2}_[a-z0-9_]+$"},
+        "title": {"type": "string"},
+        "archived": {"type": "boolean"},
+        "stage": {"enum": ["A", "B", "C", "D", "Unknown"]},
+        "metadata_source": {"$ref": "#/$defs/source"},
+        "estimate": {"$ref": "#/$defs/estimate"},
+        "run": {"$ref": "#/$defs/run"},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "render_status": {"enum": ["pending", "rendered"]},
+        "assets": {"type": "array", "maxItems": 1, "items": {"$ref": "#/$defs/asset"}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"render_status": {"const": "rendered"}}},
+          "then": {"properties": {"assets": {"minItems": 1}}},
+          "else": {"properties": {"assets": {"maxItems": 0}}}
+        }
+      ]
+    }
+  }
+}

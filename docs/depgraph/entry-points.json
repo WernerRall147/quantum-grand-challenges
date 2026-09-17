@@ -88,7 +88,9 @@
     "tooling/test_script_claims.py",
     "tooling/test_submit_one_kernel.py",
     "tooling/test_verify_demo_prompts_codegen.py",
-    "tooling/test_website_claims.py"
+    "tooling/test_website_claims.py",
+    "viz/test_interactive.py",
+    "viz/test_pipeline.py"
   ],
   "npm_next": [
     "website/package.json",

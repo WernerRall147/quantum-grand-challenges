@@ -1,0 +1,7 @@
+/.tools/
+/output/
+/.pytest/
+*.blend
+*.blend1
+/assets/*/*/scene.json
+/assets/*/*/render-report.json

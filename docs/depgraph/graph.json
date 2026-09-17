@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1222,
-    "code_files": 280,
-    "python": 213,
+    "tracked": 1258,
+    "code_files": 287,
+    "python": 220,
     "qsharp": 53,
     "ts": 14,
-    "edges": 211,
-    "roots": 272,
-    "reachable": 303
+    "edges": 223,
+    "roots": 274,
+    "reachable": 309
   },
   "nodes": [
     "agents/api/main.py",
@@ -277,6 +277,13 @@
     "tooling/verify_demo_prompts.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py",
+    "viz/__init__.py",
+    "viz/build.py",
+    "viz/data.py",
+    "viz/interactive.py",
+    "viz/render_scene.py",
+    "viz/test_interactive.py",
+    "viz/test_pipeline.py",
     "website/components/CostReference.tsx",
     "website/components/MermaidDiagram.tsx",
     "website/data/projectStatus.ts",
@@ -1056,6 +1063,54 @@
     [
       "tooling/validate_algorithm_index.py",
       "agents/classifier/platform_router.py"
+    ],
+    [
+      "viz/build.py",
+      "viz/data.py"
+    ],
+    [
+      "viz/build.py",
+      "viz/interactive.py"
+    ],
+    [
+      "viz/data.py",
+      "tooling/discover_problems.py"
+    ],
+    [
+      "viz/interactive.py",
+      "viz/data.py"
+    ],
+    [
+      "viz/render_scene.py",
+      "viz/data.py"
+    ],
+    [
+      "viz/test_interactive.py",
+      "viz/__init__.py"
+    ],
+    [
+      "viz/test_interactive.py",
+      "viz/build.py"
+    ],
+    [
+      "viz/test_interactive.py",
+      "viz/data.py"
+    ],
+    [
+      "viz/test_interactive.py",
+      "viz/interactive.py"
+    ],
+    [
+      "viz/test_pipeline.py",
+      "viz/__init__.py"
+    ],
+    [
+      "viz/test_pipeline.py",
+      "viz/build.py"
+    ],
+    [
+      "viz/test_pipeline.py",
+      "viz/data.py"
     ],
     [
       "website/data/projectStatus.ts",

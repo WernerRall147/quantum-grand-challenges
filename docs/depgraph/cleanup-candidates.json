@@ -1,8 +1,8 @@
 {
   "summary": {
-    "total_candidates": 15,
+    "total_candidates": 16,
     "safe_review": 0,
-    "needs_review": 15,
+    "needs_review": 16,
     "python_unparsable": []
   },
   "candidates": [
@@ -125,6 +125,14 @@
       "risk_flags": [
         "cli_main",
         "dynamic_import"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "viz/render_scene.py",
+      "inbound": [],
+      "risk_flags": [
+        "cli_main"
       ],
       "category": "needs_review"
     }

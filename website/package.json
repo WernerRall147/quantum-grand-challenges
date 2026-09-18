@@ -5,6 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "publish-viz": "node scripts/publish-viz.mjs",
+    "predev": "npm run publish-viz",
+    "prebuild": "npm run publish-viz",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

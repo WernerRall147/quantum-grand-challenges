@@ -12,6 +12,7 @@ import noisySimResults from '../../data/noisySimResults.json';
 import emulatorResults from '../../data/emulatorResults.json';
 import multiModelEstimates from '../../data/multiModelEstimates.json';
 import troyerAssessment from '../../data/troyerAssessment.json';
+import vizManifest from '../../data/vizManifest.json';
 
 interface EmulatorData {
   h2_top: string | null;
@@ -92,6 +93,15 @@ const STALE_EMULATOR_PROBLEMS = new Set([
   '17_nuclear_physics',
 ]);
 
+interface VizData {
+  poster: { src: string; width: number; height: number; alt: string };
+  warnings: string[];
+}
+
+interface VizData_Raw extends VizData {
+  id: string;
+}
+
 interface ProblemPageProps {
   problem: {
     title: string;
@@ -113,6 +123,7 @@ interface ProblemPageProps {
     estimatedExpr: string | null;
     executedKernel: string | null;
     troyer: TroyerData | null;
+    viz: VizData | null;
   };
 }
 
@@ -185,6 +196,10 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
   const algorithm = ALGORITHM_MAP[problem.id] || 'Quantum Algorithm';
   const qubits = QUBIT_MAP[problem.id] || '?';
   const est = problem.estimate;
+  const viz = problem.viz;
+  // The rest of the site applies basePath this way; static export does not do it
+  // for a plain <img src>.
+  const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
 
   function fmtNum(n: number | null | undefined): string {
     if (n == null) return '';
@@ -247,6 +262,61 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
             <div style={{ marginTop: '0.5rem', color: '#374151' }}>Modern QDK (qsharp 1.31.0)</div>
           </div>
         </section>
+
+        {viz && (
+          <section style={{ marginTop: '2rem' }}>
+            <h2 style={{ marginBottom: '0.25rem' }}>Run Visualisation</h2>
+            <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 0 }}>
+              Rendered from the committed estimate and simulator artifacts by the{' '}
+              <a
+                href="https://github.com/WernerRall147/quantum-grand-challenges/tree/main/viz"
+                style={{ color: '#2563eb' }}
+              >
+                viz pipeline
+              </a>
+              .
+            </p>
+            {/* eslint-disable-next-line @next/next/no-img-element -- static export with
+                images.unoptimized already set; dimensions come from the manifest. */}
+            <img
+              src={`${basePath}${viz.poster.src}`}
+              alt={viz.poster.alt}
+              width={viz.poster.width}
+              height={viz.poster.height}
+              style={{
+                width: '100%',
+                height: 'auto',
+                borderRadius: '12px',
+                border: '1px solid #e2e8f0',
+                display: 'block',
+              }}
+            />
+            {viz.warnings.length > 0 && (
+              // Beside the image, not behind a toggle. A picture that looks like a
+              // quantum state, shown without the caveat saying it is not one, is
+              // exactly the over-claim this project exists to avoid.
+              <div
+                style={{
+                  marginTop: '0.75rem',
+                  padding: '0.9rem 1.1rem',
+                  background: '#fffbeb',
+                  border: '1px solid #fcd34d',
+                  borderRadius: '10px',
+                  color: '#92400e',
+                  fontSize: '0.88rem',
+                  lineHeight: 1.5,
+                }}
+              >
+                <strong>What this image is not.</strong>
+                <ul style={{ margin: '0.5rem 0 0', paddingLeft: '1.1rem' }}>
+                  {viz.warnings.map((w) => (
+                    <li key={w}>{w}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        )}
 
         {est && (
           <section style={{ marginTop: '2rem', padding: '1.5rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '12px', color: 'white' }}>
@@ -687,6 +757,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     numQubits: rawEstimate.numQubits ?? null,
   } : null;
 
+  // Published from viz/manifest.json by website/scripts/publish-viz.mjs, which runs
+  // as npm `prebuild`. Carries the poster and the caveats that must travel with it.
+  const vizEntry =
+    (vizManifest.problems as VizData_Raw[] | undefined)?.find((p) => p.id === id) ?? null;
+  const viz: VizData | null = vizEntry
+    ? { poster: vizEntry.poster, warnings: vizEntry.warnings ?? [] }
+    : null;
+
   const rawCal = (calibrationData as Record<string, Record<string, unknown>>)[id] || null;
   const calibration = rawCal ? {
     num_runs: (rawCal.num_runs as number) ?? 0,
@@ -799,6 +877,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         status: highlight?.status || 'In Progress',
         description: highlight?.description || '',
         href: highlight?.href || '#',
+        viz,
         estimate,
         calibration,
         readmeHtml,

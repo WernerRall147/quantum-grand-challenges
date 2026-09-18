@@ -8,17 +8,19 @@ verdict against the live API, model `gpt-5.6-luna-2026-07-09` via the model rout
 5-7 references, `used_agent: false`. Code generation verified the same day: 2,981 chars
 of Q#, compiled, 4 clean Pareto rows.
 
-**Latency, five prompts on 2026-08-31 (revision 0000080):** 29.3s, 32.3s, 40.7s, 46.1s,
-98.0s. Rehearse against **two minutes**, and do not quote a number on air - the router
-picks the model, and the spread moved between two runs on the same afternoon.
+**Latency, 40 probe runs 12-18 Sep 2026:** min 15.4s, **median 21.9s**, p95 28.7s, max
+33.8s. Ten live calls on 18 Sep across five prompts gave 18.7-24.4s. Rehearse against
+**two minutes** - the router picks the model - but the median is quotable, and
+`deck-notes.md` owns the wording.
 
-> The max is what catches you out live, and it keeps moving. Fifteen calls on 2026-08-24
-> gave a 38.0s median and a 58.9s worst case, which held until it didn't: five calls on
-> 2026-08-31 produced a 98.0s outlier on the image-classifier prompt. A range measured
-> once is not a range. Plan narration you can stop early, not narration you must stretch.
+> Earlier revisions of this line said *do not quote a number on air*, on the strength of
+> five hand-run calls on 2026-08-31 that produced a **98.0s** outlier on the
+> image-classifier prompt. That prompt now returns in 18.7s, and nothing above 33.8s has
+> appeared in 40 automated samples. Five hand-run calls were never much of a range;
+> forty scheduled ones are a better one. Keep the two-minute rehearsal anyway.
 
-> Earlier revisions of this file quoted a 51.5s median and told you to rehearse
-> against 90s. Those were measured on the **Foundry agent** path. Production moved to
+> Earlier revisions also quoted a 51.5s median and told you to rehearse against 90s.
+> Those were measured on the **Foundry agent** path. Production moved to
 > chat-completions on 2026-08-19 (`QGC_USE_AGENT=0`), and to the Foundry model-router on
 > 2026-08-31 (`QGC_USE_ROUTER=1`), which is what reintroduced the spread.
 
@@ -77,8 +79,12 @@ all cut - the feedback was that two worked examples were too long and too specia
 Not a cold start. `minReplicas` is 1, so the app never scales to zero and that time is
 model inference. Pre-warming will not shorten it, which is why beat 2 is pre-baked.
 
-Figures come from the scheduled probe, which has run every 30 minutes since 2026-08-14
-with no failures. Re-read them before recording rather than trusting this line.
+Figures come from the scheduled probe. Its cron asks for every 30 minutes, but GitHub
+throttles scheduled workflows on public repositories and drops most of them: the observed
+cadence is **roughly one run every 4 hours** - 43 runs in the seven days to 18 Sep 2026,
+with **no failures**. If you are asked how you know the demo is up, that is the honest
+answer, not "every 30 minutes". Re-read the numbers before recording rather than trusting
+this line.
 
 ---
 
@@ -156,8 +162,9 @@ Also open the site and click through one evaluation:
 
 If the site shows **DEMO MODE**, the backend call failed - see section 6.
 
-A scheduled probe already does this every 30 minutes
-(`.github/workflows/uptime-evaluator-api.yml`). It posts the FeMoco prompt, asserts the
+A scheduled probe already does this, in practice about every 4 hours
+(`.github/workflows/uptime-evaluator-api.yml` asks for every 30 minutes; GitHub throttles
+scheduled runs on public repos). It posts the FeMoco prompt, asserts the
 verdict is `QUANTUM_ADVANTAGE`, records latency, and opens a GitHub issue labelled
 `uptime` if it fails. Check that no such issue is open before you record.
 

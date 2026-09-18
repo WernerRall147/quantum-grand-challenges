@@ -64,9 +64,10 @@ jobs:
           set -e
           BODY='{"problem":"I need to find the ground state energy of the FeMoco nitrogenase cofactor for catalyst design"}'
 
-          # 240s ceiling. Measured range is 34.9-72.1s. That time is model
-          # inference, not cold start: minReplicas is 1, so the app never
-          # scales to zero.
+          # 240s ceiling, which is generous on purpose. Measured over this
+          # workflow's own last 40 runs (12-18 Sep 2026): 15.4-33.8s, median
+          # 21.9s. That time is model inference, not cold start: minReplicas
+          # is 1, so the app never scales to zero.
           echo -n "" > /tmp/curl.out
           curl -s -o /tmp/eval.json -w "%{http_code} %{time_total}" -m 240 \
             -X POST "${{ steps.target.outputs.base }}/api/evaluate" \

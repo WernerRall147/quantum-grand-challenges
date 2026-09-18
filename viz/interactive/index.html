@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Polarization atlas · Quantum Grand Challenges</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="evidence.js"></script>
+  <script defer src="bloch.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body data-mode="evidence">
+  <a class="skip-link" href="#workspace">Skip to sphere and readouts</a>
+  <header>
+    <p class="eyebrow">Quantum Grand Challenges / local lab</p>
+    <h1>Polarization atlas</h1>
+    <p>Explore the geometry. Keep the evidence distinct.</p>
+  </header>
+  <main>
+    <p id="fatal" role="alert" hidden></p>
+    <noscript>This viewer requires JavaScript. The repository evidence remains in ../manifest.json.</noscript>
+    <nav class="mode-switch" aria-label="Visualization mode">
+      <button id="evidence-mode" type="button" aria-pressed="true">01 · Run evidence</button>
+      <button id="explore-mode" type="button" aria-pressed="false">02 · Pure-state sandbox</button>
+    </nav>
+    <div id="mode-note" class="notice">
+      Evidence · diagonal-state view, not tomography. X/Y and phase are unknown.
+    </div>
+    <div class="layout">
+      <aside class="panel controls" aria-label="Evidence and exploration controls">
+        <section id="evidence-controls">
+          <h2>Recorded measurements</h2>
+          <label for="problem">Problem</label>
+          <select id="problem"></select>
+          <p id="problem-meta" class="muted"></p>
+          <label for="bit">Returned measurement index</label>
+          <select id="bit" aria-describedby="bit-help"></select>
+          <p id="bit-help" class="hint">Zero-based returned order, not a physical-qubit ID or inferred endianness.</p>
+          <p id="evidence-summary" role="status" aria-live="polite"></p>
+          <dl class="frequencies">
+            <div><dt>P(0)</dt><dd id="p0">Unavailable</dd></div>
+            <div><dt>P(1)</dt><dd id="p1">Unavailable</dd></div>
+          </dl>
+          <div class="probability-track" aria-hidden="true"><span id="p0-bar"></span></div>
+          <p class="hint">Empirical frequencies, no confidence interval. Full histogram marginalized before any grouping.</p>
+          <details>
+            <summary>Run provenance &amp; limitations</summary>
+            <dl id="provenance"></dl>
+            <ul id="warnings"></ul>
+            <p>Counts do not establish coherence, purity, phase, entanglement, or a full state.
+              Balanced counts do not prove the original state was maximally mixed.
+              The marker describes the returned measurement before reset, not the post-reset state.</p>
+          </details>
+        </section>
+        <section id="explore-controls" hidden>
+          <h2>Independent pure-state sandbox</h2>
+          <p class="hint">No run is being transformed. On first entry, the explicit convention is |0⟩.
+            Choose your own starting state below.</p>
+          <form id="initial-form">
+            <label for="initial-state">Starting pure state</label>
+            <select id="initial-state">
+              <option value="zero">|0⟩ · +Z</option>
+              <option value="one">|1⟩ · −Z</option>
+              <option value="plus">|+⟩ · +X</option>
+              <option value="minus">|−⟩ · −X</option>
+              <option value="plusi">|+i⟩ · +Y</option>
+              <option value="minusi">|−i⟩ · −Y</option>
+              <option value="custom">Custom θ / φ</option>
+            </select>
+            <div id="initial-angles" class="pair" hidden>
+              <label for="initial-theta">θ (degrees)
+                <input id="initial-theta" type="number" min="0" max="180" step="any" value="90" required>
+              </label>
+              <label for="initial-phi">φ (degrees)
+                <input id="initial-phi" type="number" step="any" value="0" required>
+              </label>
+            </div>
+            <button type="submit">Start selected state</button>
+          </form>
+          <fieldset>
+            <legend>Common gates</legend>
+            <div class="gate-grid">
+              <button type="button" data-gate="X">X</button>
+              <button type="button" data-gate="Y">Y</button>
+              <button type="button" data-gate="Z">Z</button>
+              <button type="button" data-gate="H">H</button>
+              <button type="button" data-gate="S">S</button>
+              <button type="button" data-gate="Sdg" aria-label="S dagger">S†</button>
+              <button type="button" data-gate="T">T</button>
+              <button type="button" data-gate="Tdg" aria-label="T dagger">T†</button>
+            </div>
+          </fieldset>
+          <form id="rotation-form">
+            <fieldset>
+              <legend>Axis rotation · right-hand rule</legend>
+              <label for="rotation-axis">Axis</label>
+              <select id="rotation-axis">
+                <option value="x">X</option>
+                <option value="y">Y</option>
+                <option value="z">Z</option>
+                <option value="custom">Custom normalized axis</option>
+              </select>
+              <div id="custom-axis" class="triple" hidden>
+                <label for="axis-x">nₓ<input id="axis-x" type="number" step="any" value="1" required></label>
+                <label for="axis-y">nᵧ<input id="axis-y" type="number" step="any" value="1" required></label>
+                <label for="axis-z">n𝓏<input id="axis-z" type="number" step="any" value="0" required></label>
+              </div>
+              <label for="rotation-angle">Angle (degrees)</label>
+              <input id="rotation-angle" type="number" step="any" value="90" required>
+              <button type="submit">Apply rotation</button>
+            </fieldset>
+          </form>
+          <div class="pair">
+            <button id="undo" type="button" disabled>Undo</button>
+            <button id="reset-state" type="button">Reset state</button>
+          </div>
+          <p id="explore-summary" role="status" aria-live="polite"></p>
+          <details><summary>Applied operations</summary><ol id="history"></ol></details>
+          <p class="hint">Single-qubit ideal geometry, not a noisy-device or multi-qubit simulation.
+            Global phase is omitted.</p>
+        </section>
+        <p id="input-error" role="alert"></p>
+      </aside>
+      <section id="workspace" class="panel workspace" tabindex="-1" aria-label="Bloch sphere and numerical readouts">
+        <div class="scene-heading"><h2 id="scene-title">Measurement-derived Z polarization</h2><span id="mode-badge">EVIDENCE</span></div>
+        <p id="scene-caption">Marker (0, 0, z): X/Y drawn as zero only by convention, not measured.</p>
+        <canvas id="sphere" width="800" height="600" tabindex="0"
+          aria-label="Interactive Bloch sphere camera" aria-describedby="camera-help readout-summary">
+          Use the numerical readouts below if Canvas is unavailable.
+        </canvas>
+        <p id="camera-help" class="hint">Drag to orbit; wheel or pinch to zoom.
+          With the sphere focused: arrow keys orbit, +/− zoom, Home resets the view.
+          Camera movement never changes state coordinates.</p>
+        <div class="camera-buttons" role="group" aria-label="Camera controls">
+          <button type="button" data-camera="left" aria-label="Orbit left">←</button>
+          <button type="button" data-camera="right" aria-label="Orbit right">→</button>
+          <button type="button" data-camera="up" aria-label="Orbit up">↑</button>
+          <button type="button" data-camera="down" aria-label="Orbit down">↓</button>
+          <button type="button" data-camera="in" aria-label="Zoom in">+</button>
+          <button type="button" data-camera="out" aria-label="Zoom out">−</button>
+          <button type="button" data-camera="reset">Reset view</button>
+        </div>
+        <div id="readout-summary" role="status" aria-live="polite" aria-atomic="true">
+          <dl class="readouts">
+            <div><dt>X</dt><dd id="read-x">Unknown</dd></div>
+            <div><dt>Y</dt><dd id="read-y">Unknown</dd></div>
+            <div><dt>Z</dt><dd id="read-z">Unavailable</dd></div>
+            <div><dt>θ</dt><dd id="read-theta">Unknown</dd></div>
+            <div><dt>φ</dt><dd id="read-phi">Unknown</dd></div>
+          </dl>
+          <p id="angle-note" class="hint">State θ/φ cannot be recovered from Z counts alone.</p>
+          <p id="amplitudes" hidden></p>
+        </div>
+        <button id="export" type="button">Export current view as JSON</button>
+      </section>
+    </div>
+  </main>
+  <footer>Original local visualization · no network dependencies ·
+    no claim of quantum advantage · documentation: <code>viz/README.md</code></footer>
+</body>
+</html>

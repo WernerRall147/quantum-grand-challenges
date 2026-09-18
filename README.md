@@ -545,3 +545,11 @@ Detail: `docs/MILESTONE_2026_03_CLOSEOUT.md`.
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Contributors
+
+Thanks to everyone who has contributed!
+
+<a href="https://github.com/WernerRall147/quantum-grand-challenges/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=WernerRall147/quantum-grand-challenges">
+</a>

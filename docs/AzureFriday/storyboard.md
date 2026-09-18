@@ -108,14 +108,18 @@ unsorted search, carried end to end with substantially more Azure Quantum on scr
 full delta and the feedback that caused it are at the top of `script.md`; raise it with
 Chris before the recording.
 
-**A verdict-only call usually lands under a minute, but do not quote a number on camera.**
-The spread matters more than the median and it keeps moving: 15 calls on 2026-08-24 gave
-median 38.0s (max 58.9), 5 calls on 2026-08-26 gave median 23.4s (max 26.5), and 5 calls on
-2026-08-31 gave median 40.7s with a **98.0s** outlier on the image-classifier prompt. Zero
-mismatches across all three.
+**A verdict-only call lands in about 22s.** 40 scheduled probe runs from 12-18 Sep 2026
+gave median 21.9s (min 15.4, max 33.8); ten live calls on 18 Sep across five prompts gave
+18.7-24.4s. `deck-notes.md` owns the quotable wording.
 
-> The 2026-08-31 spread followed production moving to the Foundry model-router, which
-> chooses the model per request. A range measured once is not a range.
+> This line previously said *do not quote a number on camera*, and it was right to at the
+> time: 15 calls on 2026-08-24 gave median 38.0s (max 58.9), 5 calls on 2026-08-26 gave
+> median 23.4s (max 26.5), and 5 calls on 2026-08-31 gave median 40.7s with a **98.0s**
+> outlier on the image-classifier prompt. Zero mismatches across all three. That spread
+> followed production moving to the Foundry model-router, which chooses the model per
+> request. It has since settled: the image-classifier prompt now returns in 18.7s, and
+> nothing above 33.8s has appeared in 40 automated samples. A range measured once is not
+> a range - but forty scheduled ones are a better one than five hand-run.
 
 **Demo now runs 5m30s**, deliberately under Chris's 6-9 minute floor, because the note that
 mattered most was that it played as a lecture rather than a conversation.

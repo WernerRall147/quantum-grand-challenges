@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1258,
-    "code_files": 287,
-    "python": 220,
+    "tracked": 1261,
+    "code_files": 288,
+    "python": 221,
     "qsharp": 53,
     "ts": 14,
-    "edges": 223,
-    "roots": 274,
-    "reachable": 309
+    "edges": 224,
+    "roots": 275,
+    "reachable": 311
   },
   "nodes": [
     "agents/api/main.py",
@@ -269,6 +269,7 @@
     "tooling/test_script_claims.py",
     "tooling/test_submit_one_kernel.py",
     "tooling/test_verify_demo_prompts_codegen.py",
+    "tooling/test_viz_publication.py",
     "tooling/test_website_claims.py",
     "tooling/trace_circuits.py",
     "tooling/validate_algorithm_index.py",
@@ -1191,6 +1192,10 @@
     [
       "website/pages/problems/[problem].tsx",
       "website/data/troyerAssessment.json"
+    ],
+    [
+      "website/pages/problems/[problem].tsx",
+      "website/data/vizManifest.json"
     ]
   ]
 }

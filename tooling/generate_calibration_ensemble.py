@@ -58,7 +58,7 @@ CALIBRATION_META: dict[str, dict] = {
         "entry_override": "Main.BindingQPE(8, 8)",
     },
     "08_protein_folding": {"type": "numeric", "description": "QAOA lattice folding energy"},
-    "09_factorization": {"type": "numeric", "description": "Shor period finding for a=3 mod 15"},
+    "09_factorization": {"type": "numeric", "description": "Shor period finding for a=7 mod 15: the 4-bit phase register reads 0, 4, 8 or 12"},
     "10_post_quantum_cryptography": {"type": "numeric", "description": "Grover key search: successful searches out of 50"},
     "11_quantum_machine_learning": {"type": "numeric", "description": "Swap test kernel overlap"},
     "12_quantum_optimization": {"type": "numeric", "description": "QAOA scheduling optimization"},

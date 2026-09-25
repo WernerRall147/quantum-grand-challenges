@@ -7,7 +7,7 @@
 ## Circuit Characteristics
 - **Algorithm**: Shor Period-Finding
 - **Qubits**: 8 (4 counting + 4 work)
-- **Gate set**: H, SWAP, Controlled-SWAP, R1, X, M
+- **Gate set**: H, X, CNOT, SWAP, Controlled-SWAP (Toffoli), controlled R1, M
 
 ## Noise Model
 - Deep QPE circuit; sensitive to phase errors

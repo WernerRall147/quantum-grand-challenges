@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_utc": "2026-09-25T13:14:39.101620Z",
+  "generated_utc": "2026-09-25T19:50:15.184367Z",
   "targets": {
     "quantinuum.sim.h2-1sc": {
       "profile": "Adaptive_RI",
@@ -31,28 +31,6 @@
     "pasqal.sim.emu-free": "input format pasqal.pulser.v1 (analog), not gate-model QIR"
   },
   "records": [
-    {
-      "problem_id": "09_factorization",
-      "entry_point": "ShorKernel",
-      "execution": "local-simulator",
-      "target_id": null,
-      "profile": "Adaptive_RI",
-      "status": "succeeded",
-      "histogram": {
-        "shots": 200,
-        "distinct_outcomes": 8,
-        "counts": {
-          "[Zero, Zero, Zero, Zero]": 96,
-          "[One, Zero, Zero, Zero]": 41,
-          "[One, One, One, One]": 37,
-          "[One, Zero, One, One]": 9,
-          "[One, One, Zero, Zero]": 6,
-          "[One, One, Zero, One]": 5,
-          "[One, Zero, One, Zero]": 4,
-          "[One, One, One, Zero]": 2
-        }
-      }
-    },
     {
       "problem_id": "16_error_correction",
       "entry_point": "QECKernel",
@@ -201,6 +179,24 @@
           "[Zero, One, Zero]": 37,
           "[Zero, Zero, Zero]": 26,
           "[One, One, Zero]": 14
+        }
+      }
+    },
+    {
+      "problem_id": "09_factorization",
+      "entry_point": "ShorKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, Zero, Zero, One]": 57,
+          "[Zero, Zero, One, One]": 55,
+          "[Zero, Zero, Zero, Zero]": 51,
+          "[Zero, Zero, One, Zero]": 37
         }
       }
     }

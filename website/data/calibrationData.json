@@ -81,13 +81,13 @@
   },
   "09_factorization": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0004,
-    "std_elapsed_s": 0.0002,
-    "mean_value": 5.8,
-    "std_value": 4.629425,
-    "ci95_half_width": 2.028935,
-    "ci95_lower": 3.771065,
-    "ci95_upper": 7.828935
+    "mean_elapsed_s": 0.0002,
+    "std_elapsed_s": 0.0004,
+    "mean_value": 7.2,
+    "std_value": 4.42005,
+    "ci95_half_width": 1.937172,
+    "ci95_lower": 5.262828,
+    "ci95_upper": 9.137172
   },
   "10_post_quantum_cryptography": {
     "num_runs": 20,

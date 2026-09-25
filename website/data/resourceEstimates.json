@@ -80,12 +80,12 @@
     "qecScheme": "surface_code"
   },
   "09_factorization": {
-    "physicalQubits": 53065,
+    "physicalQubits": 60665,
     "logicalQubits": 25,
-    "tCount": 6,
-    "rotationCount": 3,
-    "runtime": 291550,
-    "entryExpr": "Main.ShorPeriodFinding(3, 4)",
+    "tCount": 9,
+    "rotationCount": 9,
+    "runtime": 1036350,
+    "entryExpr": "Main.ShorPeriodFinding(7, 4)",
     "qubitModel": "qubit_gate_ns_e3",
     "qecScheme": "surface_code"
   },

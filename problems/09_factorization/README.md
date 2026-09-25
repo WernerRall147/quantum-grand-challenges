@@ -51,11 +51,11 @@ This scaffold keeps the classical baseline reproducible while we iterate toward 
 
 Stage C evidence references for this problem:
 
-- Calibration ensemble: `estimates/quantum_calibration_ensemble.json` and `estimates/calibration_evidence.json`.
+- Calibration ensemble: `estimates/quantum_calibration_ensemble.json`, regenerated on 2026-09-25 after three corrections that day: the modular multiplier was right only for a = 2 and 4, the inverse QFT left the counting register uniform whatever the period, and the hardware kernel controlled its one multiplication from the wrong qubit. `estimates/calibration_evidence.json` (2026-03-25) predates them. `tooling/test_shor_kernel.py` now checks the multiplication table, the period for every coprime base, and the kernel.
 - Backend assumptions: `estimates/backend_assumptions.md`.
-- Estimator profile (ns-e3 + surface-code-generic): `estimates/estimator_profile_summary.md`, `estimates/latest_qubit_gate_ns_e3.json`, `estimates/latest_surface_code_generic_v1.json`.
-- Cross-platform OpenQASM export: `estimates/shor_n15_a7.qasm`.
-- Azure smoke validation: `estimates/azure_smoke_report_small_d1.md`, `estimates/azure_job_manifest_small_d1.json`.
+- Estimator profile (ns-e3 + surface-code-generic): `estimates/estimator_profile_summary.md`, `estimates/latest_qubit_gate_ns_e3.json`, `estimates/latest_surface_code_generic_v1.json`. The estimate runs `Main.ShorPeriodFinding(7, 4)`; until 2026-09-25 it ran base 3, which shares a factor with 15, so it contained no modular arithmetic.
+- Cross-platform OpenQASM export: `estimates/shor_n15_a7.qasm`, OpenQASM 3 and the same circuit as `qsharp/HardwareKernel.qs`.
+- Azure smoke validation: `estimates/azure_smoke_report_small_d1.md`, `estimates/azure_job_manifest_small_d1.json` (2026-03-06, the kernel before the correction; the corrected kernel has not been submitted).
 - Reproducible quantum kernel: `qsharp/src/Main.qs` runnable via `qsharp.run('Main.RunShorFactorization()', 1)`.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)

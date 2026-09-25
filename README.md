@@ -174,7 +174,7 @@ Part 6 prices a fault-tolerant computation as its estimated runtime times an amo
 | [Hubbard Model](problems/01_hubbard/) | **QPE** | Exponential† | 595k | 5 |
 | [Catalysis (H₂)](problems/02_catalysis/) | **QPE** | Exponential† | 423k | 5 |
 | [Drug Discovery](problems/07_drug_discovery/) | **QPE** | Exponential† | 423k | 6 |
-| [Factorization](problems/09_factorization/) | **Shor** | Superpolynomial | 53k | 8 |
+| [Factorization](problems/09_factorization/) | **Shor** | Superpolynomial | 61k | 7 |
 | [Materials Discovery](problems/14_materials_discovery/) | **QPE** | Exponential† | 755k | 4 |
 | [Error Correction](problems/16_error_correction/) | **QEC** | Infrastructure | 2k | 1 |
 | [Nuclear Physics](problems/17_nuclear_physics/) | **QPE** | Exponential† | 667k | 4 |

@@ -106,7 +106,7 @@ export const problemHighlights = [
     title: 'Factorization',
     status: 'Stage C - Calibrated',
     description:
-      "Shor's algorithm for N = 15 (8 qubits), with modular multipliers compiled for that modulus. 20-run calibration ensemble. 53k physical qubits, 25 logical, 6 T-gates.",
+      "Shor's algorithm for N = 15 (8 qubits): order finding for a = 7, with modular multipliers and an inverse QFT checked against exact results. 20-run calibration ensemble. 61k physical qubits, 25 logical, 9 T-gates.",
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/09_factorization',
   },
   {

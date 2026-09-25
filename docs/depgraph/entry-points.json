@@ -92,6 +92,7 @@
     "tooling/test_qpe_kernels.py",
     "tooling/test_qsharp_validation.py",
     "tooling/test_script_claims.py",
+    "tooling/test_shor_kernel.py",
     "tooling/test_stage_evidence.py",
     "tooling/test_submit_one_kernel.py",
     "tooling/test_uptime_cadence_claims.py",

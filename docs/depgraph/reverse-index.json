@@ -402,7 +402,8 @@
     "agents/tests/test_estimator_config.py",
     "tooling/generate_calibration_ensemble.py",
     "tooling/generate_estimates.py",
-    "tooling/generate_multimodel_estimates.py"
+    "tooling/generate_multimodel_estimates.py",
+    "tooling/test_shor_kernel.py"
   ],
   "tooling/evidence_hashes.py": [
     "tooling/generate_calibration_ensemble.py",

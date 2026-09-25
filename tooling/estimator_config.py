@@ -138,9 +138,12 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
         description="Protein folding QAOA on minimal lattice",
     ),
     "09_factorization": EntryPoint(
-        template=_fixed("Main.ShorPeriodFinding(3, 4)"),
+        # a = 7, the base the hardware kernel uses. The entry was ShorPeriodFinding(3, 4):
+        # 3 shares a factor with 15, none of its powers is a multiplier the circuit
+        # implements, and the published estimate covered no modular arithmetic at all.
+        template=_fixed("Main.ShorPeriodFinding(7, 4)"),
         default_shots=SHOTS_KERNEL,
-        description="Shor period finding for a=3, N=4",
+        description="Shor period finding for a=7 mod 15, 4 counting qubits",
     ),
     "10_post_quantum_cryptography": EntryPoint(
         template=_shots("Main.GroverKeySearch(3, 5, {shots})"),

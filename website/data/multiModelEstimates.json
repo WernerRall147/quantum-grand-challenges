@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-25T11:47:29.284636Z",
+  "generated_utc": "2026-09-25T19:50:03.614426Z",
   "qubit_models": [
     {
       "name": "qubit_gate_ns_e3",
@@ -40,7 +40,7 @@
   ],
   "total_estimates": 80,
   "total_failures": 0,
-  "elapsed_seconds": 37.3,
+  "elapsed_seconds": 30.2,
   "problems": {
     "01_hubbard": {
       "models": {
@@ -1681,60 +1681,55 @@
     "09_factorization": {
       "models": {
         "qubit_gate_ns_e3+surface_code": {
-          "physicalQubits": 53065,
-          "runtime": 291550,
+          "physicalQubits": 60665,
+          "runtime": 1036350,
           "logicalQubits": 25,
-          "codeDistance": 17,
-          "tFactoryFraction": 0.728,
-          "error": 0.00035504706546035924,
-          "paretoPoints": 8,
+          "codeDistance": 21,
+          "tFactoryFraction": 0.637,
+          "error": 0.0005303190218031913,
+          "paretoPoints": 7,
           "paretoFrontier": [
             {
-              "physicalQubits": 53065,
-              "runtime": 291550,
-              "error": 0.00035504706546035924
+              "physicalQubits": 60665,
+              "runtime": 1036350,
+              "error": 0.0005303190218031913
             },
             {
-              "physicalQubits": 56305,
-              "runtime": 257250,
-              "error": 0.0003553778154603592
+              "physicalQubits": 63105,
+              "runtime": 937650,
+              "error": 0.0005303285393031913
             },
             {
-              "physicalQubits": 59945,
-              "runtime": 250250,
-              "error": 0.00012735462244888143
+              "physicalQubits": 65945,
+              "runtime": 838950,
+              "error": 0.0005304237143031913
             },
             {
-              "physicalQubits": 66385,
-              "runtime": 222950,
-              "error": 0.00035868531546035925
+              "physicalQubits": 69185,
+              "runtime": 740250,
+              "error": 0.0005313754643031913
             },
             {
-              "physicalQubits": 70425,
-              "runtime": 211750,
-              "error": 0.00016447962244888143
+              "physicalQubits": 72825,
+              "runtime": 641550,
+              "error": 0.0005408929643031913
             },
             {
-              "physicalQubits": 76865,
-              "runtime": 188650,
-              "error": 0.0003917603154603592
+              "physicalQubits": 83305,
+              "runtime": 542850,
+              "error": 0.0006360679643031914
             },
             {
-              "physicalQubits": 81305,
-              "runtime": 163800,
-              "error": 0.0005588343214343971
-            },
-            {
-              "physicalQubits": 94185,
-              "runtime": 154350,
-              "error": 0.0007225103154603592
+              "physicalQubits": 140985,
+              "runtime": 512050,
+              "error": 0.0009259669463810775
             }
           ],
-          "tCount": 6,
-          "rotationCount": 3,
+          "tCount": 9,
+          "rotationCount": 9,
           "cczCount": null,
           "measurementCount": 4,
-          "logicalDepth": 13,
+          "logicalDepth": 26,
           "numQubits": 8,
           "qubitModel": "qubit_gate_ns_e3",
           "qubitLabel": "Superconducting (ns, 1e-3)",
@@ -1743,45 +1738,35 @@
           "speed": "ns"
         },
         "qubit_gate_ns_e4+surface_code": {
-          "physicalQubits": 10885,
-          "runtime": 144900,
+          "physicalQubits": 11865,
+          "runtime": 418950,
           "logicalQubits": 25,
           "codeDistance": 9,
-          "tFactoryFraction": 0.63,
-          "error": 0.0009849127910744005,
-          "paretoPoints": 5,
+          "tFactoryFraction": 0.661,
+          "error": 0.0008214367163810775,
+          "paretoPoints": 3,
           "paretoFrontier": [
             {
-              "physicalQubits": 10885,
-              "runtime": 144900,
-              "error": 0.0009849127910744005
-            },
-            {
-              "physicalQubits": 11245,
-              "runtime": 120050,
-              "error": 0.0002733952854603592
+              "physicalQubits": 11865,
+              "runtime": 418950,
+              "error": 0.0008214367163810775
             },
             {
               "physicalQubits": 12225,
-              "runtime": 112700,
-              "error": 0.0009852543410744004
-            },
-            {
-              "physicalQubits": 12985,
-              "runtime": 91000,
-              "error": 0.00011999589643439711
+              "runtime": 325850,
+              "error": 0.0008224242413810775
             },
             {
               "physicalQubits": 14945,
-              "runtime": 85750,
-              "error": 0.0003097777854603592
+              "runtime": 232750,
+              "error": 0.0009211767413810775
             }
           ],
-          "tCount": 6,
-          "rotationCount": 3,
+          "tCount": 9,
+          "rotationCount": 9,
           "cczCount": null,
           "measurementCount": 4,
-          "logicalDepth": 13,
+          "logicalDepth": 26,
           "numQubits": 8,
           "qubitModel": "qubit_gate_ns_e4",
           "qubitLabel": "Superconducting (ns, 1e-4)",
@@ -1790,60 +1775,55 @@
           "speed": "ns"
         },
         "qubit_gate_us_e3+surface_code": {
-          "physicalQubits": 53065,
-          "runtime": 499800000,
+          "physicalQubits": 60665,
+          "runtime": 1776600000,
           "logicalQubits": 25,
-          "codeDistance": 17,
-          "tFactoryFraction": 0.728,
-          "error": 0.00035504706546035924,
-          "paretoPoints": 8,
+          "codeDistance": 21,
+          "tFactoryFraction": 0.637,
+          "error": 0.0005303190218031913,
+          "paretoPoints": 7,
           "paretoFrontier": [
             {
-              "physicalQubits": 53065,
-              "runtime": 499800000,
-              "error": 0.00035504706546035924
+              "physicalQubits": 60665,
+              "runtime": 1776600000,
+              "error": 0.0005303190218031913
             },
             {
-              "physicalQubits": 56305,
-              "runtime": 441000000,
-              "error": 0.0003553778154603592
+              "physicalQubits": 63105,
+              "runtime": 1607400000,
+              "error": 0.0005303285393031913
             },
             {
-              "physicalQubits": 59945,
-              "runtime": 429000000,
-              "error": 0.00012735462244888143
+              "physicalQubits": 65945,
+              "runtime": 1438200000,
+              "error": 0.0005304237143031913
             },
             {
-              "physicalQubits": 66385,
-              "runtime": 382200000,
-              "error": 0.00035868531546035925
+              "physicalQubits": 69185,
+              "runtime": 1269000000,
+              "error": 0.0005313754643031913
             },
             {
-              "physicalQubits": 70425,
-              "runtime": 363000000,
-              "error": 0.00016447962244888143
+              "physicalQubits": 72825,
+              "runtime": 1099800000,
+              "error": 0.0005408929643031913
             },
             {
-              "physicalQubits": 76865,
-              "runtime": 323400000,
-              "error": 0.0003917603154603592
+              "physicalQubits": 83305,
+              "runtime": 930600000,
+              "error": 0.0006360679643031914
             },
             {
-              "physicalQubits": 81305,
-              "runtime": 280800000,
-              "error": 0.0005588343214343971
-            },
-            {
-              "physicalQubits": 94185,
-              "runtime": 264600000,
-              "error": 0.0007225103154603592
+              "physicalQubits": 140985,
+              "runtime": 877800000,
+              "error": 0.0009259669463810775
             }
           ],
-          "tCount": 6,
-          "rotationCount": 3,
+          "tCount": 9,
+          "rotationCount": 9,
           "cczCount": null,
           "measurementCount": 4,
-          "logicalDepth": 13,
+          "logicalDepth": 26,
           "numQubits": 8,
           "qubitModel": "qubit_gate_us_e3",
           "qubitLabel": "Trapped Ion (\u03bcs, 1e-3)",
@@ -1852,45 +1832,35 @@
           "speed": "us"
         },
         "qubit_gate_us_e4+surface_code": {
-          "physicalQubits": 10885,
-          "runtime": 248400000,
+          "physicalQubits": 11865,
+          "runtime": 718200000,
           "logicalQubits": 25,
           "codeDistance": 9,
-          "tFactoryFraction": 0.63,
-          "error": 0.0009849127910744005,
-          "paretoPoints": 5,
+          "tFactoryFraction": 0.661,
+          "error": 0.0008214367163810775,
+          "paretoPoints": 3,
           "paretoFrontier": [
             {
-              "physicalQubits": 10885,
-              "runtime": 248400000,
-              "error": 0.0009849127910744005
-            },
-            {
-              "physicalQubits": 11245,
-              "runtime": 205800000,
-              "error": 0.0002733952854603592
+              "physicalQubits": 11865,
+              "runtime": 718200000,
+              "error": 0.0008214367163810775
             },
             {
               "physicalQubits": 12225,
-              "runtime": 193200000,
-              "error": 0.0009852543410744004
-            },
-            {
-              "physicalQubits": 12985,
-              "runtime": 156000000,
-              "error": 0.00011999589643439711
+              "runtime": 558600000,
+              "error": 0.0008224242413810775
             },
             {
               "physicalQubits": 14945,
-              "runtime": 147000000,
-              "error": 0.0003097777854603592
+              "runtime": 399000000,
+              "error": 0.0009211767413810775
             }
           ],
-          "tCount": 6,
-          "rotationCount": 3,
+          "tCount": 9,
+          "rotationCount": 9,
           "cczCount": null,
           "measurementCount": 4,
-          "logicalDepth": 13,
+          "logicalDepth": 26,
           "numQubits": 8,
           "qubitModel": "qubit_gate_us_e4",
           "qubitLabel": "Trapped Ion (\u03bcs, 1e-4)",

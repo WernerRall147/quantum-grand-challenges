@@ -200,6 +200,16 @@ def _build_website_history(runs: list[Dict[str, Any]], updated_utc: str) -> Dict
     }
 
 
+def _write_website_history(path: Path, rebuilt: Dict[str, Any]) -> None:
+    # Merge rather than replace: the website file holds runs this audit's source does not (#241).
+    azure_dir = repo_root() / "tooling" / "azure"
+    if str(azure_dir) not in sys.path:
+        sys.path.insert(0, str(azure_dir))
+    from website_run_history import write_website_history  # type: ignore
+
+    write_website_history(path, rebuilt)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Audit Azure run-history metric coverage.")
     parser.add_argument("--run-history", default="tooling/azure/run_history.json")
@@ -282,7 +292,7 @@ def main() -> None:
     save_json(run_history_path, history)
 
     website_history = _build_website_history(runs, history["updated_utc"])
-    save_json(website_history_path, website_history)
+    _write_website_history(website_history_path, website_history)
 
     audit = {
         "generated_utc": utc_now(),

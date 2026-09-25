@@ -10,8 +10,12 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from azure_env import AzureEnvError, load_azure_env
+from website_run_history import write_website_history
 
 ALLOWED = {"running", "succeeded", "failed", "cancelled"}
+
+RUN_HISTORY_PATH = Path(__file__).resolve().parent / "run_history.json"
+WEBSITE_HISTORY_PATH = Path(__file__).resolve().parents[2] / "website" / "data" / "azureRunHistory.json"
 
 
 def utc_now() -> str:
@@ -171,7 +175,7 @@ def _record_successful_run(payload: Dict[str, Any], manifest_path: Path, metrics
 
     backend = payload.get("backend", {}) if isinstance(payload.get("backend"), dict) else {}
     workspace = backend.get("workspace", {}) if isinstance(backend.get("workspace"), dict) else {}
-    history_path = Path(__file__).resolve().parent / "run_history.json"
+    history_path = RUN_HISTORY_PATH
 
     if history_path.exists():
         history = json.loads(history_path.read_text(encoding="utf-8"))
@@ -222,9 +226,7 @@ def _record_successful_run(payload: Dict[str, Any], manifest_path: Path, metrics
             "runs": website_runs,
         }
 
-        web_history_path = Path(__file__).resolve().parents[2] / "website" / "data" / "azureRunHistory.json"
-        web_history_path.parent.mkdir(parents=True, exist_ok=True)
-        web_history_path.write_text(json.dumps(website_history, indent=2) + "\n", encoding="utf-8")
+        write_website_history(WEBSITE_HISTORY_PATH, website_history)
         return
 
     run_row: Dict[str, Any] = {
@@ -283,9 +285,8 @@ def _record_successful_run(payload: Dict[str, Any], manifest_path: Path, metrics
         "runs": website_runs,
     }
 
-    web_history_path = Path(__file__).resolve().parents[2] / "website" / "data" / "azureRunHistory.json"
-    web_history_path.parent.mkdir(parents=True, exist_ok=True)
-    web_history_path.write_text(json.dumps(website_history, indent=2) + "\n", encoding="utf-8")
+    # Merged, not replaced: the website file holds runs run_history.json never recorded (#241).
+    write_website_history(WEBSITE_HISTORY_PATH, website_history)
 
 
 def main() -> None:

@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1262,
-    "code_files": 289,
-    "python": 222,
+    "tracked": 1264,
+    "code_files": 291,
+    "python": 224,
     "qsharp": 53,
     "ts": 14,
-    "edges": 224,
-    "roots": 276,
-    "reachable": 312
+    "edges": 227,
+    "roots": 279,
+    "reachable": 314
   },
   "nodes": [
     "agents/api/main.py",
@@ -211,6 +211,7 @@
     "tooling/azure/submit_job_auto.py",
     "tooling/azure/validate_azure_cli.py",
     "tooling/azure/validate_azure_env.py",
+    "tooling/azure/website_run_history.py",
     "tooling/azure/write_smoke_report.py",
     "tooling/azure_submit_kernels.py",
     "tooling/check_algorithm_index_drift.py",
@@ -272,6 +273,7 @@
     "tooling/test_verify_demo_prompts_codegen.py",
     "tooling/test_viz_publication.py",
     "tooling/test_website_claims.py",
+    "tooling/test_website_run_history.py",
     "tooling/trace_circuits.py",
     "tooling/validate_algorithm_index.py",
     "tooling/vendor_qdk_samples.py",
@@ -361,6 +363,14 @@
     [
       ".github/workflows/ci-cd.yml",
       "tooling/run_all_qsharp.py"
+    ],
+    [
+      ".github/workflows/ci-cd.yml",
+      "viz/data.py"
+    ],
+    [
+      ".github/workflows/ci-cd.yml",
+      "viz/test_interactive.py"
     ],
     [
       ".github/workflows/depgraph-drift.yml",
@@ -977,6 +987,10 @@
     [
       "tooling/azure/collect_job.py",
       "tooling/azure/azure_env.py"
+    ],
+    [
+      "tooling/azure/collect_job.py",
+      "tooling/azure/website_run_history.py"
     ],
     [
       "tooling/azure/submit_job_auto.py",

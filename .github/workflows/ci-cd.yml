@@ -82,6 +82,13 @@ jobs:
           python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/03_qae_risk/qsharp'); print('QAE Q# OK')"
       - name: Evaluator smoke tests
         run: pytest agents/tests -v --tb=short
+      - name: Claim and evidence guards
+        # tooling/ holds the checks that keep the docs and the paper honest: stage counts,
+        # citations, estimate provenance, run history. No step ran them, so a failing guard
+        # failed only on the machine of whoever thought to run it. viz/ is not here yet:
+        # viz/data.py hashes working-copy bytes, so its committed evidence carries CRLF
+        # hashes from a Windows checkout and test_interactive.py fails on ubuntu.
+        run: pytest tooling --tb=short -q
       - name: Router evaluation (offline, cached KB matches)
         run: python agents/evaluations/run_eval.py --offline
       - name: Narrative evaluation (offline, recorded model responses)

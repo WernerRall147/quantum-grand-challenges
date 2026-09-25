@@ -719,7 +719,7 @@ export default function EvaluatePage() {
                   <h3 style={{ marginTop: 0, color: '#0f172a' }}>Cost</h3>
                   {ca.feasibility?.feasible_today === false && (
                     <p style={{ margin: '0 0 0.5rem', fontSize: '0.88rem', color: '#9a3412' }}>
-                      ⚛️ Quantum hardware is not ready for this problem yet - it needs ~{(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} qubits, and the largest device today exposes {ca.feasibility.hardware_qubits}.
+                      ⚛️ Running this program fault-tolerantly needs about {(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} physical qubits; the device priced here{ca.quantum_estimate?.provider ? ` (${ca.quantum_estimate.provider})` : ''} has {ca.feasibility.hardware_qubits}.
                     </p>
                   )}
                   {cheapest && (
@@ -763,7 +763,7 @@ export default function EvaluatePage() {
                     color: result.solution_pricing.feasible_today ? '#6ee7b7' : '#fdba74' }}>
                     {result.solution_pricing.feasible_today
                       ? '✅ Runnable on today’s hardware'
-                      : `⏳ Not yet runnable: needs ~${Number(result.solution_pricing.qubits_needed || 0).toLocaleString()} qubits; current hardware exposes ${result.solution_pricing.qubits_available_today}`}
+                      : `⏳ Not runnable fault-tolerantly yet: needs about ${Number(result.solution_pricing.qubits_needed || 0).toLocaleString()} physical qubits; the device priced here${result.solution_pricing.provider ? ` (${result.solution_pricing.provider})` : ''} has ${result.solution_pricing.qubits_available_today}`}
                   </div>
                 )}
                 {result.solution_pricing.crossover_note && (

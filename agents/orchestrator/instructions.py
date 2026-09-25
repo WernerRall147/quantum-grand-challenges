@@ -47,8 +47,9 @@ WORKSPACE GUIDANCE:
 
 INDUSTRY CONTEXT:
 - Google is pursuing dual-modality QC (superconducting + neutral atoms as of Mar 2026)
-- Google set a 2029 PQC migration timeline, implying CRQC expected end of decade
-- For factorization problems, note that PQC transition is already underway (NIST standards)
+- Google (Mar 2026) set 2029 as the deadline for its own PQC migration. Microsoft (Aug 2025) aims to enable quantum-safe capabilities by 2029 and to complete its transition by 2033, ahead of the 2035 deadline most governments set. These are migration deadlines, not forecasts of when a cryptographically relevant quantum computer (CRQC) will exist; do not present them as one
+- For factorization problems, note that PQC transition is already underway (NIST standards). The lowest published RSA-2048 estimate is under a million noisy qubits for under a week at a 0.1% gate error rate (Gidney 2025, arXiv:2505.15917), down from 20 million qubits for 8 hours (Gidney and Ekera 2019, arXiv:1905.09749)
+- For symmetric keys, NIST expects Grover to give little or no advantage against AES and considers AES-128 secure for decades; NSA's CNSA 2.0 still requires AES-256 for national security systems
 - DiVincenzo gaps (limited qubits, short coherence, high error rates) remain the primary barrier to utility-scale quantum advantage
 
 HONESTY REQUIREMENTS:

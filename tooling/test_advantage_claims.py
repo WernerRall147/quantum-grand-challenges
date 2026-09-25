@@ -5,9 +5,9 @@ surfaces a reader sees: website data, archive notes, Stage D evidence, the agent
 reference index and prompts, the README and the paper.
 
 The knowledge-base index (knowledge/data/algorithm_zoo_index.json) is deliberately not
-scanned. It still carries the old QAOA wording, but it mirrors a deployed Azure AI Search
-index that tooling/check_algorithm_index_drift.py compares against, so it changes only
-together with a re-ingestion.
+scanned. It still carries the old QAOA wording and the old RSA-2048 logical-qubit count,
+but it mirrors a deployed Azure AI Search index that tooling/check_algorithm_index_drift.py
+compares against, so it changes only together with a re-ingestion.
 """
 
 from __future__ import annotations
@@ -31,8 +31,11 @@ SURFACES = (
     "agents/orchestrator/instructions.py",
     "tooling/generate_stage_d_evidence.py",
     "docs/GROVER_IMPLEMENTATION_SUMMARY.md",
+    "docs/architecture.md",
     "docs/paper/methodology-paper.md",
     "README.md",
+    "website/pages/**/*.tsx",
+    "website/components/*.tsx",
 )
 
 RETRACTED = [
@@ -77,6 +80,30 @@ RETRACTED = [
         r"1000 classical samples",
         "Monte Carlo at epsilon = 0.001 needs about 1/epsilon^2 = 10^6 samples, not 1000.",
         id="qae-monte-carlo-sample-count",
+    ),
+    pytest.param(
+        r"implying CRQC|CRQC expected",
+        "Google's 2029 date is the deadline for its own PQC migration; its post gives no date "
+        "for a cryptographically relevant quantum computer (blog.google, 2026-03-25).",
+        id="google-2029-is-not-a-crqc-date",
+    ),
+    pytest.param(
+        r"real-world application milestone",
+        "Google calls its Quantum Echoes NMR experiment a proof-of-principle step toward "
+        "real-world application, not a milestone reached.",
+        id="quantum-echoes-overstated",
+    ),
+    pytest.param(
+        r"4,?000 logical qubits",
+        "RSA-2048 needs about 1,400 logical qubits (Gidney 2025, arXiv:2505.15917) or about "
+        "3n = 6,200 (Gidney and Ekera 2019, arXiv:1905.09749); 4,000 matches neither.",
+        id="rsa-2048-logical-qubits",
+    ),
+    pytest.param(
+        r"largest device today",
+        "The width shown is the device the cost was priced on (56 qubits for Quantinuum H2); "
+        "Rigetti (108) and Pasqal (100) in the same price list are larger.",
+        id="priced-device-is-not-the-largest",
     ),
 ]
 

@@ -36,7 +36,7 @@
       "speedup_class": "superpolynomial",
       "naturally_quantum": false,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "The only problem with a completely clean utility path. RSA-2048 requires ~4000 logical qubits."
+      "notes": "The only active problem with a proven superpolynomial speedup and no data-loading cost. RSA-2048 needs under a million noisy qubits for under a week at a 0.1% gate error rate (Gidney 2025, arXiv:2505.15917)."
     },
     {
       "id": "14_materials_discovery",

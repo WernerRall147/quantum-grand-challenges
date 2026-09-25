@@ -19,7 +19,7 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 
 ### Industry Context
 - Google Quantum AI expanding to dual-modality (superconducting + neutral atoms, Mar 2026)
-- Google sets 2029 PQC migration timeline  CRQC expected end of decade
+- Google sets 2029 as its own PQC migration deadline (Mar 2026); Microsoft aims for quantum-safe capabilities by 2029 and a completed transition by 2033 (Aug 2025). Neither is a forecast of when a cryptographically relevant quantum computer will exist
 - MIT efficient trapped-ion cooling advances chip-based QC scalability (Jan 2026)
 
 ## Architecture Overview

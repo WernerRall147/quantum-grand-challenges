@@ -2,27 +2,37 @@
   "problem_id": "04_linear_solvers",
   "description": "HHL single-shot solution measurement",
   "entry_point": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 4)",
-  "generated_utc": "2026-04-10T11:57:33.408272Z",
+  "generated_utc": "2026-09-25T11:40:21.686915Z",
+  "sources": {
+    "problems/archived/04_linear_solvers/qsharp/HardwareKernel.qs": "e6c5ef32cd191ebc37cf93baa10708a5a513db4e80b38e81399bee7f022103bc",
+    "problems/archived/04_linear_solvers/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/archived/04_linear_solvers/qsharp/src/Main.qs": "475b1b4fd92fa2833af020e1af912e176c4a15f655634cf31dc02c9c11dfefe3"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0001,
-    "std_elapsed_s": 0.0003
+    "mean_elapsed_s": 0.0008,
+    "std_elapsed_s": 0.0005,
+    "mean_value": 0.45,
+    "std_value": 0.510418,
+    "ci95_half_width": 0.2237,
+    "ci95_lower": 0.2263,
+    "ci95_upper": 0.6737
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[One]",
+      "raw_result": "[Zero]",
       "elapsed_s": 0.001
     },
     {
       "run": 2,
-      "raw_result": "[Zero]",
+      "raw_result": "[One]",
       "elapsed_s": 0.001
     },
     {
       "run": 3,
       "raw_result": "[Zero]",
-      "elapsed_s": 0.0006
+      "elapsed_s": 0.001
     },
     {
       "run": 4,
@@ -31,33 +41,33 @@
     },
     {
       "run": 5,
-      "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "raw_result": "[One]",
+      "elapsed_s": 0.001
     },
     {
       "run": 6,
       "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.0015
     },
     {
       "run": 7,
       "raw_result": "[One]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.0006
     },
     {
       "run": 8,
       "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.001
     },
     {
       "run": 9,
       "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.0015
     },
     {
       "run": 10,
-      "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "raw_result": "[One]",
+      "elapsed_s": 0.001
     },
     {
       "run": 11,
@@ -67,47 +77,47 @@
     {
       "run": 12,
       "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.001
     },
     {
       "run": 13,
-      "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "raw_result": "[One]",
+      "elapsed_s": 0.001
     },
     {
       "run": 14,
       "raw_result": "[One]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.001
     },
     {
       "run": 15,
-      "raw_result": "[One]",
+      "raw_result": "[Zero]",
       "elapsed_s": 0.0
     },
     {
       "run": 16,
       "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.0013
     },
     {
       "run": 17,
       "raw_result": "[One]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.0005
     },
     {
       "run": 18,
       "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.0005
     },
     {
       "run": 19,
-      "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "raw_result": "[One]",
+      "elapsed_s": 0.0005
     },
     {
       "run": 20,
-      "raw_result": "[Zero]",
-      "elapsed_s": 0.0
+      "raw_result": "[One]",
+      "elapsed_s": 0.0005
     }
   ]
 }

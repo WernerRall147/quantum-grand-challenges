@@ -393,6 +393,10 @@
     "tooling/generate_estimates.py",
     "tooling/generate_multimodel_estimates.py"
   ],
+  "tooling/evidence_hashes.py": [
+    "tooling/generate_calibration_ensemble.py",
+    "tooling/test_stage_evidence.py"
+  ],
   "tooling/generate_estimates.py": [
     ".github/workflows/nightly.yml"
   ],
@@ -451,7 +455,6 @@
     "viz/test_pipeline.py"
   ],
   "viz/data.py": [
-    ".github/workflows/ci-cd.yml",
     "viz/build.py",
     "viz/interactive.py",
     "viz/render_scene.py",
@@ -461,9 +464,6 @@
   "viz/interactive.py": [
     "viz/build.py",
     "viz/test_interactive.py"
-  ],
-  "viz/test_interactive.py": [
-    ".github/workflows/ci-cd.yml"
   ],
   "website/components/CostReference.tsx": [
     "website/pages/costs.tsx"

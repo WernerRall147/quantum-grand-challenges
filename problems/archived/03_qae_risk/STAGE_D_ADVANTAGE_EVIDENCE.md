@@ -3,7 +3,7 @@
 ## Scope And Claim Boundary
 
 - Problem: Tail-risk estimation via Quantum Amplitude Estimation (QAE).
-- Current claim category: `projected`.
+- Current claim category: `theoretical`.
 - Claim boundary: Asymptotic query-complexity advantage only (QAE O(1/epsilon) vs Monte Carlo O(1/epsilon^2)).
 - Non-claim boundary: No production-hardware demonstrated wall-clock advantage is claimed.
 
@@ -80,4 +80,4 @@ Current uncertainty thresholds used for Stage D projection hardening:
 Checklist caveat:
 
 - Readout/error characterization is currently satisfied by measured execution/readout proxy confidence bounds from Azure run history.
-- Full hardware tomography-style readout characterization remains future enhancement and is not required for the current `projected` claim category.
+- Full hardware tomography-style readout characterization remains future enhancement and is not required for the current `theoretical` claim category.

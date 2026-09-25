@@ -2,117 +2,122 @@
   "problem_id": "05_qaoa_maxcut",
   "description": "QAOA MaxCut triangle graph depth-1",
   "entry_point": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], 50)",
-  "generated_utc": "2026-04-12T13:54:01.740567Z",
+  "generated_utc": "2026-09-25T11:40:21.905975Z",
+  "sources": {
+    "problems/archived/05_qaoa_maxcut/qsharp/HardwareKernel.qs": "e9827478083fa3e6a9fae51e84221c121881af67184533d45b2f3bfcdcc9f0b1",
+    "problems/archived/05_qaoa_maxcut/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/archived/05_qaoa_maxcut/qsharp/src/Main.qs": "3c8be3a6c079df5d7aa6b42ea7c3e413bfc2dac5f56ba0eb1864d1d21fd50836"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0019,
-    "std_elapsed_s": 0.0019,
-    "mean_value": 0.0,
-    "std_value": 0.0,
-    "ci95_half_width": 0.0,
-    "ci95_lower": 0.0,
-    "ci95_upper": 0.0
+    "mean_elapsed_s": 0.0046,
+    "std_elapsed_s": 0.0025,
+    "mean_value": 0.134,
+    "std_value": 0.090169,
+    "ci95_half_width": 0.039518,
+    "ci95_lower": 0.094482,
+    "ci95_upper": 0.173518
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[(0.16, 2.0, [0, 1, 0])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.2, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.006
     },
     {
       "run": 2,
-      "raw_result": "[(0.04, 2.0, [0, 1, 1])]",
-      "elapsed_s": 0.003
+      "raw_result": "[(0.12, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.006
     },
     {
       "run": 3,
-      "raw_result": "[(0.08, 2.0, [1, 0, 0])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.04, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.005
     },
     {
       "run": 4,
-      "raw_result": "[(0.04, 2.0, [0, 1, 1])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.16, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0051
     },
     {
       "run": 5,
-      "raw_result": "[(0.16, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.2, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.0037
     },
     {
       "run": 6,
-      "raw_result": "[(0.16, 2.0, [1, 0, 0])]",
-      "elapsed_s": 0.0031
+      "raw_result": "[(0.12, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.0037
     },
     {
       "run": 7,
-      "raw_result": "[(0.08, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.2, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.0047
     },
     {
       "run": 8,
-      "raw_result": "[(0.2, 2.0, [1, 0, 0])]",
-      "elapsed_s": 0.0025
+      "raw_result": "[(0.12, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.0032
     },
     {
       "run": 9,
-      "raw_result": "[(0.04, 2.0, [1, 0, 0])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.2, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.0
     },
     {
       "run": 10,
-      "raw_result": "[(0.0, 0.0, [0, 0, 0])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.4, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.0
     },
     {
       "run": 11,
-      "raw_result": "[(0.08, 2.0, [1, 0, 1])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.04, 2.0, [1, 0, 1])]",
+      "elapsed_s": 0.0128
     },
     {
       "run": 12,
-      "raw_result": "[(0.2, 2.0, [0, 1, 0])]",
-      "elapsed_s": 0.003
+      "raw_result": "[(0.08, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.005
     },
     {
       "run": 13,
-      "raw_result": "[(0.16, 2.0, [0, 1, 1])]",
-      "elapsed_s": 0.002
+      "raw_result": "[(0.24, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.0047
     },
     {
       "run": 14,
-      "raw_result": "[(0.04, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.0007
+      "raw_result": "[(0.04, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.0045
     },
     {
       "run": 15,
-      "raw_result": "[(0.2, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.0
+      "raw_result": "[(0.12, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.004
     },
     {
       "run": 16,
-      "raw_result": "[(0.32, 2.0, [1, 0, 1])]",
-      "elapsed_s": 0.0
+      "raw_result": "[(0.08, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.0052
     },
     {
       "run": 17,
-      "raw_result": "[(0.24, 2.0, [0, 0, 1])]",
-      "elapsed_s": 0.0
+      "raw_result": "[(0.0, 0.0, [0, 0, 0])]",
+      "elapsed_s": 0.0042
     },
     {
       "run": 18,
-      "raw_result": "[(0.04, 2.0, [1, 0, 1])]",
-      "elapsed_s": 0.0086
+      "raw_result": "[(0.12, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.0059
     },
     {
       "run": 19,
-      "raw_result": "[(0.08, 2.0, [0, 1, 1])]",
-      "elapsed_s": 0.0
+      "raw_result": "[(0.12, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.005
     },
     {
       "run": 20,
-      "raw_result": "[(0.04, 2.0, [0, 0, 1])]",
-      "elapsed_s": 0.0
+      "raw_result": "[(0.08, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.0042
     }
   ]
 }

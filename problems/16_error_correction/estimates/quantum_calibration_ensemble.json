@@ -1,12 +1,22 @@
 {
   "problem_id": "16_error_correction",
-  "description": "3-qubit repetition code cycle",
+  "description": "3-qubit repetition code cycle: whether the decoded state matched",
   "entry_point": "Main.RunRepetitionCodeCycle(false, 0)",
-  "generated_utc": "2026-06-09T17:19:33.023110Z",
+  "generated_utc": "2026-09-25T11:42:10.735795Z",
+  "sources": {
+    "problems/16_error_correction/qsharp/HardwareKernel.qs": "9227cc3cbb106ab77d85861f1f3674d1339e6c23be05ff05f059766b5bb9a074",
+    "problems/16_error_correction/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/16_error_correction/qsharp/src/Main.qs": "05c0158c3c4645354912d20d5b0cc893f54648fc6db3eeaab60c324221b21921"
+  },
   "statistics": {
-    "num_runs": 3,
+    "num_runs": 20,
     "mean_elapsed_s": 0.0,
-    "std_elapsed_s": 0.0
+    "std_elapsed_s": 0.0,
+    "mean_value": 1.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 1.0,
+    "ci95_upper": 1.0
   },
   "runs": [
     {
@@ -21,6 +31,91 @@
     },
     {
       "run": 3,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 4,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 5,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 6,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 7,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 8,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 9,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 10,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 11,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 12,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 13,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 14,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 15,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 16,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 17,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 18,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 19,
+      "raw_result": "[(Zero, True)]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 20,
       "raw_result": "[(Zero, True)]",
       "elapsed_s": 0.0
     }

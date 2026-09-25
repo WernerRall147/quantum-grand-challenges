@@ -2,117 +2,122 @@
   "problem_id": "09_factorization",
   "description": "Shor period finding for a=3 mod 15",
   "entry_point": "Main.ShorPeriodFinding(3, 4)",
-  "generated_utc": "2026-04-10T11:57:33.485564Z",
+  "generated_utc": "2026-09-25T11:40:38.123334Z",
+  "sources": {
+    "problems/09_factorization/qsharp/HardwareKernel.qs": "e305f3d5aa29e21a249faaa57e66fb29b7e7660a39bcb2380086276e70315076",
+    "problems/09_factorization/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/09_factorization/qsharp/src/Main.qs": "c474504a7eef7c0759eed1320831509f9c4f17b425c2c2dfba36d84b5dd5b837"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0003,
-    "std_elapsed_s": 0.0013,
-    "mean_value": 7.0,
-    "std_value": 4.472136,
-    "ci95_half_width": 1.96,
-    "ci95_lower": 5.04,
-    "ci95_upper": 8.96
+    "mean_elapsed_s": 0.0004,
+    "std_elapsed_s": 0.0002,
+    "mean_value": 5.8,
+    "std_value": 4.629425,
+    "ci95_half_width": 2.028935,
+    "ci95_lower": 3.771065,
+    "ci95_upper": 7.828935
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[9]",
-      "elapsed_s": 0.0
+      "raw_result": "[5]",
+      "elapsed_s": 0.0007
     },
     {
       "run": 2,
-      "raw_result": "[3]",
-      "elapsed_s": 0.0
+      "raw_result": "[9]",
+      "elapsed_s": 0.0005
     },
     {
       "run": 3,
-      "raw_result": "[4]",
-      "elapsed_s": 0.0
+      "raw_result": "[0]",
+      "elapsed_s": 0.0005
     },
     {
       "run": 4,
-      "raw_result": "[7]",
-      "elapsed_s": 0.0
+      "raw_result": "[9]",
+      "elapsed_s": 0.0005
     },
     {
       "run": 5,
-      "raw_result": "[2]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 6,
-      "raw_result": "[4]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 7,
-      "raw_result": "[9]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 8,
-      "raw_result": "[5]",
-      "elapsed_s": 0.0057
-    },
-    {
-      "run": 9,
-      "raw_result": "[2]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 10,
-      "raw_result": "[9]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 11,
-      "raw_result": "[15]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 12,
       "raw_result": "[0]",
       "elapsed_s": 0.0
     },
     {
-      "run": 13,
-      "raw_result": "[9]",
+      "run": 6,
+      "raw_result": "[13]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 7,
+      "raw_result": "[11]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 8,
+      "raw_result": "[7]",
       "elapsed_s": 0.0
     },
     {
-      "run": 14,
+      "run": 9,
+      "raw_result": "[9]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 10,
       "raw_result": "[15]",
+      "elapsed_s": 0.0
+    },
+    {
+      "run": 11,
+      "raw_result": "[2]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 12,
+      "raw_result": "[4]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 13,
+      "raw_result": "[0]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 14,
+      "raw_result": "[9]",
       "elapsed_s": 0.0
     },
     {
       "run": 15,
       "raw_result": "[9]",
-      "elapsed_s": 0.0
+      "elapsed_s": 0.0005
     },
     {
       "run": 16,
-      "raw_result": "[15]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 17,
-      "raw_result": "[4]",
-      "elapsed_s": 0.0
-    },
-    {
-      "run": 18,
       "raw_result": "[5]",
       "elapsed_s": 0.0
     },
     {
-      "run": 19,
+      "run": 17,
+      "raw_result": "[0]",
+      "elapsed_s": 0.0006
+    },
+    {
+      "run": 18,
       "raw_result": "[4]",
+      "elapsed_s": 0.0005
+    },
+    {
+      "run": 19,
+      "raw_result": "[5]",
       "elapsed_s": 0.0
     },
     {
       "run": 20,
-      "raw_result": "[10]",
-      "elapsed_s": 0.0
+      "raw_result": "[0]",
+      "elapsed_s": 0.0005
     }
   ]
 }

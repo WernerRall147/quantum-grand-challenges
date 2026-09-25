@@ -2,117 +2,122 @@
   "problem_id": "11_quantum_machine_learning",
   "description": "Swap test kernel overlap",
   "entry_point": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 50)",
-  "generated_utc": "2026-04-12T13:53:41.801116Z",
+  "generated_utc": "2026-09-25T11:40:38.629951Z",
+  "sources": {
+    "problems/archived/11_quantum_machine_learning/qsharp/HardwareKernel.qs": "912b3899f2855297fe44d061651779fa5845e5156ad1d1423b4ecdfcb6169baf",
+    "problems/archived/11_quantum_machine_learning/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/archived/11_quantum_machine_learning/qsharp/src/Main.qs": "75b40aa000517f69ae46db21254224c5a25b8acf20d3109f1782f7ea1c919550"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0029,
-    "std_elapsed_s": 0.0005,
-    "mean_value": 0.908,
-    "std_value": 0.047418,
-    "ci95_half_width": 0.020782,
-    "ci95_lower": 0.887218,
-    "ci95_upper": 0.928782
+    "mean_elapsed_s": 0.0074,
+    "std_elapsed_s": 0.0014,
+    "mean_value": 0.934,
+    "std_value": 0.031855,
+    "ci95_half_width": 0.013961,
+    "ci95_lower": 0.920039,
+    "ci95_upper": 0.947961
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[0.84]",
-      "elapsed_s": 0.003
+      "raw_result": "[0.88]",
+      "elapsed_s": 0.0095
     },
     {
       "run": 2,
-      "raw_result": "[0.98]",
-      "elapsed_s": 0.0045
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.0067
     },
     {
       "run": 3,
-      "raw_result": "[0.82]",
-      "elapsed_s": 0.003
+      "raw_result": "[0.9]",
+      "elapsed_s": 0.0075
     },
     {
       "run": 4,
-      "raw_result": "[0.92]",
-      "elapsed_s": 0.0019
+      "raw_result": "[0.9]",
+      "elapsed_s": 0.0077
     },
     {
       "run": 5,
-      "raw_result": "[0.94]",
-      "elapsed_s": 0.0027
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.01
     },
     {
       "run": 6,
-      "raw_result": "[0.94]",
-      "elapsed_s": 0.0035
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0083
     },
     {
       "run": 7,
-      "raw_result": "[0.88]",
-      "elapsed_s": 0.0027
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.009
     },
     {
       "run": 8,
       "raw_result": "[0.9]",
-      "elapsed_s": 0.003
+      "elapsed_s": 0.0064
     },
     {
       "run": 9,
       "raw_result": "[0.92]",
-      "elapsed_s": 0.0026
+      "elapsed_s": 0.0075
     },
     {
       "run": 10,
-      "raw_result": "[0.86]",
-      "elapsed_s": 0.0025
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.005
     },
     {
       "run": 11,
-      "raw_result": "[0.9]",
-      "elapsed_s": 0.003
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.0082
     },
     {
       "run": 12,
       "raw_result": "[0.94]",
-      "elapsed_s": 0.0027
+      "elapsed_s": 0.006
     },
     {
       "run": 13,
-      "raw_result": "[0.94]",
-      "elapsed_s": 0.0025
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.007
     },
     {
       "run": 14,
-      "raw_result": "[0.96]",
-      "elapsed_s": 0.0037
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.004
     },
     {
       "run": 15,
-      "raw_result": "[0.84]",
-      "elapsed_s": 0.0032
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.008
     },
     {
       "run": 16,
-      "raw_result": "[0.84]",
-      "elapsed_s": 0.0025
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.007
     },
     {
       "run": 17,
-      "raw_result": "[0.92]",
-      "elapsed_s": 0.0033
+      "raw_result": "[0.9]",
+      "elapsed_s": 0.0078
     },
     {
       "run": 18,
-      "raw_result": "[0.96]",
-      "elapsed_s": 0.003
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0073
     },
     {
       "run": 19,
-      "raw_result": "[0.9]",
-      "elapsed_s": 0.0025
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.008
     },
     {
       "run": 20,
-      "raw_result": "[0.96]",
-      "elapsed_s": 0.0031
+      "raw_result": "[0.92]",
+      "elapsed_s": 0.0075
     }
   ]
 }

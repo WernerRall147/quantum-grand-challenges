@@ -1,118 +1,123 @@
 {
   "problem_id": "10_post_quantum_cryptography",
-  "description": "Grover key search success rate",
+  "description": "Grover key search: successful searches out of 50",
   "entry_point": "Main.GroverKeySearch(3, 5, 50)",
-  "generated_utc": "2026-04-12T13:53:41.670203Z",
+  "generated_utc": "2026-09-25T11:40:38.331517Z",
+  "sources": {
+    "problems/archived/10_post_quantum_cryptography/qsharp/HardwareKernel.qs": "b769862ecb01be31dc426698d002b9f73452044e2dbd1b5b3d1085a7e474defc",
+    "problems/archived/10_post_quantum_cryptography/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/archived/10_post_quantum_cryptography/qsharp/src/Main.qs": "525c9f044cff17ba027bdf3491406153c764377de53e92e8e6cda2bf844f5460"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0017,
-    "std_elapsed_s": 0.0022,
-    "mean_value": 0.0,
-    "std_value": 0.0,
-    "ci95_half_width": 0.0,
-    "ci95_lower": 0.0,
-    "ci95_upper": 0.0
+    "mean_elapsed_s": 0.0032,
+    "std_elapsed_s": 0.0018,
+    "mean_value": 39.1,
+    "std_value": 2.900091,
+    "ci95_half_width": 1.271021,
+    "ci95_lower": 37.828979,
+    "ci95_upper": 40.371021
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[(36, 1)]",
-      "elapsed_s": 0.0025
+      "raw_result": "[(37, 1)]",
+      "elapsed_s": 0.0049
     },
     {
       "run": 2,
-      "raw_result": "[(39, 1)]",
-      "elapsed_s": 0.0018
+      "raw_result": "[(35, 1)]",
+      "elapsed_s": 0.0035
     },
     {
       "run": 3,
-      "raw_result": "[(38, 1)]",
-      "elapsed_s": 0.0
+      "raw_result": "[(36, 1)]",
+      "elapsed_s": 0.0042
     },
     {
       "run": 4,
-      "raw_result": "[(40, 1)]",
-      "elapsed_s": 0.0
+      "raw_result": "[(37, 1)]",
+      "elapsed_s": 0.0025
     },
     {
       "run": 5,
-      "raw_result": "[(32, 1)]",
-      "elapsed_s": 0.0
+      "raw_result": "[(37, 1)]",
+      "elapsed_s": 0.0035
     },
     {
       "run": 6,
-      "raw_result": "[(38, 1)]",
-      "elapsed_s": 0.0
+      "raw_result": "[(37, 1)]",
+      "elapsed_s": 0.0025
     },
     {
       "run": 7,
-      "raw_result": "[(46, 1)]",
-      "elapsed_s": 0.0076
+      "raw_result": "[(34, 1)]",
+      "elapsed_s": 0.002
     },
     {
       "run": 8,
       "raw_result": "[(43, 1)]",
-      "elapsed_s": 0.0022
+      "elapsed_s": 0.0035
     },
     {
       "run": 9,
-      "raw_result": "[(38, 1)]",
-      "elapsed_s": 0.001
+      "raw_result": "[(41, 1)]",
+      "elapsed_s": 0.0047
     },
     {
       "run": 10,
       "raw_result": "[(43, 1)]",
-      "elapsed_s": 0.0025
+      "elapsed_s": 0.0
     },
     {
       "run": 11,
       "raw_result": "[(43, 1)]",
-      "elapsed_s": 0.001
+      "elapsed_s": 0.0054
     },
     {
       "run": 12,
-      "raw_result": "[(39, 1)]",
-      "elapsed_s": 0.001
+      "raw_result": "[(42, 1)]",
+      "elapsed_s": 0.0067
     },
     {
       "run": 13,
-      "raw_result": "[(42, 1)]",
-      "elapsed_s": 0.0021
+      "raw_result": "[(38, 1)]",
+      "elapsed_s": 0.0048
     },
     {
       "run": 14,
-      "raw_result": "[(41, 1)]",
-      "elapsed_s": 0.0
+      "raw_result": "[(40, 1)]",
+      "elapsed_s": 0.003
     },
     {
       "run": 15,
-      "raw_result": "[(38, 1)]",
-      "elapsed_s": 0.0
+      "raw_result": "[(39, 1)]",
+      "elapsed_s": 0.0031
     },
     {
       "run": 16,
-      "raw_result": "[(36, 1)]",
-      "elapsed_s": 0.0
+      "raw_result": "[(40, 1)]",
+      "elapsed_s": 0.004
     },
     {
       "run": 17,
-      "raw_result": "[(41, 1)]",
-      "elapsed_s": 0.0078
+      "raw_result": "[(44, 1)]",
+      "elapsed_s": 0.004
     },
     {
       "run": 18,
-      "raw_result": "[(31, 1)]",
-      "elapsed_s": 0.001
+      "raw_result": "[(40, 1)]",
+      "elapsed_s": 0.0019
     },
     {
       "run": 19,
-      "raw_result": "[(40, 1)]",
-      "elapsed_s": 0.0015
+      "raw_result": "[(37, 1)]",
+      "elapsed_s": 0.0
     },
     {
       "run": 20,
-      "raw_result": "[(41, 1)]",
-      "elapsed_s": 0.002
+      "raw_result": "[(39, 1)]",
+      "elapsed_s": 0.0
     }
   ]
 }

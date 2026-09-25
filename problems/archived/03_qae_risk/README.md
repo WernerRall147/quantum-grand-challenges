@@ -96,8 +96,8 @@ Current repository instances include `small` and `medium`.
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage D complete** (advantage evidence package hardened with calibrated backend assumptions, uncertainty methodology, fairness review, and `projected` claim category locked).
-- **Next gate target**: Maintenance  monitor Stage D readiness audit and promote `projected` → `demonstrated` once hardware execution evidence is in place.
+- **Current gate**: **Stage D complete** (advantage evidence package hardened with calibrated backend assumptions, uncertainty methodology, fairness review, and `theoretical` claim category locked, matching `estimates/advantage_claim_contract.json`).
+- **Next gate target**: Maintenance  the problem is archived (quadratic speedup offset by data-loading cost), so the claim stays `theoretical`.
 
 Stage D evidence references for this problem:
 
@@ -159,7 +159,7 @@ Latest Azure Quantum Resource Estimates:
 
 ## Advantage Claim Contract
 
-- **Claim category (current)**: `projected`.
+- **Claim category (current)**: `theoretical`.
 - **Speedup statement**: QAE provides asymptotic O(1/epsilon) query scaling versus classical O(1/epsilon^2), contingent on oracle/state-preparation and error-correction assumptions.
 - **Fair baseline**: Monte Carlo baseline in `python/classical_baseline.py` with documented confidence intervals.
 - **Assumption log**:

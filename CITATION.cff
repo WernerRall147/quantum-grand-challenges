@@ -18,8 +18,8 @@ abstract: >-
   estimation pipelines, and Azure Quantum integration. Problems are held to explicit
   maturity gates rather than assumed to pass them: 9 problems are at Stage C, 8 remain
   at Stage B, and 3 have reached Stage D. All 20 have real Azure Quantum Resource
-  Estimator profiles (1,746 to 754,715 physical qubits), and the committed calibration
-  ensembles yield valid statistics for 10 of them. No problem
+  Estimator profiles (1,746 to 754,715 physical qubits), and all 20 calibration
+  ensembles carry valid statistics bound to hashes of the Q# sources they ran. No problem
   currently demonstrates quantum advantage on available hardware, and 11 of the 20 were
   downgraded on I/O bottlenecks, quadratic-only speedups or no proven speedup. Implements 10 algorithm
   families (VQE, QAOA, Grover, HHL, Shor, amplitude estimation, swap test, QEC, quantum

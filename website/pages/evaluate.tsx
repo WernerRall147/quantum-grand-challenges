@@ -268,6 +268,18 @@ export default function EvaluatePage() {
 
   const vc = result ? verdictColor(result.verdict) : null;
 
+  // How the generated Q# came out. quantum_work is false for a program that compiled but uses
+  // too few qubits to run the algorithm - a classical placeholder - which is never shown as
+  // code: two of three production Shor requests returned trial division, estimated at 17 qubits.
+  const codegen = (result?.estimation || {}) as {
+    compiled?: boolean;
+    quantum_work?: boolean | null;
+    error?: string;
+    estimate_error?: string;
+    attempt_count?: number;
+  };
+  const codeUsable = !!result?.qsharp_code && codegen.compiled !== false && codegen.quantum_work !== false;
+
   return (
     <>
       <Head>
@@ -506,13 +518,13 @@ export default function EvaluatePage() {
             {/* Q# Code. Gated on the compile result: showing source that does not build,
                 under a heading that says "Generated Q# Code", presents a failure as a
                 deliverable. The panel below reports it instead. */}
-            {result.qsharp_code && (result.estimation as { compiled?: boolean })?.compiled !== false && (
+            {codeUsable && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#1e1e2e', borderRadius: '10px', border: '1px solid #313244' }}>
                 <h3 style={{ marginTop: 0, color: '#cdd6f4' }}>Generated Q# Code</h3>
                 <pre style={{ margin: 0, color: '#a6e3a1', fontSize: '0.85rem', overflow: 'auto', maxHeight: '400px', lineHeight: 1.5 }}>
                   {result.qsharp_code}
                 </pre>
-                {result.estimation && !('error' in result.estimation) && (
+                {result.estimation && typeof result.estimation.physical_qubits === 'number' && (
                   <div style={{ marginTop: '0.75rem', padding: '0.75rem 1rem', background: '#313244', borderRadius: '6px', color: '#cdd6f4', fontSize: '0.85rem' }}>
                     <strong style={{ color: '#89b4fa' }}>Default Resource Estimate</strong>
                     <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.25rem 1rem', margin: '0.5rem 0 0' }}>
@@ -540,9 +552,9 @@ export default function EvaluatePage() {
                     </dl>
                   </div>
                 )}
-                {result.estimation && 'error' in result.estimation && (
+                {typeof codegen.estimate_error === 'string' && (
                   <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.8rem', background: '#7f1d1d', borderRadius: '6px', color: '#fca5a5', fontSize: '0.85rem' }}>
-                    Estimation error: {String(result.estimation.error).slice(0, 250)}
+                    The program compiled, but resource estimation failed: {codegen.estimate_error.slice(0, 250)}
                   </div>
                 )}
               </div>
@@ -553,8 +565,9 @@ export default function EvaluatePage() {
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#0b1220', borderRadius: '10px', border: '1px solid #1e293b' }}>
                 <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>Resource Estimate · Pareto Sweep</h3>
                 <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: '0 0 0.75rem' }}>
-                  Same algorithm, six qubit technologies × QEC schemes. Smaller physical-qubit counts
-                  with shorter runtimes are Pareto-optimal.
+                  The same program estimated on {result.resource_estimate_pareto.length} hardware
+                  profiles, each with a surface code. They differ in gate time (nanoseconds or
+                  microseconds) and physical error rate (10⁻³ or 10⁻⁴).
                 </p>
                 <div style={{ overflow: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', color: '#cbd5e1' }}>
@@ -603,25 +616,32 @@ export default function EvaluatePage() {
               </div>
             )}
 
-            {/* Code generation was asked for and produced nothing usable - either no code
-                at all, or code that failed to compile after every retry. */}
-            {result.code_requested && !result.bicep_template
-              && (!result.qsharp_code || (result.estimation as { compiled?: boolean })?.compiled === false) && (
+            {/* Code generation was asked for and produced nothing usable: no code at all, code
+                that failed to compile after every retry, or code that compiled but does no
+                quantum work. */}
+            {result.code_requested && !result.bicep_template && !codeUsable && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#7f1d1d', borderRadius: '10px', border: '1px solid #b91c1c' }}>
                 <h3 style={{ marginTop: 0, color: '#fecaca' }}>
-                  {result.qsharp_code ? 'Generated Q# did not compile' : 'Code generation did not return anything'}
+                  {!result.qsharp_code
+                    ? 'Code generation did not return anything'
+                    : codegen.compiled === false ? 'Generated Q# did not compile' : 'Generated Q# does no quantum work'}
                 </h3>
                 <p style={{ color: '#fca5a5', fontSize: '0.9rem', margin: '0 0 0.5rem' }}>
                   The verdict above is unaffected — it is produced by the router, not the
                   generator. Only the generated artefact is missing.
-                  {typeof (result.estimation as { attempt_count?: number })?.attempt_count === 'number' && (
-                    <> Retried {(result.estimation as { attempt_count?: number }).attempt_count} times
-                    with the compiler error fed back.</>
+                  {codegen.quantum_work === false && (
+                    <> The program compiled, but it is a classical placeholder rather than an
+                    implementation of the algorithm, so neither it nor a resource estimate for it
+                    is shown.</>
+                  )}
+                  {typeof codegen.attempt_count === 'number' && (
+                    <> Made {codegen.attempt_count} attempts, each repair given the problem with
+                    the previous one.</>
                   )}
                 </p>
-                {typeof (result.estimation as { error?: string })?.error === 'string' && (
+                {typeof codegen.error === 'string' && (
                   <pre style={{ margin: 0, padding: '0.6rem', background: '#450a0a', borderRadius: '6px', color: '#fecaca', fontSize: '0.8rem', whiteSpace: 'pre-wrap' }}>
-                    {(result.estimation as { error?: string }).error}
+                    {codegen.error}
                   </pre>
                 )}
                 {result.bicep_validation?.error && (

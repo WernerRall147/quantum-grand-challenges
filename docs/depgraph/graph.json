@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1267,
-    "code_files": 294,
-    "python": 227,
+    "tracked": 1268,
+    "code_files": 295,
+    "python": 228,
     "qsharp": 53,
     "ts": 14,
     "edges": 227,
-    "roots": 280,
-    "reachable": 317
+    "roots": 281,
+    "reachable": 318
   },
   "nodes": [
     "agents/api/main.py",
@@ -260,6 +260,7 @@
     "tooling/submit_all_syntax_check.py",
     "tooling/submit_hardware_kernels.py",
     "tooling/submit_one_kernel.py",
+    "tooling/test_advantage_claims.py",
     "tooling/test_all_qsharp.py",
     "tooling/test_architecture_claims.py",
     "tooling/test_citation_claims.py",

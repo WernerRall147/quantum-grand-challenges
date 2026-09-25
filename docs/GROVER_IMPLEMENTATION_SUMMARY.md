@@ -431,7 +431,7 @@ Grover's algorithm is sensitive to iteration count:
   - 256-bit AES → 128-bit effective security
 
 **Post-Quantum Cryptography:**
-- NIST recommends doubling key sizes for quantum resistance
+- NIST does not ask for longer AES keys: it expects Grover to give little or no advantage against AES, because its iterations must run in series, and considers AES-128 secure for decades to come (NIST PQC FAQ)
 - Grover's algorithm sets lower bound on quantum threat
 
 ### Database Search

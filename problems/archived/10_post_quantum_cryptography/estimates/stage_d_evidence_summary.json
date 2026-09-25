@@ -17,8 +17,8 @@
     "classical_complexity": "O(2^n) brute-force trials",
     "quantum_complexity": "O(2^(n/2)) Grover iterations \u2014 provably optimal",
     "theoretical_speedup": "Quadratic (halves effective key length)",
-    "crossover_estimate": "Key length >= 64 bits with structured oracle; AES-128 requires ~2^64 Grover iterations + millions of logical qubits",
-    "honest_assessment": "Grover quadratic speedup is provably optimal but only halves the effective key length. NIST already recommends doubling key sizes (AES-256 instead of AES-128) to counter Grover. The practical threat to modern cryptography is from Shor (factoring) not Grover (search)."
+    "crossover_estimate": "No practical crossover identified: AES-128 needs about 2^64 Grover iterations run in series, about 2^86 T gates on 2,953 logical qubits (Grassl et al., arXiv:1512.04965), and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
+    "honest_assessment": "Grover's quadratic speedup is provably optimal but only halves the effective key length, and only if its iterations run in series. NIST expects Grover to give little or no advantage against AES and considers AES-128 secure for decades to come (NIST PQC FAQ). The practical threat to modern cryptography is from Shor (factoring) not Grover (search)."
   },
   "physical_qubits": 32536
 }

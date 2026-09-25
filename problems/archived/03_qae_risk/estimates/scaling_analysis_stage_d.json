@@ -62,6 +62,6 @@
       "quadratic_speedup_factor": 12734.0
     }
   ],
-  "crossover_estimate": "\u03b5 \u2248 0.001 (1000 classical samples vs ~785 quantum queries) \u2014 but requires ~100k+ physical qubits",
+  "crossover_estimate": "No practical crossover identified: at epsilon = 0.001 Monte Carlo needs about 10^6 samples against about 785 quantum queries, but each query needs error-corrected state preparation, and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
   "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions."
 }

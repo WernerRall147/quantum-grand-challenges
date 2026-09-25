@@ -53,7 +53,7 @@ def generate_qae_scaling():
         "theoretical_speedup": "Quadratic",
         "generated_utc": utc_now(),
         "projections": rows,
-        "crossover_estimate": "ε ≈ 0.001 (1000 classical samples vs ~785 quantum queries)  but requires ~100k+ physical qubits",
+        "crossover_estimate": "No practical crossover identified: at epsilon = 0.001 Monte Carlo needs about 10^6 samples against about 785 quantum queries, but each query needs error-corrected state preparation, and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
         "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions.",
     }
 
@@ -93,7 +93,7 @@ def generate_qaoa_scaling():
         "generated_utc": utc_now(),
         "projections": rows,
         "crossover_estimate": "Uncertain  no proven quantum advantage for MaxCut QAOA at any depth",
-        "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit.",
+        "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this, and on certain MaxCut instances GW outperforms QAOA at any constant depth (Bravyi et al., arXiv:1910.08980). Whether QAOA at depth growing with n offers an advantage is open.",
     }
 
 
@@ -134,7 +134,7 @@ def generate_grover_scaling():
         "theoretical_speedup": "Quadratic (provably optimal)",
         "generated_utc": utc_now(),
         "projections": rows,
-        "crossover_estimate": "N ≈ 10^6 with structured oracle; N ≈ 10^12 with naive oracle (due to compilation overhead)",
+        "crossover_estimate": "No practical crossover identified: with a naive O(N)-gate oracle there is none, and with a structured oracle the quadratic query saving is not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
         "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage.",
     }
 

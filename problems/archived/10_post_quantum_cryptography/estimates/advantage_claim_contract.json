@@ -12,10 +12,10 @@
   "noise_model_assumptions": "Noiseless simulator; emulator shows 80-83% success across platforms",
   "confidence_method": "20-run calibration ensemble + cross-platform emulator validation (H2-1E: 80%, Rigetti: 83%)",
   "residual_risks": [
-    "Quadratic speedup only \u2014 doubles effective key length, does not break modern crypto",
+    "Quadratic speedup only: it halves the effective key length and does not break modern cryptography",
     "Oracle implementation cost for real AES/SHA may be prohibitive (millions of T-gates)",
     "33k physical qubits for 3-qubit toy instance; O(thousands of logical qubits) for AES-128",
-    "Grover speedup is already factored into post-quantum key length recommendations (NIST)"
+    "Grover's speedup is already accounted for in NIST's post-quantum security categories, which are defined by the cost of AES key search"
   ],
   "physical_qubits": 32536,
   "logical_qubits": 12,

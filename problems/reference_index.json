@@ -9,7 +9,7 @@
       "speedup_class": "exponential",
       "naturally_quantum": true,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "Strongly-correlated electron systems. QPE provides exponential speedup over FCI for many-body quantum Hamiltonians."
+      "notes": "Strongly-correlated electron systems. QPE is exponentially cheaper than FCI for many-body quantum Hamiltonians when the initial state overlaps the ground state well; no advantage over the best classical methods is established."
     },
     {
       "id": "02_catalysis",
@@ -27,7 +27,7 @@
       "speedup_class": "exponential",
       "naturally_quantum": true,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "Pharmaceutical Hamiltonian simulation. Requires >50 orbitals to exceed classical FCI."
+      "notes": "Pharmaceutical Hamiltonian simulation. An advantage needs strongly correlated active spaces, with more orbitals than exact classical methods can treat and correlation too strong for coupled cluster."
     },
     {
       "id": "09_factorization",

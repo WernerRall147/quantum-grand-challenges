@@ -61,8 +61,8 @@
           "algorithm": "Grover Key Search",
           "speedup": "Quadratic: O(√N) vs classical O(N), provably optimal (BBBV)",
           "classical_best": "Brute-force key enumeration",
-          "troyer_assessment": "Grover's quadratic speedup is provably optimal but only halves effective key length. NIST already recommends doubled key sizes (AES-256). The practical threat is from Shor, not Grover.",
-          "utility_threshold": "AES-128 search requires ~2⁶⁴ Grover iterations + millions of logical qubits for the cipher oracle"
+          "troyer_assessment": "Grover's quadratic speedup is provably optimal but only halves the effective key length, and only if its iterations run in series. NIST expects Grover to give little or no advantage against AES and considers AES-128 secure for decades to come (NIST PQC FAQ). The practical threat is from Shor, not Grover.",
+          "utility_threshold": "AES-128 search needs about 2⁶⁴ Grover iterations in series: about 2⁸⁶ T gates on 2,953 logical qubits with a reversible AES oracle (Grassl et al., arXiv:1512.04965)"
         },
         {
           "id": "15_database_search",
@@ -103,14 +103,14 @@
     "heuristic_potential": {
       "label": "Heuristic / Unproven Advantage",
       "description": "Variational and approximate algorithms without proven speedup over classical. These rely on empirical performance that may or may not survive scaling. Troyer emphasizes these are the highest-risk category for utility claims.",
-      "note": "Five problems originally in this category (01_hubbard, 02_catalysis, 07_drug_discovery, 14_materials_discovery, 17_nuclear_physics) were upgraded from VQE to QPE and reclassified to simulation_native. Their QPE implementations target naturally quantum Hamiltonians with exponential speedup.",
+      "note": "Five problems originally in this category (01_hubbard, 02_catalysis, 07_drug_discovery, 14_materials_discovery, 17_nuclear_physics) were upgraded from VQE to QPE and reclassified to simulation_native. Their QPE implementations target naturally quantum Hamiltonians, where QPE is exponentially cheaper than exact diagonalization once a state that overlaps the ground state well has been prepared; no advantage over the best classical methods is established.",
       "problems": [
         {
           "id": "05_qaoa_maxcut",
           "algorithm": "QAOA",
-          "speedup": "None proven; depth-1 QAOA has known classical simulations",
+          "speedup": "None proven; on bounded-degree graphs, constant-depth expectation values are classically computable",
           "classical_best": "Goemans-Williamson SDP (0.878 approximation ratio)",
-          "troyer_assessment": "No proven quantum advantage for QAOA on MaxCut. The Goemans-Williamson algorithm achieves 0.878-approximation in polynomial time. QAOA at constant depth can be classically simulated. Higher-depth QAOA may offer advantage but this is unproven.",
+          "troyer_assessment": "No proven quantum advantage for QAOA on MaxCut. The Goemans-Williamson algorithm achieves a 0.878 approximation in polynomial time and outperforms QAOA at any constant depth on certain instances (Bravyi et al., arXiv:1910.08980). On bounded-degree graphs the expected cut of constant-depth QAOA can be computed classically, although sampling its output can be classically hard even at depth one (Farhi and Harrow, arXiv:1602.07674). Whether higher-depth QAOA offers an advantage is open.",
           "archived": true,
           "archival_reason": "No proven speedup; no QAOA is known to beat Goemans-Williamson"
         },
@@ -159,36 +159,36 @@
         {
           "id": "01_hubbard",
           "algorithm": "QPE (upgraded from VQE)",
-          "speedup": "Exponential for strongly-correlated systems",
+          "speedup": "Exponential over exact diagonalization if the initial state overlaps the ground state well; not established against the best classical methods",
           "classical_best": "DMRG / tensor network / exact diagonalization",
-          "troyer_assessment": "Upgraded to QPE targeting 2D Hubbard Hamiltonians  naturally quantum systems where tensor networks fail. QPE provides exponential speedup for strongly-correlated 2D systems. Our 2-site instance is pedagogical; utility requires >50-site 2D lattices beyond DMRG reach.",
+          "troyer_assessment": "Upgraded to QPE for Hubbard Hamiltonians, naturally quantum systems that tensor-network methods find hard in two dimensions. Once a state with good ground-state overlap is prepared, QPE's cost is polynomial, exponentially below exact diagonalization; whether such states are cheap to prepare for large 2D lattices, and whether QPE then beats DMRG and quantum Monte Carlo, is open. Our 2-site instance is pedagogical; utility would need 2D lattices wider than DMRG can treat.",
           "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
           "active": true
         },
         {
           "id": "02_catalysis",
           "algorithm": "QPE (upgraded from VQE)",
-          "speedup": "Exponential for quantum chemistry",
+          "speedup": "Exponential over full configuration interaction if the initial state overlaps the ground state well; not established against the best classical methods",
           "classical_best": "Full configuration interaction (FCI) / coupled cluster",
-          "troyer_assessment": "Upgraded to QPE for molecular Hamiltonians. Troyer identifies quantum chemistry as the #1 application for quantum computing. QPE provides exponential speedup for molecules with >50 orbitals where FCI is intractable. Current H₂ instance is pedagogical.",
+          "troyer_assessment": "Upgraded to QPE for molecular Hamiltonians. Hoefler, Häner and Troyer see 'a huge potential in material science and chemistry'. QPE is exponentially cheaper than FCI once a state with good ground-state overlap is prepared, but coupled cluster, DMRG and selected CI already treat many large molecules accurately, and no generic exponential advantage over them has been established (Lee et al., Nat. Commun. 14, 1952, 2023). The case rests on strongly correlated systems such as FeMoco. The current H₂ instance is pedagogical.",
           "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
           "active": true
         },
         {
           "id": "07_drug_discovery",
           "algorithm": "QPE (upgraded from VQE)",
-          "speedup": "Exponential for pharmaceutical Hamiltonians",
+          "speedup": "Exponential over exact diagonalization if the initial state overlaps the ground state well; not established against the best classical methods",
           "classical_best": "Molecular mechanics / DFT / docking algorithms",
-          "troyer_assessment": "Upgraded to QPE for molecular binding energy Hamiltonians. Quantum advantage in drug discovery requires simulating transition states of large molecules (>100 atoms) with strong electron correlation. QPE provides the exponential speedup path.",
+          "troyer_assessment": "Upgraded to QPE for molecular binding energy Hamiltonians. A quantum advantage in drug discovery would need strongly correlated electronic structure, such as some transition states and metal-containing active sites, that DFT and coupled cluster cannot treat reliably, and QPE is a candidate there only if a state with good ground-state overlap can be prepared. Our instance is a labelled toy model.",
           "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
           "active": true
         },
         {
           "id": "14_materials_discovery",
           "algorithm": "QPE (upgraded from VQE)",
-          "speedup": "Exponential for correlated materials",
+          "speedup": "Exponential over exact diagonalization if the initial states overlap the target states well; not established against the best classical methods",
           "classical_best": "DFT / GW approximation",
-          "troyer_assessment": "Upgraded to QPE for strongly-correlated materials (e.g., high-Tc superconductors) where DFT fails. QPE provides exponential speedup for Hamiltonian simulation of correlated electron systems.",
+          "troyer_assessment": "Upgraded to QPE for strongly-correlated materials (e.g., high-Tc superconductors), where DFT is unreliable. Simulating the dynamics of correlated electrons is believed to be classically hard in general, but for ground-state and gap estimation QPE's advantage depends on preparing states that overlap the target states well. Our instance is a labelled toy model.",
           "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
           "active": true
         },
@@ -204,18 +204,18 @@
         {
           "id": "17_nuclear_physics",
           "algorithm": "QPE (upgraded from VQE)",
-          "speedup": "Exponential for nuclear many-body systems",
+          "speedup": "Exponential over exact diagonalization if the initial state overlaps the ground state well; not established against the best classical methods",
           "classical_best": "Nuclear shell model / lattice QCD",
-          "troyer_assessment": "Upgraded to QPE for nuclear EFT Hamiltonians. Quantum advantage requires many-body nuclear systems with >20 nucleons where shell model truncation becomes severe. QPE provides the exponential speedup path for naturally quantum nuclear forces.",
+          "troyer_assessment": "Upgraded to QPE for a nuclear EFT Hamiltonian, the deuteron model of Dumitrescu et al. (PRL 120, 210501, 2018). A quantum advantage would need heavier nuclei, where shell-model truncation becomes severe, and QPE is a candidate there only if a state with good ground-state overlap can be prepared.",
           "upgrade_note": "VQE→QPE (April 2026). Reclassified from heuristic_potential to simulation_native.",
           "active": true
         },
         {
           "id": "18_photovoltaics",
           "algorithm": "Quantum Walk (Exciton Transport)",
-          "speedup": "Potential exponential for transport simulation",
+          "speedup": "Potential exponential for transport simulation; not established",
           "classical_best": "Lindblad master equation / Monte Carlo",
-          "troyer_assessment": "Exciton transport in photosynthetic systems is inherently quantum. Simulating open quantum systems is where quantum computers have the strongest natural advantage  the system IS quantum.",
+          "troyer_assessment": "Exciton transport in photosynthetic systems is inherently quantum, but the open-system dynamics of light-harvesting complexes of the size studied so far are routinely simulated classically, with hierarchical equations of motion or Lindblad master equations. An advantage would need systems large and strongly coupled enough to defeat those methods.",
           "active": true
         },
         {
@@ -223,7 +223,7 @@
           "algorithm": "Trotter Lattice Gauge Simulation",
           "speedup": "Exponential for real-time dynamics (sign problem)",
           "classical_best": "Lattice QCD (Euclidean, limited to static properties)",
-          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically  but requires millions of logical qubits for realistic lattice sizes.",
+          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically, but realistic lattice sizes need large fault-tolerant machines (Kan and Nam, arXiv:2107.12769, give the gate costs).",
           "active": true
         }
       ]

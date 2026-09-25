@@ -77,6 +77,7 @@
     "problems/archived/15_database_search/python/test_baseline.py",
     "problems/archived/20_space_mission_planning/python/test_baseline.py",
     "test_baselines.py",
+    "tooling/test_advantage_claims.py",
     "tooling/test_all_qsharp.py",
     "tooling/test_architecture_claims.py",
     "tooling/test_citation_claims.py",

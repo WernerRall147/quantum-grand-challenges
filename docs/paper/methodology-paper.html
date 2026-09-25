@@ -66,7 +66,9 @@ energy, and the quantum-walk kernel's position never depended on its coin. Those
 kernels were rewritten and tested against exact simulation (Section 4.2), the resource
 estimates of the QPE problems now target the QPE routines (Section 4.4), every
 calibration ensemble was regenerated, and CI now fails when the ensemble behind a
-Stage C or D label does not match the sources it claims to describe (Section 5.2).</p>
+Stage C or D label does not match the sources it claims to describe (Section 5.2).
+Section 9 also records that Part 6 of the lecture series [15], on cost, has been
+published; it had been listed as forthcoming.</p>
 </blockquote>
 <h2 id="authors">Authors</h2>
 <p>Werner Rall</p>
@@ -673,7 +675,7 @@ Stage C or D label does not match the sources it claims to describe (Section 5.2
 <li>Replace at least one classical baseline with a state-of-the-art competitor (Goemans-Williamson for MaxCut, importance sampling for QAE)</li>
 <li>Extend scaling analysis to QAOA and VQE with noise models at different error rates</li>
 <li>Investigate whether the maturity gate model can be extended with complexity-theoretic checks (scaling slope verification, classical hardness evidence requirements)</li>
-<li>Integrate Troyer Part 6 cost model when published  adds quantum vs HPC vs AI cost-advantage analysis to evaluator output</li>
+<li>Apply the cost model of Troyer's Part 6 lecture [15] (published 2026-04-28), which prices a fault-tolerant computation as its estimated runtime times an amortized cost per module-hour, alongside the evaluator's per-shot prices for today's devices</li>
 </ul>
 <h2 id="10-conclusion">10. Conclusion</h2>
 <p>We have presented a software engineering framework for quantum algorithm development that prioritizes honest assessment over optimistic claims. The framework's primary value is not in the quantum implementations  which are toy-scale and classically trivial  but in the methodology: standardized structure, automated validation, and maturity gates designed to prevent claiming more than the evidence supports.</p>
@@ -695,7 +697,7 @@ Stage C or D label does not match the sources it claims to describe (Section 5.2
 <p>[12] D. P. DiVincenzo, "The physical implementation of quantum computation," Fortschritte der Physik 48, 771-783, 2000 (arXiv:quant-ph/0002077).</p>
 <p>[13] M. Grassl, B. Langenberg, M. Roetteler, and R. Steinwandt, "Applying Grover's algorithm to AES: quantum resource estimates," Post-Quantum Cryptography (PQCrypto 2016), LNCS 9606, 29-43, 2016 (arXiv:1512.04965).</p>
 <p>[14] E. Farhi, J. Goldstone, and S. Gutmann, "A quantum approximate optimization algorithm," arXiv:1411.4028, 2014.</p>
-<p>[15] M. Troyer, quantum architecture lecture series, Microsoft Quantum, 2025-2026, https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series.</p>
+<p>[15] M. Troyer, "Building the Modern Quantum Architecture" lecture series, Parts 1-9, Microsoft Quantum, 2025-2026, https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series.</p>
 <p>[16] J. A. Smolin, G. Smith, and A. Vargo, "Oversimplifying quantum factoring," Nature 499, 163-165, 2013 (arXiv:1301.7007).</p>
 <p>[17] M. Mörchen, G. H. Low, T. Weymuth, H. Liu, M. Troyer, and M. Reiher, "Classification of electronic structures and state preparation for quantum computation of reaction chemistry," arXiv:2409.08910, 2024.</p>
 <p>[18] S. Lee et al., "Evaluating the evidence for exponential quantum advantage in ground-state quantum chemistry," Nature Communications 14, 1952, 2023 (arXiv:2208.02199).</p>

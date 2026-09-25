@@ -13,7 +13,7 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 4. **Build** the right Azure workspace  Quantum (Azure Quantum), AI/ML (Azure AI Foundry), or HPC (Azure CycleCloud / NDv6 GPU clusters)
 
 ### Key Frameworks Applied
-- **Troyer Utility-Scale Classification** (6-part lecture series, 2025-2026): 5 filters (F1-F5) for honest quantum advantage assessment, plus upcoming cost model (Part 6)
+- **Troyer Utility-Scale Classification** (lecture series, nine parts published 2025-2026): the filters F1-F5 for honest quantum advantage assessment, with F6 from Moerchen et al., and the Part 6 cost model (published 2026-04-28, not yet applied by the evaluator)
 - **DiVincenzo Criteria** (5+2): Hardware-realism overlay for quantum readiness  scalable qubits, initialization, coherence, universal gates, measurement
 - **Error Correction Zoo** (errorcorrectionzoo.org): Comprehensive code taxonomy for QEC strategy selection (surface, color, QLDPC, bosonic codes)
 
@@ -428,7 +428,7 @@ quantum-grand-challenges/
 
 ### Phase 5: Evaluator Optimization (Current  April 2026)
 **Focus: Optimize the agent to guide users to the right Azure workspace**
-- [ ] Integrate Troyer cost model (Part 6, upcoming) into evaluation pipeline
+- [ ] Integrate Troyer cost model (Part 6, published 2026-04-28: runtime times an amortized cost per module-hour) into evaluation pipeline
 - [ ] Add Error Correction Zoo references for QEC strategy recommendations
 - [ ] Add DiVincenzo criteria assessment to quantum recommendations
 - [ ] Enhance workspace recommendation engine:

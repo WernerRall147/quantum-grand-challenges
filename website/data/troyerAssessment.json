@@ -8,7 +8,10 @@
     {"part": 3, "title": "Quantum Resource Estimation", "date": "2025-12-01", "url": "https://aka.ms/MTLI3"},
     {"part": 4, "title": "High-performance quantum computing", "date": "2025-12-15", "url": "https://aka.ms/MTLI4"},
     {"part": 5, "title": "Scalable quantum architecture", "date": "2026-04-14", "url": "https://aka.ms/MTLI5"},
-    {"part": 6, "title": "Balancing the Cost of Utility-Scale Quantum Computing", "date": "coming_soon", "url": null}
+    {"part": 6, "title": "Balancing the Cost of Utility-Scale Quantum Computing", "date": "2026-04-28", "url": "https://aka.ms/MTLI6"},
+    {"part": 7, "title": "High Accuracy Simulations with Utility-Scale Quantum Computing", "date": "2026-05-12", "url": "https://aka.ms/MTLI7"},
+    {"part": 8, "title": "Responsible Computing with Utility-Scale Quantum", "date": "2026-09-10", "url": "https://aka.ms/MTLI8"},
+    {"part": 9, "title": "Logical Qubits for Utility Scale", "date": "2026-09-23", "url": "https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series/lecture-part-9"}
   ],
   "additional_frameworks": {
     "divincenzo_criteria": {
@@ -17,8 +20,9 @@
       "relevance": "Applied at Stage C/D to validate hardware-readiness assumptions for advantage claims."
     },
     "troyer_cost_model": {
-      "description": "Part 6 of the lecture series (upcoming): balancing the cost of utility-scale quantum computing  when does the quantum advantage justify the engineering and economic cost?",
-      "status": "coming_soon"
+      "description": "Part 6 of the lecture series (2026-04-28): a computation is utility-scale when the value of the problem solved exceeds the cost of solving it. Resource estimation gives the logical qubits; qubit type, fidelity and gate speed give the physical qubits and the runtime; the cost is the runtime times a cost per module-hour that amortizes build and operating cost, illustrated at about $500 to $2,000 per module-hour. Clock speed and modularity dominate: the same chemistry calculation might cost tens of thousands of dollars on a fast, compact machine or millions on a slower or modular one.",
+      "status": "published_not_applied",
+      "note": "The evaluator's cost panel prices today's devices per shot and does not yet apply this model."
     }
   },
   "external_knowledge_sources": [

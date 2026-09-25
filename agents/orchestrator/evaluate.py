@@ -412,7 +412,8 @@ Provide your evaluation as JSON following the output format specified in your in
                 dissent_applied=False,
             )
 
-        # Step 7: Compute cost-advantage analysis (Troyer Part 6 placeholder).
+        # Step 7: Compute cost-advantage analysis from today's per-shot and per-hour prices.
+        # Troyer's Part 6 cost model (runtime times cost per module-hour) is not applied yet.
         # Heuristic order-of-magnitude estimates from agents/classifier/cost_model.py.
         with span("7. cost_analysis"):
             cost_analysis = self._compute_cost_analysis(

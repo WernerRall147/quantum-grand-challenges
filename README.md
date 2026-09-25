@@ -150,7 +150,12 @@ QEC recommendations reference the [Error Correction Zoo](https://errorcorrection
 | 3 | Quantum Resource Estimation | Dec 2025 |
 | 4 | High-performance quantum computing | Dec 2025 |
 | 5 | Scalable quantum architecture | Apr 2026 |
-| 6 | Balancing the Cost of Utility-Scale QC | Coming soon |
+| 6 | Balancing the Cost of Utility-Scale Quantum Computing | Apr 2026 |
+| 7 | High Accuracy Simulations with Utility-Scale Quantum Computing | May 2026 |
+| 8 | Responsible Computing with Utility-Scale Quantum | Sep 2026 |
+| 9 | Logical Qubits for Utility Scale | Sep 2026 |
+
+Part 6 prices a fault-tolerant computation as its estimated runtime times an amortized cost per module-hour. The evaluator's cost panel does not apply that model yet; it prices today's devices per shot.
 
 [Troyer Architecture Series](https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series)
 

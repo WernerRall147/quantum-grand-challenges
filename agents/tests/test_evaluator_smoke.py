@@ -372,11 +372,27 @@ class TestTroyerAssessmentData:
         assert "02_catalysis" in upgrades
         assert len(upgrades) == 5
 
-    def test_lecture_series_has_6_parts(self, troyer_data):
+    PUBLISHED_LECTURES = [
+        (1, "Utility-scale quantum applications", "2025-11-10"),
+        (2, "Utility-scale quantum architecture", "2025-11-17"),
+        (3, "Quantum Resource Estimation", "2025-12-01"),
+        (4, "High-performance quantum computing", "2025-12-15"),
+        (5, "Scalable quantum architecture", "2026-04-14"),
+        (6, "Balancing the Cost of Utility-Scale Quantum Computing", "2026-04-28"),
+        (7, "High Accuracy Simulations with Utility-Scale Quantum Computing", "2026-05-12"),
+        (8, "Responsible Computing with Utility-Scale Quantum", "2026-09-10"),
+        (9, "Logical Qubits for Utility Scale", "2026-09-23"),
+    ]
+
+    def test_lecture_series_matches_the_published_listing(self, troyer_data):
+        """Part 6 was listed as coming soon for five months after it was published.
+
+        The listing is quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series.
+        """
         lectures = troyer_data["lecture_series"]
-        assert len(lectures) == 6
-        assert lectures[4]["title"] == "Scalable quantum architecture"
-        assert lectures[5]["title"] == "Balancing the Cost of Utility-Scale Quantum Computing"
+        assert [(l["part"], l["title"], l["date"]) for l in lectures] == self.PUBLISHED_LECTURES
+        assert all(l["url"] for l in lectures)
+        assert troyer_data["additional_frameworks"]["troyer_cost_model"]["status"] != "coming_soon"
 
     def test_error_correction_zoo_in_sources(self, troyer_data):
         sources = troyer_data["external_knowledge_sources"]

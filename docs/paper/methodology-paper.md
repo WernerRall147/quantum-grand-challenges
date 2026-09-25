@@ -46,6 +46,8 @@
 > estimates of the QPE problems now target the QPE routines (Section 4.4), every
 > calibration ensemble was regenerated, and CI now fails when the ensemble behind a
 > Stage C or D label does not match the sources it claims to describe (Section 5.2).
+> Section 9 also records that Part 6 of the lecture series [15], on cost, has been
+> published; it had been listed as forthcoming.
 
 ## Authors
 
@@ -359,7 +361,7 @@ These limitations are fundamental to interpreting this work, not merely areas fo
 - Replace at least one classical baseline with a state-of-the-art competitor (Goemans-Williamson for MaxCut, importance sampling for QAE)
 - Extend scaling analysis to QAOA and VQE with noise models at different error rates
 - Investigate whether the maturity gate model can be extended with complexity-theoretic checks (scaling slope verification, classical hardness evidence requirements)
-- Integrate Troyer Part 6 cost model when published  adds quantum vs HPC vs AI cost-advantage analysis to evaluator output
+- Apply the cost model of Troyer's Part 6 lecture [15] (published 2026-04-28), which prices a fault-tolerant computation as its estimated runtime times an amortized cost per module-hour, alongside the evaluator's per-shot prices for today's devices
 
 ## 10. Conclusion
 
@@ -401,7 +403,7 @@ All code, data, and tooling are available at https://github.com/WernerRall147/qu
 
 [14] E. Farhi, J. Goldstone, and S. Gutmann, "A quantum approximate optimization algorithm," arXiv:1411.4028, 2014.
 
-[15] M. Troyer, quantum architecture lecture series, Microsoft Quantum, 2025-2026, https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series.
+[15] M. Troyer, "Building the Modern Quantum Architecture" lecture series, Parts 1-9, Microsoft Quantum, 2025-2026, https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series.
 
 [16] J. A. Smolin, G. Smith, and A. Vargo, "Oversimplifying quantum factoring," Nature 499, 163-165, 2013 (arXiv:1301.7007).
 

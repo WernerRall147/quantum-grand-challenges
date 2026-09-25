@@ -6,7 +6,7 @@
     "python": 228,
     "qsharp": 53,
     "ts": 14,
-    "edges": 227,
+    "edges": 228,
     "roots": 281,
     "reachable": 318
   },
@@ -611,6 +611,10 @@
     [
       "agents/tests/test_verdict_evaluator.py",
       "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/tests/test_verdict_evaluator.py",
+      "agents/evaluations/run_eval.py"
     ],
     [
       "agents/tests/test_verdict_evaluator.py",

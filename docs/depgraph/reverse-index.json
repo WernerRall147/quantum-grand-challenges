@@ -50,7 +50,8 @@
     "agents/tests/test_stdlib_index.py"
   ],
   "agents/evaluations/run_eval.py": [
-    ".github/workflows/ci-cd.yml"
+    ".github/workflows/ci-cd.yml",
+    "agents/tests/test_verdict_evaluator.py"
   ],
   "agents/evaluations/run_foundry_eval.py": [
     "agents/tests/test_verdict_evaluator.py"

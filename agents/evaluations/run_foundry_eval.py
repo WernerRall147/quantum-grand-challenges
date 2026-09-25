@@ -60,6 +60,12 @@ def route_cases(cases: list[dict], offline: bool) -> list[dict]:
                   f"once without --offline to build it, or pass --live.")
             sys.exit(2)
         cache = json.loads(CACHE_PATH.read_text(encoding="utf-8"))["cases"]
+        missing = [c["id"] for c in cases if c["id"] not in cache]
+        if missing:
+            # Skipping them would drop them from the denominator, so a new case could never fail.
+            print(f"No recorded knowledge-base matches for {len(missing)} case(s): {', '.join(missing)}. "
+                  f"Run agents/evaluations/run_eval.py once without --offline to record them.")
+            sys.exit(2)
         kb = None
     else:
         from knowledge.search.kb_client import QuantumKnowledgeBase
@@ -71,10 +77,7 @@ def route_cases(cases: list[dict], offline: bool) -> list[dict]:
 
     for case in cases:
         if offline:
-            entry = cache.get(case["id"])
-            if entry is None:
-                print(f"  {case['id']}: not in cache, skipping")
-                continue
+            entry = cache[case["id"]]
             matches, score = entry["matches"], entry["score"]
         else:
             result = kb.classify_problem(case["problem"])

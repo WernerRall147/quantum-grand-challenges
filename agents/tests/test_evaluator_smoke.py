@@ -186,6 +186,30 @@ class TestRetrievalRelevance:
         assert result["verdict"] == "QUANTUM_ADVANTAGE"
         assert result["platform"] == "QUANTUM"
 
+    def test_a_curated_verdict_does_not_waive_the_io_filter(self):
+        """The curated verdict exists to waive F4 for structural speedups like Shor's.
+
+        It used to waive every filter, so a knowledge-base entry curated as an advantage
+        but bottlenecked on data input and output would still have been published as one.
+        """
+        result = route_platform(
+            "Find the ground state energy of a molecule loaded from a large classical dataset",
+            [
+                {
+                    "name": "Data-Loaded Eigenvalue Estimation",
+                    "category": "chemistry",
+                    "speedup_class": "superpolynomial",
+                    "troyer_verdict": "QUANTUM_ADVANTAGE",
+                    "io_bottleneck": True,
+                    "naturally_quantum": False,
+                    "score": 0.03,
+                }
+            ],
+            0.03,
+        )
+        assert result["evidence"]["troyer_filters"]["F2_io_survives"] is False
+        assert result["verdict"] != "QUANTUM_ADVANTAGE"
+
     def test_rejected_match_is_named_in_the_reason(self):
         """An unexplained INCONCLUSIVE is not good enough - say what was rejected."""
         result = route_platform(

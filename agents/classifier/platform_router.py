@@ -238,7 +238,7 @@ def route_platform(
     2. If AI/ML keyword score > HPC keyword score AND > quantum keyword score → AI_ML
     3. If HPC keyword score > AI/ML keyword score AND > quantum keyword score → HPC
     4. If best KB match exists but has weak/no advantage → HPC (with quantum context)
-    5. Default → let LLM decide (INCONCLUSIVE)
+    5. Default → INCONCLUSIVE (the model explains it; it never sets the verdict)
 
     Rule 1 is deliberately conservative. Retrieval returns a top match for every
     query, so the KB match alone cannot establish that a problem is quantum.
@@ -300,19 +300,24 @@ def route_platform(
         }
 
     # Rule 1: Strong quantum advantage from KB, corroborated by the problem text.
-    # Trust EITHER all computed Troyer filters OR the curated troyer_verdict.
-    # Structural-advantage algorithms (e.g. Shor factoring) are QUANTUM_ADVANTAGE
-    # despite F4_naturally_quantum being false, so the curated verdict is
-    # authoritative for strong-speedup problems.
+    # Every computed Troyer filter must pass, with one exception: a curated
+    # QUANTUM_ADVANTAGE verdict may waive F4_naturally_quantum, because structural
+    # speedups such as Shor's factoring are not about simulating nature. It waives
+    # nothing else - an entry curated as an advantage but bottlenecked on data I/O
+    # used to pass this rule on the curated verdict alone.
+    waives_only_f4 = best_verdict == "QUANTUM_ADVANTAGE" and all(
+        passed for name, passed in troyer_filters.items() if name != "F4_naturally_quantum"
+    )
     if (
         quantum_corroborated
         and best_speedup in STRONG_QUANTUM_SPEEDUPS
-        and (all_troyer_pass or best_verdict == "QUANTUM_ADVANTAGE")
+        and (all_troyer_pass or waives_only_f4)
     ):
         reason = (
             f"KB match '{best_name}' has {best_speedup} speedup and passes all Troyer filters"
             if all_troyer_pass
-            else f"KB match '{best_name}' has {best_speedup} speedup and a curated QUANTUM_ADVANTAGE verdict"
+            else f"KB match '{best_name}' has {best_speedup} speedup and a curated QUANTUM_ADVANTAGE verdict; "
+            f"every filter passes except F4, which a structural speedup does not need"
         )
         return {
             "platform": "QUANTUM",
@@ -402,6 +407,6 @@ def route_platform(
         "platform": "INCONCLUSIVE",
         "verdict": "INCONCLUSIVE",
         "confidence": 0.4,
-        "reason": "No clear platform signal from KB or domain analysis  LLM will assess",
+        "reason": "No clear platform signal from the knowledge base or the problem text, so the verdict stays INCONCLUSIVE",
         "evidence": evidence,
     }

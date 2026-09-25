@@ -516,6 +516,9 @@
     "website/pages/_document.tsx",
     "website/pages/evaluate.tsx"
   ],
+  "website/lib/evaluatorRequest.ts": [
+    "website/pages/evaluate.tsx"
+  ],
   "website/pages/costs.tsx": [
     "website/pages/evaluate.tsx"
   ]

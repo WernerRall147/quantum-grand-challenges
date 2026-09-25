@@ -229,6 +229,35 @@ class TestRetrievalRelevance:
         assert result["evidence"]["quantum_corroborated"] is False
 
 
+class TestPublishedAdvantageClass:
+    """A strong advantage class is a claim of advantage, so only the router can publish one."""
+
+    def test_the_router_supplies_the_class_behind_a_quantum_verdict(self):
+        from agents.classifier.platform_router import published_advantage_class
+
+        assert published_advantage_class("QUANTUM_ADVANTAGE", "superpolynomial", "exponential") == (
+            "superpolynomial", "exponential")
+
+    def test_the_models_quadratic_stands_where_the_router_cannot_see_it(self):
+        """Database search rarely corroborates its retrieved match, yet it is quadratic."""
+        from agents.classifier.platform_router import published_advantage_class
+
+        assert published_advantage_class("HPC_PREFERRED", "quadratic", "quadratic") == ("quadratic", None)
+
+    def test_a_strong_class_beside_an_inconclusive_verdict_is_overruled(self):
+        """The recorded adv-vague case: INCONCLUSIVE, with the model claiming superpolynomial."""
+        from agents.classifier.platform_router import published_advantage_class
+
+        assert published_advantage_class("INCONCLUSIVE", "superpolynomial", "superpolynomial") == (
+            "none", "superpolynomial")
+
+    def test_an_unreadable_model_never_leaks_a_raw_knowledge_base_label(self):
+        """The old fallback published kb speedup_class, which can be 'exponential_core'."""
+        from agents.classifier.platform_router import published_advantage_class
+
+        assert published_advantage_class("AI_ML_PREFERRED", "exponential_core", None) == ("none", None)
+
+
 # --- API response model tests ---
 
 try:

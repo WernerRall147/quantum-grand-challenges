@@ -125,7 +125,11 @@ rather than left to imply a system that did not exist.
 - **Output**: platform, verdict, confidence, and the filter evidence behind them.
 
 ### Language model - `agents/orchestrator/evaluate.py`
-- **Owns**: explanation, red flags, HPC/AI alternatives, references, similar problems.
+- **Owns**: explanation, red flags, HPC/AI alternatives, references, similar problems,
+  and a quadratic or no-advantage class. A strong class (exponential or superpolynomial)
+  is a claim of advantage, so it is published only beside the router's QUANTUM_ADVANTAGE
+  verdict and is taken from the match the router accepted
+  (`published_advantage_class` in `agents/classifier/platform_router.py`).
 - **Model**: Foundry `model-router`, which selects a model per request.
 - **Contract**: `agents/orchestrator/output_schema.py` is the single definition of the
   response shape. `agents/tests/test_evaluator_smoke.py` fails the build if the prompt

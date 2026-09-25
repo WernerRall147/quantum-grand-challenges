@@ -243,6 +243,19 @@ def test_published_verdict_is_the_routers_not_the_models(traced_evaluation):
         assert result["model_dissent"].get("verdict") == "QUANTUM_ADVANTAGE"
 
 
+def test_published_advantage_class_is_not_the_models_exponential(traced_evaluation):
+    """The stub model calls a portfolio problem exponential; the router routes it HPC.
+
+    The result used to publish the model's class, so an HPC verdict shipped with
+    "exponential" beside it. A strong class now needs the router's quantum verdict.
+    """
+    result, _trace = traced_evaluation
+
+    assert result["verdict"] != "QUANTUM_ADVANTAGE"
+    assert result["advantage_class"] == "none"
+    assert result["model_dissent"].get("advantage_class") == "exponential"
+
+
 def test_trace_survives_a_failing_step():
     """An exception must close its span as an error, not lose the trace."""
     with start_trace("failure") as _tr:

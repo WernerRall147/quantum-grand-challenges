@@ -1,84 +1,49 @@
 {
   "problem": "17_nuclear_physics",
-  "entryExpr": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 1)",
+  "entryExpr": "Main.NuclearQPE(10, 1)",
   "estimateTarget": "Main",
   "hardwareKernelEntryPoint": "NuclearQPEKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "build": {
-    "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+    "commit": "4c39195606e357ef135bccdc161dde18f15e7fbf",
     "qdkVersion": "1.31.0",
     "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-    "dateUtc": "2026-09-14T15:01:19.659784+00:00"
+    "dateUtc": "2026-09-25T11:46:45.952962+00:00"
   },
-  "physicalQubits": 57764,
-  "runtime": 966000,
-  "logicalQubits": 12,
-  "codeDistance": 23,
-  "tFactoryFraction": 0.78,
-  "error": 0.0006233773289375885,
-  "paretoPoints": 11,
+  "physicalQubits": 666995,
+  "runtime": 21200628750,
+  "logicalQubits": 35,
+  "codeDistance": 25,
+  "tFactoryFraction": 0.934,
+  "error": 0.0008892012725387968,
+  "paretoPoints": 4,
   "paretoFrontier": [
     {
-      "physicalQubits": 57764,
-      "runtime": 966000,
-      "error": 0.0006233773289375885
+      "physicalQubits": 666995,
+      "runtime": 21200628750,
+      "error": 0.0008892012725387968
     },
     {
-      "physicalQubits": 62092,
-      "runtime": 882000,
-      "error": 0.0006233777177375885
+      "physicalQubits": 704795,
+      "runtime": 19504578450,
+      "error": 0.0008914909404437968
     },
     {
-      "physicalQubits": 66612,
-      "runtime": 798000,
-      "error": 0.0006233816057375885
+      "physicalQubits": 787675,
+      "runtime": 17808528150,
+      "error": 0.0009143876194937968
     },
     {
-      "physicalQubits": 71324,
-      "runtime": 714000,
-      "error": 0.0006234204857375885
-    },
-    {
-      "physicalQubits": 76228,
-      "runtime": 630000,
-      "error": 0.0006238092857375884
-    },
-    {
-      "physicalQubits": 81324,
-      "runtime": 546000,
-      "error": 0.0006276972857375885
-    },
-    {
-      "physicalQubits": 93052,
-      "runtime": 492800,
-      "error": 0.00048703848979552583
-    },
-    {
-      "physicalQubits": 99492,
-      "runtime": 462000,
-      "error": 0.0006665772857375885
-    },
-    {
-      "physicalQubits": 117852,
-      "runtime": 428400,
-      "error": 0.0009001858738119164
-    },
-    {
-      "physicalQubits": 124292,
-      "runtime": 403200,
-      "error": 0.0009017584897955259
-    },
-    {
-      "physicalQubits": 223652,
-      "runtime": 378000,
-      "error": 0.0007563252857375885
+      "physicalQubits": 973235,
+      "runtime": 16112477850,
+      "error": 0.0006408958660937968
     }
   ],
-  "tCount": null,
-  "rotationCount": 12,
+  "tCount": 27,
+  "rotationCount": 131052,
   "cczCount": null,
-  "measurementCount": 4,
-  "logicalDepth": 12,
-  "numQubits": 3
+  "measurementCount": 10,
+  "logicalDepth": 114629,
+  "numQubits": 12
 }

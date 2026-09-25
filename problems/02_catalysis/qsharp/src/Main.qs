@@ -4,6 +4,7 @@ import Std.Arrays.*;
 import Std.Canon.*;
 import Std.Convert.*;
 import Std.Math.*;
+import Std.Measurement.*;
 
 /// Computes e^x (ExpD was removed from modern Std.Math).
 function ExpD(x : Double) : Double {
@@ -54,16 +55,15 @@ operation MeasurePauliExpectation(theta0 : Double, theta1 : Double, theta2 : Dou
     return sum / IntAsDouble(shots);
 }
 
-/// Estimate molecular energy from Pauli decomposition.
-/// H = c_I + c_Z0 Z₀ + c_Z1 Z₁ + c_ZZ Z₀Z₁ + c_XX X₀X₁ + c_YY Y₀Y₁
-/// Coefficients approximate H₂ at equilibrium bond length.
+/// Electronic energy of the ansatz state for the H2 Hamiltonian MolecularHamiltonian defines:
+/// H = c_I + c_Z0 Z0 + c_Z1 Z1 + c_ZZ Z0Z1 + c_XX X0X1 (parity mapping, two-qubit reduction).
 operation EstimateMolecularEnergy(theta0 : Double, theta1 : Double, theta2 : Double, shots : Int) : Double {
-    // H₂ Hamiltonian coefficients (STO-3G, R=0.74 Å)
-    let cI = -0.81261;
-    let cZ0 = 0.17120;
-    let cZ1 = -0.22279;
-    let cZZ = 0.17120;
-    let cXX = 0.04544;
+    // H2 Hamiltonian coefficients (STO-3G, R = 0.735 angstrom), as in MolecularHamiltonian
+    let cI = -1.052373245772859;
+    let cZ0 = 0.39793742484318045;
+    let cZ1 = -0.39793742484318045;
+    let cZZ = -0.01128010425623538;
+    let cXX = 0.18093119978423156;
 
     let z0 = MeasurePauliExpectation(theta0, theta1, theta2, [PauliZ, PauliI], shots);
     let z1 = MeasurePauliExpectation(theta0, theta1, theta2, [PauliI, PauliZ], shots);
@@ -124,16 +124,19 @@ operation RunCatalysisAnalysis() : Unit {
 
     // VQE for H₂ ground state energy
     Message("--- VQE Molecular Energy (H2, STO-3G basis) ---");
-    let exactEnergy = -1.1373;
+    let exactEnergy = -1.137306;
     Message($"  Exact FCI energy: {exactEnergy} Hartree");
     Message("");
 
     let shots = 64;
     let (t0, t1, t2, vqeEnergy) = OptimizeVQE(shots);
     Message($"  VQE optimized parameters: theta=({t0}, {t1}, {t2})");
-    Message($"  VQE energy estimate: {vqeEnergy} Hartree");
-    let error = AbsD(vqeEnergy - exactEnergy);
+    let vqeTotal = vqeEnergy + NuclearRepulsionEnergy();
+    Message($"  VQE energy estimate (with nuclear repulsion): {vqeTotal} Hartree");
+    let error = AbsD(vqeTotal - exactEnergy);
     Message($"  Error vs exact: {error} Hartree");
+    let qpeEnergy = MolecularQPE(8, 8);
+    Message($"  QPE energy estimate (8 phase bits): {qpeEnergy} Hartree");
     Message("");
 
     Message("=== Quantum Advantage ===");
@@ -144,39 +147,117 @@ operation RunCatalysisAnalysis() : Unit {
 }
 
 
-/// QPE for H2 molecular ground state energy (STO-3G basis)
-/// Hamiltonian: H = g0*II + g1*ZI + g2*IZ + g3*ZZ + g4*XX + g5*YY
-operation MolecularQPE(bondLength : Double, nPhase : Int, shots : Int) : Double {
-    mutable phaseSum = 0.0;
-    let nShots = shots < 1 ? 1 | shots;
-    for _ in 1..nShots {
-        use phase = Qubit[nPhase];
-        use sys = Qubit[2];
-        X(sys[0]);  // Initial HF state
-        for p in phase { H(p); }
-        for k in 0..nPhase-1 {
-            let power = 1 <<< k;
-            for _ in 1..power {
-                Controlled CNOT([phase[k]], (sys[0], sys[1]));
-                Controlled Rz([phase[k]], (bondLength, sys[1]));
-                Controlled CNOT([phase[k]], (sys[0], sys[1]));
-                Controlled Rz([phase[k]], (0.5, sys[0]));
-                Controlled Rz([phase[k]], (0.5, sys[1]));
-            }
-        }
-        for i in 0..nPhase/2-1 { SWAP(phase[i], phase[nPhase-1-i]); }
-        for i in 0..nPhase-1 {
-            for j in 0..i-1 {
-                Controlled R1([phase[j]], (-Std.Math.PI() / IntAsDouble(1 <<< (i - j)), phase[i]));
-            }
-            H(phase[i]);
-        }
-        mutable phaseVal = 0.0;
-        for k in 0..nPhase-1 {
-            if M(phase[k]) == One { set phaseVal += 1.0 / IntAsDouble(1 <<< (k + 1)); }
-        }
-        set phaseSum += phaseVal;
-        ResetAll(phase + sys);
+// ---------------------------------------------------------------------------
+// Quantum phase estimation (QPE) of the problem Hamiltonian
+//
+// H = offset * I + sum_j coeffs[j] * paulis[j]. The identity part only shifts every
+// energy, so it is added back classically. U = exp(-i (H - offset) tau) is built from
+// symmetric (second-order) Trotter steps, with tau = pi / (2 * lambda) and lambda the
+// sum of |coeffs|, so |(E - offset) tau| <= pi / 2 and the measured phase cannot wrap.
+// tooling/test_qpe_kernels.py checks the sampled outcomes against exact diagonalization.
+// ---------------------------------------------------------------------------
+
+/// One symmetric Trotter step exp(-i (H - offset) dt). Exp(P, theta, qs) applies exp(i theta P).
+operation ApplyTrotterStep(paulis : Pauli[][], coeffs : Double[], dt : Double, register : Qubit[]) : Unit is Adj + Ctl {
+    let n = Length(coeffs);
+    for j in 0..n - 1 {
+        Exp(paulis[j], -coeffs[j] * dt / 2.0, register);
     }
-    return phaseSum / IntAsDouble(nShots);
+    for j in (n - 1)..-1..0 {
+        Exp(paulis[j], -coeffs[j] * dt / 2.0, register);
+    }
+}
+
+/// U^power for U = exp(-i (H - offset) tau), each U made of `steps` Trotter steps.
+operation ApplyEvolutionPower(paulis : Pauli[][], coeffs : Double[], tau : Double, steps : Int, power : Int, register : Qubit[]) : Unit is Adj + Ctl {
+    let dt = tau / IntAsDouble(steps);
+    for _ in 1..power * steps {
+        ApplyTrotterStep(paulis, coeffs, dt, register);
+    }
+}
+
+function EvolutionTime(coeffs : Double[]) : Double {
+    mutable lambda = 0.0;
+    for c in coeffs {
+        lambda += AbsD(c);
+    }
+    return PI() / (2.0 * lambda);
+}
+
+/// Energy for a phase-register value; ApplyQPE writes phase / 2pi as a little-endian integer.
+function PhaseToEnergy(outcome : Int, nPhase : Int, tau : Double, offset : Double) : Double {
+    mutable theta = 2.0 * PI() * IntAsDouble(outcome) / IntAsDouble(1 <<< nPhase);
+    if theta > PI() {
+        theta -= 2.0 * PI();
+    }
+    return offset - theta / tau;
+}
+
+/// The most frequent phase-register value.
+function ModeOutcome(outcomes : Int[], nPhase : Int) : Int {
+    mutable counts = [0, size = 1 <<< nPhase];
+    for outcome in outcomes {
+        counts[outcome] += 1;
+    }
+    mutable best = 0;
+    for m in 1..Length(counts) - 1 {
+        if counts[m] > counts[best] {
+            best = m;
+        }
+    }
+    return best;
+}
+
+/// X on every qubit whose bit is 1.
+operation PrepareBasisState(bits : Int[], register : Qubit[]) : Unit {
+    for i in 0..Length(bits) - 1 {
+        if bits[i] == 1 {
+            X(register[i]);
+        }
+    }
+}
+
+/// One QPE run from the state `prepare` makes; returns the phase-register value.
+operation MeasureEnergyPhase(paulis : Pauli[][], coeffs : Double[], prepare : (Qubit[] => Unit), nSystem : Int, nPhase : Int, steps : Int) : Int {
+    use phase = Qubit[nPhase];
+    use sys = Qubit[nSystem];
+    prepare(sys);
+    ApplyQPE(ApplyEvolutionPower(paulis, coeffs, EvolutionTime(coeffs), steps, _, _), sys, phase);
+    let outcome = MeasureInteger(phase);
+    ResetAll(sys);
+    return outcome;
+}
+
+/// H2 in STO-3G at 0.735 angstrom, parity-mapped with two-qubit reduction (qubit 0 first).
+/// Its ground energy is -1.857275 Ha; adding the nuclear repulsion 0.719969 Ha gives
+/// -1.137306 Ha, the full-CI energy. tooling/test_qpe_kernels.py checks both numbers.
+function MolecularHamiltonian() : (Pauli[][], Double[], Double) {
+    let paulis = [[PauliZ, PauliI], [PauliI, PauliZ], [PauliZ, PauliZ], [PauliX, PauliX]];
+    let coeffs = [0.39793742484318045, -0.39793742484318045, -0.01128010425623538, 0.18093119978423156];
+    return (paulis, coeffs, -1.052373245772859);
+}
+
+function NuclearRepulsionEnergy() : Double {
+    return 0.7199689944489797;
+}
+
+/// Trotter steps per U: Trotter error below half the 10-bit phase resolution.
+function MolecularTrotterSteps() : Int {
+    return 4;
+}
+
+/// One QPE run from the Hartree-Fock state |10> (overlap 0.99 with the ground state).
+operation MolecularQPEOutcome(nPhase : Int) : Int {
+    let (paulis, coeffs, _) = MolecularHamiltonian();
+    return MeasureEnergyPhase(paulis, coeffs, PrepareBasisState([1, 0], _), 2, nPhase, MolecularTrotterSteps());
+}
+
+/// Total H2 ground-state energy (electronic plus nuclear repulsion) by QPE.
+operation MolecularQPE(nPhase : Int, shots : Int) : Double {
+    let (_, coeffs, offset) = MolecularHamiltonian();
+    mutable outcomes : Int[] = [];
+    for _ in 1..(shots < 1 ? 1 | shots) {
+        outcomes += [MolecularQPEOutcome(nPhase)];
+    }
+    return PhaseToEnergy(ModeOutcome(outcomes, nPhase), nPhase, EvolutionTime(coeffs), offset) + NuclearRepulsionEnergy();
 }

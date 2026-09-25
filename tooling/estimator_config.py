@@ -98,14 +98,14 @@ class EntryPoint:
 
 ENTRY_POINTS: dict[str, EntryPoint] = {
     "01_hubbard": EntryPoint(
-        template=_shots("Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, {shots})"),
+        template=_shots("Main.HubbardQPE(1.0, 4.0, 10, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Two-site Hubbard VQE energy estimate",
+        description="Two-site Hubbard model (Jordan-Wigner, 4 qubits) ground-state QPE, 10 phase bits",
     ),
     "02_catalysis": EntryPoint(
-        template=_shots("Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, {shots})"),
+        template=_shots("Main.MolecularQPE(10, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="H2 molecular ground-state VQE",
+        description="H2 (STO-3G, 0.735 angstrom) ground-state QPE, 10 phase bits",
     ),
     "03_qae_risk": EntryPoint(
         template=_fixed("Main.QAEKernel()"),
@@ -128,9 +128,9 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
         description="Tail-loss probability via amplitude estimation",
     ),
     "07_drug_discovery": EntryPoint(
-        template=_shots("Main.EstimateBindingEnergy(1.0, 0.5, 0.3, {shots})"),
+        template=_shots("Main.BindingQPE(10, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Protein-ligand binding energy VQE",
+        description="Illustrative two-qubit binding Hamiltonian, ground-state QPE, 10 phase bits",
     ),
     "08_protein_folding": EntryPoint(
         template=_shots("Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, {shots})"),
@@ -163,9 +163,9 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
         description="HHL-based climate PDE solver",
     ),
     "14_materials_discovery": EntryPoint(
-        template=_shots("Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, {shots})"),
+        template=_shots("Main.BandGapQPE(1.0, -0.5, 0.8, 0.3, 10, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Band-gap VQE for toy material",
+        description="Tight-binding dimer band gap from two QPE runs, 10 phase bits",
     ),
     "15_database_search": EntryPoint(
         template=_fixed("Main.GroverSearch([7], 4, 3)"),
@@ -178,9 +178,9 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
         description="One repetition-code cycle, no injected error",
     ),
     "17_nuclear_physics": EntryPoint(
-        template=_shots("Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, {shots})"),
+        template=_shots("Main.NuclearQPE(10, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Nuclear shell-model VQE",
+        description="Deuteron (pionless EFT, two-state basis) ground-state QPE, 10 phase bits",
     ),
     "18_photovoltaics": EntryPoint(
         template=_shots("Main.RunExcitonWalk(10, 0.5, {shots})"),
@@ -311,7 +311,7 @@ def frontier_points(table: EstimationTable) -> list[dict[str, Any]]:
 
     select_entry() keeps only the low-qubit corner, which is also the slowest
     configuration. Reporting that point alone hides the trade the estimator
-    actually found: for 01_hubbard, 3.6x the qubits buys 2.8x the speed.
+    actually found: for 01_hubbard, 2.0x the qubits buys 1.4x the speed.
     """
 
     return [

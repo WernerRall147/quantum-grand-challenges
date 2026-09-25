@@ -166,17 +166,19 @@ QEC recommendations reference the [Error Correction Zoo](https://errorcorrection
 
 | Problem | Algorithm | Speedup | Physical qubits | Frontier points |
 |---------|-----------|---------|-----------------|-----------------|
-| [Hubbard Model](problems/01_hubbard/) | **QPE** | Exponential | 54k | 9 |
-| [Catalysis (H₂)](problems/02_catalysis/) | **QPE** | Exponential | 58k | 11 |
-| [Drug Discovery](problems/07_drug_discovery/) | **QPE** | Exponential | 58k | 11 |
+| [Hubbard Model](problems/01_hubbard/) | **QPE** | Exponential† | 595k | 5 |
+| [Catalysis (H₂)](problems/02_catalysis/) | **QPE** | Exponential† | 423k | 5 |
+| [Drug Discovery](problems/07_drug_discovery/) | **QPE** | Exponential† | 423k | 6 |
 | [Factorization](problems/09_factorization/) | **Shor** | Superpolynomial | 53k | 8 |
-| [Materials Discovery](problems/14_materials_discovery/) | **QPE** | Exponential | 163k | 10 |
+| [Materials Discovery](problems/14_materials_discovery/) | **QPE** | Exponential† | 755k | 4 |
 | [Error Correction](problems/16_error_correction/) | **QEC** | Infrastructure | 2k | 1 |
-| [Nuclear Physics](problems/17_nuclear_physics/) | **QPE** | Exponential | 58k | 11 |
-| [Photovoltaics](problems/18_photovoltaics/) | **Quantum Walk** | Exponential | 47k | 10 |
-| [QCD Lattice](problems/19_quantum_chromodynamics/) | **Trotter** | Exponential | 55k | 9 |
+| [Nuclear Physics](problems/17_nuclear_physics/) | **QPE** | Exponential† | 667k | 4 |
+| [Photovoltaics](problems/18_photovoltaics/) | **Quantum Walk** | Exponential† | 47k | 10 |
+| [QCD Lattice](problems/19_quantum_chromodynamics/) | **Trotter** | Exponential† | 55k | 9 |
 
 Qubit counts are the fewest-qubit point of each Pareto frontier. See [Reading the numbers](#reading-the-numbers).
+
+† Relative to exact classical simulation, and for ground-state problems only when the prepared state overlaps the ground state well (filter F6). No generic exponential advantage over the best classical methods has been established for ground-state chemistry ([Lee et al., Nat. Commun. 14, 1952, 2023](https://doi.org/10.1038/s41467-023-37587-6)), and every instance here is small enough for a laptop to solve exactly.
 
 ### Archived: with the reason
 
@@ -184,15 +186,15 @@ Qubit counts are the fewest-qubit point of each Pareto frontier. See [Reading th
 |---------|--------------------|-----------------|
 | [QAE Risk](problems/archived/03_qae_risk/) | QAE | Quadratic plus I/O cost |
 | [Linear Solvers](problems/archived/04_linear_solvers/) | HHL | I/O bottleneck (state prep and readout) |
-| [QAOA MaxCut](problems/archived/05_qaoa_maxcut/) | QAOA | At most quadratic, no proven advantage |
+| [QAOA MaxCut](problems/archived/05_qaoa_maxcut/) | QAOA | No proven speedup; no QAOA is known to beat Goemans-Williamson |
 | [HFT VaR](problems/archived/06_high_frequency_trading/) | QAE | Quadratic plus I/O |
-| [Protein Folding](problems/archived/08_protein_folding/) | QAOA | At most quadratic; AlphaFold dominates |
+| [Protein Folding](problems/archived/08_protein_folding/) | QAOA | No proven speedup; AlphaFold dominates |
 | [PQC Grover](problems/archived/10_post_quantum_cryptography/) | Grover | Quadratic, oracle cost dominates |
 | [QML Swap Test](problems/archived/11_quantum_machine_learning/) | Swap Test | I/O bottleneck (data loading) |
-| [Optimization](problems/archived/12_quantum_optimization/) | QAOA | At most quadratic |
+| [Optimization](problems/archived/12_quantum_optimization/) | QAOA | No proven speedup |
 | [Climate HHL](problems/archived/13_climate_modeling/) | HHL | I/O bottleneck |
 | [DB Search](problems/archived/15_database_search/) | Grover | Quadratic plus QRAM cost |
-| [Space Mission](problems/archived/20_space_mission_planning/) | QAOA | At most quadratic |
+| [Space Mission](problems/archived/20_space_mission_planning/) | QAOA | No proven speedup |
 
 ---
 
@@ -201,13 +203,13 @@ Qubit counts are the fewest-qubit point of each Pareto frontier. See [Reading th
 Three things are easy to misread. All three are real properties of the data, not caveats that go away with more effort.
 
 **1. The estimate and the hardware run describe different programs.**
-Resource estimates are of the `Main.*` expressions, the algorithm at utility scale. Azure Quantum submissions send `HardwareKernel.qs`, a small kernel sized to fit today's devices. A 54k-qubit estimate and a 2-bit run histogram on the same problem page are not two views of one circuit. Each `circuits/estimate.json` records both `entryExpr` and `hardwareKernelEntryPoint` so you can tell them apart.
+Resource estimates are of the `Main.*` expressions: the same toy instances, compiled for fault-tolerant execution, not utility-scale versions of the problems. Azure Quantum submissions send `HardwareKernel.qs`, a smaller kernel sized to fit today's devices (for the QPE problems, 2 phase bits instead of 10). A 595k-qubit estimate and a 2-bit run histogram on the same problem page are not two views of one circuit. Each `circuits/estimate.json` records both `entryExpr` and `hardwareKernelEntryPoint` so you can tell them apart.
 
 **2. A resource estimate is a curve, not a number.**
-The estimator returns a Pareto frontier of 8 to 11 configurations. The published figure is the fewest-qubit point, which is also the slowest. For Hubbard, 3.6x the qubits buys 2.8x the speed. The full curve is in `paretoFrontier` and plotted on each problem page.
+The estimator returns a Pareto frontier of 1 to 10 configurations for the active problems. The published figure is the fewest-qubit point, which is also the slowest. For Hubbard, 2.0x the qubits buys 1.4x the speed. The full curve is in `paretoFrontier` and plotted on each problem page.
 
 **3. Stored emulator runs are dated.**
-The Quantinuum and Rigetti histograms are from April 2026. Five problems (01, 02, 07, 14, 17) were upgraded from VQE to QPE afterwards, so their stored histograms describe kernels that no longer exist. The four unchanged problems agreed with ideal simulation to within a total variation distance of 0.01 to 0.17.
+The Quantinuum and Rigetti histograms are from April 2026. Five problems (01, 02, 07, 14, 17) were upgraded from VQE to QPE afterwards, so their stored histograms describe kernels that no longer exist. Those first QPE kernels were themselves wrong: every controlled evolution was diagonal, so they could not reach the ground state. They were rewritten in September 2026 and are now checked against exact diagonalization by `tooling/test_qpe_kernels.py`; none of the rewritten kernels has been run on Azure yet. The four unchanged problems agreed with ideal simulation to within a total variation distance of 0.01 to 0.17.
 
 ---
 

@@ -34,8 +34,10 @@ COMPARE_PAGE = REPO_ROOT / "website" / "pages" / "compare.tsx"
 
 # "132k physical qubits, 18 logical"
 _QUBIT_CLAIM = re.compile(r"([\d.]+)k physical qubits,\s*(\d+) logical")
+# Single- or double-quoted descriptions, on the key's line or the next. Matching only the
+# single-quoted form let the Factorization card quote 77k qubits against an estimate of 53k.
 _ENTRY = re.compile(
-    r"\{\s*title: '([^']*)',\s*status: '([^']*)',\s*description: '([^']*)',\s*href: '([^']*)'"
+    r"\{\s*title: '([^']*)',\s*status: '([^']*)',\s*description:\s*(?:'([^']*)'|\"([^\"]*)\"),\s*href: '([^']*)'"
 )
 _PROBLEM_ID = re.compile(r"problems/(\d\d_[a-z_]+)")
 
@@ -47,9 +49,10 @@ def _estimates() -> dict:
 def _claims() -> list[tuple[str, float, int]]:
     """Every (problem id, claimed physical, claimed logical) stated in a description."""
     found = []
-    for _title, _status, description, href in _ENTRY.findall(
+    for _title, _status, single, double, href in _ENTRY.findall(
         PROJECT_STATUS.read_text(encoding="utf-8")
     ):
+        description = single or double
         problem = _PROBLEM_ID.search(href)
         claim = _QUBIT_CLAIM.search(description)
         if problem and claim:

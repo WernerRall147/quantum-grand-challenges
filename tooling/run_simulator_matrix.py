@@ -232,9 +232,11 @@ def main():
 
     if MATRIX_PATH.exists():
         prev = json.loads(MATRIX_PATH.read_text(encoding="utf-8"))
+        # Keyed by problem as well as target: keyed by target alone, re-running a subset
+        # of problems deleted every other problem's record for that target.
+        rerun = {(x.get("problem_id"), x.get("execution"), x.get("target_id")) for x in records}
         keep = [r for r in prev.get("records", [])
-                if (r.get("execution"), r.get("target_id")) not in
-                {(x.get("execution"), x.get("target_id")) for x in records}]
+                if (r.get("problem_id"), r.get("execution"), r.get("target_id")) not in rerun]
         payload["records"] = keep + records
 
     MATRIX_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")

@@ -98,9 +98,10 @@ def main():
         try:
             summary = {
                 "problem": name,
-                # Records which program was estimated. This is a Main.* expression at
-                # utility scale, not the small HardwareKernel that Azure Quantum runs,
-                # so estimate figures and run histograms are not directly comparable.
+                # Records which program was estimated: a Main.* expression, the toy
+                # instance compiled for fault tolerance (not a utility-scale version),
+                # and not the smaller HardwareKernel that Azure Quantum runs, so estimate
+                # figures and run histograms are not directly comparable.
                 "entryExpr": ep.expr(),
                 "estimateTarget": "Main",
                 "hardwareKernelEntryPoint": kernel_entry_point(qsharp_dir),

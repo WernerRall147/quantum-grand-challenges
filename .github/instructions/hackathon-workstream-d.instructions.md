@@ -11,7 +11,7 @@ This workstream owns the 3-minute demo end to end. It is what the judges actuall
 ## Start from what is already true
 
 `website/data/resourceEstimates.json` **already carries real numbers** - 01_hubbard at
-12 logical / 53,628 physical, 02_catalysis at 12 / 57,764, 03_qae_risk at 40 / 369,400 -
+40 logical / 594,980 physical, 02_catalysis at 35 / 423,055, 03_qae_risk at 40 / 369,400 -
 written by `tooling/generate_estimates.py`, which calls the real estimator.
 
 So the website is **not** the thing showing fake figures. The mock artifacts under

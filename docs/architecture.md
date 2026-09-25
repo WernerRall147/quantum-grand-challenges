@@ -56,8 +56,8 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 │  │      quantum-advantage-orchestrator, adds Code Interpreter      │ │
 │  │      and the Microsoft Learn MCP tool                           │ │
 │  │                                                                 │ │
-│  │ Model time, not end to end. A request measures ~38s median      │ │
-│  │ (15 calls, 2026-08-24), and ~78s when code generation is on.    │ │
+│  │ Model time, not end to end. Production requests took 23s median │ │
+│  │ (286, 1-25 Sep 2026), and 36s (29) with code generation on.     │ │
 │  └────────────────────────────────────────────────────────────────┘ │
 │                                                                      │
 │  GENERATORS  agents/code_generator/ - invoked after the verdict,     │
@@ -145,7 +145,23 @@ rather than left to imply a system that did not exist.
 ### Q# generator and estimator - `agents/code_generator/`
 - **Role**: generates Q#, compiles it, runs resource estimation.
 - **Tools**: `qsharp` Python package, Azure Quantum Resource Estimator.
-- **Pipeline**: generate → compile → estimate → compare.
+- **Pipeline**: pick the exemplar for the algorithm family → generate → compile → repair
+  (up to three attempts) → estimate on four hardware profiles.
+- **Exemplars**: `agents/code_generator/exemplars/` holds complete QPE and Shor programs,
+  checked against exact results by `agents/tests/test_codegen_exemplars.py`. The evaluator
+  names algorithms in prose, so the family is read from the text; an exact-key lookup had
+  given every production request the same VQE code.
+- **Repair**: gets the full compiler message, hints naming the correct form for the type
+  errors that used to fail every attempt (`compiler_hints.py`), a check of called names
+  against the standard library (`stdlib_index.py`), and the exemplar again.
+- **Quantum work**: a program that compiles but uses fewer qubits than the algorithm needs
+  is a classical placeholder. It is repaired like a compile error and, if it stays one, is
+  reported with `quantum_work: false` and no estimate.
+- **Threading**: the qsharp interpreter is thread-bound, so every compile and estimate runs
+  on one dedicated thread (`agents/tests/test_codegen_threads.py`).
+- **Measured**: `agents/evaluations/run_codegen_eval.py` runs the real pipeline on the
+  production algorithm mix. On 2026-09-25 the deployed generator compiled 19 of 24 runs and
+  produced 17 usable programs; this version compiled and produced usable programs in 24 of 24.
 
 ### Bicep generator - `agents/code_generator/`
 - **Role**: for HPC and AI/ML verdicts, emits the Azure workspace template to provision instead.
@@ -349,7 +365,7 @@ quantum-grand-challenges/
 │   │   ├── instructions.py          # Deployed system prompt (single source)
 │   │   └── evaluate.py              # The pipeline; route_platform runs before the model
 │   ├── classifier/                  # Deterministic router, filters, cost model
-│   ├── evaluations/                 # Router + narrative eval harnesses
+│   ├── evaluations/                 # Router, narrative and Q# generation eval harnesses
 │   ├── observability/
 │   │   └── trace.py                 # Per-request spans; proves the router runs first
 │   ├── api/                         # FastAPI app deployed to Container Apps

@@ -1,11 +1,27 @@
 {
   "summary": {
-    "total_candidates": 16,
+    "total_candidates": 18,
     "safe_review": 0,
-    "needs_review": 16,
+    "needs_review": 18,
     "python_unparsable": []
   },
   "candidates": [
+    {
+      "file": "agents/code_generator/exemplars/QPE.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
+    {
+      "file": "agents/code_generator/exemplars/Shor.qs",
+      "inbound": [],
+      "risk_flags": [
+        "qsharp"
+      ],
+      "category": "needs_review"
+    },
     {
       "file": "agents/observability/__init__.py",
       "inbound": [],

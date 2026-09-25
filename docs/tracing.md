@@ -185,6 +185,19 @@ dependencies
 | where attempts > 1
 ```
 
+Generation outcomes by exemplar, including programs that compiled but did no quantum work
+(too few qubits for the algorithm):
+
+```kusto
+dependencies
+| where name == "codegen.compile_and_estimate"
+| extend d = parse_json(customDimensions)
+| join kind=inner (dependencies | where name == "codegen.generate"
+    | project operation_Id, reference=tostring(parse_json(customDimensions).reference)) on operation_Id
+| summarize runs=count(), compiled=countif(tostring(d.compiled)=="True"),
+            no_quantum_work=countif(tostring(d.quantum_work)=="False") by reference
+```
+
 ## Adding a step
 
 Instrumenting a new step is one context manager. Record what it *decided*, not

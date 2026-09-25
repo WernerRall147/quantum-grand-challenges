@@ -17,9 +17,8 @@ knowledge/Microsoft/**
 # generate.py imports estimator_config from /app/tooling
 !tooling/estimator_config.py
 
-# Exemplars generate.py feeds the model, one per REFERENCE_IMPLEMENTATIONS entry
-!problems/01_hubbard/qsharp/src/Main.qs
-!problems/09_factorization/qsharp/src/Main.qs
+# Exemplars generate.py feeds the model, one per REFERENCE_IMPLEMENTATIONS entry outside
+# agents/ (the QPE and Shor exemplars are under agents/code_generator/exemplars/)
 !problems/19_quantum_chromodynamics/qsharp/src/Main.qs
 !problems/18_photovoltaics/qsharp/src/Main.qs
 !problems/16_error_correction/qsharp/src/Main.qs

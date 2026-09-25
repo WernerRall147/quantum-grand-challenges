@@ -29,9 +29,8 @@ COPY tooling/estimator_config.py /app/tooling/estimator_config.py
 
 # The exemplars generate.py feeds the model, one per algorithm in REFERENCE_IMPLEMENTATIONS.
 # Missing files degrade silently to an empty snippet rather than failing, so the generator
-# would keep working and quietly get worse.
-COPY problems/01_hubbard/qsharp/src/Main.qs /app/problems/01_hubbard/qsharp/src/Main.qs
-COPY problems/09_factorization/qsharp/src/Main.qs /app/problems/09_factorization/qsharp/src/Main.qs
+# would keep working and quietly get worse. The QPE and Shor exemplars live under
+# agents/code_generator/exemplars/ and arrive with agents/ above.
 COPY problems/19_quantum_chromodynamics/qsharp/src/Main.qs /app/problems/19_quantum_chromodynamics/qsharp/src/Main.qs
 COPY problems/18_photovoltaics/qsharp/src/Main.qs /app/problems/18_photovoltaics/qsharp/src/Main.qs
 COPY problems/16_error_correction/qsharp/src/Main.qs /app/problems/16_error_correction/qsharp/src/Main.qs

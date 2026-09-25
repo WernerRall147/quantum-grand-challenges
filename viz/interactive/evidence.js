@@ -16,9 +16,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "HubbardQPEKernel",
@@ -96,9 +96,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "CatalysisQPEKernel",
@@ -176,9 +176,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -221,9 +221,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -266,9 +266,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -311,9 +311,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -356,9 +356,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "DrugBindingQPEKernel",
@@ -432,9 +432,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -477,9 +477,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "ShorKernel",
@@ -607,9 +607,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -652,9 +652,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -697,9 +697,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -742,9 +742,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -787,9 +787,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "MaterialsQPEKernel",
@@ -867,9 +867,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -912,9 +912,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "QECKernel",
@@ -967,9 +967,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "NuclearQPEKernel",
@@ -1047,9 +1047,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "QuantumWalkKernel",
@@ -1057,7 +1057,19 @@ globalThis.BLOCH_EVIDENCE = {
         "histogram": [
           {
             "outcome": "[One, Zero, Zero]",
-            "count": 200
+            "count": 123
+          },
+          {
+            "outcome": "[Zero, One, Zero]",
+            "count": 37
+          },
+          {
+            "outcome": "[Zero, Zero, Zero]",
+            "count": 26
+          },
+          {
+            "outcome": "[One, One, Zero]",
+            "count": 14
           }
         ]
       },
@@ -1073,12 +1085,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 3,
           "shots": 200,
           "counts": {
-            "0": 0,
-            "1": 200
+            "0": 63,
+            "1": 137
           },
-          "p0": 0.0,
-          "p1": 1.0,
-          "z": -1.0,
+          "p0": 0.315,
+          "p1": 0.685,
+          "z": -0.37,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -1090,12 +1102,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 3,
           "shots": 200,
           "counts": {
-            "0": 200,
-            "1": 0
+            "0": 149,
+            "1": 51
           },
-          "p0": 1.0,
-          "p1": 0.0,
-          "z": 1.0,
+          "p0": 0.745,
+          "p1": 0.255,
+          "z": 0.49,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -1132,9 +1144,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "LatticeGaugeKernel",
@@ -1286,9 +1298,9 @@ globalThis.BLOCH_EVIDENCE = {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": null,
         "target": null,
         "entry_point": null,

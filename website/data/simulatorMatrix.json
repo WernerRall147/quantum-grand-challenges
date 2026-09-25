@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_utc": "2026-09-25T11:48:59.160193Z",
+  "generated_utc": "2026-09-25T13:14:39.101620Z",
   "targets": {
     "quantinuum.sim.h2-1sc": {
       "profile": "Adaptive_RI",
@@ -66,21 +66,6 @@
         "counts": {
           "[One]": 103,
           "[Zero]": 97
-        }
-      }
-    },
-    {
-      "problem_id": "18_photovoltaics",
-      "entry_point": "QuantumWalkKernel",
-      "execution": "local-simulator",
-      "target_id": null,
-      "profile": "Adaptive_RI",
-      "status": "succeeded",
-      "histogram": {
-        "shots": 200,
-        "distinct_outcomes": 1,
-        "counts": {
-          "[One, Zero, Zero]": 200
         }
       }
     },
@@ -198,6 +183,24 @@
           "[One, One]": 35,
           "[Zero, Zero]": 29,
           "[Zero, One]": 11
+        }
+      }
+    },
+    {
+      "problem_id": "18_photovoltaics",
+      "entry_point": "QuantumWalkKernel",
+      "execution": "local-simulator",
+      "target_id": null,
+      "profile": "Adaptive_RI",
+      "status": "succeeded",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[One, Zero, Zero]": 123,
+          "[Zero, One, Zero]": 37,
+          "[Zero, Zero, Zero]": 26,
+          "[One, One, Zero]": 14
         }
       }
     }

@@ -173,12 +173,14 @@ QEC recommendations reference the [Error Correction Zoo](https://errorcorrection
 | [Materials Discovery](problems/14_materials_discovery/) | **QPE** | Exponential† | 755k | 4 |
 | [Error Correction](problems/16_error_correction/) | **QEC** | Infrastructure | 2k | 1 |
 | [Nuclear Physics](problems/17_nuclear_physics/) | **QPE** | Exponential† | 667k | 4 |
-| [Photovoltaics](problems/18_photovoltaics/) | **Quantum Walk** | Exponential† | 47k | 10 |
+| [Photovoltaics](problems/18_photovoltaics/) | **Quantum Walk** | Not established‡ | 47k | 10 |
 | [QCD Lattice](problems/19_quantum_chromodynamics/) | **Trotter** | Exponential† | 55k | 9 |
 
 Qubit counts are the fewest-qubit point of each Pareto frontier. See [Reading the numbers](#reading-the-numbers).
 
 † Relative to exact classical simulation, and for ground-state problems only when the prepared state overlaps the ground state well (filter F6). No generic exponential advantage over the best classical methods has been established for ground-state chemistry ([Lee et al., Nat. Commun. 14, 1952, 2023](https://doi.org/10.1038/s41467-023-37587-6)), and every instance here is small enough for a laptop to solve exactly.
+
+‡ The kernel follows a single exciton, and exact classical simulation of one excitation on N sites already takes time polynomial in N. An exponential separation would need many-body or strongly coupled open-system transport, which this instance does not model, so the filters were passed on the problem class rather than on this kernel.
 
 ### Archived: with the reason
 

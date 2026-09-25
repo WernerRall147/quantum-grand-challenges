@@ -1071,12 +1071,12 @@
       "stage": "C",
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "estimate": {
         "source": {
           "path": "problems/18_photovoltaics/circuits/estimate.json",
-          "sha256": "6c61ea39f352da3ce7ad066a460e389a0008543c013bd875b25d51c0a27ea568"
+          "sha256": "5b39cdbf9a55d2fdb419a3e8dd0c272c63acba0616dc68453f49ac23807a5aa5"
         },
         "entry_point": "Main.RunExcitonWalk(10, 0.5, 1)",
         "target": "Main",
@@ -1096,9 +1096,9 @@
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "QuantumWalkKernel",
@@ -1106,25 +1106,27 @@
         "histogram": [
           {
             "outcome": "[One, Zero, Zero]",
-            "count": 200
+            "count": 123
+          },
+          {
+            "outcome": "[Zero, One, Zero]",
+            "count": 37
+          },
+          {
+            "outcome": "[Zero, Zero, Zero]",
+            "count": 26
+          },
+          {
+            "outcome": "[One, One, Zero]",
+            "count": 14
           }
         ]
       },
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
       ],
-      "render_status": "rendered",
-      "assets": [
-        {
-          "kind": "poster",
-          "path": "assets/18_photovoltaics/42ddaec525cb/poster.png",
-          "media_type": "image/png",
-          "width": 1600,
-          "height": 1000,
-          "sha256": "95327754eb363c280b8249b5c5fdd11bdf224fce06fad469d86e300fbefaf6fc",
-          "alt": "Photovoltaics: active, stage C. Estimated logical qubits: 12; physical qubits: 47188. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = -1, P(0) = 0, P(1) = 1. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-        }
-      ]
+      "render_status": "pending",
+      "assets": []
     },
     {
       "id": "19_quantum_chromodynamics",

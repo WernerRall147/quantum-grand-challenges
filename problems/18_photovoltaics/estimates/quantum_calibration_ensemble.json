@@ -2,122 +2,122 @@
   "problem_id": "18_photovoltaics",
   "description": "Quantum walk exciton transport: mean final site over 50 walks",
   "entry_point": "Main.RunExcitonWalk(10, 0.5, 50)",
-  "generated_utc": "2026-09-25T11:43:07.655687Z",
+  "generated_utc": "2026-09-25T13:13:59.035111Z",
   "sources": {
-    "problems/18_photovoltaics/qsharp/HardwareKernel.qs": "078cfd1dffade4d742a27f230f53099724ac04a6055b7a447daa9bdf89dcee81",
+    "problems/18_photovoltaics/qsharp/HardwareKernel.qs": "2e7a39cd0217a341f1f3f45a4c3c6dc5f8afdb29ba324fad169c88c5d8f350ec",
     "problems/18_photovoltaics/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-    "problems/18_photovoltaics/qsharp/src/Main.qs": "81be33baff40eb8648c9f27e529dfe505d8e29005abd067840f5da308df005d8"
+    "problems/18_photovoltaics/qsharp/src/Main.qs": "d12659df982f5bb4ab9139342a4afb75b79f970ead5748588019694d5187f57d"
   },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0075,
-    "std_elapsed_s": 0.0014,
-    "mean_value": 1.0,
-    "std_value": 0.0,
-    "ci95_half_width": 0.0,
-    "ci95_lower": 1.0,
-    "ci95_upper": 1.0
+    "mean_elapsed_s": 0.0054,
+    "std_elapsed_s": 0.0018,
+    "mean_value": 2.314,
+    "std_value": 0.160145,
+    "ci95_half_width": 0.070186,
+    "ci95_lower": 2.243814,
+    "ci95_upper": 2.384186
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0091
+      "raw_result": "[[0, 11, 0, 39]]",
+      "elapsed_s": 0.0063
     },
     {
       "run": 2,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.006
+      "raw_result": "[[0, 21, 0, 29]]",
+      "elapsed_s": 0.0045
     },
     {
       "run": 3,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0063
+      "raw_result": "[[0, 23, 0, 27]]",
+      "elapsed_s": 0.0056
     },
     {
       "run": 4,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0077
+      "raw_result": "[[0, 18, 0, 32]]",
+      "elapsed_s": 0.005
     },
     {
       "run": 5,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0063
+      "raw_result": "[[0, 13, 0, 37]]",
+      "elapsed_s": 0.0055
     },
     {
       "run": 6,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0077
+      "raw_result": "[[0, 20, 0, 30]]",
+      "elapsed_s": 0.0056
     },
     {
       "run": 7,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0062
+      "raw_result": "[[0, 17, 0, 33]]",
+      "elapsed_s": 0.0061
     },
     {
       "run": 8,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0062
+      "raw_result": "[[0, 19, 0, 31]]",
+      "elapsed_s": 0.004
     },
     {
       "run": 9,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0078
+      "raw_result": "[[0, 17, 0, 33]]",
+      "elapsed_s": 0.0015
     },
     {
       "run": 10,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0094
+      "raw_result": "[[0, 17, 0, 33]]",
+      "elapsed_s": 0.0109
     },
     {
       "run": 11,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0089
+      "raw_result": "[[0, 17, 0, 33]]",
+      "elapsed_s": 0.005
     },
     {
       "run": 12,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0062
+      "raw_result": "[[0, 13, 0, 37]]",
+      "elapsed_s": 0.0045
     },
     {
       "run": 13,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0091
+      "raw_result": "[[0, 23, 0, 27]]",
+      "elapsed_s": 0.0059
     },
     {
       "run": 14,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0062
+      "raw_result": "[[0, 15, 0, 35]]",
+      "elapsed_s": 0.0055
     },
     {
       "run": 15,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0089
+      "raw_result": "[[0, 15, 0, 35]]",
+      "elapsed_s": 0.004
     },
     {
       "run": 16,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0062
+      "raw_result": "[[0, 10, 0, 40]]",
+      "elapsed_s": 0.0082
     },
     {
       "run": 17,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0075
+      "raw_result": "[[0, 16, 0, 34]]",
+      "elapsed_s": 0.0045
     },
     {
       "run": 18,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0063
+      "raw_result": "[[0, 13, 0, 37]]",
+      "elapsed_s": 0.006
     },
     {
       "run": 19,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0105
+      "raw_result": "[[0, 22, 0, 28]]",
+      "elapsed_s": 0.0052
     },
     {
       "run": 20,
-      "raw_result": "[[0, 50, 0, 0]]",
-      "elapsed_s": 0.0078
+      "raw_result": "[[0, 23, 0, 27]]",
+      "elapsed_s": 0.005
     }
   ]
 }

@@ -7,7 +7,7 @@
 ## Circuit Characteristics
 - **Algorithm**: Quantum Walk
 - **Qubits**: 3 (coin + 2 position)
-- **Gate set**: Ry, X, Controlled-SWAP, M
+- **Gate set**: Ry, X, CNOT, CCNOT (Toffoli), M
 
 ## Noise Model
 - Walk fidelity degrades with steps

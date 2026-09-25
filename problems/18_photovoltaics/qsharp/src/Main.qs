@@ -6,22 +6,30 @@ import Std.Convert.*;
 import Std.Diagnostics.*;
 import Std.Math.*;
 
-/// Discrete-time quantum walk for exciton transport on a 4-site chain.
-/// Coin qubit controls direction, position register tracks site.
+/// Moves the walker one site round the ring. The register is big-endian: the site is
+/// 2 * position[0] + position[1] for two qubits, matching the measurement below.
+operation IncrementSite(position : Qubit[]) : Unit is Adj + Ctl {
+    let n = Length(position);
+    // Each bit flips when every less significant bit is 1, most significant first so
+    // that each sees the lower bits before they change.
+    for i in 0 .. n - 2 {
+        Controlled X(position[i + 1 ...], position[i]);
+    }
+    X(position[n - 1]);
+}
+
+/// Discrete-time coined quantum walk for exciton transport on a 4-site ring.
+/// The coin qubit sets the direction of each step; the position register holds the site.
 operation QuantumWalkStep(coin : Qubit, position : Qubit[], coupling : Double) : Unit is Adj + Ctl {
     // Coin operation (biased Hadamard based on coupling strength)
     Ry(2.0 * coupling, coin);
 
-    // Conditional shift: if coin=|0>, shift left; if coin=|1>, shift right
+    // Conditional shift: coin |1> steps right, coin |0> steps left. The previous version
+    // swapped the two position qubits in both branches, so the walker moved the same way
+    // whatever the coin said and every shot ended on the same site.
+    Controlled IncrementSite([coin], position);
     within { X(coin); }
-    apply {
-        for i in 0 .. Length(position) - 2 {
-            Controlled SWAP([coin], (position[i], position[i + 1]));
-        }
-    }
-    for i in 0 .. Length(position) - 2 {
-        Controlled SWAP([coin], (position[Length(position) - 2 - i], position[Length(position) - 1 - i]));
-    }
+    apply { Controlled Adjoint IncrementSite([coin], position); }
 }
 
 /// Run exciton quantum walk and measure final position distribution.

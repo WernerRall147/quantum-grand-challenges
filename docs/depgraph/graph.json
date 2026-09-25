@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1269,
-    "code_files": 296,
-    "python": 228,
+    "tracked": 1270,
+    "code_files": 297,
+    "python": 229,
     "qsharp": 53,
     "ts": 15,
     "edges": 229,
-    "roots": 281,
-    "reachable": 319
+    "roots": 282,
+    "reachable": 320
   },
   "nodes": [
     "agents/api/main.py",
@@ -266,6 +266,7 @@
     "tooling/test_citation_claims.py",
     "tooling/test_doc_claims.py",
     "tooling/test_estimate_provenance.py",
+    "tooling/test_exciton_walk.py",
     "tooling/test_grover_run_evidence.py",
     "tooling/test_qdk_samples_provenance.py",
     "tooling/test_qpe_kernels.py",

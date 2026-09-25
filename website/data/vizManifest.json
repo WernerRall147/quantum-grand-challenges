@@ -204,21 +204,6 @@
       ]
     },
     {
-      "id": "18_photovoltaics",
-      "title": "Photovoltaics",
-      "stage": "C",
-      "archived": false,
-      "poster": {
-        "src": "/viz/18_photovoltaics/poster.png",
-        "width": 1600,
-        "height": 1000,
-        "alt": "Photovoltaics: active, stage C. Estimated logical qubits: 12; physical qubits: 47188. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = -1, P(0) = 0, P(1) = 1. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-      },
-      "warnings": [
-        "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
-      ]
-    },
-    {
       "id": "19_quantum_chromodynamics",
       "title": "Quantum Chromodynamics",
       "stage": "C",

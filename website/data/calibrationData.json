@@ -171,13 +171,13 @@
   },
   "18_photovoltaics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0075,
-    "std_elapsed_s": 0.0014,
-    "mean_value": 1.0,
-    "std_value": 0.0,
-    "ci95_half_width": 0.0,
-    "ci95_lower": 1.0,
-    "ci95_upper": 1.0
+    "mean_elapsed_s": 0.0054,
+    "std_elapsed_s": 0.0018,
+    "mean_value": 2.314,
+    "std_value": 0.160145,
+    "ci95_half_width": 0.070186,
+    "ci95_lower": 2.243814,
+    "ci95_upper": 2.384186
   },
   "19_quantum_chromodynamics": {
     "num_runs": 20,

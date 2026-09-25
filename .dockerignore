@@ -6,6 +6,11 @@
 !agents/**
 !knowledge/
 !knowledge/**
+# ...except internal Microsoft material. knowledge/Microsoft/ holds decks classified
+# Microsoft Confidential and an internal-only FAQ; the repo is public and the image is
+# built from the working copy when `az acr build` runs locally, untracked files included.
+knowledge/Microsoft
+knowledge/Microsoft/**
 !problems/reference_index.json
 !Dockerfile
 

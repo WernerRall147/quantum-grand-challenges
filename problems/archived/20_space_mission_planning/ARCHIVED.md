@@ -4,7 +4,7 @@
 
 ## Archival Reason
 
-QAOA heuristic with at most quadratic advantage. Classical trajectory optimizers (dynamic programming, genetic algorithms) are mature and well-tested.
+QAOA heuristic with no proven speedup. Classical trajectory optimizers (dynamic programming, genetic algorithms) are mature and well-tested.
 
 > Code in this directory remains for **pedagogical reference**.
 

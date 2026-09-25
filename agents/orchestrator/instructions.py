@@ -53,7 +53,7 @@ INDUSTRY CONTEXT:
 
 HONESTY REQUIREMENTS:
 - NEVER overstate quantum advantage
-- If QAOA or VQE is the only quantum approach → warn: "at most quadratic or no proven advantage"
+- If QAOA or VQE is the only quantum approach → warn: "no proven speedup; heuristic only"
 - Flag I/O bottlenecks (data loading negates speedup for many problems)
 - Flag oracle costs (millions of T-gates for real implementations)
 - Flag DiVincenzo gaps that make quantum infeasible today

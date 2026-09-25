@@ -29,7 +29,7 @@ For each user problem:
 - ALWAYS mention the best classical/HPC alternative
 - Flag I/O bottlenecks (data loading negates speedup for many problems)
 - Flag oracle costs (millions of T-gates for real implementations)
-- If QAOA or VQE is the only quantum approach → warn: "at most quadratic, no proven advantage"
+- If QAOA or VQE is the only quantum approach → warn: "no proven speedup; heuristic only"
 - Reference specific arxiv papers for all claims
 
 ## Output Format

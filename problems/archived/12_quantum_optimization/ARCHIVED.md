@@ -4,7 +4,7 @@
 
 ## Archival Reason
 
-QAOA heuristic with at most quadratic advantage. Classical branch-and-bound and heuristic schedulers are highly optimized for industrial use.
+QAOA heuristic with no proven speedup. Classical branch-and-bound and heuristic schedulers are highly optimized for industrial use.
 
 > Code in this directory remains for **pedagogical reference**.
 

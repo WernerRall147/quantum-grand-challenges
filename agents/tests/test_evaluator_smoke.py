@@ -293,9 +293,25 @@ class TestTroyerAssessmentData:
 
     def test_summary_counts(self, troyer_data):
         s = troyer_data["summary"]
-        assert s["proven_speedup_count"] == 5
+        cats = troyer_data["categories"]
+        assert s["proven_speedup_count"] == 7
         assert s["active_count"] == 9
         assert s["archived_count"] == 11
+        # The summary is hand-written; hold it to the category lists and the tree on disk.
+        assert s["proven_speedup_count"] == len(cats["proven_speedup"]["problems"])
+        assert s["heuristic_count"] == len(cats["heuristic_potential"]["problems"])
+        assert s["simulation_native_count"] == len(cats["simulation_native"]["problems"])
+        ids = [p["id"] for cat in cats.values() for p in cat["problems"]]
+        assert len(ids) == len(set(ids)) == 20
+        on_disk = lambda d: {p.name for p in d.iterdir() if p.is_dir() and p.name[:2].isdigit()}
+        assert s["active_count"] == len(on_disk(ROOT / "problems"))
+        assert s["archived_count"] == len(on_disk(ROOT / "problems" / "archived"))
+
+    def test_non_quantum_systems_are_not_filed_as_simulation(self, troyer_data):
+        """A VaR estimate and a diffusion PDE were once filed as native quantum simulation."""
+        simulation = {p["id"] for p in troyer_data["categories"]["simulation_native"]["problems"]}
+        assert "06_high_frequency_trading" not in simulation
+        assert "13_climate_modeling" not in simulation
 
     def test_vqe_upgrades_tracked(self, troyer_data):
         upgrades = troyer_data["summary"]["vqe_to_qpe_upgrades"]

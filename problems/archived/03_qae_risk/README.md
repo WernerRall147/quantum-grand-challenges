@@ -123,22 +123,24 @@ Stage D evidence references for this problem:
 
 **Test Case**: 4 loss qubits (16 levels), 6 precision qubits, log-normal(0,1), threshold=2.5, theoretical tail probability 18.98%
 
-Latest Azure Quantum Resource Estimates:
+Current resource estimate (Quantum Resource Estimator v3, qdk 1.31.0, 2026-09-14; `circuits/estimate.json`): the 14-qubit `Main.QAEKernel()` on `qubit_gate_ns_e3` with a surface code needs **369,400 physical qubits** at the fewest-qubit point of its Pareto frontier, with 40 logical qubits, code distance 25, a runtime of 0.84 s and 86.5% of the physical qubits in T factories. It has 15 T gates and 3,713 rotations, and the rotations drive the cost.
+
+Legacy estimates, kept for the record. They come from the retired `qsharp.estimate` API (March 2026) and describe the earlier canonical program with 4 loss and 6 precision qubits, not the kernel estimated above. The Majorana row used that estimator's predefined `qubit_maj_ns_e4` profile (Majorana-based qubits, nanosecond operations, 10⁻⁴ error rate), a modelling assumption rather than data from a device:
 
 | Architecture | Physical Qubits | Runtime | T-States | Logical Qubits |
 |--------------|-----------------|---------|----------|----------------|
-| gate_ns_e3 (optimal) | **594k** | **6.4s** | **965k** | 13 (38 layout) |
+| gate_ns_e3 | 594k | 6.4s | 965k | 13 (38 layout) |
 | gate_ns_e4 | 561k | 6.7s | 965k | 13 (38 layout) |
-| maj_ns_e4 (Majorana) | 400k | 28.5s | 965k | 13 (38 layout) |
+| maj_ns_e4 (Majorana profile) | 400k | 28.5s | 965k | 13 (38 layout) |
 
-**T-State Breakdown** (gate_ns_e3):
+**Legacy T-state breakdown** (gate_ns_e3):
 - Rotation gates: 36.9k × 20 = **738k** (76%)
 - CCZ gates: 56.8k × 4 = **227k** (24%)
 - Direct T gates: 240 (<1%)
 
-**Comparison with Other Quantum Algorithms**:
+**Legacy comparison with other quantum algorithms** (same retired estimator):
 - **QAE**: 594k qubits, 6.4s, 965k T-states
-- **HHL** (Problem 01): 18.7k qubits, 52ms, 903 T-states (31.8× less qubits)
+- **HHL** (Problem 04): 18.7k qubits, 52ms, 903 T-states (31.8× less qubits)
 - **VQE** (Problem 01): 48.5k-110k qubits, 47-182μs, 18 T-gates (5.4-12.2× less qubits)
 
 ## Classical Comparison

@@ -2,10 +2,12 @@
 """Generate estimator_profile_summary.md for each problem from its single estimate.
 
 Reads problems/<id>/circuits/estimate.json - the one source of truth, written by
-tooling/generate_estimates.py. It used to read problems/<id>/estimates/latest_*.json,
-a second store that has been retired for active problems because a fabricated
-constant sat there undetected next to real numbers. Archived problems keep their
-store, so those are read from it.
+tooling/generate_estimates.py for all 20 problems, archived ones included. It used to
+read problems/<id>/estimates/latest_*.json, a second store retired because a fabricated
+constant sat there undetected next to real numbers. Archived problems keep that store as
+a record, but most of its files are the mock constant (build.qdk_version "mock"), and
+the archived summaries printed it as their estimate until 2026-09-27. The store is now
+read only when no real estimate exists, and mock rows are labelled.
 """
 
 import json
@@ -15,25 +17,25 @@ from pathlib import Path
 TARGETS = ("surface_code_generic_v1", "qubit_gate_ns_e3")
 
 PROBLEMS = {
-    "01_hubbard": "Hubbard VQE",
-    "02_catalysis": "VQE Chemistry",
+    "01_hubbard": "Hubbard QPE",
+    "02_catalysis": "QPE Chemistry (H2)",
     "03_qae_risk": "Canonical QAE",
     "04_linear_solvers": "HHL Linear Solver",
     "05_qaoa_maxcut": "QAOA MaxCut",
-    "06_high_frequency_trading": "Quantum VaR",
-    "07_drug_discovery": "VQE Binding",
+    "06_high_frequency_trading": "Loss-Probability Sampling",
+    "07_drug_discovery": "QPE Binding Model",
     "08_protein_folding": "QAOA Folding",
     "09_factorization": "Shor Factorization",
     "10_post_quantum_cryptography": "Grover Key Search",
     "11_quantum_machine_learning": "Swap Test Kernel",
     "12_quantum_optimization": "QAOA Scheduling",
     "13_climate_modeling": "HHL Diffusion",
-    "14_materials_discovery": "VQE Band Gap",
+    "14_materials_discovery": "QPE Band Gap",
     "15_database_search": "Grover Database Search",
     "16_error_correction": "Repetition Code QEC",
-    "17_nuclear_physics": "VQE Deuteron",
+    "17_nuclear_physics": "QPE Deuteron",
     "18_photovoltaics": "Quantum Walk",
-    "19_quantum_chromodynamics": "Trotter Gauge",
+    "19_quantum_chromodynamics": "Trotter Ising Chain",
     "20_space_mission_planning": "QAOA Trajectory",
 }
 
@@ -52,9 +54,16 @@ def fmt(v):
     return "n/a"
 
 
+def _is_mock(payload) -> bool:
+    build = payload.get("build", {}) if isinstance(payload.get("build"), dict) else {}
+    return str(build.get("qdk_version", "")).startswith("mock") or str(build.get("estimator_version", "")).startswith("mock")
+
+
 def _row(instance, target, payload):
     m = payload.get("metrics", {})
     src = payload.get("_metadata", {}).get("artifact_path", "n/a")
+    if _is_mock(payload):
+        target = f"{target} (mock output, not an estimate)"
     return (
         f"| {instance} | {target} "
         f"| {fmt(m.get('logical_qubits'))} "
@@ -140,7 +149,7 @@ def main():
             continue
 
         circuits_estimate = problem_dir / "circuits" / "estimate.json"
-        if not archived and circuits_estimate.exists():
+        if circuits_estimate.exists():
             estimate = json.loads(circuits_estimate.read_text(encoding="utf-8-sig"))
             rows = [
                 _row_from_circuits(
@@ -151,6 +160,17 @@ def main():
                 "Auto-generated from `circuits/estimate.json`, the single source of "
                 "truth for this problem's resource estimate.\n\n"
             )
+            mock_files = [
+                path.name
+                for path in sorted(edir.glob("latest*.json"))
+                if _is_mock(json.loads(path.read_text(encoding="utf-8-sig")))
+            ]
+            if archived and mock_files:
+                provenance += (
+                    f"The retired store in `estimates/` ({', '.join(f'`{name}`' for name in mock_files)}) "
+                    "holds mock output from a removed estimator path, a fixed constant that is "
+                    "not an estimate of this program.\n\n"
+                )
         else:
             rows = _rows_from_retired_store(edir)
             provenance = (

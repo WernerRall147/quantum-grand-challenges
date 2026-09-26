@@ -87,10 +87,10 @@
         },
         {
           "id": "06_high_frequency_trading",
-          "algorithm": "Amplitude Estimation for VaR",
-          "speedup": "Quadratic (same as QAE)",
+          "algorithm": "Direct sampling of a loss probability (planned: amplitude estimation)",
+          "speedup": "None as implemented; quadratic at best for the planned amplitude estimation",
           "classical_best": "Monte Carlo with variance reduction",
-          "troyer_assessment": "Financial QAE inherits the quadratic speedup of amplitude estimation. Utility requires portfolio sizes where the QEC overhead is justified by the quadratic speedup  likely N > 10⁴ assets with complex correlation structures.",
+          "troyer_assessment": "The kernel samples the probability of marked states directly, which has the same 1/√shots error as classical Monte Carlo; it never implemented amplitude estimation. Amplitude estimation of a loss probability would inherit the quadratic speedup of problem 03 and its limits: error-correction overhead and loading the distribution outweigh it.",
           "archived": true,
           "archival_reason": "Quadratic + I/O"
         },
@@ -241,7 +241,7 @@
     "active_count": 9,
     "archived_count": 11,
     "vqe_to_qpe_upgrades": ["01_hubbard", "02_catalysis", "07_drug_discovery", "14_materials_discovery", "17_nuclear_physics"],
-    "key_insight": "7/20 problems use algorithms with a proven asymptotic speedup (QAE x2, Grover x2, HHL x2, Shor); six of the seven are archived, because the quadratic speedups do not survive error-correction overhead and HHL's depends on data loading, leaving only Shor's superpolynomial speedup active. 5/20 rely on heuristics with no proven speedup (QAOA x4, swap test), all archived. 8/20 sit in the simulation category: seven quantum simulation problems (five upgraded from VQE to QPE) and the QEC repetition code as infrastructure. 9 problems are active and 11 archived.",
+    "key_insight": "7/20 problems target algorithms with a proven asymptotic speedup (QAE x2, Grover x2, HHL x2, Shor), though 06's kernel samples its loss probability directly and never implemented amplitude estimation; six of the seven are archived, because the quadratic speedups do not survive error-correction overhead and HHL's depends on data loading, leaving only Shor's superpolynomial speedup active. 5/20 rely on heuristics with no proven speedup (QAOA x4, swap test), all archived. 8/20 sit in the simulation category: seven quantum simulation problems (five upgraded from VQE to QPE) and the QEC repetition code as infrastructure. 9 problems are active and 11 archived.",
     "divincenzo_note": "DiVincenzo's criteria (scalable qubits, initialization, coherence, universal gates, measurement) are applied as a hardware-realism overlay at Stage C/D. Current quantum hardware challenges  limited qubit counts, short coherence times, high error rates  map directly to DiVincenzo gaps that must close before utility-scale advantage is achievable."
   }
 }

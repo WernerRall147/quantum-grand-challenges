@@ -4,7 +4,7 @@
 
 ## Archival Reason
 
-Quadratic amplitude estimation speedup, same limitation as QAE (problem 03). Practical only for N > 10⁴ assets with complex correlations where QEC cost is amortized.
+The planned approach, amplitude estimation of a loss probability, has the same limitation as QAE (problem 03): at most a quadratic speedup, which error-correction and data-loading costs outweigh. The code never implemented it: `qsharp/src/Main.qs` samples the marked states directly (see the correction in `README.md`).
 
 > Code in this directory remains for **pedagogical reference**.
 

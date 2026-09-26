@@ -196,7 +196,7 @@ Qubit counts are the fewest-qubit point of each Pareto frontier. See [Reading th
 | [QAE Risk](problems/archived/03_qae_risk/) | QAE | Quadratic plus I/O cost |
 | [Linear Solvers](problems/archived/04_linear_solvers/) | HHL | I/O bottleneck (state prep and readout) |
 | [QAOA MaxCut](problems/archived/05_qaoa_maxcut/) | QAOA | No proven speedup; no QAOA is known to beat Goemans-Williamson |
-| [HFT VaR](problems/archived/06_high_frequency_trading/) | QAE | Quadratic plus I/O |
+| [HFT loss probability](problems/archived/06_high_frequency_trading/) | Direct sampling (planned: QAE) | None as implemented; quadratic plus I/O for QAE |
 | [Protein Folding](problems/archived/08_protein_folding/) | QAOA | No proven speedup; AlphaFold dominates |
 | [PQC Grover](problems/archived/10_post_quantum_cryptography/) | Grover | Quadratic, oracle cost dominates |
 | [QML Swap Test](problems/archived/11_quantum_machine_learning/) | Swap Test | I/O bottleneck (data loading) |

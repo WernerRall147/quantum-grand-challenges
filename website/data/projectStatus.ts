@@ -87,7 +87,7 @@ export const problemHighlights = [
   {
     title: 'High-Frequency Trading',
     status: 'Archived  Quadratic speedup negated by I/O',
-    description: 'Quadratic amplitude estimation, same QAE limitation. Archived per Troyer framework.',
+    description: 'The kernel samples a loss probability directly, with no amplitude estimation; the amplitude estimation it was meant to use has the same quadratic-only limit as QAE. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/06_high_frequency_trading',
   },
   {

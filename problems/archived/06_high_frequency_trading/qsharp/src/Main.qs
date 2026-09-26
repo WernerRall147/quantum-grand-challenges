@@ -6,7 +6,9 @@ import Std.Convert.*;
 import Std.Diagnostics.*;
 import Std.Math.*;
 
-/// Amplitude encode market return distribution into qubits.
+/// Encode four non-negative weights as amplitudes of two qubits (|i⟩ gets probability
+/// w_i² / Σ w²). Only the one- and two-qubit cases are implemented; with two qubits the
+/// weights array must have four entries, or the second qubit is left in |0⟩.
 operation PrepareMarketState(returns : Double[], qubits : Qubit[]) : Unit {
     let n = Length(qubits);
     if (n == 1 and Length(returns) >= 2) {
@@ -46,7 +48,9 @@ operation MarkLossStates(threshold : Int, qubits : Qubit[], marker : Qubit) : Un
     }
 }
 
-/// Estimate loss probability via direct measurement.
+/// Estimate P(index < threshold) by preparing the state and measuring the marker once per
+/// shot. This is direct sampling, not amplitude estimation: its error falls as 1/√shots, like
+/// classical Monte Carlo, and it has no quantum speedup.
 operation EstimateLossProbability(returns : Double[], thresholdIdx : Int, shots : Int) : Double {
     let n = 2;
     mutable totalProb = 0.0;
@@ -64,19 +68,21 @@ operation EstimateLossProbability(returns : Double[], thresholdIdx : Int, shots 
 
 @EntryPoint()
 operation RunHFTAnalysis() : Unit {
-    Message("=== High-Frequency Trading: Quantum VaR Estimation ===");
+    Message("=== High-frequency trading toy: sampling a loss probability from a 2-qubit state ===");
     Message("");
     let returns = [0.5, 0.35, 0.1, 0.05];
+    let thresholdIdx = 2;
     let shots = 256;
-    mutable classicalLoss = 0.0;
+    mutable lossWeight = 0.0;
     mutable totalSq = 0.0;
     for i in 0 .. 3 { set totalSq += returns[i] * returns[i]; }
-    for i in 2 .. 3 { set classicalLoss += returns[i] * returns[i]; }
-    let classicalVaR = classicalLoss / totalSq;
-    Message($"Classical VaR (loss prob): {classicalVaR}");
-    let quantumVaR = EstimateLossProbability(returns, 2, shots);
-    Message($"Quantum VaR estimate ({shots} shots): {quantumVaR}");
-    Message($"Error: {AbsD(quantumVaR - classicalVaR)}");
+    for i in 0 .. thresholdIdx - 1 { set lossWeight += returns[i] * returns[i]; }
+    let exactLoss = lossWeight / totalSq;
+    Message($"Exact P(index < {thresholdIdx}): {exactLoss}");
+    let sampled = EstimateLossProbability(returns, thresholdIdx, shots);
+    Message($"Sampled estimate ({shots} shots): {sampled}");
+    Message($"Standard error at this shot count: {Sqrt(exactLoss * (1.0 - exactLoss) / IntAsDouble(shots))}");
     Message("");
-    Message("Quantum amplitude estimation provides quadratic speedup for VaR.");
+    Message("This samples the marked states directly. It is not amplitude estimation and has no speedup;");
+    Message("amplitude estimation on this oracle would give a quadratic one (see problem 03).");
 }

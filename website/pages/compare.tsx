@@ -28,7 +28,7 @@ interface ProblemRow {
 
 const ALGORITHM_MAP: Record<string, string> = {
   '01_hubbard': 'QPE', '02_catalysis': 'QPE', '03_qae_risk': 'QAE/IQAE',
-  '04_linear_solvers': 'HHL', '05_qaoa_maxcut': 'QAOA', '06_high_frequency_trading': 'Amplitude Est.',
+  '04_linear_solvers': 'HHL', '05_qaoa_maxcut': 'QAOA', '06_high_frequency_trading': 'Sampling',
   '07_drug_discovery': 'QPE', '08_protein_folding': 'QAOA', '09_factorization': 'Shor',
   '10_post_quantum_cryptography': 'Grover', '11_quantum_machine_learning': 'Swap Test',
   '12_quantum_optimization': 'QAOA', '13_climate_modeling': 'HHL', '14_materials_discovery': 'QPE',

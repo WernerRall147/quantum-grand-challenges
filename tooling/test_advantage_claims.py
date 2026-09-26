@@ -113,7 +113,7 @@ RETRACTED = [
         id="priced-device-is-not-the-largest",
     ),
     pytest.param(
-        r"<Wilson loop>|Wilson=|ZZ plaquettes|Confinement signature:|Trotter lattice gauge (with|kernel)",
+        r"<Wilson loop>|Wilson=|ZZ plaquettes|Confinement signature:|Trotter lattice gauge (with|kernel|simulation)",
         "Problem 19's kernel is a transverse-field Ising chain evolved from |0...0>: it has no "
         "gauge fields or plaquettes, it measures the product of Z over all sites, and it cannot "
         "show a confinement signature (tooling/test_ising_chain_kernel.py).",

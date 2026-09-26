@@ -143,7 +143,7 @@ const ALGORITHM_MAP: Record<string, string> = {
   '03_qae_risk': 'Quantum Amplitude Estimation (IQAE)',
   '04_linear_solvers': 'HHL Algorithm (QPE + eigenvalue inversion)',
   '05_qaoa_maxcut': 'QAOA (Quantum Approximate Optimization)',
-  '06_high_frequency_trading': 'Amplitude Estimation for VaR',
+  '06_high_frequency_trading': 'Direct sampling of a loss probability (no amplitude estimation)',
   '07_drug_discovery': 'QPE Molecular Binding Energy',
   '08_protein_folding': 'QAOA Lattice Folding',
   '09_factorization': "Shor's Algorithm (QPE + modular multiply)",
@@ -156,7 +156,7 @@ const ALGORITHM_MAP: Record<string, string> = {
   '16_error_correction': '3-Qubit Repetition Code',
   '17_nuclear_physics': 'QPE Deuteron Binding Energy',
   '18_photovoltaics': 'Quantum Walk (Exciton Transport)',
-  '19_quantum_chromodynamics': 'Trotter Lattice Gauge Simulation',
+  '19_quantum_chromodynamics': 'Trotterized transverse-field Ising chain',
   '20_space_mission_planning': 'QAOA Trajectory Optimization',
 };
 

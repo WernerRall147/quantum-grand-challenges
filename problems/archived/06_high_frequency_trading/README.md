@@ -2,33 +2,36 @@
 
 ## Overview
 
-High-frequency trading (HFT) strategies react to market micro-structure signals within milliseconds. Classical approaches rely on hand-crafted signals and predictive models that must balance latency, accuracy, and transaction costs. The goal of this challenge is to explore how quantum machine learning can accelerate signal discovery and execution for intraday trading.
+High-frequency trading (HFT) strategies react to market micro-structure signals within milliseconds. Classical approaches rely on hand-crafted signals and predictive models that must balance latency, accuracy, and transaction costs. This directory holds a classical baseline and a small quantum toy; the two are not connected, and neither is a quantum trading method.
 
-This directory contains the first scaffold toward that objective:
+- **Classical baseline**: a synthetic geometric-Brownian price generator paired with a moving-average crossover strategy that trades subject to transaction costs. It produces reproducible metrics (Sharpe ratio, turnover, drawdown) for each instance.
+- **Quantum toy**: `qsharp/src/Main.qs` encodes four weights as the amplitudes of two qubits, marks the states with index below a threshold, and estimates their probability by measuring the marker once per shot. That is direct sampling: its error falls as 1/√shots, as for classical Monte Carlo, and it has no speedup. The weights are not derived from the price model. `qsharp/HardwareKernel.qs` samples the same kind of marker from a fixed 2-qubit state.
+- **Analysis tooling**: plot generation for price trajectories and strategy equity curves.
 
-- **Classical baseline** – A synthetic limit-order-book price generator paired with a moving-average crossover strategy that trades subject to transaction costs. The baseline produces reproducible metrics (Sharpe ratio, turnover, drawdown) for each benchmark instance.
-- **Quantum plan** – A Q# project stub prepared to host amplitude-encoded feature maps and variational classifiers (e.g., quantum kernel methods or QAOA-style policy search). The current entry point simply validates project wiring while we develop the quantum pipeline.
-- **Analysis tooling** – Plot generation for price trajectories and strategy equity curves to gauge the quality of classical baselines before quantum enhancements are implemented.
+### Correction (2026-09-27)
+
+This problem was described in the paper, the site and `ARCHIVED.md` as amplitude estimation for Value at Risk. The code never implemented amplitude estimation, and what it estimates is the probability of a set of marked states, not a Value at Risk (a quantile). Its demo also compared that probability with the complementary one: it printed 0.0325 as the "classical VaR" and about 0.97 as the "quantum" estimate of a different quantity. The demo now prints the exact probability of the marked states (0.9675) beside the sampled estimate. The archival reason stands for the approach that was planned: amplitude estimation of a loss probability gives at most a quadratic speedup (see problem 03).
 
 ## Repository Layout
 
 ```text
 06_high_frequency_trading/
-├── estimates/                # JSON outputs (classical & quantum once available)
+├── estimates/                # JSON outputs and Azure smoke reports
 ├── instances/                # Synthetic market scenarios (small/medium/large)
 ├── plots/                    # Generated figures from analyze.py
 ├── python/
-│   ├── classical_baseline.py # Deterministic Monte Carlo + trading metrics
+│   ├── classical_baseline.py # Deterministic price paths + trading metrics
 │   └── analyze.py            # Visualization helpers
 └── qsharp/
-    ├── qsharp.json            # Modern QDK project file
-    └── Program.qs                  # Placeholder quantum workflow
+    ├── qsharp.json           # Modern QDK project file
+    ├── src/Main.qs           # 2-qubit loss-probability sampling toy
+    └── HardwareKernel.qs     # QIR kernel for Azure Quantum
 ```
 
 ## Getting Started
 
 ```bash
-cd problems/06_high_frequency_trading
+cd problems/archived/06_high_frequency_trading
 
 # Classical baseline (writes estimates/classical_baseline.json)
 python python/classical_baseline.py
@@ -36,9 +39,8 @@ python python/classical_baseline.py
 # Plot price + equity curves
 python python/analyze.py
 
-# Quantum entry point placeholder
-python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
-python tooling/run_all_qsharp.py  # runs via qsharp Python package
+# Quantum toy
+python -c "from qdk import qsharp; qsharp.init(project_root='qsharp'); qsharp.run('Main.RunHFTAnalysis()', 1)"
 ```
 
 ## Next Quantum Milestones
@@ -74,9 +76,9 @@ Stage C exit criteria for this problem:
 ## Advantage Claim Contract
 
 - **Claim category (current)**: `theoretical`.
-- **Problem class and regime**: Problem-specific challenge instances defined in this directory.
-- **Fair baseline**: Problem-local classical baseline in `python/` outputs.
-- **Quantum resource scaling claim**: Expected asymptotic advantage depends on algorithm family and implementation assumptions; no hardware-demonstrated speedup claim yet.
+- **Problem class and regime**: A 2-qubit toy that samples the probability of marked states; there is no amplitude estimation in the code.
+- **Fair baseline**: The exact probability of the marked states, which the demo prints; direct sampling has the same 1/√shots error as classical Monte Carlo. `python/` holds an unrelated moving-average trading baseline.
+- **Quantum resource scaling claim**: None for the implemented kernel. Amplitude estimation on the same oracle would give at most a quadratic reduction in queries, before loading and error-correction costs.
 - **Data-loading and I/O assumptions**: Must be documented alongside future advantage claims.
 - **Noise/error model assumptions**: Backend-specific model and calibration assumptions to be added at Stage C.
 - **Confidence/uncertainty method**: To be reported using shot-based confidence intervals or equivalent statistical bounds.

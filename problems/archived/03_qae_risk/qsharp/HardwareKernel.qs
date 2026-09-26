@@ -168,19 +168,22 @@ operation ReflectAboutZero(register : Qubit[]) : Unit is Adj + Ctl {
     apply { ApplyAllOnesPhase(register); }
 }
 
+// A S_0 A†: undo the preparation, flip the sign of |0...0⟩, prepare again.
 operation ReflectAboutState(statePrep : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
-    within { statePrep(register); }
+    within { Adjoint statePrep(register); }
     apply { ReflectAboutZero(register); }
 }
 
+// Q = -A S_0 A† S_χ, marker in |−⟩. The -1 is observable once Q is controlled; see Main.qs.
 operation GroverOperator(
     statePrep : Qubit[] => Unit is Adj + Ctl,
     oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
     lossRegister : Qubit[],
     marker : Qubit
 ) : Unit is Adj + Ctl {
-    ReflectAboutState(statePrep, lossRegister);
     oracle(lossRegister, marker);
+    ReflectAboutState(statePrep, lossRegister);
+    R(PauliI, 2.0 * PI(), marker);
 }
 
 operation GroverOperatorPower(

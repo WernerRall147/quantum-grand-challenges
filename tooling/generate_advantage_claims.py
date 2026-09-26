@@ -9,21 +9,22 @@ PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 STAGE_D_CANDIDATES = {
     "03_qae_risk": {
         "claim_category": "theoretical",
-        "problem_class": "Tail risk estimation: P(Loss > threshold) for continuous loss distributions",
-        "instance_regime": "Log-normal(0,1) distribution, threshold=2.5, 4-qubit amplitude encoding",
-        "baseline_algorithm": "Classical Monte Carlo with 10,000 samples (±0.39% at 95% CI)",
-        "fairness_rationale": "MC is the standard industry method for tail risk; variance-reduced MC included for comparison",
-        "quantum_resource_scaling": "QAE achieves O(1/ε) vs classical MC O(1/ε²)  quadratic speedup in precision",
+        "problem_class": "Tail risk estimation: P(Loss > threshold) for a loss distribution loaded on a discrete grid",
+        "instance_regime": "Log-normal(0,1) evaluated on 16 levels, threshold 2.5 (tail probability a = 0.1614), 4 loss qubits",
+        "baseline_algorithm": "Plain Monte Carlo on the same 16-level distribution, compared with IQAE at equal interval half-width and confidence (python/iqae_driver.py)",
+        "fairness_rationale": "Monte Carlo is the standard method when a distribution is available only by sampling, and here it estimates the same quantity as the circuit; both sides count applications of the state preparation. Variance-reduced Monte Carlo is reported on the continuous model, a different quantity",
+        "quantum_resource_scaling": "IQAE's query count grows as 1/ε and Monte Carlo's sample count as 1/ε² (measured: 42,715 applications of A against 3.2 million samples at half-width 0.0004), before loading and error-correction costs",
         "data_loading_assumptions": "Amplitude encoding via multiplex rotations; exponential circuit depth O(2^n) for n-qubit encoding",
         "noise_model_assumptions": "Noiseless simulator; real hardware would require error correction for 40+ logical qubits",
-        "confidence_method": "20-run calibration ensemble with 95% Clopper-Pearson confidence intervals",
+        "confidence_method": "IQAE intervals at confidence 1 - α (Clopper-Pearson per round at level α/T), coverage checked over 300 repetitions; 20-run calibration ensemble with normal-approximation 95% intervals",
         "residual_risks": [
-            "Amplitude encoding circuit depth scales exponentially  practical advantage requires efficient state preparation",
-            "293k physical qubits required  beyond current NISQ devices",
+            "Amplitude encoding circuit depth scales exponentially, so practical advantage requires efficient state preparation",
+            "369k physical qubits required for the 16-level instance, beyond current NISQ devices",
             "No noise model applied; fault-tolerant execution assumed",
             "Classical importance sampling may close the gap for structured distributions",
+            "Before 2026-09-27 the canonical kernel's Grover iterate was wrong; ensembles from that kernel are superseded",
         ],
-        "physical_qubits": 293120,
+        "physical_qubits": 369400,
         "logical_qubits": 40,
         "t_gates": 15,
     },
@@ -70,9 +71,17 @@ STAGE_D_CANDIDATES = {
 }
 
 
-def main():
+def problem_dir(problem_id: str) -> Path:
+    """Active problems live in problems/, archived ones in problems/archived/."""
+    active = PROBLEMS_DIR / problem_id
+    return active if active.is_dir() else PROBLEMS_DIR / "archived" / problem_id
+
+
+def main(selected: list[str] | None = None):
     for pid, contract in STAGE_D_CANDIDATES.items():
-        out_dir = PROBLEMS_DIR / pid / "estimates"
+        if selected and pid not in selected:
+            continue
+        out_dir = problem_dir(pid) / "estimates"
         out_dir.mkdir(exist_ok=True)
 
         payload = {
@@ -88,4 +97,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    main(sys.argv[1:] or None)

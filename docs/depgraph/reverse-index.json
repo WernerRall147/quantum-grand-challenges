@@ -414,6 +414,9 @@
     "tooling/generate_calibration_ensemble.py",
     "tooling/test_stage_evidence.py"
   ],
+  "tooling/generate_calibration_ensemble.py": [
+    "tooling/test_qae_kernel.py"
+  ],
   "tooling/generate_estimates.py": [
     ".github/workflows/nightly.yml"
   ],

@@ -42,7 +42,11 @@ CALIBRATION_META: dict[str, dict] = {
         "description": "QPE total ground-state energy of H2, 8 phase bits, mode of 8 runs",
         "entry_override": "Main.MolecularQPE(8, 8)",
     },
-    "03_qae_risk": {"type": "result", "description": "QAE single-shot kernel: precision-register value"},
+    "03_qae_risk": {
+        "type": "numeric",
+        "description": "Canonical QAE, 6 phase bits: per-run estimate sin²(πy/64), register read most significant bit first (exact expectation 0.1686 for a = 0.1614)",
+        "metric": "qae_amplitude",
+    },
     "04_linear_solvers": {
         "type": "result",
         "description": "HHL single-shot solution measurement",
@@ -139,6 +143,11 @@ def run_value(raw, config: dict) -> float | None:
         return number
     if isinstance(value, list) and value:
         if all(str(v) in ("One", "Zero") for v in value):
+            if config.get("metric") == "qae_amplitude":
+                # A QPE phase register, returned most significant bit first; outcome y estimates
+                # the amplitude as sin^2(pi y / 2^m) (Brassard et al. 2002).
+                y = sum(1 << (len(value) - 1 - i) for i, v in enumerate(value) if str(v) == "One")
+                return math.sin(math.pi * y / (1 << len(value))) ** 2
             return float(sum(1 << i for i, v in enumerate(value) if str(v) == "One"))
         if config.get("metric") == "mean_index" and all(isinstance(v, int) for v in value) and sum(value):
             return sum(i * v for i, v in enumerate(value)) / sum(value)

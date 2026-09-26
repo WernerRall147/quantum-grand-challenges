@@ -1,124 +1,124 @@
 {
   "problem_id": "03_qae_risk",
-  "description": "QAE single-shot kernel: precision-register value",
+  "description": "Canonical QAE, 6 phase bits: per-run estimate sin\u00b2(\u03c0y/64), register read most significant bit first (exact expectation 0.1686 for a = 0.1614)",
   "entry_point": "Main.QAEKernel()",
-  "generated_utc": "2026-09-25T11:40:21.559763Z",
+  "generated_utc": "2026-09-26T13:24:03.198286Z",
   "sources": {
-    "problems/archived/03_qae_risk/qsharp/HardwareKernel.qs": "b5fab36f40d674b7bb50a13c01aca4d368b0a0a0de9672b76a54a7244bf59c2b",
+    "problems/archived/03_qae_risk/qsharp/HardwareKernel.qs": "da422d7a2d8458687c7a7cf69e554697589ec44a9aba7f59f60e18d75614c36b",
     "problems/archived/03_qae_risk/qsharp/qsharp.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
-    "problems/archived/03_qae_risk/qsharp/src/Main.qs": "ca9dd6ff6631b6f39f9bb567c51e57b74c11aab1bf84d0df87076dedf467019e",
+    "problems/archived/03_qae_risk/qsharp/src/Main.qs": "4380786e6a138c16ae6d61fef345d437c39cde0ac1a019dac7fc5c6eff2937aa",
     "problems/archived/03_qae_risk/qsharp/src/RuntimeConfig.qs": "271ec681934ca8cbed97aa11c41b63ae5da8f697252780a695a4ae3beb0a57e7"
   },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.2012,
-    "std_elapsed_s": 0.0213,
-    "mean_value": 0.2,
-    "std_value": 0.410391,
-    "ci95_half_width": 0.179862,
-    "ci95_lower": 0.020138,
-    "ci95_upper": 0.379862
+    "mean_elapsed_s": 0.0988,
+    "std_elapsed_s": 0.0293,
+    "mean_value": 0.159988,
+    "std_value": 0.031625,
+    "ci95_half_width": 0.01386,
+    "ci95_lower": 0.146127,
+    "ci95_upper": 0.173848
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[[One, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1864
+      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0877
     },
     {
       "run": 2,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1958
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, One]]",
+      "elapsed_s": 0.0867
     },
     {
       "run": 3,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1952
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0888
     },
     {
       "run": 4,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1896
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0883
     },
     {
       "run": 5,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.2065
+      "raw_result": "[[One, One, Zero, One, One, One]]",
+      "elapsed_s": 0.0894
     },
     {
       "run": 6,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1851
+      "raw_result": "[[Zero, Zero, Zero, One, One, One]]",
+      "elapsed_s": 0.0867
     },
     {
       "run": 7,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.2198
+      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0854
     },
     {
       "run": 8,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.2819
+      "raw_result": "[[One, One, One, Zero, Zero, One]]",
+      "elapsed_s": 0.0874
     },
     {
       "run": 9,
-      "raw_result": "[[One, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.2042
+      "raw_result": "[[One, One, Zero, One, One, One]]",
+      "elapsed_s": 0.088
     },
     {
       "run": 10,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1844
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0886
     },
     {
       "run": 11,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.2078
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0871
     },
     {
       "run": 12,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.2057
+      "raw_result": "[[One, One, Zero, One, One, One]]",
+      "elapsed_s": 0.0883
     },
     {
       "run": 13,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.2035
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0855
     },
     {
       "run": 14,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1915
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, One]]",
+      "elapsed_s": 0.0856
     },
     {
       "run": 15,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.202
+      "raw_result": "[[Zero, Zero, Zero, One, One, One]]",
+      "elapsed_s": 0.0857
     },
     {
       "run": 16,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.201
+      "raw_result": "[[One, One, Zero, One, One, Zero]]",
+      "elapsed_s": 0.0853
     },
     {
       "run": 17,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1867
+      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0878
     },
     {
       "run": 18,
-      "raw_result": "[[One, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1945
+      "raw_result": "[[One, One, Zero, One, One, One]]",
+      "elapsed_s": 0.1405
     },
     {
       "run": 19,
-      "raw_result": "[[Zero, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1833
+      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.1851
     },
     {
       "run": 20,
-      "raw_result": "[[One, Zero, Zero, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1994
+      "raw_result": "[[One, One, Zero, One, One, Zero]]",
+      "elapsed_s": 0.1681
     }
   ]
 }

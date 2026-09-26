@@ -21,13 +21,13 @@
   },
   "03_qae_risk": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.2012,
-    "std_elapsed_s": 0.0213,
-    "mean_value": 0.2,
-    "std_value": 0.410391,
-    "ci95_half_width": 0.179862,
-    "ci95_lower": 0.020138,
-    "ci95_upper": 0.379862
+    "mean_elapsed_s": 0.0988,
+    "std_elapsed_s": 0.0293,
+    "mean_value": 0.159988,
+    "std_value": 0.031625,
+    "ci95_half_width": 0.01386,
+    "ci95_lower": 0.146127,
+    "ci95_upper": 0.173848
   },
   "04_linear_solvers": {
     "num_runs": 20,

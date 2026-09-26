@@ -41,6 +41,10 @@ SURFACES = (
     "problems/**/estimates/*.qasm",
 )
 
+# Verbatim program output kept as a record of a superseded kernel, not published claims.
+# Problem 03's README lists these as produced by the canonical kernel before its correction.
+RECORDS = ("problems/archived/03_qae_risk/estimates/quantum_estimate*.json",)
+
 RETRACTED = [
     pytest.param(
         r"NIST (already )?recommends (doubl|AES-256)",
@@ -115,6 +119,26 @@ RETRACTED = [
         "show a confinement signature (tooling/test_ising_chain_kernel.py).",
         id="ising-chain-is-not-a-gauge-theory",
     ),
+    pytest.param(
+        r"demonstrates quadratic speedup",
+        "An 11-qubit simulation demonstrates no speedup. QAE's O(1/epsilon) query count is a "
+        "theorem (Brassard et al., quant-ph/0005055) and loading and error-correction costs "
+        "outweigh it at practical sizes (Babbush et al., PRX Quantum 2, 010103, 2021).",
+        id="qae-simulation-demonstrates-no-speedup",
+    ),
+    pytest.param(
+        r"demonstrates a pathway to quantum advantage",
+        "Problem 03 implements amplitude estimation at toy scale and is archived because "
+        "loading and error-correction costs outweigh the quadratic saving.",
+        id="qae-no-pathway-demonstrated",
+    ),
+    pytest.param(
+        r"18\.98\s*%",
+        "Problem 03's circuit encodes the discrete tail probability 16.14% of its 16-level "
+        "grid; the continuous log-normal tail is 17.98%. 18.98% matches neither "
+        "(tooling/test_qae_kernel.py).",
+        id="qae-tail-probability",
+    ),
 ]
 
 
@@ -122,6 +146,8 @@ def _surface_files() -> list[Path]:
     files: set[Path] = set()
     for pattern in SURFACES:
         files.update(p for p in ROOT.glob(pattern) if p.is_file())
+    for pattern in RECORDS:
+        files.difference_update(ROOT.glob(pattern))
     return sorted(files)
 
 

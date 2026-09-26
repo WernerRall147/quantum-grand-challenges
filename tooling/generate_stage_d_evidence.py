@@ -8,6 +8,7 @@ Produces for each candidate:
 
 import json
 import math
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -26,41 +27,41 @@ def utc_now() -> str:
 
 
 def generate_qae_scaling():
-    """QAE: scaling analysis for amplitude estimation precision."""
-    precisions = [0.1, 0.05, 0.01, 0.005, 0.001, 0.0001]
-    base_qubits_per_precision_bit = 4  # loss qubits
-    base_physical = 293120  # from RE at precision=2 bits
+    """QAE: query counts at equal precision, measured by python/iqae_driver.py.
 
+    Earlier projections used 1/ε² samples against π/(4ε) queries with no constants and a
+    logical-qubit formula (2m + 3) that matched no circuit here. The rows now come from
+    IQAE runs (exact sampler for P(1|k), whose values tooling/test_qae_kernel.py checks
+    against the Q# kernel) and the Monte Carlo sample count for the same half-width.
+    """
+    analysis = json.loads((problem_dir("03_qae_risk") / "estimates" / "iqae_analysis.json").read_text(encoding="utf-8"))
     rows = []
-    for eps in precisions:
-        precision_bits = max(1, math.ceil(math.log2(1.0 / eps)))
-        total_logical = 2 * precision_bits + 3  # loss + precision + marker
-        # Physical scales ~linearly with logical for surface code
-        physical = int(base_physical * (total_logical / 40))
-        classical_samples = int(1.0 / (eps * eps))  # MC: O(1/ε²)
-        quantum_queries = int(math.pi / (4 * eps))  # QAE: O(1/ε)
-        speedup = classical_samples / max(quantum_queries, 1)
-
+    for row in analysis["query_scaling"]["rows"]:
         rows.append({
-            "precision_epsilon": eps,
-            "precision_bits": precision_bits,
-            "logical_qubits": total_logical,
-            "physical_qubits_projected": physical,
-            "classical_mc_samples": classical_samples,
-            "quantum_qae_queries": quantum_queries,
-            "quadratic_speedup_factor": round(speedup, 1),
+            "precision_epsilon": row["epsilon_target"],
+            "iqae_half_width": round(row["iqae_mean_half_width"], 6),
+            "iqae_queries": round(row["iqae_mean_queries"]),
+            "monte_carlo_samples_same_half_width": row["mc_samples_same_half_width"],
+            "query_ratio": round(row["mc_samples_same_half_width"] / row["iqae_mean_queries"], 1),
         })
+    finest = rows[-1]
 
     return {
         "problem_id": "03_qae_risk",
         "algorithm": "Quantum Amplitude Estimation",
         "scaling_variable": "precision (ε)",
         "classical_complexity": "O(1/ε²) Monte Carlo samples",
-        "quantum_complexity": "O(1/ε) Grover iterations",
+        "quantum_complexity": "O(1/ε) applications of the state preparation (IQAE)",
         "theoretical_speedup": "Quadratic",
         "generated_utc": utc_now(),
         "projections": rows,
-        "crossover_estimate": "No practical crossover identified: at epsilon = 0.001 Monte Carlo needs about 10^6 samples against about 785 quantum queries, but each query needs error-corrected state preparation, and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
+        "crossover_estimate": (
+            f"No practical crossover identified: at half-width {finest['iqae_half_width']} IQAE needs "
+            f"{finest['iqae_queries']:,} applications of the state preparation where Monte Carlo needs "
+            f"{finest['monte_carlo_samples_same_half_width']:,} samples, a {finest['query_ratio']:.0f}-fold saving in queries, "
+            "but each query needs error-corrected state preparation, and quadratic speedups are not expected "
+            "to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)"
+        ),
         "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions.",
     }
 
@@ -203,12 +204,14 @@ def generate_summary(problem_id: str, scaling: dict, claim: dict) -> dict:
     }
 
 
-def main():
+def main(selected: list[str] | None = None):
     for pid, gen_scaling, gen_fairness in [
         ("03_qae_risk", generate_qae_scaling, None),
         ("05_qaoa_maxcut", generate_qaoa_scaling, None),
         ("15_database_search", generate_grover_scaling, generate_grover_fairness),
     ]:
+        if selected and pid not in selected:
+            continue
         out_dir = problem_dir(pid) / "estimates"
 
         # Scaling analysis
@@ -237,8 +240,8 @@ def main():
         )
         print(f"OK {pid}: stage_d_evidence_summary.json")
 
-    print("\nStage D evidence packages complete for all 3 candidates.")
+    print("\nStage D evidence packages complete.")
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:] or None)

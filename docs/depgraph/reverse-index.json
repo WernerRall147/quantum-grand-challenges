@@ -102,6 +102,9 @@
     "agents/tests/test_evaluator_smoke.py",
     "tooling/provision_foundry_agent.py"
   ],
+  "agents/tests/test_container_contents.py": [
+    ".github/workflows/deploy-evaluator-api.yml"
+  ],
   "knowledge/search/kb_client.py": [
     "agents/evaluations/run_eval.py",
     "agents/evaluations/run_foundry_eval.py",
@@ -402,6 +405,7 @@
     "problems/archived/15_database_search/Makefile"
   ],
   "tooling/estimator_config.py": [
+    ".github/workflows/deploy-evaluator-api.yml",
     "Dockerfile",
     "agents/tests/test_estimator_config.py",
     "tooling/generate_calibration_ensemble.py",

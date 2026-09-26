@@ -6,8 +6,8 @@
 > repository copy reports the current toolchain pin, qsharp 1.31.0. The archived v2.0.0
 > record (DOI 10.5281/zenodo.19660251, released 2026-04-20) reports 1.27, which was
 > accurate at that date; the repository pin moved to 1.31.0 on 2026-08-03 (#151) and the
-> paper text was not updated at the time. The current archive, v3.1.0
-> (DOI 10.5281/zenodo.22126595), reports 1.31.0. The Azure Quantum runs in Section 6
+> paper text was not updated at the time. Archives from v3.1.0
+> (DOI 10.5281/zenodo.22126595) onward report 1.31.0. The Azure Quantum runs in Section 6
 > were made in April 2026 and therefore used qsharp 1.27, as Section 6.1 now states.
 
 > **Erratum, 2026-08-28.** Sections 7.1 and 9 and the conclusion of the archived v1.0.1
@@ -20,7 +20,7 @@
 > two disagree. A paper arguing that maturity gates prevent premature claims should not
 > have overstated its own.
 
-> **Revision, 2026-09-25.** Every number, citation and description in this copy was
+> **Revision, 2026-09-25, archived as v3.2.0 on 2026-09-26.** Every number, citation and description in this copy was
 > checked against the repository's committed data and code. The following did not hold
 > and are corrected in the text: the cross-platform agreement in Section 7.2 (the
 > committed histograms give the same unique most frequent outcome for 14 of 19 problems,

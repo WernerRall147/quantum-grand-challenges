@@ -43,14 +43,15 @@ function BruteForceMinCost(weights : Double[][]) : (Double, Int[]) {
     return (bestCost, bestAssignment);
 }
 
-/// QAOA cost layer: exp(-i * gamma * w_ij * Z_i Z_j) for each edge.
+/// QAOA cost layer for the same-machine penalty QUBO.
 operation ApplyCostLayer(weights : Double[][], gamma : Double, qubits : Qubit[]) : Unit is Adj + Ctl {
     let n = Length(qubits);
     for i in 0 .. n - 1 {
         for j in i + 1 .. n - 1 {
             let w = weights[i][j];
             if (AbsD(w) > 1e-12) {
-                // ZZ interaction via CNOT-Rz-CNOT decomposition
+                // Same-side penalty convention: gamma_standard = 2 gamma
+                // for exp(-i gamma_standard C), ignoring the global phase.
                 CNOT(qubits[i], qubits[j]);
                 Rz(2.0 * gamma * w, qubits[j]);
                 CNOT(qubits[i], qubits[j]);
@@ -172,6 +173,5 @@ operation RunSchedulingOptimization() : Unit {
     }
     Message($"  Approximation ratio: {approxRatio} (1.0 = optimal)");
     Message("");
-    Message("QAOA provides heuristic optimization with potential quantum advantage");
-    Message("for large-scale scheduling problems beyond classical solver reach.");
+    Message("QAOA is a heuristic here; no proven speedup is claimed.");
 }

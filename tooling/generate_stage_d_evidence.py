@@ -8,10 +8,18 @@ Produces for each candidate:
 
 import json
 import math
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
+
+
+def problem_dir(problem_id: str) -> Path:
+    """All three candidates were archived in April 2026, after this was written; writing to
+    problems/<id> then failed because the directory had moved to problems/archived/<id>."""
+    active = PROBLEMS_DIR / problem_id
+    return active if active.is_dir() else PROBLEMS_DIR / "archived" / problem_id
 
 
 def utc_now() -> str:
@@ -19,49 +27,61 @@ def utc_now() -> str:
 
 
 def generate_qae_scaling():
-    """QAE: scaling analysis for amplitude estimation precision."""
-    precisions = [0.1, 0.05, 0.01, 0.005, 0.001, 0.0001]
-    base_qubits_per_precision_bit = 4  # loss qubits
-    base_physical = 293120  # from RE at precision=2 bits
+    """QAE: query counts at equal precision, measured by python/iqae_driver.py.
 
+    Earlier projections used 1/ε² samples against π/(4ε) queries with no constants and a
+    logical-qubit formula (2m + 3) that matched no circuit here. The rows now come from
+    IQAE runs (exact sampler for P(1|k), whose values tooling/test_qae_kernel.py checks
+    against the Q# kernel) and the Monte Carlo sample count for the same half-width.
+    """
+    analysis = json.loads((problem_dir("03_qae_risk") / "estimates" / "iqae_analysis.json").read_text(encoding="utf-8"))
     rows = []
-    for eps in precisions:
-        precision_bits = max(1, math.ceil(math.log2(1.0 / eps)))
-        total_logical = 2 * precision_bits + 3  # loss + precision + marker
-        # Physical scales ~linearly with logical for surface code
-        physical = int(base_physical * (total_logical / 40))
-        classical_samples = int(1.0 / (eps * eps))  # MC: O(1/ε²)
-        quantum_queries = int(math.pi / (4 * eps))  # QAE: O(1/ε)
-        speedup = classical_samples / max(quantum_queries, 1)
-
+    for row in analysis["query_scaling"]["rows"]:
         rows.append({
-            "precision_epsilon": eps,
-            "precision_bits": precision_bits,
-            "logical_qubits": total_logical,
-            "physical_qubits_projected": physical,
-            "classical_mc_samples": classical_samples,
-            "quantum_qae_queries": quantum_queries,
-            "quadratic_speedup_factor": round(speedup, 1),
+            "precision_epsilon": row["epsilon_target"],
+            "iqae_half_width": round(row["iqae_mean_half_width"], 6),
+            "iqae_queries": round(row["iqae_mean_queries"]),
+            "monte_carlo_samples_same_half_width": row["mc_samples_same_half_width"],
+            "query_ratio": round(row["mc_samples_same_half_width"] / row["iqae_mean_queries"], 1),
         })
+    finest = rows[-1]
 
     return {
         "problem_id": "03_qae_risk",
         "algorithm": "Quantum Amplitude Estimation",
         "scaling_variable": "precision (ε)",
         "classical_complexity": "O(1/ε²) Monte Carlo samples",
-        "quantum_complexity": "O(1/ε) Grover iterations",
+        "quantum_complexity": "O(1/ε) applications of the state preparation (IQAE)",
         "theoretical_speedup": "Quadratic",
         "generated_utc": utc_now(),
         "projections": rows,
-        "crossover_estimate": "No practical crossover identified: at epsilon = 0.001 Monte Carlo needs about 10^6 samples against about 785 quantum queries, but each query needs error-corrected state preparation, and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
+        "crossover_estimate": (
+            f"No practical crossover identified: at half-width {finest['iqae_half_width']} IQAE needs "
+            f"{finest['iqae_queries']:,} applications of the state preparation where Monte Carlo needs "
+            f"{finest['monte_carlo_samples_same_half_width']:,} samples, a {finest['query_ratio']:.0f}-fold saving in queries, "
+            "but each query needs error-corrected state preparation, and quadratic speedups are not expected "
+            "to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)"
+        ),
         "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions.",
     }
+
+
+def _estimated_physical_qubits(problem_id: str) -> int:
+    """The estimate of record; the bases below were typed in by hand and had gone stale."""
+    estimate = json.loads((problem_dir(problem_id) / "circuits" / "estimate.json").read_text(encoding="utf-8"))
+    return estimate["physicalQubits"]
+
+
+PROJECTION_NOTE = (
+    "physical_qubits_projected scales the estimate of the implemented instance by (size ratio)^1.5, "
+    "an illustrative assumption rather than a resource estimate"
+)
 
 
 def generate_qaoa_scaling():
     """QAOA MaxCut: scaling analysis for graph size."""
     graph_sizes = [3, 5, 8, 10, 15, 20, 30, 50]
-    base_physical = 131544  # from RE at n=3
+    base_physical = _estimated_physical_qubits("05_qaoa_maxcut")  # the n=3 instance
 
     rows = []
     for n in graph_sizes:
@@ -88,11 +108,12 @@ def generate_qaoa_scaling():
         "algorithm": "QAOA (Quantum Approximate Optimization)",
         "scaling_variable": "graph vertices (n)",
         "classical_complexity": "Brute-force O(2^n); GW SDP O(n³) with 0.878-approx",
-        "quantum_complexity": "QAOA depth O(n²) per layer, approximation ratio depends on depth p",
+        "quantum_complexity": "QAOA uses O(|E|) two-qubit cost terms per layer; approximation ratio depends on depth p and optimizer quality",
         "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
         "generated_utc": utc_now(),
+        "projection_note": PROJECTION_NOTE,
         "projections": rows,
-        "crossover_estimate": "Uncertain  no proven quantum advantage for MaxCut QAOA at any depth",
+        "crossover_estimate": "Uncertain. No proven quantum advantage for MaxCut QAOA at any depth",
         "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this, and on certain MaxCut instances GW outperforms QAOA at any constant depth (Bravyi et al., arXiv:1910.08980). Whether QAOA at depth growing with n offers an advantage is open.",
     }
 
@@ -100,7 +121,7 @@ def generate_qaoa_scaling():
 def generate_grover_scaling():
     """Grover: scaling analysis for database size."""
     db_sizes = [16, 256, 4096, 65536, 1_000_000, 1_000_000_000]
-    base_physical = 119556  # from RE at N=16
+    base_physical = _estimated_physical_qubits("15_database_search")  # the N=16 instance
 
     rows = []
     for N in db_sizes:
@@ -130,9 +151,10 @@ def generate_grover_scaling():
         "algorithm": "Grover's Search",
         "scaling_variable": "database size (N)",
         "classical_complexity": "O(N) queries (optimal for unstructured search)",
-        "quantum_complexity": "O(√N) queries (provably optimal  BBBV lower bound)",
+        "quantum_complexity": "O(√N) queries (provably optimal: BBBV lower bound)",
         "theoretical_speedup": "Quadratic (provably optimal)",
         "generated_utc": utc_now(),
+        "projection_note": PROJECTION_NOTE,
         "projections": rows,
         "crossover_estimate": "No practical crossover identified: with a naive O(N)-gate oracle there is none, and with a structured oracle the quadratic query saving is not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
         "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage.",
@@ -148,10 +170,10 @@ def generate_grover_fairness():
         "quantum_algorithm": "Grover's Search (oracle + diffusion, O(√N) queries)",
         "classical_baseline": "Sequential linear search (O(N) expected queries)",
         "baseline_optimality": "Linear search is provably optimal for unstructured search (information-theoretic lower bound). No classical algorithm can do better than O(N) for a truly unstructured search.",
-        "fairness_assessment": "FAIR  linear search is the strongest possible classical comparator for unstructured search. This is the rare case where the classical baseline cannot be improved by heuristics.",
+        "fairness_assessment": "FAIR: linear search is the strongest possible classical comparator for unstructured search. This is the rare case where the classical baseline cannot be improved by heuristics.",
         "instance_analysis": [
-            {"instance": "small", "N": 16, "classical_queries": 8, "grover_queries": 3, "speedup": 2.7, "note": "Trivially small  no practical significance"},
-            {"instance": "medium", "N": 32, "classical_queries": 16, "grover_queries": 4, "speedup": 4.0, "note": "Still small  classical is instant"},
+            {"instance": "small", "N": 16, "classical_queries": 8, "grover_queries": 3, "speedup": 2.7, "note": "Trivially small; no practical significance"},
+            {"instance": "medium", "N": 32, "classical_queries": 16, "grover_queries": 4, "speedup": 4.0, "note": "Still small; classical is instant"},
             {"instance": "large", "N": 4096, "classical_queries": 2048, "grover_queries": 50, "speedup": 41.0, "note": "Meaningful speedup but classical is still fast"},
         ],
         "oracle_cost_sensitivity": {
@@ -161,9 +183,9 @@ def generate_grover_fairness():
             "practical_implication": "Advantage exists only for problems with efficiently implementable oracles (e.g., cryptographic hash verification, SAT checking)",
         },
         "residual_unfairness_risks": [
-            "Classical parallel search on k processors achieves O(N/k)  linear parallelism may close the gap",
+            "Classical parallel search on k processors achieves O(N/k); linear parallelism may close the gap",
             "Classical cache-friendly memory access patterns provide constant-factor advantages not captured in query complexity",
-            "Grover requires coherent oracle evaluation  decoherence may require error correction overhead not in the query count",
+            "Grover requires coherent oracle evaluation; decoherence may require error correction overhead not in the query count",
         ],
     }
 
@@ -196,13 +218,15 @@ def generate_summary(problem_id: str, scaling: dict, claim: dict) -> dict:
     }
 
 
-def main():
+def main(selected: list[str] | None = None):
     for pid, gen_scaling, gen_fairness in [
         ("03_qae_risk", generate_qae_scaling, None),
         ("05_qaoa_maxcut", generate_qaoa_scaling, None),
         ("15_database_search", generate_grover_scaling, generate_grover_fairness),
     ]:
-        out_dir = PROBLEMS_DIR / pid / "estimates"
+        if selected and pid not in selected:
+            continue
+        out_dir = problem_dir(pid) / "estimates"
 
         # Scaling analysis
         scaling = gen_scaling()
@@ -230,8 +254,8 @@ def main():
         )
         print(f"OK {pid}: stage_d_evidence_summary.json")
 
-    print("\nStage D evidence packages complete for all 3 candidates.")
+    print("\nStage D evidence packages complete.")
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:] or None)

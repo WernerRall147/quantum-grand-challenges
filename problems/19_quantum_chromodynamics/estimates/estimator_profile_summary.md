@@ -1,4 +1,4 @@
-# Trotter Gauge Estimator Summary
+# Trotter Ising Chain Estimator Summary
 
 Auto-generated from `circuits/estimate.json`, the single source of truth for this problem's resource estimate.
 

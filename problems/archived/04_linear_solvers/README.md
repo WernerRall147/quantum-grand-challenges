@@ -1,97 +1,97 @@
 # 04. Quantum Linear Solvers
 
-This challenge sets up the scaffolding needed to explore quantum linear system algorithms such as HHL and modern block-encoding refinements. The immediate goal is to provide deterministic classical baselines, representative instance data, and a Q# entry point that compiles cleanly while we design a genuine quantum kernel.
+This archived challenge now contains a checked textbook HHL circuit for the 2x2 symmetric system
 
-## Roadmap
-
-- [x] Scaffold directory structure and helper scripts
-- [x] Provide classical solver baseline with condition-number diagnostics
-- [x] Supply representative Poisson-style benchmark instances (small/medium/large)
-- [x] Add analysis notebooks for quick visual checks
-- [x] Implement Q# analytical baseline matching the classical small instance
-- [x] **Implement complete HHL algorithm with QPE and eigenvalue inversion**
-- [x] **Run Azure Quantum Resource Estimator (18.7k qubits, 52ms runtime)**
-- [ ] Scale to 4×4 and 8×8 systems with higher precision
-- [ ] Implement amplitude amplification for success probability boost
-- [ ] Connect advanced resource estimator profiles for multiple precision targets
-
-## Quickstart
-
-```bash
-cd problems/04_linear_solvers
-make classical      # Solve each YAML instance with dense linear algebra
-make analyze        # Generate plots of condition numbers and residuals
-make build          # Build the Q# project (uses modern QDK  qsharp Python package)
-make run            # Execute the Q# analytical baseline for the small instance
-make estimate       # (Placeholder) Run resource estimation once quantum kernel lands
+```text
+A = [[4, -1], [-1, 3]]
+b = [15, 10]
 ```
 
-## Outputs
+The classical solution is x = [5, 5], so the normalized solution distribution is [0.5, 0.5]. The Q# circuit keeps the existing `Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], bits)` entry shape. It returns one system-qubit sample after post-selecting the ancilla on `One`. `Main.HHLJointSample2x2` and `HHLKernel()` return `[ancilla, system]` so callers can post-select directly.
 
-- `estimates/classical_baseline.json` – Solutions, condition numbers, and residuals for each YAML instance
-- `plots/condition_numbers.png` – Visual comparison of condition numbers across instances
-- `plots/residual_vs_precision.png` – Residual norms versus target precision requirements
-- `qsharp/src/Main.qs` – Q# analytical baseline, compiled on-the-fly by the modern QDK
-- `STAGE_D_ADVANTAGE_EVIDENCE.md` – Stage D claim-boundary and evidence-tracking scaffold for expansion-queue onboarding
+## Correction (2026-09-26)
 
-## ✅ Complete HHL Implementation
+Earlier text and code said this problem implemented HHL. It did not. The old Hamiltonian simulation used first-order `Rz` and `Rx` steps instead of exact controlled `exp(i A t 2^k)`, the inversion used per-bit angles instead of `2 asin(C/lambda)`, and the hardware kernel returned only the ancilla. For this matrix the old circuit produced about `P(system = 1) = 0.309`, while the true normalized `A^-1 b` distribution is `[0.5, 0.5]`. The replacement implements exact controlled evolution for real 2x2 Hermitian matrices, big-endian QPE, clock-value controlled inversion with `C = 1`, inverse QPE, and explicit ancilla/system measurement.
 
-**Status**: Fully operational quantum linear solver with resource-estimated performance metrics.
+## Verified numbers
 
-The implementation includes:
-- **State Preparation**: Ry rotation encoding of RHS vector |b⟩
-- **Block Encoding**: Pauli decomposition for 2×2 symmetric matrices (A = c_I·I + c_Z·Z + c_X·X)
-- **Quantum Phase Estimation**: 4-qubit precision register extracting eigenvalue phases via controlled time evolution U^(2^k)
-- **Inverse QFT**: Standard Fourier transform with controlled rotations and SWAP gates
-- **Eigenvalue Inversion**: Controlled Ry rotations encoding amplitudes ∝ 1/λ
-- **Post-Selection**: Ancilla measurement for success/failure indication
+For the 3-bit clock used by `tooling/estimator_config.py` and `HHLKernel()`:
 
-### Resource Requirements (Azure Quantum Resource Estimator)
+| Quantity | Value |
+|---|---:|
+| Ancilla success probability | 0.2034890696 |
+| Post-selected system distribution | [0.47915502, 0.52084498] |
+| Fidelity with normalized classical solution [0.5, 0.5] | 0.9995652979 |
+| Joint `[ancilla, system]` distribution | (0,0): 0.5708907296; (0,1): 0.2256202008; (1,0): 0.0975028096; (1,1): 0.1059862600 |
 
-**Optimal Configuration**: qubit_gate_ns_e3 (gate-based, 10⁻³ error rate)
+For the 4-bit calibration entry in `tooling/generate_calibration_ensemble.py`:
+
+| Quantity | Value |
+|---|---:|
+| Ancilla success probability | 0.1507474826 |
+| Post-selected system distribution | [0.50403167, 0.49596833] |
+| Fidelity with normalized classical solution [0.5, 0.5] | 0.9999837453 |
+
+The fidelity is below one because the eigenvalues `(7 +/- sqrt(5)) / 2` fall between clock values. Each controlled-evolution step is `exp(i A 2 pi/8)` whatever the clock size, so every added clock bit halves the eigenvalue resolution and the output converges on the solution (fidelity 0.99957, 0.99998 and 0.99999 with 3, 4 and 5 bits). A step that shrank as `2 pi / 2^m` would fix the resolution at 1, and extra bits would then move the output slightly away from the solution.
+
+## How to run
+
+```powershell
+cd problems\archived\04_linear_solvers
+make classical
+make analyze
+make run
 ```
-Physical qubits:    18,680
-Runtime:            52 milliseconds  
-Logical qubits:     6 (1 system + 4 precision + 1 ancilla)
-T-gates:            903 (18 explicit + 885 from 59 rotations)
-Success prob:       ~26.6% (1/κ² for κ≈1.94)
+
+A direct QDK smoke test is:
+
+```powershell
+$env:PYTHONIOENCODING='utf-8'
+python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/04_linear_solvers/qsharp'); print(qsharp.run('Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)', shots=10))"
 ```
 
-**Performance vs VQE**: 62% fewer qubits (18.7k vs 48.5k-110k), demonstrates near-term feasibility for small-scale quantum advantage exploration.
+## Files
 
-See `HHL_IMPLEMENTATION_SUMMARY.md` for complete algorithm details, resource breakdowns, and scaling analysis.
+- `qsharp/src/Main.qs`: Q# implementation and demo entry point.
+- `qsharp/HardwareKernel.qs`: standalone Azure-style kernel returning `[ancilla, system]`.
+- `python/classical_baseline.py`: dense classical baseline for the YAML instances.
+- `python/analyze.py`: plots condition numbers and residuals.
+- `instances/small.yaml`, `instances/medium.yaml`, `instances/large.yaml`: problem instances for the classical baseline.
+- `estimates/latest_*.json`: mock estimator artifacts from the previous pipeline. They are superseded for algorithm correctness and must not be read as estimates of the corrected HHL circuit.
 
-Next milestone: Scale to 4×4 systems (2 system qubits), implement amplitude amplification to boost success probability, and benchmark against classical iterative solvers for sparse matrices.
+## Scope and caveats
 
-## Objective Maturity Gate
+This is a 2x2 pedagogical HHL instance, not evidence of practical advantage. HHL's exponential speedup requires efficient state preparation, sparse well-conditioned matrices, and a task that needs expectation values of `|x>` rather than a full classical readout. See Harrow, Hassidim and Lloyd, arXiv:0811.3171; Aaronson, Nature Physics 11, 291 (2015); and Tang, arXiv:1807.04271 for the data access and dequantization caveats.
 
-- **Current gate**: **Stage B complete** (classical baseline and Q# scaffold/build path are in place).
-- **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons).
+## Objective maturity gate
 
-Stage C exit criteria for this problem:
+- Current gate: Stage B with a checked toy HHL circuit and classical baseline.
+- Next gate target: Stage C, which needs calibration and noise evidence for the corrected circuit; its resource estimate was regenerated on 2026-09-26.
 
-- Execute at least one non-placeholder quantum workflow path tied to the problem objective.
+Stage C exit criteria remain:
+
+- Execute a non-placeholder quantum workflow tied to the problem objective.
 - Report uncertainty-bounded comparisons between classical and quantum outputs on `small` and `medium` instances.
-- Document transpilation/connectivity and backend assumptions used for reported quantum runs.
-- Add calibration/noise-sensitivity evidence for the reported quantum metrics.
+- Document transpilation, connectivity and backend assumptions for reported quantum runs.
+- Add calibration and noise-sensitivity evidence for reported quantum metrics.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 
 | Criterion | Status | Evidence / Notes |
 |---|---|---|
-| Scalable qubit system | partial | Estimator-backed 2x2 HHL resources are reported (18.7k physical qubits); scaling evidence for larger systems is still in progress. |
-| Initialization | partial | RHS-vector state preparation is implemented for the current HHL path; robust loading for larger instances remains open. |
-| Coherence vs gate time | partial | Runtime/T-gate estimates are available, but backend-calibrated coherence margin evidence is pending Stage C hardening. |
-| Universal gate set | met | QPE, inverse QFT, controlled evolutions, and inversion rotations are implemented in the Q# HHL workflow. |
-| Qubit-specific measurement | partial | Success-probability and post-selection behavior are documented; hardware readout uncertainty characterization is pending. |
+| Scalable qubit system | partial | The 2x2 instance is estimated at 86,567 physical qubits and 23 logical qubits (`circuits/estimate.json`); larger systems are not implemented. |
+| Initialization | partial | The right-hand side is loaded with one Ry rotation; loading an N-dimensional classical vector costs O(N) gates in general. |
+| Coherence vs gate time | not-yet | No backend-calibrated coherence evidence exists for the corrected circuit. |
+| Universal gate set | met | Exact controlled exp(iAt), phase estimation, the controlled Ry inversion and inverse phase estimation are implemented and checked against exact simulation (`tooling/test_hhl_kernel.py`). |
+| Qubit-specific measurement | partial | The hardware kernel returns the ancilla and the system qubit so shots can be post-selected; hardware readout characterization is pending. |
 
 ## Advantage Claim Contract
 
 - **Claim category (current)**: `theoretical`.
-- **Problem class and regime**: Problem-specific challenge instances defined in this directory.
-- **Fair baseline**: Problem-local classical baseline in `python/` outputs.
-- **Quantum resource scaling claim**: Expected asymptotic advantage depends on algorithm family and implementation assumptions; no hardware-demonstrated speedup claim yet.
-- **Data-loading and I/O assumptions**: Must be documented alongside future advantage claims.
-- **Noise/error model assumptions**: Backend-specific model and calibration assumptions to be added at Stage C.
-- **Confidence/uncertainty method**: To be reported using shot-based confidence intervals or equivalent statistical bounds.
-- **Residual risks**: Oracle/state-preparation/transpilation overhead may dominate for near-term instance sizes.
+- **Problem class and regime**: A 2x2 symmetric positive-definite system solved by textbook HHL with a 3-bit clock (4-bit in calibration).
+- **Fair baseline**: The direct solution in `python/`, exact and instantaneous at this size; conjugate gradient is the scalable classical comparator for sparse systems.
+- **Quantum resource scaling claim**: HHL runs in time polylogarithmic in N for sparse, well-conditioned A, given efficient state preparation and when only expectation values of x are needed (Harrow, Hassidim and Lloyd, arXiv:0811.3171). None of these conditions is demonstrated here.
+- **Data-loading and I/O assumptions**: Loading b and reading out x each cost O(N) for classical data (Aaronson, Nature Physics 11, 291, 2015), which removes the advantage for generic classical inputs; low-rank inputs are dequantized (Tang, arXiv:1807.04271).
+- **Noise/error model assumptions**: Noiseless simulation; the resource estimate assumes a surface code at a 10^-3 physical error rate.
+- **Confidence/uncertainty method**: State-vector comparison with an independent model of the circuit to 1e-9, and sampled outputs within five standard errors or a total-variation tolerance.
+- **Residual risks**: State preparation, readout and the condition number dominate at any useful size.

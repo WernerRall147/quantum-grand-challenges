@@ -1,4 +1,4 @@
-# Hubbard VQE Estimator Summary
+# Hubbard QPE Estimator Summary
 
 Auto-generated from `circuits/estimate.json`, the single source of truth for this problem's resource estimate.
 

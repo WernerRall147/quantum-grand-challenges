@@ -17,7 +17,7 @@
     "33k physical qubits for 3-qubit toy instance; O(thousands of logical qubits) for AES-128",
     "Grover's speedup is already accounted for in NIST's post-quantum security categories, which are defined by the cost of AES key search"
   ],
-  "physical_qubits": 32536,
+  "physical_qubits": 26092,
   "logical_qubits": 12,
   "t_gates": 0
 }

@@ -6,10 +6,10 @@
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "build": {
-    "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+    "commit": "d47fd1a1ae285522609fefdc7782a05c4c51adf2",
     "qdkVersion": "1.31.0",
     "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-    "dateUtc": "2026-09-14T15:01:19.576919+00:00"
+    "dateUtc": "2026-09-26T14:10:22.413015+00:00"
   },
   "physicalQubits": 1746,
   "runtime": 7350,

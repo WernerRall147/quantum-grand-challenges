@@ -1,7 +1,8 @@
 OPENQASM 2.0;
 include "qelib1.inc";
 
-// Quantum VaR estimation: amplitude encode market states + oracle marking
+// Loss-probability sampling toy: amplitude encode two market states + oracle marking.
+// Measuring the marker samples P(loss) directly; this is not amplitude estimation and not a VaR (a quantile).
 // 2 market qubits + 1 marker qubit = 3 qubits
 // Market states: |00>=normal, |01>=normal, |10>=loss, |11>=loss
 // Amplitude encoding via Ry rotations

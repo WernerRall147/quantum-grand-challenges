@@ -1,0 +1,78 @@
+name: Live Q# Generation Check
+
+# Asks the live evaluator for Q# and checks what a user would be shown.
+#
+# Why this exists: nothing watched code generation in production. The uptime probe does
+# not ask for code, and the demo smoke test stopped failing on it (#249). From 1 to 25
+# September 2026 one generation request in five never compiled, and two of three Shor
+# requests returned a classical placeholder estimated at 17 physical qubits, with every
+# check green. tooling/check_codegen_live.py posts one problem per exemplar family (QPE,
+# Shor, Trotter) with generate_code on, and fails on a compile failure, a program that
+# does no quantum work, a missing estimate or a failed Pareto row.
+#
+# Uses no Azure credentials: the API is public. Each run costs three evaluations with
+# code generation, so it is scheduled weekly; GitHub may delay or skip scheduled runs on
+# public repositories, and workflow_dispatch runs it on demand.
+#
+# Optional repo VARIABLE: CODEGEN_CHECK_API_BASE (default: the production Container App).
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: codegen-live-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate Q# for one problem per family
+        env:
+          CODEGEN_CHECK_API_BASE: ${{ vars.CODEGEN_CHECK_API_BASE }}
+        run: python tooling/check_codegen_live.py
+
+      - name: Raise an issue if generation fails
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          TITLE="Live Q# generation check is failing"
+          EXISTING=$(gh issue list --state open --label codegen \
+            --search "$TITLE in:title" --json number --jq '.[0].number' || echo "")
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          NOTE="Check failed at $(date -u +'%Y-%m-%d %H:%M UTC'). The run summary lists each prompt and what was wrong. Run: $RUN_URL"
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$NOTE"
+          else
+            gh label create codegen --color D93F0B --description "Live Q# generation" 2>/dev/null || true
+            DETAIL="The live evaluator returned Q# that a user should not be shown, or none. Reproduce locally with python tooling/check_codegen_live.py; measure the generator with agents/evaluations/run_codegen_eval.py."
+            gh issue create --title "$TITLE" --label codegen --body "$(printf '%s\n\n%s' "$NOTE" "$DETAIL")"
+          fi
+
+      - name: Close the issue once it recovers
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          TITLE="Live Q# generation check is failing"
+          EXISTING=$(gh issue list --state open --label codegen \
+            --search "$TITLE in:title" --json number --jq '.[0].number' || echo "")
+          if [ -n "$EXISTING" ]; then
+            gh issue close "$EXISTING" --comment "Recovered: all prompts produced usable Q#."
+          fi

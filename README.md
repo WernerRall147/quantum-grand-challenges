@@ -179,7 +179,7 @@ Part 6 prices a fault-tolerant computation as its estimated runtime times an amo
 | [Error Correction](problems/16_error_correction/) | **QEC** | Infrastructure | 2k | 1 |
 | [Nuclear Physics](problems/17_nuclear_physics/) | **QPE** | Exponential† | 667k | 4 |
 | [Photovoltaics](problems/18_photovoltaics/) | **Quantum Walk** | Not established‡ | 47k | 10 |
-| [QCD Lattice](problems/19_quantum_chromodynamics/) | **Trotter** | Exponential† | 55k | 9 |
+| [QCD Lattice](problems/19_quantum_chromodynamics/) | **Trotter** | Exponential†, not for this kernel§ | 55k | 9 |
 
 Qubit counts are the fewest-qubit point of each Pareto frontier. See [Reading the numbers](#reading-the-numbers).
 
@@ -187,21 +187,23 @@ Qubit counts are the fewest-qubit point of each Pareto frontier. See [Reading th
 
 ‡ The kernel follows a single exciton, and exact classical simulation of one excitation on N sites already takes time polynomial in N. An exponential separation would need many-body or strongly coupled open-system transport, which this instance does not model, so the filters were passed on the problem class rather than on this kernel.
 
+§ The speedup is for real-time dynamics of interacting lattice gauge theories. The kernel is a transverse-field Ising chain with no gauge fields, which maps to free fermions and is classically solvable at any size, so here too the filters were passed on the problem class rather than on the kernel.
+
 ### Archived: with the reason
 
 | Problem | Original algorithm | Archival reason |
 |---------|--------------------|-----------------|
 | [QAE Risk](problems/archived/03_qae_risk/) | QAE | Quadratic plus I/O cost |
-| [Linear Solvers](problems/archived/04_linear_solvers/) | HHL | I/O bottleneck (state prep and readout) |
+| [Linear Solvers](problems/archived/04_linear_solvers/) | HHL (2x2 toy) | I/O bottleneck (state prep and readout) |
 | [QAOA MaxCut](problems/archived/05_qaoa_maxcut/) | QAOA | No proven speedup; no QAOA is known to beat Goemans-Williamson |
-| [HFT VaR](problems/archived/06_high_frequency_trading/) | QAE | Quadratic plus I/O |
-| [Protein Folding](problems/archived/08_protein_folding/) | QAOA | No proven speedup; AlphaFold dominates |
+| [HFT loss probability](problems/archived/06_high_frequency_trading/) | Direct sampling (planned: QAE) | None as implemented; quadratic plus I/O for QAE |
+| [Protein Folding](problems/archived/08_protein_folding/) | QAOA on a toy QUBO (no protein model) | No proven speedup; AlphaFold dominates |
 | [PQC Grover](problems/archived/10_post_quantum_cryptography/) | Grover | Quadratic, oracle cost dominates |
 | [QML Swap Test](problems/archived/11_quantum_machine_learning/) | Swap Test | I/O bottleneck (data loading) |
-| [Optimization](problems/archived/12_quantum_optimization/) | QAOA | No proven speedup |
-| [Climate HHL](problems/archived/13_climate_modeling/) | HHL | I/O bottleneck |
+| [Optimization](problems/archived/12_quantum_optimization/) | QAOA on a toy scheduling QUBO | No proven speedup |
+| [Climate HHL](problems/archived/13_climate_modeling/) | HHL on a 2x2 diffusion matrix (toy) | I/O bottleneck |
 | [DB Search](problems/archived/15_database_search/) | Grover | Quadratic plus QRAM cost |
-| [Space Mission](problems/archived/20_space_mission_planning/) | QAOA | No proven speedup |
+| [Space Mission](problems/archived/20_space_mission_planning/) | QAOA on a toy mission QUBO | No proven speedup |
 
 ---
 

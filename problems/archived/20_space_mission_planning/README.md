@@ -1,77 +1,71 @@
-# Problem 20 · Quantum Space Mission Planning
+# Problem 20 · Toy QAOA Mission-Planning QUBO
 
 ## Overview
 
-Designing efficient interplanetary trajectories involves balancing launch windows, gravity assists, and propulsive maneuvers under tight mission constraints. This scaffold couples a reproducible classical baseline based on patched-conic transfer approximations with a Q# project prepared for future quantum annealing and amplitude amplification studies. The objective is to benchmark classical delta-v budgets and schedule feasibility against quantum-inspired search strategies for complex mission profiles.
+This archived problem contains a heuristic mission-scoring script and a separate Q# depth-1 QAOA toy QUBO. The Q# model chooses one of two options for each of four mission legs and adds a pairwise penalty when two legs choose the same option. It is not a patched-conic trajectory optimizer.
+
+**Correction (2026-09-26)**: Earlier text blurred the classical patched-conic scoring script with the Q# model, and the hardware kernel used a different three-qubit chain with different biases. The hardware kernel now matches the four-leg model in `Main.RunMissionOptimization` and uses optimized p=1 angles. Existing website emulator results predate this alignment and should be labelled as stale until regenerated.
+
+## Verified toy model
+
+- Q# source: `qsharp/src/Main.qs`.
+- Hardware kernel: `qsharp/HardwareKernel.qs`.
+- Cost function: four option costs `[[2.5, 1.8], [1.2, 0.8], [3.1, 2.4], [1.5, 1.0]]` plus `0.5` for each equal-option pair.
+- Exact brute-force optimum of the toy QUBO: `7.9`.
+- Exact state-vector expectation at the optimized p=1 angles `gamma=0.667588438887831`, `beta=1.3940817400304706`: `8.567469059209166`.
+- Approximation ratio for this minimization toy objective: `1.0845`.
+- There is no proven QAOA speedup claimed for this problem.
+
+## Classical baseline
+
+`python/classical_baseline.py` implements heuristic patched-conic scoring for YAML mission records. It estimates aggregate delta-v, slack, feasibility, and a mission score. It is not the same objective as the Q# toy QUBO.
 
 ## Directory Layout
 
 ```text
 20_space_mission_planning/
-├── estimates/                        # JSON artifacts from classical and quantum workflows
-├── instances/                        # Mission geometries, gravity assist sequences, and time budgets
-├── plots/                            # Generated figures from analyze.py
+├── ARCHIVED.md
+├── README.md
+├── estimates/
+├── instances/
+├── plots/
 ├── python/
-│   ├── classical_baseline.py         # Patched-conic delta-v estimator and window feasibility scoring
-│   └── analyze.py                    # Visualization of delta-v breakdowns and schedule slack
+│   ├── analyze.py
+│   ├── classical_baseline.py
+│   └── test_baseline.py
 └── qsharp/
-    ├── qsharp.json            # Modern QDK project file
-    └── Program.qs                    # Stubbed quantum workflow
+    ├── HardwareKernel.qs
+    ├── qsharp.json
+    └── src/
+        └── Main.qs
 ```
 
 ## Quick Start
 
-```bash
-cd problems/20_space_mission_planning
-
-# Classical mission baseline
-python python/classical_baseline.py
-
-# Plot delta-v budgets and schedule slack
-python python/analyze.py
-
-# Quantum placeholder (uses modern QDK  qsharp Python package)
-python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
- python tooling/run_all_qsharp.py  # runs via qsharp Python package
+```powershell
+cd problems\archived\20_space_mission_planning
+python python\classical_baseline.py
+python python\analyze.py
+python -c "from qdk import qsharp; qsharp.init(project_root='qsharp'); print(qsharp.run('Main.RunMissionOptimization()', 1))"
 ```
-
-## Next Quantum Milestones
-
-1. **Trajectory Encoding** – Map transfer legs into qubit registers for annealing or amplitude amplification.
-2. **Constraint Encoding** – Incorporate launch windows, gravity assists, and vehicle limits via penalty functions.
-3. **Hybrid Heuristics** – Combine classical patched-conic seeding with quantum search refinement.
-4. **Resource Estimation** – Evaluate qubit counts and circuit depth for realistic mission complexity.
-
-This scaffold keeps the classical planning baseline reproducible while preparing for quantum-enhanced mission optimization.
 
 ## Objective Maturity Gate
 
-- **Current gate**: **Stage B complete** (classical baseline and Q# scaffold/build path are in place).
-- **Next gate target**: **Stage C** (hardware-aware validation with uncertainty-bounded comparisons).
-
-Stage C exit criteria for this problem:
-
-- Execute at least one non-placeholder quantum workflow path tied to the problem objective.
-- Report uncertainty-bounded comparisons between classical and quantum outputs on `small` and `medium` instances.
-- Document transpilation/connectivity and backend assumptions used for reported quantum runs.
-- Add calibration/noise-sensitivity evidence for the reported quantum metrics.
+- **Current gate**: **Stage B complete** for a toy QUBO scaffold only.
+- **Next gate target**: none scheduled. Any future mission-planning claim must compare the same objective on both classical and quantum sides.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 
 | Criterion | Status | Evidence / Notes |
 |---|---|---|
-| Scalable qubit system | partial | Problem-scoped instance baselines are in place; full hardware-scale projections are tracked as Stage C work. |
-| Initialization | partial | Input/state initialization path is defined for current workflows, with backend-ready loading fidelity still to be hardened. |
-| Coherence vs gate time | not-yet | Backend-calibrated coherence-vs-depth evidence is pending and required for Stage C/D promotion. |
-| Universal gate set | partial | Q# scaffold/build path exists; gate-basis decomposition and transpilation evidence remain Stage C tasks. |
-| Qubit-specific measurement | partial | Measurement outputs are defined for current validation flows; hardware readout characterization is pending. |
+| Scalable qubit system | partial | Four toy QUBO variables are implemented; no realistic trajectory encoding exists. |
+| Initialization | partial | Uniform-superposition QAOA initialization is implemented for the toy model. |
+| Coherence vs gate time | not-yet | Backend-calibrated coherence-vs-depth evidence is not current after kernel alignment. |
+| Universal gate set | partial | The Q# and QASM circuits use standard one- and two-qubit gates. |
+| Qubit-specific measurement | partial | Computational-basis measurement is implemented; hardware readout characterization is stale. |
+
 ## Advantage Claim Contract
 
 - **Claim category (current)**: `theoretical`.
-- **Problem class and regime**: Problem-specific challenge instances defined in this directory.
-- **Fair baseline**: Problem-local classical baseline in `python/` outputs.
-- **Quantum resource scaling claim**: Expected asymptotic advantage depends on algorithm family and implementation assumptions; no hardware-demonstrated speedup claim yet.
-- **Data-loading and I/O assumptions**: Must be documented alongside future advantage claims.
-- **Noise/error model assumptions**: Backend-specific model and calibration assumptions to be added at Stage C.
-- **Confidence/uncertainty method**: To be reported using shot-based confidence intervals or equivalent statistical bounds.
-- **Residual risks**: Oracle/state-preparation/transpilation overhead may dominate for near-term instance sizes.
+- **Fair baseline**: heuristic patched-conic scoring for YAML records, plus exact enumeration for the four-bit Q# toy model in tests.
+- **Residual risks**: the classical heuristic and Q# toy objective are different models, and shared website emulator records are stale until regenerated.

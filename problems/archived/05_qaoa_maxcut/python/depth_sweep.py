@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
+import statistics
 from pathlib import Path
 from typing import List
 
@@ -33,26 +33,64 @@ def parse_depths(raw: str) -> List[int]:
     return ordered
 
 
+def _load_weights(problem_root: Path, instance: str) -> list[list[float]]:
+    import yaml
+
+    raw = yaml.safe_load((problem_root / "instances" / f"{instance}.yaml").read_text(encoding="utf-8"))
+    nodes = [str(node) for node in raw["nodes"]]
+    index = {node: i for i, node in enumerate(nodes)}
+    weights = [[0.0 for _ in nodes] for _ in nodes]
+    for u, v, weight in raw.get("edges", []):
+        i, j = index[str(u)], index[str(v)]
+        weights[i][j] = weights[j][i] = float(weight)
+    return weights
+
+
+def _ci95(values: list[float]) -> float:
+    if len(values) < 2:
+        return 0.0
+    return 1.96 * statistics.stdev(values) / (len(values) ** 0.5)
+
+
 def run_depth(instance: str, depth: int, coarse_shots: int, refined_shots: int, trials: int, problem_root: Path) -> None:
-    cmd = [
-        "dotnet",
-        "run",
-        "--project",
-        "host/QaoaMaxCut.Driver.csproj",
-        "--",
-        "--instance",
-        instance,
-        "--depth",
-        str(depth),
-        "--coarse-shots",
-        str(coarse_shots),
-        "--refined-shots",
-        str(refined_shots),
-        "--trials",
-        str(trials),
-    ]
-    print(f"[depth={depth}] {' '.join(cmd)}")
-    subprocess.run(cmd, cwd=problem_root, check=True)
+    from qdk import qsharp
+
+    weights = _load_weights(problem_root, instance)
+    qsharp.init(project_root=str(problem_root / "qsharp"))
+    expression = f"Main.RunQaoaAnalysis({weights}, {depth}, {coarse_shots}, {refined_shots})"
+    coarse_values: list[float] = []
+    refined_values: list[float] = []
+    gaps: list[float] = []
+    optimum = None
+
+    for trial in range(1, trials + 1):
+        result = qsharp.run(expression, shots=1)[0]
+        optimal_value = float(result[0])
+        coarse = float(result[4])
+        refined = float(result[7])
+        optimum = optimal_value
+        coarse_values.append(coarse)
+        refined_values.append(refined)
+        gaps.append(optimal_value - refined)
+        print(f"[depth={depth} trial={trial}] refined={refined:.4f} optimal={optimal_value:.4f}")
+
+    payload = {
+        "problem_id": "05_qaoa_maxcut",
+        "instance_id": instance,
+        "depth": depth,
+        "coarse_shots": coarse_shots,
+        "refined_shots": refined_shots,
+        "trials": trials,
+        "optimal_value": optimum,
+        "aggregate": {
+            "coarse_expectation": {"mean": statistics.mean(coarse_values), "ci95": _ci95(coarse_values)},
+            "refined_expectation": {"mean": statistics.mean(refined_values), "ci95": _ci95(refined_values)},
+            "mean_optimality_gap": statistics.mean(gaps),
+        },
+        "qdk_driver": "qdk.qsharp Python package",
+    }
+    out_path = problem_root / "estimates" / f"quantum_baseline_{instance}_d{depth}.json"
+    out_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
 def load_report(estimates_dir: Path, instance: str, depth: int) -> dict:
@@ -121,7 +159,7 @@ def main() -> None:
         "--run",
         action="store_true",
         default=True,
-        help="Execute dotnet runs before aggregating reports (default: enabled).",
+        help="Execute QDK Python runs before aggregating reports (default: enabled).",
     )
     parser.add_argument(
         "--no-run",

@@ -154,6 +154,5 @@ operation RunMissionOptimization() : Unit {
     }
     Message($"  Approximation ratio: {ratio}");
     Message("");
-    Message("QAOA enables efficient exploration of exponentially large trajectory spaces");
-    Message("for multi-leg interplanetary missions beyond classical optimizer reach.");
+    Message("QAOA is a heuristic here; no proven speedup is claimed.");
 }

@@ -6,7 +6,8 @@ import Std.Convert.*;
 import Std.Diagnostics.*;
 import Std.Math.*;
 
-/// Evaluate contact energy for a lattice protein conformation.
+/// Evaluate a toy same-side Ising/QUBO energy.
+/// This is not a protein-folding contact-map or lattice-walk model.
 function EvaluateContactEnergy(contacts : Double[][], assignment : Int[]) : Double {
     mutable energy = 0.0;
     let n = Length(assignment);
@@ -40,6 +41,8 @@ operation ApplyFoldingCostLayer(contacts : Double[][], gamma : Double, qubits : 
         for j in i + 1 .. n - 1 {
             let w = contacts[i][j];
             if (AbsD(w) > 1e-12) {
+                // Same-side penalty convention: gamma_standard = 2 gamma
+                // for exp(-i gamma_standard C), ignoring the global phase.
                 CNOT(qubits[i], qubits[j]);
                 Rz(2.0 * gamma * w, qubits[j]);
                 CNOT(qubits[i], qubits[j]);
@@ -74,8 +77,9 @@ operation EvaluateFoldingQaoa(contacts : Double[][], gamma : Double, beta : Doub
 
 @EntryPoint()
 operation RunProteinFolding() : Unit {
-    Message("=== Protein Folding: QAOA Lattice Conformation Search ===");
+    Message("=== Toy Ising/QUBO: QAOA Same-Side Energy Search ===");
     Message("");
+    Message("This archived demo is not a protein-folding contact-map model.");
     let contacts = [
         [0.0, -1.2, -0.3, 0.0],
         [-1.2, 0.0, -0.8, -0.5],
@@ -104,5 +108,5 @@ operation RunProteinFolding() : Unit {
     if (AbsD(classicalBest) > 1e-10) { set ratio = qaoaE / classicalBest; }
     Message($"Approximation ratio: {ratio}");
     Message("");
-    Message("QAOA enables exploration of exponential conformation spaces for protein folding.");
+    Message("QAOA is a heuristic here; no protein-folding speedup is claimed.");
 }

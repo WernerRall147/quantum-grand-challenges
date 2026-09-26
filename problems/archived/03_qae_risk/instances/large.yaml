@@ -15,7 +15,7 @@ loss_encoding:
   num_qubits: 16
   max_loss: 32.0
 
-risk_threshold: 7.0
+risk_threshold: 7.0    # 94.8th percentile of log-normal(0, 1.2)
 target_precision: 0.005
 
 amplitude_estimation:
@@ -24,9 +24,9 @@ amplitude_estimation:
   repetitions: 3
 
 theoretical:
-  tail_probability: 0.006
-  classical_samples_needed: 238560
-  quantum_queries_needed: 200
+  tail_probability: 0.052   # 1 - Φ(ln 7 / 1.2)
+  classical_samples_needed: 1988   # standard error ε = 0.005 needs n = p(1-p)/ε²
+  quantum_queries_needed: 200      # order of 1/ε only; constant factors omitted
 
 estimated_resources:
   logical_qubits: 25

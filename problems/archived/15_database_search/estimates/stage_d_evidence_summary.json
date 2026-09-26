@@ -1,7 +1,7 @@
 {
   "problem_id": "15_database_search",
   "stage": "D",
-  "generated_utc": "2026-04-13T07:12:31.197188Z",
+  "generated_utc": "2026-09-26T15:20:14.966526Z",
   "claim_category": "projected",
   "evidence_completeness": {
     "advantage_claim_contract": true,
@@ -14,11 +14,11 @@
   },
   "scaling_summary": {
     "classical_complexity": "O(N) queries (optimal for unstructured search)",
-    "quantum_complexity": "O(\u221aN) queries (provably optimal \u2014 BBBV lower bound)",
+    "quantum_complexity": "O(\u221aN) queries (provably optimal: BBBV lower bound)",
     "theoretical_speedup": "Quadratic (provably optimal)",
     "crossover_estimate": "No practical crossover identified: with a naive O(N)-gate oracle there is none, and with a structured oracle the quadratic query saving is not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
     "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage."
   },
-  "physical_qubits": 119556,
+  "physical_qubits": 61122,
   "recommendation": "Stage D evidence package is complete. All claims are bounded by explicit residual risks and honest assessments. No demonstration of practical quantum advantage is claimed."
 }

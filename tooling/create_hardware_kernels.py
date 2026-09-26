@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Create standalone HardwareKernel.qs files for all problems.
+"""Create standalone HardwareKernel.qs files for problems that do not have one.
 
 Each kernel contains only the core quantum operation (ansatz/oracle/circuit)
 that can compile to Adaptive_RI QIR for Azure Quantum submission.
 No measurement-dependent classical post-processing.
+
+The templates below are the original March 2026 kernels, kept for bootstrapping a new
+problem. The maintained kernels are the ones in each problem's qsharp/ directory, and
+several differ from these because these were wrong; main() never overwrites them.
 """
 
 from pathlib import Path
@@ -386,9 +390,9 @@ import Std.Measurement.MResetEachZ;
 @EntryPoint()
 operation LatticeGaugeKernel() : Result[] {
     use qs = Qubit[4];
-    // 3 Trotter steps (β=0.5, h=0.3)
+    // 3 Trotter steps of a transverse-field Ising chain (beta dt = 0.5, h dt = 0.3)
     for _ in 1..3 {
-        // ZZ plaquettes
+        // Nearest-neighbour ZZ couplings
         for i in 0..2 {
             CNOT(qs[i], qs[i+1]);
             Rz(1.0, qs[i+1]);
@@ -422,15 +426,29 @@ operation MissionQaoaKernel() : Result[] {
 
 
 def main():
-    written = 0
+    """Write a kernel only for a problem that does not have one yet.
+
+    These templates are the kernels as first written in March 2026. Several were later
+    found not to compute what they claimed - the QPE kernels of 01, 02, 07, 14 and 17 (VQE
+    templates here), 09 and 18 - and were corrected in place in each problem's qsharp/
+    directory. This script used to rewrite every kernel unconditionally, so running it
+    would have put the broken versions back, and it failed outright on archived problems
+    because their directories moved under problems/archived/.
+    """
+    written = skipped = 0
     for name, kernel in sorted(KERNELS.items()):
-        qsharp_dir = PROBLEMS_DIR / name / "qsharp"
+        active = PROBLEMS_DIR / name / "qsharp"
+        qsharp_dir = active if active.is_dir() else PROBLEMS_DIR / "archived" / name / "qsharp"
         out_file = qsharp_dir / "HardwareKernel.qs"
+        if out_file.exists() or not qsharp_dir.is_dir():
+            print(f"-- {name}: kept the existing kernel" if out_file.exists() else f"-- {name}: no qsharp/ directory")
+            skipped += 1
+            continue
         header = f"// HardwareKernel.qs  Minimal QIR-compatible kernel for Azure Quantum\n// Problem: {name}\n// Target profile: Adaptive_RI\n\n"
         out_file.write_text(header + kernel.strip() + "\n", encoding="utf-8")
         print(f"OK {name}")
         written += 1
-    print(f"\nWrote {written} hardware kernels")
+    print(f"\nWrote {written} hardware kernels, kept {skipped}")
 
 
 if __name__ == "__main__":

@@ -1,123 +1,123 @@
 {
   "problem_id": "05_qaoa_maxcut",
-  "description": "QAOA MaxCut triangle graph depth-1",
-  "entry_point": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], 50)",
-  "generated_utc": "2026-09-25T11:40:21.905975Z",
+  "description": "Optimized p=1 QAOA MaxCut triangle graph; repository gamma convention has gamma_std=-2 gamma",
+  "entry_point": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.3141592653589793], [2.827433388230814], 50)",
+  "generated_utc": "2026-09-26T15:23:24.403391Z",
   "sources": {
-    "problems/archived/05_qaoa_maxcut/qsharp/HardwareKernel.qs": "e9827478083fa3e6a9fae51e84221c121881af67184533d45b2f3bfcdcc9f0b1",
+    "problems/archived/05_qaoa_maxcut/qsharp/HardwareKernel.qs": "ed59f708ada42687738d762cdef32881fc1ffc25c875bfeb817ac12df0798cf2",
     "problems/archived/05_qaoa_maxcut/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-    "problems/archived/05_qaoa_maxcut/qsharp/src/Main.qs": "3c8be3a6c079df5d7aa6b42ea7c3e413bfc2dac5f56ba0eb1864d1d21fd50836"
+    "problems/archived/05_qaoa_maxcut/qsharp/src/Main.qs": "5e53a03e967251e3a2f95cba82c9bf76ae48715512fcc019bd1aad30f0fcfe7f"
   },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0046,
-    "std_elapsed_s": 0.0025,
-    "mean_value": 0.134,
-    "std_value": 0.090169,
-    "ci95_half_width": 0.039518,
-    "ci95_lower": 0.094482,
-    "ci95_upper": 0.173518
+    "mean_elapsed_s": 0.003,
+    "std_elapsed_s": 0.0009,
+    "mean_value": 2.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 2.0,
+    "ci95_upper": 2.0
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[(0.2, 2.0, [0, 0, 1])]",
-      "elapsed_s": 0.006
+      "raw_result": "[(2.0, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0039
     },
     {
       "run": 2,
-      "raw_result": "[(0.12, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.006
+      "raw_result": "[(2.0, 2.0, [1, 0, 1])]",
+      "elapsed_s": 0.0025
     },
     {
       "run": 3,
-      "raw_result": "[(0.04, 2.0, [0, 1, 0])]",
-      "elapsed_s": 0.005
+      "raw_result": "[(2.0, 2.0, [1, 0, 1])]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 4,
-      "raw_result": "[(0.16, 2.0, [0, 0, 1])]",
-      "elapsed_s": 0.0051
+      "raw_result": "[(2.0, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0035
     },
     {
       "run": 5,
-      "raw_result": "[(0.2, 2.0, [0, 1, 0])]",
-      "elapsed_s": 0.0037
+      "raw_result": "[(2.0, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.0027
     },
     {
       "run": 6,
-      "raw_result": "[(0.12, 2.0, [0, 1, 1])]",
-      "elapsed_s": 0.0037
+      "raw_result": "[(2.0, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.003
     },
     {
       "run": 7,
-      "raw_result": "[(0.2, 2.0, [0, 1, 1])]",
-      "elapsed_s": 0.0047
+      "raw_result": "[(2.0, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0038
     },
     {
       "run": 8,
-      "raw_result": "[(0.12, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.0032
+      "raw_result": "[(2.0, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.0033
     },
     {
       "run": 9,
-      "raw_result": "[(0.2, 2.0, [0, 1, 0])]",
-      "elapsed_s": 0.0
+      "raw_result": "[(2.0, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.0038
     },
     {
       "run": 10,
-      "raw_result": "[(0.4, 2.0, [0, 1, 0])]",
-      "elapsed_s": 0.0
+      "raw_result": "[(2.0, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0033
     },
     {
       "run": 11,
-      "raw_result": "[(0.04, 2.0, [1, 0, 1])]",
-      "elapsed_s": 0.0128
+      "raw_result": "[(2.0, 2.0, [1, 0, 0])]",
+      "elapsed_s": 0.0049
     },
     {
       "run": 12,
-      "raw_result": "[(0.08, 2.0, [0, 0, 1])]",
-      "elapsed_s": 0.005
+      "raw_result": "[(2.0, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0033
     },
     {
       "run": 13,
-      "raw_result": "[(0.24, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.0047
+      "raw_result": "[(2.0, 2.0, [0, 0, 1])]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 14,
-      "raw_result": "[(0.04, 2.0, [0, 1, 0])]",
-      "elapsed_s": 0.0045
+      "raw_result": "[(2.0, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.0034
     },
     {
       "run": 15,
-      "raw_result": "[(0.12, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.004
+      "raw_result": "[(2.0, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.0031
     },
     {
       "run": 16,
-      "raw_result": "[(0.08, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.0052
+      "raw_result": "[(2.0, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 17,
-      "raw_result": "[(0.0, 0.0, [0, 0, 0])]",
-      "elapsed_s": 0.0042
+      "raw_result": "[(2.0, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.0037
     },
     {
       "run": 18,
-      "raw_result": "[(0.12, 2.0, [0, 1, 1])]",
-      "elapsed_s": 0.0059
+      "raw_result": "[(2.0, 2.0, [1, 1, 0])]",
+      "elapsed_s": 0.0026
     },
     {
       "run": 19,
-      "raw_result": "[(0.12, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.005
+      "raw_result": "[(2.0, 2.0, [0, 1, 0])]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 20,
-      "raw_result": "[(0.08, 2.0, [0, 1, 0])]",
-      "elapsed_s": 0.0042
+      "raw_result": "[(2.0, 2.0, [0, 1, 1])]",
+      "elapsed_s": 0.0033
     }
   ]
 }

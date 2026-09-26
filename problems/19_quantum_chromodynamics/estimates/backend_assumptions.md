@@ -5,7 +5,7 @@
 - Secondary: qubit_gate_ns_e3 (gate-based, 1us gate time, 10^-3 error rate)
 
 ## Circuit Characteristics
-- **Algorithm**: Trotter Gauge
+- **Algorithm**: Trotterized transverse-field Ising chain (a spin-chain stand-in for lattice gauge dynamics)
 - **Qubits**: 4 (lattice sites)
 - **Gate set**: CNOT, Rz, Rx, M
 

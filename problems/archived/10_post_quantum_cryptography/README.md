@@ -2,7 +2,10 @@
 
 ## Overview
 
-Post-quantum cryptography (PQC) must withstand both classical and quantum attacks. Modern lattice schemes trade performance against resistance to advanced BKZ reduction and Grover-amplified sieving. This problem installs a classical baseline that estimates the cost of state-of-the-art attacks against NIST-style parameter sets while providing a Q# scaffold for experimenting with amplitude-amplified sieving primitives and hybrid search routines.
+Post-quantum cryptography (PQC) must withstand both classical and quantum attacks. Modern lattice schemes trade performance against resistance to advanced BKZ reduction and Grover-amplified sieving. This directory holds two pieces that answer different questions:
+
+- **Classical script** (`python/classical_baseline.py`): a toy cost formula for BKZ lattice attacks on NIST-style parameter sets. Its quadratic cost in the block size and its Grover adjustment are illustrative; they are not the core-SVP estimates of the lattice estimator, so its margins are not security estimates.
+- **Q# kernel** (`qsharp/src/Main.qs`): Grover search for one marked key among 2^n (3 to 5 qubits). With 3 qubits one iteration finds the key with probability 0.78125, checked against exact simulation. Its classical comparator is exhaustive search, (N + 1)/2 queries on average; it does not model sieving or a cipher.
 
 ## Directory Layout
 
@@ -12,27 +15,27 @@ Post-quantum cryptography (PQC) must withstand both classical and quantum attack
 ├── instances/                      # Representative NIST parameter sets
 ├── plots/                          # Generated figures from analyze.py
 ├── python/
-│   ├── classical_baseline.py       # Cost estimation for classical / quantum lattice attacks
+│   ├── classical_baseline.py       # Toy BKZ attack-cost formula
 │   └── analyze.py                  # Visualization of security margins
 └── qsharp/
-    ├── qsharp.json            # Modern QDK project file
-    └── Program.qs                  # Placeholder quantum workflow
+    ├── qsharp.json                 # Modern QDK project file
+    ├── src/Main.qs                 # Grover key search on 3-5 qubits
+    └── HardwareKernel.qs           # QIR kernel for Azure Quantum
 ```
 
 ## Quick Start
 
 ```bash
-cd problems/10_post_quantum_cryptography
+cd problems/archived/10_post_quantum_cryptography
 
-# Classical security estimation (writes estimates/classical_baseline.json)
+# Toy attack-cost formula (writes estimates/classical_baseline.json)
 python python/classical_baseline.py
 
-# Visualize cost curves and security margins
+# Visualize cost curves and margins
 python python/analyze.py
 
-# Quantum placeholder
- python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
- python tooling/run_all_qsharp.py  # runs via qsharp Python package
+# Grover key search demo
+python -c "from qdk import qsharp; qsharp.init(project_root='qsharp'); qsharp.run('Main.RunPostQuantumAnalysis()', 1)"
 ```
 
 ## Next Quantum Milestones
@@ -67,9 +70,9 @@ Stage C exit criteria for this problem:
 | Qubit-specific measurement | partial | Measurement outputs are defined for current validation flows; hardware readout characterization is pending. |
 ## Advantage Claim Contract
 
-- **Claim category (current)**: `theoretical`.
+- **Claim category (current)**: `projected`.
 - **Problem class and regime**: Problem-specific challenge instances defined in this directory.
-- **Fair baseline**: Problem-local classical baseline in `python/` outputs.
+- **Fair baseline**: Exhaustive key search, (N + 1)/2 queries on average for one marked key among N. `python/classical_baseline.py` is a toy lattice-attack cost formula for a different question.
 - **Quantum resource scaling claim**: Expected asymptotic advantage depends on algorithm family and implementation assumptions; no hardware-demonstrated speedup claim yet.
 - **Data-loading and I/O assumptions**: Must be documented alongside future advantage claims.
 - **Noise/error model assumptions**: Backend-specific model and calibration assumptions to be added at Stage C.

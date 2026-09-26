@@ -6,10 +6,12 @@ import Std.Convert.*;
 import Std.Diagnostics.*;
 import Std.Math.*;
 
-/// Prepare a 2-qubit state encoding a normalized 4-element feature vector.
-/// Uses amplitude encoding: |ψ⟩ = Σ aᵢ|i⟩ where aᵢ = features[i]/‖features‖.
+/// Prepare a 2-qubit state encoding a 4-element real feature vector by amplitude encoding:
+/// |ψ⟩ = Σ aᵢ|i⟩ with aᵢ = features[i]/‖features‖, signs included. Only four features
+/// (two qubits) are supported.
 operation PrepareFeatureState(features : Double[], qubits : Qubit[]) : Unit {
     let n = Length(features);
+    if n != 4 { fail "PrepareFeatureState encodes exactly four features."; }
     mutable normSq = 0.0;
     for f in features {
         set normSq += f * f;
@@ -33,9 +35,11 @@ operation PrepareFeatureState(features : Double[], qubits : Qubit[]) : Unit {
     let theta0 = 2.0 * ArcTan2(botNorm, topNorm);
     Ry(theta0, qubits[0]);
 
-    // Second qubit conditioned on first: splits within each half
+    // Second qubit conditioned on first: splits within each half. ArcTan2 of the signed
+    // values gives cos φ = f₀/r and sin φ = f₁/r, so the signs survive; the AbsD this used
+    // to apply encoded |features| instead.
     if (topNorm > 1e-10) {
-        let thetaTop = 2.0 * ArcTan2(AbsD(features[1]), AbsD(features[0]));
+        let thetaTop = 2.0 * ArcTan2(features[1], features[0]);
         within {
             X(qubits[0]);
         } apply {
@@ -43,7 +47,7 @@ operation PrepareFeatureState(features : Double[], qubits : Qubit[]) : Unit {
         }
     }
     if (botNorm > 1e-10) {
-        let thetaBot = 2.0 * ArcTan2(AbsD(features[3]), AbsD(features[2]));
+        let thetaBot = 2.0 * ArcTan2(features[3], features[2]);
         Controlled Ry([qubits[0]], (thetaBot, qubits[1]));
     }
 }
@@ -138,9 +142,9 @@ operation RunQuantumKernelEstimation() : Unit {
         }
     }
 
-    Message("=== Quantum Advantage ===");
-    Message("Swap test estimates kernel in O(1) measurements per pair,");
-    Message("independent of feature dimension. Classical requires O(d) operations.");
-    Message("For high-dimensional feature spaces, quantum kernel estimation");
-    Message("enables exponential speedup in kernel-based classification.");
+    Message("=== What this does and does not show ===");
+    Message("Each kernel entry is estimated from shots: the swap test's error falls as 1/√shots,");
+    Message("so additive error ε costs O(1/ε²) repetitions, and loading a d-dimensional classical");
+    Message("vector costs O(d) gates in general. A 4-feature example demonstrates no speedup, and");
+    Message("for classical data this kernel can be computed classically in O(d) time.");
 }

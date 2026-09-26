@@ -57,6 +57,7 @@
     "agents/tests/test_stdlib_index.py"
   ],
   "agents/evaluations/run_codegen_eval.py": [
+    ".github/workflows/codegen-live-check.yml",
     "agents/tests/test_codegen_eval.py"
   ],
   "agents/evaluations/run_eval.py": [
@@ -373,6 +374,9 @@
   "tooling/check_algorithm_index_drift.py": [
     ".github/workflows/nightly.yml"
   ],
+  "tooling/check_codegen_live.py": [
+    ".github/workflows/codegen-live-check.yml"
+  ],
   "tooling/ci_validate_qsharp.py": [
     ".github/workflows/ci-cd.yml"
   ],
@@ -403,11 +407,16 @@
     "tooling/generate_calibration_ensemble.py",
     "tooling/generate_estimates.py",
     "tooling/generate_multimodel_estimates.py",
+    "tooling/test_logical_counts.py",
+    "tooling/test_qaoa_kernels.py",
     "tooling/test_shor_kernel.py"
   ],
   "tooling/evidence_hashes.py": [
     "tooling/generate_calibration_ensemble.py",
     "tooling/test_stage_evidence.py"
+  ],
+  "tooling/generate_calibration_ensemble.py": [
+    "tooling/test_qae_kernel.py"
   ],
   "tooling/generate_estimates.py": [
     ".github/workflows/nightly.yml"

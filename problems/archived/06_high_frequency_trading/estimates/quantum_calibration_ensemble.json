@@ -1,123 +1,123 @@
 {
   "problem_id": "06_high_frequency_trading",
-  "description": "Quantum VaR loss probability",
-  "entry_point": "Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 50)",
-  "generated_utc": "2026-09-25T11:40:22.077589Z",
+  "description": "Loss probability sampled directly from a 2-qubit state, no amplitude estimation (exact 0.9675)",
+  "entry_point": "Main.EstimateLossProbability([0.5, 0.35, 0.1, 0.05], 2, 50)",
+  "generated_utc": "2026-09-26T14:12:16.017677Z",
   "sources": {
-    "problems/archived/06_high_frequency_trading/qsharp/HardwareKernel.qs": "29055cdf1dea37ce4c8992aeee2e0de661ace7247e9d56dbbf0fc34047f6f52b",
+    "problems/archived/06_high_frequency_trading/qsharp/HardwareKernel.qs": "4d50ac24a3ff4abe9ed6a26318e0b63dc71feb464a1063fffde28295ecf29cb6",
     "problems/archived/06_high_frequency_trading/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-    "problems/archived/06_high_frequency_trading/qsharp/src/Main.qs": "59d39d4c57525a0d3c496661b7e9a98dd9fa9fb11ce28a80e3ee780bde0014cc"
+    "problems/archived/06_high_frequency_trading/qsharp/src/Main.qs": "e1807dc7c266a96266c62dd23ad1d77bd79f7be32e1034385fd201ff4918ea81"
   },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.002,
-    "std_elapsed_s": 0.0014,
-    "mean_value": 0.654,
-    "std_value": 0.079763,
-    "ci95_half_width": 0.034958,
-    "ci95_lower": 0.619042,
-    "ci95_upper": 0.688958
+    "mean_elapsed_s": 0.0032,
+    "std_elapsed_s": 0.0013,
+    "mean_value": 0.968,
+    "std_value": 0.018806,
+    "ci95_half_width": 0.008242,
+    "ci95_lower": 0.959758,
+    "ci95_upper": 0.976242
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[0.6]",
-      "elapsed_s": 0.0
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.0034
     },
     {
       "run": 2,
-      "raw_result": "[0.64]",
-      "elapsed_s": 0.0
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 3,
-      "raw_result": "[0.72]",
-      "elapsed_s": 0.0071
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0034
     },
     {
       "run": 4,
-      "raw_result": "[0.68]",
+      "raw_result": "[0.94]",
       "elapsed_s": 0.0032
     },
     {
       "run": 5,
-      "raw_result": "[0.74]",
-      "elapsed_s": 0.002
+      "raw_result": "[1.0]",
+      "elapsed_s": 0.0049
     },
     {
       "run": 6,
-      "raw_result": "[0.7]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.0049
     },
     {
       "run": 7,
-      "raw_result": "[0.5]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0047
     },
     {
       "run": 8,
-      "raw_result": "[0.58]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0032
     },
     {
       "run": 9,
-      "raw_result": "[0.64]",
-      "elapsed_s": 0.001
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0051
     },
     {
       "run": 10,
-      "raw_result": "[0.62]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 11,
-      "raw_result": "[0.76]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 12,
-      "raw_result": "[0.6]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 13,
-      "raw_result": "[0.76]",
-      "elapsed_s": 0.003
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0032
     },
     {
       "run": 14,
-      "raw_result": "[0.8]",
-      "elapsed_s": 0.001
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0018
     },
     {
       "run": 15,
-      "raw_result": "[0.72]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.94]",
+      "elapsed_s": 0.0016
     },
     {
       "run": 16,
-      "raw_result": "[0.64]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.0048
     },
     {
       "run": 17,
-      "raw_result": "[0.6]",
-      "elapsed_s": 0.002
+      "raw_result": "[1.0]",
+      "elapsed_s": 0.0031
     },
     {
       "run": 18,
-      "raw_result": "[0.54]",
-      "elapsed_s": 0.002
+      "raw_result": "[0.96]",
+      "elapsed_s": 0.0048
     },
     {
       "run": 19,
-      "raw_result": "[0.66]",
-      "elapsed_s": 0.001
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0032
     },
     {
       "run": 20,
-      "raw_result": "[0.58]",
-      "elapsed_s": 0.0026
+      "raw_result": "[0.98]",
+      "elapsed_s": 0.0032
     }
   ]
 }

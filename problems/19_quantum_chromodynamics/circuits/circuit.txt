@@ -1,6 +1,6 @@
 ===================================================================
   Problem 19: Quantum Chromodynamics
-  Kernel: LatticeGaugeKernel()  3 Trotter steps (β=0.5, h=0.3)
+  Kernel: LatticeGaugeKernel()  Nearest-neighbour ZZ couplings: exp(-i 0.5 Z_i Z_{i+1})
   Target profile: Adaptive_RI | Qubits: 4 | Measured: 4 | QIR: compiles
   Source: problems/19_quantum_chromodynamics/qsharp/HardwareKernel.qs
 ===================================================================

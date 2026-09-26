@@ -1,6 +1,6 @@
 ===================================================================
   Problem 05: Qaoa Maxcut  [ARCHIVED]
-  Kernel: QaoaMaxCutKernel()  Init: uniform superposition
+  Kernel: QaoaMaxCutKernel()  Triangle MaxCut cost layer at optimized p=1 angles.
   Target profile: Adaptive_RI | Qubits: 3 | Measured: 3 | QIR: compiles
   Source: problems/archived/05_qaoa_maxcut/qsharp/HardwareKernel.qs
 ===================================================================
@@ -13,9 +13,9 @@ It is a small representative kernel that compiles and runs on today's
 devices. It is not the utility-scale algorithm: see estimates/ for the
 fault-tolerant resource projection, which is orders of magnitude larger.
 
-q_0    ── H ──── ● ─────────────────── ● ──── ● ─────────────────── ● ─── Rx(1.0000) ──────── M ──────── |0〉 ─────────────────────────────────
+q_0    ── H ──── ● ─────────────────── ● ──── ● ─────────────────── ● ─── Rx(0.6283) ──────── M ──────── |0〉 ─────────────────────────────────
                  │                     │      │                     │                         ╘═══════════════════════════════════════════════
-q_1    ── H ──── X ─── Rz(1.0000) ──── X ─────┼─────────────────────┼───────── ● ──────────────────────── ● ──── Rx(1.0000) ──── M ──── |0〉 ──
+q_1    ── H ──── X ─── Rz(5.6549) ──── X ─────┼─────────────────────┼───────── ● ──────────────────────── ● ──── Rx(0.6283) ──── M ──── |0〉 ──
                                               │                     │          │                          │                      ╘════════════
-q_2    ── H ───────────────────────────────── X ─── Rz(1.0000) ──── X ──────── X ─────── Rz(1.0000) ───── X ──── Rx(1.0000) ──── M ──── |0〉 ──
+q_2    ── H ───────────────────────────────── X ─── Rz(5.6549) ──── X ──────── X ─────── Rz(5.6549) ───── X ──── Rx(0.6283) ──── M ──── |0〉 ──
                                                                                                                                  ╘════════════

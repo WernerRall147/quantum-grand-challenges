@@ -9,20 +9,16 @@
 
 ## Baseline Fairness Review
 
-- Classical comparator is defined in `python/classical_baseline.py` and persisted in `estimates/classical_baseline.json`.
-- Baseline outputs are compared directly to quantum estimates for the same thresholded tail-risk objective.
-- Calibration reports keep estimator settings explicit (`phase_bits`, `repetitions`, `shots`) in `estimates/quantum_estimate_ensemble.json`.
-- Fairness status: pass for objective-level comparison; still limited by synthetic loss-distribution assumptions.
+- Comparator: plain Monte Carlo on the same 16-level distribution the circuit loads, at the same interval half-width and confidence as IQAE (`python/iqae_driver.py`, `estimates/iqae_analysis.json`). Both sides count applications of A (or its inverse); a Monte Carlo sample costs one.
+- `python/classical_baseline.py` samples the continuous log-normal model, which has a different tail probability (0.1798 against 0.1614 on the grid), so it is not the comparator for the circuit's output.
+- Fairness status: pass for query counts on the same objective; limited by the synthetic loss distribution and by ignoring loading and error-correction costs.
 
 ## Uncertainty Methodology
 
-- Primary quantum uncertainty source: ensemble variability across independent runs.
-- Reported metrics include:
-  - `ensemble_std_deviation`
-  - `ensemble_std_error`
-  - per-run `quantum_std_error`
-- Evidence source: `estimates/quantum_estimate_ensemble.json` and `estimates/quantum_estimate_run*.json`.
-- Current quality note: uncertainty is run-to-run stable on the calibrated small instance, but broader instance coverage remains pending.
+- IQAE reports a Clopper-Pearson-based interval that contains a with probability at least 1 − α (Grinko et al. 2021, Algorithm 1). `tooling/test_qae_kernel.py` checks that coverage by repeating the algorithm 300 times against an exact sampler.
+- Canonical QAE's error is bounded by Theorem 12 of Brassard et al. (within 0.0385 with probability at least 8/π² at 6 phase bits); the phase-register distribution is checked exactly against their Theorem 11.
+- The calibration ensemble of record is `estimates/quantum_calibration_ensemble.json` (`tooling/generate_calibration_ensemble.py`), hashed to the Q# sources it ran.
+- Superseded: `estimates/quantum_estimate_ensemble*.json` and `estimates/quantum_estimate_run*.json` came from the canonical kernel before the 2026-09-26 correction, whose phase register peaked at 0 and 32 of 64 instead of 8 and 56. Their means (for example 19.58%) were averages over that wrong distribution.
 
 ## Sensitivity And Risk Analysis
 
@@ -36,7 +32,7 @@
 
 ## Backend And Deployment Assumptions
 
-- Q# workflow path is defined in `qsharp/Program.qs` with runtime mapping in `qsharp/RuntimeConfig.qs`.
+- Q# workflow path is defined in `qsharp/src/Main.qs` with runtime mapping in `qsharp/RuntimeConfig.qs`.
 - Azure smoke execution evidence is available in `estimates/azure_smoke_report_small_d1.json` and `estimates/azure_job_manifest_small_d1.json`.
 - Assumption: smoke runs validate submission/collection contract, not end-to-end production tail-risk SLAs.
 
@@ -49,35 +45,26 @@
 
 ## Current Generated Stage D Artifacts
 
-- `estimates/quantum_estimate_ensemble_small.json`
-- `estimates/quantum_estimate_ensemble_medium.json`
-- `estimates/quantum_estimate_ensemble_large.json`
-- `estimates/fairness_review_stage_d.md`
-- `estimates/variance_and_overhead_stage_d.json`
-- `estimates/variance_and_overhead_stage_d.md`
+- `estimates/iqae_analysis.json` (IQAE on the Q# kernel, Monte Carlo on the same distribution, query counts at equal half-width)
+- `estimates/quantum_calibration_ensemble.json`
 - `estimates/backend_readout_characterization_stage_d.json`
 - `estimates/backend_readout_characterization_stage_d.md`
 
-Artifact status note:
+Superseded artifacts, kept for the record:
 
-- `small` is measured from a full 20-run ensemble.
-- `medium` and `large` are now measured with reduced runtime parameters (`loss_qubits=8`, `precision_bits=4`, `repetitions=24`) to avoid simulator stalls.
-- Promotion still requires rerunning `medium`/`large` with full target parameters once runtime stability constraints are resolved.
-
-Current uncertainty thresholds used for Stage D projection hardening:
-
-- `small`: `ensemble_std_error <= 0.020` (current: `0.018186`)
-- `medium`: `ensemble_std_error <= 0.012` (current: `0.011180`)
-- `large`: `ensemble_std_error <= 0.007` (current: `0.006250`)
+- `estimates/quantum_estimate_ensemble_small.json`, `_medium.json`, `_large.json`: produced through `python/analyze.py` by the canonical kernel before the 2026-09-26 correction. `analyze.py` still calls the retired `dotnet` toolchain, so they cannot be regenerated until it is ported.
+- `estimates/variance_and_overhead_stage_d.json` and `.md`: their quantum standard errors (0.018186, 0.011180, 0.006250) are copied from those ensembles.
+- `estimates/fairness_review_stage_d.md`: compared those ensembles, at threshold 2.5, with a classical baseline at threshold 2.0 on the continuous distribution.
 
 ## Promotion Checklist To `demonstrated`
 
-- [x] Extend calibration evidence across `small`, `medium`, and `large` with fixed uncertainty thresholds.
-- [x] Include oracle/state-preparation overhead in end-to-end timing and query accounting.
+- [ ] Regenerate multi-instance ensembles with the corrected kernel (needs `analyze.py` ported to the `qdk` package).
+- [x] Include oracle/state-preparation overhead in query accounting (applications of A or its inverse on both sides).
 - [x] Add backend-specific readout/error characterization with reproducible confidence bounds.
-- [x] Re-run fairness audit against best-known classical Monte Carlo variance-reduction baselines for the same objective.
+- [x] Compare against Monte Carlo on the same objective at equal half-width and confidence.
 
 Checklist caveat:
 
 - Readout/error characterization is currently satisfied by measured execution/readout proxy confidence bounds from Azure run history.
 - Full hardware tomography-style readout characterization remains future enhancement and is not required for the current `theoretical` claim category.
+- A `demonstrated` claim would also need wall-clock evidence including error correction, which no current hardware can supply.

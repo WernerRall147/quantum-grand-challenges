@@ -1,123 +1,123 @@
 {
   "problem_id": "20_space_mission_planning",
-  "description": "QAOA trajectory optimization",
-  "entry_point": "Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, 50)",
-  "generated_utc": "2026-09-25T11:43:08.020218Z",
+  "description": "Optimized p=1 QAOA on the four-leg toy mission QUBO from RunMissionOptimization",
+  "entry_point": "Main.EvaluateQaoaMission([[2.5,1.8],[1.2,0.8],[3.1,2.4],[1.5,1.0]], 0.667588438887831, 1.3940817400304706, 1, 50)",
+  "generated_utc": "2026-09-26T14:12:17.813289Z",
   "sources": {
-    "problems/archived/20_space_mission_planning/qsharp/HardwareKernel.qs": "c7282d588630141a85f666f197736f30a438b3dd1c45f1f78e2592a2dbdfdf04",
+    "problems/archived/20_space_mission_planning/qsharp/HardwareKernel.qs": "7e4bfe0998b9c09aab4018cf6228dba3d5e277c1bdc63f5d5f437acb7a9ba4b4",
     "problems/archived/20_space_mission_planning/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-    "problems/archived/20_space_mission_planning/qsharp/src/Main.qs": "60ed67d9fc9a73e47625d600be093328fd946284557adbcf03c050c33040e31c"
+    "problems/archived/20_space_mission_planning/qsharp/src/Main.qs": "1153e8be57298917e13ab60968d442fc43d8b425a3655cbcf726e4a5a0dbfe96"
   },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0029,
-    "std_elapsed_s": 0.0009,
-    "mean_value": 2.9469,
-    "std_value": 0.079571,
-    "ci95_half_width": 0.034874,
-    "ci95_lower": 2.912026,
-    "ci95_upper": 2.981774
+    "mean_elapsed_s": 0.0042,
+    "std_elapsed_s": 0.0014,
+    "mean_value": 8.5406,
+    "std_value": 0.106728,
+    "ci95_half_width": 0.046775,
+    "ci95_lower": 8.493825,
+    "ci95_upper": 8.587375
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[(2.948, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.0044
+      "raw_result": "[(8.591999999999999, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0038
     },
     {
       "run": 2,
-      "raw_result": "[(2.99, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.0032
+      "raw_result": "[(8.337999999999996, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.001
     },
     {
       "run": 3,
-      "raw_result": "[(2.8399999999999994, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.0031
+      "raw_result": "[(8.613999999999999, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0053
     },
     {
       "run": 4,
-      "raw_result": "[(2.741999999999999, 1.0, [0, 1, 0])]",
-      "elapsed_s": 0.0031
+      "raw_result": "[(8.404, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0049
     },
     {
       "run": 5,
-      "raw_result": "[(3.02, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.0016
+      "raw_result": "[(8.615999999999996, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0064
     },
     {
       "run": 6,
-      "raw_result": "[(2.98, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.0031
+      "raw_result": "[(8.505999999999998, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0062
     },
     {
       "run": 7,
-      "raw_result": "[(2.9419999999999997, 1.0, [0, 1, 0])]",
-      "elapsed_s": 0.0031
+      "raw_result": "[(8.588000000000001, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0049
     },
     {
       "run": 8,
-      "raw_result": "[(2.9299999999999993, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.003
-    },
-    {
-      "run": 9,
-      "raw_result": "[(2.87, 1.0, [0, 1, 0])]",
-      "elapsed_s": 0.002
-    },
-    {
-      "run": 10,
-      "raw_result": "[(3.08, 2.0, [1, 1, 0])]",
-      "elapsed_s": 0.0025
-    },
-    {
-      "run": 11,
-      "raw_result": "[(2.924, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.0016
-    },
-    {
-      "run": 12,
-      "raw_result": "[(2.9419999999999997, 1.0, [0, 1, 0])]",
-      "elapsed_s": 0.0031
-    },
-    {
-      "run": 13,
-      "raw_result": "[(2.9859999999999998, 1.0, [0, 1, 0])]",
-      "elapsed_s": 0.0043
-    },
-    {
-      "run": 14,
-      "raw_result": "[(2.986, 1.0, [0, 1, 0])]",
-      "elapsed_s": 0.0016
-    },
-    {
-      "run": 15,
-      "raw_result": "[(2.904, 1.0, [0, 1, 0])]",
-      "elapsed_s": 0.0031
-    },
-    {
-      "run": 16,
-      "raw_result": "[(3.048, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.0015
-    },
-    {
-      "run": 17,
-      "raw_result": "[(2.948, 1.3, [0, 1, 1])]",
+      "raw_result": "[(8.781999999999996, 7.9, [1, 0, 1, 0])]",
       "elapsed_s": 0.0046
     },
     {
+      "run": 9,
+      "raw_result": "[(8.572000000000001, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0048
+    },
+    {
+      "run": 10,
+      "raw_result": "[(8.351999999999997, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0063
+    },
+    {
+      "run": 11,
+      "raw_result": "[(8.516, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0046
+    },
+    {
+      "run": 12,
+      "raw_result": "[(8.55, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0034
+    },
+    {
+      "run": 13,
+      "raw_result": "[(8.599999999999998, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0021
+    },
+    {
+      "run": 14,
+      "raw_result": "[(8.427999999999997, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0033
+    },
+    {
+      "run": 15,
+      "raw_result": "[(8.45, 7.9, [1, 0, 1, 1])]",
+      "elapsed_s": 0.0034
+    },
+    {
+      "run": 16,
+      "raw_result": "[(8.523999999999996, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0033
+    },
+    {
+      "run": 17,
+      "raw_result": "[(8.538, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0049
+    },
+    {
       "run": 18,
-      "raw_result": "[(2.8479999999999994, 1.0, [0, 1, 0])]",
-      "elapsed_s": 0.0031
+      "raw_result": "[(8.59, 7.9, [1, 0, 1, 0])]",
+      "elapsed_s": 0.0048
     },
     {
       "run": 19,
-      "raw_result": "[(3.04, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.0031
+      "raw_result": "[(8.592000000000002, 7.9, [1, 0, 1, 1])]",
+      "elapsed_s": 0.0028
     },
     {
       "run": 20,
-      "raw_result": "[(2.9699999999999993, 1.3, [0, 1, 1])]",
-      "elapsed_s": 0.0031
+      "raw_result": "[(8.66, 7.9, [1, 0, 1, 1])]",
+      "elapsed_s": 0.0033
     }
   ]
 }

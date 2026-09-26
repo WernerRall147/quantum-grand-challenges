@@ -5,7 +5,7 @@
 - Secondary: qubit_gate_ns_e3 (gate-based, 1us gate time, 10^-3 error rate)
 
 ## Circuit Characteristics
-- **Algorithm**: Quantum VaR
+- **Algorithm**: Loss-probability sampling (direct measurement of a marker; no amplitude estimation)
 - **Qubits**: 3 (market + marker)
 - **Gate set**: Ry, X, Controlled-Ry, Controlled-X, M
 
@@ -15,4 +15,4 @@
 
 ## Transpilation Notes
 - Gate decomposition targets native sets: {Rz, SX, CNOT} (IBM) or {Rz, Ry, ZZ} (Quantinuum)
-- Resource estimates generated via mock estimator on 2026-03-24
+- The March 2026 `latest_*.json` files came from a mock estimator path; the resource estimate is `circuits/estimate.json`

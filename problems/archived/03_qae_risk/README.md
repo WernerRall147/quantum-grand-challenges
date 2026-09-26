@@ -24,7 +24,7 @@ The QAE workflow for risk estimation consists of the following stages:
 - **Estimates**: `estimates/` captures resource estimation outputs produced by Azure Quantum tooling.
 - **Documentation**: See [QAE_IMPLEMENTATION_SUMMARY.md](QAE_IMPLEMENTATION_SUMMARY.md) for comprehensive technical details.
 
-### Correction (2026-09-27)
+### Correction (2026-09-26)
 
 Until this date the canonical QAE kernel was wrong in two ways. Its reflection was built as `within { statePrep } apply { ReflectAboutZero }`, which is A† S_0 A, a reflection about A†|0⟩ rather than about A|0⟩. It also omitted the -1 in Q = -A S_0 A† S_χ, a global phase for Q alone but a relative phase once Q is controlled, as phase estimation controls it. The phase register therefore peaked at 0 and 32 of 64 where Theorem 11 of Brassard et al. puts the peaks at 8 and 56. The only test prepared a uniform superposition with H, which is its own inverse, at a = 1/2, where neither mistake shows. Every ensemble produced through `python/analyze.py` came from that kernel, including the 19.58% figure previously quoted here. The IQAE round was correct throughout, but the previous Python driver was not the algorithm it named: it doubled k and reported the narrowest of several candidate intervals, so its stated confidence had no basis.
 
@@ -96,7 +96,7 @@ The demo and tests use the 16-level instance in `qsharp/RuntimeConfig.qs` (4 los
 ## Status Checklist
 
 - [x] Problem specification
-- [x] **Canonical QAE implementation** with Grover operators and QPE (corrected 2026-09-27; see Correction above)
+- [x] **Canonical QAE implementation** with Grover operators and QPE (corrected 2026-09-26; see Correction above)
 - [x] Azure Quantum resource estimation
 - [x] Classical Monte Carlo baseline
 - [x] Analysis and visualization
@@ -117,7 +117,7 @@ Stage D evidence references for this problem:
 - Calibration ensemble: `estimates/quantum_calibration_ensemble.json` (`tooling/generate_calibration_ensemble.py`, hashed to the Q# sources it ran).
 - Variance and overhead methodology: `estimates/variance_and_overhead_stage_d.md` + `estimates/variance_and_overhead_stage_d.json`.
 - Backend readout characterization: `estimates/backend_readout_characterization_stage_d.md` + `.json`.
-- Superseded (produced by the kernel before the 2026-09-27 correction, and kept for the record): `estimates/quantum_estimate_ensemble*.json`, `estimates/quantum_estimate_run*.json`, `estimates/quantum_calibration_history.json` and `estimates/fairness_review_stage_d.md`. The fairness review also compared quantum runs at threshold 2.5 with a classical baseline at threshold 2.0 on the continuous distribution, so it did not compare like with like.
+- Superseded (produced by the kernel before the 2026-09-26 correction, and kept for the record): `estimates/quantum_estimate_ensemble*.json`, `estimates/quantum_estimate_run*.json`, `estimates/quantum_calibration_history.json` and `estimates/fairness_review_stage_d.md`. The fairness review also compared quantum runs at threshold 2.5 with a classical baseline at threshold 2.0 on the continuous distribution, so it did not compare like with like.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 
@@ -133,7 +133,7 @@ Stage D evidence references for this problem:
 
 **Test Case**: 4 loss qubits (16 levels), 6 precision qubits, log-normal(0,1), threshold=2.5. The circuit encodes the discrete tail probability a = 16.14% of that 16-level grid; the continuous log-normal tail it approximates is 17.98%.
 
-Current resource estimate (Quantum Resource Estimator v3, qdk 1.31.0, 2026-09-27; `circuits/estimate.json`): the 14-qubit `Main.QAEKernel()` on `qubit_gate_ns_e3` with a surface code needs **369,400 physical qubits** at the fewest-qubit point of its Pareto frontier, with 40 logical qubits, code distance 25, a runtime of 0.84 s and 86.5% of the physical qubits in T factories. It has 15 T gates, 10,687 Toffolis and 3,713 rotations; the magic states for the Toffolis and rotations, not the T gates, set the cost. (The Toffolis went uncounted until 2026-09-26.)
+Current resource estimate (Quantum Resource Estimator v3, qdk 1.31.0, 2026-09-26; `circuits/estimate.json`): the 14-qubit `Main.QAEKernel()` on `qubit_gate_ns_e3` with a surface code needs **369,400 physical qubits** at the fewest-qubit point of its Pareto frontier, with 40 logical qubits, code distance 25, a runtime of 0.84 s and 86.5% of the physical qubits in T factories. It has 15 T gates, 10,687 Toffolis and 3,713 rotations; the magic states for the Toffolis and rotations, not the T gates, set the cost. (The Toffolis went uncounted until 2026-09-26.)
 
 Legacy estimates, kept for the record. They come from the retired `qsharp.estimate` API (March 2026) and describe the earlier canonical program with 4 loss and 6 precision qubits, not the kernel estimated above. The Majorana row used that estimator's predefined `qubit_maj_ns_e4` profile (Majorana-based qubits, nanosecond operations, 10⁻⁴ error rate), a modelling assumption rather than data from a device:
 
@@ -157,7 +157,7 @@ Legacy estimates, kept for the record. They come from the retired `qsharp.estima
 
 **Canonical QAE (6 phase bits)**: the phase register follows Theorem 11 of Brassard et al. to 10⁻⁹ (state vector), peaking at 8 and 56 of 64 with probability 0.27 each. The most likely outcome decodes to sin²(π·8/64) = 0.1464, within the 0.0385 error bound of their Theorem 12 (which holds with probability at least 8/π²). `RunQAERiskAnalysis` reports the mean of the per-shot decodes, whose expectation is 0.1686.
 
-**IQAE and Monte Carlo on the same distribution** (`python/iqae_driver.py --epsilon 0.05 --alpha 0.05`, `estimates/iqae_analysis.json`, 2026-09-27):
+**IQAE and Monte Carlo on the same distribution** (`python/iqae_driver.py --epsilon 0.05 --alpha 0.05`, `estimates/iqae_analysis.json`, 2026-09-26):
 - IQAE on the Q# kernel: interval [0.152, 0.191] around a = 0.1614, half-width 0.019, from 600 applications of A or its inverse.
 - Plain Monte Carlo needs 1,373 samples for the same half-width at the same 95% confidence.
 

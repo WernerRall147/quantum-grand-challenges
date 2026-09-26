@@ -18,7 +18,7 @@
 
 - Cross-platform emulator validation: H2-1E 80%, Rigetti QVM 83% success rate (100 shots each).
 - 20-run calibration ensemble with bounded confidence intervals.
-- Noise resilience: classical fidelity 0.71 between noisy and ideal 100-shot histograms at p = 0.05 depolarizing noise (3-qubit circuit, 1 Grover iteration; local simulation regenerated 2026-09-27, shot-noise limited).
+- Noise resilience: classical fidelity 0.71 between noisy and ideal 100-shot histograms at p = 0.05 depolarizing noise (3-qubit circuit, 1 Grover iteration; local simulation regenerated 2026-09-26, shot-noise limited).
 
 ## Sensitivity And Risk Analysis
 

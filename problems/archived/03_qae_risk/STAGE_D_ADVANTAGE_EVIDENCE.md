@@ -18,7 +18,7 @@
 - IQAE reports a Clopper-Pearson-based interval that contains a with probability at least 1 − α (Grinko et al. 2021, Algorithm 1). `tooling/test_qae_kernel.py` checks that coverage by repeating the algorithm 300 times against an exact sampler.
 - Canonical QAE's error is bounded by Theorem 12 of Brassard et al. (within 0.0385 with probability at least 8/π² at 6 phase bits); the phase-register distribution is checked exactly against their Theorem 11.
 - The calibration ensemble of record is `estimates/quantum_calibration_ensemble.json` (`tooling/generate_calibration_ensemble.py`), hashed to the Q# sources it ran.
-- Superseded: `estimates/quantum_estimate_ensemble*.json` and `estimates/quantum_estimate_run*.json` came from the canonical kernel before the 2026-09-27 correction, whose phase register peaked at 0 and 32 of 64 instead of 8 and 56. Their means (for example 19.58%) were averages over that wrong distribution.
+- Superseded: `estimates/quantum_estimate_ensemble*.json` and `estimates/quantum_estimate_run*.json` came from the canonical kernel before the 2026-09-26 correction, whose phase register peaked at 0 and 32 of 64 instead of 8 and 56. Their means (for example 19.58%) were averages over that wrong distribution.
 
 ## Sensitivity And Risk Analysis
 
@@ -54,7 +54,7 @@
 
 Superseded artifacts, kept for the record:
 
-- `estimates/quantum_estimate_ensemble_small.json`, `_medium.json`, `_large.json`: produced through `python/analyze.py` by the canonical kernel before the 2026-09-27 correction. `analyze.py` still calls the retired `dotnet` toolchain, so they cannot be regenerated until it is ported.
+- `estimates/quantum_estimate_ensemble_small.json`, `_medium.json`, `_large.json`: produced through `python/analyze.py` by the canonical kernel before the 2026-09-26 correction. `analyze.py` still calls the retired `dotnet` toolchain, so they cannot be regenerated until it is ported.
 - `estimates/fairness_review_stage_d.md`: compared those ensembles, at threshold 2.5, with a classical baseline at threshold 2.0 on the continuous distribution.
 
 ## Promotion Checklist To `demonstrated`

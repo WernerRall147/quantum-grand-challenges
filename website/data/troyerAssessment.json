@@ -79,7 +79,7 @@
         },
         {
           "id": "04_linear_solvers",
-          "algorithm": "HHL Algorithm (textbook 2x2 circuit; corrected 2026-09-27)",
+          "algorithm": "HHL Algorithm (textbook 2x2 circuit; corrected 2026-09-26)",
           "speedup": "Exponential: O(polylog(N)) vs classical O(N·κ) for sparse systems",
           "classical_best": "Conjugate gradient / LU decomposition",
           "troyer_assessment": "HHL offers exponential speedup but with critical caveats: (1) requires efficient state preparation, (2) only provides quantum state output (readout bottleneck), (3) condition number κ must be polylog(N). Practical utility requires all three conditions simultaneously.",

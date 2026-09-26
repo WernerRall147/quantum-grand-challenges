@@ -7,7 +7,7 @@ Quantum kernel methods map classical data into high-dimensional Hilbert spaces u
 - **Q# swap test** (`qsharp/src/Main.qs`): amplitude-encodes 4-feature vectors on two qubits each and estimates |⟨a|b⟩|² from P(ancilla = 0) = (1 + |⟨a|b⟩|²)/2. The error falls as 1/√shots, so additive error ε costs O(1/ε²) repetitions, and loading a d-dimensional classical vector costs O(d) gates in general: for classical data the same kernel is computable classically in O(d) time, and this example demonstrates no speedup.
 - **Classical baseline** (`python/classical_baseline.py`): kernel ridge classification with a radial-basis-function kernel on synthetic datasets. It reports classification accuracy, a different task from the Q# overlap estimate.
 
-### Correction (2026-09-27)
+### Correction (2026-09-26)
 
 The encoding applied an absolute value to every amplitude, so vectors with negative entries were encoded as their absolute values while the classical reference kept the signs (for [0.5, −0.5, 0.5, 0.5] against [0.5, 0.5, 0.5, 0.5] the swap test returned P(0) = 1 instead of 0.625). The hardware kernel swapped two product states unrelated to any feature vector; it now encodes the estimator's vectors, with exact P(0) = 0.9175. The demo claimed the swap test needs O(1) measurements and gives an exponential speedup; both claims are removed. `tooling/test_swap_test_kernel.py` pins the encoding, the program and the hardware kernel to exact values.
 

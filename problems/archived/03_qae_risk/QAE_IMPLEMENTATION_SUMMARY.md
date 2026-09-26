@@ -4,7 +4,7 @@
 
 This problem estimates the tail probability P(Loss > threshold) of a discretized log-normal loss distribution with two amplitude-estimation algorithms: canonical QAE (Brassard, Høyer, Mosca and Tapp 2002), which runs phase estimation on the Grover iterate, and iterative QAE (Grinko, Gacon, Zoufal and Woerner 2021), which needs no phase register. Both reach additive error ε with O(1/ε) applications of the state-preparation circuit, where Monte Carlo needs O(1/ε²) samples. That speedup is quadratic, and no quantum algorithm needs fewer queries (Nayak and Wu 1999); it does not include the cost of loading the distribution or of error correction, and the problem is archived because those costs outweigh it.
 
-A correction on 2026-09-27 fixed the canonical kernel's Grover iterate and replaced the IQAE driver; see the problem README. Results reported before that date came from the faulty kernel.
+A correction on 2026-09-26 fixed the canonical kernel's Grover iterate and replaced the IQAE driver; see the problem README. Results reported before that date came from the faulty kernel.
 
 ## Test Case
 
@@ -33,7 +33,7 @@ The only earlier test prepared a uniform superposition with H at a = 1/2. H is i
 
 ## IQAE Driver (`python/iqae_driver.py`)
 
-Algorithm 1 of Grinko et al.: FindNextK chooses the largest Grover power whose scaled interval stays within one half-circle, the measured frequency is bounded with a Clopper-Pearson interval at level α/T (T bounds the number of rounds), and rounds that reuse a power are pooled. The driver compares IQAE against plain Monte Carlo on the same 16-level distribution at equal interval half-width, counting applications of A or its inverse on both sides. A run on 2026-09-27 (ε = 0.05, α = 0.05) returned [0.152, 0.191] from 600 queries, where Monte Carlo needs 1,373 samples for the same half-width; with an exact sampler, IQAE needs 42,715 queries at half-width 0.0004 where Monte Carlo needs 3.2 million samples. These are noiseless query counts, not run times.
+Algorithm 1 of Grinko et al.: FindNextK chooses the largest Grover power whose scaled interval stays within one half-circle, the measured frequency is bounded with a Clopper-Pearson interval at level α/T (T bounds the number of rounds), and rounds that reuse a power are pooled. The driver compares IQAE against plain Monte Carlo on the same 16-level distribution at equal interval half-width, counting applications of A or its inverse on both sides. A run on 2026-09-26 (ε = 0.05, α = 0.05) returned [0.152, 0.191] from 600 queries, where Monte Carlo needs 1,373 samples for the same half-width; with an exact sampler, IQAE needs 42,715 queries at half-width 0.0004 where Monte Carlo needs 3.2 million samples. These are noiseless query counts, not run times.
 
 ## Resources
 

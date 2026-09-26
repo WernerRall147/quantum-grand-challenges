@@ -8,7 +8,7 @@ QAOA heuristic with no proven speedup. Classical trajectory optimizers (dynamic 
 
 > Code in this directory remains for **pedagogical reference**.
 
-Correction (2026-09-27): The Q# code is a four-leg option-selection QUBO. The classical script is heuristic patched-conic mission scoring and is a different model. The hardware kernel previously used a different three-qubit chain and has been aligned to the Q# model.
+Correction (2026-09-26): The Q# code is a four-leg option-selection QUBO. The classical script is heuristic patched-conic mission scoring and is a different model. The hardware kernel previously used a different three-qubit chain and has been aligned to the Q# model.
 
 ## Reference
 

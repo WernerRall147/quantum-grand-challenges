@@ -2,7 +2,7 @@
 
 ## Correction note
 
-Updated 2026-09-27. The Q# circuit now uses exact controlled `exp(i A t 2^k)` for a real symmetric 2x2 matrix. Earlier notes that described first-order Trotter `Rz` and `Rx` simulation are superseded.
+Updated 2026-09-26. The Q# circuit now uses exact controlled `exp(i A t 2^k)` for a real symmetric 2x2 matrix. Earlier notes that described first-order Trotter `Rz` and `Rx` simulation are superseded.
 
 ## Circuit characteristics
 

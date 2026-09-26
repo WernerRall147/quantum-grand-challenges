@@ -6,7 +6,7 @@ tooling/generate_estimates.py for all 20 problems, archived ones included. It us
 read problems/<id>/estimates/latest_*.json, a second store retired because a fabricated
 constant sat there undetected next to real numbers. Archived problems keep that store as
 a record, but most of its files are the mock constant (build.qdk_version "mock"), and
-the archived summaries printed it as their estimate until 2026-09-27. The store is now
+the archived summaries printed it as their estimate until 2026-09-26. The store is now
 read only when no real estimate exists, and mock rows are labelled.
 """
 

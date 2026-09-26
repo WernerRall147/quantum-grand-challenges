@@ -9,7 +9,7 @@ This archived challenge has two separate parts:
 
 The Q# toy is not the same physical model as the Python energy-balance baseline. It is a minimal two-point diffusion/Laplacian linear system chosen because its eigenvalues 1 and 3 are exactly represented by a 3-bit HHL clock with `t = 2 pi / 8`.
 
-## Correction (2026-09-27)
+## Correction (2026-09-26)
 
 Earlier text described this problem as an HHL exponential core. The old Q# code did not implement HHL: it applied fixed `Rz(2t)` and `Rx(t)` rotations with no diffusion matrix, used nonstandard inverse-QFT angles, did not uncompute the clock, and the hardware kernel hard-coded `Ry(1.2)`. The replacement implements exact controlled `exp(i A t 2^k)`, big-endian QPE, clock-value controlled inversion with `C = 1`, inverse QPE, and `[ancilla, system]` measurement for post-selection.
 
@@ -82,7 +82,7 @@ python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/1
 
 ## Estimates and archived artifacts
 
-The `estimates/latest_*.json` files are mock artifacts from the previous pipeline. They are superseded and must not be read as estimates of the corrected HHL circuit, whose estimate (regenerated 2026-09-27) is in `circuits/estimate.json`: 58,903 physical qubits, 23 logical qubits and 40 T gates.
+The `estimates/latest_*.json` files are mock artifacts from the previous pipeline. They are superseded and must not be read as estimates of the corrected HHL circuit, whose estimate (regenerated 2026-09-26) is in `circuits/estimate.json`: 58,903 physical qubits, 23 logical qubits and 40 T gates.
 
 ## Scope and caveats
 

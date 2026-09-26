@@ -3,7 +3,7 @@
 This problem prepares the groundwork for implementing the Quantum Approximate Optimization Algorithm on weighted Max-Cut instances. The current milestone provides deterministic classical baselines, representative graph instances, and a working depth-1 QAOA circuit with a coarse parameter sweep.
 
 
-## Correction (2026-09-27)
+## Correction (2026-09-26)
 
 The Q# cost layer is a reparametrization of textbook MaxCut QAOA. For MaxCut `C=(1-Z_i Z_j)/2`, this implementation applies `Exp([PauliZ, PauliZ], -gamma * weight)`, which is equivalent to `gamma_standard = -2 gamma` in `exp(-i gamma_standard C)`, up to a global phase. Earlier generated evidence also described the best sampled bit string as a deterministic optimum. The exact optimized p=1 expectation for the unweighted triangle at `gamma=2.827433388230814`, `beta=0.3141592653589793` is `1.999334805117118` against optimum `2.0`; finite-shot runs can observe an optimal bit string, but that is sampling evidence, not deterministic optimization.
 

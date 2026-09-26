@@ -4,7 +4,7 @@
 
 This archived problem contains a heuristic mission-scoring script and a separate Q# depth-1 QAOA toy QUBO. The Q# model chooses one of two options for each of four mission legs and adds a pairwise penalty when two legs choose the same option. It is not a patched-conic trajectory optimizer.
 
-**Correction (2026-09-27)**: Earlier text blurred the classical patched-conic scoring script with the Q# model, and the hardware kernel used a different three-qubit chain with different biases. The hardware kernel now matches the four-leg model in `Main.RunMissionOptimization` and uses optimized p=1 angles. Existing website emulator results predate this alignment and should be labelled as stale until regenerated.
+**Correction (2026-09-26)**: Earlier text blurred the classical patched-conic scoring script with the Q# model, and the hardware kernel used a different three-qubit chain with different biases. The hardware kernel now matches the four-leg model in `Main.RunMissionOptimization` and uses optimized p=1 angles. Existing website emulator results predate this alignment and should be labelled as stale until regenerated.
 
 ## Verified toy model
 

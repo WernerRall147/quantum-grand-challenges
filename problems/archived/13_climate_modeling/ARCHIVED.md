@@ -1,6 +1,6 @@
 # ARCHIVED Climate Modeling
 
-**Status**: Archived (April 2026), corrected 2026-09-27.
+**Status**: Archived (April 2026), corrected 2026-09-26.
 
 ## Archival reason
 

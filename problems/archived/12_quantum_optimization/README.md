@@ -4,7 +4,7 @@
 
 This archived problem contains two separate artifacts: a classical greedy weighted tardiness scheduler and a Q# depth-1 QAOA toy QUBO. The Q# model is a four-job, two-machine same-side penalty Hamiltonian. It is not a full scheduling solver and it does not encode due dates, processing times, or weighted tardiness.
 
-**Correction (2026-09-27)**: Earlier text implied a broad quantum-assisted combinatorial optimization scaffold and described the Q# path as future work. The verified Q# path is already executable, but it is only the toy same-machine penalty QUBO in `qsharp/src/Main.qs`. The hardware kernel now uses the same four-variable toy model and optimized p=1 angles as the estimator entry.
+**Correction (2026-09-26)**: Earlier text implied a broad quantum-assisted combinatorial optimization scaffold and described the Q# path as future work. The verified Q# path is already executable, but it is only the toy same-machine penalty QUBO in `qsharp/src/Main.qs`. The hardware kernel now uses the same four-variable toy model and optimized p=1 angles as the estimator entry.
 
 ## Verified toy model
 

@@ -75,7 +75,7 @@ export const problemHighlights = [
   {
     title: 'Linear Solvers',
     status: 'Archived  I/O limited',
-    description: 'Textbook HHL on a 2x2 system (rewritten 2026-09-27; the earlier kernel was not HHL). Its exponential core needs efficient state preparation and readout, which classical data does not allow. Archived per Troyer framework.',
+    description: 'Textbook HHL on a 2x2 system (rewritten 2026-09-26; the earlier kernel was not HHL). Its exponential core needs efficient state preparation and readout, which classical data does not allow. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/04_linear_solvers',
   },
   {
@@ -130,7 +130,7 @@ export const problemHighlights = [
   {
     title: 'Climate Modeling',
     status: 'Archived  I/O limited',
-    description: 'Textbook HHL on a 2x2 diffusion matrix, a toy with no climate physics (rewritten 2026-09-27). HHL\'s exponential core is negated by loading and readout. Classical FEM mature. Archived per Troyer framework.',
+    description: 'Textbook HHL on a 2x2 diffusion matrix, a toy with no climate physics (rewritten 2026-09-26). HHL\'s exponential core is negated by loading and readout. Classical FEM mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/13_climate_modeling',
   },
   {

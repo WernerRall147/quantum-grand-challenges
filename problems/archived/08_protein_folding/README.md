@@ -4,7 +4,7 @@
 
 This archived Q# program is not a protein-folding implementation. It runs a depth-1 QAOA circuit for a four-variable toy Ising/QUBO energy with pair weights that are stored in a matrix named `contacts`. The code has no protein sequence, lattice walk, or contact-map geometry. It also has no self-avoidance constraint. The protein-folding framing in earlier documentation was therefore false.
 
-**Correction (2026-09-27)**: Earlier text described a protein-folding contact model and future quantum Boltzmann sampling. The verified Q# path builds only a toy Ising/QUBO same-side energy. The hardware kernel now uses the same four-variable toy model and optimized p=1 angles as the estimator entry. Existing website emulator notes predate this alignment.
+**Correction (2026-09-26)**: Earlier text described a protein-folding contact model and future quantum Boltzmann sampling. The verified Q# path builds only a toy Ising/QUBO same-side energy. The hardware kernel now uses the same four-variable toy model and optimized p=1 angles as the estimator entry. Existing website emulator notes predate this alignment.
 
 ## Verified toy model
 

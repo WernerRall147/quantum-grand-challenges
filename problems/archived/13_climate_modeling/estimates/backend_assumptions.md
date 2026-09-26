@@ -2,7 +2,7 @@
 
 ## Correction note
 
-Updated 2026-09-27. The Q# circuit now implements exact 2x2 HHL for the diffusion matrix `[[2,-1],[-1,2]]`. Earlier notes that described a generic HHL diffusion kernel are superseded.
+Updated 2026-09-26. The Q# circuit now implements exact 2x2 HHL for the diffusion matrix `[[2,-1],[-1,2]]`. Earlier notes that described a generic HHL diffusion kernel are superseded.
 
 ## Circuit characteristics
 

@@ -4,7 +4,7 @@
 //
 // Swap test between the amplitude encodings of the estimator's vectors a = [1.0, 0.5, 0.3, 0.2]
 // and b = [0.8, 0.2, 0.6, 0.1], as in Main.SwapTest: P(ancilla = 0) = (1 + |⟨a|b⟩|²)/2 = 0.9175.
-// Until 2026-09-27 this kernel swapped two unrelated product states instead.
+// Until 2026-09-26 this kernel swapped two unrelated product states instead.
 
 import Std.Math.*;
 import Std.Measurement.*;

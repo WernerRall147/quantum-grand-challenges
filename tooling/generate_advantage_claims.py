@@ -22,7 +22,7 @@ STAGE_D_CANDIDATES = {
             "369k physical qubits required for the 16-level instance, beyond current NISQ devices",
             "No noise model applied; fault-tolerant execution assumed",
             "Classical importance sampling may close the gap for structured distributions",
-            "Before 2026-09-27 the canonical kernel's Grover iterate was wrong; ensembles from that kernel are superseded",
+            "Before 2026-09-26 the canonical kernel's Grover iterate was wrong; ensembles from that kernel are superseded",
         ],
         "physical_qubits": 369400,
         "logical_qubits": 40,

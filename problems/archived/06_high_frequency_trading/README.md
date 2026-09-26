@@ -8,7 +8,7 @@ High-frequency trading (HFT) strategies react to market micro-structure signals 
 - **Quantum toy**: `qsharp/src/Main.qs` encodes four weights as the amplitudes of two qubits, marks the states with index below a threshold, and estimates their probability by measuring the marker once per shot. That is direct sampling: its error falls as 1/√shots, as for classical Monte Carlo, and it has no speedup. The weights are not derived from the price model. `qsharp/HardwareKernel.qs` samples the same kind of marker from a fixed 2-qubit state.
 - **Analysis tooling**: plot generation for price trajectories and strategy equity curves.
 
-### Correction (2026-09-27)
+### Correction (2026-09-26)
 
 This problem was described in the paper, the site and `ARCHIVED.md` as amplitude estimation for Value at Risk. The code never implemented amplitude estimation, and what it estimates is the probability of a set of marked states, not a Value at Risk (a quantile). Its demo also compared that probability with the complementary one: it printed 0.0325 as the "classical VaR" and about 0.97 as the "quantum" estimate of a different quantity. The demo now prints the exact probability of the marked states (0.9675) beside the sampled estimate. The archival reason stands for the approach that was planned: amplitude estimation of a loss probability gives at most a quadratic speedup (see problem 03).
 

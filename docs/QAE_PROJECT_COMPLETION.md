@@ -4,7 +4,7 @@
 **Status**: ⚠️ Stage C complete (calibrated baseline and uncertainty-bounded validation in place; Stage D hardening pending)  
 **Branch**: main
 
-> **Correction (2026-09-27).** The canonical QAE kernel described here was faulty until 2026-09-27: its reflection was A† S_0 A instead of A S_0 A†, and its Grover iterate lacked the −1 that matters once it is controlled, so the phase register peaked at the wrong outcomes. This record originally gave 18.98% as both the theoretical tail probability and the Monte Carlo result, which matches no computation of the discretized model, and 19.58% ± 1.82% as the QAE result, an average over the faulty kernel's wrong outcome distribution. Those figures are replaced below. The corrected figures are in `problems/archived/03_qae_risk/README.md`; the kernel is now pinned to Brassard et al. Theorem 11 by `tooling/test_qae_kernel.py`.
+> **Correction (2026-09-26).** The canonical QAE kernel described here was faulty until 2026-09-26: its reflection was A† S_0 A instead of A S_0 A†, and its Grover iterate lacked the −1 that matters once it is controlled, so the phase register peaked at the wrong outcomes. This record originally gave 18.98% as both the theoretical tail probability and the Monte Carlo result, which matches no computation of the discretized model, and 19.58% ± 1.82% as the QAE result, an average over the faulty kernel's wrong outcome distribution. Those figures are replaced below. The corrected figures are in `problems/archived/03_qae_risk/README.md`; the kernel is now pinned to Brassard et al. Theorem 11 by `tooling/test_qae_kernel.py`.
 
 ## Overview
 
@@ -41,12 +41,12 @@ Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded
 **Algorithm Components**:
 - ✅ **State Preparation**: Amplitude encoding with recursive multiplex rotations
 - ✅ **Oracle**: Tail risk marking with phase kickback on auxiliary qubit
-- ✅ **Diffusion Operator**: Reflect about the prepared distribution state A|0⟩ (within/apply pattern; corrected 2026-09-27)
-- ✅ **Grover Operator**: Q = −A S₀ A† Sχ combining oracle and diffusion (sign corrected 2026-09-27)
+- ✅ **Diffusion Operator**: Reflect about the prepared distribution state A|0⟩ (within/apply pattern; corrected 2026-09-26)
+- ✅ **Grover Operator**: Q = −A S₀ A† Sχ combining oracle and diffusion (sign corrected 2026-09-26)
 - ✅ **Quantum Phase Estimation**: Controlled Grover^(2^k) powers with inverse QFT
 - ✅ **Statistical Averaging**: tuned repetitions with phase histogram analysis
 
-**Test Results** (corrected 2026-09-27):
+**Test Results** (corrected 2026-09-26):
 - **Configuration**: 4 loss qubits, log-normal(0,1), threshold=2.5
 - **Discrete tail probability** (what the 16-level circuit encodes): 16.14%; the continuous log-normal tail is 17.98%
 - **QAE**: with 6 phase qubits the register peaks at 8 and 56 of 64, and outcome 8 decodes to 14.64%, within Brassard et al.'s Theorem 12 bound of 3.85 points

@@ -93,14 +93,14 @@ const STALE_EMULATOR_PROBLEMS: Record<string, string> = {
   '17_nuclear_physics': 'a VQE kernel that has since been replaced by phase estimation',
   '09_factorization': 'a Shor kernel that did not find the period, rewritten in September 2026',
   '18_photovoltaics': 'a quantum-walk kernel whose position never depended on its coin, rewritten in September 2026',
-  '03_qae_risk': 'a canonical QAE kernel whose Grover iterate was wrong, corrected on 2026-09-27',
-  '04_linear_solvers': 'a kernel that was not HHL, replaced by textbook HHL on 2026-09-27',
-  '13_climate_modeling': 'a kernel that was not HHL, replaced by textbook HHL on 2026-09-27',
-  '05_qaoa_maxcut': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-27',
-  '08_protein_folding': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-27',
-  '12_quantum_optimization': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-27',
-  '20_space_mission_planning': 'a hardware kernel that implemented a different model, aligned on 2026-09-27',
-  '11_quantum_machine_learning': 'a swap-test kernel that compared two unrelated product states, replaced on 2026-09-27',
+  '03_qae_risk': 'a canonical QAE kernel whose Grover iterate was wrong, corrected on 2026-09-26',
+  '04_linear_solvers': 'a kernel that was not HHL, replaced by textbook HHL on 2026-09-26',
+  '13_climate_modeling': 'a kernel that was not HHL, replaced by textbook HHL on 2026-09-26',
+  '05_qaoa_maxcut': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-26',
+  '08_protein_folding': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-26',
+  '12_quantum_optimization': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-26',
+  '20_space_mission_planning': 'a hardware kernel that implemented a different model, aligned on 2026-09-26',
+  '11_quantum_machine_learning': 'a swap-test kernel that compared two unrelated product states, replaced on 2026-09-26',
 };
 
 interface VizData {

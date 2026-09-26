@@ -9,7 +9,7 @@ b = [15, 10]
 
 The classical solution is x = [5, 5], so the normalized solution distribution is [0.5, 0.5]. The Q# circuit keeps the existing `Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], bits)` entry shape. It returns one system-qubit sample after post-selecting the ancilla on `One`. `Main.HHLJointSample2x2` and `HHLKernel()` return `[ancilla, system]` so callers can post-select directly.
 
-## Correction (2026-09-27)
+## Correction (2026-09-26)
 
 Earlier text and code said this problem implemented HHL. It did not. The old Hamiltonian simulation used first-order `Rz` and `Rx` steps instead of exact controlled `exp(i A t 2^k)`, the inversion used per-bit angles instead of `2 asin(C/lambda)`, and the hardware kernel returned only the ancilla. For this matrix the old circuit produced about `P(system = 1) = 0.309`, while the true normalized `A^-1 b` distribution is `[0.5, 0.5]`. The replacement implements exact controlled evolution for real 2x2 Hermitian matrices, big-endian QPE, clock-value controlled inversion with `C = 1`, inverse QPE, and explicit ancilla/system measurement.
 
@@ -66,7 +66,7 @@ This is a 2x2 pedagogical HHL instance, not evidence of practical advantage. HHL
 ## Objective maturity gate
 
 - Current gate: Stage B with a checked toy HHL circuit and classical baseline.
-- Next gate target: Stage C, which needs calibration and noise evidence for the corrected circuit; its resource estimate was regenerated on 2026-09-27.
+- Next gate target: Stage C, which needs calibration and noise evidence for the corrected circuit; its resource estimate was regenerated on 2026-09-26.
 
 Stage C exit criteria remain:
 

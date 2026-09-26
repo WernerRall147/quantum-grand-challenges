@@ -2,7 +2,7 @@
 
 ## Correction status
 
-This file describes the corrected circuit as of 2026-09-27. Earlier versions described a circuit that was not HHL: it used first-order `Rz` and `Rx` evolution, applied per-bit ancilla rotations, and ignored post-selection when reporting the system output.
+This file describes the corrected circuit as of 2026-09-26. Earlier versions described a circuit that was not HHL: it used first-order `Rz` and `Rx` evolution, applied per-bit ancilla rotations, and ignored post-selection when reporting the system output.
 
 ## Instance
 
@@ -55,7 +55,7 @@ The corrected hardware kernel returns the joint distribution, not just the ancil
 
 ## Resource estimates
 
-The `estimates/latest_*.json` files and the estimator summaries in this folder are mock artifacts from the previous pipeline. They are superseded for the corrected circuit, whose estimate (regenerated 2026-09-27, `circuits/estimate.json`) is 86,567 physical qubits, 23 logical qubits and 28 T gates for `Main.HHLSolve2x2` with a 3-bit clock.
+The `estimates/latest_*.json` files and the estimator summaries in this folder are mock artifacts from the previous pipeline. They are superseded for the corrected circuit, whose estimate (regenerated 2026-09-26, `circuits/estimate.json`) is 86,567 physical qubits, 23 logical qubits and 28 T gates for `Main.HHLSolve2x2` with a 3-bit clock.
 
 ## Advantage boundary
 

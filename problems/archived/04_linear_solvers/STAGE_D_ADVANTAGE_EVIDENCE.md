@@ -11,13 +11,13 @@
 
 - Classical comparator: `python/classical_baseline.py` with outputs in `estimates/classical_baseline.json`.
 - Quantum comparator: corrected HHL implementation in `qsharp/src/Main.qs` and `qsharp/HardwareKernel.qs`.
-- Fairness status: objective alignment is defined for the small toy circuit. Stage D promotion remains blocked pending regenerated estimates, calibrated uncertainty and backend evidence.
+- Fairness status: objective alignment is defined for the small toy circuit. Promotion remains blocked pending calibrated uncertainty and backend evidence; the resource estimate was regenerated on 2026-09-27.
 
 ## Uncertainty methodology
 
 - Current state: `tooling/test_hhl_kernel.py` checks exact state-vector behavior and sampling tolerances for the corrected circuit.
 - Gap: shot-based uncertainty bounds for problem instances beyond the toy circuit are not persisted as Stage D artifacts.
-- Required progression: add uncertainty-bounded comparisons across at least `small` and `medium` instances after the estimator pipeline is regenerated.
+- Required progression: add uncertainty-bounded comparisons across at least `small` and `medium` instances on the corrected circuit.
 
 ## Backend and deployment assumptions
 
@@ -34,7 +34,7 @@
 
 ## Stage D checklist
 
-- [ ] Regenerate resource estimates for the corrected HHL circuit.
+- [x] Regenerate resource estimates for the corrected HHL circuit (2026-09-27: 86,567 physical qubits, 23 logical).
 - [ ] Add uncertainty-bounded quantum-vs-classical comparisons on at least `small` and `medium` instances.
 - [ ] Add backend readout and reliability characterization for at least one measured target.
 - [ ] Add calibration and noise-sensitivity artifacts linked to reported HHL metrics and claim boundaries.

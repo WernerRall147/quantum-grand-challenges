@@ -66,7 +66,7 @@ This is a 2x2 pedagogical HHL instance, not evidence of practical advantage. HHL
 ## Objective maturity gate
 
 - Current gate: Stage B with a checked toy HHL circuit and classical baseline.
-- Next gate target: Stage C only after resource estimates and backend assumptions are regenerated for the corrected circuit.
+- Next gate target: Stage C, which needs calibration and noise evidence for the corrected circuit; its resource estimate was regenerated on 2026-09-27.
 
 Stage C exit criteria remain:
 
@@ -74,3 +74,24 @@ Stage C exit criteria remain:
 - Report uncertainty-bounded comparisons between classical and quantum outputs on `small` and `medium` instances.
 - Document transpilation, connectivity and backend assumptions for reported quantum runs.
 - Add calibration and noise-sensitivity evidence for reported quantum metrics.
+
+## DiVincenzo Readiness (Stage C/D Overlay)
+
+| Criterion | Status | Evidence / Notes |
+|---|---|---|
+| Scalable qubit system | partial | The 2x2 instance is estimated at 86,567 physical qubits and 23 logical qubits (`circuits/estimate.json`); larger systems are not implemented. |
+| Initialization | partial | The right-hand side is loaded with one Ry rotation; loading an N-dimensional classical vector costs O(N) gates in general. |
+| Coherence vs gate time | not-yet | No backend-calibrated coherence evidence exists for the corrected circuit. |
+| Universal gate set | met | Exact controlled exp(iAt), phase estimation, the controlled Ry inversion and inverse phase estimation are implemented and checked against exact simulation (`tooling/test_hhl_kernel.py`). |
+| Qubit-specific measurement | partial | The hardware kernel returns the ancilla and the system qubit so shots can be post-selected; hardware readout characterization is pending. |
+
+## Advantage Claim Contract
+
+- **Claim category (current)**: `theoretical`.
+- **Problem class and regime**: A 2x2 symmetric positive-definite system solved by textbook HHL with a 3-bit clock (4-bit in calibration).
+- **Fair baseline**: The direct solution in `python/`, exact and instantaneous at this size; conjugate gradient is the scalable classical comparator for sparse systems.
+- **Quantum resource scaling claim**: HHL runs in time polylogarithmic in N for sparse, well-conditioned A, given efficient state preparation and when only expectation values of x are needed (Harrow, Hassidim and Lloyd, arXiv:0811.3171). None of these conditions is demonstrated here.
+- **Data-loading and I/O assumptions**: Loading b and reading out x each cost O(N) for classical data (Aaronson, Nature Physics 11, 291, 2015), which removes the advantage for generic classical inputs; low-rank inputs are dequantized (Tang, arXiv:1807.04271).
+- **Noise/error model assumptions**: Noiseless simulation; the resource estimate assumes a surface code at a 10^-3 physical error rate.
+- **Confidence/uncertainty method**: State-vector comparison with an independent model of the circuit to 1e-9, and sampled outputs within five standard errors or a total-variation tolerance.
+- **Residual risks**: State preparation, readout and the condition number dominate at any useful size.

@@ -1,12 +1,9 @@
 # QAOA MaxCut Estimator Summary
 
-Auto-generated from the archived per-target artifacts in `estimates/`.
+Auto-generated from `circuits/estimate.json`, the single source of truth for this problem's resource estimate.
+
+The retired store in `estimates/` (`latest.json`, `latest_qubit_gate_ns_e3.json`, `latest_qubit_gate_ns_e3_large.json`, `latest_qubit_gate_ns_e3_medium.json`, `latest_qubit_gate_ns_e3_small.json`, `latest_surface_code_generic_v1.json`, `latest_surface_code_generic_v1_large.json`, `latest_surface_code_generic_v1_medium.json`, `latest_surface_code_generic_v1_small.json`) holds mock output from a removed estimator path, a fixed constant that is not an estimate of this program.
 
 | Instance | Target | Logical Qubits | Physical Qubits | T Count | Runtime (s) | Source |
 |---|---|---:|---:|---:|---:|---|
-| small | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `05_qaoa_maxcut/estimates/surface_code_generic_v1_2026-03-03T160034.827549Z.json` |
-| medium | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `05_qaoa_maxcut/estimates/surface_code_generic_v1_2026-03-03T160035.062519Z.json` |
-| large | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `05_qaoa_maxcut/estimates/surface_code_generic_v1_2026-03-03T160035.427650Z.json` |
-| small | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `05_qaoa_maxcut/estimates/qubit_gate_ns_e3_2026-03-03T160034.876451Z.json` |
-| medium | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `05_qaoa_maxcut/estimates/qubit_gate_ns_e3_2026-03-03T160035.112890Z.json` |
-| large | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `05_qaoa_maxcut/estimates/qubit_gate_ns_e3_2026-03-03T160035.505936Z.json` |
+| not instance-specific | qubit_gate_ns_e3 + surface_code | 12 | 53,628 | n/a | 0.000499 | `problems/archived/05_qaoa_maxcut/circuits/estimate.json` |

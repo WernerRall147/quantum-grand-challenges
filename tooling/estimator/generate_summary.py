@@ -24,11 +24,11 @@ PROBLEMS = {
     "05_qaoa_maxcut": "QAOA MaxCut",
     "06_high_frequency_trading": "Loss-Probability Sampling",
     "07_drug_discovery": "QPE Binding Model",
-    "08_protein_folding": "QAOA Folding",
+    "08_protein_folding": "QAOA Toy QUBO (no protein model)",
     "09_factorization": "Shor Factorization",
     "10_post_quantum_cryptography": "Grover Key Search",
     "11_quantum_machine_learning": "Swap Test Kernel",
-    "12_quantum_optimization": "QAOA Scheduling",
+    "12_quantum_optimization": "QAOA Toy Scheduling QUBO",
     "13_climate_modeling": "HHL Diffusion",
     "14_materials_discovery": "QPE Band Gap",
     "15_database_search": "Grover Database Search",
@@ -36,7 +36,7 @@ PROBLEMS = {
     "17_nuclear_physics": "QPE Deuteron",
     "18_photovoltaics": "Quantum Walk",
     "19_quantum_chromodynamics": "Trotter Ising Chain",
-    "20_space_mission_planning": "QAOA Trajectory",
+    "20_space_mission_planning": "QAOA Toy Mission QUBO",
 }
 
 

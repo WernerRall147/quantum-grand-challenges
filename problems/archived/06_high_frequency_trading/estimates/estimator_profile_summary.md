@@ -6,4 +6,4 @@ The retired store in `estimates/` (`latest.json`, `latest_qubit_gate_ns_e3.json`
 
 | Instance | Target | Logical Qubits | Physical Qubits | T Count | Runtime (s) | Source |
 |---|---|---:|---:|---:|---:|---|
-| not instance-specific | qubit_gate_ns_e3 + surface_code | 12 | 28,052 | n/a | 0.000106 | `problems/archived/06_high_frequency_trading/circuits/estimate.json` |
+| not instance-specific | qubit_gate_ns_e3 + surface_code | 12 | 51,324 | n/a | 0.000547 | `problems/archived/06_high_frequency_trading/circuits/estimate.json` |

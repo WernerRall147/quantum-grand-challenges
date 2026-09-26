@@ -1,79 +1,69 @@
 {
   "problem": "08_protein_folding",
-  "entryExpr": "Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, 1)",
+  "entryExpr": "Main.EvaluateFoldingQaoa([[0.0,-1.2,-0.3,0.0],[-1.2,0.0,-0.8,-0.5],[-0.3,-0.8,0.0,-1.0],[0.0,-0.5,-1.0,0.0]], 0.47123889803846897, 1.119192382841364, 1)",
   "estimateTarget": "Main",
   "hardwareKernelEntryPoint": "FoldingQaoaKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "build": {
-    "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+    "commit": "d47fd1a1ae285522609fefdc7782a05c4c51adf2",
     "qdkVersion": "1.31.0",
     "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-    "dateUtc": "2026-09-14T15:01:18.960068+00:00"
+    "dateUtc": "2026-09-26T14:10:17.329907+00:00"
   },
-  "physicalQubits": 30641,
-  "runtime": 271250,
-  "logicalQubits": 9,
-  "codeDistance": 25,
-  "tFactoryFraction": 0.633,
-  "error": 0.0009034743222713972,
-  "paretoPoints": 10,
+  "physicalQubits": 60935,
+  "runtime": 732550,
+  "logicalQubits": 15,
+  "codeDistance": 23,
+  "tFactoryFraction": 0.74,
+  "error": 0.00046753300525319134,
+  "paretoPoints": 8,
   "paretoFrontier": [
     {
-      "physicalQubits": 30641,
-      "runtime": 271250,
-      "error": 0.0009034743222713972
+      "physicalQubits": 60935,
+      "runtime": 732550,
+      "error": 0.00046753300525319134
     },
     {
-      "physicalQubits": 31209,
-      "runtime": 227850,
-      "error": 0.0009034744051343972
+      "physicalQubits": 64735,
+      "runtime": 668850,
+      "error": 0.0004675333738031913
     },
     {
-      "physicalQubits": 32353,
-      "runtime": 196350,
-      "error": 0.0009153885324488815
+      "physicalQubits": 66615,
+      "runtime": 541450,
+      "error": 0.0004675739143031913
     },
     {
-      "physicalQubits": 35081,
-      "runtime": 162750,
-      "error": 0.0009035580214343973
+      "physicalQubits": 77575,
+      "runtime": 477750,
+      "error": 0.0004679424643031913
     },
     {
-      "physicalQubits": 37953,
-      "runtime": 159250,
-      "error": 0.0009662414684529793
+      "physicalQubits": 82335,
+      "runtime": 414050,
+      "error": 0.00047162796430319135
     },
     {
-      "physicalQubits": 41833,
-      "runtime": 141050,
-      "error": 0.0009043113214343972
+      "physicalQubits": 93775,
+      "runtime": 373450,
+      "error": 0.00037436886734664435
     },
     {
-      "physicalQubits": 48729,
-      "runtime": 134750,
-      "error": 0.0009747464684529793
+      "physicalQubits": 100215,
+      "runtime": 350350,
+      "error": 0.0005084829643031913
     },
     {
-      "physicalQubits": 51889,
-      "runtime": 97650,
-      "error": 0.0009871743214343973
-    },
-    {
-      "physicalQubits": 117369,
-      "runtime": 91350,
-      "error": 0.00042032031546035924
-    },
-    {
-      "physicalQubits": 200513,
-      "runtime": 75950,
-      "error": 0.0009928443214343972
+      "physicalQubits": 111895,
+      "runtime": 286650,
+      "error": 0.0008770329643031914
     }
   ],
   "tCount": null,
-  "rotationCount": 3,
+  "rotationCount": 9,
   "cczCount": null,
-  "measurementCount": 2,
-  "logicalDepth": 4,
-  "numQubits": 2
+  "measurementCount": 4,
+  "logicalDepth": 10,
+  "numQubits": 4
 }

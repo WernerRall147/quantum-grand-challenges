@@ -82,7 +82,7 @@ python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/1
 
 ## Estimates and archived artifacts
 
-The `estimates/latest_*.json` files are mock artifacts from the previous pipeline. They are superseded for algorithm correctness and must not be read as estimates of the corrected HHL circuit. Regenerate estimates before publishing qubit, T-count or runtime values.
+The `estimates/latest_*.json` files are mock artifacts from the previous pipeline. They are superseded and must not be read as estimates of the corrected HHL circuit, whose estimate (regenerated 2026-09-27) is in `circuits/estimate.json`: 58,903 physical qubits, 23 logical qubits and 40 T gates.
 
 ## Scope and caveats
 
@@ -99,3 +99,24 @@ Stage C exit criteria remain:
 - Report uncertainty-bounded comparisons between classical and quantum outputs.
 - Document transpilation, connectivity and backend assumptions.
 - Add calibration and noise-sensitivity evidence for reported quantum metrics.
+
+## DiVincenzo Readiness (Stage C/D Overlay)
+
+| Criterion | Status | Evidence / Notes |
+|---|---|---|
+| Scalable qubit system | partial | The 2x2 diffusion instance is estimated at 58,903 physical qubits and 23 logical qubits (`circuits/estimate.json`); larger grids are not implemented. |
+| Initialization | partial | The right-hand side is loaded with one Ry rotation; a discretized PDE state of N points costs O(N) gates to load in general. |
+| Coherence vs gate time | not-yet | No backend-calibrated coherence evidence exists for the corrected circuit. |
+| Universal gate set | met | Exact controlled exp(iAt), phase estimation, the controlled Ry inversion and inverse phase estimation are implemented and checked against exact simulation (`tooling/test_hhl_kernel.py`). |
+| Qubit-specific measurement | partial | The hardware kernel returns the ancilla and the system qubit so shots can be post-selected; hardware readout characterization is pending. |
+
+## Advantage Claim Contract
+
+- **Claim category (current)**: `theoretical`.
+- **Problem class and regime**: The 2x2 discretized diffusion matrix [[2,-1],[-1,2]] solved by textbook HHL with a 3-bit clock; its eigenvalues 1 and 3 are exactly representable, so the post-selected output equals |A^-1 b|^2.
+- **Fair baseline**: A direct 2x2 solve, exact and instantaneous; the energy-balance model in `python/` simulates a different system and is not a comparator for the Q# circuit.
+- **Quantum resource scaling claim**: HHL runs in time polylogarithmic in N for sparse, well-conditioned A, given efficient state preparation and when only expectation values of x are needed (Harrow, Hassidim and Lloyd, arXiv:0811.3171). None of these conditions is demonstrated here, and discretized diffusion operators have condition numbers that grow with the grid.
+- **Data-loading and I/O assumptions**: Loading the initial state and reading out a full solution each cost O(N) for classical data (Aaronson, Nature Physics 11, 291, 2015).
+- **Noise/error model assumptions**: Noiseless simulation; the resource estimate assumes a surface code at a 10^-3 physical error rate.
+- **Confidence/uncertainty method**: State-vector comparison with an independent model of the circuit to 1e-9, and sampled outputs within a total-variation tolerance.
+- **Residual risks**: State preparation, readout, the condition number and the missing climate physics dominate.

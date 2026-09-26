@@ -1,6 +1,6 @@
 ===================================================================
   Problem 06: High Frequency Trading  [ARCHIVED]
-  Kernel: HFTKernel()  Encode simple market state
+  Kernel: HFTKernel()  Fixed entangled 2-qubit state (not derived from market data)
   Target profile: Adaptive_RI | Qubits: 3 | Measured: 1 | QIR: compiles
   Source: problems/archived/06_high_frequency_trading/qsharp/HardwareKernel.qs
 ===================================================================

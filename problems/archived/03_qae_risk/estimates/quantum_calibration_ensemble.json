@@ -2,123 +2,123 @@
   "problem_id": "03_qae_risk",
   "description": "Canonical QAE, 6 phase bits: per-run estimate sin\u00b2(\u03c0y/64), register read most significant bit first (exact expectation 0.1686 for a = 0.1614)",
   "entry_point": "Main.QAEKernel()",
-  "generated_utc": "2026-09-26T13:24:03.198286Z",
+  "generated_utc": "2026-09-26T14:12:15.309124Z",
   "sources": {
-    "problems/archived/03_qae_risk/qsharp/HardwareKernel.qs": "da422d7a2d8458687c7a7cf69e554697589ec44a9aba7f59f60e18d75614c36b",
+    "problems/archived/03_qae_risk/qsharp/HardwareKernel.qs": "213368f71277e0a0714b49b11f2900adab034f2191cbc9c9a8b8f3f67e51b9d3",
     "problems/archived/03_qae_risk/qsharp/qsharp.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
     "problems/archived/03_qae_risk/qsharp/src/Main.qs": "4380786e6a138c16ae6d61fef345d437c39cde0ac1a019dac7fc5c6eff2937aa",
     "problems/archived/03_qae_risk/qsharp/src/RuntimeConfig.qs": "271ec681934ca8cbed97aa11c41b63ae5da8f697252780a695a4ae3beb0a57e7"
   },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0988,
-    "std_elapsed_s": 0.0293,
-    "mean_value": 0.159988,
-    "std_value": 0.031625,
-    "ci95_half_width": 0.01386,
-    "ci95_lower": 0.146127,
-    "ci95_upper": 0.173848
+    "mean_elapsed_s": 0.0976,
+    "std_elapsed_s": 0.0189,
+    "mean_value": 0.155294,
+    "std_value": 0.034973,
+    "ci95_half_width": 0.015328,
+    "ci95_lower": 0.139967,
+    "ci95_upper": 0.170622
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.0877
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, One]]",
+      "elapsed_s": 0.0872
     },
     {
       "run": 2,
       "raw_result": "[[Zero, Zero, One, Zero, Zero, One]]",
-      "elapsed_s": 0.0867
+      "elapsed_s": 0.0878
     },
     {
       "run": 3,
       "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.0888
+      "elapsed_s": 0.0861
     },
     {
       "run": 4,
       "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.0883
+      "elapsed_s": 0.0882
     },
     {
       "run": 5,
-      "raw_result": "[[One, One, Zero, One, One, One]]",
-      "elapsed_s": 0.0894
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, One]]",
+      "elapsed_s": 0.0878
     },
     {
       "run": 6,
-      "raw_result": "[[Zero, Zero, Zero, One, One, One]]",
-      "elapsed_s": 0.0867
+      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0911
     },
     {
       "run": 7,
-      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.0854
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0942
     },
     {
       "run": 8,
-      "raw_result": "[[One, One, One, Zero, Zero, One]]",
-      "elapsed_s": 0.0874
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.0882
     },
     {
       "run": 9,
-      "raw_result": "[[One, One, Zero, One, One, One]]",
-      "elapsed_s": 0.088
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.1179
     },
     {
       "run": 10,
-      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.0886
+      "raw_result": "[[One, One, Zero, One, One, One]]",
+      "elapsed_s": 0.0985
     },
     {
       "run": 11,
-      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.0871
+      "raw_result": "[[One, One, Zero, One, One, One]]",
+      "elapsed_s": 0.0885
     },
     {
       "run": 12,
-      "raw_result": "[[One, One, Zero, One, One, One]]",
-      "elapsed_s": 0.0883
+      "raw_result": "[[One, One, Zero, One, One, Zero]]",
+      "elapsed_s": 0.0873
     },
     {
       "run": 13,
       "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.0855
+      "elapsed_s": 0.0867
     },
     {
       "run": 14,
       "raw_result": "[[Zero, Zero, One, Zero, Zero, One]]",
-      "elapsed_s": 0.0856
+      "elapsed_s": 0.0867
     },
     {
       "run": 15,
-      "raw_result": "[[Zero, Zero, Zero, One, One, One]]",
-      "elapsed_s": 0.0857
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, One]]",
+      "elapsed_s": 0.0872
     },
     {
       "run": 16,
-      "raw_result": "[[One, One, Zero, One, One, Zero]]",
-      "elapsed_s": 0.0853
+      "raw_result": "[[One, One, One, Zero, Zero, One]]",
+      "elapsed_s": 0.0866
     },
     {
       "run": 17,
-      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.0878
+      "raw_result": "[[Zero, Zero, Zero, One, One, One]]",
+      "elapsed_s": 0.0873
     },
     {
       "run": 18,
-      "raw_result": "[[One, One, Zero, One, One, One]]",
-      "elapsed_s": 0.1405
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.1322
     },
     {
       "run": 19,
-      "raw_result": "[[One, One, One, Zero, Zero, Zero]]",
-      "elapsed_s": 0.1851
+      "raw_result": "[[Zero, Zero, One, Zero, Zero, Zero]]",
+      "elapsed_s": 0.1395
     },
     {
       "run": 20,
-      "raw_result": "[[One, One, Zero, One, One, Zero]]",
-      "elapsed_s": 0.1681
+      "raw_result": "[[Zero, Zero, Zero, One, Zero, One]]",
+      "elapsed_s": 0.1422
     }
   ]
 }

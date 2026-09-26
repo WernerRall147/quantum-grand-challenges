@@ -118,14 +118,14 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
         description="HHL on 2x2 SPD system, 3-bit clock register",
     ),
     "05_qaoa_maxcut": EntryPoint(
-        template=_shots("Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.5], [0.5], {shots})"),
+        template=_shots("Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.3141592653589793], [2.827433388230814], {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="QAOA MaxCut on triangle graph, p=1",
+        description="Optimized p=1 QAOA MaxCut on triangle graph; repository gamma convention has gamma_std=-2 gamma",
     ),
     "06_high_frequency_trading": EntryPoint(
-        template=_shots("Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, {shots})"),
+        template=_shots("Main.EstimateLossProbability([0.5, 0.35, 0.1, 0.05], 2, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Tail-loss probability via amplitude estimation",
+        description="Loss probability sampled directly from a 2-qubit state (no amplitude estimation)",
     ),
     "07_drug_discovery": EntryPoint(
         template=_shots("Main.BindingQPE(10, {shots})"),
@@ -133,9 +133,9 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
         description="Illustrative two-qubit binding Hamiltonian, ground-state QPE, 10 phase bits",
     ),
     "08_protein_folding": EntryPoint(
-        template=_shots("Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, {shots})"),
+        template=_shots("Main.EvaluateFoldingQaoa([[0.0,-1.2,-0.3,0.0],[-1.2,0.0,-0.8,-0.5],[-0.3,-0.8,0.0,-1.0],[0.0,-0.5,-1.0,0.0]], 0.47123889803846897, 1.119192382841364, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Protein folding QAOA on minimal lattice",
+        description="Optimized p=1 QAOA on a four-variable toy Ising/QUBO energy, not a protein-folding model",
     ),
     "09_factorization": EntryPoint(
         # a = 7, the base the hardware kernel uses. The entry was ShorPeriodFinding(3, 4):
@@ -156,14 +156,14 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
         description="SWAP test for state-vector overlap",
     ),
     "12_quantum_optimization": EntryPoint(
-        template=_shots("Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, {shots})"),
+        template=_shots("Main.EvaluateQaoa([[0.0,1.0,0.5,0.2],[1.0,0.0,1.2,0.8],[0.5,1.2,0.0,0.6],[0.2,0.8,0.6,0.0]], 0.3141592653589793, 1.2566370614359172, 1, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Generic QAOA, p=1",
+        description="Optimized p=1 QAOA on a four-job toy same-machine penalty QUBO",
     ),
     "13_climate_modeling": EntryPoint(
         template=_shots("Main.RunHHLClimate(3, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="HHL-based climate PDE solver",
+        description="HHL on the 2x2 diffusion matrix [[2,-1],[-1,2]] (toy), 3-bit clock",
     ),
     "14_materials_discovery": EntryPoint(
         template=_shots("Main.BandGapQPE(1.0, -0.5, 0.8, 0.3, 10, {shots})"),
@@ -193,12 +193,12 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
     "19_quantum_chromodynamics": EntryPoint(
         template=_shots("Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Lattice gauge Trotter simulation, 2 sites",
+        description="Trotterized transverse-field Ising chain, 2 sites (stand-in for lattice gauge dynamics)",
     ),
     "20_space_mission_planning": EntryPoint(
-        template=_shots("Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, {shots})"),
+        template=_shots("Main.EvaluateQaoaMission([[2.5,1.8],[1.2,0.8],[3.1,2.4],[1.5,1.0]], 0.667588438887831, 1.3940817400304706, 1, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Mission-planning QAOA, p=1",
+        description="Optimized p=1 QAOA on the four-leg toy mission QUBO from RunMissionOptimization",
     ),
 }
 
@@ -350,11 +350,19 @@ def estimate_summary(
 
 _CODE_DISTANCE_RE = re.compile(r"distance=(\d+)")
 
-# Trace instruction names that map onto the legacy logical-count fields.
+# Trace instruction names that map onto the legacy logical-count fields. cczCount counts
+# every Toffoli-class gate (CCZ, CCX, CCY), each of which consumes one CCZ magic state.
+# Only CCZ used to be mapped, but Q#'s CCNOT traces as CCX, so every Toffoli in every
+# estimate went uncounted: problem 03's 10,687 among them, beside its 15 T gates.
 _GATE_COUNT_FIELDS = {
     "T": "tCount",
+    "T_DAG": "tCount",
     "RZ": "rotationCount",
+    "RX": "rotationCount",
+    "RY": "rotationCount",
     "CCZ": "cczCount",
+    "CCX": "cczCount",
+    "CCY": "cczCount",
     "MEAS_Z": "measurementCount",
 }
 

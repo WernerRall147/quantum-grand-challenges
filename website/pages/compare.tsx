@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import resourceEstimates from '../data/resourceEstimates.json';
 import { problemHighlights } from '../data/projectStatus';
 
-type SortKey = 'name' | 'physicalQubits' | 'logicalQubits' | 'tCount' | 'rotationCount';
+type SortKey = 'name' | 'physicalQubits' | 'logicalQubits' | 'tCount' | 'cczCount' | 'rotationCount';
 
 interface ProblemRow {
   id: string;
@@ -18,13 +18,17 @@ interface ProblemRow {
   // could not count the T gates" are different claims, and only one of them is true
   // for these circuits: 16 of the 20 report null, none report a genuine zero.
   tCount: number | null;
+  // Toffoli-class gates, each consuming a CCZ magic state. Uncounted until 2026-09-26: the
+  // estimator trace names Q#'s CCNOT "CCX", and only "CCZ" was mapped.
+  cczCount: number | null;
   rotationCount: number | null;
+  tFactoryFraction: number | null;
   runtime: number;
 }
 
 const ALGORITHM_MAP: Record<string, string> = {
   '01_hubbard': 'QPE', '02_catalysis': 'QPE', '03_qae_risk': 'QAE/IQAE',
-  '04_linear_solvers': 'HHL', '05_qaoa_maxcut': 'QAOA', '06_high_frequency_trading': 'Amplitude Est.',
+  '04_linear_solvers': 'HHL', '05_qaoa_maxcut': 'QAOA', '06_high_frequency_trading': 'Sampling',
   '07_drug_discovery': 'QPE', '08_protein_folding': 'QAOA', '09_factorization': 'Shor',
   '10_post_quantum_cryptography': 'Grover', '11_quantum_machine_learning': 'Swap Test',
   '12_quantum_optimization': 'QAOA', '13_climate_modeling': 'HHL', '14_materials_discovery': 'QPE',
@@ -102,7 +106,9 @@ export default function ComparePage() {
         logicalQubits: (est.logicalQubits as number) || 0,
         // Deliberately not `|| 0`: that turned "not reported" into a measurement of zero.
         tCount: est.tCount ?? null,
+        cczCount: est.cczCount ?? null,
         rotationCount: est.rotationCount ?? null,
+        tFactoryFraction: est.tFactoryFraction ?? null,
         runtime: (est.runtime as number) || 0,
       };
     })
@@ -112,7 +118,7 @@ export default function ComparePage() {
   const [sortAsc, setSortAsc] = useState(true);
 
   const sorted = [...rows].sort((a, b) => {
-    if (sortKey === 'tCount' || sortKey === 'rotationCount') {
+    if (sortKey === 'tCount' || sortKey === 'cczCount' || sortKey === 'rotationCount') {
       return compareCounts(a[sortKey], b[sortKey], sortAsc);
     }
     const va = a[sortKey];
@@ -146,6 +152,24 @@ export default function ComparePage() {
   );
 
   const chartData = rows.map((r) => ({ name: r.id.split('_')[0], pq: r.physicalQubits, lq: r.logicalQubits }));
+
+  // Computed from the estimates, never typed in: the hardcoded version still said
+  // "1.7k (QEC) to 369k (QAE risk)" and "the QPE problems report no T gates" after both
+  // had stopped being true, and called rotation-only kernels "zero T-gates, simpler",
+  // when every rotation is synthesized from T states in a fault-tolerant machine.
+  const byQubits = [...rows].filter((r) => r.physicalQubits > 0).sort((a, b) => a.physicalQubits - b.physicalQubits);
+  const smallest = byQubits[0];
+  const largest = byQubits[byQubits.length - 1];
+  const factoryPercents = rows
+    .map((r) => r.tFactoryFraction)
+    .filter((f): f is number => typeof f === 'number')
+    .map((f) => Math.round(f * 100));
+  const most = (key: 'tCount' | 'cczCount' | 'rotationCount') =>
+    rows.filter((r) => typeof r[key] === 'number' && (r[key] as number) > 0)
+      .sort((a, b) => (b[key] as number) - (a[key] as number))[0];
+  const mostRotations = most('rotationCount');
+  const mostToffolis = most('cczCount');
+  const mostT = most('tCount');
 
   return (
     <>
@@ -190,6 +214,7 @@ export default function ComparePage() {
                 {sortableHeader('physicalQubits', 'Physical Qubits')}
                 {sortableHeader('logicalQubits', 'Logical Qubits')}
                 {sortableHeader('tCount', 'T-Gates')}
+                {sortableHeader('cczCount', 'Toffolis')}
                 {sortableHeader('rotationCount', 'Rotations')}
                 <th style={headerStyle()} scope="col">Runtime</th>
               </tr>
@@ -217,6 +242,10 @@ export default function ComparePage() {
                     style={{ padding: '0.75rem', color: r.tCount ? '#dc2626' : '#94a3b8', fontWeight: r.tCount ? 700 : 400 }}
                   >{fmtCount(r.tCount)}</td>
                   <td
+                    title={r.cczCount === null ? 'The estimator trace did not report a Toffoli count for this circuit' : undefined}
+                    style={{ padding: '0.75rem', color: r.cczCount ? '#b45309' : '#94a3b8', fontWeight: r.cczCount ? 700 : 400 }}
+                  >{fmtCount(r.cczCount)}</td>
+                  <td
                     title={r.rotationCount === null ? 'The estimator trace did not report a rotation count for this circuit' : undefined}
                     style={{ padding: '0.75rem', color: r.rotationCount === null ? '#94a3b8' : '#475569' }}
                   >{fmtCount(r.rotationCount)}</td>
@@ -231,10 +260,18 @@ export default function ComparePage() {
         <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#fefce8', borderRadius: '10px' }}>
           <h3 style={{ marginTop: 0, color: '#92400e' }}>Key Observations</h3>
           <ul style={{ color: '#78350f', lineHeight: 1.8 }}>
-            <li><strong>Qubit range:</strong> 1.7k (QEC) to 369k (QAE risk)  212x variation across problems</li>
-            <li><strong>T-gate intensive:</strong> QAE (15), HHL (12), Shor (6), Climate HHL (3)  these require T-state factories. The QPE problems report none: their cost sits in rotations instead</li>
-            <li><strong>Rotation dominated:</strong> QAOA, amplitude estimation, quantum walk, swap test and Trotter run with zero T-gates  simpler for near-term hardware</li>
-            <li><strong>All estimates from real Azure Quantum Resource Estimator</strong>  not mock data</li>
+            {smallest && largest && (
+              <li><strong>Qubit range:</strong> {fmtNum(smallest.physicalQubits)} ({smallest.name}) to {fmtNum(largest.physicalQubits)} ({largest.name}), a {Math.round(largest.physicalQubits / smallest.physicalQubits)}x spread.</li>
+            )}
+            {factoryPercents.length > 0 && (
+              <li><strong>Magic states set the cost:</strong> every T gate, Toffoli and arbitrary-angle rotation is paid for with magic states (a rotation is synthesized from T states, a Toffoli consumes a CCZ state), so T factories take {Math.min(...factoryPercents)}-{Math.max(...factoryPercents)}% of the physical qubits in these estimates, whatever the explicit T-gate count.</li>
+            )}
+            <li><strong>Largest non-Clifford counts:</strong>{' '}
+              {mostRotations && <>{mostRotations.rotationCount?.toLocaleString()} rotations ({mostRotations.name}); </>}
+              {mostToffolis && <>{mostToffolis.cczCount?.toLocaleString()} Toffolis ({mostToffolis.name}); </>}
+              {mostT && <>{mostT.tCount?.toLocaleString()} T gates ({mostT.name}).</>}
+            </li>
+            <li><strong>What was estimated:</strong> the toy instances themselves, compiled for fault tolerance with the Quantum Resource Estimator (qdk.qre) on 50 ns gates at a 10⁻³ error rate with a surface code; these are not utility-scale versions of the problems.</li>
           </ul>
         </section>
 

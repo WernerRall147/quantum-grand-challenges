@@ -1,5 +1,5 @@
 # Medium Instance - QAE Risk Analysis  
-# Realistic precision requirements showing quantum advantage
+# Higher precision requirement on a fat-tailed mixture
 
 problem_id: "03_qae_risk"
 instance_name: "medium"
@@ -22,7 +22,7 @@ loss_encoding:
   max_loss: 20.0       # Wider loss range for fat tails
   
 # Risk Analysis Configuration
-risk_threshold: 5.0    # Higher threshold (~99th percentile)
+risk_threshold: 5.0    # 84.5th percentile of the mixture (its 99th percentile is about 40)
 target_precision: 0.01 # Higher precision requirement (1%)
 
 # QAE Algorithm Parameters  
@@ -33,9 +33,9 @@ amplitude_estimation:
   
 # Expected Results
 theoretical:
-  tail_probability: 0.015  # ~1.5% for this mixture model
-  classical_samples_needed: 98500  # n ≈ 0.015*0.985/0.0001 ≈ 148
-  quantum_queries_needed: 100      # O(1/ε) = 100 for ε=0.01
+  tail_probability: 0.155  # 0.7·P(LN(0,0.8) > 5) + 0.3·P(LN(1.5,1.2) > 5) = 0.7·0.022 + 0.3·0.464
+  classical_samples_needed: 1307   # standard error ε = 0.01 needs n = p(1-p)/ε² ≈ 0.155*0.845/0.0001
+  quantum_queries_needed: 100      # order of 1/ε only; constant factors omitted
   
 # Resource Estimates (Surface Code Generic)
 estimated_resources:
@@ -59,16 +59,15 @@ classical_baseline:
   
 # Notes  
 notes: |
-  This medium instance represents realistic financial risk analysis:
+  This medium instance uses a two-component mixture for a fatter tail:
   - Mixed distribution captures market stress scenarios
   - 1% precision is typical for regulatory risk reporting
   - Resource requirements approach fault-tolerant thresholds
-  - Demonstrates emerging quantum advantage for high precision
   
   Key considerations:
-  - Fat-tailed distributions are harder to sample classically
   - Multiple risk thresholds could be analyzed simultaneously
-  - Quantum advantage becomes clear at this precision level
+  - The query advantage over Monte Carlo is quadratic at best, and error-correction overhead
+    outweighs it at this size (see the problem README)
   
 # Success Criteria
 validation:

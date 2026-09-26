@@ -79,7 +79,7 @@
         },
         {
           "id": "04_linear_solvers",
-          "algorithm": "HHL Algorithm",
+          "algorithm": "HHL Algorithm (textbook 2x2 circuit; corrected 2026-09-26)",
           "speedup": "Exponential: O(polylog(N)) vs classical O(N·κ) for sparse systems",
           "classical_best": "Conjugate gradient / LU decomposition",
           "troyer_assessment": "HHL offers exponential speedup but with critical caveats: (1) requires efficient state preparation, (2) only provides quantum state output (readout bottleneck), (3) condition number κ must be polylog(N). Practical utility requires all three conditions simultaneously.",
@@ -87,19 +87,19 @@
         },
         {
           "id": "06_high_frequency_trading",
-          "algorithm": "Amplitude Estimation for VaR",
-          "speedup": "Quadratic (same as QAE)",
+          "algorithm": "Direct sampling of a loss probability (planned: amplitude estimation)",
+          "speedup": "None as implemented; quadratic at best for the planned amplitude estimation",
           "classical_best": "Monte Carlo with variance reduction",
-          "troyer_assessment": "Financial QAE inherits the quadratic speedup of amplitude estimation. Utility requires portfolio sizes where the QEC overhead is justified by the quadratic speedup  likely N > 10⁴ assets with complex correlation structures.",
+          "troyer_assessment": "The kernel samples the probability of marked states directly, which has the same 1/√shots error as classical Monte Carlo; it never implemented amplitude estimation. Amplitude estimation of a loss probability would inherit the quadratic speedup of problem 03 and its limits: error-correction overhead and loading the distribution outweigh it.",
           "archived": true,
           "archival_reason": "Quadratic + I/O"
         },
         {
           "id": "13_climate_modeling",
-          "algorithm": "HHL for Diffusion PDE",
+          "algorithm": "HHL on a 2x2 diffusion matrix (toy)",
           "speedup": "Exponential (same HHL caveats)",
           "classical_best": "Finite element / finite difference methods",
-          "troyer_assessment": "Climate PDEs are well-suited to HHL if the state preparation and readout problems can be solved. The exponential speedup applies to the linear algebra core but practical utility requires end-to-end advantage including I/O.",
+          "troyer_assessment": "Climate PDEs are well-suited to HHL if the state preparation and readout problems can be solved. The exponential speedup applies to the linear algebra core but practical utility requires end-to-end advantage including I/O. This kernel solves the 2x2 discretized diffusion system [[2,-1],[-1,2]]; it contains no climate physics, and the Python baseline is an energy-balance model of a different system.",
           "archived": true,
           "archival_reason": "I/O bottleneck"
         }
@@ -121,25 +121,25 @@
         },
         {
           "id": "08_protein_folding",
-          "algorithm": "QAOA Lattice Folding",
+          "algorithm": "QAOA on a toy Ising/QUBO (no protein model)",
           "speedup": "None proven",
           "classical_best": "Monte Carlo / simulated annealing / AlphaFold",
-          "troyer_assessment": "Classical protein folding has been revolutionized by AI (AlphaFold). QAOA for lattice protein models has no proven advantage. The quantum approach would need to handle realistic all-atom models to compete.",
+          "troyer_assessment": "Classical protein folding has been revolutionized by AI (AlphaFold). QAOA for lattice protein models has no proven advantage. The quantum approach would need to handle realistic all-atom models to compete. This kernel is a four-variable toy QUBO with no protein sequence, lattice or self-avoidance constraint.",
           "archived": true,
           "archival_reason": "No proven speedup; AlphaFold dominates"
         },
         {
           "id": "11_quantum_machine_learning",
           "algorithm": "Swap Test Kernel",
-          "speedup": "Exponential in specific cases (kernel evaluation)",
+          "speedup": "None for this kernel (amplitude-encoded classical data); provable separations exist only for constructed datasets",
           "classical_best": "Classical kernel methods / random features",
-          "troyer_assessment": "QML speedups depend on data encoding assumptions. If classical data must be loaded into quantum states, the loading cost often negates the kernel speedup. Proven advantages exist only for specific, contrived problem structures.",
+          "troyer_assessment": "QML speedups depend on data encoding assumptions. If classical data must be loaded into quantum states, the loading cost often negates the kernel speedup; here loading a d-dimensional vector costs O(d) gates and each kernel entry needs O(1/ε²) shots. Proven advantages exist only for specific, contrived problem structures, such as the discrete-logarithm datasets of Liu, Arunachalam and Temme (Nat. Phys. 17, 1013, 2021, arXiv:2010.02174).",
           "archived": true,
           "archival_reason": "I/O bottleneck (data loading)"
         },
         {
           "id": "12_quantum_optimization",
-          "algorithm": "QAOA Job Scheduling",
+          "algorithm": "QAOA on a toy scheduling QUBO",
           "speedup": "None proven",
           "classical_best": "Branch-and-bound / heuristic schedulers",
           "troyer_assessment": "Same QAOA limitations as MaxCut. Classical scheduling algorithms are highly optimized for industrial use. No proven quantum advantage for combinatorial optimization at any depth.",
@@ -148,10 +148,10 @@
         },
         {
           "id": "20_space_mission_planning",
-          "algorithm": "QAOA Trajectory Optimization",
+          "algorithm": "QAOA on a toy mission QUBO",
           "speedup": "None proven",
           "classical_best": "Dynamic programming / genetic algorithms",
-          "troyer_assessment": "Trajectory optimization is well-served by classical methods. QAOA for routing/scheduling has the same unproven-advantage limitations as other combinatorial optimization problems.",
+          "troyer_assessment": "Trajectory optimization is well-served by classical methods. QAOA for routing/scheduling has the same unproven-advantage limitations as other combinatorial optimization problems. This kernel is a four-leg toy QUBO, not a trajectory optimizer.",
           "archived": true,
           "archival_reason": "No proven speedup"
         }
@@ -225,10 +225,10 @@
         },
         {
           "id": "19_quantum_chromodynamics",
-          "algorithm": "Trotter Lattice Gauge Simulation",
-          "speedup": "Exponential for real-time dynamics (sign problem)",
+          "algorithm": "Trotterized spin chain (stand-in for lattice gauge dynamics)",
+          "speedup": "Exponential for real-time dynamics of interacting gauge theories (sign problem); none for this kernel, a classically solvable Ising chain",
           "classical_best": "Lattice QCD (Euclidean, limited to static properties)",
-          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically, but realistic lattice sizes need large fault-tolerant machines (Kan and Nam, arXiv:2107.12769, give the gate costs).",
+          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically, but realistic lattice sizes need large fault-tolerant machines (Kan and Nam, arXiv:2107.12769, give the gate costs). This project's kernel is not yet such a simulation: it evolves a transverse-field Ising chain, which has no gauge fields and maps to free fermions.",
           "active": true
         }
       ]
@@ -241,7 +241,7 @@
     "active_count": 9,
     "archived_count": 11,
     "vqe_to_qpe_upgrades": ["01_hubbard", "02_catalysis", "07_drug_discovery", "14_materials_discovery", "17_nuclear_physics"],
-    "key_insight": "7/20 problems use algorithms with a proven asymptotic speedup (QAE x2, Grover x2, HHL x2, Shor); six of the seven are archived, because the quadratic speedups do not survive error-correction overhead and HHL's depends on data loading, leaving only Shor's superpolynomial speedup active. 5/20 rely on heuristics with no proven speedup (QAOA x4, swap test), all archived. 8/20 sit in the simulation category: seven quantum simulation problems (five upgraded from VQE to QPE) and the QEC repetition code as infrastructure. 9 problems are active and 11 archived.",
+    "key_insight": "7/20 problems target algorithms with a proven asymptotic speedup (QAE x2, Grover x2, HHL x2, Shor), though 06's kernel samples its loss probability directly and never implemented amplitude estimation; six of the seven are archived, because the quadratic speedups do not survive error-correction overhead and HHL's depends on data loading, leaving only Shor's superpolynomial speedup active. 5/20 rely on heuristics with no proven speedup (QAOA x4, swap test), all archived. 8/20 sit in the simulation category: seven quantum simulation problems (five upgraded from VQE to QPE) and the QEC repetition code as infrastructure. 9 problems are active and 11 archived.",
     "divincenzo_note": "DiVincenzo's criteria (scalable qubits, initialization, coherence, universal gates, measurement) are applied as a hardware-realism overlay at Stage C/D. Current quantum hardware challenges  limited qubit counts, short coherence times, high error rates  map directly to DiVincenzo gaps that must close before utility-scale advantage is achievable."
   }
 }

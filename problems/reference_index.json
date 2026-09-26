@@ -72,23 +72,23 @@
       "speedup_class": "exponential",
       "naturally_quantum": true,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "Naturally quantum  simulating exciton transport avoids the I/O problem entirely."
+      "notes": "Naturally quantum  simulating exciton transport avoids the I/O problem entirely. The kernel follows a single exciton, which classical methods simulate in polynomial time; the case rests on many-body transport the instance does not model."
     },
     {
       "id": "19_quantum_chromodynamics",
       "algorithm": "Trotter",
-      "algorithm_class": "Hamiltonian Simulation (Lattice Gauge Theory)",
+      "algorithm_class": "Hamiltonian Simulation (Lattice Gauge Theory; this kernel is a transverse-field Ising chain)",
       "speedup_class": "exponential",
       "naturally_quantum": true,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "Sign problem makes classical lattice QCD unable to do real-time dynamics. Strongest long-term case."
+      "notes": "Sign problem makes classical lattice QCD unable to do real-time dynamics. Strongest long-term case. The kernel is a transverse-field Ising chain, which maps to free fermions and is classically solvable; the verdict applies to interacting gauge dynamics, not to this instance."
     }
   ],
   "archived_problems": [
     {"id": "03_qae_risk", "reason": "Quadratic speedup + I/O cost", "algorithm": "QAE"},
     {"id": "04_linear_solvers", "reason": "I/O bottleneck (state prep + readout)", "algorithm": "HHL"},
     {"id": "05_qaoa_maxcut", "reason": "No proven speedup; no QAOA is known to beat Goemans-Williamson", "algorithm": "QAOA"},
-    {"id": "06_high_frequency_trading", "reason": "Quadratic (amplitude estimation) + I/O", "algorithm": "QAE"},
+    {"id": "06_high_frequency_trading", "reason": "Quadratic (amplitude estimation) + I/O; the kernel samples directly and never implemented amplitude estimation", "algorithm": "Sampling (planned: QAE)"},
     {"id": "08_protein_folding", "reason": "QAOA heuristic, no proven speedup", "algorithm": "QAOA"},
     {"id": "10_post_quantum_cryptography", "reason": "Quadratic + oracle cost dominates", "algorithm": "Grover"},
     {"id": "11_quantum_machine_learning", "reason": "I/O bottleneck (data loading)", "algorithm": "Swap Test"},

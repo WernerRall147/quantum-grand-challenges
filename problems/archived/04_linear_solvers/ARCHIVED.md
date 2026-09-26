@@ -1,13 +1,17 @@
-# ARCHIVED  Quantum Linear Solvers (HHL)
+# ARCHIVED Quantum Linear Solvers (HHL)
 
-**Status**: Archived (April 2026)
+**Status**: Archived (April 2026), corrected 2026-09-26.
 
-## Archival Reason
+## Archival reason
 
-HHL offers exponential O(polylog N) speedup in the core linear algebra, but state preparation is O(N) and solution readout is O(N), erasing the exponential advantage end-to-end.
+This problem is a pedagogical 2x2 HHL demonstration. HHL can give asymptotic improvements for suitable sparse, well-conditioned linear systems, but only when state preparation and readout do not erase the gain. Full solution-vector readout is a classical-size output.
 
-> Code in this directory remains for **pedagogical reference**.
+The corrected Q# code now implements the textbook 2x2 HHL steps for the small matrix in this folder. The archived estimator artifacts are mock data and are not estimates of the corrected circuit.
 
-## Reference
+> Code in this directory remains for pedagogical reference.
 
-Analysis follows Dr. Matthias Troyer’s “Building the Modern Quantum Architecture” framework (2025–2026).
+## References
+
+- Harrow, Hassidim and Lloyd, arXiv:0811.3171.
+- Aaronson, Nature Physics 11, 291 (2015).
+- Tang, arXiv:1807.04271.

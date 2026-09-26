@@ -17,7 +17,7 @@ loss_encoding:
   max_loss: 10.0       # Maximum loss value to encode
   
 # Risk Analysis Configuration  
-risk_threshold: 2.0    # Losses above this are "tail events" (~95th percentile)
+risk_threshold: 2.0    # Losses above this are "tail events" (75.6th percentile of log-normal(0,1))
 target_precision: 0.1  # Target precision ε for amplitude estimation
 
 # QAE Algorithm Parameters
@@ -27,8 +27,8 @@ amplitude_estimation:
   
 # Expected Results (for validation)
 theoretical:
-  tail_probability: 0.159  # P(X > 2) for log-normal(0,1) ≈ 15.9%
-  classical_samples_needed: 3600  # For ε=0.1: n ≈ p(1-p)/ε² ≈ 0.16*0.84/0.01
+  tail_probability: 0.244  # P(X > 2) = 1 - Φ(ln 2) for continuous log-normal(0,1); the 256-level grid differs slightly
+  classical_samples_needed: 19  # standard error ε = 0.1 needs n = p(1-p)/ε² ≈ 0.244*0.756/0.01 ≈ 19
   
 # Resource Estimates (Surface Code)
 estimated_resources:

@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 """
-Adaptive IQAE (Iterative Quantum Amplitude Estimation) Python driver.
+Iterative Quantum Amplitude Estimation (IQAE) driver for problem 03.
 
-Implements the full IQAE algorithm from Grinko et al. (arXiv:1912.05559):
-  - Confidence-interval narrowing with Clopper-Pearson bounds
-  - Adaptive Grover power scheduling
-  - Quadratic speedup: O(1/ε) oracle queries vs O(1/ε²) for classical MC
+Implements Algorithm 1 of Grinko, Gacon, Zoufal and Woerner, "Iterative quantum amplitude
+estimation", npj Quantum Information 7, 52 (2021), arXiv:1912.05559:
+  - FindNextK (their Algorithm 2) picks the largest Grover power whose scaled interval stays
+    in one half-circle, so each measurement inverts to a single interval on theta
+  - Clopper-Pearson intervals at level alpha / T, with T the bound on the number of rounds,
+    so the final interval contains a with probability at least 1 - alpha
+  - Rounds that reuse a Grover power are pooled
 
-The Q# IQAERound operation provides the quantum kernel; this module
-handles the classical outer loop.
+The Q# IQAERound operation provides the quantum kernel; this module runs the classical loop.
+Query counts are applications of A or its inverse (a Q^k A|0> shot costs 2k + 1), the unit in
+which a classical Monte Carlo sample costs one.
 """
 
 from __future__ import annotations
@@ -18,7 +22,7 @@ import json
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
 import numpy as np
 from scipy import stats
@@ -26,12 +30,12 @@ from scipy import stats
 
 @dataclass
 class IQAEParams:
-    """Parameters for the IQAE algorithm."""
-    epsilon: float = 0.01         # Target additive precision
-    alpha: float = 0.05           # Failure probability (1 - confidence)
-    max_iterations: int = 100     # Max number of adaptive rounds
-    min_shots: int = 100          # Minimum shots per round
-    max_grover_power: int = 64    # Maximum k for G^k
+    """Parameters for IQAE."""
+    epsilon: float = 0.01         # Target half-width of the confidence interval on a
+    alpha: float = 0.05           # The interval misses a with probability at most alpha
+    shots_per_round: int = 100    # N_shots in Grinko et al.
+    min_ratio: float = 2.0        # r in FindNextK: a new K is at least r times the last
+    max_rounds: int = 1000        # Safety stop; the analysis in the paper needs far fewer
 
 
 @dataclass
@@ -41,9 +45,10 @@ class IQAERoundResult:
     shots: int            # Number of shots
     ones_count: int       # Number of 'One' outcomes
     measured_prob: float  # ones_count / shots
-    ci_lower: float       # Clopper-Pearson lower bound
-    ci_upper: float       # Clopper-Pearson upper bound
-    oracle_queries: int   # Total oracle calls this round = shots * (2k+1)
+    ci_lower: float       # Clopper-Pearson bound on P(One|k), pooled over rounds with this k
+    ci_upper: float
+    oracle_queries: int   # Applications of A or its inverse this round = shots * (2k+1)
+    upper_half_circle: bool = True
 
 
 @dataclass
@@ -77,124 +82,157 @@ def clopper_pearson(ones: int, total: int, alpha: float) -> tuple[float, float]:
     return (float(lo), float(hi))
 
 
-def _theta_from_prob(p: float) -> float:
-    """Convert measurement probability to θ: p = sin²(θ) → θ = arcsin(√p)."""
-    p_clipped = max(0.0, min(1.0, p))
-    return math.asin(math.sqrt(p_clipped))
+def max_rounds(epsilon: float, min_ratio: float = 2.0) -> int:
+    """T in Grinko et al.: a bound on the number of rounds, over which alpha is split."""
+    return int(math.log(min_ratio * math.pi / 8 / epsilon) / math.log(min_ratio)) + 1
 
 
-def _amplitude_ci_from_round(
+def find_next_k(
     k: int,
-    ci_lower: float,
-    ci_upper: float,
-) -> list[tuple[float, float]]:
-    """Convert a confidence interval on P(One|k) to intervals on the amplitude a.
+    upper_half_circle: bool,
+    theta_interval: tuple[float, float],
+    min_ratio: float = 2.0,
+) -> tuple[int, bool]:
+    """FindNextK, Algorithm 2 of Grinko et al.
 
-    For Grover power k:  P(One|k) = sin²((2k+1)θ), with a = sin²(θ).
-    The mapping from P → θ → a has multiple branches due to sin² periodicity.
-    Returns a list of candidate (a_lo, a_hi) intervals.
+    theta is measured in turns: a = sin^2(2 pi theta) with theta in [0, 1/4], and
+    P(One|k) = sin^2((2k+1) 2 pi theta) = (1 - cos(2 pi K theta)) / 2 with K = 4k + 2.
+    Returns the largest k, with K at least `min_ratio` times the current K, for which K times
+    the current interval lies inside one half-circle, where arccos inverts P uniquely; or the
+    current k if there is none.
     """
-    factor = 2 * k + 1
-    # θ_lo and θ_hi from the CI on P(One)
-    theta_lo_direct = _theta_from_prob(ci_lower) / factor
-    theta_hi_direct = _theta_from_prob(ci_upper) / factor
+    theta_l, theta_u = theta_interval
+    old_scaling = 4 * k + 2
+    max_scaling = int(1 / (2 * (theta_u - theta_l)))
+    scaling = max_scaling - (max_scaling - 2) % 4
+    while scaling >= min_ratio * old_scaling:
+        theta_min = scaling * theta_l - int(scaling * theta_l)
+        theta_max = scaling * theta_u - int(scaling * theta_u)
+        if theta_min <= theta_max <= 0.5:
+            return (scaling - 2) // 4, True
+        if 0.5 <= theta_min <= theta_max:
+            return (scaling - 2) // 4, False
+        scaling -= 4
+    return k, upper_half_circle
 
-    candidates = []
-    # Consider branches: θ could be in [j*π/factor, (j+1)*π/factor] for various j
-    # For practical IQAE, the first few branches suffice
-    for j in range(factor):
-        # Branch j: θ = (j*π ± arcsin(√p)) / factor
-        for sign in [1, -1]:
-            theta_lo = (j * math.pi + sign * _theta_from_prob(ci_lower)) / factor
-            theta_hi = (j * math.pi + sign * _theta_from_prob(ci_upper)) / factor
-            if theta_lo > theta_hi:
-                theta_lo, theta_hi = theta_hi, theta_lo
-            # θ must be in [0, π/2] for a ∈ [0, 1]
-            theta_lo = max(0.0, min(math.pi / 2, theta_lo))
-            theta_hi = max(0.0, min(math.pi / 2, theta_hi))
-            if theta_hi > theta_lo:
-                a_lo = math.sin(theta_lo) ** 2
-                a_hi = math.sin(theta_hi) ** 2
-                if a_lo > a_hi:
-                    a_lo, a_hi = a_hi, a_lo
-                candidates.append((a_lo, a_hi))
 
-    # De-duplicate and merge overlapping intervals
-    if not candidates:
-        return [(0.0, 1.0)]
+def iterative_amplitude_estimation(
+    sample: Callable[[int, int], int],
+    params: IQAEParams,
+) -> IQAEResult:
+    """Algorithm 1 of Grinko et al. with Clopper-Pearson intervals at level alpha / T.
 
-    candidates.sort()
-    merged = [candidates[0]]
-    for lo, hi in candidates[1:]:
-        if lo <= merged[-1][1] + 1e-12:
-            merged[-1] = (merged[-1][0], max(merged[-1][1], hi))
+    `sample(k, shots)` returns how many of `shots` measurements of Q^k A|0> gave One. The
+    returned interval contains a with probability at least 1 - alpha.
+    """
+    start = time.time()
+    alpha_round = params.alpha / max_rounds(params.epsilon, params.min_ratio)
+    theta_l, theta_u = 0.0, 0.25
+    k, upper = 0, True
+    pooled_ones = pooled_shots = 0
+    a_lo, a_hi = 0.0, 1.0
+    rounds: list[IQAERoundResult] = []
+    total_queries = total_shots = 0
+
+    while theta_u - theta_l > params.epsilon / math.pi and len(rounds) < params.max_rounds:
+        next_k, upper = find_next_k(k, upper, (theta_l, theta_u), params.min_ratio)
+        if next_k != k or not rounds:
+            pooled_ones = pooled_shots = 0
+        k = next_k
+        shots = params.shots_per_round
+        ones = int(sample(k, shots))
+        pooled_ones += ones
+        pooled_shots += shots
+        total_shots += shots
+        total_queries += shots * (2 * k + 1)
+
+        p_lo, p_hi = clopper_pearson(pooled_ones, pooled_shots, alpha_round)
+        if upper:
+            turn_lo = math.acos(1 - 2 * p_lo) / (2 * math.pi)
+            turn_hi = math.acos(1 - 2 * p_hi) / (2 * math.pi)
         else:
-            merged.append((lo, hi))
+            turn_lo = 1 - math.acos(1 - 2 * p_hi) / (2 * math.pi)
+            turn_hi = 1 - math.acos(1 - 2 * p_lo) / (2 * math.pi)
+        scaling = 4 * k + 2
+        # Both ends share one half-circle, so take the whole turns from the lower end: the upper
+        # end can sit exactly on the next whole turn when the interval on P reaches 0.
+        whole_turns = int(scaling * theta_l)
+        theta_l = (whole_turns + turn_lo) / scaling
+        theta_u = (whole_turns + turn_hi) / scaling
+        a_lo = math.sin(2 * math.pi * theta_l) ** 2
+        a_hi = math.sin(2 * math.pi * theta_u) ** 2
 
-    return merged
+        rounds.append(IQAERoundResult(
+            k=k, shots=shots, ones_count=ones, measured_prob=ones / shots,
+            ci_lower=p_lo, ci_upper=p_hi, oracle_queries=shots * (2 * k + 1),
+            upper_half_circle=upper,
+        ))
 
-
-def _intersect_intervals(
-    current: list[tuple[float, float]],
-    new: list[tuple[float, float]],
-) -> list[tuple[float, float]]:
-    """Intersect two lists of intervals on [0, 1]."""
-    result = []
-    for a_lo, a_hi in current:
-        for b_lo, b_hi in new:
-            lo = max(a_lo, b_lo)
-            hi = min(a_hi, b_hi)
-            if hi > lo + 1e-15:
-                result.append((lo, hi))
-    return result if result else [(0.0, 1.0)]
-
-
-def _pick_next_k(
-    current_intervals: list[tuple[float, float]],
-    prev_k: int,
-    max_k: int,
-) -> int:
-    """Pick the next Grover power k that best disambiguates the current interval.
-
-    Strategy: double k (exponential schedule), capped at max.
-    More sophisticated: pick k so that (2k+1)*θ rotates the interval
-    away from the sin² extrema.
-    """
-    # Simple exponential schedule (matches arXiv:1912.05559 Section III.A)
-    next_k = max(1, prev_k * 2)
-    return min(next_k, max_k)
+    return IQAEResult(
+        estimate=(a_lo + a_hi) / 2,
+        confidence_interval=(a_lo, a_hi),
+        epsilon_achieved=(a_hi - a_lo) / 2,
+        total_oracle_queries=total_queries,
+        total_shots=total_shots,
+        rounds=rounds,
+        runtime_seconds=time.time() - start,
+        converged=theta_u - theta_l <= params.epsilon / math.pi,
+    )
 
 
-def _shots_for_round(k: int, alpha_round: float, epsilon: float) -> int:
-    """Determine number of shots for a round to achieve target resolution.
+def exact_sampler(a: float, rng: np.random.Generator) -> Callable[[int, int], int]:
+    """A sampler that draws from the ideal P(One|k) = sin^2((2k+1) theta), sin^2(theta) = a."""
+    theta = math.asin(math.sqrt(a))
 
-    Uses the Clopper-Pearson interval width heuristic:
-    width ≈ 2 * z_{α/2} * √(p(1-p)/N)
-    For worst case p=0.5: N ≈ (z / w)² where w is target width.
-    """
-    z = stats.norm.ppf(1 - alpha_round / 2)
-    # Target: interval width on P(One) should map to ≤ ε on amplitude
-    factor = 2 * k + 1
-    target_width = epsilon * factor * 2  # rough: δa ≈ δP / (2k+1)
-    target_width = min(target_width, 0.5)  # don't go wider than 0.5
-    n = max(50, int(math.ceil((z / target_width) ** 2 * 0.25)))
-    return min(n, 10000)  # cap per-round shots
+    def sample(k: int, shots: int) -> int:
+        return int(rng.binomial(shots, math.sin((2 * k + 1) * theta) ** 2))
+
+    return sample
+
+
+def discrete_loss_distribution(loss_qubits: int, mean: float, std_dev: float) -> tuple[list[float], list[float]]:
+    """The distribution the circuit loads: Main.LogNormalProbabilities and LossValueFromIndex."""
+    levels = 1 << loss_qubits
+    values = [(i + 1) / levels * 10.0 for i in range(levels)]
+    sigma = max(std_dev, 0.01)
+    pdf = [math.exp(-((math.log(x) - mean) ** 2) / (2 * sigma * sigma)) / (x * sigma * math.sqrt(2 * math.pi)) for x in values]
+    total = sum(pdf)
+    return [p / total for p in pdf], values
+
+
+def discrete_tail_probability(loss_qubits: int, threshold: float, mean: float, std_dev: float) -> float:
+    """a, the amplitude the circuit encodes: P(loss > threshold) on the 2^n-level grid."""
+    probabilities, values = discrete_loss_distribution(loss_qubits, mean, std_dev)
+    return sum(p for p, x in zip(probabilities, values) if x > threshold)
+
+
+def monte_carlo_samples_for(a: float, half_width: float, alpha: float) -> int:
+    """Samples plain Monte Carlo needs for a normal-approximation interval of this half-width."""
+    z = stats.norm.ppf(1 - alpha / 2)
+    return int(math.ceil(z * z * a * (1 - a) / (half_width * half_width)))
 
 
 class AdaptiveIQAE:
-    """Full adaptive IQAE algorithm with confidence-interval narrowing.
+    """IQAE against the Q# kernel or an exact sampler.
 
-    Usage with local qsharp simulator:
+    Usage with the local qsharp simulator:
         iqae = AdaptiveIQAE(params)
         result = iqae.run_local(loss_qubits=4, threshold=2.5, mean=0.0, std_dev=1.0)
-
-    Usage with Azure Quantum (future):
-        iqae = AdaptiveIQAE(params)
-        result = iqae.run_azure(workspace, target, ...)
     """
 
     def __init__(self, params: Optional[IQAEParams] = None):
         self.params = params or IQAEParams()
+
+    def run(self, sample: Callable[[int, int], int], verbose: bool = False) -> IQAEResult:
+        result = iterative_amplitude_estimation(sample, self.params)
+        if verbose:
+            for index, r in enumerate(result.rounds, start=1):
+                half = "upper" if r.upper_half_circle else "lower"
+                print(
+                    f"  Round {index}: k={r.k}, shots={r.shots}, P(1)={r.measured_prob:.4f} "
+                    f"pooled CI [{r.ci_lower:.4f}, {r.ci_upper:.4f}] ({half} half-circle)"
+                )
+        return result
 
     def run_local(
         self,
@@ -204,107 +242,16 @@ class AdaptiveIQAE:
         std_dev: float = 1.0,
         verbose: bool = True,
     ) -> IQAEResult:
-        """Run IQAE using the local qsharp sparse-state simulator."""
+        """Run IQAE with Main.IQAERound on the local qsharp simulator."""
         from qdk import qsharp
 
-        start = time.time()
-        p = self.params
-
-        # ---- Build the Q# expression template ----
         prob_expr = f"Main.LogNormalProbabilities({loss_qubits}, {mean}, {std_dev})"
-        def run_round(k: int, shots: int) -> tuple[int, int]:
-            """Execute IQAERound shots times, return (ones_count, total)."""
+
+        def sample(k: int, shots: int) -> int:
             expr = f"Main.IQAERound({prob_expr}, {threshold}, {loss_qubits}, {k})"
-            results = qsharp.run(expr, shots)
-            ones = sum(1 for r in results if str(r) == "One")
-            return ones, shots
+            return sum(1 for r in qsharp.run(expr, shots) if str(r) == "One")
 
-        # ---- Adaptive loop ----
-        rounds: list[IQAERoundResult] = []
-        total_oracle_queries = 0
-        total_shots = 0
-
-        # Current confidence interval on the amplitude a ∈ [0, 1]
-        current_ci: list[tuple[float, float]] = [(0.0, 1.0)]
-        k = 0
-        alpha_used = 0.0
-        max_rounds = p.max_iterations
-
-        for round_idx in range(max_rounds):
-            # Allocate failure probability budget for this round
-            alpha_round = p.alpha / (2 * max_rounds)
-            alpha_used += alpha_round
-
-            # Determine shots
-            shots = max(p.min_shots, _shots_for_round(k, alpha_round, p.epsilon))
-
-            # Run quantum round
-            ones, total = run_round(k, shots)
-            measured_prob = ones / total
-            ci_lo, ci_hi = clopper_pearson(ones, total, alpha_round)
-
-            oracle_queries = total * (2 * k + 1)
-            total_oracle_queries += oracle_queries
-            total_shots += total
-
-            rr = IQAERoundResult(
-                k=k, shots=total, ones_count=ones,
-                measured_prob=measured_prob,
-                ci_lower=ci_lo, ci_upper=ci_hi,
-                oracle_queries=oracle_queries,
-            )
-            rounds.append(rr)
-
-            # Map CI on P(One|k) to CI on amplitude a
-            a_intervals = _amplitude_ci_from_round(k, ci_lo, ci_hi)
-            current_ci = _intersect_intervals(current_ci, a_intervals)
-
-            # Best estimate = midpoint of tightest interval
-            best_interval = min(current_ci, key=lambda iv: iv[1] - iv[0])
-            estimate = (best_interval[0] + best_interval[1]) / 2
-            half_width = (best_interval[1] - best_interval[0]) / 2
-
-            if verbose:
-                print(
-                    f"  Round {round_idx + 1}: k={k}, shots={total}, "
-                    f"P(1)={measured_prob:.4f} [{ci_lo:.4f}, {ci_hi:.4f}], "
-                    f"a ∈ [{best_interval[0]:.6f}, {best_interval[1]:.6f}], "
-                    f"est={estimate:.6f} ± {half_width:.6f}"
-                )
-
-            # Check convergence
-            if half_width <= p.epsilon:
-                runtime = time.time() - start
-                return IQAEResult(
-                    estimate=estimate,
-                    confidence_interval=(best_interval[0], best_interval[1]),
-                    epsilon_achieved=half_width,
-                    total_oracle_queries=total_oracle_queries,
-                    total_shots=total_shots,
-                    rounds=rounds,
-                    runtime_seconds=runtime,
-                    converged=True,
-                )
-
-            # Pick next k
-            k = _pick_next_k(current_ci, k, p.max_grover_power)
-
-        # Did not converge  return best so far
-        runtime = time.time() - start
-        best_interval = min(current_ci, key=lambda iv: iv[1] - iv[0])
-        estimate = (best_interval[0] + best_interval[1]) / 2
-        half_width = (best_interval[1] - best_interval[0]) / 2
-
-        return IQAEResult(
-            estimate=estimate,
-            confidence_interval=(best_interval[0], best_interval[1]),
-            epsilon_achieved=half_width,
-            total_oracle_queries=total_oracle_queries,
-            total_shots=total_shots,
-            rounds=rounds,
-            runtime_seconds=runtime,
-            converged=False,
-        )
+        return self.run(sample, verbose=verbose)
 
 
 def run_variance_reduced_mc(
@@ -315,11 +262,14 @@ def run_variance_reduced_mc(
     use_antithetic: bool = True,
     use_control_variate: bool = True,
 ) -> dict:
-    """Variance-reduced Monte Carlo baseline (per QAEUpdates2026 benchmarking rules).
+    """Variance-reduced Monte Carlo on the continuous log-normal model (not the discrete grid).
 
     Implements:
       - Antithetic variates: pair each Z with -Z to reduce variance
       - Control variate: use E[X] of the log-normal as a control
+
+    The standard error treats the antithetic pairs as independent draws, so it overstates the
+    error of the paired estimator; the variance-reduction factor is correspondingly low.
 
     Returns dict with estimate, standard_error, samples, runtime, method details.
     """
@@ -450,21 +400,76 @@ def run_cvar_bisection(
     }
 
 
+def run_discrete_mc(
+    loss_qubits: int,
+    threshold: float,
+    mean: float,
+    std_dev: float,
+    n_samples: int,
+    rng: np.random.Generator,
+) -> dict:
+    """Plain Monte Carlo on the distribution the circuit loads, so it estimates the same a."""
+    probabilities, values = discrete_loss_distribution(loss_qubits, mean, std_dev)
+    draws = rng.choice(len(values), size=n_samples, p=probabilities)
+    tail = np.array([values[i] > threshold for i in draws], dtype=float)
+    p_hat = float(tail.mean())
+    return {
+        "estimate": p_hat,
+        "standard_error": float(math.sqrt(p_hat * (1 - p_hat) / n_samples)),
+        "samples": n_samples,
+    }
+
+
+def query_scaling(
+    a: float,
+    epsilons: list[float],
+    alpha: float,
+    shots_per_round: int,
+    repeats: int,
+    seed: int = 7,
+) -> list[dict]:
+    """IQAE query counts against plain Monte Carlo at the same interval half-width.
+
+    IQAE runs against the exact sampler, whose P(One|k) the Q# kernel reproduces (see
+    tooling/test_qae_kernel.py); query counts do not depend on which simulator drew the shots.
+    Both sides count applications of A or its inverse, and ignore error correction.
+    """
+    rng = np.random.default_rng(seed)
+    rows = []
+    for epsilon in epsilons:
+        params = IQAEParams(epsilon=epsilon, alpha=alpha, shots_per_round=shots_per_round)
+        runs = [iterative_amplitude_estimation(exact_sampler(a, rng), params) for _ in range(repeats)]
+        half_widths = [r.epsilon_achieved for r in runs]
+        queries = [r.total_oracle_queries for r in runs]
+        mean_half_width = float(np.mean(half_widths))
+        rows.append({
+            "epsilon_target": epsilon,
+            "iqae_mean_half_width": mean_half_width,
+            "iqae_mean_queries": float(np.mean(queries)),
+            "iqae_interval_misses": sum(1 for r in runs if not r.confidence_interval[0] <= a <= r.confidence_interval[1]),
+            "runs": repeats,
+            "mc_samples_same_half_width": monte_carlo_samples_for(a, mean_half_width, alpha),
+        })
+    return rows
+
+
 def main() -> int:
-    """Run the full IQAE analysis pipeline."""
+    """Run the IQAE analysis against like-for-like classical baselines."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="Adaptive IQAE driver")
+    parser = argparse.ArgumentParser(description="IQAE driver (Grinko et al. 2021)")
     parser.add_argument("--loss-qubits", type=int, default=4)
     parser.add_argument("--threshold", type=float, default=2.5)
     parser.add_argument("--mean", type=float, default=0.0)
     parser.add_argument("--std-dev", type=float, default=1.0)
     parser.add_argument("--epsilon", type=float, default=0.05,
-                        help="Target precision (default: 0.05)")
+                        help="Target half-width of the interval on a (default: 0.05)")
     parser.add_argument("--alpha", type=float, default=0.05,
-                        help="Failure probability (default: 0.05)")
-    parser.add_argument("--max-power", type=int, default=16)
-    parser.add_argument("--min-shots", type=int, default=100)
+                        help="The interval misses a with probability at most alpha (default: 0.05)")
+    parser.add_argument("--shots", type=int, default=100, help="Shots per round (default: 100)")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Seed the classical sampling. The Q# simulator is left unseeded: "
+                             "qsharp.set_quantum_seed repeats one outcome in every shot of a run")
     parser.add_argument("--skip-quantum", action="store_true",
                         help="Skip quantum IQAE, only run classical baselines")
     parser.add_argument("--output", type=str, default=None,
@@ -474,6 +479,7 @@ def main() -> int:
     problem_dir = Path(__file__).resolve().parent.parent
     estimates_dir = problem_dir / "estimates"
     estimates_dir.mkdir(exist_ok=True)
+    rng = np.random.default_rng(args.seed)
 
     results: dict = {
         "parameters": {
@@ -481,70 +487,74 @@ def main() -> int:
             "threshold": args.threshold,
             "mean": args.mean,
             "std_dev": args.std_dev,
+            "epsilon": args.epsilon,
+            "alpha": args.alpha,
+            "shots_per_round": args.shots,
         }
     }
 
-    # ---- Theoretical baseline ----
+    # ---- The quantity the circuit encodes, and the model it approximates ----
     from scipy.stats import lognorm
-    dist = lognorm(s=args.std_dev, scale=math.exp(args.mean))
-    theoretical = 1.0 - dist.cdf(args.threshold)
-    print(f"Theoretical tail probability P(L > {args.threshold}): {theoretical:.6f}")
-    results["theoretical_tail_probability"] = theoretical
+    discrete = discrete_tail_probability(args.loss_qubits, args.threshold, args.mean, args.std_dev)
+    continuous = float(1.0 - lognorm(s=args.std_dev, scale=math.exp(args.mean)).cdf(args.threshold))
+    print(f"Discrete tail probability on the {1 << args.loss_qubits}-level grid (what the circuit encodes): {discrete:.6f}")
+    print(f"Continuous log-normal tail P(L > {args.threshold}) (what the grid approximates): {continuous:.6f}")
+    results["discrete_tail_probability"] = discrete
+    results["continuous_tail_probability"] = continuous
 
-    # ---- Variance-reduced MC ----
-    print("\n--- Variance-Reduced Monte Carlo ---")
+    # ---- Plain MC on the same discrete distribution ----
+    mc_discrete = run_discrete_mc(args.loss_qubits, args.threshold, args.mean, args.std_dev, 100_000, rng)
+    print(f"\n--- Plain Monte Carlo on the same {1 << args.loss_qubits}-level distribution ---")
+    print(f"  {mc_discrete['estimate']:.6f} ± {mc_discrete['standard_error']:.6f} ({mc_discrete['samples']} samples)")
+    results["discrete_mc"] = mc_discrete
+
+    # ---- Variance-reduced MC on the continuous model ----
+    print("\n--- Variance-reduced Monte Carlo on the continuous log-normal model ---")
     mc_result = run_variance_reduced_mc(
         args.mean, args.std_dev, args.threshold, n_samples=100_000
     )
     print(f"  Plain MC:    {mc_result['plain_mc_estimate']:.6f} ± {mc_result['plain_mc_se']:.6f}")
     print(f"  VR MC:       {mc_result['estimate']:.6f} ± {mc_result['standard_error']:.6f}")
     print(f"  VR factor:   {mc_result['variance_reduction_factor']:.2f}x")
-    print(f"  Samples:     {mc_result['samples']}")
-    print(f"  Runtime:     {mc_result['runtime_seconds']:.4f}s")
-    results["variance_reduced_mc"] = mc_result
+    print(f"  This estimates the continuous tail ({continuous:.4f}), not the discrete a ({discrete:.4f}).")
+    results["variance_reduced_mc_continuous_model"] = mc_result
 
     # ---- CVaR/VaR ----
-    print("\n--- VaR / CVaR (bisection search) ---")
+    print("\n--- VaR / CVaR (classical bisection on the continuous model) ---")
     cvar_result = run_cvar_bisection(args.mean, args.std_dev, confidence_level=0.95)
     print(f"  VaR(95%):    {cvar_result['var_estimate']:.4f}  (theoretical: {cvar_result['var_theoretical']:.4f})")
     print(f"  CVaR(95%):   {cvar_result['cvar_estimate']:.4f}  (theoretical: {cvar_result['cvar_theoretical']:.4f})")
-    print(f"  Bisection:   {cvar_result['bisection_steps']} steps")
     results["cvar_var"] = cvar_result
 
-    # ---- Adaptive IQAE ----
+    # ---- IQAE against the Q# kernel ----
+    params = IQAEParams(epsilon=args.epsilon, alpha=args.alpha, shots_per_round=args.shots)
     if not args.skip_quantum:
-        print(f"\n--- Adaptive IQAE (ε={args.epsilon}, α={args.alpha}) ---")
+        print(f"\n--- IQAE on the Q# kernel (ε={args.epsilon}, α={args.alpha}, {args.shots} shots per round) ---")
         try:
             from qdk import qsharp
             qsharp.init(project_root=str(problem_dir / "qsharp"))
-
-            params = IQAEParams(
-                epsilon=args.epsilon,
-                alpha=args.alpha,
-                max_grover_power=args.max_power,
-                min_shots=args.min_shots,
-            )
-            iqae = AdaptiveIQAE(params)
-            iqae_result = iqae.run_local(
+            iqae_result = AdaptiveIQAE(params).run_local(
                 loss_qubits=args.loss_qubits,
                 threshold=args.threshold,
                 mean=args.mean,
                 std_dev=args.std_dev,
             )
+            lo, hi = iqae_result.confidence_interval
+            mc_needed = monte_carlo_samples_for(discrete, iqae_result.epsilon_achieved, args.alpha)
             print(f"\n  IQAE estimate:    {iqae_result.estimate:.6f}")
-            print(f"  CI:               [{iqae_result.confidence_interval[0]:.6f}, {iqae_result.confidence_interval[1]:.6f}]")
-            print(f"  ε achieved:       {iqae_result.epsilon_achieved:.6f}")
-            print(f"  Oracle queries:   {iqae_result.total_oracle_queries}")
-            print(f"  Total shots:      {iqae_result.total_shots}")
-            print(f"  Converged:        {iqae_result.converged}")
-            print(f"  Runtime:          {iqae_result.runtime_seconds:.2f}s")
+            print(f"  Interval:         [{lo:.6f}, {hi:.6f}] (contains a = {discrete:.6f}: {lo <= discrete <= hi})")
+            print(f"  Half-width:       {iqae_result.epsilon_achieved:.6f}")
+            print(f"  Queries:          {iqae_result.total_oracle_queries} applications of A or its inverse")
+            print(f"  Plain MC needs:   {mc_needed} samples for the same half-width at the same confidence")
             print(f"  Qubits used:      {args.loss_qubits + 1} (no precision register)")
 
             results["iqae"] = {
                 "estimate": iqae_result.estimate,
-                "confidence_interval": list(iqae_result.confidence_interval),
+                "confidence_interval": [lo, hi],
+                "contains_discrete_tail": lo <= discrete <= hi,
                 "epsilon_achieved": iqae_result.epsilon_achieved,
                 "total_oracle_queries": iqae_result.total_oracle_queries,
+                "mc_samples_same_half_width": mc_needed,
                 "total_shots": iqae_result.total_shots,
                 "converged": iqae_result.converged,
                 "runtime_seconds": iqae_result.runtime_seconds,
@@ -553,29 +563,38 @@ def main() -> int:
                     {
                         "k": r.k, "shots": r.shots, "ones": r.ones_count,
                         "measured_prob": r.measured_prob,
-                        "ci": [r.ci_lower, r.ci_upper],
+                        "pooled_ci": [r.ci_lower, r.ci_upper],
+                        "upper_half_circle": r.upper_half_circle,
                         "oracle_queries": r.oracle_queries,
                     }
                     for r in iqae_result.rounds
                 ],
             }
-
-            # ---- Comparison summary ----
-            print("\n--- Comparison Summary ---")
-            print(f"  Theoretical:  {theoretical:.6f}")
-            print(f"  IQAE:         {iqae_result.estimate:.6f} ± {iqae_result.epsilon_achieved:.6f}  ({iqae_result.total_oracle_queries} queries, {args.loss_qubits + 1} qubits)")
-            print(f"  VR MC:        {mc_result['estimate']:.6f} ± {mc_result['standard_error']:.6f}  ({mc_result['samples']} samples)")
-            if iqae_result.total_oracle_queries > 0 and mc_result['samples'] > 0:
-                query_ratio = mc_result['samples'] / iqae_result.total_oracle_queries
-                print(f"  Query ratio:  MC/IQAE = {query_ratio:.1f}x")
-
         except ImportError:
             print("  [Skipped  qsharp package not available]")
-        except Exception as e:
-            print(f"  [Error: {e}]")
-            results["iqae"] = {"error": str(e)}
+
+    # ---- Query counts against plain MC at equal precision ----
+    print("\n--- Queries at equal half-width (exact sampler, 20 runs per ε) ---")
+    scaling = query_scaling(discrete, [0.05, 0.02, 0.01, 0.005, 0.002, 0.001], args.alpha, args.shots, repeats=20)
+    for row in scaling:
+        print(
+            f"  ε={row['epsilon_target']:<6} IQAE {row['iqae_mean_queries']:>9.0f} queries "
+            f"(half-width {row['iqae_mean_half_width']:.5f}, misses {row['iqae_interval_misses']}/{row['runs']})  "
+            f"plain MC {row['mc_samples_same_half_width']:>9} samples"
+        )
+    fewer = [row["epsilon_target"] for row in scaling if row["iqae_mean_queries"] < row["mc_samples_same_half_width"]]
+    if len(fewer) == len(scaling):
+        print(f"  IQAE needs fewer queries than plain MC at every ε tested ({scaling[0]['epsilon_target']} to {scaling[-1]['epsilon_target']}).")
+    elif fewer:
+        print(f"  IQAE needs fewer queries than plain MC only at ε in {fewer}.")
+    else:
+        print("  IQAE never needs fewer queries than plain MC in this range.")
+    print("  These are noiseless query counts; error correction makes each quantum query far slower than a sample.")
+    results["query_scaling"] = {"rows": scaling, "iqae_fewer_queries_at_epsilon": fewer}
 
     # ---- Save results ----
+    from datetime import datetime, timezone
+    results["generated_utc"] = datetime.now(timezone.utc).isoformat()
     out_path = Path(args.output) if args.output else estimates_dir / "iqae_analysis.json"
     # Convert numpy types for JSON serialization
     def _convert(obj):

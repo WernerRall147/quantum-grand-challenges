@@ -8,16 +8,14 @@ import Std.Measurement.MResetEachZ;
 @EntryPoint()
 operation QaoaMaxCutKernel() : Result[] {
     use qs = Qubit[3];
-    // Init: uniform superposition
     for q in qs { H(q); }
-    // Cost layer (triangle graph, γ=0.5)
-    // Edge 0-1
-    CNOT(qs[0], qs[1]); Rz(1.0, qs[1]); CNOT(qs[0], qs[1]);
-    // Edge 0-2
-    CNOT(qs[0], qs[2]); Rz(1.0, qs[2]); CNOT(qs[0], qs[2]);
-    // Edge 1-2
-    CNOT(qs[1], qs[2]); Rz(1.0, qs[2]); CNOT(qs[1], qs[2]);
-    // Mixer layer (β=0.5)
-    for q in qs { Rx(1.0, q); }
+    // Triangle MaxCut cost layer at optimized p=1 angles.
+    // This repository's MaxCut convention applies CNOT-Rz(2 gamma)-CNOT,
+    // so gamma_standard in exp(-i gamma_standard C) is -2 gamma.
+    // gamma = 2.827433388230814; beta = 0.3141592653589793.
+    CNOT(qs[0], qs[1]); Rz(5.654866776461628, qs[1]); CNOT(qs[0], qs[1]);
+    CNOT(qs[0], qs[2]); Rz(5.654866776461628, qs[2]); CNOT(qs[0], qs[2]);
+    CNOT(qs[1], qs[2]); Rz(5.654866776461628, qs[2]); CNOT(qs[1], qs[2]);
+    for q in qs { Rx(0.6283185307179586, q); }
     return MResetEachZ(qs);
 }

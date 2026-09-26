@@ -83,15 +83,25 @@ interface EstimateData {
   numQubits: number | null;
 }
 
-// Their emulator runs date from April 2026, before #176 replaced these problems'
-// VQE kernels with phase estimation. The histograms are real but describe deleted code.
-const STALE_EMULATOR_PROBLEMS = new Set([
-  '01_hubbard',
-  '02_catalysis',
-  '07_drug_discovery',
-  '14_materials_discovery',
-  '17_nuclear_physics',
-]);
+// Emulator runs recorded in April 2026 against kernels that have since been rewritten. The
+// histograms are real measurements, but of programs that no longer exist in this repository.
+const STALE_EMULATOR_PROBLEMS: Record<string, string> = {
+  '01_hubbard': 'a VQE kernel that has since been replaced by phase estimation',
+  '02_catalysis': 'a VQE kernel that has since been replaced by phase estimation',
+  '07_drug_discovery': 'a VQE kernel that has since been replaced by phase estimation',
+  '14_materials_discovery': 'a VQE kernel that has since been replaced by phase estimation',
+  '17_nuclear_physics': 'a VQE kernel that has since been replaced by phase estimation',
+  '09_factorization': 'a Shor kernel that did not find the period, rewritten in September 2026',
+  '18_photovoltaics': 'a quantum-walk kernel whose position never depended on its coin, rewritten in September 2026',
+  '03_qae_risk': 'a canonical QAE kernel whose Grover iterate was wrong, corrected on 2026-09-26',
+  '04_linear_solvers': 'a kernel that was not HHL, replaced by textbook HHL on 2026-09-26',
+  '13_climate_modeling': 'a kernel that was not HHL, replaced by textbook HHL on 2026-09-26',
+  '05_qaoa_maxcut': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-26',
+  '08_protein_folding': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-26',
+  '12_quantum_optimization': 'a hardware kernel that differed from the estimated program, aligned on 2026-09-26',
+  '20_space_mission_planning': 'a hardware kernel that implemented a different model, aligned on 2026-09-26',
+  '11_quantum_machine_learning': 'a swap-test kernel that compared two unrelated product states, replaced on 2026-09-26',
+};
 
 interface VizData {
   poster: { src: string; width: number; height: number; alt: string };
@@ -143,21 +153,21 @@ const ALGORITHM_MAP: Record<string, string> = {
   '03_qae_risk': 'Quantum Amplitude Estimation (IQAE)',
   '04_linear_solvers': 'HHL Algorithm (QPE + eigenvalue inversion)',
   '05_qaoa_maxcut': 'QAOA (Quantum Approximate Optimization)',
-  '06_high_frequency_trading': 'Amplitude Estimation for VaR',
+  '06_high_frequency_trading': 'Direct sampling of a loss probability (no amplitude estimation)',
   '07_drug_discovery': 'QPE Molecular Binding Energy',
-  '08_protein_folding': 'QAOA Lattice Folding',
+  '08_protein_folding': 'QAOA on a toy Ising/QUBO (no protein model)',
   '09_factorization': "Shor's Algorithm (QPE + modular multiply)",
   '10_post_quantum_cryptography': 'Grover Key Search',
   '11_quantum_machine_learning': 'Swap Test Kernel',
-  '12_quantum_optimization': 'QAOA Job Scheduling',
-  '13_climate_modeling': 'HHL for Diffusion PDE',
+  '12_quantum_optimization': 'QAOA on a toy scheduling QUBO',
+  '13_climate_modeling': 'HHL on a 2x2 diffusion matrix (toy)',
   '14_materials_discovery': 'QPE Band Gap Estimation',
   '15_database_search': "Grover's Search Algorithm",
   '16_error_correction': '3-Qubit Repetition Code',
   '17_nuclear_physics': 'QPE Deuteron Binding Energy',
   '18_photovoltaics': 'Quantum Walk (Exciton Transport)',
-  '19_quantum_chromodynamics': 'Trotter Lattice Gauge Simulation',
-  '20_space_mission_planning': 'QAOA Trajectory Optimization',
+  '19_quantum_chromodynamics': 'Trotterized transverse-field Ising chain',
+  '20_space_mission_planning': 'QAOA on a toy mission QUBO',
 };
 
 const QUBIT_MAP: Record<string, number> = {
@@ -388,7 +398,9 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
               <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', textAlign: 'center', border: '1px solid #bbf7d0' }}>
                 <div style={{ fontSize: '0.8rem', color: '#166534' }}>95% CI</div>
                 <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#15803d' }}>
-                  &plusmn; {(problem.calibration.ci95_half_width || 0).toFixed(3)}
+                  {problem.calibration.std_value === 0 && problem.calibration.num_runs > 1
+                    ? 'undefined'
+                    : <>&plusmn; {(problem.calibration.ci95_half_width || 0).toFixed(3)}</>}
                 </div>
               </div>
               <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', textAlign: 'center', border: '1px solid #bbf7d0' }}>
@@ -400,6 +412,13 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
                 <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#15803d' }}>{(problem.calibration.std_value || 0).toFixed(3)}</div>
               </div>
             </div>
+            {problem.calibration.std_value === 0 && problem.calibration.num_runs > 1 && (
+              <p style={{ color: '#166534', fontSize: '0.85rem', lineHeight: 1.6, margin: '1rem 0 0' }}>
+                Every run returned the same value. The interval is a normal approximation, which has zero width
+                when the runs do not vary, so it does not bound the mean; it is left undefined rather than shown as
+                &plusmn;&nbsp;0.
+              </p>
+            )}
           </section>
         )}
 
@@ -476,16 +495,15 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
         {problem.emulator && (
           <section style={{ marginTop: '2rem', padding: '1.5rem', background: '#f5f3ff', borderRadius: '12px', border: '1px solid #ddd6fe' }}>
             <h2 style={{ marginTop: 0, color: '#5b21b6' }}>Cross-Platform Emulator Results (100 shots)</h2>
-            {STALE_EMULATOR_PROBLEMS.has(problem.id) && (
+            {STALE_EMULATOR_PROBLEMS[problem.id] && (
               <div style={{ marginTop: '1rem', padding: '1rem 1.25rem', background: '#fffbeb', borderRadius: '8px', border: '1px solid #fcd34d' }}>
                 <div style={{ color: '#92400e', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.4rem' }}>
                   These histograms predate the current kernel
                 </div>
                 <p style={{ color: '#78350f', fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>
-                  This run was recorded in April 2026 against a VQE kernel that has since been replaced by phase
-                  estimation. The shot distribution below is a real measurement, but it is a measurement of a program
-                  that no longer exists in this repository. Azure Quantum submission is currently blocked, so it has
-                  not been re-run.
+                  This run was recorded in April 2026 against {STALE_EMULATOR_PROBLEMS[problem.id]}. The shot
+                  distribution below is a real measurement, but it is a measurement of a program that no longer
+                  exists in this repository, and it has not been re-run against the current kernel.
                 </p>
               </div>
             )}

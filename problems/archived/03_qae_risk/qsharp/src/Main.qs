@@ -228,22 +228,31 @@ operation ReflectAboutZero(register : Qubit[]) : Unit is Adj + Ctl {
     }
 }
 
+/// A S_0 A†, the reflection about A|0...0⟩: undo the preparation, flip the sign of |0...0⟩,
+/// prepare again. (`within { statePrep }` would build A† S_0 A, a reflection about a different
+/// state, which went unnoticed while the only test used H, which is its own inverse.)
 operation ReflectAboutState(statePrep : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
     within {
-        statePrep(register);
+        Adjoint statePrep(register);
     } apply {
         ReflectAboutZero(register);
     }
 }
 
+/// One Grover iterate Q = -A S_0 A† S_χ (Brassard, Høyer, Mosca, Tapp 2002), with the marker
+/// held in |−⟩ so that the oracle acts as the phase flip S_χ on the loss register. On the span
+/// of A|0...0⟩, Q has eigenvalues exp(±2iθ) with sin²(θ) = a. The -1 is a global phase for Q
+/// alone but a relative phase once Q is controlled, as phase estimation controls it; without it
+/// the register reads 1/2 ± θ/π and decodes to 1 - a.
 operation GroverOperator(
     statePrep : Qubit[] => Unit is Adj + Ctl,
     oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
     lossRegister : Qubit[],
     marker : Qubit
 ) : Unit is Adj + Ctl {
-    ReflectAboutState(statePrep, lossRegister);
     oracle(lossRegister, marker);
+    ReflectAboutState(statePrep, lossRegister);
+    R(PauliI, 2.0 * PI(), marker);
 }
 
 operation OracleMarkOne(reg : Qubit[], mark : Qubit) : Unit is Adj + Ctl {
@@ -516,9 +525,10 @@ operation QAEKernel() : Result[] {
 ///
 /// where A = Oracle ∘ StatePrep  (first prepare distribution, then mark tail).
 ///
-///   Q = A · (2|0⟩⟨0| - I) · A† · (I - 2|1⟩⟨1|_marker)
+///   Q = A · (I - 2|0⟩⟨0|) · A† · (I - 2|1⟩⟨1|_marker)
 ///
-/// After Q^k applied to A|0⟩:
+/// which is -1 times Brassard et al.'s Q. The sign is a global phase here because Q is never
+/// controlled, so it does not change P(marker). After Q^k applied to A|0⟩:
 ///   P(marker = 1) = sin²((2k+1)θ)   with sin²(θ) = a
 operation IQAERound(
     probabilities : Double[],
@@ -567,11 +577,10 @@ operation IQAERound(
     return result;
 }
 
-/// Run IQAE entirely in Q# for the local simulator.
-/// Uses a simplified schedule: multiple rounds at k=0 for unbiased
-/// estimation, then a few Grover-amplified rounds for validation.
-/// The full adaptive IQAE interval-narrowing is in the Python driver.
-/// Returns (estimate, std_error).
+/// Not IQAE: estimates a by sampling A|0⟩ at k=0, then runs Grover-amplified rounds
+/// k = 1, 2, 4, ... and compares each with the exact sin²((2k+1)θ). The adaptive IQAE
+/// algorithm (Grinko et al. 2021) runs in python/iqae_driver.py against IQAERound.
+/// Returns (estimate, std_error) from the k=0 rounds.
 operation RunIQAE(
     riskParams : RiskParameters,
     maxPower : Int,
@@ -583,7 +592,7 @@ operation RunIQAE(
     let stdDev = riskParams.StdDev;
     let probabilities = LogNormalProbabilities(lossQubits, mean, stdDev);
 
-    Message($"=== IQAE (max_power={maxPower}, shots_per_round={shotsPerRound}) ===");
+    Message($"=== k=0 sampling and Grover checks (max_power={maxPower}, shots_per_round={shotsPerRound}) ===");
     Message($"  Qubits: {lossQubits} loss + 1 marker = {lossQubits + 1} total (no precision register)");
 
     // ---- Phase 1: Direct estimation at k=0 ----
@@ -599,7 +608,9 @@ operation RunIQAE(
     let directSE = Sqrt(directEstimate * (1.0 - directEstimate) / IntAsDouble(directShots));
     Message($"  Direct (k=0, {directShots} shots): a = {directEstimate} ± {directSE}");
 
-    // ---- Phase 2: Grover-amplified rounds for validation ----
+    // ---- Phase 2: Grover-amplified rounds, checked against the exact P(One|k) ----
+    // The direct estimate cannot predict these: its error in θ grows (2k+1)-fold.
+    let exactTheta = ArcSin(Sqrt(TailProbability(probabilities, threshold, lossQubits)));
     mutable totalOracleQueries = directShots;
     mutable round = 1;
     mutable k = 1;
@@ -613,20 +624,17 @@ operation RunIQAE(
         let measuredProb = IntAsDouble(ones) / IntAsDouble(shotsPerRound);
         set totalOracleQueries += shotsPerRound * (2 * k + 1);
 
-        // For validation: check if sin²((2k+1)θ) with θ from direct estimate
-        //   matches the measured probability
-        let thetaFromDirect = ArcSin(Sqrt(MaxD(0.0, MinD(1.0, directEstimate))));
-        let expectedProb = Sin(IntAsDouble(2 * k + 1) * thetaFromDirect);
+        let expectedProb = Sin(IntAsDouble(2 * k + 1) * exactTheta);
         let expectedProbSq = expectedProb * expectedProb;
 
-        Message($"  Round {round}: k={k}, P(One)={measuredProb} ({ones}/{shotsPerRound}), expected={expectedProbSq}");
+        Message($"  Round {round}: k={k}, P(One)={measuredProb} ({ones}/{shotsPerRound}), exact sin²((2k+1)θ)={expectedProbSq}");
 
         set round += 1;
         set k = k * 2;
     } until k > maxPower;
 
     Message($"  Total oracle queries: {totalOracleQueries}");
-    Message($"  IQAE estimate: a = {directEstimate} ± {directSE}");
+    Message($"  Estimate from the k=0 rounds: a = {directEstimate} ± {directSE}");
 
     return (ClipProbability(directEstimate), directSE);
 }
@@ -668,7 +676,7 @@ operation RunQAERiskAnalysis() : Unit {
     let (qaeEstimate, qaeError) = CanonicalQAE(riskParams, precisionBits, repetitions);
 
     Message("");
-    Message("=== IQAE (Iterative QAE  no QPE register) ===");
+    Message("=== Direct sampling (k=0) with Grover-amplified checks, no QPE register ===");
     let iqaeMaxPower = 1 <<< (precisionBits - 1);  // same depth budget as canonical
     let iqaeShotsPerRound = MaxI(20, repetitions);
     let (iqaeEstimate, iqaeError) = RunIQAE(riskParams, iqaeMaxPower, iqaeShotsPerRound);
@@ -676,28 +684,23 @@ operation RunQAERiskAnalysis() : Unit {
     Message("");
     Message("=== Classical Baseline Comparison ===");
     let monteCarloSamples = 10000;
-    let (mcEstimate, mcError) = ClassicalMonteCarloEstimate(monteCarloSamples, mean, stdDev, threshold, lossQubits);
-    Message($"Monte Carlo ({monteCarloSamples} samples): {mcEstimate} ± {mcError}");
-    Message($"  Relative error vs theoretical: {AbsD(mcEstimate - theoreticalTailProb) / theoreticalTailProb * 100.0}%");
+    let (_, mcError) = ClassicalMonteCarloEstimate(monteCarloSamples, mean, stdDev, threshold, lossQubits);
+    Message($"Monte Carlo with {monteCarloSamples} samples would have standard error ±{mcError}.");
+    Message("  No samples are drawn here; python/iqae_driver.py runs Monte Carlo on this distribution.");
     Message("");
 
-    Message("=== Quantum Advantage Analysis ===");
-    let qaeRelativeError = AbsD(qaeEstimate - theoreticalTailProb) / theoreticalTailProb;
-    let mcRelativeError = AbsD(mcEstimate - theoreticalTailProb) / theoreticalTailProb;
-    let precisionImprovement = mcRelativeError / MaxD(qaeRelativeError, 1e-10);
-
-    Message($"QAE precision: ε ≈ {qaeError}");
-    Message($"MC precision: ε ≈ {mcError}");
-    Message($"Precision improvement factor: {precisionImprovement}x");
-    Message($"Query complexity: QAE uses O(1/ε) = O({1.0 / MaxD(qaeError, 0.01)}) oracle calls");
-    Message($"                  MC uses O(1/ε²) = O({IntAsDouble(monteCarloSamples)}) samples");
+    Message("=== Query counts ===");
+    let groverIterates = (1 <<< precisionBits) - 1;
+    let brassardBound = 2.0 * PI() * Sqrt(theoreticalTailProb * (1.0 - theoreticalTailProb)) / IntAsDouble(1 <<< precisionBits) + PI() * PI() / IntAsDouble(1 <<< (2 * precisionBits));
+    Message($"Canonical QAE with {precisionBits} phase bits applies Q {groverIterates} times per shot.");
+    Message($"Its error is within {brassardBound} with probability at least 8/π² (Brassard et al. 2002, Thm 12).");
+    Message($"Monte Carlo reaches standard error {mcError} with {monteCarloSamples} samples.");
     Message("");
 
     Message("=== Summary ===");
-    Message($"Theoretical:     P = {theoreticalTailProb}");
-    Message($"Canonical QAE:   P = {qaeEstimate} ± {qaeError} ({lossQubits + precisionBits + 1} qubits)");
-    Message($"IQAE:            P = {iqaeEstimate} ± {iqaeError} ({lossQubits + 1} qubits)");
-    Message($"MC estimate:     P = {mcEstimate} ± {mcError}");
-    Message($"IQAE eliminates the {precisionBits}-qubit precision register and QFT");
-    Message($"QAE demonstrates quadratic speedup: O(1/ε) vs O(1/ε²) for precision ε");
+    Message($"Discrete tail probability: P = {theoreticalTailProb}");
+    Message($"Canonical QAE:   P = {qaeEstimate} ± {qaeError} ({lossQubits + precisionBits + 1} qubits; mean of per-shot sin²(πy/2^m))");
+    Message($"Direct (k=0):    P = {iqaeEstimate} ± {iqaeError} ({lossQubits + 1} qubits)");
+    Message("Adaptive IQAE (Grinko et al. 2021) runs in python/iqae_driver.py.");
+    Message("QAE needs O(1/ε) queries against O(1/ε²) Monte Carlo samples; a simulation this size demonstrates no speedup.");
 }

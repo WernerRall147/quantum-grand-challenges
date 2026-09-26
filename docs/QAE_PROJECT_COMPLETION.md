@@ -4,6 +4,8 @@
 **Status**: ⚠️ Stage C complete (calibrated baseline and uncertainty-bounded validation in place; Stage D hardening pending)  
 **Branch**: main
 
+> **Correction (2026-09-26).** The canonical QAE kernel described here was faulty until 2026-09-26: its reflection was A† S_0 A instead of A S_0 A†, and its Grover iterate lacked the −1 that matters once it is controlled, so the phase register peaked at the wrong outcomes. This record originally gave 18.98% as both the theoretical tail probability and the Monte Carlo result, which matches no computation of the discretized model, and 19.58% ± 1.82% as the QAE result, an average over the faulty kernel's wrong outcome distribution. Those figures are replaced below. The corrected figures are in `problems/archived/03_qae_risk/README.md`; the kernel is now pinned to Brassard et al. Theorem 11 by `tooling/test_qae_kernel.py`.
+
 ## Overview
 
 Successfully implemented **Canonical Quantum Amplitude Estimation (QAE)** with comprehensive documentation, resource estimation, and cross-algorithm comparison visualizations. This completes the third major quantum algorithm in the Quantum Grand Challenges repository.
@@ -39,24 +41,21 @@ Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded
 **Algorithm Components**:
 - ✅ **State Preparation**: Amplitude encoding with recursive multiplex rotations
 - ✅ **Oracle**: Tail risk marking with phase kickback on auxiliary qubit
-- ✅ **Diffusion Operator**: Reflect about uniform superposition (within/apply pattern)
-- ✅ **Grover Operator**: Q = -S₀·Sχ combining oracle and diffusion
+- ✅ **Diffusion Operator**: Reflect about the prepared distribution state A|0⟩ (within/apply pattern; corrected 2026-09-26)
+- ✅ **Grover Operator**: Q = −A S₀ A† Sχ combining oracle and diffusion (sign corrected 2026-09-26)
 - ✅ **Quantum Phase Estimation**: Controlled Grover^(2^k) powers with inverse QFT
 - ✅ **Statistical Averaging**: tuned repetitions with phase histogram analysis
 
-**Test Results**:
-- **Configuration**: 4 loss qubits, 4 precision qubits, log-normal(0,1), threshold=2.5
-- **Theoretical**: 18.98% tail probability
-- **Classical MC**: 18.98% ± 0.39% (10k samples)
-- **QAE Current**: 19.58% ± 1.82% (20 ensemble runs; calibrated baseline)
-- **Complexity**: O(1/ε) vs classical O(1/ε²)  quadratic speedup
+**Test Results** (corrected 2026-09-26):
+- **Configuration**: 4 loss qubits, log-normal(0,1), threshold=2.5
+- **Discrete tail probability** (what the 16-level circuit encodes): 16.14%; the continuous log-normal tail is 17.98%
+- **QAE**: with 6 phase qubits the register peaks at 8 and 56 of 64, and outcome 8 decodes to 14.64%, within Brassard et al.'s Theorem 12 bound of 3.85 points
+- **Complexity**: O(1/ε) vs classical O(1/ε²)  quadratic speedup in query count, before loading and error-correction costs
 
-**Latest Validation Snapshot (small.yaml)**:
+**Validation Snapshot (small.yaml)**, as recorded in February with the faulty kernel:
 - **Configuration**: 8 loss qubits, 4 precision qubits, log-normal(0,1), threshold=2.0, repetitions=120
-- **Theoretical**: 29.93% tail probability
-- **Classical MC**: 29.93% ± 0.46% (10k samples)
-- **QAE Current**: 34.17% ± 4.33% (single run; high shot noise)
-- **Interpretation**: runtime parameterization is functioning; estimator variance still requires multi-run calibration hardening
+- **Discrete tail probability** of the 256-level grid: 23.41% (the snapshot recorded 29.93%, which matches no computation of this model)
+- **QAE**: the recorded single-run 34.17% came from the faulty kernel and is not a valid estimate
 
 ### 2. Azure Quantum Resource Estimation ✅
 **Tool**: Azure Quantum Resource Estimator (3 architectures)
@@ -256,7 +255,7 @@ Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded
 ## Known Issues & Next Steps
 
 ### Current Limitations
-1. **Statistical Stability**: Single-run histograms remain shot-noise sensitive   - Current baseline: QAE 19.58% vs theoretical 18.98% (about 3.2% relative error)
+1. **Statistical Stability**: superseded. The baseline recorded here came from the faulty kernel; see the correction at the top.
    - Remaining work: confidence-interval tightening across parameter sweeps
    - Next step: automate repeated-seed calibration runs and store trend metrics
 
@@ -318,7 +317,9 @@ Use `-NoBuild` with `-Action run` only when `dotnet build` has already succeeded
 ### Key References
 - Quantum Amplitude Estimation: Brassard et al. (arXiv:quant-ph/0005055)
 - Grover's Algorithm: Grover (arXiv:quant-ph/9605043)
-- Financial Applications: Woerner & Egger (arXiv:1905.02666)
+- Quantum Risk Analysis: Woerner & Egger (arXiv:1806.06893)
+- Option Pricing using Quantum Computers: Stamatopoulos et al. (arXiv:1905.02666)
+- Iterative Quantum Amplitude Estimation: Grinko et al. (arXiv:1912.05559)
 - Resource Estimation: Azure Quantum Documentation
 
 ## Conclusion

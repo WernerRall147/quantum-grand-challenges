@@ -1,4 +1,4 @@
-# VQE Chemistry Estimator Summary
+# QPE Chemistry (H2) Estimator Summary
 
 Auto-generated from `circuits/estimate.json`, the single source of truth for this problem's resource estimate.
 

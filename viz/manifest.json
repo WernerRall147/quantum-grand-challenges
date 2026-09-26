@@ -233,7 +233,8 @@
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation.",
         "No successful local-simulator histogram in the selected run source.",
-        "Archived problem; not an active quantum-advantage candidate."
+        "Archived problem; not an active quantum-advantage candidate.",
+        "This poster was rendered from an earlier estimate (18 logical, 80,322 physical qubits for Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)). The kernel or the estimated program changed on 2026-09-26; the current estimate is 23 logical, 86,567 physical qubits for Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)."
       ],
       "render_status": "rendered",
       "assets": [
@@ -351,7 +352,8 @@
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation.",
         "No successful local-simulator histogram in the selected run source.",
-        "Archived problem; not an active quantum-advantage candidate."
+        "Archived problem; not an active quantum-advantage candidate.",
+        "This poster was rendered from an earlier estimate (12 logical, 28,052 physical qubits for Main.EstimateLossProbability([0.05, -0.03, 0.02], 1, 1)). The kernel or the estimated program changed on 2026-09-26; the current estimate is 12 logical, 51,324 physical qubits for Main.EstimateLossProbability([0.5, 0.35, 0.1, 0.05], 2, 1)."
       ],
       "render_status": "rendered",
       "assets": [
@@ -470,7 +472,8 @@
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation.",
         "No successful local-simulator histogram in the selected run source.",
-        "Archived problem; not an active quantum-advantage candidate."
+        "Archived problem; not an active quantum-advantage candidate.",
+        "This poster was rendered from an earlier estimate (9 logical, 30,641 physical qubits for Main.EvaluateFoldingQaoa([[0.0,1.0],[1.0,0.0]], 0.5, 0.5, 1)). The kernel or the estimated program changed on 2026-09-26; the current estimate is 15 logical, 60,935 physical qubits for Main.EvaluateFoldingQaoa([[0.0,-1.2,-0.3,0.0],[-1.2,0.0,-0.8,-0.5],[-0.3,-0.8,0.0,-1.0],[0.0,-0.5,-1.0,0.0]], 0.47123889803846897, 1.119192382841364, 1)."
       ],
       "render_status": "rendered",
       "assets": [
@@ -711,7 +714,8 @@
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation.",
         "No successful local-simulator histogram in the selected run source.",
-        "Archived problem; not an active quantum-advantage candidate."
+        "Archived problem; not an active quantum-advantage candidate.",
+        "This poster was rendered from an earlier estimate (12 logical, 53,628 physical qubits for Main.EvaluateQaoa([[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,0.0]], 0.5, 0.5, 1, 1)). The kernel or the estimated program changed on 2026-09-26; the current estimate is 15 logical, 63,815 physical qubits for Main.EvaluateQaoa([[0.0,1.0,0.5,0.2],[1.0,0.0,1.2,0.8],[0.5,1.2,0.0,0.6],[0.2,0.8,0.6,0.0]], 0.3141592653589793, 1.2566370614359172, 1, 1)."
       ],
       "render_status": "rendered",
       "assets": [
@@ -770,7 +774,8 @@
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation.",
         "No successful local-simulator histogram in the selected run source.",
-        "Archived problem; not an active quantum-advantage candidate."
+        "Archived problem; not an active quantum-advantage candidate.",
+        "This poster was rendered from an earlier estimate (18 logical, 76,866 physical qubits for Main.RunHHLClimate(3, 1)). The kernel or the estimated program changed on 2026-09-26; the current estimate is 23 logical, 58,903 physical qubits for Main.RunHHLClimate(3, 1)."
       ],
       "render_status": "rendered",
       "assets": [
@@ -1260,7 +1265,8 @@
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation.",
         "No successful local-simulator histogram in the selected run source.",
-        "Archived problem; not an active quantum-advantage candidate."
+        "Archived problem; not an active quantum-advantage candidate.",
+        "This poster was rendered from an earlier estimate (12 logical, 64,204 physical qubits for Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, 1)). The kernel or the estimated program changed on 2026-09-26; the current estimate is 15 logical, 70,255 physical qubits for Main.EvaluateQaoaMission([[2.5,1.8],[1.2,0.8],[3.1,2.4],[1.5,1.0]], 0.667588438887831, 1.3940817400304706, 1, 1)."
       ],
       "render_status": "rendered",
       "assets": [

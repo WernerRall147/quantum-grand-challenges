@@ -2,6 +2,13 @@
 
 This problem prepares the groundwork for implementing the Quantum Approximate Optimization Algorithm on weighted Max-Cut instances. The current milestone provides deterministic classical baselines, representative graph instances, and a working depth-1 QAOA circuit with a coarse parameter sweep.
 
+
+## Correction (2026-09-26)
+
+The Q# cost layer is a reparametrization of textbook MaxCut QAOA. For MaxCut `C=(1-Z_i Z_j)/2`, this implementation applies `Exp([PauliZ, PauliZ], -gamma * weight)`, which is equivalent to `gamma_standard = -2 gamma` in `exp(-i gamma_standard C)`, up to a global phase. Earlier generated evidence also described the best sampled bit string as a deterministic optimum. The exact optimized p=1 expectation for the unweighted triangle at `gamma=2.827433388230814`, `beta=0.3141592653589793` is `1.999334805117118` against optimum `2.0`; finite-shot runs can observe an optimal bit string, but that is sampling evidence, not deterministic optimization.
+
+The fixed-angle `gamma=beta=0.5` circuit is intentionally poor for the triangle under this convention. Its exact expectation is `0.12783169367771594`, worse than the random-cut expectation `1.5`. Calibration entries now point at optimized angles and need regeneration.
+
 ## Roadmap
 
 - [x] Scaffold directory structure, utilities, and helper scripts
@@ -132,7 +139,7 @@ tooling\windows\qaoa-maxcut-quick.cmd
 
 ## Current Baseline
 
-The classical baseline enumerates all bit strings to guarantee optimal Max-Cut values and logs diagnostic metrics that translate directly to QAOA objective functions. The Q# host now runs a depth-configurable QAOA coordinate-search optimizer per trial, aggregates uncertainty-bounded expectation metrics across repeated simulator trials, and writes a JSON report for reproducible comparison against the classical optimum. Future work will expand the pipeline to tighter optimizers and estimator-driven hardware profiling.
+The classical baseline enumerates all bit strings to guarantee optimal Max-Cut values on these tiny graph instances. That is standard and exact for three vertices, but Goemans-Williamson is the polynomial-time approximation competitor for large Max-Cut instances. The Q# host runs a depth-configurable QAOA coordinate-search optimizer per trial, aggregates uncertainty-bounded expectation metrics across repeated simulator trials, and writes a JSON report for reproducible comparison against the classical optimum. No constant-depth QAOA speedup is claimed.
 
 ## Objective Maturity Gate
 

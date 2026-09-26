@@ -46,6 +46,9 @@ operation ApplyCostLayer(weights : Double[][], gamma : Double, qubits : Qubit[])
         for j in i + 1..n - 1 {
             let weight = weights[i][j];
             if AbsD(weight) > 1e-12 {
+                // MaxCut C=(1-Z_i Z_j)/2. This implementation applies
+                // exp(i gamma Z_i Z_j), so the standard QAOA angle is
+                // gamma_standard = -2 gamma, up to a global phase.
                 Exp([PauliZ, PauliZ], -gamma * weight, [qubits[i], qubits[j]]);
             }
         }

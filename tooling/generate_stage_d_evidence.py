@@ -96,11 +96,11 @@ def generate_qaoa_scaling():
         "algorithm": "QAOA (Quantum Approximate Optimization)",
         "scaling_variable": "graph vertices (n)",
         "classical_complexity": "Brute-force O(2^n); GW SDP O(n³) with 0.878-approx",
-        "quantum_complexity": "QAOA depth O(n²) per layer, approximation ratio depends on depth p",
+        "quantum_complexity": "QAOA uses O(|E|) two-qubit cost terms per layer; approximation ratio depends on depth p and optimizer quality",
         "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
         "generated_utc": utc_now(),
         "projections": rows,
-        "crossover_estimate": "Uncertain  no proven quantum advantage for MaxCut QAOA at any depth",
+        "crossover_estimate": "Uncertain. No proven quantum advantage for MaxCut QAOA at any depth",
         "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this, and on certain MaxCut instances GW outperforms QAOA at any constant depth (Bravyi et al., arXiv:1910.08980). Whether QAOA at depth growing with n offers an advantage is open.",
     }
 

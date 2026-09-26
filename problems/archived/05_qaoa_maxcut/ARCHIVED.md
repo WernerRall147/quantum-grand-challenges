@@ -8,6 +8,8 @@ QAOA has no proven speedup, and no constant-depth QAOA is known to beat the Goem
 
 > Code in this directory remains for **pedagogical reference**.
 
+Correction (2026-09-27): The Q# angle convention is not the textbook MaxCut convention. It has gamma_standard = -2 gamma up to a global phase. The optimized p=1 exact expectation is 1.999334805117118 on the unweighted triangle, but finite-shot best samples are not deterministic optimization evidence.
+
 ## Reference
 
 Analysis follows Dr. Matthias Troyer’s “Building the Modern Quantum Architecture” framework (2025–2026).

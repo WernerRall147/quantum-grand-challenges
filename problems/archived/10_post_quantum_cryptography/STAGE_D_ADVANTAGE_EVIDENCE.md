@@ -9,9 +9,10 @@
 
 ## Baseline Fairness Review
 
-- Classical comparator is explicit in `python/classical_baseline.py` and persisted in `estimates/classical_baseline.json`.
-- Brute-force is optimal for unstructured key search (no exploitable structure in properly designed ciphers).
-- Fairness status: pass for query-complexity objective; Grover's quadratic speedup is already accounted for in NIST's post-quantum security categories, which are defined by the cost of AES key search.
+- The Grover kernel's comparator is classical exhaustive key search. For one marked key among N = 8, it needs (N + 1)/2 = 4.5 oracle queries on average and 8 in the worst case; one Grover iteration finds the key with probability 0.78125 (checked against exact simulation).
+- Brute force is optimal for unstructured key search (no exploitable structure in properly designed ciphers).
+- `python/classical_baseline.py` answers a different question: a toy cost formula for BKZ lattice attacks on lattice-based schemes (its quadratic cost in the block size and its Grover adjustment are illustrative, not the core-SVP estimates of the lattice estimator). It is not the comparator for the key-search kernel.
+- Fairness status: pass for the query-complexity objective; Grover's quadratic speedup is already accounted for in NIST's post-quantum security categories, which are defined by the cost of AES key search.
 
 ## Uncertainty Methodology
 
@@ -31,7 +32,7 @@
 ## Backend And Deployment Assumptions
 
 - Azure execution validated on Quantinuum H2-1E and Rigetti QVM emulators.
-- Resource estimate: 32,536 physical qubits for 3-qubit toy instance.
+- Resource estimate: 26,092 physical qubits and 12 logical qubits for the 3-qubit toy instance (`circuits/estimate.json`, `Main.GroverKeySearch(3, 5, 1)`).
 - Practical AES-128 key search would require 2,953 logical qubits and about 2^86 T gates over ~2^64 Grover iterations (Grassl et al., arXiv:1512.04965).
 
 ## Residual Limitations
@@ -45,8 +46,8 @@
 - `estimates/advantage_claim_contract.json`
 - `estimates/scaling_analysis_stage_d.json`
 - `estimates/stage_d_evidence_summary.json`
-- `estimates/resource_estimate.json`
-- `estimates/calibration_ensemble.json`
+- `circuits/estimate.json`
+- `estimates/quantum_calibration_ensemble.json`
 
 ## Promotion Checklist To `demonstrated`
 

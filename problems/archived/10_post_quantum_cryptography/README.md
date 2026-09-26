@@ -67,7 +67,7 @@ Stage C exit criteria for this problem:
 | Qubit-specific measurement | partial | Measurement outputs are defined for current validation flows; hardware readout characterization is pending. |
 ## Advantage Claim Contract
 
-- **Claim category (current)**: `theoretical`.
+- **Claim category (current)**: `projected`.
 - **Problem class and regime**: Problem-specific challenge instances defined in this directory.
 - **Fair baseline**: Problem-local classical baseline in `python/` outputs.
 - **Quantum resource scaling claim**: Expected asymptotic advantage depends on algorithm family and implementation assumptions; no hardware-demonstrated speedup claim yet.

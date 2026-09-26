@@ -14,6 +14,13 @@ from pathlib import Path
 PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
 
 
+def problem_dir(problem_id: str) -> Path:
+    """All three candidates were archived in April 2026, after this was written; writing to
+    problems/<id> then failed because the directory had moved to problems/archived/<id>."""
+    active = PROBLEMS_DIR / problem_id
+    return active if active.is_dir() else PROBLEMS_DIR / "archived" / problem_id
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -202,7 +209,7 @@ def main():
         ("05_qaoa_maxcut", generate_qaoa_scaling, None),
         ("15_database_search", generate_grover_scaling, generate_grover_fairness),
     ]:
-        out_dir = PROBLEMS_DIR / pid / "estimates"
+        out_dir = problem_dir(pid) / "estimates"
 
         # Scaling analysis
         scaling = gen_scaling()

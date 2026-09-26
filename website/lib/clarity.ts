@@ -69,7 +69,9 @@ export interface TaggableResult {
 }
 
 /** Bucketed so the dashboard can filter on it; an exact millisecond value per
- *  request would make the filter useless. Exported for the unit test. */
+ *  request would make the filter useless. Exported so a check can import it; the site
+ *  has no unit-test runner, and website/scripts/verify-clarity.mjs checks the tag that
+ *  reaches Clarity in a real browser instead (21999 ms -> "10_30s"). */
 export function latencyBucket(totalMs: number): string {
   if (totalMs < 10000) return 'under_10s';
   if (totalMs < 30000) return '10_30s';

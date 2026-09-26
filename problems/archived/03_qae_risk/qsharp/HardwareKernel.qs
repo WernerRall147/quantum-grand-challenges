@@ -168,33 +168,21 @@ operation ReflectAboutZero(register : Qubit[]) : Unit is Adj + Ctl {
     apply { ApplyAllOnesPhase(register); }
 }
 
-// A S_0 A†: undo the preparation, flip the sign of |0...0⟩, prepare again.
-operation ReflectAboutState(statePrep : Qubit[] => Unit is Adj + Ctl, register : Qubit[]) : Unit is Adj + Ctl {
-    within { Adjoint statePrep(register); }
-    apply { ReflectAboutZero(register); }
-}
+// The hardware kernel calls the preparation and oracle directly instead of passing them as
+// callables: qdk 1.31.0's QIR compiler panics (PostArgPromote invariant) on partially applied
+// callables inside controlled operations, which made this kernel uncompilable for Azure.
 
-// Q = -A S_0 A† S_χ, marker in |−⟩. The -1 is observable once Q is controlled; see Main.qs.
-operation GroverOperator(
-    statePrep : Qubit[] => Unit is Adj + Ctl,
-    oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
-    lossRegister : Qubit[],
-    marker : Qubit
-) : Unit is Adj + Ctl {
-    oracle(lossRegister, marker);
-    ReflectAboutState(statePrep, lossRegister);
+// Q = -A S_0 A† S_χ with the marker in |−⟩; the -1 is observable once Q is controlled (see Main.qs).
+operation GroverIterate(probabilities : Double[], threshold : Double, lossQubits : Int, lossRegister : Qubit[], marker : Qubit) : Unit is Adj + Ctl {
+    OracleTailMarking(threshold, lossQubits, lossRegister, marker);
+    within { Adjoint PrepareDistributionState(probabilities, lossRegister); }
+    apply { ReflectAboutZero(lossRegister); }
     R(PauliI, 2.0 * PI(), marker);
 }
 
-operation GroverOperatorPower(
-    statePrep : Qubit[] => Unit is Adj + Ctl,
-    oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
-    power : Int,
-    lossRegister : Qubit[],
-    marker : Qubit
-) : Unit is Adj + Ctl {
+operation GroverIteratePower(probabilities : Double[], threshold : Double, lossQubits : Int, power : Int, lossRegister : Qubit[], marker : Qubit) : Unit is Adj + Ctl {
     for _ in 1 .. power {
-        GroverOperator(statePrep, oracle, lossRegister, marker);
+        GroverIterate(probabilities, threshold, lossQubits, lossRegister, marker);
     }
 }
 
@@ -214,22 +202,23 @@ operation QuantumFourierTransform(register : Qubit[]) : Unit is Adj + Ctl {
 }
 
 operation QuantumPhaseEstimationQAE(
-    statePrep : Qubit[] => Unit is Adj + Ctl,
-    oracle : (Qubit[], Qubit) => Unit is Adj + Ctl,
+    probabilities : Double[],
+    threshold : Double,
+    lossQubits : Int,
     precisionQubits : Qubit[],
     lossRegister : Qubit[],
     marker : Qubit
 ) : Unit {
     for q in precisionQubits { H(q); }
-    statePrep(lossRegister);
+    PrepareDistributionState(probabilities, lossRegister);
     X(marker);
     H(marker);
     let n = Length(precisionQubits);
     for idx in 0 .. n - 1 {
         let power = 1 <<< (n - 1 - idx);
-        Controlled GroverOperatorPower(
+        Controlled GroverIteratePower(
             [precisionQubits[idx]],
-            (statePrep, oracle, power, lossRegister, marker)
+            (probabilities, threshold, lossQubits, power, lossRegister, marker)
         );
     }
     Adjoint QuantumFourierTransform(precisionQubits);
@@ -245,16 +234,16 @@ operation QAEKernel() : Result[] {
     let stdDev = RuntimeStdDev();
     let precisionBits = RuntimePrecisionBits();
 
-    let probabilities = LogNormalProbabilities(lossQubits, mean, stdDev);
+    // LogNormalProbabilities(2, 0.0, 1.0), precomputed: QIR profiles fold every Double at
+    // compile time, and the folding cannot evaluate the complex power behind ExpD.
+    // tooling/test_qae_kernel.py checks the kernel's output against the formula.
+    let probabilities = [0.7681494466336093, 0.16005000238174544, 0.05117490520027123, 0.02062564578437405];
 
     use precisionReg = Qubit[precisionBits];
     use lossReg = Qubit[lossQubits];
     use marker = Qubit();
 
-    let statePrep = PrepareDistributionState(probabilities, _);
-    let oracle = OracleTailMarking(threshold, lossQubits, _, _);
-
-    QuantumPhaseEstimationQAE(statePrep, oracle, precisionReg, lossReg, marker);
+    QuantumPhaseEstimationQAE(probabilities, threshold, lossQubits, precisionReg, lossReg, marker);
 
     ResetAll(lossReg);
     Reset(marker);

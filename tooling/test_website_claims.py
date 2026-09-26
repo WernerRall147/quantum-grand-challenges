@@ -135,9 +135,27 @@ def test_comparison_table_does_not_hardcode_a_stage():
 def test_comparison_table_does_not_coerce_missing_counts_to_zero():
     """The `|| 0` that turned "not reported" into "measured zero" for 16 problems."""
     source = COMPARE_PAGE.read_text(encoding="utf-8")
-    offenders = re.findall(r"(tCount|rotationCount)\s*:\s*est\.\w+\s*\|\|\s*0", source)
+    offenders = re.findall(r"(tCount|cczCount|rotationCount)\s*:\s*est\.\w+\s*\|\|\s*0", source)
     assert not offenders, (
         f"compare.tsx coerces {', '.join(sorted(set(offenders)))} to 0 with `|| 0`. "
         f"Use `?? null` so an unreported count renders as absent rather than as a "
         f"measurement of zero."
     )
+
+
+def test_comparison_page_counts_toffolis():
+    """Toffolis consume magic states like T gates; a page showing QAE's 15 T gates and not
+    its 10,687 Toffolis understated what the estimate is paying for."""
+    source = COMPARE_PAGE.read_text(encoding="utf-8")
+    assert "cczCount: est.cczCount ?? null" in source
+    assert "sortableHeader('cczCount', 'Toffolis')" in source
+
+
+def test_key_observations_are_computed_not_typed():
+    """The observations were typed in and went stale: they still said "1.7k (QEC) to 369k
+    (QAE risk), 212x variation" and "the QPE problems report none" after both changed."""
+    source = COMPARE_PAGE.read_text(encoding="utf-8")
+    block = source[source.index("Key Observations"): source.index("</ul>", source.index("Key Observations"))]
+    prose = re.sub(r"\{[^{}]*\}", "", block)
+    typed = re.findall(r"\d[\d.,]*\s?(?:k|M|x|×)\b|\(\d+\)", prose)
+    assert not typed, f"Key Observations hardcodes {typed}; compute them from resourceEstimates.json"

@@ -350,11 +350,19 @@ def estimate_summary(
 
 _CODE_DISTANCE_RE = re.compile(r"distance=(\d+)")
 
-# Trace instruction names that map onto the legacy logical-count fields.
+# Trace instruction names that map onto the legacy logical-count fields. cczCount counts
+# every Toffoli-class gate (CCZ, CCX, CCY), each of which consumes one CCZ magic state.
+# Only CCZ used to be mapped, but Q#'s CCNOT traces as CCX, so every Toffoli in every
+# estimate went uncounted: problem 03's 10,687 among them, beside its 15 T gates.
 _GATE_COUNT_FIELDS = {
     "T": "tCount",
+    "T_DAG": "tCount",
     "RZ": "rotationCount",
+    "RX": "rotationCount",
+    "RY": "rotationCount",
     "CCZ": "cczCount",
+    "CCX": "cczCount",
+    "CCY": "cczCount",
     "MEAS_Z": "measurementCount",
 }
 

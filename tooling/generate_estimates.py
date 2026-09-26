@@ -151,6 +151,9 @@ def main():
                 "logicalQubits": summary.get("logicalQubits"),
                 "tCount": summary.get("tCount"),
                 "rotationCount": summary.get("rotationCount"),
+                # Toffoli-class gates; each consumes a CCZ magic state like a T gate does.
+                "cczCount": summary.get("cczCount"),
+                "tFactoryFraction": summary.get("tFactoryFraction"),
                 "runtime": summary.get("runtime"),
                 "entryExpr": summary.get("entryExpr"),
                 "qubitModel": DEFAULT_QUBIT_MODEL,

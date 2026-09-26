@@ -84,7 +84,7 @@ CALIBRATION_META: dict[str, dict] = {
         "description": "Quantum walk exciton transport: mean final site over 50 walks",
         "metric": "mean_index",
     },
-    "19_quantum_chromodynamics": {"type": "numeric", "description": "Trotter lattice gauge simulation"},
+    "19_quantum_chromodynamics": {"type": "numeric", "description": "Trotterized transverse-field Ising chain, 2 sites: mean Z-parity"},
     "20_space_mission_planning": {"type": "numeric", "description": "QAOA trajectory optimization"},
 }
 

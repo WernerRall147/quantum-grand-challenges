@@ -193,7 +193,7 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
     "19_quantum_chromodynamics": EntryPoint(
         template=_shots("Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, {shots})"),
         default_shots=SHOTS_KERNEL,
-        description="Lattice gauge Trotter simulation, 2 sites",
+        description="Trotterized transverse-field Ising chain, 2 sites (stand-in for lattice gauge dynamics)",
     ),
     "20_space_mission_planning": EntryPoint(
         template=_shots("Main.EvaluateQaoaMission([[0.0,1.0,0.5],[1.0,0.0,0.8],[0.5,0.8,0.0]], 0.5, 0.5, 1, {shots})"),

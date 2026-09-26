@@ -225,10 +225,10 @@
         },
         {
           "id": "19_quantum_chromodynamics",
-          "algorithm": "Trotter Lattice Gauge Simulation",
-          "speedup": "Exponential for real-time dynamics (sign problem)",
+          "algorithm": "Trotterized spin chain (stand-in for lattice gauge dynamics)",
+          "speedup": "Exponential for real-time dynamics of interacting gauge theories (sign problem); none for this kernel, a classically solvable Ising chain",
           "classical_best": "Lattice QCD (Euclidean, limited to static properties)",
-          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically, but realistic lattice sizes need large fault-tolerant machines (Kan and Nam, arXiv:2107.12769, give the gate costs).",
+          "troyer_assessment": "Lattice gauge theory is arguably the strongest utility candidate. Classical lattice QCD cannot simulate real-time dynamics due to the sign problem. Quantum simulation of gauge theories could enable predictions impossible classically, but realistic lattice sizes need large fault-tolerant machines (Kan and Nam, arXiv:2107.12769, give the gate costs). This project's kernel is not yet such a simulation: it evolves a transverse-field Ising chain, which has no gauge fields and maps to free fermions.",
           "active": true
         }
       ]

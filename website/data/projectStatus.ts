@@ -166,7 +166,7 @@ export const problemHighlights = [
   {
     title: 'Quantum Chromodynamics',
     status: 'Stage C - Calibrated',
-    description: 'Trotter lattice gauge with 20-run ensemble (Wilson=0.48 \u00b1 0.045, 95% CI). 55k physical qubits, 9 logical.',
+    description: 'Trotterized transverse-field Ising chain, a spin-chain stand-in for lattice gauge dynamics (no gauge fields yet). 20-run ensemble: Z-parity 0.46 \u00b1 0.05 (95% CI; exact 0.487). 55k physical qubits, 9 logical.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/19_quantum_chromodynamics',
   },
   {

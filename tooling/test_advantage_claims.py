@@ -36,6 +36,9 @@ SURFACES = (
     "README.md",
     "website/pages/**/*.tsx",
     "website/components/*.tsx",
+    "problems/**/qsharp/src/*.qs",
+    "problems/**/qsharp/HardwareKernel.qs",
+    "problems/**/estimates/*.qasm",
 )
 
 RETRACTED = [
@@ -104,6 +107,13 @@ RETRACTED = [
         "The width shown is the device the cost was priced on (56 qubits for Quantinuum H2); "
         "Rigetti (108) and Pasqal (100) in the same price list are larger.",
         id="priced-device-is-not-the-largest",
+    ),
+    pytest.param(
+        r"<Wilson loop>|Wilson=|ZZ plaquettes|Confinement signature:|Trotter lattice gauge (with|kernel)",
+        "Problem 19's kernel is a transverse-field Ising chain evolved from |0...0>: it has no "
+        "gauge fields or plaquettes, it measures the product of Z over all sites, and it cannot "
+        "show a confinement signature (tooling/test_ising_chain_kernel.py).",
+        id="ising-chain-is-not-a-gauge-theory",
     ),
 ]
 

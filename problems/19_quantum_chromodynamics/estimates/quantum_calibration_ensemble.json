@@ -1,123 +1,123 @@
 {
   "problem_id": "19_quantum_chromodynamics",
-  "description": "Trotter lattice gauge simulation",
+  "description": "Trotterized transverse-field Ising chain, 2 sites: mean Z-parity",
   "entry_point": "Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, 50)",
-  "generated_utc": "2026-09-25T11:43:07.825360Z",
+  "generated_utc": "2026-09-26T12:25:04.627603Z",
   "sources": {
-    "problems/19_quantum_chromodynamics/qsharp/HardwareKernel.qs": "8521110402459d1384e9e395382117e6f6ed9fa8e47069d7401f5402826835e5",
+    "problems/19_quantum_chromodynamics/qsharp/HardwareKernel.qs": "a85ef54ccedcdaa712da3d6141b77cfb9446314434d7ad72519d040974c21a53",
     "problems/19_quantum_chromodynamics/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-    "problems/19_quantum_chromodynamics/qsharp/src/Main.qs": "cbc82919714e0b12d5dda3182f1b51f8bb82c28c5856df74b4d4e67a9aa517da"
+    "problems/19_quantum_chromodynamics/qsharp/src/Main.qs": "671b7534dfd3ef92aae4f4ab42ca25cbce9017de865d3ceede9f1595132a199f"
   },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0018,
-    "std_elapsed_s": 0.0006,
-    "mean_value": 0.478,
-    "std_value": 0.103395,
-    "ci95_half_width": 0.045315,
-    "ci95_lower": 0.432685,
-    "ci95_upper": 0.523315
+    "mean_elapsed_s": 0.0012,
+    "std_elapsed_s": 0.0003,
+    "mean_value": 0.458,
+    "std_value": 0.120682,
+    "ci95_half_width": 0.052891,
+    "ci95_lower": 0.405109,
+    "ci95_upper": 0.510891
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[0.56]",
-      "elapsed_s": 0.0015
+      "raw_result": "[0.44]",
+      "elapsed_s": 0.001
     },
     {
       "run": 2,
-      "raw_result": "[0.6]",
-      "elapsed_s": 0.001
+      "raw_result": "[0.52]",
+      "elapsed_s": 0.0015
     },
     {
       "run": 3,
       "raw_result": "[0.44]",
-      "elapsed_s": 0.002
+      "elapsed_s": 0.001
     },
     {
       "run": 4,
       "raw_result": "[0.44]",
-      "elapsed_s": 0.0021
+      "elapsed_s": 0.001
     },
     {
       "run": 5,
-      "raw_result": "[0.68]",
-      "elapsed_s": 0.0024
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0015
     },
     {
       "run": 6,
-      "raw_result": "[0.32]",
-      "elapsed_s": 0.0016
+      "raw_result": "[0.48]",
+      "elapsed_s": 0.001
     },
     {
       "run": 7,
-      "raw_result": "[0.44]",
-      "elapsed_s": 0.0016
+      "raw_result": "[0.32]",
+      "elapsed_s": 0.001
     },
     {
       "run": 8,
-      "raw_result": "[0.68]",
-      "elapsed_s": 0.0021
+      "raw_result": "[0.44]",
+      "elapsed_s": 0.001
     },
     {
       "run": 9,
-      "raw_result": "[0.44]",
-      "elapsed_s": 0.0012
-    },
-    {
-      "run": 10,
-      "raw_result": "[0.36]",
-      "elapsed_s": 0.0005
-    },
-    {
-      "run": 11,
-      "raw_result": "[0.32]",
-      "elapsed_s": 0.0015
-    },
-    {
-      "run": 12,
-      "raw_result": "[0.52]",
-      "elapsed_s": 0.0024
-    },
-    {
-      "run": 13,
-      "raw_result": "[0.56]",
-      "elapsed_s": 0.0026
-    },
-    {
-      "run": 14,
-      "raw_result": "[0.56]",
-      "elapsed_s": 0.0026
-    },
-    {
-      "run": 15,
-      "raw_result": "[0.4]",
-      "elapsed_s": 0.0028
-    },
-    {
-      "run": 16,
-      "raw_result": "[0.44]",
-      "elapsed_s": 0.0015
-    },
-    {
-      "run": 17,
-      "raw_result": "[0.48]",
+      "raw_result": "[0.24]",
       "elapsed_s": 0.0016
     },
     {
-      "run": 18,
+      "run": 10,
+      "raw_result": "[0.24]",
+      "elapsed_s": 0.0015
+    },
+    {
+      "run": 11,
+      "raw_result": "[0.44]",
+      "elapsed_s": 0.001
+    },
+    {
+      "run": 12,
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.001
+    },
+    {
+      "run": 13,
+      "raw_result": "[0.52]",
+      "elapsed_s": 0.001
+    },
+    {
+      "run": 14,
+      "raw_result": "[0.32]",
+      "elapsed_s": 0.002
+    },
+    {
+      "run": 15,
+      "raw_result": "[0.72]",
+      "elapsed_s": 0.001
+    },
+    {
+      "run": 16,
       "raw_result": "[0.4]",
-      "elapsed_s": 0.0018
+      "elapsed_s": 0.001
+    },
+    {
+      "run": 17,
+      "raw_result": "[0.44]",
+      "elapsed_s": 0.001
+    },
+    {
+      "run": 18,
+      "raw_result": "[0.56]",
+      "elapsed_s": 0.001
     },
     {
       "run": 19,
-      "raw_result": "[0.48]",
-      "elapsed_s": 0.0026
+      "raw_result": "[0.56]",
+      "elapsed_s": 0.001
     },
     {
       "run": 20,
       "raw_result": "[0.44]",
-      "elapsed_s": 0.0016
+      "elapsed_s": 0.0012
     }
   ]
 }

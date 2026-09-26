@@ -49,24 +49,24 @@ CALIBRATION_META: dict[str, dict] = {
     },
     "04_linear_solvers": {
         "type": "result",
-        "description": "HHL single-shot solution measurement",
+        "description": "HHL on [[4,-1],[-1,3]] x = [15,10], 4-bit clock: post-selected system bit, whose mean estimates the second component of the normalized solution (exactly 0.5 for A^-1 b proportional to [5, 5])",
         # Calibration uses a 4-bit clock register for sharper eigenphase
         # resolution; the estimator path uses 3 to keep depth manageable.
         "entry_override": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 4)",
     },
-    "05_qaoa_maxcut": {"type": "numeric", "description": "QAOA MaxCut triangle graph depth-1"},
-    "06_high_frequency_trading": {"type": "numeric", "description": "Quantum VaR loss probability"},
+    "05_qaoa_maxcut": {"type": "numeric", "description": "Optimized p=1 QAOA MaxCut triangle graph; repository gamma convention has gamma_std=-2 gamma"},
+    "06_high_frequency_trading": {"type": "numeric", "description": "Loss probability sampled directly from a 2-qubit state, no amplitude estimation (exact 0.9675)"},
     "07_drug_discovery": {
         "type": "numeric",
         "description": "QPE ground-state energy of the illustrative binding Hamiltonian, 8 phase bits, mode of 8 runs",
         "entry_override": "Main.BindingQPE(8, 8)",
     },
-    "08_protein_folding": {"type": "numeric", "description": "QAOA lattice folding energy"},
+    "08_protein_folding": {"type": "numeric", "description": "Optimized p=1 QAOA on a four-variable toy Ising/QUBO energy, not a protein-folding model"},
     "09_factorization": {"type": "numeric", "description": "Shor period finding for a=7 mod 15: the 4-bit phase register reads 0, 4, 8 or 12"},
     "10_post_quantum_cryptography": {"type": "numeric", "description": "Grover key search: successful searches out of 50"},
-    "11_quantum_machine_learning": {"type": "numeric", "description": "Swap test kernel overlap"},
-    "12_quantum_optimization": {"type": "numeric", "description": "QAOA scheduling optimization"},
-    "13_climate_modeling": {"type": "numeric", "description": "HHL diffusion PDE solver"},
+    "11_quantum_machine_learning": {"type": "numeric", "description": "Swap test P(ancilla = 0) = (1 + |<a|b>|^2)/2 for the estimator vectors (exact 0.9175)"},
+    "12_quantum_optimization": {"type": "numeric", "description": "Optimized p=1 QAOA on a four-job toy same-machine penalty QUBO"},
+    "13_climate_modeling": {"type": "numeric", "description": "HHL on the 2x2 diffusion matrix [[2,-1],[-1,2]], 3-bit clock: fraction of shots heralding success (exact 5/9)"},
     "14_materials_discovery": {
         "type": "numeric",
         "description": "QPE band gap of the tight-binding dimer, 8 phase bits, mode of 8 runs per level",
@@ -89,7 +89,7 @@ CALIBRATION_META: dict[str, dict] = {
         "metric": "mean_index",
     },
     "19_quantum_chromodynamics": {"type": "numeric", "description": "Trotterized transverse-field Ising chain, 2 sites: mean Z-parity"},
-    "20_space_mission_planning": {"type": "numeric", "description": "QAOA trajectory optimization"},
+    "20_space_mission_planning": {"type": "numeric", "description": "Optimized p=1 QAOA on the four-leg toy mission QUBO from RunMissionOptimization"},
 }
 
 

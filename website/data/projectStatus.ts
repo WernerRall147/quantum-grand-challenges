@@ -75,7 +75,7 @@ export const problemHighlights = [
   {
     title: 'Linear Solvers',
     status: 'Archived  I/O limited',
-    description: 'HHL exponential core negated by O(N) state prep and O(N) readout. Archived per Troyer framework.',
+    description: 'Textbook HHL on a 2x2 system (rewritten 2026-09-27; the earlier kernel was not HHL). Its exponential core needs efficient state preparation and readout, which classical data does not allow. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/04_linear_solvers',
   },
   {
@@ -99,7 +99,7 @@ export const problemHighlights = [
   {
     title: 'Protein Folding',
     status: 'Archived  No proven speedup',
-    description: 'QAOA heuristic with no proven speedup. AlphaFold dominates classically. Archived per Troyer framework.',
+    description: 'QAOA on a four-variable toy QUBO with no protein model and no proven speedup. AlphaFold dominates classically. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/08_protein_folding',
   },
   {
@@ -118,19 +118,19 @@ export const problemHighlights = [
   {
     title: 'Quantum Machine Learning',
     status: 'Archived  I/O limited',
-    description: 'Exponential kernel speedup negated by O(N) classical data loading. Archived per Troyer framework.',
+    description: 'Swap-test kernel on amplitude-encoded classical data: loading costs O(d) gates and each kernel entry needs O(1/ε²) shots, so it has no speedup. Provable separations exist only for constructed datasets. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/11_quantum_machine_learning',
   },
   {
     title: 'Quantum Optimization',
     status: 'Archived  No proven speedup',
-    description: 'QAOA heuristic with no proven speedup. Classical schedulers mature. Archived per Troyer framework.',
+    description: 'QAOA on a four-job toy scheduling QUBO with no proven speedup. Classical schedulers mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/12_quantum_optimization',
   },
   {
     title: 'Climate Modeling',
     status: 'Archived  I/O limited',
-    description: 'HHL exponential core negated by O(N) PDE loading and readout. Classical FEM mature. Archived per Troyer framework.',
+    description: 'Textbook HHL on a 2x2 diffusion matrix, a toy with no climate physics (rewritten 2026-09-27). HHL\'s exponential core is negated by loading and readout. Classical FEM mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/13_climate_modeling',
   },
   {
@@ -172,7 +172,7 @@ export const problemHighlights = [
   {
     title: 'Space Mission Planning',
     status: 'Archived  No proven speedup',
-    description: 'QAOA heuristic with no proven speedup. Classical trajectory optimizers mature. Archived per Troyer framework.',
+    description: 'QAOA on a four-leg toy mission QUBO with no proven speedup; not a trajectory optimizer. Classical trajectory optimizers mature. Archived per Troyer framework.',
     href: 'https://github.com/WernerRall147/quantum-grand-challenges/tree/main/problems/archived/20_space_mission_planning',
   },
 ];

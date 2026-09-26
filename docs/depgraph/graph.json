@@ -6,7 +6,7 @@
     "python": 245,
     "qsharp": 55,
     "ts": 15,
-    "edges": 241,
+    "edges": 243,
     "roots": 298,
     "reachable": 337
   },
@@ -399,6 +399,14 @@
     [
       ".github/workflows/depgraph-drift.yml",
       "tooling/depgraph/build_graph.py"
+    ],
+    [
+      ".github/workflows/deploy-evaluator-api.yml",
+      "agents/tests/test_container_contents.py"
+    ],
+    [
+      ".github/workflows/deploy-evaluator-api.yml",
+      "tooling/estimator_config.py"
     ],
     [
       ".github/workflows/nightly.yml",

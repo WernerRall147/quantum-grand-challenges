@@ -33,13 +33,23 @@ on:
         default: ""
   push:
     branches: [main]
+    # Every file the Dockerfile copies except agents/tests/ (shipped, never loaded), so a
+    # merged change to anything the API reads redeploys it. The filter used to name four
+    # agents/ subpackages and two knowledge/ folders, and PR #276's changes to the
+    # reference index, estimator_config.py and the problem 19 exemplar reached main but
+    # not production. agents/tests/test_container_contents.py fails if a shipped file is
+    # left out.
     paths:
-      - "agents/api/**"
-      - "agents/orchestrator/**"
-      - "agents/classifier/**"
-      - "agents/code_generator/**"
-      - "knowledge/search/**"
-      - "knowledge/ingest/**"
+      - "agents/**"
+      - "!agents/tests/**"
+      - "knowledge/**"
+      - "problems/reference_index.json"
+      - "tooling/estimator_config.py"
+      - "problems/19_quantum_chromodynamics/qsharp/src/Main.qs"
+      - "problems/18_photovoltaics/qsharp/src/Main.qs"
+      - "problems/16_error_correction/qsharp/src/Main.qs"
+      - "libs/qdk_samples/**"
+      - "libs/qdk_stdlib/**"
       - "Dockerfile"
       - ".dockerignore"
       - ".github/workflows/deploy-evaluator-api.yml"

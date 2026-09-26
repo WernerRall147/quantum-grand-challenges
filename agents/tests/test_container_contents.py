@@ -78,6 +78,56 @@ def reaches_the_image(relative: str) -> bool:
             and in_build_context(relative, dockerignore_rules()))
 
 
+DEPLOY_WORKFLOW = REPO / ".github" / "workflows" / "deploy-evaluator-api.yml"
+
+
+def deploy_trigger_paths() -> list[str]:
+    """The API deploy workflow's `on.push.paths` filter, in order, `!` exclusions included."""
+    in_push = in_paths = False
+    patterns: list[str] = []
+    for line in DEPLOY_WORKFLOW.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if stripped == "push:":
+            in_push = True
+        elif in_push and stripped == "paths:":
+            in_paths = True
+        elif in_paths:
+            item = re.match(r"^-\s*[\"']?([^\"']+?)[\"']?\s*$", stripped)
+            if item:
+                patterns.append(item.group(1))
+            elif stripped and not stripped.startswith("#"):
+                break
+    return patterns
+
+
+def triggers_deploy(relative: str, patterns: list[str]) -> bool:
+    """GitHub's path-filter rule: `**` crosses directories, `*` does not, the last match wins."""
+    triggered = False
+    for pattern in patterns:
+        negated = pattern.startswith("!")
+        glob = pattern[1:] if negated else pattern
+        regex = re.escape(glob).replace(r"\*\*", ".*").replace(r"\*", "[^/]*").replace(r"\?", "[^/]")
+        if re.fullmatch(regex, relative):
+            triggered = not negated
+    return triggered
+
+
+def shipped_files() -> list[str]:
+    """Tracked files that reach the image, except test modules the API never loads."""
+    import subprocess
+
+    rules = dockerignore_rules()
+    files: set[str] = set()
+    for source in copied_paths():
+        listed = subprocess.run(
+            ["git", "ls-files", "--", source.rstrip("/")],
+            cwd=REPO, capture_output=True, text=True, check=True,
+        ).stdout.splitlines()
+        files.update(path for path in listed
+                     if in_build_context(path, rules) and "tests" not in Path(path).parts)
+    return sorted(files)
+
+
 class TestTheImageHasWhatTheApiNeeds:
     def test_estimator_config_is_copied(self):
         """The exact import that was failing in production."""
@@ -183,6 +233,32 @@ class TestExtrasTheImportsNeed:
 
 
 
+class TestTheDeployFollowsTheImage:
+    """Merging a change to a file the image ships must redeploy the API.
+
+    The deploy workflow triggered on four agents/ subpackages, knowledge/search,
+    knowledge/ingest and the build files, while the image also copies the reference index,
+    estimator_config.py, three exemplar programs, the vendored QDK samples and standard
+    library index, agents/observability (which the orchestrator imports) and knowledge/data
+    (which the knowledge base reads), which left 215 of its 238 non-test files without a
+    trigger. PR #276 changed the
+    reference index, estimator_config.py and the problem 19 exemplar, and production
+    served the old text until the workflow was run by hand. Test modules are left out
+    because they ship but nothing at runtime imports them.
+    """
+
+    def test_every_shipped_file_triggers_a_deploy(self):
+        patterns = deploy_trigger_paths()
+        assert "Dockerfile" in patterns, f"could not read the deploy workflow's paths: {patterns}"
+        shipped = shipped_files()
+        assert "tooling/estimator_config.py" in shipped and "agents/api/main.py" in shipped
+        missing = [path for path in shipped if not triggers_deploy(path, patterns)]
+        assert missing == [], (
+            f"{len(missing)} files ship in the image but changing them does not redeploy "
+            f"the API, for example {missing[:8]}"
+        )
+
+
 class TestTheCoverageCheckItself:
     """A matcher that always returns True would make the tests above meaningless."""
 
@@ -213,4 +289,14 @@ class TestTheCoverageCheckItself:
 
     def test_without_a_bare_star_nothing_is_excluded(self):
         assert in_build_context("tooling/estimator_config.py", ["node_modules/"])
+
+    def test_a_deploy_filter_negation_excludes_what_an_earlier_pattern_included(self):
+        patterns = ["agents/**", "!agents/tests/**"]
+        assert triggers_deploy("agents/api/main.py", patterns)
+        assert not triggers_deploy("agents/tests/test_container_contents.py", patterns)
+
+    def test_a_single_star_in_a_deploy_filter_stays_in_one_directory(self):
+        assert triggers_deploy("libs/qdk_stdlib/index.json", ["libs/qdk_stdlib/*"])
+        assert not triggers_deploy("libs/qdk_samples/sub/a.qs", ["libs/qdk_samples/*"])
+        assert not triggers_deploy("problems/reference_index.json", ["agents/**"])
 

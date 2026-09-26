@@ -5,8 +5,18 @@ import Std.Diagnostics.*;
 import Std.Math.*;
 import Std.Measurement.*;
 
-function EvolutionTime(precisionBits : Int) : Double {
-    return 2.0 * PI() / IntAsDouble(1 <<< precisionBits);
+/// Time per controlled-evolution step: U = exp(i A τ) with τ = 2π/8, fixed whatever the clock size.
+/// With m clock bits the total evolution time is τ·2^m, so the clock value y estimates
+/// λ ≈ 8y/2^m with resolution 8/2^m: each extra bit halves the eigenvalue error. Eigenvalues
+/// must stay below 8 or their phases wrap. A step that shrank with the clock (2π/2^m) would
+/// keep the resolution at 1 however many bits were added.
+function EvolutionStep() : Double {
+    return 2.0 * PI() / 8.0;
+}
+
+/// The eigenvalue that clock value y represents with m clock bits.
+function EigenvalueFromClock(value : Int, precisionBits : Int) : Double {
+    return 8.0 * IntAsDouble(value) / IntAsDouble(1 <<< precisionBits);
 }
 
 operation PrepareRHSState(rhs : Double[], qubit : Qubit) : Unit is Adj + Ctl {
@@ -48,7 +58,7 @@ operation QuantumFourierTransform(register : Qubit[]) : Unit is Adj + Ctl {
 
 operation QuantumPhaseEstimation(matrix : Double[][], system : Qubit, clock : Qubit[]) : Unit is Adj {
     let n = Length(clock);
-    let baseTime = EvolutionTime(n);
+    let baseTime = EvolutionStep();
     for q in clock { H(q); }
     for idx in 0 .. n - 1 {
         let power = 1 <<< (n - 1 - idx);
@@ -69,7 +79,7 @@ operation ControlledEigenvalueInversion(clock : Qubit[], ancilla : Qubit, c : Do
     let n = Length(clock);
     let size = 1 <<< n;
     for value in 1 .. size - 1 {
-        let lambdaEstimate = IntAsDouble(value);
+        let lambdaEstimate = EigenvalueFromClock(value, n);
         if c <= lambdaEstimate {
             within { ApplyZeroMask(value, clock); }
             apply { Controlled Ry(clock, (2.0 * ArcSin(c / lambdaEstimate), ancilla)); }

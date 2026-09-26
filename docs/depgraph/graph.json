@@ -6,7 +6,7 @@
     "python": 245,
     "qsharp": 55,
     "ts": 15,
-    "edges": 240,
+    "edges": 241,
     "roots": 298,
     "reachable": 337
   },
@@ -1127,6 +1127,10 @@
     [
       "tooling/test_qae_kernel.py",
       "tooling/generate_calibration_ensemble.py"
+    ],
+    [
+      "tooling/test_qaoa_kernels.py",
+      "tooling/estimator_config.py"
     ],
     [
       "tooling/test_qdk_samples_provenance.py",

@@ -55,7 +55,7 @@
     "cczCount": null,
     "tFactoryFraction": 0.721,
     "runtime": 498750,
-    "entryExpr": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [2.827433388230814], [0.3141592653589793], 1)",
+    "entryExpr": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.3141592653589793], [2.827433388230814], 1)",
     "qubitModel": "qubit_gate_ns_e3",
     "qecScheme": "surface_code"
   },

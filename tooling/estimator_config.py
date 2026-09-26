@@ -118,7 +118,7 @@ ENTRY_POINTS: dict[str, EntryPoint] = {
         description="HHL on 2x2 SPD system, 3-bit clock register",
     ),
     "05_qaoa_maxcut": EntryPoint(
-        template=_shots("Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [2.827433388230814], [0.3141592653589793], {shots})"),
+        template=_shots("Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.3141592653589793], [2.827433388230814], {shots})"),
         default_shots=SHOTS_KERNEL,
         description="Optimized p=1 QAOA MaxCut on triangle graph; repository gamma convention has gamma_std=-2 gamma",
     ),

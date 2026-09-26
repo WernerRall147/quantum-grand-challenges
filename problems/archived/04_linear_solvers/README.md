@@ -28,11 +28,11 @@ For the 4-bit calibration entry in `tooling/generate_calibration_ensemble.py`:
 
 | Quantity | Value |
 |---|---:|
-| Ancilla success probability | 0.1977430312 |
-| Post-selected system distribution | [0.47467748, 0.52532252] |
-| Fidelity with normalized classical solution [0.5, 0.5] | 0.9993583582 |
+| Ancilla success probability | 0.1507474826 |
+| Post-selected system distribution | [0.50403167, 0.49596833] |
+| Fidelity with normalized classical solution [0.5, 0.5] | 0.9999837453 |
 
-The fidelity is high, but not exactly one, because the eigenvalues `(7 +/- sqrt(5)) / 2` are not integers and are only approximated by the finite clock.
+The fidelity is below one because the eigenvalues `(7 +/- sqrt(5)) / 2` fall between clock values. Each controlled-evolution step is `exp(i A 2 pi/8)` whatever the clock size, so every added clock bit halves the eigenvalue resolution and the output converges on the solution (fidelity 0.99957, 0.99998 and 0.99999 with 3, 4 and 5 bits). A step that shrank as `2 pi / 2^m` would fix the resolution at 1, and extra bits would then move the output slightly away from the solution.
 
 ## How to run
 

@@ -66,10 +66,22 @@ def generate_qae_scaling():
     }
 
 
+def _estimated_physical_qubits(problem_id: str) -> int:
+    """The estimate of record; the bases below were typed in by hand and had gone stale."""
+    estimate = json.loads((problem_dir(problem_id) / "circuits" / "estimate.json").read_text(encoding="utf-8"))
+    return estimate["physicalQubits"]
+
+
+PROJECTION_NOTE = (
+    "physical_qubits_projected scales the estimate of the implemented instance by (size ratio)^1.5, "
+    "an illustrative assumption rather than a resource estimate"
+)
+
+
 def generate_qaoa_scaling():
     """QAOA MaxCut: scaling analysis for graph size."""
     graph_sizes = [3, 5, 8, 10, 15, 20, 30, 50]
-    base_physical = 131544  # from RE at n=3
+    base_physical = _estimated_physical_qubits("05_qaoa_maxcut")  # the n=3 instance
 
     rows = []
     for n in graph_sizes:
@@ -99,6 +111,7 @@ def generate_qaoa_scaling():
         "quantum_complexity": "QAOA uses O(|E|) two-qubit cost terms per layer; approximation ratio depends on depth p and optimizer quality",
         "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
         "generated_utc": utc_now(),
+        "projection_note": PROJECTION_NOTE,
         "projections": rows,
         "crossover_estimate": "Uncertain. No proven quantum advantage for MaxCut QAOA at any depth",
         "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this, and on certain MaxCut instances GW outperforms QAOA at any constant depth (Bravyi et al., arXiv:1910.08980). Whether QAOA at depth growing with n offers an advantage is open.",
@@ -108,7 +121,7 @@ def generate_qaoa_scaling():
 def generate_grover_scaling():
     """Grover: scaling analysis for database size."""
     db_sizes = [16, 256, 4096, 65536, 1_000_000, 1_000_000_000]
-    base_physical = 119556  # from RE at N=16
+    base_physical = _estimated_physical_qubits("15_database_search")  # the N=16 instance
 
     rows = []
     for N in db_sizes:
@@ -138,9 +151,10 @@ def generate_grover_scaling():
         "algorithm": "Grover's Search",
         "scaling_variable": "database size (N)",
         "classical_complexity": "O(N) queries (optimal for unstructured search)",
-        "quantum_complexity": "O(√N) queries (provably optimal  BBBV lower bound)",
+        "quantum_complexity": "O(√N) queries (provably optimal: BBBV lower bound)",
         "theoretical_speedup": "Quadratic (provably optimal)",
         "generated_utc": utc_now(),
+        "projection_note": PROJECTION_NOTE,
         "projections": rows,
         "crossover_estimate": "No practical crossover identified: with a naive O(N)-gate oracle there is none, and with a structured oracle the quadratic query saving is not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
         "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage.",
@@ -156,10 +170,10 @@ def generate_grover_fairness():
         "quantum_algorithm": "Grover's Search (oracle + diffusion, O(√N) queries)",
         "classical_baseline": "Sequential linear search (O(N) expected queries)",
         "baseline_optimality": "Linear search is provably optimal for unstructured search (information-theoretic lower bound). No classical algorithm can do better than O(N) for a truly unstructured search.",
-        "fairness_assessment": "FAIR  linear search is the strongest possible classical comparator for unstructured search. This is the rare case where the classical baseline cannot be improved by heuristics.",
+        "fairness_assessment": "FAIR: linear search is the strongest possible classical comparator for unstructured search. This is the rare case where the classical baseline cannot be improved by heuristics.",
         "instance_analysis": [
-            {"instance": "small", "N": 16, "classical_queries": 8, "grover_queries": 3, "speedup": 2.7, "note": "Trivially small  no practical significance"},
-            {"instance": "medium", "N": 32, "classical_queries": 16, "grover_queries": 4, "speedup": 4.0, "note": "Still small  classical is instant"},
+            {"instance": "small", "N": 16, "classical_queries": 8, "grover_queries": 3, "speedup": 2.7, "note": "Trivially small; no practical significance"},
+            {"instance": "medium", "N": 32, "classical_queries": 16, "grover_queries": 4, "speedup": 4.0, "note": "Still small; classical is instant"},
             {"instance": "large", "N": 4096, "classical_queries": 2048, "grover_queries": 50, "speedup": 41.0, "note": "Meaningful speedup but classical is still fast"},
         ],
         "oracle_cost_sensitivity": {
@@ -169,9 +183,9 @@ def generate_grover_fairness():
             "practical_implication": "Advantage exists only for problems with efficiently implementable oracles (e.g., cryptographic hash verification, SAT checking)",
         },
         "residual_unfairness_risks": [
-            "Classical parallel search on k processors achieves O(N/k)  linear parallelism may close the gap",
+            "Classical parallel search on k processors achieves O(N/k); linear parallelism may close the gap",
             "Classical cache-friendly memory access patterns provide constant-factor advantages not captured in query complexity",
-            "Grover requires coherent oracle evaluation  decoherence may require error correction overhead not in the query count",
+            "Grover requires coherent oracle evaluation; decoherence may require error correction overhead not in the query count",
         ],
     }
 

@@ -408,6 +408,7 @@
     "tooling/generate_estimates.py",
     "tooling/generate_multimodel_estimates.py",
     "tooling/test_logical_counts.py",
+    "tooling/test_qaoa_kernels.py",
     "tooling/test_shor_kernel.py"
   ],
   "tooling/evidence_hashes.py": [

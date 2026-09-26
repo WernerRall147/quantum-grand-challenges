@@ -1,4 +1,9 @@
-"""Generate Stage D advantage claim contracts for candidate problems."""
+"""Generate Stage D advantage claim contracts for candidate problems.
+
+Qubit and T-gate counts come from each problem's circuits/estimate.json, the estimate of
+record. They were typed in by hand, and two had gone stale: 05 claimed 131,544 physical
+qubits and 15 claimed 119,556 while their estimates said 53,628 and 61,122.
+"""
 
 import json
 from datetime import datetime, timezone
@@ -19,14 +24,11 @@ STAGE_D_CANDIDATES = {
         "confidence_method": "IQAE intervals at confidence 1 - α (Clopper-Pearson per round at level α/T), coverage checked over 300 repetitions; 20-run calibration ensemble with normal-approximation 95% intervals",
         "residual_risks": [
             "Amplitude encoding circuit depth scales exponentially, so practical advantage requires efficient state preparation",
-            "369k physical qubits required for the 16-level instance, beyond current NISQ devices",
+            "{physical_k}k physical qubits required for the 16-level instance, beyond current NISQ devices",
             "No noise model applied; fault-tolerant execution assumed",
             "Classical importance sampling may close the gap for structured distributions",
             "Before 2026-09-26 the canonical kernel's Grover iterate was wrong; ensembles from that kernel are superseded",
         ],
-        "physical_qubits": 369400,
-        "logical_qubits": 40,
-        "t_gates": 15,
     },
     "05_qaoa_maxcut": {
         "claim_category": "theoretical",
@@ -42,31 +44,25 @@ STAGE_D_CANDIDATES = {
             "No proven quantum advantage for MaxCut QAOA at any constant depth",
             "Classical GW algorithm achieves 0.878-approximation in polynomial time",
             "Instance is trivially small (n=3); advantage claims are meaningless at this scale",
-            "131k physical qubits for a 3-vertex graph; scaling to practical graphs unknown",
+            "{physical_k}k physical qubits for a 3-vertex graph; scaling to practical graphs unknown",
         ],
-        "physical_qubits": 131544,
-        "logical_qubits": 12,
-        "t_gates": 0,
     },
     "15_database_search": {
         "claim_category": "projected",
         "problem_class": "Unstructured search in N-element database",
         "instance_regime": "N=16 (4 qubits), single target (M=1), 3 Grover iterations",
         "baseline_algorithm": "Classical linear search O(N); expected N/2 queries on average",
-        "fairness_rationale": "Linear search is optimal for unstructured search  no classical heuristic can beat O(N)",
-        "quantum_resource_scaling": "Grover achieves O(√N) queries  provably optimal quadratic speedup (BBBV lower bound)",
+        "fairness_rationale": "Linear search is optimal for unstructured search: no classical heuristic can beat O(N)",
+        "quantum_resource_scaling": "Grover achieves O(√N) queries, a provably optimal quadratic speedup (BBBV lower bound)",
         "data_loading_assumptions": "Oracle assumed to be a black-box function; implementation cost O(n) for n-qubit register",
         "noise_model_assumptions": "Noiseless simulator; Grover amplitude amplification degrades significantly with gate errors",
-        "confidence_method": "20-run calibration ensemble; target found deterministically on all runs (search space N=16)",
+        "confidence_method": "20-run calibration ensemble: the marked item was returned in 19 of 20 runs, consistent with the exact per-run success probability of 0.9613 for 3 iterations on N=16",
         "residual_risks": [
             "Quadratic speedup offset by large constant factors in fault-tolerant implementation",
-            "Oracle compilation cost not included  real oracles may require O(N) gates, eliminating speedup",
-            "119k physical qubits for 4-qubit search; scaling to useful N requires millions of qubits",
+            "Oracle compilation cost not included; real oracles may require O(N) gates, eliminating speedup",
+            "{physical_k}k physical qubits for 4-qubit search; scaling to useful N requires millions of qubits",
             "Grover is provably optimal but constant-factor overhead may delay practical advantage to N>10^6",
         ],
-        "physical_qubits": 119556,
-        "logical_qubits": 18,
-        "t_gates": 0,
     },
 }
 
@@ -84,11 +80,19 @@ def main(selected: list[str] | None = None):
         out_dir = problem_dir(pid) / "estimates"
         out_dir.mkdir(exist_ok=True)
 
+        estimate = json.loads((problem_dir(pid) / "circuits" / "estimate.json").read_text(encoding="utf-8"))
+        physical = estimate["physicalQubits"]
         payload = {
             "problem_id": pid,
             "stage": "D",
             "generated_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             **contract,
+            "residual_risks": [risk.format(physical_k=round(physical / 1000)) for risk in contract["residual_risks"]],
+            "physical_qubits": physical,
+            "logical_qubits": estimate["logicalQubits"],
+            # The estimate omits tCount when the program has no explicit T gates.
+            "t_gates": estimate.get("tCount") or 0,
+            "estimate_source": (problem_dir(pid) / "circuits" / "estimate.json").relative_to(PROBLEMS_DIR.parent).as_posix(),
         }
 
         out_path = out_dir / "advantage_claim_contract.json"

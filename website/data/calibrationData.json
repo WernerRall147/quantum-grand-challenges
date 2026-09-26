@@ -31,8 +31,8 @@
   },
   "04_linear_solvers": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0075,
-    "std_elapsed_s": 0.0048,
+    "mean_elapsed_s": 0.0085,
+    "std_elapsed_s": 0.0097,
     "mean_value": 0.5,
     "std_value": 0.512989,
     "ci95_half_width": 0.224827,
@@ -41,13 +41,13 @@
   },
   "05_qaoa_maxcut": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0049,
-    "std_elapsed_s": 0.0013,
-    "mean_value": 1.998,
-    "std_value": 0.008944,
-    "ci95_half_width": 0.00392,
-    "ci95_lower": 1.99408,
-    "ci95_upper": 2.00192
+    "mean_elapsed_s": 0.003,
+    "std_elapsed_s": 0.0009,
+    "mean_value": 2.0,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": 2.0,
+    "ci95_upper": 2.0
   },
   "06_high_frequency_trading": {
     "num_runs": 20,
@@ -121,13 +121,13 @@
   },
   "13_climate_modeling": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0393,
-    "std_elapsed_s": 0.0039,
-    "mean_value": 0.578,
-    "std_value": 0.075366,
-    "ci95_half_width": 0.033031,
-    "ci95_lower": 0.544969,
-    "ci95_upper": 0.611031
+    "mean_elapsed_s": 0.0256,
+    "std_elapsed_s": 0.0022,
+    "mean_value": 0.576,
+    "std_value": 0.063112,
+    "ci95_half_width": 0.02766,
+    "ci95_lower": 0.54834,
+    "ci95_upper": 0.60366
   },
   "14_materials_discovery": {
     "num_runs": 20,

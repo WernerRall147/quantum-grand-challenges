@@ -111,8 +111,9 @@ def test_controlled_evolution_formula_is_exact(matrix, bits):
 
 
 def hhl_state(matrix: np.ndarray, rhs: np.ndarray, bits: int, c: float = 1.0) -> np.ndarray:
+    """Exact HHL state: U = exp(i A 2π/8) per step, so clock value y estimates λ = 8y/2^bits."""
     size = 1 << bits
-    base_time = 2 * math.pi / size
+    base_time = 2 * math.pi / 8
     rhs = rhs / np.linalg.norm(rhs)
     state = np.zeros((size, 2, 2), dtype=complex)
     state[0, :, 0] = rhs
@@ -125,8 +126,9 @@ def hhl_state(matrix: np.ndarray, rhs: np.ndarray, bits: int, c: float = 1.0) ->
     state = np.tensordot(qft.conj().T, state, axes=(1, 0))
 
     for y in range(1, size):
-        if c <= y:
-            state[y, :, :] = state[y, :, :] @ _ry(2 * math.asin(c / y)).T
+        eigenvalue = 8 * y / size
+        if c <= eigenvalue:
+            state[y, :, :] = state[y, :, :] @ _ry(2 * math.asin(c / eigenvalue)).T
 
     state = np.tensordot(qft, state, axes=(1, 0))
     for y in range(size):
@@ -210,6 +212,35 @@ def test_problem04_program_matches_the_exact_hhl_circuit():
     expected_success = success_probability(exact_state)
     stderr = math.sqrt(expected_success * (1 - expected_success) / success_shots)
     assert abs(successes / success_shots - expected_success) < 5 * stderr
+
+
+def test_more_clock_bits_bring_problem04_closer_to_the_solution():
+    """Each extra clock bit halves the eigenvalue resolution, so the output must converge on A⁻¹b.
+
+    The rewrite first used an evolution step of 2π/2^m, which keeps the resolution at 1 for any
+    clock size: the output drifted away from the solution as bits were added (fidelity 0.99957,
+    0.99936, 0.99929 at 3, 4 and 5 bits) while the calibration claimed sharper resolution.
+    """
+    matrix = [[4.0, -1.0], [-1.0, 3.0]]
+    solution = np.linalg.solve(np.array(matrix), np.array([15.0, 10.0]))
+    solution = np.abs(solution) / np.linalg.norm(solution)
+    fidelities = []
+    for bits in (3, 4, 5):
+        state = _program_state(
+            PROBLEM04,
+            f"""{{
+                use clock = Qubit[{bits}]; use system = Qubit(); use ancilla = Qubit();
+                Main.PrepareHHLState2x2({matrix}, [15.0, 10.0], {bits}, system, clock, ancilla);
+                Std.Diagnostics.DumpMachine();
+                ResetAll(clock + [system, ancilla]);
+            }}""",
+            bits,
+        )
+        assert np.max(np.abs(np.abs(state) ** 2 - np.abs(hhl_state(np.array(matrix), np.array([15.0, 10.0]), bits)) ** 2)) < 1e-9
+        conditional = conditional_system_distribution(state)
+        fidelities.append(float((np.sqrt(conditional) @ solution) ** 2))
+    assert fidelities[0] < fidelities[1] < fidelities[2], fidelities
+    assert fidelities[2] > 0.99999, fidelities
 
 
 def test_problem13_program_matches_the_exact_diffusion_solution():

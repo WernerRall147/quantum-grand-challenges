@@ -115,9 +115,8 @@ Stage D evidence references for this problem:
 - Fair comparator and query scaling: `estimates/iqae_analysis.json`, written by `python/iqae_driver.py` (IQAE on the Q# kernel, plain Monte Carlo on the same distribution, and query counts at equal interval half-width).
 - Kernel correctness: `tooling/test_qae_kernel.py`.
 - Calibration ensemble: `estimates/quantum_calibration_ensemble.json` (`tooling/generate_calibration_ensemble.py`, hashed to the Q# sources it ran).
-- Variance and overhead methodology: `estimates/variance_and_overhead_stage_d.md` + `estimates/variance_and_overhead_stage_d.json`.
 - Backend readout characterization: `estimates/backend_readout_characterization_stage_d.md` + `.json`.
-- Superseded (produced by the kernel before the 2026-09-26 correction, and kept for the record): `estimates/quantum_estimate_ensemble*.json`, `estimates/quantum_estimate_run*.json`, `estimates/quantum_calibration_history.json` and `estimates/fairness_review_stage_d.md`. The fairness review also compared quantum runs at threshold 2.5 with a classical baseline at threshold 2.0 on the continuous distribution, so it did not compare like with like.
+- Superseded (produced by the kernel before the 2026-09-26 correction, and kept for the record): `estimates/quantum_estimate_ensemble*.json`, `estimates/quantum_estimate_run*.json`, `estimates/quantum_calibration_history.json`, `estimates/fairness_review_stage_d.md` and `estimates/variance_and_overhead_stage_d.{md,json}`, whose quantum standard errors are copied from those ensembles. The fairness review also compared quantum runs at threshold 2.5 with a classical baseline at threshold 2.0 on the continuous distribution, so it did not compare like with like.
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

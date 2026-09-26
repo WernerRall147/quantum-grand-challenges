@@ -398,7 +398,9 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
               <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', textAlign: 'center', border: '1px solid #bbf7d0' }}>
                 <div style={{ fontSize: '0.8rem', color: '#166534' }}>95% CI</div>
                 <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#15803d' }}>
-                  &plusmn; {(problem.calibration.ci95_half_width || 0).toFixed(3)}
+                  {problem.calibration.std_value === 0 && problem.calibration.num_runs > 1
+                    ? 'undefined'
+                    : <>&plusmn; {(problem.calibration.ci95_half_width || 0).toFixed(3)}</>}
                 </div>
               </div>
               <div style={{ background: 'white', borderRadius: '8px', padding: '1rem', textAlign: 'center', border: '1px solid #bbf7d0' }}>
@@ -410,6 +412,13 @@ export default function ProblemPage({ problem }: ProblemPageProps) {
                 <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#15803d' }}>{(problem.calibration.std_value || 0).toFixed(3)}</div>
               </div>
             </div>
+            {problem.calibration.std_value === 0 && problem.calibration.num_runs > 1 && (
+              <p style={{ color: '#166534', fontSize: '0.85rem', lineHeight: 1.6, margin: '1rem 0 0' }}>
+                Every run returned the same value. The interval is a normal approximation, which has zero width
+                when the runs do not vary, so it does not bound the mean; it is left undefined rather than shown as
+                &plusmn;&nbsp;0.
+              </p>
+            )}
           </section>
         )}
 

@@ -1,7 +1,7 @@
 {
   "problem_id": "05_qaoa_maxcut",
   "stage": "D",
-  "generated_utc": "2026-09-26T13:57:56.536375Z",
+  "generated_utc": "2026-09-26T15:20:14.952540Z",
   "claim_category": "theoretical",
   "evidence_completeness": {
     "advantage_claim_contract": true,
@@ -19,6 +19,6 @@
     "crossover_estimate": "Uncertain. No proven quantum advantage for MaxCut QAOA at any depth",
     "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this, and on certain MaxCut instances GW outperforms QAOA at any constant depth (Bravyi et al., arXiv:1910.08980). Whether QAOA at depth growing with n offers an advantage is open."
   },
-  "physical_qubits": 131544,
+  "physical_qubits": 53628,
   "recommendation": "Stage D evidence package is complete. All claims are bounded by explicit residual risks and honest assessments. No demonstration of practical quantum advantage is claimed."
 }

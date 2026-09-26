@@ -49,9 +49,10 @@ CALIBRATION_META: dict[str, dict] = {
     },
     "04_linear_solvers": {
         "type": "result",
-        "description": "HHL on [[4,-1],[-1,3]] x = [15,10], 4-bit clock: post-selected system bit, whose mean estimates the second component of the normalized solution (exactly 0.5 for A^-1 b proportional to [5, 5])",
-        # Calibration uses a 4-bit clock register for sharper eigenphase
-        # resolution; the estimator path uses 3 to keep depth manageable.
+        "description": "HHL on [[4,-1],[-1,3]] x = [15,10], 4-bit clock: post-selected system bit, whose exact mean for this circuit is 0.4960 (the solution A^-1 b is proportional to [5, 5], so 0.5; the 3-bit circuit gives 0.5208)",
+        # Calibration uses a 4-bit clock, which halves the eigenvalue resolution of the
+        # estimator's 3-bit clock (the evolution step is fixed at 2π/8); the estimator
+        # path uses 3 bits to keep depth manageable.
         "entry_override": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 4)",
     },
     "05_qaoa_maxcut": {"type": "numeric", "description": "Optimized p=1 QAOA MaxCut triangle graph; repository gamma convention has gamma_std=-2 gamma"},

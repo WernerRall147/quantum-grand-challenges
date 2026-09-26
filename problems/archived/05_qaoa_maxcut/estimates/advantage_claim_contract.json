@@ -1,7 +1,7 @@
 {
   "problem_id": "05_qaoa_maxcut",
   "stage": "D",
-  "generated_utc": "2026-09-26T13:57:56.425348Z",
+  "generated_utc": "2026-09-26T15:20:14.799002Z",
   "claim_category": "theoretical",
   "problem_class": "Maximum cut in weighted graphs (NP-hard combinatorial optimization)",
   "instance_regime": "Triangle graph (3 vertices, 3 edges), depth-1 QAOA at grid-searched angles, with repository gamma convention gamma_std=-2 gamma",
@@ -15,9 +15,10 @@
     "No proven quantum advantage for MaxCut QAOA at any constant depth",
     "Classical GW algorithm achieves 0.878-approximation in polynomial time",
     "Instance is trivially small (n=3); advantage claims are meaningless at this scale",
-    "131k physical qubits for a 3-vertex graph; scaling to practical graphs unknown"
+    "54k physical qubits for a 3-vertex graph; scaling to practical graphs unknown"
   ],
-  "physical_qubits": 131544,
+  "physical_qubits": 53628,
   "logical_qubits": 12,
-  "t_gates": 0
+  "t_gates": 0,
+  "estimate_source": "problems/archived/05_qaoa_maxcut/circuits/estimate.json"
 }

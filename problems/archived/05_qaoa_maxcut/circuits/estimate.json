@@ -1,15 +1,15 @@
 {
   "problem": "05_qaoa_maxcut",
-  "entryExpr": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [2.827433388230814], [0.3141592653589793], 1)",
+  "entryExpr": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.3141592653589793], [2.827433388230814], 1)",
   "estimateTarget": "Main",
   "hardwareKernelEntryPoint": "QaoaMaxCutKernel()",
   "qubitModel": "qubit_gate_ns_e3",
   "qecScheme": "surface_code",
   "build": {
-    "commit": "d47fd1a1ae285522609fefdc7782a05c4c51adf2",
+    "commit": "85d42a2d8e0680395a9f5257d337a7d50f97c066",
     "qdkVersion": "1.31.0",
     "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-    "dateUtc": "2026-09-26T14:10:16.179302+00:00"
+    "dateUtc": "2026-09-26T15:23:31.376847+00:00"
   },
   "physicalQubits": 53628,
   "runtime": 498750,

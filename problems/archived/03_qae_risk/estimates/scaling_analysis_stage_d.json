@@ -5,7 +5,7 @@
   "classical_complexity": "O(1/\u03b5\u00b2) Monte Carlo samples",
   "quantum_complexity": "O(1/\u03b5) applications of the state preparation (IQAE)",
   "theoretical_speedup": "Quadratic",
-  "generated_utc": "2026-09-26T13:31:08.495137Z",
+  "generated_utc": "2026-09-26T15:20:14.928372Z",
   "projections": [
     {
       "precision_epsilon": 0.05,

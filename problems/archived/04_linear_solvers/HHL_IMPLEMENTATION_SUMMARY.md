@@ -12,16 +12,16 @@ b = [15, 10]
 x = A^-1 b = [5, 5]
 ```
 
-The eigenvalues are `(7 +/- sqrt(5)) / 2`, approximately 4.6180339887 and 2.3819660113. They are not exactly representable with a 3-bit or 4-bit phase clock when the clock value is interpreted as the eigenvalue.
+The eigenvalues are `(7 +/- sqrt(5)) / 2`, approximately 4.6180339887 and 2.3819660113. They are not exactly representable on the clock, so the output approximates the solution, more closely with each extra clock bit.
 
 ## Circuit convention
 
 - The unitary in QPE is `U = exp(i A t)`.
-- For `m` clock bits, `t = 2 pi / 2^m`, so a clock value `y` estimates `lambda` as `y`.
+- Each controlled-evolution step uses `t = 2 pi / 8`, whatever the clock size, so with `m` clock bits a clock value `y` estimates `lambda` as `8 y / 2^m`, with resolution `8 / 2^m`. Eigenvalues must stay below 8. (A step that shrank as `2 pi / 2^m` would fix the resolution at 1 for any clock size.)
 - The clock is big-endian. `clock[0]` is the most significant bit.
 - A real symmetric 2x2 matrix is decomposed as `A = c I + z Z + x X`.
 - Controlled evolution applies the control phase `exp(i c t)` and the exact axis rotation for `z Z + x X`. No Trotter approximation is used.
-- Eigenvalue inversion applies a multi-controlled `Ry(2 asin(C / y))` for each nonzero clock value `y`, with `C = 1`.
+- Eigenvalue inversion applies a multi-controlled `Ry(2 asin(C / lambda_y))` for each clock value whose estimate `lambda_y = 8 y / 2^m` is at least `C = 1`.
 - The circuit runs inverse QPE and then measures `[ancilla, system]`. `HHLSolve2x2` repeats until the ancilla is `One` and returns the post-selected system bit.
 
 ## Verified behavior
@@ -40,9 +40,11 @@ For the 4-bit calibration clock:
 
 | Quantity | Value |
 |---|---:|
-| Ancilla success probability | 0.1977430312 |
-| Post-selected distribution | [0.47467748, 0.52532252] |
-| Fidelity with `[0.5, 0.5]` | 0.9993583582 |
+| Ancilla success probability | 0.1507474826 |
+| Post-selected distribution | [0.50403167, 0.49596833] |
+| Fidelity with `[0.5, 0.5]` | 0.9999837453 |
+
+With 5 clock bits the fidelity is 0.9999903931. `tooling/test_hhl_kernel.py` checks that it rises with each added bit.
 
 The corrected hardware kernel returns the joint distribution, not just the ancilla:
 

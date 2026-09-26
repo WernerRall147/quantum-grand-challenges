@@ -195,6 +195,47 @@ def test_qsharp_fixed_angle_expectations_match_exact_statevectors():
         assert sampled == pytest.approx(exact, abs=0.25), (problem, sampled, exact)
 
 
+def _weighted_triangle_expectation(weights: np.ndarray, gamma: float, beta: float) -> float:
+    """Expected cut of 05's circuit: exp(-i gamma w ZZ) on each edge, then Rx(2 beta) on each qubit."""
+    state = _uniform(3)
+    for i in range(3):
+        for j in range(i + 1, 3):
+            state = _rotation(2.0 * gamma * weights[i, j], _zz(i, j, 3)) @ state
+    for q in range(3):
+        state = _rotation(2.0 * beta, _single(X, q, 3)) @ state
+    return float(sum(
+        weights[i, j] * (1.0 - np.real(state.conj() @ _zz(i, j, 3) @ state)) / 2.0
+        for i in range(3) for j in range(i + 1, 3)
+    ))
+
+
+def test_the_estimator_runs_05_at_the_documented_gamma_and_beta():
+    """EvaluateQaoa takes (weights, betas, gammas); the entry passed them the other way round.
+
+    On the unit triangle the expected cut happens to be symmetric under swapping gamma and
+    beta, so the swap left every published number unchanged. The entry's angles are run
+    here on a weighted triangle, where the order matters.
+    """
+    import sys
+
+    sys.path.insert(0, str(REPO_ROOT / "tooling"))
+    from estimator_config import ENTRY_POINTS
+
+    weights = np.array([[0.0, 1.0, 0.5], [1.0, 0.0, 0.2], [0.5, 0.2, 0.0]])
+    unit = "[[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]]"
+    expression = ENTRY_POINTS["05_qaoa_maxcut"].expr(shots=4000)
+    assert unit in expression
+    expression = expression.replace(unit, str(weights.tolist()))
+    gamma, beta = ANGLES["05"]
+    documented = _weighted_triangle_expectation(weights, gamma, beta)
+    swapped = _weighted_triangle_expectation(weights, beta, gamma)
+    assert abs(documented - swapped) > 0.2, (documented, swapped)
+
+    qsharp.init(project_root=str(ARCHIVED / "05_qaoa_maxcut" / "qsharp"))
+    sampled = qsharp.run(expression, shots=1)[0][0]
+    assert sampled == pytest.approx(documented, abs=0.06), (sampled, documented, swapped)
+
+
 def test_optimized_angles_are_exactly_the_claimed_toy_objectives():
     g05, b05 = ANGLES["05"]
     g08, b08 = ANGLES["08"]

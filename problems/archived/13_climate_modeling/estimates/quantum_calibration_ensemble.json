@@ -2,122 +2,122 @@
   "problem_id": "13_climate_modeling",
   "description": "HHL on the 2x2 diffusion matrix [[2,-1],[-1,2]], 3-bit clock: fraction of shots heralding success (exact 5/9)",
   "entry_point": "Main.RunHHLClimate(3, 50)",
-  "generated_utc": "2026-09-26T14:12:17.612609Z",
+  "generated_utc": "2026-09-26T15:23:24.993316Z",
   "sources": {
-    "problems/archived/13_climate_modeling/qsharp/HardwareKernel.qs": "faddf0b4e8beaa80a7c67faddfb6da6a929e70158e1747eca165a6ccbb8fac4b",
+    "problems/archived/13_climate_modeling/qsharp/HardwareKernel.qs": "2d0b339266544a47eae330bc9ae384c05db39eab041585af5e670e2a1dd82875",
     "problems/archived/13_climate_modeling/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-    "problems/archived/13_climate_modeling/qsharp/src/Main.qs": "2967572d44427a7ff305547d914e7d78c46e809c455fc577ffca8de15f6628f8"
+    "problems/archived/13_climate_modeling/qsharp/src/Main.qs": "6d492f08a01d2e552d306d4a16bbbe31a01ebd409f36e47a7cf575ab5fd7c7fd"
   },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0393,
-    "std_elapsed_s": 0.0039,
-    "mean_value": 0.578,
-    "std_value": 0.075366,
-    "ci95_half_width": 0.033031,
-    "ci95_lower": 0.544969,
-    "ci95_upper": 0.611031
+    "mean_elapsed_s": 0.0256,
+    "std_elapsed_s": 0.0022,
+    "mean_value": 0.576,
+    "std_value": 0.063112,
+    "ci95_half_width": 0.02766,
+    "ci95_lower": 0.54834,
+    "ci95_upper": 0.60366
   },
   "runs": [
     {
       "run": 1,
       "raw_result": "[0.6]",
-      "elapsed_s": 0.0409
+      "elapsed_s": 0.0225
     },
     {
       "run": 2,
-      "raw_result": "[0.62]",
-      "elapsed_s": 0.0398
+      "raw_result": "[0.5]",
+      "elapsed_s": 0.0264
     },
     {
       "run": 3,
-      "raw_result": "[0.64]",
-      "elapsed_s": 0.0453
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0259
     },
     {
       "run": 4,
-      "raw_result": "[0.54]",
-      "elapsed_s": 0.0342
+      "raw_result": "[0.66]",
+      "elapsed_s": 0.0242
     },
     {
       "run": 5,
-      "raw_result": "[0.52]",
-      "elapsed_s": 0.0402
+      "raw_result": "[0.7]",
+      "elapsed_s": 0.0262
     },
     {
       "run": 6,
-      "raw_result": "[0.46]",
-      "elapsed_s": 0.0415
+      "raw_result": "[0.58]",
+      "elapsed_s": 0.0218
     },
     {
       "run": 7,
-      "raw_result": "[0.48]",
-      "elapsed_s": 0.0357
+      "raw_result": "[0.58]",
+      "elapsed_s": 0.0265
     },
     {
       "run": 8,
       "raw_result": "[0.56]",
-      "elapsed_s": 0.032
+      "elapsed_s": 0.0259
     },
     {
       "run": 9,
-      "raw_result": "[0.52]",
-      "elapsed_s": 0.0368
+      "raw_result": "[0.62]",
+      "elapsed_s": 0.0263
     },
     {
       "run": 10,
-      "raw_result": "[0.62]",
-      "elapsed_s": 0.0403
+      "raw_result": "[0.5]",
+      "elapsed_s": 0.0231
     },
     {
       "run": 11,
       "raw_result": "[0.62]",
-      "elapsed_s": 0.0476
+      "elapsed_s": 0.0256
     },
     {
       "run": 12,
-      "raw_result": "[0.48]",
-      "elapsed_s": 0.0448
+      "raw_result": "[0.46]",
+      "elapsed_s": 0.0248
     },
     {
       "run": 13,
-      "raw_result": "[0.74]",
-      "elapsed_s": 0.0384
+      "raw_result": "[0.58]",
+      "elapsed_s": 0.0275
     },
     {
       "run": 14,
-      "raw_result": "[0.72]",
-      "elapsed_s": 0.037
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0262
     },
     {
       "run": 15,
-      "raw_result": "[0.52]",
-      "elapsed_s": 0.0396
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0294
     },
     {
       "run": 16,
-      "raw_result": "[0.52]",
-      "elapsed_s": 0.0395
+      "raw_result": "[0.5]",
+      "elapsed_s": 0.024
     },
     {
       "run": 17,
-      "raw_result": "[0.58]",
-      "elapsed_s": 0.0378
+      "raw_result": "[0.62]",
+      "elapsed_s": 0.0225
     },
     {
       "run": 18,
-      "raw_result": "[0.58]",
-      "elapsed_s": 0.0399
+      "raw_result": "[0.46]",
+      "elapsed_s": 0.0244
     },
     {
       "run": 19,
-      "raw_result": "[0.62]",
-      "elapsed_s": 0.0339
+      "raw_result": "[0.6]",
+      "elapsed_s": 0.0289
     },
     {
       "run": 20,
-      "raw_result": "[0.62]",
-      "elapsed_s": 0.0402
+      "raw_result": "[0.58]",
+      "elapsed_s": 0.0294
     }
   ]
 }

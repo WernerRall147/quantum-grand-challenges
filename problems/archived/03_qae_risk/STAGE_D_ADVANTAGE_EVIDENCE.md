@@ -47,14 +47,13 @@
 
 - `estimates/iqae_analysis.json` (IQAE on the Q# kernel, Monte Carlo on the same distribution, query counts at equal half-width)
 - `estimates/quantum_calibration_ensemble.json`
-- `estimates/variance_and_overhead_stage_d.json`
-- `estimates/variance_and_overhead_stage_d.md`
 - `estimates/backend_readout_characterization_stage_d.json`
 - `estimates/backend_readout_characterization_stage_d.md`
 
 Superseded artifacts, kept for the record:
 
 - `estimates/quantum_estimate_ensemble_small.json`, `_medium.json`, `_large.json`: produced through `python/analyze.py` by the canonical kernel before the 2026-09-26 correction. `analyze.py` still calls the retired `dotnet` toolchain, so they cannot be regenerated until it is ported.
+- `estimates/variance_and_overhead_stage_d.json` and `.md`: their quantum standard errors (0.018186, 0.011180, 0.006250) are copied from those ensembles.
 - `estimates/fairness_review_stage_d.md`: compared those ensembles, at threshold 2.5, with a classical baseline at threshold 2.0 on the continuous distribution.
 
 ## Promotion Checklist To `demonstrated`

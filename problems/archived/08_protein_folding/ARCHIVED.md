@@ -4,7 +4,7 @@
 
 ## Archival Reason
 
-QAOA heuristic with at most quadratic advantage. AlphaFold has revolutionized protein structure prediction classically. Lattice model is a toy abstraction.
+QAOA heuristic with no proven speedup. AlphaFold has revolutionized protein structure prediction classically. Lattice model is a toy abstraction.
 
 > Code in this directory remains for **pedagogical reference**.
 

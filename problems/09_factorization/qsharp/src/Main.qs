@@ -33,32 +33,33 @@ function GCD(a : Int, b : Int) : Int {
     return x;
 }
 
-/// Controlled multiplication by 'a' mod 15 on a 4-qubit register.
-/// For N=15 and specific bases, we hardcode the permutation unitaries.
-/// This is standard practice for small Shor demonstrations.
+/// Controlled multiplication by `a` mod 15 on a 4-qubit big-endian register (target[3] is
+/// the lowest bit), for every a coprime to 15. Multiplying by 2 mod 15 rotates the four bits
+/// one place toward the high end, by 4 two places, by 8 one place toward the low end; and
+/// multiplying by 15 - b is multiplying by b and then flipping every bit, because 15 - y is y
+/// with its bits flipped. The previous version was right for 2 and 4 only: it multiplied by
+/// 13 for both 7 and 8, by 4 for 11 and by 2 for 13. tooling/test_shor_kernel.py checks the
+/// whole multiplication table.
 operation ControlledMultiplyMod15(a : Int, control : Qubit, target : Qubit[]) : Unit is Adj + Ctl {
-    // For N=15, the valid coprime bases are a=2,4,7,8,11,13,14
-    // Each implements a specific permutation on the 4-qubit work register
-    if (a == 2 or a == 13) {
-        // Multiply by 2 mod 15: cyclic left shift with conditional swap
+    let negate = a == 7 or a == 11 or a == 13 or a == 14;
+    let b = negate ? 15 - a | a;
+    if b == 2 {
         Controlled SWAP([control], (target[0], target[1]));
         Controlled SWAP([control], (target[1], target[2]));
         Controlled SWAP([control], (target[2], target[3]));
-    } elif (a == 4 or a == 11) {
-        // Multiply by 4 mod 15: two cyclic shifts
+    } elif b == 4 {
         Controlled SWAP([control], (target[0], target[2]));
         Controlled SWAP([control], (target[1], target[3]));
-    } elif (a == 7 or a == 8) {
-        // Multiply by 7 mod 15: shift + bit flips
-        Controlled SWAP([control], (target[0], target[1]));
-        Controlled SWAP([control], (target[1], target[2]));
+    } elif b == 8 {
         Controlled SWAP([control], (target[2], target[3]));
-        Controlled X([control], target[0]);
-        Controlled X([control], target[1]);
-        Controlled X([control], target[2]);
-        Controlled X([control], target[3]);
+        Controlled SWAP([control], (target[1], target[2]));
+        Controlled SWAP([control], (target[0], target[1]));
     }
-    // a=1: identity (no operation needed)
+    if negate {
+        for q in target {
+            Controlled X([control], q);
+        }
+    }
 }
 
 /// Apply controlled-U^(2^k) where U is multiplication by 'a' mod 15.
@@ -70,15 +71,19 @@ operation ControlledPowerMod15(a : Int, power : Int, control : Qubit, target : Q
     }
 }
 
-/// Inverse QFT on the counting register (big-endian).
+/// Inverse QFT on the counting register (big-endian: qubits[0] is the most significant).
+/// The QFT applies H and then controlled phases 2 pi / 2^(j - i + 1) to each qubit i in turn,
+/// and reverses the register; this undoes the reversal and then each qubit, last first. The
+/// previous version went first qubit first with angles 2 pi / 2^(j - i), twice too large, so
+/// the counting register came out uniform whatever the period.
 operation InverseQFT(qubits : Qubit[]) : Unit is Adj + Ctl {
     let n = Length(qubits);
     for i in 0 .. n / 2 - 1 {
         SWAP(qubits[i], qubits[n - 1 - i]);
     }
-    for i in 0 .. n - 1 {
-        for j in i + 1 .. n - 1 {
-            let angle = -2.0 * PI() / IntAsDouble(1 <<< (j - i));
+    for i in n - 1 .. -1 .. 0 {
+        for j in n - 1 .. -1 .. i + 1 {
+            let angle = -2.0 * PI() / IntAsDouble(1 <<< (j - i + 1));
             Controlled R1([qubits[j]], (angle, qubits[i]));
         }
         H(qubits[i]);

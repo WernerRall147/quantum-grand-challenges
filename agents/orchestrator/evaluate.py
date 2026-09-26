@@ -228,7 +228,11 @@ class QuantumEvaluator:
             )
 
         # Step 1b: Deterministic platform routing
-        from agents.classifier.platform_router import is_platform_refinement, route_platform
+        from agents.classifier.platform_router import (
+            is_platform_refinement,
+            published_advantage_class,
+            route_platform,
+        )
         kb_matches = kb_result.get("matches", [])
         search_score = kb_matches[0].get("score", 0) if kb_matches else 0
         # This is the span that carries the architectural claim. It closes before
@@ -370,9 +374,10 @@ Provide your evaluation as JSON following the output format specified in your in
         # Step 6: Merge KB + routing + LLM results.
         # The deterministic router owns the verdict and platform: those are the
         # claims this tool stands behind, and letting a stochastic model set them
-        # made identical inputs return different answers. The LLM contributes the
-        # explanation, red flags and alternatives, and any disagreement it has is
-        # recorded rather than allowed to change the result.
+        # made identical inputs return different answers. It also owns any strong
+        # advantage class, which is a claim of advantage in all but name. The LLM
+        # contributes the explanation, red flags and alternatives, and any
+        # disagreement it has is recorded rather than allowed to change the result.
         deterministic_filters = routing["evidence"].get("troyer_filters", {})
 
         verdict = routing["verdict"]
@@ -387,6 +392,14 @@ Provide your evaluation as JSON following the output format specified in your in
                 and not is_platform_refinement(platform, model_platform)):
             dissent["recommended_platform"] = model_platform
 
+        advantage_class, model_advantage_class = published_advantage_class(
+            verdict,
+            (routing["evidence"].get("kb_match") or {}).get("speedup"),
+            llm_result.get("advantage_class"),
+        )
+        if model_advantage_class:
+            dissent["advantage_class"] = model_advantage_class
+
         # Recorded as its own span because "the model disagreed and we kept the
         # router's answer anyway" is the single most important thing a reader of
         # this trace can be shown. published_verdict is always the router's.
@@ -399,7 +412,8 @@ Provide your evaluation as JSON following the output format specified in your in
                 dissent_applied=False,
             )
 
-        # Step 7: Compute cost-advantage analysis (Troyer Part 6 placeholder).
+        # Step 7: Compute cost-advantage analysis from today's per-shot and per-hour prices.
+        # Troyer's Part 6 cost model (runtime times cost per module-hour) is not applied yet.
         # Heuristic order-of-magnitude estimates from agents/classifier/cost_model.py.
         with span("7. cost_analysis"):
             cost_analysis = self._compute_cost_analysis(
@@ -423,7 +437,7 @@ Provide your evaluation as JSON following the output format specified in your in
             "problem": problem_description,
             "verdict": verdict,
             "confidence": routing["confidence"],
-            "advantage_class": llm_result.get("advantage_class", kb_result.get("speedup_class", "unknown")),
+            "advantage_class": advantage_class,
             "recommended_algorithm": llm_result.get("recommended_algorithm", kb_result.get("best_algorithm", "Unknown")),
             "recommended_platform": platform,
             "platform_reason": routing["reason"],

@@ -1,118 +1,123 @@
 {
   "problem_id": "14_materials_discovery",
-  "description": "VQE band gap estimation",
-  "entry_point": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 50)",
-  "generated_utc": "2026-04-12T13:53:48.583498Z",
+  "description": "QPE band gap of the tight-binding dimer, 8 phase bits, mode of 8 runs per level",
+  "entry_point": "Main.BandGapQPE(1.0, -0.5, 0.8, 0.3, 8, 8)",
+  "generated_utc": "2026-09-25T11:45:17.980872Z",
+  "sources": {
+    "problems/14_materials_discovery/qsharp/HardwareKernel.qs": "4979b15639a9e2b970ab16811f470f236be22703d5aa5d25d5ed01274fa36d96",
+    "problems/14_materials_discovery/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/14_materials_discovery/qsharp/src/Main.qs": "364ffc525de57d3a993b551263552ee5cff14baaabf44ffc05619f1c8b55bda1"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.32,
-    "std_elapsed_s": 0.0641,
-    "mean_value": 0.0,
-    "std_value": 0.0,
-    "ci95_half_width": 0.0,
-    "ci95_lower": 0.0,
-    "ci95_upper": 0.0
+    "mean_elapsed_s": 3.1538,
+    "std_elapsed_s": 0.2297,
+    "mean_value": 4.393437,
+    "std_value": 0.024977,
+    "ci95_half_width": 0.010947,
+    "ci95_lower": 4.382491,
+    "ci95_upper": 4.404384
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[(-1.836, -1.816, 0.020000000000000018)]",
-      "elapsed_s": 0.2628
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 2.8673
     },
     {
       "run": 2,
-      "raw_result": "[(-1.9280000000000002, -1.8800000000000001, 0.04800000000000004)]",
-      "elapsed_s": 0.2704
+      "raw_result": "[4.356249999999999]",
+      "elapsed_s": 3.0326
     },
     {
       "run": 3,
-      "raw_result": "[(-1.924, -1.844, 0.07999999999999985)]",
-      "elapsed_s": 0.2362
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 2.9152
     },
     {
       "run": 4,
-      "raw_result": "[(-1.9040000000000001, -1.904, 2.220446049250313e-16)]",
-      "elapsed_s": 0.3539
+      "raw_result": "[4.356249999999999]",
+      "elapsed_s": 3.2962
     },
     {
       "run": 5,
-      "raw_result": "[(-1.8439999999999999, -1.8319999999999999, 0.01200000000000001)]",
-      "elapsed_s": 0.2748
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 3.1436
     },
     {
       "run": 6,
-      "raw_result": "[(-1.984, -1.9160000000000001, 0.06799999999999984)]",
-      "elapsed_s": 0.3483
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 3.2242
     },
     {
       "run": 7,
-      "raw_result": "[(-1.888, -1.8559999999999999, 0.03200000000000003)]",
-      "elapsed_s": 0.43
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 3.6161
     },
     {
       "run": 8,
-      "raw_result": "[(-1.768, -1.7320000000000002, 0.03599999999999981)]",
-      "elapsed_s": 0.3932
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 3.1537
     },
     {
       "run": 9,
-      "raw_result": "[(-1.9280000000000002, -1.756, 0.17200000000000015)]",
-      "elapsed_s": 0.3475
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 2.9992
     },
     {
       "run": 10,
-      "raw_result": "[(-1.824, -1.776, 0.04800000000000004)]",
-      "elapsed_s": 0.3037
+      "raw_result": "[4.356249999999998]",
+      "elapsed_s": 3.1313
     },
     {
       "run": 11,
-      "raw_result": "[(-1.8840000000000001, -1.768, 0.1160000000000001)]",
-      "elapsed_s": 0.3539
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 2.944
     },
     {
       "run": 12,
-      "raw_result": "[(-1.8960000000000001, -1.8, 0.09600000000000009)]",
-      "elapsed_s": 0.3502
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 2.976
     },
     {
       "run": 13,
-      "raw_result": "[(-1.832, -1.812, 0.020000000000000018)]",
-      "elapsed_s": 0.359
+      "raw_result": "[4.356249999999999]",
+      "elapsed_s": 3.3091
     },
     {
       "run": 14,
-      "raw_result": "[(-1.9320000000000002, -1.828, 0.10400000000000009)]",
-      "elapsed_s": 0.459
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 3.1235
     },
     {
       "run": 15,
-      "raw_result": "[(-1.992, -1.9600000000000002, 0.031999999999999806)]",
-      "elapsed_s": 0.3575
+      "raw_result": "[4.356249999999999]",
+      "elapsed_s": 3.0809
     },
     {
       "run": 16,
-      "raw_result": "[(-1.916, -1.844, 0.07199999999999984)]",
-      "elapsed_s": 0.2775
+      "raw_result": "[4.356249999999999]",
+      "elapsed_s": 3.7538
     },
     {
       "run": 17,
-      "raw_result": "[(-1.8840000000000001, -1.768, 0.1160000000000001)]",
-      "elapsed_s": 0.2583
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 3.3329
     },
     {
       "run": 18,
-      "raw_result": "[(-1.844, -1.78, 0.06400000000000006)]",
-      "elapsed_s": 0.2613
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 3.0826
     },
     {
       "run": 19,
-      "raw_result": "[(-1.948, -1.732, 0.21599999999999997)]",
-      "elapsed_s": 0.2487
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 3.2198
     },
     {
       "run": 20,
-      "raw_result": "[(-1.9160000000000001, -1.7, 0.2160000000000002)]",
-      "elapsed_s": 0.2537
+      "raw_result": "[4.409374999999999]",
+      "elapsed_s": 2.8746
     }
   ]
 }

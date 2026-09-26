@@ -11,7 +11,7 @@
 
 - Classical comparator is explicit in `python/classical_baseline.py` and persisted in `estimates/classical_baseline.json`.
 - Brute-force is optimal for unstructured key search (no exploitable structure in properly designed ciphers).
-- Fairness status: pass for query-complexity objective; Grover quadratic speedup is already factored into NIST post-quantum key length recommendations.
+- Fairness status: pass for query-complexity objective; Grover's quadratic speedup is already accounted for in NIST's post-quantum security categories, which are defined by the cost of AES key search.
 
 ## Uncertainty Methodology
 
@@ -24,7 +24,7 @@
 - Oracle-synthesis sensitivity:
   - Real AES/SHA oracle implementation may require millions of T-gates, dramatically increasing resource requirements.
 - Key length scaling:
-  - Quadratic speedup doubles effective key length; NIST already recommends AES-256 (vs AES-128) to counter Grover.
+  - Grover halves the effective key length, but NIST expects it to give little or no advantage against AES, because its iterations must run in series, and considers AES-128 secure for decades to come (NIST PQC FAQ).
 - Backend sensitivity:
   - Current evidence is emulator-centric; hardware noise and transpilation effects not yet quantified for production key sizes.
 
@@ -32,11 +32,11 @@
 
 - Azure execution validated on Quantinuum H2-1E and Rigetti QVM emulators.
 - Resource estimate: 32,536 physical qubits for 3-qubit toy instance.
-- Practical AES-128 key search would require O(thousands of logical qubits) and ~2^64 Grover iterations.
+- Practical AES-128 key search would require 2,953 logical qubits and about 2^86 T gates over ~2^64 Grover iterations (Grassl et al., arXiv:1512.04965).
 
 ## Residual Limitations
 
-- Quadratic speedup only  does not break modern cryptography, only doubles effective key length.
+- Quadratic speedup only: it halves the effective key length and does not break modern cryptography.
 - Oracle implementation cost for real ciphers is prohibitive with current technology.
 - The practical threat to cryptography comes from Shor's algorithm (factoring), not Grover (search).
 

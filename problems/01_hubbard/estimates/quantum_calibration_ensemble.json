@@ -1,118 +1,123 @@
 {
   "problem_id": "01_hubbard",
-  "description": "VQE energy estimate for t=0.5, U=2.0",
-  "entry_point": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 50)",
-  "generated_utc": "2026-04-10T11:57:33.325985Z",
+  "description": "QPE ground-state energy, two-site Hubbard model (t=1, U=4), 8 phase bits, mode of 8 runs",
+  "entry_point": "Main.HubbardQPE(1.0, 4.0, 8, 8)",
+  "generated_utc": "2026-09-25T11:39:52.875035Z",
+  "sources": {
+    "problems/01_hubbard/qsharp/HardwareKernel.qs": "74ed90ef2aec2d5f098bb392e28bf7187496941280587b953efd329f7997f90a",
+    "problems/01_hubbard/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/01_hubbard/qsharp/src/Main.qs": "95f3e54a4ed848a6fd4770921e65ab358be67bc55f1fbb303870f1ff8fef9956"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0031,
-    "std_elapsed_s": 0.0027,
-    "mean_value": 0.877,
-    "std_value": 0.123506,
-    "ci95_half_width": 0.054129,
-    "ci95_lower": 0.822871,
-    "ci95_upper": 0.931129
+    "mean_elapsed_s": 1.934,
+    "std_elapsed_s": 0.1785,
+    "mean_value": -0.8375,
+    "std_value": 0.05877,
+    "ci95_half_width": 0.025757,
+    "ci95_lower": -0.863257,
+    "ci95_upper": -0.811743
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[0.8200000000000001]",
-      "elapsed_s": 0.0038
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.3465
     },
     {
       "run": 2,
-      "raw_result": "[0.88]",
-      "elapsed_s": 0.003
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.9408
     },
     {
       "run": 3,
-      "raw_result": "[0.86]",
-      "elapsed_s": 0.0035
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.975
     },
     {
       "run": 4,
-      "raw_result": "[1.14]",
-      "elapsed_s": 0.0035
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.8676
     },
     {
       "run": 5,
-      "raw_result": "[0.6]",
-      "elapsed_s": 0.003
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.8619
     },
     {
       "run": 6,
-      "raw_result": "[1.16]",
-      "elapsed_s": 0.003
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.8932
     },
     {
       "run": 7,
-      "raw_result": "[0.76]",
-      "elapsed_s": 0.0035
+      "raw_result": "[-0.7499999999999996]",
+      "elapsed_s": 2.0209
     },
     {
       "run": 8,
-      "raw_result": "[0.8]",
-      "elapsed_s": 0.0035
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.9694
     },
     {
       "run": 9,
-      "raw_result": "[0.8400000000000001]",
-      "elapsed_s": 0.0
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.8135
     },
     {
       "run": 10,
-      "raw_result": "[0.8600000000000001]",
-      "elapsed_s": 0.0045
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.9242
     },
     {
       "run": 11,
-      "raw_result": "[0.94]",
-      "elapsed_s": 0.0049
+      "raw_result": "[-0.875]",
+      "elapsed_s": 2.2016
     },
     {
       "run": 12,
-      "raw_result": "[0.8200000000000001]",
-      "elapsed_s": 0.0
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.8182
     },
     {
       "run": 13,
-      "raw_result": "[0.78]",
-      "elapsed_s": 0.0065
+      "raw_result": "[-0.7499999999999996]",
+      "elapsed_s": 2.1518
     },
     {
       "run": 14,
-      "raw_result": "[0.78]",
-      "elapsed_s": 0.0005
+      "raw_result": "[-0.875]",
+      "elapsed_s": 2.1018
     },
     {
       "run": 15,
-      "raw_result": "[0.92]",
-      "elapsed_s": 0.0
+      "raw_result": "[-0.875]",
+      "elapsed_s": 2.1101
     },
     {
       "run": 16,
-      "raw_result": "[0.8800000000000001]",
-      "elapsed_s": 0.0082
+      "raw_result": "[-0.7499999999999996]",
+      "elapsed_s": 1.9971
     },
     {
       "run": 17,
-      "raw_result": "[0.9200000000000002]",
-      "elapsed_s": 0.0
+      "raw_result": "[-0.875]",
+      "elapsed_s": 1.8727
     },
     {
       "run": 18,
-      "raw_result": "[0.9200000000000002]",
-      "elapsed_s": 0.0091
+      "raw_result": "[-0.7499999999999996]",
+      "elapsed_s": 2.0587
     },
     {
       "run": 19,
-      "raw_result": "[0.96]",
-      "elapsed_s": 0.001
+      "raw_result": "[-0.7499999999999996]",
+      "elapsed_s": 1.9093
     },
     {
       "run": 20,
-      "raw_result": "[0.9]",
-      "elapsed_s": 0.0
+      "raw_result": "[-0.7499999999999996]",
+      "elapsed_s": 1.8448
     }
   ]
 }

@@ -1,21 +1,21 @@
 {
   "01_hubbard": {
-    "physicalQubits": 53628,
-    "logicalQubits": 12,
-    "tCount": null,
-    "rotationCount": 12,
-    "runtime": 1120000,
-    "entryExpr": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 1)",
+    "physicalQubits": 594980,
+    "logicalQubits": 40,
+    "tCount": 27,
+    "rotationCount": 81948,
+    "runtime": 10745603750,
+    "entryExpr": "Main.HubbardQPE(1.0, 4.0, 10, 1)",
     "qubitModel": "qubit_gate_ns_e3",
     "qecScheme": "surface_code"
   },
   "02_catalysis": {
-    "physicalQubits": 57764,
-    "logicalQubits": 12,
-    "tCount": null,
-    "rotationCount": 12,
-    "runtime": 966000,
-    "entryExpr": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 1)",
+    "physicalQubits": 423055,
+    "logicalQubits": 35,
+    "tCount": 27,
+    "rotationCount": 65580,
+    "runtime": 10602348750,
+    "entryExpr": "Main.MolecularQPE(10, 1)",
     "qubitModel": "qubit_gate_ns_e3",
     "qecScheme": "surface_code"
   },
@@ -60,12 +60,12 @@
     "qecScheme": "surface_code"
   },
   "07_drug_discovery": {
-    "physicalQubits": 57764,
-    "logicalQubits": 12,
-    "tCount": null,
-    "rotationCount": 12,
-    "runtime": 966000,
-    "entryExpr": "Main.EstimateBindingEnergy(1.0, 0.5, 0.3, 1)",
+    "physicalQubits": 423055,
+    "logicalQubits": 35,
+    "tCount": 27,
+    "rotationCount": 32844,
+    "runtime": 5052433750,
+    "entryExpr": "Main.BindingQPE(10, 1)",
     "qubitModel": "qubit_gate_ns_e3",
     "qecScheme": "surface_code"
   },
@@ -80,12 +80,12 @@
     "qecScheme": "surface_code"
   },
   "09_factorization": {
-    "physicalQubits": 53065,
+    "physicalQubits": 60665,
     "logicalQubits": 25,
-    "tCount": 6,
-    "rotationCount": 3,
-    "runtime": 291550,
-    "entryExpr": "Main.ShorPeriodFinding(3, 4)",
+    "tCount": 9,
+    "rotationCount": 9,
+    "runtime": 1036350,
+    "entryExpr": "Main.ShorPeriodFinding(7, 4)",
     "qubitModel": "qubit_gate_ns_e3",
     "qecScheme": "surface_code"
   },
@@ -130,12 +130,12 @@
     "qecScheme": "surface_code"
   },
   "14_materials_discovery": {
-    "physicalQubits": 163268,
-    "logicalQubits": 12,
-    "tCount": null,
-    "rotationCount": 896,
-    "runtime": 87290000,
-    "entryExpr": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 1)",
+    "physicalQubits": 754715,
+    "logicalQubits": 35,
+    "tCount": 54,
+    "rotationCount": 163896,
+    "runtime": 27219762500,
+    "entryExpr": "Main.BandGapQPE(1.0, -0.5, 0.8, 0.3, 10, 1)",
     "qubitModel": "qubit_gate_ns_e3",
     "qecScheme": "surface_code"
   },
@@ -160,12 +160,12 @@
     "qecScheme": "surface_code"
   },
   "17_nuclear_physics": {
-    "physicalQubits": 57764,
-    "logicalQubits": 12,
-    "tCount": null,
-    "rotationCount": 12,
-    "runtime": 966000,
-    "entryExpr": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 1)",
+    "physicalQubits": 666995,
+    "logicalQubits": 35,
+    "tCount": 27,
+    "rotationCount": 131052,
+    "runtime": 21200628750,
+    "entryExpr": "Main.NuclearQPE(10, 1)",
     "qubitModel": "qubit_gate_ns_e3",
     "qecScheme": "surface_code"
   },

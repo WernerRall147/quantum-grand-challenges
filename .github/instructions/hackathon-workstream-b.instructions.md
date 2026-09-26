@@ -38,7 +38,7 @@ problems in any case; the other 11 were honestly downgraded and live under `prob
 
 Pick one whose resource budget reads well against the others. `16_error_correction`
 (18 logical / 1,746 physical) is dramatically cheaper than its neighbours, and
-`14_materials_discovery` (12 / 163,268) is the expensive extreme. Real figures are in
+`14_materials_discovery` (35 / 754,715) is the expensive extreme. Real figures are in
 `problems/*/circuits/estimate.json`.
 
 ## Before you push

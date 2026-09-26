@@ -13,13 +13,13 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 4. **Build** the right Azure workspace  Quantum (Azure Quantum), AI/ML (Azure AI Foundry), or HPC (Azure CycleCloud / NDv6 GPU clusters)
 
 ### Key Frameworks Applied
-- **Troyer Utility-Scale Classification** (6-part lecture series, 2025-2026): 5 filters (F1-F5) for honest quantum advantage assessment, plus upcoming cost model (Part 6)
+- **Troyer Utility-Scale Classification** (lecture series, nine parts published 2025-2026): the filters F1-F5 for honest quantum advantage assessment, with F6 from Moerchen et al., and the Part 6 cost model (published 2026-04-28, not yet applied by the evaluator)
 - **DiVincenzo Criteria** (5+2): Hardware-realism overlay for quantum readiness  scalable qubits, initialization, coherence, universal gates, measurement
 - **Error Correction Zoo** (errorcorrectionzoo.org): Comprehensive code taxonomy for QEC strategy selection (surface, color, QLDPC, bosonic codes)
 
 ### Industry Context
 - Google Quantum AI expanding to dual-modality (superconducting + neutral atoms, Mar 2026)
-- Google sets 2029 PQC migration timeline  CRQC expected end of decade
+- Google sets 2029 as its own PQC migration deadline (Mar 2026); Microsoft aims for quantum-safe capabilities by 2029 and a completed transition by 2033 (Aug 2025). Neither is a forecast of when a cryptographically relevant quantum computer will exist
 - MIT efficient trapped-ion cooling advances chip-based QC scalability (Jan 2026)
 
 ## Architecture Overview
@@ -56,8 +56,8 @@ The primary mission is now **optimizing the Evaluation Agent** to help users:
 │  │      quantum-advantage-orchestrator, adds Code Interpreter      │ │
 │  │      and the Microsoft Learn MCP tool                           │ │
 │  │                                                                 │ │
-│  │ Model time, not end to end. A request measures ~38s median      │ │
-│  │ (15 calls, 2026-08-24), and ~78s when code generation is on.    │ │
+│  │ Model time, not end to end. Production requests took 23s median │ │
+│  │ (286, 1-25 Sep 2026), and 36s (29) with code generation on.     │ │
 │  └────────────────────────────────────────────────────────────────┘ │
 │                                                                      │
 │  GENERATORS  agents/code_generator/ - invoked after the verdict,     │
@@ -125,7 +125,11 @@ rather than left to imply a system that did not exist.
 - **Output**: platform, verdict, confidence, and the filter evidence behind them.
 
 ### Language model - `agents/orchestrator/evaluate.py`
-- **Owns**: explanation, red flags, HPC/AI alternatives, references, similar problems.
+- **Owns**: explanation, red flags, HPC/AI alternatives, references, similar problems,
+  and a quadratic or no-advantage class. A strong class (exponential or superpolynomial)
+  is a claim of advantage, so it is published only beside the router's QUANTUM_ADVANTAGE
+  verdict and is taken from the match the router accepted
+  (`published_advantage_class` in `agents/classifier/platform_router.py`).
 - **Model**: Foundry `model-router`, which selects a model per request.
 - **Contract**: `agents/orchestrator/output_schema.py` is the single definition of the
   response shape. `agents/tests/test_evaluator_smoke.py` fails the build if the prompt
@@ -141,7 +145,23 @@ rather than left to imply a system that did not exist.
 ### Q# generator and estimator - `agents/code_generator/`
 - **Role**: generates Q#, compiles it, runs resource estimation.
 - **Tools**: `qsharp` Python package, Azure Quantum Resource Estimator.
-- **Pipeline**: generate → compile → estimate → compare.
+- **Pipeline**: pick the exemplar for the algorithm family → generate → compile → repair
+  (up to three attempts) → estimate on four hardware profiles.
+- **Exemplars**: `agents/code_generator/exemplars/` holds complete QPE and Shor programs,
+  checked against exact results by `agents/tests/test_codegen_exemplars.py`. The evaluator
+  names algorithms in prose, so the family is read from the text; an exact-key lookup had
+  given every production request the same VQE code.
+- **Repair**: gets the full compiler message, hints naming the correct form for the type
+  errors that used to fail every attempt (`compiler_hints.py`), a check of called names
+  against the standard library (`stdlib_index.py`), and the exemplar again.
+- **Quantum work**: a program that compiles but uses fewer qubits than the algorithm needs
+  is a classical placeholder. It is repaired like a compile error and, if it stays one, is
+  reported with `quantum_work: false` and no estimate.
+- **Threading**: the qsharp interpreter is thread-bound, so every compile and estimate runs
+  on one dedicated thread (`agents/tests/test_codegen_threads.py`).
+- **Measured**: `agents/evaluations/run_codegen_eval.py` runs the real pipeline on the
+  production algorithm mix. On 2026-09-25 the deployed generator compiled 19 of 24 runs and
+  produced 17 usable programs; this version compiled and produced usable programs in 24 of 24.
 
 ### Bicep generator - `agents/code_generator/`
 - **Role**: for HPC and AI/ML verdicts, emits the Azure workspace template to provision instead.
@@ -345,7 +365,7 @@ quantum-grand-challenges/
 │   │   ├── instructions.py          # Deployed system prompt (single source)
 │   │   └── evaluate.py              # The pipeline; route_platform runs before the model
 │   ├── classifier/                  # Deterministic router, filters, cost model
-│   ├── evaluations/                 # Router + narrative eval harnesses
+│   ├── evaluations/                 # Router, narrative and Q# generation eval harnesses
 │   ├── observability/
 │   │   └── trace.py                 # Per-request spans; proves the router runs first
 │   ├── api/                         # FastAPI app deployed to Container Apps
@@ -424,7 +444,7 @@ quantum-grand-challenges/
 
 ### Phase 5: Evaluator Optimization (Current  April 2026)
 **Focus: Optimize the agent to guide users to the right Azure workspace**
-- [ ] Integrate Troyer cost model (Part 6, upcoming) into evaluation pipeline
+- [ ] Integrate Troyer cost model (Part 6, published 2026-04-28: runtime times an amortized cost per module-hour) into evaluation pipeline
 - [ ] Add Error Correction Zoo references for QEC strategy recommendations
 - [ ] Add DiVincenzo criteria assessment to quantum recommendations
 - [ ] Enhance workspace recommendation engine:

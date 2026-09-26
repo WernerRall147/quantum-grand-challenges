@@ -27,9 +27,12 @@ def read_json(path: Path):
 
 
 def source(path: Path) -> dict:
+    # Line endings are normalised before hashing: a Windows checkout (CRLF) and a Linux one
+    # (LF) hold the same git blob, and hashing raw bytes made the committed evidence match
+    # only the platform that generated it, so its test failed on the CI runner.
     return {
         "path": path.resolve().relative_to(ROOT).as_posix(),
-        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "sha256": hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
     }
 
 

@@ -113,3 +113,35 @@ def test_runner_gate_goes_red_when_money_shot_regresses(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "RESULTS_PATH", tmp_path / "results.json")
     monkeypatch.setattr(sys, "argv", ["run_foundry_eval.py", "--offline"])
     assert runner.main() == 1
+
+
+def _cases_with_an_unrecorded_case(tmp_path: Path) -> Path:
+    data = json.loads((EVAL_DIR / "cases.json").read_text(encoding="utf-8"))
+    data["cases"].append({
+        "id": "unrecorded-case",
+        "problem": "Estimate the ground state energy of a transition-metal catalyst",
+        "expect_platform": "QUANTUM",
+    })
+    path = tmp_path / "cases.json"
+    path.write_text(json.dumps(data), encoding="utf-8")
+    return path
+
+
+def test_router_gate_fails_on_a_case_with_no_recorded_matches(monkeypatch, tmp_path):
+    """A skipped case leaves the denominator, so a newly labelled case could never fail."""
+    import agents.evaluations.run_eval as run_eval
+
+    monkeypatch.setattr(run_eval, "CASES_PATH", _cases_with_an_unrecorded_case(tmp_path))
+    monkeypatch.setattr(sys, "argv", ["run_eval.py", "--offline"])
+    assert run_eval.main() == 2
+
+
+def test_foundry_gate_fails_on_a_case_with_no_recorded_matches(monkeypatch, tmp_path):
+    import agents.evaluations.run_foundry_eval as runner
+
+    monkeypatch.setattr(runner, "CASES_PATH", _cases_with_an_unrecorded_case(tmp_path))
+    monkeypatch.setattr(runner, "RESULTS_PATH", tmp_path / "results.json")
+    monkeypatch.setattr(sys, "argv", ["run_foundry_eval.py", "--offline"])
+    with pytest.raises(SystemExit) as exit_info:
+        runner.main()
+    assert exit_info.value.code == 2

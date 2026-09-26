@@ -125,11 +125,25 @@ export default function ComparePage() {
     if (sortKey === key) { setSortAsc(!sortAsc); } else { setSortKey(key); setSortAsc(key === 'name'); }
   }
 
-  const headerStyle = (key: SortKey) => ({
-    padding: '0.75rem', textAlign: 'left' as const, cursor: 'pointer', userSelect: 'none' as const,
-    background: sortKey === key ? '#e0e7ff' : '#f1f5f9', color: '#1e293b', fontWeight: 700, fontSize: '0.85rem',
+  const headerStyle = (key?: SortKey) => ({
+    padding: '0.75rem', textAlign: 'left' as const,
+    background: key && sortKey === key ? '#e0e7ff' : '#f1f5f9', color: '#1e293b', fontWeight: 700, fontSize: '0.85rem',
     borderBottom: '2px solid #cbd5e1',
   });
+
+  // A clickable <th> cannot be reached by keyboard and does not tell a screen reader
+  // that the column sorts, or which way; a button inside the header does both.
+  const sortableHeader = (key: SortKey, label: string) => (
+    <th style={headerStyle(key)} scope="col" aria-sort={sortKey === key ? (sortAsc ? 'ascending' : 'descending') : 'none'}>
+      <button
+        type="button"
+        onClick={() => handleSort(key)}
+        style={{ background: 'none', border: 'none', padding: 0, font: 'inherit', color: 'inherit', cursor: 'pointer', textAlign: 'left' }}
+      >
+        {label} <span aria-hidden="true">{sortKey === key ? (sortAsc ? '▲' : '▼') : ''}</span>
+      </button>
+    </th>
+  );
 
   const chartData = rows.map((r) => ({ name: r.id.split('_')[0], pq: r.physicalQubits, lq: r.logicalQubits }));
 
@@ -170,14 +184,14 @@ export default function ComparePage() {
           <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
             <thead>
               <tr>
-                <th style={headerStyle('name')} onClick={() => handleSort('name')}>Problem {sortKey === 'name' ? (sortAsc ? '▲' : '▼') : ''}</th>
-                <th style={{ ...headerStyle('name'), cursor: 'default' }}>Algorithm</th>
-                <th style={{ ...headerStyle('name'), cursor: 'default' }}>Stage</th>
-                <th style={headerStyle('physicalQubits')} onClick={() => handleSort('physicalQubits')}>Physical Qubits {sortKey === 'physicalQubits' ? (sortAsc ? '▲' : '▼') : ''}</th>
-                <th style={headerStyle('logicalQubits')} onClick={() => handleSort('logicalQubits')}>Logical Qubits {sortKey === 'logicalQubits' ? (sortAsc ? '▲' : '▼') : ''}</th>
-                <th style={headerStyle('tCount')} onClick={() => handleSort('tCount')}>T-Gates {sortKey === 'tCount' ? (sortAsc ? '▲' : '▼') : ''}</th>
-                <th style={headerStyle('rotationCount')} onClick={() => handleSort('rotationCount')}>Rotations {sortKey === 'rotationCount' ? (sortAsc ? '▲' : '▼') : ''}</th>
-                <th style={{ ...headerStyle('name'), cursor: 'default' }}>Runtime</th>
+                {sortableHeader('name', 'Problem')}
+                <th style={headerStyle()} scope="col">Algorithm</th>
+                <th style={headerStyle()} scope="col">Stage</th>
+                {sortableHeader('physicalQubits', 'Physical Qubits')}
+                {sortableHeader('logicalQubits', 'Logical Qubits')}
+                {sortableHeader('tCount', 'T-Gates')}
+                {sortableHeader('rotationCount', 'Rotations')}
+                <th style={headerStyle()} scope="col">Runtime</th>
               </tr>
             </thead>
             <tbody>

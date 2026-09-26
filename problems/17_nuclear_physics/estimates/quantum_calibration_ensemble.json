@@ -1,118 +1,123 @@
 {
   "problem_id": "17_nuclear_physics",
-  "description": "VQE deuteron binding energy",
-  "entry_point": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 50)",
-  "generated_utc": "2026-04-12T13:53:48.795728Z",
+  "description": "QPE deuteron ground-state energy, 8 phase bits, mode of 8 runs",
+  "entry_point": "Main.NuclearQPE(8, 8)",
+  "generated_utc": "2026-09-25T11:43:07.349372Z",
+  "sources": {
+    "problems/17_nuclear_physics/qsharp/HardwareKernel.qs": "c47849318c4b4864f2d74cbd3bbff94ed62db821ba658783910cd8b8ec44c14f",
+    "problems/17_nuclear_physics/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/17_nuclear_physics/qsharp/src/Main.qs": "5bec17ec92077a1a039e3bc68cdafbbc79592dbf62363061fc63c8fdd5f5e4a1"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0022,
-    "std_elapsed_s": 0.0006,
-    "mean_value": -1.82322,
-    "std_value": 0.055027,
-    "ci95_half_width": 0.024117,
-    "ci95_lower": -1.847337,
-    "ci95_upper": -1.799103
+    "mean_elapsed_s": 2.8251,
+    "std_elapsed_s": 0.2941,
+    "mean_value": -1.733531,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": -1.733531,
+    "ci95_upper": -1.733531
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[-1.7448]",
-      "elapsed_s": 0.0026
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.5674
     },
     {
       "run": 2,
-      "raw_result": "[-1.7912]",
-      "elapsed_s": 0.0015
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.5328
     },
     {
       "run": 3,
-      "raw_result": "[-1.6628]",
-      "elapsed_s": 0.0016
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.5001
     },
     {
       "run": 4,
-      "raw_result": "[-1.798]",
-      "elapsed_s": 0.0031
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.5719
     },
     {
       "run": 5,
-      "raw_result": "[-1.8596]",
-      "elapsed_s": 0.0016
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.6515
     },
     {
       "run": 6,
-      "raw_result": "[-1.8992]",
-      "elapsed_s": 0.0033
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.4324
     },
     {
       "run": 7,
-      "raw_result": "[-1.8444]",
-      "elapsed_s": 0.0022
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.6538
     },
     {
       "run": 8,
-      "raw_result": "[-1.7932]",
-      "elapsed_s": 0.0023
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.7051
     },
     {
       "run": 9,
-      "raw_result": "[-1.87]",
-      "elapsed_s": 0.0016
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 3.1916
     },
     {
       "run": 10,
-      "raw_result": "[-1.8096]",
-      "elapsed_s": 0.0025
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 3.2749
     },
     {
       "run": 11,
-      "raw_result": "[-1.7835999999999999]",
-      "elapsed_s": 0.0021
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 3.3044
     },
     {
       "run": 12,
-      "raw_result": "[-1.8232]",
-      "elapsed_s": 0.0021
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.8696
     },
     {
       "run": 13,
-      "raw_result": "[-1.8244]",
-      "elapsed_s": 0.0021
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 3.0344
     },
     {
       "run": 14,
-      "raw_result": "[-1.8492000000000002]",
-      "elapsed_s": 0.0027
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.8918
     },
     {
       "run": 15,
-      "raw_result": "[-1.878]",
-      "elapsed_s": 0.0016
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.6277
     },
     {
       "run": 16,
-      "raw_result": "[-1.8856000000000002]",
-      "elapsed_s": 0.0016
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 3.1635
     },
     {
       "run": 17,
-      "raw_result": "[-1.7927999999999997]",
-      "elapsed_s": 0.0031
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.8094
     },
     {
       "run": 18,
-      "raw_result": "[-1.8344]",
-      "elapsed_s": 0.0015
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.5249
     },
     {
       "run": 19,
-      "raw_result": "[-1.8492]",
-      "elapsed_s": 0.0016
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 2.8926
     },
     {
       "run": 20,
-      "raw_result": "[-1.8712000000000002]",
-      "elapsed_s": 0.0031
+      "raw_result": "[-1.7335309062499986]",
+      "elapsed_s": 3.3031
     }
   ]
 }

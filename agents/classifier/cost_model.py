@@ -6,8 +6,10 @@ Uses agents/classifier/azure_pricing.py for:
   - Rigetti time-based billing ($0.02 per 10ms)
   - Azure HPC SKU rates from the public Retail Prices API (cached 24h)
 
-Troyer's Part 6 formal framework is layered on top via the verdict
-thresholds in `cost_advantage_ratio`.
+Troyer's Part 6 lecture (published 2026-04-28) prices a fault-tolerant computation as its
+estimated runtime times an amortized cost per module-hour. That model is not applied here:
+this module prices today's devices per shot, and the verdict thresholds in
+`cost_advantage_ratio` are its own.
 """
 
 from typing import Dict, Any, Optional
@@ -16,8 +18,8 @@ from agents.classifier import azure_pricing
 
 
 COST_MODEL_STATUS = "live_pricing_v1"
-TROYER_PART_6_STATUS = "coming_soon"
-TROYER_PART_6_URL = None
+TROYER_PART_6_STATUS = "published_not_applied"
+TROYER_PART_6_URL = "https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series/lecture-part-6"
 
 # Representative max circuit depth (gate layers) a current NISQ device can run
 # before decoherence dominates. Used to keep per-shot cost estimates grounded
@@ -183,8 +185,8 @@ def cost_advantage_ratio(
 ) -> Dict[str, Any]:
     """Compare quantum vs HPC costs. Ratio > 1 means HPC is cheaper.
 
-    Verdict thresholds will be replaced by Troyer's formal Part 6
-    framework once published.
+    These thresholds are this project's, not Troyer's Part 6 model, which prices a
+    fault-tolerant run by runtime and cost per module-hour instead of per shot.
     """
     q = quantum_cost.get("estimated_cost_usd")
     h = hpc_cost.get("estimated_cost_usd")

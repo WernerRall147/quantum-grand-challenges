@@ -25,48 +25,79 @@ strong { color: #1a1a2e; }
 <h1 id="a-software-engineering-framework-for-reproducible-quantum-algorithm-development-maturity-gates-automated-validation-and-honest-limitations-across-20-problem-domains">A Software Engineering Framework for Reproducible Quantum Algorithm Development: Maturity Gates, Automated Validation, and Honest Limitations Across 20 Problem Domains</h1>
 <p><em>This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. You are free to share and adapt for non-commercial purposes with attribution.</em></p>
 <blockquote>
-<p><strong>Erratum, 2026-08-24, revised 2026-08-27.</strong> Sections 4.1 and 5 of this repository copy
-report the toolchain as qsharp 1.31.0. The archived v2.0.0 record
-(DOI 10.5281/zenodo.19660251, released 2026-04-20) reports 1.27, which was accurate
-at that date; the repository pin moved to 1.31.0 on 2026-08-03 (#151) and the paper
-text was not updated at the time. The current archive, v3.1.0
-(DOI 10.5281/zenodo.22126595), reports 1.31.0.</p>
-</blockquote>
-<blockquote>
+<p><strong>Erratum, 2026-08-24, revised 2026-08-27 and 2026-09-25.</strong> Section 4.1 of this
+repository copy reports the current toolchain pin, qsharp 1.31.0. The archived v2.0.0
+record (DOI 10.5281/zenodo.19660251, released 2026-04-20) reports 1.27, which was
+accurate at that date; the repository pin moved to 1.31.0 on 2026-08-03 (#151) and the
+paper text was not updated at the time. The current archive, v3.1.0
+(DOI 10.5281/zenodo.22126595), reports 1.31.0. The Azure Quantum runs in Section 6
+were made in April 2026 and therefore used qsharp 1.27, as Section 6.1 now states.</p>
 <p><strong>Erratum, 2026-08-28.</strong> Sections 7.1 and 9 and the conclusion of the archived v1.0.1
-and v2.0.0 records state that all 20 problems had reached Stage C and that four had
+and v2.0.0 records state that all 20 problems had reached Stage C and that four had <!-- historical -->
 reached Stage D. That was not accurate at either date: when v2.0.0 was archived on
-2026-04-20, <code>docs/objective-kpis.json</code> recorded 3 problems at Stage C, 17 at Stage B
+2026-04-20, <code>docs/objective-kpis.json</code> recorded 3 problems at Stage C, 17 at Stage B <!-- historical -->
 and none at Stage D. The first Stage D promotion landed on 2026-05-06 (#89), after both
 archives. This repository copy now states the figures that file records - 9 at Stage C,
 8 at Stage B, 3 at Stage D - and <code>tooling/test_doc_claims.py</code> fails the build when the
 two disagree. A paper arguing that maturity gates prevent premature claims should not
 have overstated its own.</p>
+<p><strong>Revision, 2026-09-25.</strong> Every number, citation and description in this copy was
+checked against the repository's committed data and code. The following did not hold
+and are corrected in the text: the cross-platform agreement in Section 7.2 (the
+committed histograms give the same unique most frequent outcome for 14 of 19 problems,
+not 17); the reading of the noise table in Section 7.3.1 (its columns are single-qubit
+error rates, with two-qubit rates ten times higher, and its first noisy column now
+matches the committed model output); the AES-128 Grover cost in Section 7.3 (about
+10^19 is the iteration count, not the gate count); Section 7.4, which now states that
+the Goemans-Williamson column is a computed bound and that GW was not run; the
+utility-scale classification in Section 8, which contradicted both the framework it
+cites and the project's own screening; the description of CI enforcement in Sections
+1.1 and 5 (the checks fail the build but do not block merges, and verify a declared
+stage and two README sections, not the evidence each stage requires; the
+documentation-claim guards were not run by CI at all until a step was added in this
+revision); the toolchain, kernels and four qubit counts
+behind the Section 6.1 syntax checks; the kernel behind the largest resource estimate and the stale range in
+Lesson 3 of Section 7.5; the stages in Appendix A; and several related-work
+descriptions and citations. Section 8 adds a limitation found during this check, that
+stage labels rested on evidence nothing verified, and following it up found defects in
+the kernels themselves. The five QPE kernels applied only diagonal rotations, so they
+returned the diagonal energy of their input basis state rather than a ground-state
+energy; the quantum-walk kernel's position never depended on its coin; and Shor's order
+finding did not find the period, because its modular multiplier was right for two of
+its bases and its inverse QFT was wrong, so the demonstration Section 7.2 said factored
+15 usually did not, and its resource estimate used a base that shares a factor with 15
+and so contained no modular arithmetic. Those kernels were rewritten and tested against
+exact simulation (Section 4.2), the resource estimates now target the rewritten routines
+(Section 4.4), every calibration ensemble was regenerated, and CI now fails when the
+ensemble behind a Stage C or D label does not match the sources it claims to describe
+(Section 5.2). Section 9 also records that Part 6 of the lecture series [15], on cost,
+has been published; it had been listed as forthcoming.</p>
 </blockquote>
 <h2 id="authors">Authors</h2>
 <p>Werner Rall</p>
 <h2 id="abstract">Abstract</h2>
-<p>We present a software engineering framework for organizing quantum algorithm development across multiple problem domains. The framework provides standardized project structure, automated CI/CD validation, and a four-stage maturity gate model that explicitly prevents premature quantum advantage claims. We apply the framework to 20 problem domains using Microsoft Q#, implementing nine algorithm families at toy scale (2-8 qubits) where classical simulation is trivial. <strong>We do not claim quantum advantage for any problem.</strong> All implementations use small, highly structured instances specifically chosen for correctness validation, not for demonstrating quantum utility. Simulator results confirm algorithmic correctness but reveal nothing about noise resilience or practical scalability. The primary contribution is the methodology itself  particularly the maturity gate model that forces honest assessment of what has and has not been demonstrated  not the individual quantum implementations. We include a scaling analysis for Grover search showing the expected O(√N) query complexity alongside the corresponding growth in circuit depth and gate count that would be required for practically relevant problem sizes. The framework and all implementations are open-source (DOI: 10.5281/zenodo.19222020).</p>
+<p>We present a software engineering framework for organizing quantum algorithm development across multiple problem domains. The framework provides standardized project structure, automated CI/CD validation, and a four-stage maturity gate model designed to prevent premature quantum advantage claims. We apply the framework to 20 problem domains using Microsoft Q#, implementing ten algorithm families at toy scale (2-14 qubits) where classical simulation is trivial. <strong>We do not claim quantum advantage for any problem.</strong> All implementations use small, highly structured instances specifically chosen for correctness validation, not for demonstrating quantum utility. Simulator and emulator results confirm algorithmic correctness at small scale but reveal nothing about practical scalability. The primary contribution is the methodology itself  particularly the maturity gate model that forces honest assessment of what has and has not been demonstrated  not the individual quantum implementations. Screening the same 20 problems against utility-scale filters archived eleven of them, including all three that had completed the Stage D evidence package, which shows that documenting a claim fully and the claim being favorable are independent. We include a scaling analysis for Grover search showing the expected O(√N) query complexity alongside the corresponding growth in gate count and the effect of gate noise under an explicit analytic model. The framework and all implementations are open-source (DOI: 10.5281/zenodo.19222020).</p>
 <p><strong>Keywords:</strong> quantum software engineering, development methodology, maturity gates, reproducibility, Q#, CI/CD</p>
 <h2 id="1-introduction">1. Introduction</h2>
-<p>The quantum computing community faces a credibility challenge. Claims of quantum advantage have repeatedly been retracted when classical heuristics proved more competitive than initially assumed [5], when constant-factor costs of quantum error correction were properly accounted [6], or when problem structure was exploited by classical algorithms post-hoc. A contributing factor is the absence of standardized development practices that enforce honest assessment at each stage of quantum algorithm development.</p>
+<p>The quantum computing community faces a credibility challenge. Claims of quantum advantage have repeatedly been weakened or overturned: sampling and utility-scale experiments have been reproduced by improved classical simulation [8, 9], a claimed exponential speedup for recommendation systems was matched by a quantum-inspired classical algorithm [10], and accounting for the constant-factor cost of quantum error correction erodes quadratic speedups [6]. A contributing factor is the absence of standardized development practices that enforce honest assessment at each stage of quantum algorithm development.</p>
 <p>This paper addresses not the algorithms themselves  which are well-established in the literature  but the <strong>software engineering process</strong> of developing, validating, and honestly assessing quantum implementations. We propose a framework that applies the same rigor to quantum development that software engineering applies to classical systems: standardized structure, automated testing, evidence-based quality gates, and reproducible benchmarks.</p>
-<p><strong>Scope and limitations.</strong> Our 20 implementations are toy-scale (2-8 qubits) where classical simulation is trivial. We use standard textbook algorithms applied to small structured instances. We do not advance quantum algorithm theory, discover new speedups, or demonstrate quantum utility. The contribution is purely methodological: a framework that prevents the common failure mode of claiming more than the evidence supports.</p>
+<p><strong>Scope and limitations.</strong> Our 20 implementations are toy-scale (2-14 qubits) where classical simulation is trivial. We use standard textbook algorithms applied to small structured instances. We do not advance quantum algorithm theory, discover new speedups, or demonstrate quantum utility. The contribution is purely methodological: a framework designed to prevent the common failure mode of claiming more than the evidence supports.</p>
 <h3 id="11-contributions">1.1 Contributions</h3>
 <ol>
 <li><strong>Maturity Gate Model</strong>: A four-stage procedural framework (A→D) with explicit evidence requirements at each stage, designed to prevent premature quantum advantage claims. This is a process contribution, not a complexity-theoretic one.</li>
 <li><strong>Standardized Problem Structure</strong>: A reproducible template ensuring every problem includes classical baselines, parameterized instances, quantum implementations, and honest limitations documentation.</li>
-<li><strong>Automated Policy Enforcement</strong>: CI/CD pipelines that reject merges when maturity claims are not backed by evidence artifacts.</li>
-<li><strong>Scaling Analysis</strong>: For one representative problem (Grover search), we show how circuit depth, gate count, and resource requirements grow with problem size, illustrating the gap between toy validation instances and practically relevant scales.</li>
-<li><strong>Lessons Learned</strong>: Practical insights from building 20 quantum implementations, including how compiled-but-incorrect code, encoding bugs, and mock estimates can create false confidence.</li>
+<li><strong>Automated Policy Checks</strong>: CI jobs that fail when a problem's declared maturity stage falls below its policy minimum or required README sections are missing. Section 5 states what these checks do and do not verify.</li>
+<li><strong>Scaling Analysis</strong>: For one representative problem (Grover search), we show how gate count and noise sensitivity grow with problem size under an explicit analytic model, illustrating the gap between toy validation instances and practically relevant scales.</li>
+<li><strong>Lessons Learned</strong>: Practical insights from building 20 quantum implementations, including how compiled-but-incorrect code, encoding bugs, mock estimates and presence-only checks can create false confidence.</li>
 </ol>
 <h2 id="2-related-work">2. Related Work</h2>
-<p>Prior benchmarking efforts include the QED-C benchmark suite [1], which focuses on circuit-level metrics, and the QUARK framework [2] for optimization problems. IBM's Qiskit benchmarks [3] provide hardware-focused comparisons. Our work differs in scope (20 domains vs. single-domain), methodology (maturity gates vs. raw performance), and emphasis on reproducibility infrastructure.</p>
+<p>Prior benchmarking efforts include the QED-C application-oriented benchmark suite [1], which measures how faithfully hardware executes many well-known algorithms as circuit width and depth grow, and the QUARK framework [2], which defines application-level benchmarks, initially for industrial optimization problems. Software development kits such as Qiskit [3] provide the circuit construction and compilation layer that such benchmarks exercise. Our work differs in emphasis rather than breadth: instead of measuring hardware or software performance, it defines process gates that govern what may be claimed about an implementation, and it emphasizes reproducibility infrastructure. The utility-scale screening in Section 8 operationalizes the argument of Hoefler, Häner and Troyer [11] that quadratic speedups and data-intensive problems are unlikely to yield practical advantage.</p>
 <h2 id="3-framework-design">3. Framework Design</h2>
 <h3 id="31-problem-structure">3.1 Problem Structure</h3>
-<p>Each of the 20 problems follows an identical directory layout:</p>
+<p>Each of the 20 problems follows an identical directory layout; the eleven archived problems (Section 8) keep the same layout under <code>problems/archived/</code>:</p>
 <pre><code>problems/XX_name/
-├── qsharp/          # Q# quantum implementation
+├── qsharp/          # Q# quantum implementation (src/Main.qs, HardwareKernel.qs)
+├── circuits/        # Resource estimate (estimate.json) and circuit diagrams
 ├── python/          # Classical baseline and analysis
 ├── instances/       # Parameterized YAML configurations (small/medium/large)
 ├── estimates/       # Resource estimation artifacts
@@ -97,21 +128,23 @@ have overstated its own.</p>
 - Fair classical comparator identified and justified
 - Residual risks and assumption sensitivities documented
 - Reproducible end-to-end evidence chain</p>
+<p>Stage D certifies that a claim is completely documented, whatever its category; a Stage D problem may, and in this project does, carry a claim that no practical advantage has been shown.</p>
+<p><strong>How stages are recorded.</strong> Each problem's README declares its current stage on a "Current gate" line. The policy check (Section 5.2) verifies that the declared stage meets a per-problem minimum and that every README contains the advantage-contract and DiVincenzo-readiness sections; for one problem (05) it also requires the estimator-summary and backend-assumption files. It does not inspect the calibration ensembles or evidence packages that Stages C and D require, and it does not re-derive the stage from the evidence, so a declaration is accepted whether or not that evidence exists or describes the current kernel. Section 8 (limitation 8) describes where this mattered.</p>
 <h3 id="33-advantage-claim-contract">3.3 Advantage Claim Contract</h3>
 <p>Each problem includes a structured advantage claim with fields for: claim category, problem class and regime, baseline algorithm and fairness rationale, quantum resource scaling claim, data-loading and I/O assumptions, noise/error model assumptions, confidence/uncertainty method, and residual risks. This prevents implicit or unsupported advantage claims.</p>
 <h3 id="34-divincenzo-readiness-overlay">3.4 DiVincenzo Readiness Overlay</h3>
-<p>For Stage C/D problems, we assess five DiVincenzo criteria: scalable qubit system, initialization capability, coherence relative to gate times, universal gate set, and qubit-specific measurement. Each criterion is tagged as met, partial, not-yet, or not-applicable with evidence notes.</p>
+<p>For Stage C/D problems, we assess the five DiVincenzo criteria for quantum computation [12]: scalable qubit system, initialization capability, coherence relative to gate times, universal gate set, and qubit-specific measurement. The criteria describe a physical platform rather than an algorithm, so the assessment records how well the hardware assumed by each problem's resource estimate meets them. Each criterion is tagged as met, partial, not-yet, or not-applicable with evidence notes.</p>
 <h2 id="4-implementation">4. Implementation</h2>
 <h3 id="41-toolchain">4.1 Toolchain</h3>
 <ul>
-<li><strong>Quantum:</strong> Microsoft Q# with modern QDK (qsharp 1.31.0, Python-hosted, no .NET dependency)</li>
+<li><strong>Quantum:</strong> Microsoft Q# with modern QDK (currently pinned to qsharp 1.31.0, Python-hosted, no .NET dependency; the April 2026 Azure runs in Section 6 used qsharp 1.27)</li>
 <li><strong>Classical:</strong> Python 3.11 with NumPy, SciPy, Matplotlib</li>
 <li><strong>Cloud:</strong> Azure Quantum with Quantinuum and Rigetti providers</li>
-<li><strong>CI/CD:</strong> GitHub Actions with 7 automated checks</li>
-<li><strong>Website:</strong> Next.js dashboard with live KPI visualization</li>
+<li><strong>CI/CD:</strong> Seven GitHub Actions workflows, three of which run on pull requests (Section 5.1)</li>
+<li><strong>Website:</strong> Statically generated Next.js dashboard</li>
 </ul>
 <h3 id="42-algorithm-families">4.2 Algorithm Families</h3>
-<p>Table 1 summarizes the 9 algorithm families implemented across 20 problems.</p>
+<p>Table 1 summarizes the ten algorithm families implemented across the 20 problems. Qubit counts cover the hardware kernels, the demonstration instances in each <code>Main.qs</code>, and the instances passed to the resource estimator.</p>
 <table>
 <thead>
 <tr>
@@ -123,21 +156,21 @@ have overstated its own.</p>
 </thead>
 <tbody>
 <tr>
-<td>VQE</td>
+<td>VQE, then QPE*</td>
 <td>01, 02, 07, 14, 17</td>
-<td>2</td>
-<td>Ry, CNOT, Rz, Pauli measurement</td>
+<td>2-14</td>
+<td>Ry, CNOT, Rz, Pauli measurement (VQE); Trotterized Pauli exponentials, phase estimation (QPE)</td>
 </tr>
 <tr>
 <td>QAOA</td>
 <td>05, 08, 12, 20</td>
-<td>3-4</td>
+<td>2-4</td>
 <td>H, ZZ cost (CNOT+Rz), Rx mixer</td>
 </tr>
 <tr>
 <td>Grover</td>
 <td>10, 15</td>
-<td>3-5</td>
+<td>3-12</td>
 <td>Oracle marking, diffusion operator</td>
 </tr>
 <tr>
@@ -147,10 +180,10 @@ have overstated its own.</p>
 <td>QPE, QFT, eigenvalue inversion</td>
 </tr>
 <tr>
-<td>IQAE</td>
+<td>Amplitude estimation</td>
 <td>03, 06</td>
-<td>5</td>
-<td>Iterative: state prep, oracle, Grover^k, measure  no QPE register</td>
+<td>3-14</td>
+<td>State prep, oracle, Grover^k; canonical QAE adds a QPE precision register, IQAE does not</td>
 </tr>
 <tr>
 <td>Shor</td>
@@ -179,40 +212,39 @@ have overstated its own.</p>
 <tr>
 <td>Trotter</td>
 <td>19</td>
-<td>4</td>
+<td>2-4</td>
 <td>ZZ plaquettes, transverse field</td>
 </tr>
 </tbody>
 </table>
+<p>* The VQE routines (2-3 qubits) remain in each <code>Main.qs</code>. On 2026-04-18 (#66) the hardware kernels of these five problems were replaced by quantum phase estimation (QPE) kernels, but every controlled evolution in them was built from Rz and CNOT-conjugated Rz gates, a diagonal unitary: from a computational basis state the phase register returned that state's diagonal energy, never the ground-state energy. On 2026-09-25 they were rewritten as Trotterized QPE on a 4-qubit Jordan-Wigner two-site Hubbard model (01), the parity-reduced 2-qubit STO-3G H₂ Hamiltonian (02), the 2-qubit deuteron model of Dumitrescu et al. [20] (17), and 2-qubit models labelled as toys (07, 14), and <code>tooling/test_qpe_kernels.py</code> now compares each against exact diagonalization of the same Hamiltonian. The hardware kernels use 2 phase bits (4-6 qubits) and the resource estimates 10 (12-14 qubits). The emulator histograms and the noise study in Section 7.2 were produced by the VQE kernels and predate both changes; the calibration ensembles and resource estimates were regenerated from the rewritten QPE routines. The same revision found that the quantum-walk kernel (18) swapped its position qubits whichever way the coin pointed, and rewrote its shift as a coin-controlled step (<code>tooling/test_exciton_walk.py</code>). It also found that Shor's order finding (09) did not find the period. Its mod-15 multiplier was right for a = 2 and 4 only, its inverse QFT processed the qubits in the wrong order with angles twice too large, and its hardware kernel applied one multiplication controlled by the wrong qubit. Its resource estimate ran base 3, which shares a factor with 15, so the multiplier applied nothing and the estimate contained no modular arithmetic. All four were corrected and are tested against the exact period of every base coprime to 15 (<code>tooling/test_shor_kernel.py</code>); the estimate now runs base 7.</p>
 <h3 id="43-classical-baselines">4.3 Classical Baselines</h3>
 <p>Every problem includes a deterministic classical baseline that serves as the comparison target. Baseline algorithms are chosen to be the standard classical approach for each domain (e.g., exact diagonalization for Hubbard, Monte Carlo for risk analysis, brute-force for MaxCut at small scale). All baselines produce JSON output conforming to a shared schema.</p>
 <h3 id="44-resource-estimation-pipeline">4.4 Resource Estimation Pipeline</h3>
-<p>We employ a centralized estimation manager (<code>tooling/generate_estimates.py</code>) that runs the Quantum Resource Estimator v3 (<code>qdk.qre</code>) on each problem's kernel operation. All 20 problems have real profiles targeting a gate-based superconducting architecture (50 ns gates, 10⁻³ error rate) with a surface code and round-based magic-state factories. QRE v3 returns a Pareto frontier trading physical qubits against runtime; we report the minimum-qubit point, the most conservative hardware ask. Physical qubit counts range from 1,746 (3-qubit QEC repetition code) to 369,400 (iterative QAE risk kernel). The pipeline also supports batch calibration via <code>tooling/generate_calibration_ensemble.py</code>, which runs each kernel 20 times to produce ensemble statistics with 95% confidence intervals.</p>
-<p>These figures supersede an earlier range of 1,764 to 401,400 produced by the now-deprecated <code>qsharp.estimate</code> API. Under matched assumptions QRE v3 reports 1.0× to 3.9× fewer physical qubits at 1.5× to 2× the runtime, consistent with selecting the low-qubit corner of the frontier rather than any change in the underlying circuits.</p>
+<p>We employ a centralized estimation manager (<code>tooling/generate_estimates.py</code>) that runs the Quantum Resource Estimator v3 (<code>qdk.qre</code>) [19] on each problem's estimation entry point. All 20 problems have real profiles targeting a gate-based superconducting architecture (50 ns gates, 10⁻³ error rate) with a surface code, round-based magic-state factories and a total error budget of 10⁻³. QRE v3 returns a Pareto frontier trading physical qubits against runtime; we report the point with the fewest physical qubits, which is also the slowest. The estimated programs are the toy instances themselves, compiled for fault-tolerant execution, not utility-scale versions of the problems; for the five QPE problems of Table 1 they are the QPE routines with a 10-bit phase register. Physical qubit counts range from 1,746 (3-qubit QEC repetition code) to 754,715 (QPE on the materials-discovery model). The pipeline also supports batch calibration via <code>tooling/generate_calibration_ensemble.py</code>, which runs each kernel 20 times to produce ensemble statistics with 95% confidence intervals (for the QPE problems each run is the most frequent of 8 estimates at 8 phase bits). All 20 committed ensembles now carry valid statistics and record hashes of the Q# sources they ran; before this revision 10 of the 20 did (Section 8, limitation 8).</p>
+<p>The QRE v3 migration superseded an earlier range of 1,764 to 401,400 produced by the now-deprecated <code>qsharp.estimate</code> API. For the programs estimated at the time, under matched assumptions, QRE v3 reported 1.0× to 3.9× fewer physical qubits at 1.5× to 2× the runtime, consistent with selecting the low-qubit corner of the frontier rather than any change in the underlying circuits.</p>
 <p>Current target architectures:
 - <code>qubit_gate_ns_e3</code>: Gate-based model, 50 ns gate time, 10⁻³ error rate
 - <code>qubit_gate_ns_e4</code>: Gate-based model, 50 ns gate time, 10⁻⁴ error rate
 - <code>qubit_gate_us_e3</code>: Gate-based model, 100 μs gate time, 10⁻³ error rate
 - <code>qubit_gate_us_e4</code>: Gate-based model, 100 μs gate time, 10⁻⁴ error rate</p>
+<p>The ns profiles are typical of superconducting qubits and the μs profiles of trapped ions, but the four profiles differ only in gate time, measurement time and physical error rate (<code>tooling/estimator_config.py</code>).</p>
 <p>Majorana profiles and the floquet code were retired at the QRE v3 migration: QRE v3 ships no floquet code, and the Majorana architecture yielded an empty Pareto frontier for every code and factory combination tested.</p>
 <h2 id="5-automated-validation">5. Automated Validation</h2>
 <h3 id="51-ci-pipeline">5.1 CI Pipeline</h3>
-<p>Seven automated checks run on every pull request:</p>
+<p>Three workflows run on pull requests; the dependency-graph check runs only when code, workflow or build files change:</p>
 <ol>
-<li><strong>Build and Test</strong>: Compiles all 20 Q# projects, runs Python baselines</li>
-<li><strong>Stage D Readiness Gate</strong>: Validates maturity stage claims against evidence</li>
-<li><strong>Runnable Correctness Gate</strong>: Executes end-to-end correctness checks</li>
-<li><strong>Reporting Integrity Gate</strong>: Ensures KPI artifacts are fresh and schema-compliant</li>
-<li><strong>Azure Secret Hygiene</strong>: Prevents accidental credential commits</li>
-<li><strong>Quick Checks</strong>: Fast lint and schema validation</li>
-<li><strong>Security Scanning</strong>: Automated secret detection</li>
+<li><strong>CI/CD</strong>: its build-and-test job validates workflow syntax, compiles and runs all 20 Q# projects, runs the classical baseline tests and the evaluator test suite, validates JSON schemas, enforces the maturity policy (Section 5.2), and runs the tests under <code>tooling/</code> and <code>viz/</code>, which include the documentation-claim, evidence-provenance and kernel-correctness checks. That last step was added on 2026-09-25; until then CI did not run those guards, so the stage-count check cited in the errata above failed only when someone ran it locally</li>
+<li><strong>Dependency Graph Drift Check</strong>: fails when the committed dependency and reachability map is stale</li>
+<li><strong>Azure Secret Hygiene</strong>: prevents accidental credential commits</li>
 </ol>
+<p>Four further workflows deploy the website and the evaluator API, run a nightly resource-estimation sweep, KPI refresh and runnable-correctness audit, and schedule an uptime probe of the deployed API (its cron asks for every 30 minutes; GitHub's throttling of scheduled workflows has produced roughly one run every four hours). Earlier versions of this paper listed seven pull-request checks, including dedicated Stage D readiness, runnable-correctness and reporting-integrity gates; these were consolidated or removed between April and June 2026 (#67, #124), and the correctness audit now runs nightly rather than per pull request. None of the checks is configured as a required status check on the main branch, so a failing check reports a problem but does not block a merge.</p>
 <h3 id="52-kpi-dashboard">5.2 KPI Dashboard</h3>
-<p>An automated reporting script (<code>stage_kpis.py</code>) scans all 20 problem directories and produces a maturity status report with four flags per problem: advantage contract present, estimator profile summary generated, backend assumptions documented, and DiVincenzo readiness assessed. The CI pipeline enforces that all required flags are satisfied before merging.</p>
-<p>Current coverage: 20/20 problems have advantage contracts, estimator summaries, and backend assumptions.</p>
+<p>An automated reporting script (<code>stage_kpis.py</code>) scans all 20 problem directories and produces a maturity status report with four flags per problem: advantage contract present, estimator profile summary generated, backend assumptions documented, and DiVincenzo readiness assessed. The build-and-test job fails when a declared stage is below its per-problem minimum, when a README lacks the advantage-contract or DiVincenzo-readiness section, or, for 05 only, when the estimator-summary or backend-assumption file is missing. These are presence checks (a heading in the README, or an artifact file with non-placeholder content): they establish that some evidence was filed, not that it is current, correct, or the evidence the declared stage requires. Two checks added on 2026-09-25 go further. At Stage C and above the calibration ensemble must have at least 20 runs and complete statistics, and the hashes it records of the Q# sources it ran must match the current sources, so rewriting a kernel invalidates its ensemble. At Stage D the claim category in the README must match the machine-readable contract.</p>
+<p>Current coverage: 20/20 problems have advantage contracts, estimator summaries, backend assumptions and DiVincenzo readiness sections.</p>
 <h2 id="6-azure-quantum-integration">6. Azure Quantum Integration</h2>
 <h3 id="61-circuit-validation">6.1 Circuit Validation</h3>
-<p>Twenty quantum circuits have been validated on the Quantinuum H2-1SC trapped-ion syntax checker via Azure Quantum, compiled from Q# to QIR using the modern QDK (qsharp 1.31.0):</p>
+<p>On 12-13 April 2026, the hardware kernels of all 20 problems were compiled from Q# to QIR with the modern QDK (qsharp 1.27, the version pinned at the time) and accepted by the Quantinuum H2-1SC syntax checker via Azure Quantum. A syntax checker verifies that a program is well formed for the target; it does not simulate it. Table 2 lists the kernels as recorded then, with approximate gate counts: 20 kernels from 19 problems (two for 01). The 04_linear_solvers kernel also passed and is not listed. The VQE kernels in the table (six rows covering five problems) were replaced by QPE kernels five days later (Section 4.2); those replacements were submitted to the H2-1E emulator on 10 June 2026, but their results were never retrieved into the committed run history, and they were themselves rewritten on 2026-09-25 because their evolution was diagonal. The quantum-walk and Shor kernels listed here are also the versions before their 2026-09-25 corrections. Neither rewritten set has been submitted to Azure Quantum.</p>
 <table>
 <thead>
 <tr>
@@ -255,7 +287,7 @@ have overstated its own.</p>
 <tr>
 <td>Key Search Grover</td>
 <td>Grover</td>
-<td>4</td>
+<td>3</td>
 <td>~150</td>
 <td>Succeeded</td>
 </tr>
@@ -290,7 +322,7 @@ have overstated its own.</p>
 <tr>
 <td>QAE Simplified</td>
 <td>QAE</td>
-<td>4</td>
+<td>5</td>
 <td>~20</td>
 <td>Succeeded</td>
 </tr>
@@ -304,7 +336,7 @@ have overstated its own.</p>
 <tr>
 <td>QAOA Protein Folding</td>
 <td>QAOA</td>
-<td>4</td>
+<td>3</td>
 <td>~30</td>
 <td>Succeeded</td>
 </tr>
@@ -360,7 +392,7 @@ have overstated its own.</p>
 <tr>
 <td>QAOA Trajectory</td>
 <td>QAOA</td>
-<td>4</td>
+<td>3</td>
 <td>~30</td>
 <td>Succeeded</td>
 </tr>
@@ -370,10 +402,10 @@ have overstated its own.</p>
 <p>A problem-agnostic Azure submission pipeline (<code>tooling/azure/smoke_problem.py</code>) enables any problem to submit circuits to Azure Quantum through a single interface, with env-gated authentication, manifest tracking, and audit reporting.</p>
 <h2 id="7-results-and-discussion">7. Results and Discussion</h2>
 <h3 id="71-what-the-framework-demonstrates-and-what-it-does-not">7.1 What the Framework Demonstrates (and What It Does Not)</h3>
-<p>The maturity gate model successfully enforces honest assessment: of 20 implemented problems, 9 have reached Stage C (hardware-aware validation with 20-run calibration ensembles and real Azure Quantum Resource Estimator profiles), 8 remain at Stage B, and <strong>3 have reached Stage D</strong> (advantage evidence with explicit claim contracts). The 3 Stage D problems (QAE risk analysis, QAOA MaxCut, Grover database search) each filed honest advantage claim contracts: QAE and QAOA as "theoretical" (no practical advantage demonstrated), Grover database search as "projected" (provably optimal O(√N) speedup, practical at N&gt;10⁶).</p>
-<p>Critically, the framework prevented inflated claims: the QAOA MaxCut Stage D contract explicitly states "no proven constant-depth advantage" and identifies the Goemans-Williamson 0.878-approximation as the polynomial-time classical competitor.</p>
+<p>Of the 20 problems, 9 have reached Stage C (declared on the basis of calibration ensembles and real Azure Quantum Resource Estimator profiles; limitation 8 in Section 8 records what that evidence does and does not establish), 8 remain at Stage B, and <strong>3 have reached Stage D</strong> (advantage evidence packages with explicit claim contracts). The 3 Stage D problems (QAE risk analysis, QAOA MaxCut, Grover database search) filed claim contracts in the categories "theoretical" (QAOA MaxCut and QAE risk analysis) and "projected" (Grover database search); until this revision the QAE README gave "projected", and CI now fails when a README and its contract disagree. None claims a demonstrated advantage. The QAOA MaxCut contract states that there is "no proven quantum advantage for MaxCut QAOA at any constant depth" and identifies the Goemans-Williamson 0.878-approximation [7] as the polynomial-time classical competitor. The Grover contract rests on the provably optimal O(√N) query speedup and lists oracle synthesis overhead as its main residual risk. It does not establish a problem size at which the speedup becomes practical, and for unstructured data the cost of loading the database into an oracle or QRAM is itself O(N).</p>
+<p>Maturity and merit are independent. When the utility-scale filters of Section 8 were applied to all 20 problems in April 2026 (five filters then; the sixth, F6, was added in August 2026), eleven were archived. They include all three Stage D problems: QAE risk analysis for a quadratic speedup offset by data-loading cost, QAOA MaxCut for having no proven speedup, and Grover database search for a quadratic speedup offset by QRAM cost. The nine active problems are all at Stage C. A complete evidence package documents a claim; it does not make the claim favorable.</p>
 <p><strong>What our results demonstrate:</strong>
-- Algorithmic correctness at small scale (Grover finds marked items, Shor factors 15, QEC corrects single bit-flips)
+- Algorithmic correctness at small scale (Grover finds marked items, order finding returns the period of every base coprime to 15, QEC corrects single bit-flips, and the QPE kernels and the quantum walk sample the distributions that exact simulation of the same circuits predicts)
 - The framework's ability to organize and validate quantum development across multiple problem domains
 - Practical lessons about failure modes in quantum software development</p>
 <p><strong>What our results do NOT demonstrate:</strong>
@@ -381,15 +413,16 @@ have overstated its own.</p>
 - Noise resilience or hardware viability
 - Scalability to practically relevant problem sizes
 - Superiority over state-of-the-art classical algorithms</p>
-<h3 id="72-simulator-results-are-sanity-checks-not-experiments">7.2 Simulator Results Are Sanity Checks, Not Experiments</h3>
-<p>All validation was performed on noiseless simulators or the Quantinuum H2-1SC syntax checker. Zero-variance results (e.g., 100% QEC correction rate, exact QAOA optimality) confirm correct circuit construction but reveal nothing about performance under realistic noise. A circuit that achieves perfect results on a simulator may fail completely on hardware with 10⁻³ two-qubit gate error rates.</p>
-<p>The H2-1SC syntax checker validates that circuits are well-formed QIR (compiled from Q# via the modern QDK) but does not simulate quantum behavior. Full emulator (H2-1E) results were collected for all 20 problems (100 shots each), with cross-platform validation on 19 problems via Rigetti QVM. Key finding: <strong>17/19 problems agree on the dominant measurement outcome across both platforms</strong>, providing strong cross-platform consistency evidence. A separate depolarizing noise simulation study at three error rates (p=0.001, 0.01, 0.05) revealed that 2-qubit VQE circuits maintain &gt;90% fidelity even at p=0.05, while deeper circuits (Grover with 3 iterations, 8-qubit Shor) degrade to &lt;40% fidelity  quantifying the noise sensitivity gap that separates near-term and fault-tolerant algorithm classes.</p>
+<h3 id="72-simulator-and-emulator-results-are-sanity-checks-not-experiments">7.2 Simulator and Emulator Results Are Sanity Checks, Not Experiments</h3>
+<p>No problem was run on quantum hardware. Validation used noiseless local simulation, the Quantinuum H2-1SC syntax checker, the Quantinuum H2-1E emulator (which applies a noise model of the H2 hardware) and the Rigetti QVM simulator. Zero-variance results (e.g., 100% QEC correction rate, exact QAOA optimality) confirm correct circuit construction but reveal nothing about performance under realistic noise, which limits the size of circuit that near-term devices can execute reliably [5]. A circuit that achieves perfect results on a simulator may fail completely on hardware with 10⁻³ two-qubit gate error rates once it is deep enough.</p>
+<p>The H2-1SC syntax checker validates that circuits are well-formed QIR but does not simulate quantum behavior. In April 2026, H2-1E emulator results were collected for all 20 problems (100 shots each), and 19 were also run on the Rigetti QVM. For 14 of those 19, the most frequent outcome is the same unique outcome on both platforms; for two more (05, 08) the QVM histogram has a tie that includes the H2-1E mode; for three (03, 12, 20) the modes differ. The total variation distance between the paired 100-shot histograms ranges from 0.00 to 0.44 (median 0.06). With 100 shots, sampling error alone is up to ±0.05 in each outcome probability (one standard deviation), so these comparisons show that both platforms compiled and executed the same programs; they are not evidence about hardware behavior. They ran the kernels of April 2026: for 01, 02, 07, 14 and 17 the VQE kernels, for 18 a walk whose position never moved, and for 09 an order-finding kernel that did not find the period (Section 4.2).</p>
+<p>A separate local simulation with the QDK's depolarizing noise model at strengths p = 0.001, 0.01 and 0.05 (100 shots each, April 2026) measured the classical fidelity between each kernel's noisy and ideal output histograms. At p = 0.05 the 2-qubit VQE kernels retained 0.83-0.96, while three kernels fell below 0.40 (Grover database search with three iterations 0.15, quantum walk 0.30 and 8-qubit Shor 0.38, both for the kernels before their correction). These estimates are shot-noise limited: several rise between p = 0.001 and p = 0.01, which added noise cannot cause. A September 2026 run of the Grover database-search kernel (four qubits, three iterations) on H2-1E returned the marked item in 80 of 100 shots, against an ideal 96.1% and about 6 in 100 for random guessing (<code>problems/archived/15_database_search/azure_runs/</code>).</p>
 <p>Selected correctness validation results:
-- <strong>Grover (10_pqc)</strong>: 80-92% success rate across 3-5 qubit instances on noiseless simulator
-- <strong>Shor (09_factorization)</strong>: Correctly factors 15 = 3 × 5 (a textbook demonstration, not a research contribution)
+- <strong>Grover (10_pqc)</strong>: 80-94% success in noiseless simulation of the 3-, 4- and 5-qubit instances, consistent with the ideal 78%, 91% and 90% for the iteration counts the implementation uses (1, 2 and 3, one fewer than the optimal counts used in Section 7.3)
+- <strong>Shor (09_factorization)</strong>: Order finding for N = 15 returns s × 16 / r for every base coprime to 15, and the classical step recovers 15 = 3 × 5. Earlier versions of this paper said the implementation correctly factored 15; it did not. The counting register was nearly uniform, and in three runs of the demonstration the most frequent candidate period was 8 and no factor was found in 8 of 9 attempts (Section 4.2). The controlled modular multipliers are fixed permutations compiled for N = 15, so the circuit demonstrates the structure of period finding, not scalable modular arithmetic; compiled demonstrations of this kind say little about factoring in general [16]. It is a textbook demonstration, not a research contribution
 - <strong>QEC (16_error_correction)</strong>: 512/512 = 100% correction on simulator (meaningless without noise  the entire point of QEC is noise resilience)</p>
 <h3 id="73-scaling-analysis-grover-search-computed">7.3 Scaling Analysis: Grover Search (Computed)</h3>
-<p>To illustrate the gap between toy validation and practical utility, we computed Grover search resource requirements at increasing qubit counts, using standard Toffoli-based decomposition of multi-controlled Z gates (each Toffoli = 6 CX + 7 T gates).</p>
+<p>To illustrate the gap between toy validation and practical utility, we computed Grover search resource requirements at increasing qubit counts with an analytic gate-count model (<code>tooling/run_paper_analyses.py</code>). Each iteration applies two multi-controlled Z gates (oracle and diffusion), each counted as n-2 Toffoli gates, and each Toffoli is decomposed into 6 CX and 7 T gates [4]; n is the search-register size and the iteration count is the standard ⌊(π/4)√N⌋. The model omits ancilla qubits and their uncomputation (a textbook V-chain construction of an n-qubit multi-controlled Z uses 2n-5 Toffolis and n-3 ancillas), so its counts are order-of-magnitude illustrations, not compiled circuits.</p>
 <table>
 <thead>
 <tr>
@@ -486,18 +519,18 @@ have overstated its own.</p>
 </tr>
 </tbody>
 </table>
-<p>The quadratic speedup (O(√N) queries) is real in query complexity, but total gate count grows as O(√N × n) where n is the number of qubits. For n=20 (N ≈ 10⁶), the circuit requires ~471K gates. For cryptographically relevant keyspaces (n=128 for AES), the circuit would require approximately 10¹⁹ gates, far beyond any foreseeable hardware. <strong>No amount of CI/CD rigor changes these scaling realities.</strong></p>
+<p>The quadratic speedup (O(√N) queries) is real in query complexity, but total gate count grows as O(√N × n) where n is the number of qubits. For n=20 (N ≈ 10⁶), the model gives ~471K gates. For a 128-bit keyspace it gives about 1.4 × 10¹⁹ Grover iterations and 6 × 10²² gates with a trivial marking oracle; with a reversible AES-128 circuit as the oracle, published estimates reach about 2⁸⁶ ≈ 8 × 10²⁵ T gates on 2,953 logical qubits [13], far beyond any foreseeable hardware. <strong>No amount of CI/CD rigor changes these scaling realities.</strong></p>
 <h3 id="731-noise-impact-on-grover-scaling">7.3.1 Noise Impact on Grover Scaling</h3>
-<p>Using a depolarizing noise model where each two-qubit gate has error probability 10× the single-qubit rate, we computed the impact on Grover success probability:</p>
+<p>Using the same gate counts and a simple survival model, in which the circuit returns the noiseless output distribution if no counted gate fails and a uniformly random output otherwise, we computed the impact on Grover success probability. Each of the 6n-2 H and X gates per iteration fails with probability p₁ and each CX with p₂ = 10p₁; the T gates inside the Toffolis are not counted as failure points, which makes the model optimistic:</p>
 <table>
 <thead>
 <tr>
 <th>Qubits</th>
 <th>2Q Gates</th>
 <th>Noiseless</th>
-<th>p=0.1%</th>
-<th>p=1%</th>
-<th>p=5%</th>
+<th>p₁=0.1%, p₂=1%</th>
+<th>p₁=1%, p₂=10%</th>
+<th>p₁=5%, p₂=50%</th>
 </tr>
 </thead>
 <tbody>
@@ -505,7 +538,7 @@ have overstated its own.</p>
 <td>3</td>
 <td>24</td>
 <td>94.5%</td>
-<td>76.0%</td>
+<td>74.9%</td>
 <td>17.2%</td>
 <td>12.5%</td>
 </tr>
@@ -513,7 +546,7 @@ have overstated its own.</p>
 <td>4</td>
 <td>72</td>
 <td>96.1%</td>
-<td>49.5%</td>
+<td>47.1%</td>
 <td>6.3%</td>
 <td>6.2%</td>
 </tr>
@@ -521,7 +554,7 @@ have overstated its own.</p>
 <td>5</td>
 <td>144</td>
 <td>99.9%</td>
-<td>24.0%</td>
+<td>23.5%</td>
 <td>3.1%</td>
 <td>3.1%</td>
 </tr>
@@ -529,7 +562,7 @@ have overstated its own.</p>
 <td>6</td>
 <td>288</td>
 <td>99.7%</td>
-<td>5.7%</td>
+<td>6.0%</td>
 <td>1.6%</td>
 <td>1.6%</td>
 </tr>
@@ -543,61 +576,64 @@ have overstated its own.</p>
 </tr>
 </tbody>
 </table>
-<p>At a realistic two-qubit gate error rate of 1%, Grover success collapses from 96% to 6% at 4 qubits and becomes indistinguishable from random guessing at 6+ qubits. This demonstrates that noiseless simulator results (Section 7.2) reveal nothing about practical viability. Error correction would be required for any non-trivial Grover instance, adding orders of magnitude in qubit overhead.</p>
+<p>At a two-qubit error rate of 1%, success at 4 qubits falls from 96% (noiseless) to 47%, at 6 qubits from 99.7% to 6.0% (random guessing: 1.6%), and at 8 qubits it is indistinguishable from random guessing. At a 10% two-qubit error rate it is at the random-guess level from 4 qubits; the last column, a 50% two-qubit error rate, is outside any realistic regime and shows only saturation. Real devices also suffer coherent and correlated errors that this model ignores. This demonstrates that noiseless simulator results (Section 7.2) reveal nothing about practical viability. Error correction would be required for any non-trivial Grover instance, adding orders of magnitude in qubit overhead.</p>
 <h3 id="74-classical-baseline-honesty-goemans-williamson-vs-qaoa">7.4 Classical Baseline Honesty: Goemans-Williamson vs QAOA</h3>
-<p>To illustrate why our classical baselines are insufficient for advantage claims, we compared QAOA MaxCut against the Goemans-Williamson (GW) SDP relaxation [7]:</p>
+<p>To illustrate why our classical baselines are insufficient for advantage claims, we set QAOA MaxCut against the Goemans-Williamson (GW) approximation guarantee [7] on three small weighted graphs:</p>
 <table>
 <thead>
 <tr>
 <th>Graph</th>
 <th>Nodes</th>
-<th>Optimal Cut</th>
+<th>Edges</th>
+<th>Optimal Cut (brute force)</th>
 <th>GW Guarantee (≥0.878×OPT)</th>
-<th>Brute-Force Time</th>
-<th>GW Time</th>
+<th>Cuts Enumerated (2ⁿ)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Triangle</td>
 <td>3</td>
+<td>3</td>
 <td>2.2</td>
 <td>≥1.93</td>
-<td>O(2³) = 8</td>
-<td>O(3³) = 27</td>
+<td>8</td>
 </tr>
 <tr>
 <td>Square+diag</td>
 <td>4</td>
+<td>5</td>
 <td>4.0</td>
 <td>≥3.51</td>
-<td>O(2⁴) = 16</td>
-<td>O(4³) = 64</td>
+<td>16</td>
 </tr>
 <tr>
 <td>Pentagon+diags</td>
 <td>5</td>
+<td>7</td>
 <td>5.4</td>
 <td>≥4.74</td>
-<td>O(2⁵) = 32</td>
-<td>O(5³) = 125</td>
+<td>32</td>
 </tr>
 </tbody>
 </table>
-<p>At our problem scales (n ≤ 5), brute-force enumeration, GW-SDP, and QAOA all find the optimal cut trivially. The GW 0.878-approximation guarantee only becomes relevant when brute-force is infeasible (n &gt; 30). <strong>Claiming QAOA advantage against brute-force at n=3 is meaningless</strong>  this is precisely the kind of inflated claim that our maturity gate framework is designed to prevent.</p>
+<p>GW was not run: the guarantee column is 0.878 × OPT, computed from the brute-force optimum, and bounds the expected cut of GW's randomized rounding for non-negative weights. At these sizes (n ≤ 5) exhaustive enumeration evaluates at most 32 cuts, so it finds the optimum instantly and neither GW nor QAOA can be compared meaningfully against it. The GW guarantee, and any comparison with it, only matters at sizes where exact methods become impractical, far beyond these instances. For reference, depth-1 QAOA on 3-regular graphs is guaranteed an approximation ratio of only 0.6924 [14], below GW's 0.878. <strong>Claiming QAOA advantage against brute-force at n=3 is meaningless</strong>  this is precisely the kind of inflated claim that our maturity gate framework is designed to prevent.</p>
 <h3 id="75-lessons-learned">7.5 Lessons Learned</h3>
 <ol>
 <li>
-<p><strong>Compiled code ≠ correct quantum code</strong>: Analytical Q# code that runs classical math with a token qubit allocation compiles, passes CI, and produces plausible output  but performs no quantum computation. Fifteen of our twenty implementations were initially such placeholders. Gate-count auditing is essential.</p>
+<p><strong>Compiled code ≠ correct quantum code</strong>: Analytical Q# code that runs classical math with a token qubit allocation compiles, passes CI, and produces plausible output  but performs no quantum computation. Fifteen of our twenty implementations were initially such placeholders. Gate-count auditing is essential, and it is not enough: the five QPE kernels had the gates QPE needs but only diagonal ones, and the quantum-walk shift ignored its coin, and Shor's order finding had a multiplier right for two of its bases and an inverse QFT that returned a uniform register. All of them ran and passed CI for months, and all failed at once when their sampled outputs were compared with exact simulation of the circuits they claimed to be.</p>
 </li>
 <li>
 <p><strong>Encoding bugs persist through validation</strong>: A Lorentzian PDF masquerading as a log-normal distribution in the QAE implementation survived multiple development cycles because the circuit compiled and produced numbers in a plausible range. Only systematic comparison against the classical baseline revealed the error.</p>
 </li>
 <li>
-<p><strong>Mock estimates previously created false confidence</strong>: Uniform mock resource estimates across all problems suggested comparable resource requirements. Real Azure Quantum Resource Estimator profiles now reveal a 230× range: from 1.8k physical qubits (QEC repetition code) to 401k (VQE band gap with nested optimization). T-gate intensive algorithms (QAE: 15, HHL: 12, Shor: 6) require T-state distillation factories, while VQE/QAOA problems use only rotation gates.</p>
+<p><strong>Mock estimates previously created false confidence</strong>: Uniform mock resource estimates across all problems suggested comparable resource requirements. Real Quantum Resource Estimator profiles now reveal a range of about 430×: from 1,746 physical qubits (QEC repetition code) to 754,715 (QPE on the materials-discovery model). Explicit T-gate counts are small (QAE: 15, HHL: 12, Shor: 9), but that does not mean the other kernels avoid magic-state distillation. Every arbitrary-angle rotation must be synthesized from T states, so the rotation-only QAOA kernels devote 63-80% of their physical qubits to T factories, the rotation-dominated QPE estimates 90-94%, and the QAE kernel's cost is driven by its 3,713 rotations rather than its 15 T gates.</p>
 </li>
 <li>
 <p><strong>Process discipline has value even without quantum advantage</strong>: The standardized structure, automated checks, and maturity gates caught real bugs and prevented inflated claims  which is the framework's actual contribution.</p>
+</li>
+<li>
+<p><strong>Presence checks let evidence go stale</strong>: The policy check confirmed that a declared stage met its minimum and that two README sections existed; it never looked at the evidence Stage C requires. Five problems kept Stage C labels after their kernels were rewritten, and three held them without valid calibration statistics (Section 8, limitation 8), and nothing failed. Binding each ensemble to hashes of the sources it ran turned staleness into a failing check, and regenerating the ensembles exposed the walk defect: its zero spread had been read as a parsing problem.</p>
 </li>
 </ol>
 <h2 id="8-limitations-critical">8. Limitations (Critical)</h2>
@@ -607,22 +643,25 @@ have overstated its own.</p>
 <p><strong>No quantum advantage is claimed or demonstrated.</strong> All problems are solved trivially by classical computers. The quantum implementations exist to validate the framework methodology, not to demonstrate quantum utility.</p>
 </li>
 <li>
-<p><strong>All results are from noiseless simulation.</strong> Zero-variance results (100% QEC correction, exact QAOA optimality) are artifacts of simulation, not evidence of hardware viability. Real quantum hardware with 10⁻³ to 10⁻² error rates would produce dramatically different results.</p>
+<p><strong>No result comes from quantum hardware.</strong> Results come from noiseless simulation, the H2-1E noise-model emulator, the Rigetti QVM and a syntax checker. Zero-variance results (100% QEC correction, exact QAOA optimality) are artifacts of simulation, not evidence of hardware viability. Real quantum hardware with 10⁻³ to 10⁻² error rates would degrade results increasingly with circuit depth; the H2-1E noise model alone reduces the 4-qubit Grover kernel from an ideal 96% success to 80 of 100 shots (Section 7.2).</p>
 </li>
 <li>
-<p><strong>Classical baselines are deliberately weak.</strong> We use textbook algorithms (brute-force, naive Monte Carlo) for cross-domain standardization. Any comparative statement must acknowledge that state-of-the-art classical methods would perform far better. Quantum advantage claims have repeatedly vanished when classical heuristics were properly benchmarked [6].</p>
+<p><strong>Classical baselines are deliberately weak.</strong> We use textbook algorithms (brute-force, naive Monte Carlo) for cross-domain standardization. Any comparative statement must acknowledge that state-of-the-art classical methods would perform far better. Quantum advantage claims have repeatedly weakened or vanished when stronger classical methods were applied [8, 9, 10].</p>
 </li>
 <li>
-<p><strong>Resource estimates use the Quantum Resource Estimator v3.</strong> All 20 problems have been profiled via <code>qdk.qre</code> against a gate-based superconducting architecture with a surface code, reporting the minimum-qubit point of the returned Pareto frontier. Physical qubit counts range from 1,746 (QEC) to 369,400 (QAE risk). These are credible lower bounds for fault-tolerant execution, though they apply to toy-scale instances and should not be extrapolated to production problem sizes without careful scaling analysis. Multi-model estimation across 4 hardware configurations (superconducting ns and trapped ion μs, each at 10⁻³ and 10⁻⁴ error rates) reveals physical qubit requirements varying by up to 44× for the same problem depending on hardware assumptions — underscoring that resource estimates are meaningless without specifying the target architecture.</p>
+<p><strong>Resource estimates use the Quantum Resource Estimator v3.</strong> All 20 problems have been profiled via <code>qdk.qre</code> against a gate-based superconducting architecture with a surface code, reporting the fewest-qubit point of the returned Pareto frontier. Physical qubit counts range from 1,746 (QEC) to 754,715 (QPE on the materials-discovery model). These are estimates under stated assumptions (a 10⁻³ error budget, a surface code and round-based factories), not lower or upper bounds: better compilation, codes or factories could reduce them. They describe the toy instances themselves and should not be extrapolated to production problem sizes without careful scaling analysis. Multi-model estimation across 4 hardware configurations (ns and μs gate times, each at 10⁻³ and 10⁻⁴ error rates) shows physical qubit requirements varying by up to 44× for the same problem (26,092 versus 589 for Grover key search). All of that variation comes from the physical error rate: at a fixed error rate the ns and μs profiles give identical qubit counts and differ only in runtime, which is about 1,700× longer at 100 μs. Resource estimates are meaningless without the target error rate and gate time.</p>
 </li>
 <li>
-<p><strong>Troyer utility-scale classification.</strong> Following Dr. Matthias Troyer's "Building the Modern Quantum Architecture" framework, we classify all 20 problems into three categories: (a) 5 problems with <strong>proven speedup</strong> (QAE, Shor, Grover ×2, HHL  with caveats), (b) 10 problems with <strong>heuristic/unproven advantage</strong> (VQE ×6, QAOA ×4  highest-risk claims), and (c) 5 problems with <strong>simulation-native advantage potential</strong> (quantum simulation, QEC, HHL for PDEs). Only category (a) has a clear path to utility-scale quantum advantage; category (b) problems may never achieve it. This classification is displayed on every problem's detail page.</p>
+<p><strong>Utility-scale screening.</strong> Following Hoefler, Häner and Troyer [11] and Troyer's lecture series on utility-scale quantum computing [15], the project's evaluator applies six filters: a proven speedup (F1), a speedup that survives data input and output (F2), a speedup that survives error-correction overhead (F3), a naturally quantum problem (F4), a feasible crossover problem size (F5) and, for electronic structure, a preparable guiding state (F6) [17]. Eleven of the 20 problems fail at least one filter and are archived (the archival was made in April 2026 with the first five filters; F6 was added in August 2026): four with quadratic speedups (QAE ×2, Grover ×2), three whose speedup depends on loading classical data (HHL ×2, the swap-test classifier), and four QAOA problems with no proven speedup. The nine that remain are quantum simulation problems (the five QPE problems of Table 1, a quantum walk and a Trotter simulation), Shor factoring, and the QEC repetition code, which is retained as infrastructure rather than as an application. The filters were applied to each problem class, not to its toy instance, and for the quantum walk the difference matters: the kernel follows a single exciton, whose exact classical simulation already takes time polynomial in the number of sites, so its pass rests on many-body or strongly coupled open-system transport that the instance does not model. Passing the filters is a screen, not evidence of advantage: even for ground-state quantum chemistry, a generic exponential quantum advantage has not been established [18], in part because preparing a state with sufficient overlap with the ground state may itself be hard, which is the condition F6 tests.</p>
 </li>
 <li>
 <p><strong>Toy instances reveal nothing about asymptotic behavior.</strong> A 2-qubit VQE or 4-qubit QAOA demonstrates circuit correctness but says nothing about how the algorithm behaves at 50, 100, or 1000 qubits. The scaling analysis in Section 7.3 illustrates how rapidly resource requirements grow.</p>
 </li>
 <li>
-<p><strong>The maturity gate model is procedural, not complexity-theoretic.</strong> It enforces process discipline but cannot compensate for unfavorable asymptotic scaling. A problem that passes all four maturity gates may still offer no practical quantum advantage if the constant factors or scaling exponents are prohibitive.</p>
+<p><strong>The maturity gate model is procedural, not complexity-theoretic.</strong> It enforces process discipline but cannot compensate for unfavorable asymptotic scaling. A problem that passes all four maturity gates may still offer no practical quantum advantage if the constant factors or scaling exponents are prohibitive; the three Stage D problems, all archived by the screening above, are examples.</p>
+</li>
+<li>
+<p><strong>Stage labels are declared, and only partly verified.</strong> Each README states its own stage. Until this revision CI checked only that the declaration met a per-problem minimum and that two README sections existed (Section 5.2), and never inspected the calibration ensembles or evidence packages that Stages C and D require. Nothing therefore flagged that the calibration ensembles cited for the Stage C labels of 01, 02, 07, 14 and 17 (generated 2026-04-10 to 2026-04-12) predated the replacement of those problems' VQE hardware kernels by QPE kernels (2026-04-18), that their resource estimates still targeted the VQE routines, or that three Stage C problems lacked valid ensemble statistics: 16 had three runs, and 14 and 18 reported means, deviations and intervals of zero because their tuple- and list-valued outputs were never parsed. Following that up found worse: the QPE kernels evolved under a diagonal unitary; the quantum-walk kernel's position never depended on its coin, so once parsed its ensemble showed every run on the same site; and the Shor kernels did not find the period, while its estimate used a base with no modular arithmetic to estimate. All of these were rewritten and tested against exact simulation, every ensemble was regenerated, and CI now fails when the ensemble behind a Stage C or D label is missing, incomplete, or was computed from sources other than the current ones. The rest of what each stage requires, such as fairness reviews and scaling analyses, is still checked for presence only, and the emulator and noise studies have not been repeated for the rewritten kernels.</p>
 </li>
 </ol>
 <h2 id="9-future-work">9. Future Work</h2>
@@ -630,18 +669,21 @@ have overstated its own.</p>
 <li>~~Obtain real Azure Quantum Resource Estimator profiles~~ (completed April 2026: all 20 problems profiled)</li>
 <li>~~Promote Stage D candidates~~ (completed 2026-05-06, #89: QAE, QAOA MaxCut, Grover database search with scaling analysis + fairness reviews. Grover PQC was a candidate but remains at Stage B.)</li>
 <li>~~Multi-model resource estimation~~ (completed April 2026: 4 qubit models × surface code = 80 estimates across all 20 problems. The Majorana profiles and floquet_code were retired because QRE v3 does not realise them for these traces.)</li>
-<li>~~Evaluator agent for honest quantum/HPC/AI platform recommendation~~ (completed April 2026: Troyer 5-filter classifier + DiVincenzo overlay + GPT-5.4-mini orchestrator with deterministic pre-routing)</li>
+<li>~~Evaluator agent for honest quantum/HPC/AI platform recommendation~~ (completed April 2026. Since August 2026 a deterministic router applies the six filters F1-F6 and owns the verdict, and a language model served through the Azure AI Foundry model-router writes only the explanation; model disagreement is recorded, not applied. Since 2026-09-25 the router also owns any exponential or superpolynomial advantage class it publishes)</li>
 <li>~~Code generation for recommended platform~~ (completed April 2026: Q# generator for quantum problems, Bicep workspace generator for HPC/AI Foundry/Quantum infrastructure)</li>
-<li>Execute 2-qubit circuits on Quantinuum H1 QPU to compare noisy hardware results against simulator baselines</li>
+<li>Execute small kernels on quantum hardware, not only emulators, and compare the results with the H2-1E noise model</li>
+<li>~~Re-run the calibration studies for the QPE kernels and point their resource estimates at the QPE routines~~ (completed 2026-09-25, after rewriting the kernels; Section 4.2)</li>
+<li>Re-run the emulator and noise studies for the rewritten QPE, quantum-walk and Shor kernels (Section 8, limitation 8)</li>
+<li>Bind the other evidence artifacts to hashes of the kernels they describe, as the calibration ensembles now are, and make the CI checks required for merging, so that stale evidence blocks a merge rather than only failing a build</li>
 <li>Replace at least one classical baseline with a state-of-the-art competitor (Goemans-Williamson for MaxCut, importance sampling for QAE)</li>
 <li>Extend scaling analysis to QAOA and VQE with noise models at different error rates</li>
 <li>Investigate whether the maturity gate model can be extended with complexity-theoretic checks (scaling slope verification, classical hardness evidence requirements)</li>
-<li>Integrate Troyer Part 6 cost model when published  adds quantum vs HPC vs AI cost-advantage analysis to evaluator output</li>
+<li>Apply the cost model of Troyer's Part 6 lecture [15] (published 2026-04-28), which prices a fault-tolerant computation as its estimated runtime times an amortized cost per module-hour, alongside the evaluator's per-shot prices for today's devices</li>
 </ul>
 <h2 id="10-conclusion">10. Conclusion</h2>
-<p>We have presented a software engineering framework for quantum algorithm development that prioritizes honest assessment over optimistic claims. The framework's primary value is not in the quantum implementations  which are toy-scale and classically trivial  but in the methodology: standardized structure, automated validation, and maturity gates that explicitly prevent claiming more than the evidence supports.</p>
-<p>Of 20 implemented problems, 9 have reached Stage C (hardware-aware validation with calibration ensembles and real resource estimates), 8 remain at Stage B, and 3 have reached Stage D (advantage evidence with filed claim contracts). No problem claims demonstrated practical quantum advantage  the Stage D contracts are explicitly tagged as "theoretical" or "projected" with documented residual risks. The maturity gate model correctly identifies that emulator results on small instances, even with cross-platform validation, do not constitute evidence of quantum utility.</p>
-<p>The practical lessons  that placeholders masquerade as implementations, that encoding bugs survive validation, that mock estimates create false confidence  are transferable to any quantum development effort. We hope the framework's insistence on honest self-assessment contributes to healthier practices in the quantum computing community.</p>
+<p>We have presented a software engineering framework for quantum algorithm development that prioritizes honest assessment over optimistic claims. The framework's primary value is not in the quantum implementations  which are toy-scale and classically trivial  but in the methodology: standardized structure, automated validation, and maturity gates designed to prevent claiming more than the evidence supports.</p>
+<p>Of 20 implemented problems, 9 are declared at Stage C, 8 remain at Stage B, and 3 have reached Stage D (advantage evidence with filed claim contracts); for several of the Stage C problems the supporting calibration evidence was stale or incomplete until this revision, which regenerated it and made CI fail when it goes stale again (Section 8). No problem claims demonstrated practical quantum advantage  the Stage D contracts are explicitly tagged as "theoretical" or "projected" with documented residual risks. Screening the same problems against utility-scale filters archived eleven of them. Those eleven include all three Stage D problems, because maturity certifies that a claim is documented, not that it is favorable. The maturity gate model correctly identifies that emulator results on small instances, even with cross-platform validation, do not constitute evidence of quantum utility.</p>
+<p>The practical lessons  that placeholders masquerade as implementations, that encoding bugs survive validation, that mock estimates create false confidence, that presence checks let evidence go stale  are transferable to any quantum development effort. We hope the framework's insistence on honest self-assessment contributes to healthier practices in the quantum computing community.</p>
 <p>All code, data, and tooling are available at https://github.com/WernerRall147/quantum-grand-challenges (DOI: 10.5281/zenodo.19222020).</p>
 <h2 id="references">References</h2>
 <p>[1] T. Lubinski et al., "Application-Oriented Performance Benchmarks for Quantum Computing," IEEE Transactions on Quantum Engineering, 2023.</p>
@@ -651,7 +693,21 @@ have overstated its own.</p>
 <p>[5] J. Preskill, "Quantum Computing in the NISQ era and beyond," Quantum, 2018.</p>
 <p>[6] R. Babbush et al., "Focus beyond quadratic speedups for error-corrected quantum advantage," PRX Quantum, 2021.</p>
 <p>[7] M. Goemans and D. Williamson, "Improved approximation algorithms for maximum cut and satisfiability problems using semidefinite programming," JACM, 1995.</p>
+<p>[8] F. Pan, K. Chen, and P. Zhang, "Solving the sampling problem of the Sycamore quantum circuits," Physical Review Letters 129, 090502, 2022 (arXiv:2111.03011).</p>
+<p>[9] J. Tindall, M. Fishman, E. M. Stoudenmire, and D. Sels, "Efficient tensor network simulation of IBM's Eagle kicked Ising experiment," PRX Quantum 5, 010308, 2024 (arXiv:2306.14887).</p>
+<p>[10] E. Tang, "A quantum-inspired classical algorithm for recommendation systems," Proceedings of the 51st ACM Symposium on Theory of Computing (STOC), 2019 (arXiv:1807.04271).</p>
+<p>[11] T. Hoefler, T. Häner, and M. Troyer, "Disentangling hype from practicality: on realistically achieving quantum advantage," Communications of the ACM 66(5), 82-87, 2023 (arXiv:2307.00523).</p>
+<p>[12] D. P. DiVincenzo, "The physical implementation of quantum computation," Fortschritte der Physik 48, 771-783, 2000 (arXiv:quant-ph/0002077).</p>
+<p>[13] M. Grassl, B. Langenberg, M. Roetteler, and R. Steinwandt, "Applying Grover's algorithm to AES: quantum resource estimates," Post-Quantum Cryptography (PQCrypto 2016), LNCS 9606, 29-43, 2016 (arXiv:1512.04965).</p>
+<p>[14] E. Farhi, J. Goldstone, and S. Gutmann, "A quantum approximate optimization algorithm," arXiv:1411.4028, 2014.</p>
+<p>[15] M. Troyer, "Building the Modern Quantum Architecture" lecture series, Parts 1-9, Microsoft Quantum, 2025-2026, https://quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series.</p>
+<p>[16] J. A. Smolin, G. Smith, and A. Vargo, "Oversimplifying quantum factoring," Nature 499, 163-165, 2013 (arXiv:1301.7007).</p>
+<p>[17] M. Mörchen, G. H. Low, T. Weymuth, H. Liu, M. Troyer, and M. Reiher, "Classification of electronic structures and state preparation for quantum computation of reaction chemistry," arXiv:2409.08910, 2024.</p>
+<p>[18] S. Lee et al., "Evaluating the evidence for exponential quantum advantage in ground-state quantum chemistry," Nature Communications 14, 1952, 2023 (arXiv:2208.02199).</p>
+<p>[19] M. E. Beverland et al., "Assessing requirements to scale to practical quantum advantage," arXiv:2211.07629, 2022.</p>
+<p>[20] E. F. Dumitrescu et al., "Cloud quantum computing of an atomic nucleus," Physical Review Letters 120, 210501, 2018 (arXiv:1801.03897).</p>
 <h2 id="appendix-a-problem-registry">Appendix A: Problem Registry</h2>
+<p>Stages are those recorded in <code>docs/objective-kpis.json</code>; status is the outcome of the utility-scale screening in Section 8. Qubit ranges are counted as in Table 1.</p>
 <table>
 <thead>
 <tr>
@@ -660,43 +716,49 @@ have overstated its own.</p>
 <th>Algorithm</th>
 <th>Qubits</th>
 <th>Stage</th>
+<th>Status</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>01</td>
 <td>Hubbard Model</td>
-<td>VQE</td>
-<td>2</td>
-<td>B</td>
+<td>VQE, then QPE</td>
+<td>2-14</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>02</td>
 <td>Catalysis</td>
-<td>VQE</td>
-<td>2</td>
-<td>B</td>
+<td>VQE, then QPE</td>
+<td>2-12</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>03</td>
 <td>Risk Analysis</td>
-<td>IQAE</td>
-<td>5</td>
-<td>C</td>
+<td>QAE and IQAE</td>
+<td>5-14</td>
+<td>D</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>04</td>
 <td>Linear Solvers</td>
 <td>HHL</td>
-<td>6</td>
+<td>5-6</td>
 <td>B</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>05</td>
 <td>MaxCut</td>
 <td>QAOA</td>
 <td>3</td>
-<td>C</td>
+<td>D</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>06</td>
@@ -704,27 +766,31 @@ have overstated its own.</p>
 <td>QAE</td>
 <td>3</td>
 <td>B</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>07</td>
 <td>Drug Discovery</td>
-<td>VQE</td>
-<td>2</td>
-<td>B</td>
+<td>VQE, then QPE</td>
+<td>2-12</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>08</td>
 <td>Protein Folding</td>
 <td>QAOA</td>
-<td>4</td>
+<td>2-4</td>
 <td>B</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>09</td>
 <td>Factorization</td>
 <td>Shor</td>
 <td>8</td>
-<td>B</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>10</td>
@@ -732,6 +798,7 @@ have overstated its own.</p>
 <td>Grover</td>
 <td>3-5</td>
 <td>B</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>11</td>
@@ -739,69 +806,79 @@ have overstated its own.</p>
 <td>Swap Test</td>
 <td>5</td>
 <td>B</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>12</td>
 <td>Optimization</td>
 <td>QAOA</td>
-<td>4</td>
+<td>3-4</td>
 <td>B</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>13</td>
 <td>Climate</td>
 <td>HHL</td>
-<td>6</td>
+<td>5</td>
 <td>B</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>14</td>
 <td>Materials</td>
-<td>VQE</td>
-<td>2</td>
-<td>B</td>
+<td>VQE, then QPE</td>
+<td>2-12</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>15</td>
 <td>Database Search</td>
 <td>Grover</td>
 <td>4-12</td>
-<td>C</td>
+<td>D</td>
+<td>Archived</td>
 </tr>
 <tr>
 <td>16</td>
 <td>Error Correction</td>
 <td>QEC</td>
 <td>5</td>
-<td>B</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>17</td>
 <td>Nuclear Physics</td>
-<td>VQE</td>
-<td>2</td>
-<td>B</td>
+<td>VQE, then QPE</td>
+<td>2-12</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>18</td>
 <td>Photovoltaics</td>
 <td>Quantum Walk</td>
 <td>3</td>
-<td>B</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>19</td>
 <td>QCD</td>
 <td>Trotter</td>
-<td>4</td>
-<td>B</td>
+<td>2-4</td>
+<td>C</td>
+<td>Active</td>
 </tr>
 <tr>
 <td>20</td>
 <td>Space Planning</td>
 <td>QAOA</td>
-<td>4</td>
+<td>3-4</td>
 <td>B</td>
+<td>Archived</td>
 </tr>
 </tbody>
 </table>

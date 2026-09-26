@@ -64,7 +64,7 @@
           "quadratic_speedup_factor": 12734.0
         }
       ],
-      "crossover_estimate": "\u03b5 \u2248 0.001 (1000 classical samples vs ~785 quantum queries) \u2014 but requires ~100k+ physical qubits",
+      "crossover_estimate": "No practical crossover identified: at epsilon = 0.001 Monte Carlo needs about 10^6 samples against about 785 quantum queries, but each query needs error-corrected state preparation, and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
       "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions."
     },
     "stage_d_evidence_summary": {
@@ -85,7 +85,7 @@
         "classical_complexity": "O(1/\u03b5\u00b2) Monte Carlo samples",
         "quantum_complexity": "O(1/\u03b5) Grover iterations",
         "theoretical_speedup": "Quadratic",
-        "crossover_estimate": "\u03b5 \u2248 0.001 (1000 classical samples vs ~785 quantum queries) \u2014 but requires ~100k+ physical qubits",
+        "crossover_estimate": "No practical crossover identified: at epsilon = 0.001 Monte Carlo needs about 10^6 samples against about 785 quantum queries, but each query needs error-corrected state preparation, and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
         "honest_assessment": "Quadratic speedup is provable but practical advantage requires efficient amplitude encoding. Current O(2^n) state preparation circuit eliminates speedup for structured distributions."
       },
       "physical_qubits": 293120,
@@ -207,7 +207,7 @@
         }
       ],
       "crossover_estimate": "Uncertain \u2014 no proven quantum advantage for MaxCut QAOA at any depth",
-      "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit."
+      "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this, and on certain MaxCut instances GW outperforms QAOA at any constant depth (Bravyi et al., arXiv:1910.08980). Whether QAOA at depth growing with n offers an advantage is open."
     },
     "stage_d_evidence_summary": {
       "problem_id": "05_qaoa_maxcut",
@@ -228,7 +228,7 @@
         "quantum_complexity": "QAOA depth O(n\u00b2) per layer, approximation ratio depends on depth p",
         "theoretical_speedup": "None proven for constant-depth QAOA on MaxCut",
         "crossover_estimate": "Uncertain \u2014 no proven quantum advantage for MaxCut QAOA at any depth",
-        "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit."
+        "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this, and on certain MaxCut instances GW outperforms QAOA at any constant depth (Bravyi et al., arXiv:1910.08980). Whether QAOA at depth growing with n offers an advantage is open."
       },
       "physical_qubits": 131544,
       "recommendation": "Stage D evidence package is complete. All claims are bounded by explicit residual risks and honest assessments. No demonstration of practical quantum advantage is claimed."
@@ -334,7 +334,7 @@
           "oracle_gates_structured": 300
         }
       ],
-      "crossover_estimate": "N \u2248 10^6 with structured oracle; N \u2248 10^12 with naive oracle (due to compilation overhead)",
+      "crossover_estimate": "No practical crossover identified: with a naive O(N)-gate oracle there is none, and with a structured oracle the quadratic query saving is not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
       "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage."
     },
     "stage_d_evidence_summary": {
@@ -355,7 +355,7 @@
         "classical_complexity": "O(N) queries (optimal for unstructured search)",
         "quantum_complexity": "O(\u221aN) queries (provably optimal \u2014 BBBV lower bound)",
         "theoretical_speedup": "Quadratic (provably optimal)",
-        "crossover_estimate": "N \u2248 10^6 with structured oracle; N \u2248 10^12 with naive oracle (due to compilation overhead)",
+        "crossover_estimate": "No practical crossover identified: with a naive O(N)-gate oracle there is none, and with a structured oracle the quadratic query saving is not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
         "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage."
       },
       "physical_qubits": 119556,
@@ -446,10 +446,10 @@
       "noise_model_assumptions": "Noiseless simulator; emulator shows 80-83% success across platforms",
       "confidence_method": "20-run calibration ensemble + cross-platform emulator validation (H2-1E: 80%, Rigetti: 83%)",
       "residual_risks": [
-        "Quadratic speedup only \u2014 doubles effective key length, does not break modern crypto",
+        "Quadratic speedup only: it halves the effective key length and does not break modern cryptography",
         "Oracle implementation cost for real AES/SHA may be prohibitive (millions of T-gates)",
         "33k physical qubits for 3-qubit toy instance; O(thousands of logical qubits) for AES-128",
-        "Grover speedup is already factored into post-quantum key length recommendations (NIST)"
+        "Grover's speedup is already accounted for in NIST's post-quantum security categories, which are defined by the cost of AES key search"
       ],
       "physical_qubits": 32536,
       "logical_qubits": 12,
@@ -505,8 +505,8 @@
           "physical_qubits_proj": 5000000
         }
       ],
-      "crossover_estimate": "Key length >= 64 bits with structured oracle; AES-128 requires ~2^64 Grover iterations + millions of logical qubits",
-      "honest_assessment": "Grover quadratic speedup is provably optimal but only halves the effective key length. NIST already recommends doubling key sizes (AES-256 instead of AES-128) to counter Grover. The practical threat to modern cryptography is from Shor (factoring) not Grover (search)."
+      "crossover_estimate": "No practical crossover identified: AES-128 needs about 2^64 Grover iterations run in series, about 2^86 T gates on 2,953 logical qubits (Grassl et al., arXiv:1512.04965), and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
+      "honest_assessment": "Grover's quadratic speedup is provably optimal but only halves the effective key length, and only if its iterations run in series. NIST expects Grover to give little or no advantage against AES and considers AES-128 secure for decades to come (NIST PQC FAQ). The practical threat to modern cryptography is from Shor (factoring) not Grover (search)."
     },
     "stage_d_evidence_summary": {
       "problem_id": "10_post_quantum_cryptography",
@@ -527,8 +527,8 @@
         "classical_complexity": "O(2^n) brute-force trials",
         "quantum_complexity": "O(2^(n/2)) Grover iterations \u2014 provably optimal",
         "theoretical_speedup": "Quadratic (halves effective key length)",
-        "crossover_estimate": "Key length >= 64 bits with structured oracle; AES-128 requires ~2^64 Grover iterations + millions of logical qubits",
-        "honest_assessment": "Grover quadratic speedup is provably optimal but only halves the effective key length. NIST already recommends doubling key sizes (AES-256 instead of AES-128) to counter Grover. The practical threat to modern cryptography is from Shor (factoring) not Grover (search)."
+        "crossover_estimate": "No practical crossover identified: AES-128 needs about 2^64 Grover iterations run in series, about 2^86 T gates on 2,953 logical qubits (Grassl et al., arXiv:1512.04965), and quadratic speedups are not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
+        "honest_assessment": "Grover's quadratic speedup is provably optimal but only halves the effective key length, and only if its iterations run in series. NIST expects Grover to give little or no advantage against AES and considers AES-128 secure for decades to come (NIST PQC FAQ). The practical threat to modern cryptography is from Shor (factoring) not Grover (search)."
       },
       "physical_qubits": 32536
     }

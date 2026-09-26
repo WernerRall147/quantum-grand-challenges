@@ -1,7 +1,9 @@
 // Main.qs  Migrated to modern QDK (qsharp.json project format)
 
+import Std.Canon.*;
 import Std.Convert.*;
 import Std.Math.*;
+import Std.Measurement.*;
 
 function SingletEigenvalue(t : Double, u : Double) : Double {
     let discriminant = Sqrt(u * u + 16.0 * t * t);
@@ -23,7 +25,7 @@ function TripletEigenvalue(u : Double) : Double {
 /// Demonstrates VQE ansatz circuit for the two-site Hubbard model.
 /// This hardware-efficient ansatz prepares parameterized quantum states
 /// for variational ground state energy optimization.
-///
+//
 /// # Input
 /// ## theta0, theta1, theta2
 /// Rotation angles for the variational ansatz
@@ -160,7 +162,10 @@ operation RunTwoSiteHubbardAnalysis() : Unit {
     Reset(q1);
 
     let demoEnergy = EstimateHubbardEnergy(1.0, 4.0, demoTheta0, demoTheta1, demoTheta2, 256);
-    Message($"Estimated Hubbard energy (t=1.0, U=4.0, shots=256): {demoEnergy}");
+    Message($"VQE energy of the two-qubit toy ansatz Hamiltonian (not the Hubbard model): {demoEnergy}");
+    let qpeEnergy = HubbardQPE(1.0, 4.0, 8, 8);
+    Message($"QPE ground-state energy, Jordan-Wigner Hubbard model (t=1.0, U=4.0, 8 phase bits): {qpeEnergy}");
+    Message($"Exact singlet energy: {SingletEigenvalue(1.0, 4.0)}");
     
     Message("");
     Message("Next steps for full VQE implementation:");
@@ -171,47 +176,140 @@ operation RunTwoSiteHubbardAnalysis() : Unit {
 }
 
 
-/// QPE for 2-site Hubbard model ground state energy
-/// Uses Trotterized Hamiltonian simulation as the unitary
-/// Phase register encodes eigenvalue of H = -t(XX+YY) + U/2(ZI+IZ)
-operation HubbardQPE(t : Double, u : Double, nPhase : Int, shots : Int) : Double {
-    mutable phaseSum = 0.0;
-    let nShots = shots < 1 ? 1 | shots;
-    for _ in 1..nShots {
-        use phase = Qubit[nPhase];
-        use sys = Qubit[2];
-        // Initial state: half-filling |01>
-        X(sys[0]);
-        // Hadamard on phase register
-        for p in phase { H(p); }
-        // Controlled Trotter steps: U^(2^k) for each phase qubit k
-        for k in 0..nPhase-1 {
-            let power = 1 <<< k;
-            for _ in 1..power {
-                // Hopping: exp(-i*t*(XX+YY))
-                Controlled CNOT([phase[k]], (sys[0], sys[1]));
-                Controlled Rz([phase[k]], (2.0 * t, sys[1]));
-                Controlled CNOT([phase[k]], (sys[0], sys[1]));
-                // Interaction: exp(-i*U/2*(ZI+IZ))
-                Controlled Rz([phase[k]], (u / 2.0, sys[0]));
-                Controlled Rz([phase[k]], (u / 2.0, sys[1]));
-            }
-        }
-        // Inverse QFT
-        for i in 0..nPhase/2-1 { SWAP(phase[i], phase[nPhase-1-i]); }
-        for i in 0..nPhase-1 {
-            for j in 0..i-1 {
-                Controlled R1([phase[j]], (-Std.Math.PI() / IntAsDouble(1 <<< (i - j)), phase[i]));
-            }
-            H(phase[i]);
-        }
-        // Measure phase
-        mutable phaseVal = 0.0;
-        for k in 0..nPhase-1 {
-            if M(phase[k]) == One { set phaseVal += 1.0 / IntAsDouble(1 <<< (k + 1)); }
-        }
-        set phaseSum += phaseVal;
-        ResetAll(phase + sys);
+// ---------------------------------------------------------------------------
+// Quantum phase estimation (QPE) of the problem Hamiltonian
+//
+// H = offset * I + sum_j coeffs[j] * paulis[j]. The identity part only shifts every
+// energy, so it is added back classically. U = exp(-i (H - offset) tau) is built from
+// symmetric (second-order) Trotter steps, with tau = pi / (2 * lambda) and lambda the
+// sum of |coeffs|, so |(E - offset) tau| <= pi / 2 and the measured phase cannot wrap.
+// tooling/test_qpe_kernels.py checks the sampled outcomes against exact diagonalization.
+// ---------------------------------------------------------------------------
+
+/// One symmetric Trotter step exp(-i (H - offset) dt). Exp(P, theta, qs) applies exp(i theta P).
+operation ApplyTrotterStep(paulis : Pauli[][], coeffs : Double[], dt : Double, register : Qubit[]) : Unit is Adj + Ctl {
+    let n = Length(coeffs);
+    for j in 0..n - 1 {
+        Exp(paulis[j], -coeffs[j] * dt / 2.0, register);
     }
-    return phaseSum / IntAsDouble(nShots);
+    for j in (n - 1)..-1..0 {
+        Exp(paulis[j], -coeffs[j] * dt / 2.0, register);
+    }
+}
+
+/// U^power for U = exp(-i (H - offset) tau), each U made of `steps` Trotter steps.
+operation ApplyEvolutionPower(paulis : Pauli[][], coeffs : Double[], tau : Double, steps : Int, power : Int, register : Qubit[]) : Unit is Adj + Ctl {
+    let dt = tau / IntAsDouble(steps);
+    for _ in 1..power * steps {
+        ApplyTrotterStep(paulis, coeffs, dt, register);
+    }
+}
+
+function EvolutionTime(coeffs : Double[]) : Double {
+    mutable lambda = 0.0;
+    for c in coeffs {
+        lambda += AbsD(c);
+    }
+    return PI() / (2.0 * lambda);
+}
+
+/// Energy for a phase-register value; ApplyQPE writes phase / 2pi as a little-endian integer.
+function PhaseToEnergy(outcome : Int, nPhase : Int, tau : Double, offset : Double) : Double {
+    mutable theta = 2.0 * PI() * IntAsDouble(outcome) / IntAsDouble(1 <<< nPhase);
+    if theta > PI() {
+        theta -= 2.0 * PI();
+    }
+    return offset - theta / tau;
+}
+
+/// The most frequent phase-register value.
+function ModeOutcome(outcomes : Int[], nPhase : Int) : Int {
+    mutable counts = [0, size = 1 <<< nPhase];
+    for outcome in outcomes {
+        counts[outcome] += 1;
+    }
+    mutable best = 0;
+    for m in 1..Length(counts) - 1 {
+        if counts[m] > counts[best] {
+            best = m;
+        }
+    }
+    return best;
+}
+
+/// X on every qubit whose bit is 1.
+operation PrepareBasisState(bits : Int[], register : Qubit[]) : Unit {
+    for i in 0..Length(bits) - 1 {
+        if bits[i] == 1 {
+            X(register[i]);
+        }
+    }
+}
+
+/// One QPE run from the state `prepare` makes; returns the phase-register value.
+operation MeasureEnergyPhase(paulis : Pauli[][], coeffs : Double[], prepare : (Qubit[] => Unit), nSystem : Int, nPhase : Int, steps : Int) : Int {
+    use phase = Qubit[nPhase];
+    use sys = Qubit[nSystem];
+    prepare(sys);
+    ApplyQPE(ApplyEvolutionPower(paulis, coeffs, EvolutionTime(coeffs), steps, _, _), sys, phase);
+    let outcome = MeasureInteger(phase);
+    ResetAll(sys);
+    return outcome;
+}
+
+/// Two-site Fermi-Hubbard model, Jordan-Wigner encoded on four qubits ordered
+/// (site 1 up, site 2 up, site 1 down, site 2 down):
+///   H = -t sum_s (c+_1s c_2s + h.c.) + U (n_1up n_1dn + n_2up n_2dn)
+///     = -t/2 (X0X1 + Y0Y1 + X2X3 + Y2Y3) + U/4 (Z0Z2 + Z1Z3 - Z0 - Z1 - Z2 - Z3) + U/2.
+/// At half filling its lowest energy is SingletEigenvalue(t, u) above.
+function HubbardHamiltonian(t : Double, u : Double) : (Pauli[][], Double[], Double) {
+    let paulis = [
+        [PauliX, PauliX, PauliI, PauliI],
+        [PauliY, PauliY, PauliI, PauliI],
+        [PauliI, PauliI, PauliX, PauliX],
+        [PauliI, PauliI, PauliY, PauliY],
+        [PauliZ, PauliI, PauliZ, PauliI],
+        [PauliI, PauliZ, PauliI, PauliZ],
+        [PauliZ, PauliI, PauliI, PauliI],
+        [PauliI, PauliZ, PauliI, PauliI],
+        [PauliI, PauliI, PauliZ, PauliI],
+        [PauliI, PauliI, PauliI, PauliZ]
+    ];
+    let coeffs = [-t / 2.0, -t / 2.0, -t / 2.0, -t / 2.0, u / 4.0, u / 4.0, -u / 4.0, -u / 4.0, -u / 4.0, -u / 4.0];
+    return (paulis, coeffs, u / 2.0);
+}
+
+/// Heitler-London singlet (|1up 2dn> + |1dn 2up>) / sqrt(2): two electrons, total spin zero.
+/// The Jordan-Wigner sign makes the spin singlet the + combination in this ordering.
+/// Particle number and spin are conserved, so QPE stays in this sector; at U = 4t the
+/// state overlaps the ground state with probability 0.85 and has no triplet component.
+operation PrepareValenceBondSinglet(register : Qubit[]) : Unit {
+    H(register[0]);
+    CNOT(register[0], register[3]);
+    X(register[1]);
+    CNOT(register[0], register[1]);
+    X(register[2]);
+    CNOT(register[0], register[2]);
+}
+
+/// Trotter steps per U, chosen so the Trotter error in the ground-state energy is below
+/// half the 10-bit phase resolution; tooling/test_qpe_kernels.py re-checks the bound.
+function HubbardTrotterSteps() : Int {
+    return 2;
+}
+
+/// One QPE run for the two-site Hubbard model; returns the phase-register value.
+operation HubbardQPEOutcome(t : Double, u : Double, nPhase : Int) : Int {
+    let (paulis, coeffs, _) = HubbardHamiltonian(t, u);
+    return MeasureEnergyPhase(paulis, coeffs, PrepareValenceBondSinglet, 4, nPhase, HubbardTrotterSteps());
+}
+
+/// Ground-state energy by QPE: the most frequent energy over `shots` runs (one run for shots = 1).
+operation HubbardQPE(t : Double, u : Double, nPhase : Int, shots : Int) : Double {
+    let (_, coeffs, offset) = HubbardHamiltonian(t, u);
+    mutable outcomes : Int[] = [];
+    for _ in 1..(shots < 1 ? 1 | shots) {
+        outcomes += [HubbardQPEOutcome(t, u, nPhase)];
+    }
+    return PhaseToEnergy(ModeOutcome(outcomes, nPhase), nPhase, EvolutionTime(coeffs), offset);
 }

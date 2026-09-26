@@ -4,4 +4,4 @@ Auto-generated from `circuits/estimate.json`, the single source of truth for thi
 
 | Instance | Target | Logical Qubits | Physical Qubits | T Count | Runtime (s) | Source |
 |---|---|---:|---:|---:|---:|---|
-| not instance-specific | qubit_gate_ns_e3 + surface_code | 12 | 53,628 | n/a | 0.00112 | `problems/01_hubbard/circuits/estimate.json` |
+| not instance-specific | qubit_gate_ns_e3 + surface_code | 40 | 594,980 | 27 | 10.75 | `problems/01_hubbard/circuits/estimate.json` |

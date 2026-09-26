@@ -76,3 +76,43 @@ class TestDeScareGuarantee:
         # Bounded: grounded to a 56-qubit, depth-capped circuit at official rates.
         # The pre-fix code produced > $1e12 here.
         assert cost < 1_000_000
+
+
+class TestRetailPricesRequest:
+    """The live-rate request must be a URL http.client accepts.
+
+    The space was listed as safe when encoding the $filter, so every request carried raw
+    spaces and raised "URL can't contain control characters", and every rate on the cost
+    panel came from the static fallback while being described as live.
+    """
+
+    def test_the_filter_is_sent_fully_encoded(self, monkeypatch):
+        import http.client
+        import urllib.parse
+
+        sent = []
+
+        class _Response:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *exc):
+                return False
+
+            def read(self):
+                return b'{"Items": [{"retailPrice": 3.6}]}'
+
+        def fake_urlopen(request, timeout=None):
+            sent.append(request.full_url)
+            parts = urllib.parse.urlsplit(request.full_url)
+            http.client.HTTPConnection("prices.azure.com")._validate_path(f"{parts.path}?{parts.query}")
+            return _Response()
+
+        monkeypatch.setattr(azure_pricing.urllib.request, "urlopen", fake_urlopen)
+        flt = "armSkuName eq 'Standard_HB120rs_v3' and armRegionName eq 'eastus'"
+        items = azure_pricing._fetch_retail_prices(flt)
+
+        assert items == [{"retailPrice": 3.6}]
+        assert " " not in sent[0]
+        query = urllib.parse.parse_qs(urllib.parse.urlsplit(sent[0]).query)
+        assert query["$filter"] == [flt]

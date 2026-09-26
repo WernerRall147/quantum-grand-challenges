@@ -76,7 +76,7 @@ export default function CostReference({ ca }: { ca: CostAnalysis }) {
         return (
           <div style={{ margin: '0 0 0.85rem', padding: '0.65rem 0.9rem', borderRadius: '8px', background: '#f0f9ff', border: '1px solid #bae6fd', fontSize: '0.85rem', color: '#0c4a6e' }}>
             {ca.feasibility?.feasible_today === false && (
-              <span>⚛️ Quantum hardware is not ready for this problem yet - it needs ~{(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} qubits, and the largest device today exposes {ca.feasibility.hardware_qubits}. </span>
+              <span>⚛️ Running this program fault-tolerantly needs about {(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} physical qubits; the device priced here{ca.quantum_estimate?.provider ? ` (${ca.quantum_estimate.provider})` : ''} has {ca.feasibility.hardware_qubits}. </span>
             )}
             {cheapest && (
               <strong>Runnable today: {label[cheapest] || cheapest}{typeof cheapCost === 'number' ? ` (~${fmt(cheapCost)} for a reference run)` : ''}.</strong>

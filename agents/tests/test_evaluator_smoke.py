@@ -186,6 +186,30 @@ class TestRetrievalRelevance:
         assert result["verdict"] == "QUANTUM_ADVANTAGE"
         assert result["platform"] == "QUANTUM"
 
+    def test_a_curated_verdict_does_not_waive_the_io_filter(self):
+        """The curated verdict exists to waive F4 for structural speedups like Shor's.
+
+        It used to waive every filter, so a knowledge-base entry curated as an advantage
+        but bottlenecked on data input and output would still have been published as one.
+        """
+        result = route_platform(
+            "Find the ground state energy of a molecule loaded from a large classical dataset",
+            [
+                {
+                    "name": "Data-Loaded Eigenvalue Estimation",
+                    "category": "chemistry",
+                    "speedup_class": "superpolynomial",
+                    "troyer_verdict": "QUANTUM_ADVANTAGE",
+                    "io_bottleneck": True,
+                    "naturally_quantum": False,
+                    "score": 0.03,
+                }
+            ],
+            0.03,
+        )
+        assert result["evidence"]["troyer_filters"]["F2_io_survives"] is False
+        assert result["verdict"] != "QUANTUM_ADVANTAGE"
+
     def test_rejected_match_is_named_in_the_reason(self):
         """An unexplained INCONCLUSIVE is not good enough - say what was rejected."""
         result = route_platform(
@@ -203,6 +227,35 @@ class TestRetrievalRelevance:
             0.03,
         )
         assert result["evidence"]["quantum_corroborated"] is False
+
+
+class TestPublishedAdvantageClass:
+    """A strong advantage class is a claim of advantage, so only the router can publish one."""
+
+    def test_the_router_supplies_the_class_behind_a_quantum_verdict(self):
+        from agents.classifier.platform_router import published_advantage_class
+
+        assert published_advantage_class("QUANTUM_ADVANTAGE", "superpolynomial", "exponential") == (
+            "superpolynomial", "exponential")
+
+    def test_the_models_quadratic_stands_where_the_router_cannot_see_it(self):
+        """Database search rarely corroborates its retrieved match, yet it is quadratic."""
+        from agents.classifier.platform_router import published_advantage_class
+
+        assert published_advantage_class("HPC_PREFERRED", "quadratic", "quadratic") == ("quadratic", None)
+
+    def test_a_strong_class_beside_an_inconclusive_verdict_is_overruled(self):
+        """The recorded adv-vague case: INCONCLUSIVE, with the model claiming superpolynomial."""
+        from agents.classifier.platform_router import published_advantage_class
+
+        assert published_advantage_class("INCONCLUSIVE", "superpolynomial", "superpolynomial") == (
+            "none", "superpolynomial")
+
+    def test_an_unreadable_model_never_leaks_a_raw_knowledge_base_label(self):
+        """The old fallback published kb speedup_class, which can be 'exponential_core'."""
+        from agents.classifier.platform_router import published_advantage_class
+
+        assert published_advantage_class("AI_ML_PREFERRED", "exponential_core", None) == ("none", None)
 
 
 # --- API response model tests ---
@@ -293,9 +346,25 @@ class TestTroyerAssessmentData:
 
     def test_summary_counts(self, troyer_data):
         s = troyer_data["summary"]
-        assert s["proven_speedup_count"] == 5
+        cats = troyer_data["categories"]
+        assert s["proven_speedup_count"] == 7
         assert s["active_count"] == 9
         assert s["archived_count"] == 11
+        # The summary is hand-written; hold it to the category lists and the tree on disk.
+        assert s["proven_speedup_count"] == len(cats["proven_speedup"]["problems"])
+        assert s["heuristic_count"] == len(cats["heuristic_potential"]["problems"])
+        assert s["simulation_native_count"] == len(cats["simulation_native"]["problems"])
+        ids = [p["id"] for cat in cats.values() for p in cat["problems"]]
+        assert len(ids) == len(set(ids)) == 20
+        on_disk = lambda d: {p.name for p in d.iterdir() if p.is_dir() and p.name[:2].isdigit()}
+        assert s["active_count"] == len(on_disk(ROOT / "problems"))
+        assert s["archived_count"] == len(on_disk(ROOT / "problems" / "archived"))
+
+    def test_non_quantum_systems_are_not_filed_as_simulation(self, troyer_data):
+        """A VaR estimate and a diffusion PDE were once filed as native quantum simulation."""
+        simulation = {p["id"] for p in troyer_data["categories"]["simulation_native"]["problems"]}
+        assert "06_high_frequency_trading" not in simulation
+        assert "13_climate_modeling" not in simulation
 
     def test_vqe_upgrades_tracked(self, troyer_data):
         upgrades = troyer_data["summary"]["vqe_to_qpe_upgrades"]
@@ -303,11 +372,27 @@ class TestTroyerAssessmentData:
         assert "02_catalysis" in upgrades
         assert len(upgrades) == 5
 
-    def test_lecture_series_has_6_parts(self, troyer_data):
+    PUBLISHED_LECTURES = [
+        (1, "Utility-scale quantum applications", "2025-11-10"),
+        (2, "Utility-scale quantum architecture", "2025-11-17"),
+        (3, "Quantum Resource Estimation", "2025-12-01"),
+        (4, "High-performance quantum computing", "2025-12-15"),
+        (5, "Scalable quantum architecture", "2026-04-14"),
+        (6, "Balancing the Cost of Utility-Scale Quantum Computing", "2026-04-28"),
+        (7, "High Accuracy Simulations with Utility-Scale Quantum Computing", "2026-05-12"),
+        (8, "Responsible Computing with Utility-Scale Quantum", "2026-09-10"),
+        (9, "Logical Qubits for Utility Scale", "2026-09-23"),
+    ]
+
+    def test_lecture_series_matches_the_published_listing(self, troyer_data):
+        """Part 6 was listed as coming soon for five months after it was published.
+
+        The listing is quantum.microsoft.com/en-us/insights/industry-insights/quantum-architecture-series.
+        """
         lectures = troyer_data["lecture_series"]
-        assert len(lectures) == 6
-        assert lectures[4]["title"] == "Scalable quantum architecture"
-        assert lectures[5]["title"] == "Balancing the Cost of Utility-Scale Quantum Computing"
+        assert [(l["part"], l["title"], l["date"]) for l in lectures] == self.PUBLISHED_LECTURES
+        assert all(l["url"] for l in lectures)
+        assert troyer_data["additional_frameworks"]["troyer_cost_model"]["status"] != "coming_soon"
 
     def test_error_correction_zoo_in_sources(self, troyer_data):
         sources = troyer_data["external_knowledge_sources"]

@@ -10,35 +10,35 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "HubbardQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[One, Zero]",
-            "count": 120
+            "outcome": "[Zero, Zero]",
+            "count": 132
           },
           {
-            "outcome": "[Zero, Zero]",
-            "count": 53
+            "outcome": "[One, Zero]",
+            "count": 37
           },
           {
             "outcome": "[One, One]",
-            "count": 21
+            "count": 19
           },
           {
             "outcome": "[Zero, One]",
-            "count": 6
+            "count": 12
           }
         ]
       },
@@ -54,12 +54,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 59,
-            "1": 141
+            "0": 144,
+            "1": 56
           },
-          "p0": 0.295,
-          "p1": 0.705,
-          "z": -0.41,
+          "p0": 0.72,
+          "p1": 0.28,
+          "z": 0.44,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -71,12 +71,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 173,
-            "1": 27
+            "0": 169,
+            "1": 31
           },
-          "p0": 0.865,
-          "p1": 0.135,
-          "z": 0.73,
+          "p0": 0.845,
+          "p1": 0.155,
+          "z": 0.69,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -90,34 +90,34 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "CatalysisQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[Zero, Zero]",
-            "count": 165
-          },
-          {
             "outcome": "[One, Zero]",
-            "count": 22
+            "count": 181
           },
           {
-            "outcome": "[Zero, One]",
-            "count": 8
+            "outcome": "[Zero, Zero]",
+            "count": 9
           },
           {
             "outcome": "[One, One]",
+            "count": 5
+          },
+          {
+            "outcome": "[Zero, One]",
             "count": 5
           }
         ]
@@ -134,12 +134,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 173,
-            "1": 27
+            "0": 14,
+            "1": 186
           },
-          "p0": 0.865,
-          "p1": 0.135,
-          "z": 0.73,
+          "p0": 0.07,
+          "p1": 0.93,
+          "z": -0.86,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -151,12 +151,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 187,
-            "1": 13
+            "0": 190,
+            "1": 10
           },
-          "p0": 0.935,
-          "p1": 0.065,
-          "z": 0.87,
+          "p0": 0.95,
+          "p1": 0.05,
+          "z": 0.9,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -170,15 +170,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -215,15 +215,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -260,15 +260,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -305,15 +305,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -350,35 +350,31 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "DrugBindingQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[Zero, Zero]",
-            "count": 139
-          },
-          {
             "outcome": "[One, Zero]",
-            "count": 38
+            "count": 196
           },
           {
             "outcome": "[Zero, One]",
-            "count": 13
+            "count": 2
           },
           {
-            "outcome": "[One, One]",
-            "count": 10
+            "outcome": "[Zero, Zero]",
+            "count": 2
           }
         ]
       },
@@ -394,12 +390,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 152,
-            "1": 48
+            "0": 4,
+            "1": 196
           },
-          "p0": 0.76,
-          "p1": 0.24,
-          "z": 0.52,
+          "p0": 0.02,
+          "p1": 0.98,
+          "z": -0.96,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -411,12 +407,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 177,
-            "1": 23
+            "0": 198,
+            "1": 2
           },
-          "p0": 0.885,
-          "p1": 0.115,
-          "z": 0.77,
+          "p0": 0.99,
+          "p1": 0.01,
+          "z": 0.98,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -430,15 +426,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -475,51 +471,35 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "ShorKernel",
         "shots": 200,
         "histogram": [
           {
+            "outcome": "[Zero, Zero, Zero, One]",
+            "count": 57
+          },
+          {
+            "outcome": "[Zero, Zero, One, One]",
+            "count": 55
+          },
+          {
             "outcome": "[Zero, Zero, Zero, Zero]",
-            "count": 96
+            "count": 51
           },
           {
-            "outcome": "[One, Zero, Zero, Zero]",
-            "count": 41
-          },
-          {
-            "outcome": "[One, One, One, One]",
+            "outcome": "[Zero, Zero, One, Zero]",
             "count": 37
-          },
-          {
-            "outcome": "[One, Zero, One, One]",
-            "count": 9
-          },
-          {
-            "outcome": "[One, One, Zero, Zero]",
-            "count": 6
-          },
-          {
-            "outcome": "[One, One, Zero, One]",
-            "count": 5
-          },
-          {
-            "outcome": "[One, Zero, One, Zero]",
-            "count": 4
-          },
-          {
-            "outcome": "[One, One, One, Zero]",
-            "count": 2
           }
         ]
       },
@@ -535,12 +515,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 4,
           "shots": 200,
           "counts": {
-            "0": 96,
-            "1": 104
+            "0": 200,
+            "1": 0
           },
-          "p0": 0.48,
-          "p1": 0.52,
-          "z": -0.04,
+          "p0": 1.0,
+          "p1": 0.0,
+          "z": 1.0,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -552,12 +532,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 4,
           "shots": 200,
           "counts": {
-            "0": 150,
-            "1": 50
+            "0": 200,
+            "1": 0
           },
-          "p0": 0.75,
-          "p1": 0.25,
-          "z": 0.5,
+          "p0": 1.0,
+          "p1": 0.0,
+          "z": 1.0,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -569,12 +549,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 4,
           "shots": 200,
           "counts": {
-            "0": 148,
-            "1": 52
+            "0": 108,
+            "1": 92
           },
-          "p0": 0.74,
-          "p1": 0.26,
-          "z": 0.48,
+          "p0": 0.54,
+          "p1": 0.46,
+          "z": 0.08,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -586,12 +566,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 4,
           "shots": 200,
           "counts": {
-            "0": 149,
-            "1": 51
+            "0": 88,
+            "1": 112
           },
-          "p0": 0.745,
-          "p1": 0.255,
-          "z": 0.49,
+          "p0": 0.44,
+          "p1": 0.56,
+          "z": -0.12,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -605,15 +585,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -650,15 +630,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -695,15 +675,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -740,15 +720,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -785,35 +765,35 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "MaterialsQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[Zero, Zero]",
-            "count": 190
+            "outcome": "[One, Zero]",
+            "count": 114
           },
           {
-            "outcome": "[One, Zero]",
-            "count": 4
+            "outcome": "[Zero, Zero]",
+            "count": 46
           },
           {
             "outcome": "[One, One]",
-            "count": 3
+            "count": 29
           },
           {
             "outcome": "[Zero, One]",
-            "count": 3
+            "count": 11
           }
         ]
       },
@@ -829,12 +809,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 193,
-            "1": 7
+            "0": 57,
+            "1": 143
           },
-          "p0": 0.965,
-          "p1": 0.035,
-          "z": 0.93,
+          "p0": 0.285,
+          "p1": 0.715,
+          "z": -0.43,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -846,12 +826,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 194,
-            "1": 6
+            "0": 160,
+            "1": 40
           },
-          "p0": 0.97,
-          "p1": 0.03,
-          "z": 0.94,
+          "p0": 0.8,
+          "p1": 0.2,
+          "z": 0.6,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -865,15 +845,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,
@@ -910,15 +890,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "QECKernel",
@@ -965,35 +945,35 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "NuclearQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[Zero, Zero]",
-            "count": 189
-          },
-          {
             "outcome": "[One, Zero]",
-            "count": 6
+            "count": 125
           },
           {
             "outcome": "[One, One]",
-            "count": 3
+            "count": 35
+          },
+          {
+            "outcome": "[Zero, Zero]",
+            "count": 29
           },
           {
             "outcome": "[Zero, One]",
-            "count": 2
+            "count": 11
           }
         ]
       },
@@ -1009,12 +989,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 191,
-            "1": 9
+            "0": 40,
+            "1": 160
           },
-          "p0": 0.955,
-          "p1": 0.045,
-          "z": 0.91,
+          "p0": 0.2,
+          "p1": 0.8,
+          "z": -0.6,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -1026,12 +1006,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 2,
           "shots": 200,
           "counts": {
-            "0": 195,
-            "1": 5
+            "0": 154,
+            "1": 46
           },
-          "p0": 0.975,
-          "p1": 0.025,
-          "z": 0.95,
+          "p0": 0.77,
+          "p1": 0.23,
+          "z": 0.54,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -1045,15 +1025,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "QuantumWalkKernel",
@@ -1061,7 +1041,19 @@ globalThis.BLOCH_EVIDENCE = {
         "histogram": [
           {
             "outcome": "[One, Zero, Zero]",
-            "count": 200
+            "count": 123
+          },
+          {
+            "outcome": "[Zero, One, Zero]",
+            "count": 37
+          },
+          {
+            "outcome": "[Zero, Zero, Zero]",
+            "count": 26
+          },
+          {
+            "outcome": "[One, One, Zero]",
+            "count": 14
           }
         ]
       },
@@ -1077,12 +1069,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 3,
           "shots": 200,
           "counts": {
-            "0": 0,
-            "1": 200
+            "0": 63,
+            "1": 137
           },
-          "p0": 0.0,
-          "p1": 1.0,
-          "z": -1.0,
+          "p0": 0.315,
+          "p1": 0.685,
+          "z": -0.37,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -1094,12 +1086,12 @@ globalThis.BLOCH_EVIDENCE = {
           "measurement_width": 3,
           "shots": 200,
           "counts": {
-            "0": 200,
-            "1": 0
+            "0": 149,
+            "1": 51
           },
-          "p0": 1.0,
-          "p1": 0.0,
-          "z": 1.0,
+          "p0": 0.745,
+          "p1": 0.255,
+          "z": 0.49,
           "x": null,
           "y": null,
           "representation": "measurement-derived diagonal-state representation"
@@ -1130,15 +1122,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": false,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "LatticeGaugeKernel",
@@ -1284,15 +1276,15 @@ globalThis.BLOCH_EVIDENCE = {
       "archived": true,
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "run": {
         "status": "missing",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": null,
         "target": null,
         "entry_point": null,

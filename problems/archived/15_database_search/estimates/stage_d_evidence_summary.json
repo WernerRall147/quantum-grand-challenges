@@ -16,7 +16,7 @@
     "classical_complexity": "O(N) queries (optimal for unstructured search)",
     "quantum_complexity": "O(\u221aN) queries (provably optimal \u2014 BBBV lower bound)",
     "theoretical_speedup": "Quadratic (provably optimal)",
-    "crossover_estimate": "N \u2248 10^6 with structured oracle; N \u2248 10^12 with naive oracle (due to compilation overhead)",
+    "crossover_estimate": "No practical crossover identified: with a naive O(N)-gate oracle there is none, and with a structured oracle the quadratic query saving is not expected to pay for error-correction overhead on early fault-tolerant hardware (Babbush et al., arXiv:2011.04149)",
     "honest_assessment": "Grover speedup is provably optimal but quadratic. The oracle compilation cost is the critical variable: a naive oracle implementing the function as a circuit costs O(N) gates, completely eliminating the speedup. Only structured oracles with O(poly(n)) gate cost preserve the advantage."
   },
   "physical_qubits": 119556,

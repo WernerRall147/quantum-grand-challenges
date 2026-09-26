@@ -1,118 +1,123 @@
 {
   "problem_id": "02_catalysis",
-  "description": "VQE H2 ground state energy",
-  "entry_point": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 50)",
-  "generated_utc": "2026-04-12T13:53:41.291969Z",
+  "description": "QPE total ground-state energy of H2, 8 phase bits, mode of 8 runs",
+  "entry_point": "Main.MolecularQPE(8, 8)",
+  "generated_utc": "2026-09-25T11:40:17.384048Z",
+  "sources": {
+    "problems/02_catalysis/qsharp/HardwareKernel.qs": "1967b1ef19b8e0011566534c960ab7de0d342bcc3ee05ea9cca7c6819f68844e",
+    "problems/02_catalysis/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/02_catalysis/qsharp/src/Main.qs": "97d587a478e877bb83bf51b3de16687fbac83582725a357d1580219b90e74d72"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.002,
-    "std_elapsed_s": 0.0005,
-    "mean_value": -1.189619,
-    "std_value": 0.050774,
-    "ci95_half_width": 0.022253,
-    "ci95_lower": -1.211872,
-    "ci95_upper": -1.167366
+    "mean_elapsed_s": 1.2203,
+    "std_elapsed_s": 0.1543,
+    "mean_value": -1.135224,
+    "std_value": 0.0,
+    "ci95_half_width": 0.0,
+    "ci95_lower": -1.135224,
+    "ci95_upper": -1.135224
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[-1.0443376000000002]",
-      "elapsed_s": 0.0025
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 0.9371
     },
     {
       "run": 2,
-      "raw_result": "[-1.2138592000000001]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.242
     },
     {
       "run": 3,
-      "raw_result": "[-1.1804640000000002]",
-      "elapsed_s": 0.0025
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 0.9864
     },
     {
       "run": 4,
-      "raw_result": "[-1.1534944]",
-      "elapsed_s": 0.0015
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.1484
     },
     {
       "run": 5,
-      "raw_result": "[-1.1765940000000001]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.2035
     },
     {
       "run": 6,
-      "raw_result": "[-1.2238616]",
-      "elapsed_s": 0.0015
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.1386
     },
     {
       "run": 7,
-      "raw_result": "[-1.2085940000000002]",
-      "elapsed_s": 0.0029
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.2456
     },
     {
       "run": 8,
-      "raw_result": "[-1.2845208]",
-      "elapsed_s": 0.0023
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.0306
     },
     {
       "run": 9,
-      "raw_result": "[-1.2204028]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.2789
     },
     {
       "run": 10,
-      "raw_result": "[-1.2085132]",
-      "elapsed_s": 0.0015
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.1035
     },
     {
       "run": 11,
-      "raw_result": "[-1.1670028]",
-      "elapsed_s": 0.0025
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.336
     },
     {
       "run": 12,
-      "raw_result": "[-1.1694888]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.3876
     },
     {
       "run": 13,
-      "raw_result": "[-1.2215520000000002]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.2679
     },
     {
       "run": 14,
-      "raw_result": "[-1.0964704]",
-      "elapsed_s": 0.0015
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.1538
     },
     {
       "run": 15,
-      "raw_result": "[-1.1839228]",
-      "elapsed_s": 0.0025
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.2167
     },
     {
       "run": 16,
-      "raw_result": "[-1.1967155999999999]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.2501
     },
     {
       "run": 17,
-      "raw_result": "[-1.2281651999999998]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.3492
     },
     {
       "run": 18,
-      "raw_result": "[-1.1942296000000001]",
-      "elapsed_s": 0.0025
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.1433
     },
     {
       "run": 19,
-      "raw_result": "[-1.1895520000000002]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.3712
     },
     {
       "run": 20,
-      "raw_result": "[-1.2306400000000002]",
-      "elapsed_s": 0.001
+      "raw_result": "[-1.1352242512269268]",
+      "elapsed_s": 1.6164
     }
   ]
 }

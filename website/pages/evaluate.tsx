@@ -4,6 +4,12 @@ import Link from 'next/link';
 import MermaidDiagram from '../components/MermaidDiagram';
 import { LAST_COST_KEY } from './costs';
 import { tagEvaluation } from '../lib/clarity';
+import {
+  EVALUATE_TIMEOUT_MS,
+  EvaluatorRequestError,
+  GENERATE_TIMEOUT_MS,
+  requestEvaluation,
+} from '../lib/evaluatorRequest';
 
 interface TroyerFilters {
   F1_proven_speedup?: boolean;
@@ -63,6 +69,8 @@ interface EvaluationResult {
   // Set by the client, not the API. Without it an empty qsharp_code cannot be told apart
   // from a request that never asked for code, and a broken generator renders as nothing.
   code_requested?: boolean;
+  // Set by the client on the DEMO_MODE card: why no evaluation came back.
+  failure_kind?: string;
   qsharp_code?: string;
   estimation?: Record<string, unknown>;
   resource_estimate_pareto?: Array<{
@@ -183,6 +191,7 @@ export default function EvaluatePage() {
   const [loading, setLoading] = useState(false);
   const [generateCode, setGenerateCode] = useState(false);
   const [result, setResult] = useState<EvaluationResult | null>(null);
+  const [failure, setFailure] = useState<EvaluatorRequestError | null>(null);
 
   // Hand the cost figures to /costs, which owns their presentation.
   useEffect(() => {
@@ -206,39 +215,39 @@ export default function EvaluatePage() {
     if (!problem.trim()) return;
     setLoading(true);
     setResult(null);
+    setFailure(null);
 
     try {
       // Live API backend on Azure Container Apps
       const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://qgc-eval-api.jollysea-98a0f8cb.eastus.azurecontainerapps.io';
-      const res = await fetch(`${apiBase}/api/evaluate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ problem: problem.trim(), generate_code: generateCode }),
-      });
-
-      if (!res.ok) {
-        throw new Error(`API error: ${res.status}`);
-      }
-
-      const data = await res.json();
-      const evaluated = { ...data, code_requested: generateCode };
+      const data = await requestEvaluation(
+        `${apiBase}/api/evaluate`,
+        { problem: problem.trim(), generate_code: generateCode },
+        generateCode ? GENERATE_TIMEOUT_MS : EVALUATE_TIMEOUT_MS,
+      );
+      const evaluated = { ...(data as unknown as EvaluationResult), code_requested: generateCode };
       setResult(evaluated);
       // Carries trace.operation_id into the session recording, so a replay can
       // be resolved to the backend trace behind it. See website/lib/clarity.ts.
       tagEvaluation(evaluated);
-    } catch {
-      // Fallback: show a demo result for the static site
+    } catch (err) {
+      const failed = err instanceof EvaluatorRequestError
+        ? err
+        : new EvaluatorRequestError('invalid_response', 'The evaluator result could not be displayed.');
+      setFailure(failed);
+      // Not an evaluation: a placeholder that says why there is none.
       const demo: EvaluationResult = {
         verdict: 'DEMO_MODE',
         confidence: 0,
         advantage_class: 'unknown',
         recommended_algorithm: 'N/A',
         troyer_filters: {},
-        red_flags: ['This is a demo  the live evaluator requires the Python backend (agents/orchestrator/evaluate.py) connected to Azure AI'],
+        red_flags: [`No evaluation was produced. ${failed.message}`],
         hpc_alternative: 'Run `python agents/orchestrator/evaluate.py "your problem"` locally to get a real evaluation',
-        explanation: 'The Quantum Advantage Evaluator is a Python backend that connects to the Azure AI Foundry model router and the knowledge base (Azure AI Search). On the static GitHub Pages site, the backend is not available. Run it locally or deploy as an Azure Function for live evaluations.',
+        explanation: 'The live evaluator runs on Azure Container Apps and calls the Azure AI Foundry model router and the knowledge base in Azure AI Search. This request did not complete, so nothing on this card evaluates your problem. Try again, or run the evaluator locally.',
         similar_problems: [],
         references: [],
+        failure_kind: failed.kind,
       };
       setResult(demo);
       // Tagged so DEMO MODE is countable. The uptime probe checks the API; it
@@ -258,6 +267,18 @@ export default function EvaluatePage() {
   };
 
   const vc = result ? verdictColor(result.verdict) : null;
+
+  // How the generated Q# came out. quantum_work is false for a program that compiled but uses
+  // too few qubits to run the algorithm - a classical placeholder - which is never shown as
+  // code: two of three production Shor requests returned trial division, estimated at 17 qubits.
+  const codegen = (result?.estimation || {}) as {
+    compiled?: boolean;
+    quantum_work?: boolean | null;
+    error?: string;
+    estimate_error?: string;
+    attempt_count?: number;
+  };
+  const codeUsable = !!result?.qsharp_code && codegen.compiled !== false && codegen.quantum_work !== false;
 
   return (
     <>
@@ -354,6 +375,15 @@ export default function EvaluatePage() {
         )}
 
         {/* Results */}
+        {failure && (
+          <div role="alert" style={{
+            marginTop: '2rem', padding: '1rem 1.25rem', background: '#fef2f2',
+            border: '2px solid #dc2626', borderRadius: '10px', color: '#7f1d1d', lineHeight: 1.5,
+          }}>
+            <strong>The live evaluator did not return a result.</strong> {failure.message}{' '}
+            Nothing below is an evaluation of your problem.
+          </div>
+        )}
         {result && (
           <div style={{ marginTop: '2rem' }}>
             {/* Verdict banner */}
@@ -488,13 +518,13 @@ export default function EvaluatePage() {
             {/* Q# Code. Gated on the compile result: showing source that does not build,
                 under a heading that says "Generated Q# Code", presents a failure as a
                 deliverable. The panel below reports it instead. */}
-            {result.qsharp_code && (result.estimation as { compiled?: boolean })?.compiled !== false && (
+            {codeUsable && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#1e1e2e', borderRadius: '10px', border: '1px solid #313244' }}>
                 <h3 style={{ marginTop: 0, color: '#cdd6f4' }}>Generated Q# Code</h3>
                 <pre style={{ margin: 0, color: '#a6e3a1', fontSize: '0.85rem', overflow: 'auto', maxHeight: '400px', lineHeight: 1.5 }}>
                   {result.qsharp_code}
                 </pre>
-                {result.estimation && !('error' in result.estimation) && (
+                {result.estimation && typeof result.estimation.physical_qubits === 'number' && (
                   <div style={{ marginTop: '0.75rem', padding: '0.75rem 1rem', background: '#313244', borderRadius: '6px', color: '#cdd6f4', fontSize: '0.85rem' }}>
                     <strong style={{ color: '#89b4fa' }}>Default Resource Estimate</strong>
                     <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '0.25rem 1rem', margin: '0.5rem 0 0' }}>
@@ -522,9 +552,9 @@ export default function EvaluatePage() {
                     </dl>
                   </div>
                 )}
-                {result.estimation && 'error' in result.estimation && (
+                {typeof codegen.estimate_error === 'string' && (
                   <div style={{ marginTop: '0.75rem', padding: '0.5rem 0.8rem', background: '#7f1d1d', borderRadius: '6px', color: '#fca5a5', fontSize: '0.85rem' }}>
-                    Estimation error: {String(result.estimation.error).slice(0, 250)}
+                    The program compiled, but resource estimation failed: {codegen.estimate_error.slice(0, 250)}
                   </div>
                 )}
               </div>
@@ -535,8 +565,9 @@ export default function EvaluatePage() {
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#0b1220', borderRadius: '10px', border: '1px solid #1e293b' }}>
                 <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>Resource Estimate · Pareto Sweep</h3>
                 <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: '0 0 0.75rem' }}>
-                  Same algorithm, six qubit technologies × QEC schemes. Smaller physical-qubit counts
-                  with shorter runtimes are Pareto-optimal.
+                  The same program estimated on {result.resource_estimate_pareto.length} hardware
+                  profiles, each with a surface code. They differ in gate time (nanoseconds or
+                  microseconds) and physical error rate (10⁻³ or 10⁻⁴).
                 </p>
                 <div style={{ overflow: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', color: '#cbd5e1' }}>
@@ -585,25 +616,32 @@ export default function EvaluatePage() {
               </div>
             )}
 
-            {/* Code generation was asked for and produced nothing usable - either no code
-                at all, or code that failed to compile after every retry. */}
-            {result.code_requested && !result.bicep_template
-              && (!result.qsharp_code || (result.estimation as { compiled?: boolean })?.compiled === false) && (
+            {/* Code generation was asked for and produced nothing usable: no code at all, code
+                that failed to compile after every retry, or code that compiled but does no
+                quantum work. */}
+            {result.code_requested && !result.bicep_template && !codeUsable && (
               <div style={{ marginBottom: '1.5rem', padding: '1.25rem', background: '#7f1d1d', borderRadius: '10px', border: '1px solid #b91c1c' }}>
                 <h3 style={{ marginTop: 0, color: '#fecaca' }}>
-                  {result.qsharp_code ? 'Generated Q# did not compile' : 'Code generation did not return anything'}
+                  {!result.qsharp_code
+                    ? 'Code generation did not return anything'
+                    : codegen.compiled === false ? 'Generated Q# did not compile' : 'Generated Q# does no quantum work'}
                 </h3>
                 <p style={{ color: '#fca5a5', fontSize: '0.9rem', margin: '0 0 0.5rem' }}>
                   The verdict above is unaffected — it is produced by the router, not the
                   generator. Only the generated artefact is missing.
-                  {typeof (result.estimation as { attempt_count?: number })?.attempt_count === 'number' && (
-                    <> Retried {(result.estimation as { attempt_count?: number }).attempt_count} times
-                    with the compiler error fed back.</>
+                  {codegen.quantum_work === false && (
+                    <> The program compiled, but it is a classical placeholder rather than an
+                    implementation of the algorithm, so neither it nor a resource estimate for it
+                    is shown.</>
+                  )}
+                  {typeof codegen.attempt_count === 'number' && (
+                    <> Made {codegen.attempt_count} attempts, each repair given the problem with
+                    the previous one.</>
                   )}
                 </p>
-                {typeof (result.estimation as { error?: string })?.error === 'string' && (
+                {typeof codegen.error === 'string' && (
                   <pre style={{ margin: 0, padding: '0.6rem', background: '#450a0a', borderRadius: '6px', color: '#fecaca', fontSize: '0.8rem', whiteSpace: 'pre-wrap' }}>
-                    {(result.estimation as { error?: string }).error}
+                    {codegen.error}
                   </pre>
                 )}
                 {result.bicep_validation?.error && (
@@ -701,7 +739,7 @@ export default function EvaluatePage() {
                   <h3 style={{ marginTop: 0, color: '#0f172a' }}>Cost</h3>
                   {ca.feasibility?.feasible_today === false && (
                     <p style={{ margin: '0 0 0.5rem', fontSize: '0.88rem', color: '#9a3412' }}>
-                      ⚛️ Quantum hardware is not ready for this problem yet - it needs ~{(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} qubits, and the largest device today exposes {ca.feasibility.hardware_qubits}.
+                      ⚛️ Running this program fault-tolerantly needs about {(ca.feasibility.estimated_physical_qubits || 0).toLocaleString()} physical qubits; the device priced here{ca.quantum_estimate?.provider ? ` (${ca.quantum_estimate.provider})` : ''} has {ca.feasibility.hardware_qubits}.
                     </p>
                   )}
                   {cheapest && (
@@ -745,7 +783,7 @@ export default function EvaluatePage() {
                     color: result.solution_pricing.feasible_today ? '#6ee7b7' : '#fdba74' }}>
                     {result.solution_pricing.feasible_today
                       ? '✅ Runnable on today’s hardware'
-                      : `⏳ Not yet runnable: needs ~${Number(result.solution_pricing.qubits_needed || 0).toLocaleString()} qubits; current hardware exposes ${result.solution_pricing.qubits_available_today}`}
+                      : `⏳ Not runnable fault-tolerantly yet: needs about ${Number(result.solution_pricing.qubits_needed || 0).toLocaleString()} physical qubits; the device priced here${result.solution_pricing.provider ? ` (${result.solution_pricing.provider})` : ''} has ${result.solution_pricing.qubits_available_today}`}
                   </div>
                 )}
                 {result.solution_pricing.crossover_note && (

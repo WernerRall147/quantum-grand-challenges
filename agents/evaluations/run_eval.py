@@ -65,6 +65,12 @@ def main() -> int:
             print(f"No cache at {CACHE_PATH.name}. Run once without --offline to build it.")
             return 2
         cache = json.loads(CACHE_PATH.read_text(encoding="utf-8"))["cases"]
+        missing = [c["id"] for c in cases if c["id"] not in cache]
+        if missing:
+            # Skipping them would drop them from the denominator, so a new case could never fail.
+            print(f"No recorded knowledge-base matches for {len(missing)} case(s): {', '.join(missing)}. "
+                  f"Run once without --offline to record them.")
+            return 2
         kb = None
     else:
         from knowledge.search.kb_client import QuantumKnowledgeBase
@@ -76,10 +82,7 @@ def main() -> int:
     for case in cases:
         problem = case["problem"]
         if args.offline:
-            entry = cache.get(case["id"])
-            if entry is None:
-                print(f"  {case['id']}: not in cache, skipping")
-                continue
+            entry = cache[case["id"]]
             matches, score = entry["matches"], entry["score"]
         else:
             matches, score = kb_matches_live(kb, problem)

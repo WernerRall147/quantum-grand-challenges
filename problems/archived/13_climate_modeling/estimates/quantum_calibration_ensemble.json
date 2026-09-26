@@ -2,117 +2,122 @@
   "problem_id": "13_climate_modeling",
   "description": "HHL diffusion PDE solver",
   "entry_point": "Main.RunHHLClimate(3, 50)",
-  "generated_utc": "2026-04-12T13:53:42.110451Z",
+  "generated_utc": "2026-09-25T11:40:39.288737Z",
+  "sources": {
+    "problems/archived/13_climate_modeling/qsharp/HardwareKernel.qs": "ee99c7909a43293a7187e0175813687e0276b02f7849d4259feab4ea27045d20",
+    "problems/archived/13_climate_modeling/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/archived/13_climate_modeling/qsharp/src/Main.qs": "96f03c3f2d39e89bd57509124cd32461054ffae1af3f60078e26ba06cbcdf428"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0065,
-    "std_elapsed_s": 0.0006,
-    "mean_value": 0.025,
-    "std_value": 0.020391,
-    "ci95_half_width": 0.008937,
-    "ci95_lower": 0.016063,
-    "ci95_upper": 0.033937
+    "mean_elapsed_s": 0.0146,
+    "std_elapsed_s": 0.0045,
+    "mean_value": 0.037,
+    "std_value": 0.025361,
+    "ci95_half_width": 0.011115,
+    "ci95_lower": 0.025885,
+    "ci95_upper": 0.048115
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[0.0]",
-      "elapsed_s": 0.0076
+      "raw_result": "[0.04]",
+      "elapsed_s": 0.016
     },
     {
       "run": 2,
       "raw_result": "[0.04]",
-      "elapsed_s": 0.0065
+      "elapsed_s": 0.015
     },
     {
       "run": 3,
-      "raw_result": "[0.0]",
-      "elapsed_s": 0.0062
+      "raw_result": "[0.02]",
+      "elapsed_s": 0.0168
     },
     {
       "run": 4,
-      "raw_result": "[0.04]",
-      "elapsed_s": 0.0072
+      "raw_result": "[0.06]",
+      "elapsed_s": 0.0189
     },
     {
       "run": 5,
-      "raw_result": "[0.02]",
-      "elapsed_s": 0.0051
+      "raw_result": "[0.08]",
+      "elapsed_s": 0.0139
     },
     {
       "run": 6,
-      "raw_result": "[0.0]",
-      "elapsed_s": 0.0068
+      "raw_result": "[0.06]",
+      "elapsed_s": 0.0151
     },
     {
       "run": 7,
-      "raw_result": "[0.0]",
-      "elapsed_s": 0.0066
+      "raw_result": "[0.08]",
+      "elapsed_s": 0.0141
     },
     {
       "run": 8,
-      "raw_result": "[0.02]",
-      "elapsed_s": 0.0067
+      "raw_result": "[0.0]",
+      "elapsed_s": 0.0059
     },
     {
       "run": 9,
       "raw_result": "[0.02]",
-      "elapsed_s": 0.0063
+      "elapsed_s": 0.0263
     },
     {
       "run": 10,
-      "raw_result": "[0.02]",
-      "elapsed_s": 0.0055
+      "raw_result": "[0.04]",
+      "elapsed_s": 0.0146
     },
     {
       "run": 11,
-      "raw_result": "[0.04]",
-      "elapsed_s": 0.0068
+      "raw_result": "[0.02]",
+      "elapsed_s": 0.0075
     },
     {
       "run": 12,
       "raw_result": "[0.02]",
-      "elapsed_s": 0.0064
+      "elapsed_s": 0.0163
     },
     {
       "run": 13,
-      "raw_result": "[0.02]",
-      "elapsed_s": 0.0065
+      "raw_result": "[0.04]",
+      "elapsed_s": 0.0117
     },
     {
       "run": 14,
       "raw_result": "[0.02]",
-      "elapsed_s": 0.0071
+      "elapsed_s": 0.0167
     },
     {
       "run": 15,
       "raw_result": "[0.02]",
-      "elapsed_s": 0.0064
+      "elapsed_s": 0.014
     },
     {
       "run": 16,
-      "raw_result": "[0.02]",
-      "elapsed_s": 0.0064
+      "raw_result": "[0.06]",
+      "elapsed_s": 0.0159
     },
     {
       "run": 17,
       "raw_result": "[0.02]",
-      "elapsed_s": 0.0065
+      "elapsed_s": 0.0087
     },
     {
       "run": 18,
-      "raw_result": "[0.08]",
-      "elapsed_s": 0.0052
+      "raw_result": "[0.02]",
+      "elapsed_s": 0.0195
     },
     {
       "run": 19,
-      "raw_result": "[0.06]",
-      "elapsed_s": 0.007
+      "raw_result": "[0.0]",
+      "elapsed_s": 0.0106
     },
     {
       "run": 20,
-      "raw_result": "[0.04]",
-      "elapsed_s": 0.0069
+      "raw_result": "[0.08]",
+      "elapsed_s": 0.0148
     }
   ]
 }

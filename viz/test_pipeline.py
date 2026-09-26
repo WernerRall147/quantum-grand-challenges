@@ -53,7 +53,7 @@ def test_all_twenty_estimates_match_source_and_keep_archival_status():
         assert estimate["physical_qubits"] == raw["physicalQubits"]
         assert estimate["logical_qubits"] == raw["logicalQubits"]
         assert estimate["runtime_ns"] == raw["runtime"]
-        assert estimate["source"]["sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+        assert estimate["source"]["sha256"] == hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
         assert estimate["entry_point"] == raw["entryExpr"]
         assert estimate["build"] == raw["build"]
         if problem["run"]["status"] == "available":

@@ -223,6 +223,30 @@ def is_platform_refinement(router_platform: str, model_platform: str) -> bool:
     return model_platform == "HYBRID" and router_platform == "QUANTUM"
 
 
+def published_advantage_class(
+    verdict: str, kb_speedup: Optional[str], model_class: Optional[str]
+) -> tuple:
+    """The advantage class a result publishes, and the model's class if it was overruled.
+
+    An exponential or superpolynomial class is a claim of quantum advantage, and the router
+    owns that claim the way it owns the verdict. So a strong class is published only with a
+    QUANTUM_ADVANTAGE verdict, and then it is the speedup of the match the router accepted.
+    Otherwise the model's class stands if it is quadratic or none, which is where it is
+    better informed than the router: a Grover-type search problem rarely corroborates its
+    retrieved match, yet its advantage class is quadratic. Anything else is published as
+    none, so an HPC verdict can no longer ship with "exponential" beside it, and a raw
+    knowledge-base label such as "exponential_core" can no longer leak out of the schema.
+    """
+    if verdict == "QUANTUM_ADVANTAGE" and kb_speedup in STRONG_QUANTUM_SPEEDUPS:
+        published = kb_speedup
+    elif model_class in ("quadratic", "none"):
+        published = model_class
+    else:
+        published = "none"
+    overruled = model_class if model_class and model_class != published else None
+    return published, overruled
+
+
 def route_platform(
     problem_description: str,
     kb_matches: List[Dict[str, Any]],
@@ -238,7 +262,7 @@ def route_platform(
     2. If AI/ML keyword score > HPC keyword score AND > quantum keyword score → AI_ML
     3. If HPC keyword score > AI/ML keyword score AND > quantum keyword score → HPC
     4. If best KB match exists but has weak/no advantage → HPC (with quantum context)
-    5. Default → let LLM decide (INCONCLUSIVE)
+    5. Default → INCONCLUSIVE (the model explains it; it never sets the verdict)
 
     Rule 1 is deliberately conservative. Retrieval returns a top match for every
     query, so the KB match alone cannot establish that a problem is quantum.
@@ -300,19 +324,24 @@ def route_platform(
         }
 
     # Rule 1: Strong quantum advantage from KB, corroborated by the problem text.
-    # Trust EITHER all computed Troyer filters OR the curated troyer_verdict.
-    # Structural-advantage algorithms (e.g. Shor factoring) are QUANTUM_ADVANTAGE
-    # despite F4_naturally_quantum being false, so the curated verdict is
-    # authoritative for strong-speedup problems.
+    # Every computed Troyer filter must pass, with one exception: a curated
+    # QUANTUM_ADVANTAGE verdict may waive F4_naturally_quantum, because structural
+    # speedups such as Shor's factoring are not about simulating nature. It waives
+    # nothing else - an entry curated as an advantage but bottlenecked on data I/O
+    # used to pass this rule on the curated verdict alone.
+    waives_only_f4 = best_verdict == "QUANTUM_ADVANTAGE" and all(
+        passed for name, passed in troyer_filters.items() if name != "F4_naturally_quantum"
+    )
     if (
         quantum_corroborated
         and best_speedup in STRONG_QUANTUM_SPEEDUPS
-        and (all_troyer_pass or best_verdict == "QUANTUM_ADVANTAGE")
+        and (all_troyer_pass or waives_only_f4)
     ):
         reason = (
             f"KB match '{best_name}' has {best_speedup} speedup and passes all Troyer filters"
             if all_troyer_pass
-            else f"KB match '{best_name}' has {best_speedup} speedup and a curated QUANTUM_ADVANTAGE verdict"
+            else f"KB match '{best_name}' has {best_speedup} speedup and a curated QUANTUM_ADVANTAGE verdict; "
+            f"every filter passes except F4, which a structural speedup does not need"
         )
         return {
             "platform": "QUANTUM",
@@ -402,6 +431,6 @@ def route_platform(
         "platform": "INCONCLUSIVE",
         "verdict": "INCONCLUSIVE",
         "confidence": 0.4,
-        "reason": "No clear platform signal from KB or domain analysis  LLM will assess",
+        "reason": "No clear platform signal from the knowledge base or the problem text, so the verdict stays INCONCLUSIVE",
         "evidence": evidence,
     }

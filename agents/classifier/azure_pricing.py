@@ -187,7 +187,10 @@ def _fetch_retail_prices(filter_query: str, timeout: float = 8.0) -> List[Dict[s
     """Query the Azure Retail Prices OData endpoint. Returns [] on any failure."""
     if urllib is None:
         return []
-    safe_chars = "()/=, '"
+    # A space is not safe in a URL. It used to be listed here, so every request carried raw
+    # spaces, http.client rejected it with "URL can't contain control characters" (49 times
+    # in the 30 days to 2026-09-25), and every rate silently came from the static fallback.
+    safe_chars = "()/=,'"
     encoded = urllib.parse.quote(filter_query, safe=safe_chars)
     url = f"{RETAIL_PRICES_API}?$filter={encoded}"
     try:

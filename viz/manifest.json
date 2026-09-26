@@ -9,72 +9,62 @@
       "stage": "C",
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "estimate": {
         "source": {
           "path": "problems/01_hubbard/circuits/estimate.json",
-          "sha256": "8747502414cd2f7854e99b14718800104f13f7a34d2075c649231eacd1faeb63"
+          "sha256": "8ededbc759b0865086e67c3d8ec03ec9215a57acd7ef1f1045e046b5bb7e4587"
         },
-        "entry_point": "Main.EstimateHubbardEnergy(0.5, 2.0, 1.0, 0.5, 0.3, 1)",
+        "entry_point": "Main.HubbardQPE(1.0, 4.0, 10, 1)",
         "target": "Main",
         "qubit_model": "qubit_gate_ns_e3",
         "qec_scheme": "surface_code",
         "build": {
-          "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+          "commit": "4c39195606e357ef135bccdc161dde18f15e7fbf",
           "qdkVersion": "1.31.0",
           "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-          "dateUtc": "2026-09-14T15:01:18.308427+00:00"
+          "dateUtc": "2026-09-25T11:46:37.823987+00:00"
         },
-        "logical_qubits": 12,
-        "physical_qubits": 53628,
-        "runtime_ns": 1120000
+        "logical_qubits": 40,
+        "physical_qubits": 594980,
+        "runtime_ns": 10745603750
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "HubbardQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[One, Zero]",
-            "count": 120
+            "outcome": "[Zero, Zero]",
+            "count": 132
           },
           {
-            "outcome": "[Zero, Zero]",
-            "count": 53
+            "outcome": "[One, Zero]",
+            "count": 37
           },
           {
             "outcome": "[One, One]",
-            "count": 21
+            "count": 19
           },
           {
             "outcome": "[Zero, One]",
-            "count": 6
+            "count": 12
           }
         ]
       },
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
       ],
-      "render_status": "rendered",
-      "assets": [
-        {
-          "kind": "poster",
-          "path": "assets/01_hubbard/45252ed69491/poster.png",
-          "media_type": "image/png",
-          "width": 1600,
-          "height": 1000,
-          "sha256": "d47918448c502b73cee4a81961797c7276574cbb8fb6aa898b89d0c701799f17",
-          "alt": "Hubbard: active, stage C. Estimated logical qubits: 12; physical qubits: 53628. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = -0.41, P(0) = 0.295, P(1) = 0.705. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-        }
-      ]
+      "render_status": "pending",
+      "assets": []
     },
     {
       "id": "02_catalysis",
@@ -83,53 +73,53 @@
       "stage": "C",
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "estimate": {
         "source": {
           "path": "problems/02_catalysis/circuits/estimate.json",
-          "sha256": "c498efed24d362d589ea83bdb65ee4d54cb20dc63bfc336a0a58fa613f6329dd"
+          "sha256": "da79cf8c995da7714f8464f3ca7bac758350a5dfe3efb9a94f509322b1c59d40"
         },
-        "entry_point": "Main.EstimateMolecularEnergy(1.0, 0.5, 0.3, 1)",
+        "entry_point": "Main.MolecularQPE(10, 1)",
         "target": "Main",
         "qubit_model": "qubit_gate_ns_e3",
         "qec_scheme": "surface_code",
         "build": {
-          "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+          "commit": "4c39195606e357ef135bccdc161dde18f15e7fbf",
           "qdkVersion": "1.31.0",
           "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-          "dateUtc": "2026-09-14T15:01:18.381558+00:00"
+          "dateUtc": "2026-09-25T11:46:39.015939+00:00"
         },
-        "logical_qubits": 12,
-        "physical_qubits": 57764,
-        "runtime_ns": 966000
+        "logical_qubits": 35,
+        "physical_qubits": 423055,
+        "runtime_ns": 10602348750
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "CatalysisQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[Zero, Zero]",
-            "count": 165
-          },
-          {
             "outcome": "[One, Zero]",
-            "count": 22
+            "count": 181
           },
           {
-            "outcome": "[Zero, One]",
-            "count": 8
+            "outcome": "[Zero, Zero]",
+            "count": 9
           },
           {
             "outcome": "[One, One]",
+            "count": 5
+          },
+          {
+            "outcome": "[Zero, One]",
             "count": 5
           }
         ]
@@ -137,18 +127,8 @@
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
       ],
-      "render_status": "rendered",
-      "assets": [
-        {
-          "kind": "poster",
-          "path": "assets/02_catalysis/888ddaa0f61a/poster.png",
-          "media_type": "image/png",
-          "width": 1600,
-          "height": 1000,
-          "sha256": "c79a506e35f1a00e3fb6be236b9bda3a0b0363b4c950d2a316188e2c8121ed64",
-          "alt": "Catalysis: active, stage C. Estimated logical qubits: 12; physical qubits: 57764. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = 0.73, P(0) = 0.865, P(1) = 0.135. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-        }
-      ]
+      "render_status": "pending",
+      "assets": []
     },
     {
       "id": "03_qae_risk",
@@ -393,72 +373,58 @@
       "stage": "C",
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "estimate": {
         "source": {
           "path": "problems/07_drug_discovery/circuits/estimate.json",
-          "sha256": "569a13de91d3a2e9eff45e4c41e4acd5bcc45af6e82ed9719b49450828eee90e"
+          "sha256": "bb77481899bd2cc15dbb09de5d8a35d126cd4fa891e0acbf992b5912ad0a32f2"
         },
-        "entry_point": "Main.EstimateBindingEnergy(1.0, 0.5, 0.3, 1)",
+        "entry_point": "Main.BindingQPE(10, 1)",
         "target": "Main",
         "qubit_model": "qubit_gate_ns_e3",
         "qec_scheme": "surface_code",
         "build": {
-          "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+          "commit": "4c39195606e357ef135bccdc161dde18f15e7fbf",
           "qdkVersion": "1.31.0",
           "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-          "dateUtc": "2026-09-14T15:01:18.876744+00:00"
+          "dateUtc": "2026-09-25T11:46:40.878134+00:00"
         },
-        "logical_qubits": 12,
-        "physical_qubits": 57764,
-        "runtime_ns": 966000
+        "logical_qubits": 35,
+        "physical_qubits": 423055,
+        "runtime_ns": 5052433750
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "DrugBindingQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[Zero, Zero]",
-            "count": 139
-          },
-          {
             "outcome": "[One, Zero]",
-            "count": 38
+            "count": 196
           },
           {
             "outcome": "[Zero, One]",
-            "count": 13
+            "count": 2
           },
           {
-            "outcome": "[One, One]",
-            "count": 10
+            "outcome": "[Zero, Zero]",
+            "count": 2
           }
         ]
       },
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
       ],
-      "render_status": "rendered",
-      "assets": [
-        {
-          "kind": "poster",
-          "path": "assets/07_drug_discovery/7618a4762e83/poster.png",
-          "media_type": "image/png",
-          "width": 1600,
-          "height": 1000,
-          "sha256": "a51081072b5d175aa1e7d2a354460fbd8b006618395a56f63906f8e9a6b709a9",
-          "alt": "Drug Discovery: active, stage C. Estimated logical qubits: 12; physical qubits: 57764. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = 0.52, P(0) = 0.76, P(1) = 0.24. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-        }
-      ]
+      "render_status": "pending",
+      "assets": []
     },
     {
       "id": "08_protein_folding",
@@ -526,88 +492,62 @@
       "stage": "C",
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "estimate": {
         "source": {
           "path": "problems/09_factorization/circuits/estimate.json",
-          "sha256": "f2d99309e0dbd731de4ba1edb5245248e43d40fd1862d579cf3337b3901fcb67"
+          "sha256": "9b3f101f4df324d7a6b18ebd9f06e87479a625319bf123b6720b7b1c2b0f853e"
         },
-        "entry_point": "Main.ShorPeriodFinding(3, 4)",
+        "entry_point": "Main.ShorPeriodFinding(7, 4)",
         "target": "Main",
         "qubit_model": "qubit_gate_ns_e3",
         "qec_scheme": "surface_code",
         "build": {
-          "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+          "commit": "32a772716150b85b202c45ca2299f4153b61bb15",
           "qdkVersion": "1.31.0",
           "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-          "dateUtc": "2026-09-14T15:01:19.026565+00:00"
+          "dateUtc": "2026-09-25T19:49:23.896467+00:00"
         },
         "logical_qubits": 25,
-        "physical_qubits": 53065,
-        "runtime_ns": 291550
+        "physical_qubits": 60665,
+        "runtime_ns": 1036350
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "7fdfedb3cd7abc4caa4beced626c91ef0b27349cc2d3adcda4bf28e58f1beeb3"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T19:50:15.184367Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "ShorKernel",
         "shots": 200,
         "histogram": [
           {
+            "outcome": "[Zero, Zero, Zero, One]",
+            "count": 57
+          },
+          {
+            "outcome": "[Zero, Zero, One, One]",
+            "count": 55
+          },
+          {
             "outcome": "[Zero, Zero, Zero, Zero]",
-            "count": 96
+            "count": 51
           },
           {
-            "outcome": "[One, Zero, Zero, Zero]",
-            "count": 41
-          },
-          {
-            "outcome": "[One, One, One, One]",
+            "outcome": "[Zero, Zero, One, Zero]",
             "count": 37
-          },
-          {
-            "outcome": "[One, Zero, One, One]",
-            "count": 9
-          },
-          {
-            "outcome": "[One, One, Zero, Zero]",
-            "count": 6
-          },
-          {
-            "outcome": "[One, One, Zero, One]",
-            "count": 5
-          },
-          {
-            "outcome": "[One, Zero, One, Zero]",
-            "count": 4
-          },
-          {
-            "outcome": "[One, One, One, Zero]",
-            "count": 2
           }
         ]
       },
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
       ],
-      "render_status": "rendered",
-      "assets": [
-        {
-          "kind": "poster",
-          "path": "assets/09_factorization/c752e330674d/poster.png",
-          "media_type": "image/png",
-          "width": 1600,
-          "height": 1000,
-          "sha256": "63137f4f5f3fbd25631990b045888b4633d18079b4dcc6f121538ffd3efe4936",
-          "alt": "Factorization: active, stage C. Estimated logical qubits: 25; physical qubits: 53065. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = -0.04, P(0) = 0.48, P(1) = 0.52. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-        }
-      ]
+      "render_status": "pending",
+      "assets": []
     },
     {
       "id": "10_post_quantum_cryptography",
@@ -852,72 +792,62 @@
       "stage": "C",
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "estimate": {
         "source": {
           "path": "problems/14_materials_discovery/circuits/estimate.json",
-          "sha256": "2c2dabac610d4f8515a9da751f33f50b0b1c8397de24db3d0fa7f13942af5414"
+          "sha256": "2b3e1ddcf3189641c7f90330fed18f49cdc9eb68cf92aff6d502d64b0a1d7ff8"
         },
-        "entry_point": "Main.EstimateBandGap(1.0, -0.5, 0.8, 0.3, 1)",
+        "entry_point": "Main.BandGapQPE(1.0, -0.5, 0.8, 0.3, 10, 1)",
         "target": "Main",
         "qubit_model": "qubit_gate_ns_e3",
         "qec_scheme": "surface_code",
         "build": {
-          "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+          "commit": "4c39195606e357ef135bccdc161dde18f15e7fbf",
           "qdkVersion": "1.31.0",
           "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-          "dateUtc": "2026-09-14T15:01:19.409844+00:00"
+          "dateUtc": "2026-09-25T11:46:42.246932+00:00"
         },
-        "logical_qubits": 12,
-        "physical_qubits": 163268,
-        "runtime_ns": 87290000
+        "logical_qubits": 35,
+        "physical_qubits": 754715,
+        "runtime_ns": 27219762500
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "MaterialsQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[Zero, Zero]",
-            "count": 190
+            "outcome": "[One, Zero]",
+            "count": 114
           },
           {
-            "outcome": "[One, Zero]",
-            "count": 4
+            "outcome": "[Zero, Zero]",
+            "count": 46
           },
           {
             "outcome": "[One, One]",
-            "count": 3
+            "count": 29
           },
           {
             "outcome": "[Zero, One]",
-            "count": 3
+            "count": 11
           }
         ]
       },
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
       ],
-      "render_status": "rendered",
-      "assets": [
-        {
-          "kind": "poster",
-          "path": "assets/14_materials_discovery/4a6db08ac885/poster.png",
-          "media_type": "image/png",
-          "width": 1600,
-          "height": 1000,
-          "sha256": "bffb4cb7f9b8c86f2d0c0d965acd62fb33fb3670f838b8fc35e4a13eb16ede29",
-          "alt": "Materials Discovery: active, stage C. Estimated logical qubits: 12; physical qubits: 163268. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = 0.93, P(0) = 0.965, P(1) = 0.035. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-        }
-      ]
+      "render_status": "pending",
+      "assets": []
     },
     {
       "id": "15_database_search",
@@ -1051,72 +981,62 @@
       "stage": "C",
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "estimate": {
         "source": {
           "path": "problems/17_nuclear_physics/circuits/estimate.json",
-          "sha256": "d4543423c894bb1e907b85ce59c9941fbdda2c5e40e6cb608245f1bed0bbcc2a"
+          "sha256": "e1d1edfc2361857d9a274416e542f8db40bd6386c16a4b12e922d12ba3428386"
         },
-        "entry_point": "Main.EstimateNuclearEnergy(1.0, 0.5, 0.3, 1)",
+        "entry_point": "Main.NuclearQPE(10, 1)",
         "target": "Main",
         "qubit_model": "qubit_gate_ns_e3",
         "qec_scheme": "surface_code",
         "build": {
-          "commit": "3e0383bc94b9635b3d66514ee9ff51f4db8bfb1e",
+          "commit": "4c39195606e357ef135bccdc161dde18f15e7fbf",
           "qdkVersion": "1.31.0",
           "estimatorVersion": "qdk-1.31.0/qubit_gate_ns_e3+surface_code",
-          "dateUtc": "2026-09-14T15:01:19.659784+00:00"
+          "dateUtc": "2026-09-25T11:46:45.952962+00:00"
         },
-        "logical_qubits": 12,
-        "physical_qubits": 57764,
-        "runtime_ns": 966000
+        "logical_qubits": 35,
+        "physical_qubits": 666995,
+        "runtime_ns": 21200628750
       },
       "run": {
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "31482d4a7f238602e66216146b8bc71ec721e2f9beb1c5b961898cead622d823"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T11:48:59.160193Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "NuclearQPEKernel",
         "shots": 200,
         "histogram": [
           {
-            "outcome": "[Zero, Zero]",
-            "count": 189
-          },
-          {
             "outcome": "[One, Zero]",
-            "count": 6
+            "count": 125
           },
           {
             "outcome": "[One, One]",
-            "count": 3
+            "count": 35
+          },
+          {
+            "outcome": "[Zero, Zero]",
+            "count": 29
           },
           {
             "outcome": "[Zero, One]",
-            "count": 2
+            "count": 11
           }
         ]
       },
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
       ],
-      "render_status": "rendered",
-      "assets": [
-        {
-          "kind": "poster",
-          "path": "assets/17_nuclear_physics/888dd67de767/poster.png",
-          "media_type": "image/png",
-          "width": 1600,
-          "height": 1000,
-          "sha256": "ce6d2883a67f7bc67df8f018e2212852daa5e05ef1d42034b1b785b17907af6f",
-          "alt": "Nuclear Physics: active, stage C. Estimated logical qubits: 12; physical qubits: 57764. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = 0.91, P(0) = 0.955, P(1) = 0.045. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-        }
-      ]
+      "render_status": "pending",
+      "assets": []
     },
     {
       "id": "18_photovoltaics",
@@ -1125,12 +1045,12 @@
       "stage": "C",
       "metadata_source": {
         "path": "docs/objective-kpis.json",
-        "sha256": "62778c23135b5c3f2a799847e3b39a683e1ad632c8f1f9d3439cf515606aee45"
+        "sha256": "6d3be90fbc17ee3b4e4cc2067057aeb2bb76963f3e6265fe9aba87011db094d8"
       },
       "estimate": {
         "source": {
           "path": "problems/18_photovoltaics/circuits/estimate.json",
-          "sha256": "6c61ea39f352da3ce7ad066a460e389a0008543c013bd875b25d51c0a27ea568"
+          "sha256": "5b39cdbf9a55d2fdb419a3e8dd0c272c63acba0616dc68453f49ac23807a5aa5"
         },
         "entry_point": "Main.RunExcitonWalk(10, 0.5, 1)",
         "target": "Main",
@@ -1150,9 +1070,9 @@
         "status": "available",
         "source": {
           "path": "website/data/simulatorMatrix.json",
-          "sha256": "b4112cc4df827ada0cf38f291fe8ba2b34d1b9e50c44a1edd3593069cad9e542"
+          "sha256": "d3eaabb1d843f66465cf28bad556ee936d0dbf073d15131b69144953e191d0a7"
         },
-        "source_generated_utc": "2026-08-18T13:40:03.171489Z",
+        "source_generated_utc": "2026-09-25T13:14:39.101620Z",
         "execution": "local-simulator",
         "target": "local-simulator",
         "entry_point": "QuantumWalkKernel",
@@ -1160,25 +1080,27 @@
         "histogram": [
           {
             "outcome": "[One, Zero, Zero]",
-            "count": 200
+            "count": 123
+          },
+          {
+            "outcome": "[Zero, One, Zero]",
+            "count": 37
+          },
+          {
+            "outcome": "[Zero, Zero, Zero]",
+            "count": 26
+          },
+          {
+            "outcome": "[One, One, Zero]",
+            "count": 14
           }
         ]
       },
       "warnings": [
         "Resource estimates and sampled kernel outcomes describe different programs. Neither demonstrates quantum advantage; this is not a quantum-state animation."
       ],
-      "render_status": "rendered",
-      "assets": [
-        {
-          "kind": "poster",
-          "path": "assets/18_photovoltaics/42ddaec525cb/poster.png",
-          "media_type": "image/png",
-          "width": 1600,
-          "height": 1000,
-          "sha256": "95327754eb363c280b8249b5c5fdd11bdf224fce06fad469d86e300fbefaf6fc",
-          "alt": "Photovoltaics: active, stage C. Estimated logical qubits: 12; physical qubits: 47188. Simulator histogram available. Logarithmic resource bars; sampled outcomes are separate kernel evidence, not quantum advantage. Bloch panel, returned bit 0 (zero-based result order): measurement-derived z polarization, z = -1, P(0) = 0, P(1) = 1. Diagonal-state representation; x/y unknown; drawn as 0 by convention. Phase unavailable; not state tomography. "
-        }
-      ]
+      "render_status": "pending",
+      "assets": []
     },
     {
       "id": "19_quantum_chromodynamics",

@@ -33,6 +33,8 @@
     "05_qaoa_maxcut"
   ],
   "minimum_stage": "B",
+  "require_current_calibration_from_stage": "C",
+  "require_consistent_claim_from_stage": "D",
   "per_problem_minimum_stage": {
     "01_hubbard": "B",
     "02_catalysis": "B",

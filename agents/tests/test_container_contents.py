@@ -39,22 +39,27 @@ def dockerignore_rules() -> list[str]:
 def in_build_context(relative: str, rules: list[str]) -> bool:
     """True when .dockerignore lets a path reach the build context.
 
-    Only models the whitelist form this repo uses - a bare `*` excluding everything,
-    then `!` rules re-including named paths. That is enough to catch the failure this
-    was written for: a COPY of a path nothing re-includes.
+    Rules apply in order and the last one that matches wins, as in Docker and in the
+    packer `az acr build` uses. A rule matches a path or any directory above it, and
+    `*` and `**` are globs. That covers the whitelist form this repo uses: a bare `*`
+    excluding everything, `!` rules re-including named paths, and plain rules that
+    exclude something inside a re-included directory again.
     """
-    target = relative.replace("\\", "/")
-    if "*" not in rules:
-        return True
+    target = relative.replace("\\", "/").strip("/")
+    included = True
     for rule in rules:
-        if not rule.startswith("!"):
-            continue
-        allowed = rule[1:].rstrip("/")
-        if allowed.endswith("/**"):
-            allowed = allowed[:-3]
-        if target == allowed or target.startswith(allowed + "/"):
-            return True
-    return False
+        exception = rule.startswith("!")
+        pattern = (rule[1:] if exception else rule).strip("/")
+        if _rule_matches(pattern, target):
+            included = exception
+    return included
+
+
+def _rule_matches(pattern: str, target: str) -> bool:
+    if pattern.endswith("/**"):
+        pattern = pattern[:-3]
+    regex = re.escape(pattern).replace(r"\*\*", ".*").replace(r"\*", "[^/]*").replace(r"\?", "[^/]")
+    return re.fullmatch(f"{regex}(/.*)?", target) is not None
 
 
 def is_in_image(relative: str, copied: list[str]) -> bool:
@@ -116,6 +121,36 @@ class TestTheImageHasWhatTheApiNeeds:
         assert reaches_the_image("agents/api/main.py")
 
 
+class TestInternalMaterialStaysOut:
+    """knowledge/ is copied whole, and knowledge/Microsoft/ holds decks classified
+    Microsoft Confidential and an internal-only FAQ. `az acr build`, run locally as the
+    deploy workflow documents, uploads the working copy, so an untracked file there
+    reached the image as surely as a committed one: the real packer included all three.
+    """
+
+    INTERNAL = ("knowledge/Microsoft/deck.pdf", "knowledge/Microsoft/nested/faq.PDF")
+
+    def test_internal_material_never_reaches_the_build_context(self):
+        rules = dockerignore_rules()
+        leaked = [path for path in self.INTERNAL if in_build_context(path, rules)]
+        assert leaked == [], f".dockerignore lets internal material into the image: {leaked}"
+
+    def test_the_rest_of_knowledge_still_ships(self):
+        """Excluding the folder must not cost the API the knowledge base it reads."""
+        assert reaches_the_image("knowledge/search/kb_client.py")
+        assert reaches_the_image("knowledge/data/algorithm_zoo_index.json")
+
+    def test_internal_material_is_ignored_by_git(self):
+        """The repository is public; the same folder must never be committed."""
+        import subprocess
+
+        result = subprocess.run(
+            ["git", "check-ignore", "-q", "--no-index", "knowledge/Microsoft/deck.pdf"],
+            cwd=REPO,
+        )
+        assert result.returncode == 0, "knowledge/Microsoft/ is not in .gitignore"
+
+
 class TestExtrasTheImportsNeed:
     """Shipping a file is not enough if its dependencies were never installed.
 
@@ -165,6 +200,16 @@ class TestTheCoverageCheckItself:
         rules = ["*", "!agents/", "!agents/**"]
         assert in_build_context("agents/api/main.py", rules)
         assert not in_build_context("tooling/estimator_config.py", rules)
+
+    def test_a_later_rule_excludes_inside_a_reincluded_directory(self):
+        rules = ["*", "!knowledge/", "!knowledge/**", "knowledge/Microsoft", "knowledge/Microsoft/**"]
+        assert in_build_context("knowledge/search/kb_client.py", rules)
+        assert not in_build_context("knowledge/Microsoft/deck.pdf", rules)
+
+    def test_a_glob_rule_matches_one_path_segment(self):
+        rules = ["*", "!docs/", "!docs/**", "docs/*.pdf"]
+        assert not in_build_context("docs/walk.pdf", rules)
+        assert in_build_context("docs/sub/walk.pdf", rules)
 
     def test_without_a_bare_star_nothing_is_excluded(self):
         assert in_build_context("tooling/estimator_config.py", ["node_modules/"])

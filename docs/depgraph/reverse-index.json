@@ -36,11 +36,18 @@
     "agents/api/main.py",
     "agents/tests/test_bicep_generator.py"
   ],
+  "agents/code_generator/compiler_hints.py": [
+    "agents/code_generator/generate.py",
+    "agents/tests/test_codegen_exemplars.py"
+  ],
   "agents/code_generator/generate.py": [
     "Dockerfile",
     "agents/api/main.py",
+    "agents/evaluations/run_codegen_eval.py",
+    "agents/tests/test_codegen_exemplars.py",
     "agents/tests/test_codegen_retry.py",
     "agents/tests/test_codegen_syntax_rules.py",
+    "agents/tests/test_codegen_threads.py",
     "agents/tests/test_container_contents.py",
     "agents/tests/test_entry_expression.py",
     "tooling/test_qdk_samples_provenance.py"
@@ -49,8 +56,12 @@
     "agents/code_generator/generate.py",
     "agents/tests/test_stdlib_index.py"
   ],
+  "agents/evaluations/run_codegen_eval.py": [
+    "agents/tests/test_codegen_eval.py"
+  ],
   "agents/evaluations/run_eval.py": [
-    ".github/workflows/ci-cd.yml"
+    ".github/workflows/ci-cd.yml",
+    "agents/tests/test_verdict_evaluator.py"
   ],
   "agents/evaluations/run_foundry_eval.py": [
     "agents/tests/test_verdict_evaluator.py"
@@ -356,6 +367,9 @@
   "tooling/azure/check_secret_hygiene.py": [
     ".github/workflows/azure-secret-hygiene.yml"
   ],
+  "tooling/azure/website_run_history.py": [
+    "tooling/azure/collect_job.py"
+  ],
   "tooling/check_algorithm_index_drift.py": [
     ".github/workflows/nightly.yml"
   ],
@@ -388,7 +402,12 @@
     "agents/tests/test_estimator_config.py",
     "tooling/generate_calibration_ensemble.py",
     "tooling/generate_estimates.py",
-    "tooling/generate_multimodel_estimates.py"
+    "tooling/generate_multimodel_estimates.py",
+    "tooling/test_shor_kernel.py"
+  ],
+  "tooling/evidence_hashes.py": [
+    "tooling/generate_calibration_ensemble.py",
+    "tooling/test_stage_evidence.py"
   ],
   "tooling/generate_estimates.py": [
     ".github/workflows/nightly.yml"
@@ -506,6 +525,9 @@
   ],
   "website/lib/clarity.ts": [
     "website/pages/_document.tsx",
+    "website/pages/evaluate.tsx"
+  ],
+  "website/lib/evaluatorRequest.ts": [
     "website/pages/evaluate.tsx"
   ],
   "website/pages/costs.tsx": [

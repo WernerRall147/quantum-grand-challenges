@@ -51,11 +51,11 @@ This scaffold keeps the classical photovoltaic baseline reproducible while we ex
 
 Stage C evidence references for this problem:
 
-- Calibration ensemble: `estimates/quantum_calibration_ensemble.json` and `estimates/calibration_evidence.json`.
+- Calibration ensemble: `estimates/quantum_calibration_ensemble.json`, regenerated on 2026-09-25 after the walk was corrected. Until then the conditional shift swapped the two position qubits whichever way the coin pointed, so the walker never depended on the coin and every run ended on site 1; `estimates/calibration_evidence.json` (2026-03-25) records that defect as 100% at site 1 across three runs.
 - Backend assumptions: `estimates/backend_assumptions.md`.
-- Estimator profile (ns-e3 + surface-code-generic): `estimates/estimator_profile_summary.md`, `estimates/latest_qubit_gate_ns_e3.json`, `estimates/latest_surface_code_generic_v1.json`.
-- Cross-platform OpenQASM export: `estimates/quantum_walk.qasm`.
-- Azure smoke validation: `estimates/azure_smoke_report_small_d1.md`, `estimates/azure_job_manifest_small_d1.json`.
+- Estimator profile (ns-e3 + surface-code-generic): `estimates/estimator_profile_summary.md`, `estimates/latest_qubit_gate_ns_e3.json`, `estimates/latest_surface_code_generic_v1.json`. Both versions of the walk use two Toffoli-class gates and one rotation per step, so the resource estimate, which counts non-Clifford operations, is unchanged.
+- Cross-platform OpenQASM export: `estimates/quantum_walk.qasm`, the same circuit as `qsharp/HardwareKernel.qs`.
+- Azure smoke validation: `estimates/azure_smoke_report_small_d1.md`, `estimates/azure_job_manifest_small_d1.json` (2026-03-06, the kernel before the correction; the corrected kernel has not been submitted).
 
 ## DiVincenzo Readiness (Stage C/D Overlay)
 

@@ -89,5 +89,5 @@
     }
   ],
   "crossover_estimate": "Uncertain \u2014 no proven quantum advantage for MaxCut QAOA at any depth",
-  "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this. Advantage would require super-polynomial circuit depth, which eliminates the speed benefit."
+  "honest_assessment": "QAOA is a heuristic. GW achieves 0.878-approximation in polynomial time. No constant-depth QAOA is known to surpass this, and on certain MaxCut instances GW outperforms QAOA at any constant depth (Bravyi et al., arXiv:1910.08980). Whether QAOA at depth growing with n offers an advantage is open."
 }

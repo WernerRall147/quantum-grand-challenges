@@ -65,6 +65,7 @@ export interface TaggableResult {
   recommended_platform?: string;
   trace?: { operation_id?: string; total_ms?: number };
   code_requested?: boolean;
+  failure_kind?: string;
 }
 
 /** Bucketed so the dashboard can filter on it; an exact millisecond value per
@@ -104,6 +105,9 @@ export function tagEvaluation(result: TaggableResult | null | undefined): void {
     // when the backend call fails, so a broken demo and a working one look the
     // same from outside.
     tag('qgc_demo_mode', 'true');
+    // timeout, http, network or invalid_response: an outage and a slow model are
+    // different fixes, and they looked identical here.
+    if (result.failure_kind) tag('qgc_failure_kind', result.failure_kind);
     event('qgc_demo_mode');
   } else {
     event('qgc_evaluation_shown');

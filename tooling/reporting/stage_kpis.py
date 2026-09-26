@@ -13,9 +13,13 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import evidence_hashes  # noqa: E402
 
 
 STAGE_PATTERN = re.compile(r"\bStage\s+([ABCD])\b", re.IGNORECASE)
@@ -24,6 +28,9 @@ CURRENT_GATE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 STAGE_ORDER = {"A": 1, "B": 2, "C": 3, "D": 4}
+CLAIM_CATEGORIES = {"theoretical", "projected", "demonstrated"}
+README_CLAIM_PATTERN = re.compile(r"Claim category \(current\)\**:\s*`(\w+)`", re.IGNORECASE)
+MIN_CALIBRATION_RUNS = 20
 
 
 @dataclass
@@ -35,6 +42,10 @@ class ProblemKpi:
     has_divincenzo_readiness: bool
     has_estimator_profile_summary: bool
     has_backend_assumptions: bool
+    # "current", or why the calibration ensemble cannot support a Stage C claim.
+    calibration_status: str = "missing"
+    # "consistent", or why the claim contract cannot support a Stage D claim.
+    claim_category_status: str = "missing"
 
 
 @dataclass
@@ -115,6 +126,44 @@ def has_backend_assumptions_artifact(problem_dir: Path) -> bool:
     return "Backend" in text and "Assumptions" in text
 
 
+def calibration_status(problem_dir: Path, repo_root: Path) -> str:
+    """Whether the calibration ensemble exists, has statistics, and describes today's code.
+
+    Stages used to be checked for headings only, so five problems kept Stage C labels on
+    ensembles generated before their kernels were rewritten, and three held them on
+    ensembles whose statistics were never parsed.
+    """
+    path = problem_dir / "estimates" / "quantum_calibration_ensemble.json"
+    if not path.is_file():
+        return "missing"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    stats = data.get("statistics", {})
+    if int(stats.get("num_runs", 0)) < MIN_CALIBRATION_RUNS:
+        return "too-few-runs"
+    if not all(key in stats for key in ("mean_value", "std_value", "ci95_half_width")):
+        return "no-statistics"
+    recorded = data.get("sources")
+    if not recorded:
+        return "unbound"
+    if recorded != evidence_hashes.source_hashes(problem_dir / "qsharp", repo_root):
+        return "stale"
+    return "current"
+
+
+def claim_category_status(problem_dir: Path, readme_text: str) -> str:
+    """Whether the README and the machine-readable contract state the same claim category."""
+    path = problem_dir / "estimates" / "advantage_claim_contract.json"
+    if not path.is_file():
+        return "missing"
+    category = str(json.loads(path.read_text(encoding="utf-8")).get("claim_category", "")).lower()
+    if category not in CLAIM_CATEGORIES:
+        return "invalid"
+    stated = README_CLAIM_PATTERN.search(readme_text)
+    if stated and stated.group(1).lower() != category:
+        return f"mismatch (README {stated.group(1)}, contract {category})"
+    return "consistent"
+
+
 def summarize(records: List[ProblemKpi]) -> Summary:
     total = len(records)
     counts = {"A": 0, "B": 0, "C": 0, "D": 0, "Unknown": 0}
@@ -184,6 +233,8 @@ def collect_problem_kpis(repo_root: Path) -> List[ProblemKpi]:
                 has_divincenzo_readiness=has_divincenzo_readiness(text),
                 has_estimator_profile_summary=has_populated_estimator_profile_summary(child),
                 has_backend_assumptions=has_backend_assumptions_artifact(child),
+                calibration_status=calibration_status(child, repo_root),
+                claim_category_status=claim_category_status(child, text),
             )
         )
 
@@ -438,6 +489,22 @@ def evaluate_policy(
                     f"{problem}: missing `estimates/backend_assumptions.md` artifact"
                 )
 
+    # Evidence the declared stage itself requires, not just the headings around it.
+    calibration_from = _normalize_stage(policy.get("require_current_calibration_from_stage"))
+    claim_from = _normalize_stage(policy.get("require_consistent_claim_from_stage"))
+    for problem in sorted(required):
+        rec = by_problem.get(problem)
+        if rec is None or rec.stage not in STAGE_ORDER:
+            continue
+        if calibration_from and _stage_meets_threshold(rec.stage, calibration_from) and rec.calibration_status != "current":
+            violations.append(
+                f"{problem}: Stage {rec.stage} needs a current calibration ensemble ({rec.calibration_status})"
+            )
+        if claim_from and _stage_meets_threshold(rec.stage, claim_from) and rec.claim_category_status != "consistent":
+            violations.append(
+                f"{problem}: Stage {rec.stage} needs a consistent claim contract ({rec.claim_category_status})"
+            )
+
     advisory_gaps: List[str] = []
     advisory_total = 0
     advisory_met = 0
@@ -467,6 +534,8 @@ def evaluate_policy(
         "minimum_stage": min_stage,
         "per_problem_minimum_stage": per_problem_min_stage,
         "advisory_target_stage": advisory_target_stage,
+        "require_current_calibration_from_stage": calibration_from,
+        "require_consistent_claim_from_stage": claim_from,
     }
     advisory_stats = {
         "total": advisory_total,

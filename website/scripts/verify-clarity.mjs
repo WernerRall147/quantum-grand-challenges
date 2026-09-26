@@ -146,6 +146,10 @@ check('DEMO MODE is tagged when the backend call fails',
   demoSets.get('qgc_demo_mode') === 'true', `got ${JSON.stringify(demoSets.get('qgc_demo_mode'))}`);
 check('a DEMO MODE event is recorded', demoEvents.includes('qgc_demo_mode'),
   `events: ${JSON.stringify(demoEvents)}`);
+check('an aborted request is tagged as a network failure',
+  demoSets.get('qgc_failure_kind') === 'network', `got ${JSON.stringify(demoSets.get('qgc_failure_kind'))}`);
+check('the failure is announced, not dressed up as a result',
+  await page.getByRole('alert').filter({ hasText: 'did not return a result' }).count() === 1);
 
 check('no uncaught page errors', pageErrors.length === 0, pageErrors.join('; '));
 

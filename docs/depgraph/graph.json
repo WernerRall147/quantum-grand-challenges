@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1262,
-    "code_files": 289,
-    "python": 222,
-    "qsharp": 53,
-    "ts": 14,
-    "edges": 224,
-    "roots": 276,
-    "reachable": 312
+    "tracked": 1279,
+    "code_files": 305,
+    "python": 235,
+    "qsharp": 55,
+    "ts": 15,
+    "edges": 236,
+    "roots": 286,
+    "reachable": 326
   },
   "nodes": [
     "agents/api/main.py",
@@ -18,8 +18,12 @@
     "agents/classifier/platform_router.py",
     "agents/code_generator/architecture.py",
     "agents/code_generator/bicep_generator.py",
+    "agents/code_generator/compiler_hints.py",
+    "agents/code_generator/exemplars/QPE.qs",
+    "agents/code_generator/exemplars/Shor.qs",
     "agents/code_generator/generate.py",
     "agents/code_generator/stdlib_index.py",
+    "agents/evaluations/run_codegen_eval.py",
     "agents/evaluations/run_eval.py",
     "agents/evaluations/run_foundry_eval.py",
     "agents/evaluations/score_narrative.py",
@@ -33,8 +37,11 @@
     "agents/tests/test_algorithm_index_validation.py",
     "agents/tests/test_bicep_generator.py",
     "agents/tests/test_codegen_deployment.py",
+    "agents/tests/test_codegen_eval.py",
+    "agents/tests/test_codegen_exemplars.py",
     "agents/tests/test_codegen_retry.py",
     "agents/tests/test_codegen_syntax_rules.py",
+    "agents/tests/test_codegen_threads.py",
     "agents/tests/test_container_contents.py",
     "agents/tests/test_corpus_decidability.py",
     "agents/tests/test_cost_model.py",
@@ -211,6 +218,7 @@
     "tooling/azure/submit_job_auto.py",
     "tooling/azure/validate_azure_cli.py",
     "tooling/azure/validate_azure_env.py",
+    "tooling/azure/website_run_history.py",
     "tooling/azure/write_smoke_report.py",
     "tooling/azure_submit_kernels.py",
     "tooling/check_algorithm_index_drift.py",
@@ -225,6 +233,7 @@
     "tooling/estimator/run_real_estimation.py",
     "tooling/estimator_config.py",
     "tooling/eval_paper_classifier.py",
+    "tooling/evidence_hashes.py",
     "tooling/expand_algorithm_zoo.py",
     "tooling/extract_readmes.py",
     "tooling/fetch_azure_job.py",
@@ -258,20 +267,26 @@
     "tooling/submit_all_syntax_check.py",
     "tooling/submit_hardware_kernels.py",
     "tooling/submit_one_kernel.py",
+    "tooling/test_advantage_claims.py",
     "tooling/test_all_qsharp.py",
     "tooling/test_architecture_claims.py",
     "tooling/test_citation_claims.py",
     "tooling/test_doc_claims.py",
     "tooling/test_estimate_provenance.py",
+    "tooling/test_exciton_walk.py",
     "tooling/test_grover_run_evidence.py",
     "tooling/test_qdk_samples_provenance.py",
+    "tooling/test_qpe_kernels.py",
     "tooling/test_qsharp_validation.py",
     "tooling/test_script_claims.py",
+    "tooling/test_shor_kernel.py",
+    "tooling/test_stage_evidence.py",
     "tooling/test_submit_one_kernel.py",
     "tooling/test_uptime_cadence_claims.py",
     "tooling/test_verify_demo_prompts_codegen.py",
     "tooling/test_viz_publication.py",
     "tooling/test_website_claims.py",
+    "tooling/test_website_run_history.py",
     "tooling/trace_circuits.py",
     "tooling/validate_algorithm_index.py",
     "tooling/vendor_qdk_samples.py",
@@ -290,6 +305,7 @@
     "website/components/MermaidDiagram.tsx",
     "website/data/projectStatus.ts",
     "website/lib/clarity.ts",
+    "website/lib/evaluatorRequest.ts",
     "website/next-env.d.ts",
     "website/pages/404.tsx",
     "website/pages/_app.tsx",
@@ -448,11 +464,19 @@
     ],
     [
       "agents/code_generator/generate.py",
+      "agents/code_generator/compiler_hints.py"
+    ],
+    [
+      "agents/code_generator/generate.py",
       "agents/code_generator/stdlib_index.py"
     ],
     [
       "agents/code_generator/generate.py",
       "agents/observability/trace.py"
+    ],
+    [
+      "agents/evaluations/run_codegen_eval.py",
+      "agents/code_generator/generate.py"
     ],
     [
       "agents/evaluations/run_eval.py",
@@ -531,11 +555,27 @@
       "agents/code_generator/bicep_generator.py"
     ],
     [
+      "agents/tests/test_codegen_eval.py",
+      "agents/evaluations/run_codegen_eval.py"
+    ],
+    [
+      "agents/tests/test_codegen_exemplars.py",
+      "agents/code_generator/compiler_hints.py"
+    ],
+    [
+      "agents/tests/test_codegen_exemplars.py",
+      "agents/code_generator/generate.py"
+    ],
+    [
       "agents/tests/test_codegen_retry.py",
       "agents/code_generator/generate.py"
     ],
     [
       "agents/tests/test_codegen_syntax_rules.py",
+      "agents/code_generator/generate.py"
+    ],
+    [
+      "agents/tests/test_codegen_threads.py",
       "agents/code_generator/generate.py"
     ],
     [
@@ -605,6 +645,10 @@
     [
       "agents/tests/test_verdict_evaluator.py",
       "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/tests/test_verdict_evaluator.py",
+      "agents/evaluations/run_eval.py"
     ],
     [
       "agents/tests/test_verdict_evaluator.py",
@@ -979,6 +1023,10 @@
       "tooling/azure/azure_env.py"
     ],
     [
+      "tooling/azure/collect_job.py",
+      "tooling/azure/website_run_history.py"
+    ],
+    [
       "tooling/azure/submit_job_auto.py",
       "tooling/azure/azure_env.py"
     ],
@@ -1001,6 +1049,10 @@
     [
       "tooling/generate_calibration_ensemble.py",
       "tooling/estimator_config.py"
+    ],
+    [
+      "tooling/generate_calibration_ensemble.py",
+      "tooling/evidence_hashes.py"
     ],
     [
       "tooling/generate_estimates.py",
@@ -1053,6 +1105,14 @@
     [
       "tooling/test_qdk_samples_provenance.py",
       "agents/code_generator/generate.py"
+    ],
+    [
+      "tooling/test_shor_kernel.py",
+      "tooling/estimator_config.py"
+    ],
+    [
+      "tooling/test_stage_evidence.py",
+      "tooling/evidence_hashes.py"
     ],
     [
       "tooling/test_submit_one_kernel.py",
@@ -1145,6 +1205,10 @@
     [
       "website/pages/evaluate.tsx",
       "website/lib/clarity.ts"
+    ],
+    [
+      "website/pages/evaluate.tsx",
+      "website/lib/evaluatorRequest.ts"
     ],
     [
       "website/pages/evaluate.tsx",

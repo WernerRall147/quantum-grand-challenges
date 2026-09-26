@@ -82,6 +82,11 @@ jobs:
           python -c "from qdk import qsharp; qsharp.init(project_root='problems/archived/03_qae_risk/qsharp'); print('QAE Q# OK')"
       - name: Evaluator smoke tests
         run: pytest agents/tests -v --tb=short
+      - name: Claim, evidence and visualisation guards
+        # tooling/ and viz/ hold the checks that keep the docs and the paper honest: stage
+        # counts, citations, estimate provenance, QPE correctness, run history. No step ran
+        # them, so a failing guard failed only on the machine of whoever thought to run it.
+        run: pytest tooling viz --tb=short -q
       - name: Router evaluation (offline, cached KB matches)
         run: python agents/evaluations/run_eval.py --offline
       - name: Narrative evaluation (offline, recorded model responses)
@@ -94,30 +99,3 @@ jobs:
           python tooling/reporting/check_verification_matrix_freshness.py || echo "::warning::Verification matrix stale  see the nightly job for the authoritative refresh"
           python tooling/reporting/validate_website_data_schema.py
           python tooling/reporting/check_homepage_stats.py
-  quick-estimation:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-est-${{ runner.os }}
-          restore-keys: pip-ci-${{ runner.os }}-
-      - name: Install dependencies
-        run: pip install numpy scipy jsonschema pyyaml
-      - name: Validate estimation schemas
-        run: |
-          for f in problems/*/estimates/*.json problems/archived/*/estimates/*.json; do
-            [ -f "$f" ] && python -c "
-          import json, jsonschema
-          schema = json.load(open('tooling/schema/result.json'))
-          jsonschema.validate(json.load(open('$f')), schema)
-          print('OK: $f')
-          " || true
-          done

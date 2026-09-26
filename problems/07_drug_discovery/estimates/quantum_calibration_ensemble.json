@@ -1,118 +1,123 @@
 {
   "problem_id": "07_drug_discovery",
-  "description": "VQE molecular binding energy",
-  "entry_point": "Main.EstimateBindingEnergy(1.0, 0.5, 0.3, 50)",
-  "generated_utc": "2026-04-12T13:53:41.479452Z",
+  "description": "QPE ground-state energy of the illustrative binding Hamiltonian, 8 phase bits, mode of 8 runs",
+  "entry_point": "Main.BindingQPE(8, 8)",
+  "generated_utc": "2026-09-25T11:40:37.788339Z",
+  "sources": {
+    "problems/07_drug_discovery/qsharp/HardwareKernel.qs": "f2cbc1f0ba1f244ddef4cf2df40ecb863192c05560a13d68979874bd33dacc96",
+    "problems/07_drug_discovery/qsharp/qsharp.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "problems/07_drug_discovery/qsharp/src/Main.qs": "041775109c349fba2925133352320ac35275432f3b7065c398285191ec5d47c5"
+  },
   "statistics": {
     "num_runs": 20,
-    "mean_elapsed_s": 0.0022,
-    "std_elapsed_s": 0.0017,
-    "mean_value": -0.8632,
-    "std_value": 0.031461,
-    "ci95_half_width": 0.013788,
-    "ci95_lower": -0.876988,
-    "ci95_upper": -0.849412
+    "mean_elapsed_s": 0.7791,
+    "std_elapsed_s": 0.0613,
+    "mean_value": -1.026188,
+    "std_value": 0.004282,
+    "ci95_half_width": 0.001877,
+    "ci95_lower": -1.028064,
+    "ci95_upper": -1.024311
   },
   "runs": [
     {
       "run": 1,
-      "raw_result": "[-0.8328]",
-      "elapsed_s": 0.005
+      "raw_result": "[-1.01875]",
+      "elapsed_s": 0.6609
     },
     {
       "run": 2,
-      "raw_result": "[-0.9016]",
-      "elapsed_s": 0.0
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.8254
     },
     {
       "run": 3,
-      "raw_result": "[-0.8144]",
-      "elapsed_s": 0.0
+      "raw_result": "[-1.01875]",
+      "elapsed_s": 0.7284
     },
     {
       "run": 4,
-      "raw_result": "[-0.9136000000000001]",
-      "elapsed_s": 0.0048
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.6595
     },
     {
       "run": 5,
-      "raw_result": "[-0.8664000000000001]",
-      "elapsed_s": 0.0036
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.7475
     },
     {
       "run": 6,
-      "raw_result": "[-0.8712]",
-      "elapsed_s": 0.0019
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.8137
     },
     {
       "run": 7,
-      "raw_result": "[-0.8584]",
-      "elapsed_s": 0.0
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.7182
     },
     {
       "run": 8,
-      "raw_result": "[-0.8056]",
-      "elapsed_s": 0.0
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.7622
     },
     {
       "run": 9,
-      "raw_result": "[-0.8608]",
-      "elapsed_s": 0.005
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.8057
     },
     {
       "run": 10,
-      "raw_result": "[-0.8583999999999999]",
-      "elapsed_s": 0.0
+      "raw_result": "[-1.0362500000000001]",
+      "elapsed_s": 0.8316
     },
     {
       "run": 11,
-      "raw_result": "[-0.8576]",
-      "elapsed_s": 0.0045
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.8007
     },
     {
       "run": 12,
-      "raw_result": "[-0.8664000000000001]",
-      "elapsed_s": 0.0021
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.8673
     },
     {
       "run": 13,
-      "raw_result": "[-0.8664]",
-      "elapsed_s": 0.0022
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.7981
     },
     {
       "run": 14,
-      "raw_result": "[-0.8496]",
-      "elapsed_s": 0.0021
+      "raw_result": "[-1.01875]",
+      "elapsed_s": 0.8528
     },
     {
       "run": 15,
-      "raw_result": "[-0.8792]",
-      "elapsed_s": 0.0025
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.89
     },
     {
       "run": 16,
-      "raw_result": "[-0.8575999999999999]",
-      "elapsed_s": 0.0021
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.7785
     },
     {
       "run": 17,
-      "raw_result": "[-0.8568000000000001]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.01875]",
+      "elapsed_s": 0.7694
     },
     {
       "run": 18,
-      "raw_result": "[-0.9208]",
-      "elapsed_s": 0.001
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.7373
     },
     {
       "run": 19,
-      "raw_result": "[-0.9088]",
-      "elapsed_s": 0.0031
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.7812
     },
     {
       "run": 20,
-      "raw_result": "[-0.8176]",
-      "elapsed_s": 0.002
+      "raw_result": "[-1.0275]",
+      "elapsed_s": 0.7535
     }
   ]
 }

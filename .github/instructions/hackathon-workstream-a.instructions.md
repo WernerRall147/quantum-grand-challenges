@@ -42,8 +42,9 @@ Both new guards were watched failing - mock provenance set on the surviving esti
 a stray `latest.json` dropped back into `estimates/` - before being trusted.
 
 Deliberately **not** "every problem must report a different budget", which #255 proposed.
-`02_catalysis`, `07_drug_discovery` and `17_nuclear_physics` genuinely coincide at
-12 logical / 57,764 physical because they share one VQE-shaped ansatz, so a distinctness
+`02_catalysis` and `07_drug_discovery` genuinely coincide at
+35 logical / 423,055 physical: both are two-qubit QPE instances whose fewest-qubit
+configurations share one layout at code distance 25 and differ only in runtime, so a distinctness
 rule would fail on true data. A check with known false positives is one people learn to
 ignore.
 

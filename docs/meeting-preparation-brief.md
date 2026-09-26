@@ -1,5 +1,25 @@
 # Quantum Grand Challenges  Meeting Preparation Brief
 
+> **Historical record, prepared for a meeting in early April 2026.** The text below is
+> kept as written. Several of its figures are superseded or were misread; the README and
+> `docs/paper/methodology-paper.md` describe the project as it is now. In particular:
+>
+> - **594,000 physical qubits for QAE** came from the retired `qsharp.estimate` API for an
+>   earlier program. The QAE kernel now estimates at 369,400 (Quantum Resource Estimator
+>   v3, qdk 1.31.0); 594,980 is the Hubbard QPE estimate.
+> - **QAE as the case for fault tolerance.** QAE was archived later in April 2026 because
+>   its quadratic speedup does not survive error-correction overhead. By the same
+>   screening, the case for fault-tolerant machines rests on superpolynomial speedups
+>   such as simulation and factoring, not on QAE.
+> - **"Grover at 4 qubits: 96% to 6% at 1% error."** In the analytic model of paper
+>   Section 7.3.1, 6.3% is the success rate at 1% single-qubit and 10% two-qubit error;
+>   at 1% two-qubit error it is 47.1%. The H2-1E emulator returned the marked item in 80
+>   of 100 shots.
+> - **Validation.** Circuits were checked with the H2-1SC syntax checker and run on
+>   emulators, not on quantum hardware. The project has since moved to the modern QDK
+>   (qsharp 1.31.0) with real resource estimates, covers ten algorithm families, and has
+>   valid calibration ensembles for all 20 problems.
+
 ## 1. Deep Dive: QAE Risk Analysis (Problem 03  Most Mature)
 
 ### The Problem

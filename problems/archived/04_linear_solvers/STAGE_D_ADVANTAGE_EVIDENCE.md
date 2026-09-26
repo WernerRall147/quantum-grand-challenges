@@ -1,48 +1,41 @@
 # Stage D Advantage Evidence Package - 04_linear_solvers
 
-## Scope And Claim Boundary
+## Scope and claim boundary
 
-- Problem: Quantum linear-system solving with HHL-style workflow on small Poisson-like instances.
+- Problem: quantum linear-system solving with a corrected 2x2 HHL workflow.
 - Current claim category: `theoretical`.
-- Claim boundary: Algorithmic and estimator-based resource expectations only.
-- Non-claim boundary: No production-hardware demonstrated wall-clock advantage is claimed.
+- Claim boundary: algorithmic correctness for the toy circuit and classical baseline only.
+- Non-claim boundary: no production-hardware wall-clock advantage is claimed.
 
-## Baseline Fairness Review
+## Baseline fairness review
 
 - Classical comparator: `python/classical_baseline.py` with outputs in `estimates/classical_baseline.json`.
-- Quantum comparator: HHL implementation in `qsharp/Program.qs` with current resource/readiness reporting in README and summary docs.
-- Fairness status: objective alignment is defined for small instances; Stage D promotion remains blocked pending calibrated uncertainty and backend evidence.
+- Quantum comparator: corrected HHL implementation in `qsharp/src/Main.qs` and `qsharp/HardwareKernel.qs`.
+- Fairness status: objective alignment is defined for the small toy circuit. Stage D promotion remains blocked pending regenerated estimates, calibrated uncertainty and backend evidence.
 
-## Uncertainty Methodology
+## Uncertainty methodology
 
-- Current state: deterministic classical residual/condition diagnostics are available.
-- Gap: shot-based uncertainty bounds and confidence intervals for quantum output fidelity are not yet persisted as Stage D artifacts.
-- Required progression: add uncertainty-bounded comparisons across at least `small` and `medium` instances.
+- Current state: `tooling/test_hhl_kernel.py` checks exact state-vector behavior and sampling tolerances for the corrected circuit.
+- Gap: shot-based uncertainty bounds for problem instances beyond the toy circuit are not persisted as Stage D artifacts.
+- Required progression: add uncertainty-bounded comparisons across at least `small` and `medium` instances after the estimator pipeline is regenerated.
 
-## Backend And Deployment Assumptions
+## Backend and deployment assumptions
 
-- Azure submit/collect contract artifacts currently available:
-  - `estimates/azure_job_manifest_small_d1.json`
-  - `estimates/azure_smoke_report_small_d1.json`
-  - `estimates/azure_smoke_report_small_d1.md`
-- Assumption boundary: smoke artifacts validate execution plumbing only and do not establish production performance claims.
+- Existing smoke artifacts validate old execution plumbing only.
+- Existing `latest_*.json` estimator artifacts are mock data and are superseded for the corrected circuit.
+- Backend-calibrated coherence, routing and readout characterization are not yet complete.
 
-## Residual Limitations
-
-- Backend-calibrated coherence/readout characterization is not yet complete.
-- Calibration/noise sensitivity evidence tied to HHL result quality is not yet locked.
-- State-preparation, oracle, and transpilation overhead for larger systems may dominate any projected advantage.
-
-## Current Generated Stage D Artifacts
+## Current generated Stage D artifacts
 
 - `estimates/classical_baseline.json`
 - `estimates/azure_job_manifest_small_d1.json`
 - `estimates/azure_smoke_report_small_d1.json`
 - `estimates/azure_smoke_report_small_d1.md`
 
-## Stage D Checklist
+## Stage D checklist
 
+- [ ] Regenerate resource estimates for the corrected HHL circuit.
 - [ ] Add uncertainty-bounded quantum-vs-classical comparisons on at least `small` and `medium` instances.
-- [ ] Add backend readout/reliability characterization artifact for at least one measured target.
-- [ ] Add calibration/noise sensitivity artifact linked to reported HHL metrics and claim boundaries.
-- [ ] Re-run readiness audit with zero open checklist items and zero artifact quality issues before promotion to blocking gate scope.
+- [ ] Add backend readout and reliability characterization for at least one measured target.
+- [ ] Add calibration and noise-sensitivity artifacts linked to reported HHL metrics and claim boundaries.
+- [ ] Re-run readiness audit before promotion to blocking gate scope.

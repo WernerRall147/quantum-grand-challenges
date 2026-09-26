@@ -1,8 +1,7 @@
 # HHL Diffusion Estimator Summary
 
-Auto-generated from the archived per-target artifacts in `estimates/`.
+Updated 2026-09-27.
 
-| Instance | Target | Logical Qubits | Physical Qubits | T Count | Runtime (s) | Source |
-|---|---|---:|---:|---:|---:|---|
-| not instance-specific | surface_code_generic_v1 | 16 | 19,200 | 65,536 | 480.00 | `13_climate_modeling/estimates/surface_code_generic_v1_2026-03-24T172245.773520Z.json` |
-| not instance-specific | qubit_gate_ns_e3 | 16 | 35,200 | 65,536 | 480.00 | `13_climate_modeling/estimates/qubit_gate_ns_e3_2026-03-24T172245.824460Z.json` |
+The archived `latest_*.json` estimator files in this directory are mock artifacts from the previous pipeline. They are superseded for the corrected HHL circuit in `qsharp/src/Main.qs` and `qsharp/HardwareKernel.qs`. Do not use their logical-qubit, physical-qubit, T-count or runtime values as estimates of the corrected implementation.
+
+Regenerate this summary after the shared estimator pipeline is run on the corrected circuit.

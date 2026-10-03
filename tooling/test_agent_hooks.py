@@ -135,6 +135,10 @@ DENY = [
     "gh workflow run deploy-evaluator-api.yml",
     'gh workflow run "Deploy Website"',
     "gh api -X POST repos/WernerRall147/quantum-grand-challenges/actions/workflows/deploy-website.yml/dispatches -f ref=main",
+    # Ninth review round: the gates' own configuration and the dev container's setup.
+    "rm .github/hooks/agent-gates.json",
+    "rm -rf .github/hooks",
+    "rm .devcontainer/setup.sh",
 ]
 
 ALLOW = [
@@ -242,6 +246,8 @@ def test_a_bare_push_is_judged_by_the_repositorys_push_settings(repo_on_main: Pa
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))
     subprocess.run([*git, "config", "remote.origin.push", "refs/heads/*:refs/heads/*"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), "a glob that matches main"
+    subprocess.run([*git, "config", "remote.origin.push", "+refs/heads/feature:refs/heads/feature"], check=True, env=env)
+    assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), "a stored force refspec"
     subprocess.run([*git, "config", "--unset", "remote.origin.push"], check=True, env=env)
     subprocess.run([*git, "config", "push.default", "matching"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))

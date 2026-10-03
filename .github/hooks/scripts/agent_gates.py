@@ -90,6 +90,10 @@ ARTIFACTS = [re.compile(p, re.I) for p in (
     r"\.pdf$",
     r"(^|/)hardwarekernel\.qs$",
     r"(^|/)\.git(/|$)",
+    # Runtime entry points the dependency map cannot see, because they are not code: the hook
+    # configuration that switches these gates on, and the dev container's setup.
+    r"(^|/)\.github/hooks(/|$)",
+    r"(^|/)\.devcontainer(/|$)",
 )]
 # Paths a wildcard argument is tested against, so `rm -rf problems/*` is caught too.
 ARTIFACT_EXAMPLES = (
@@ -97,6 +101,7 @@ ARTIFACT_EXAMPLES = (
     "docs/paper/methodology-paper.md", "knowledge/Papers", "CITATION.cff", "paper.pdf",
     "problems/01_hubbard/qsharp/HardwareKernel.qs", "problems/01_hubbard/instances/small.yaml",
     "problems/01_hubbard/estimates/classical_baseline.json", "website/data/x.json", ".git",
+    ".github/hooks/agent-gates.json", ".devcontainer/setup.sh",
 )
 DANGER = "danger list (docs/initiatives/repo-cleanup.md): deleting this needs an explicit human OK"
 DELETE_VERBS = {"rm", "rmdir", "del", "erase", "rd", "remove-item", "ri", "unlink", "shred"}
@@ -406,6 +411,9 @@ def push_problem(args: list[str], cwd: str, config: dict[str, str] | None = None
         configured = git_config(cwd, f"remote.{remote}.push")
         mode = (git_config(cwd, "push.default") or ["simple"])[-1]
         upstream = git_config(cwd, f"branch.{branch}.merge") if mode in ("upstream", "tracking") else []
+        if any(ref.startswith("+") for ref in configured):
+            return ("a stored push refspec starting with + force-pushes; push an explicit branch "
+                    "without it")
         if any(pushes_main(ref, branch) for ref in configured + upstream) \
                 or mode == "matching" \
                 or "true" in git_config(cwd, f"remote.{remote}.mirror"):

@@ -106,6 +106,9 @@ POWERSHELLS = {"pwsh", "pwsh.exe", "powershell", "powershell.exe"}
 INLINE_FLAGS = {"-c", "-lc", "-ic", "-Command", "-command", "/c", "/C"}
 SUBSTITUTION = re.compile(r"\$\(([^()]*)\)|`([^`]*)`")
 PY_DELETE = re.compile(r"rmtree\(|os\.remove\(|os\.unlink\(|\.unlink\(|os\.rmdir\(")
+# Only a segment that starts Python can delete through Python; a commit message or a grep that
+# mentions os.remove( deletes nothing.
+PYTHON = re.compile(r"(python[\d.]*|py|pypy3?)(\.exe)?")
 PATH_LIKE = re.compile(r"[\w./\\:-]+")
 GIT_GLOBAL_WITH_VALUE = {"-C", "-c", "--git-dir", "--work-tree", "--namespace", "--exec-path"}
 SHORT_FORCE = re.compile(r"-[a-zA-Z]*f[a-zA-Z]*")
@@ -202,7 +205,7 @@ def deletion_targets(segment: str, toks: list[str]) -> list[str]:
     names = verbs(toks)
     if names & DELETE_VERBS or ("find" in names and ("-delete" in toks or "rm" in toks)):
         return toks[1:] + segment.split()[1:]
-    if PY_DELETE.search(segment):
+    if any(PYTHON.fullmatch(name) for name in names) and PY_DELETE.search(segment):
         return PATH_LIKE.findall(segment)
     return []
 
@@ -387,9 +390,6 @@ def deny_reason(command: str, cwd: str | Path | None, protects: Protected | None
     protects = protects or Protected(str(here or os.getcwd()))
     if depth > 4:
         return None
-    # Python code passed with -c contains `;` and quotes; check it whole before splitting.
-    if PY_DELETE.search(command) and any(protects(p, here) for p in PATH_LIKE.findall(command)):
-        return DANGER
     for segment in segments(command):
         toks = tokens(segment)
         if not toks:

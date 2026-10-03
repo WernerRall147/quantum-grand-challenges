@@ -113,6 +113,7 @@ DENY = [
     # Third review round: the remote given as an option.
     "git push --repo=origin main",
     "git push --repo origin main",
+    'bash -c "python3 -c \\"import shutil; shutil.rmtree(\'docs/paper\')\\""',
 ]
 
 ALLOW = [
@@ -148,6 +149,9 @@ ALLOW = [
     "sudo apt-get install -y jq",
     "cd /tmp && rm -rf build",
     "git push --repo=origin feature",
+    # Fourth review round: mentioning a Python deletion API is not deleting.
+    "git commit -m \"Document os.remove('docs/paper/file.md') behavior\"",
+    'grep -rn "shutil.rmtree(" tooling',
 ]
 
 

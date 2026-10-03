@@ -1,7 +1,17 @@
 import json
+from argparse import Namespace
 from pathlib import Path
+import sys
 
-from analyze import QAERiskAnalyzer
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    import analyze as analyze_module
+finally:
+    sys.path.pop(0)
+
+QAERiskAnalyzer = analyze_module.QAERiskAnalyzer
 
 
 class _Completed:
@@ -47,19 +57,28 @@ Relative error: 3,3937657715097083%
 Monte Carlo (10000 samples): 0,18977381200856933 ± 0,0039212206299098435
 """.strip()
 
-    calls = {"count": 0}
+    quantum_events = [{"messages": quantum_stdout.splitlines()}]
+    calls = {"init": None, "run": None}
+
+    def _fake_init(**kwargs):
+        calls["init"] = kwargs
 
     def _fake_run(*args, **kwargs):
-        calls["count"] += 1
-        if calls["count"] == 1:
-            return _Completed(stdout="build ok", stderr="")
-        return _Completed(stdout=quantum_stdout, stderr="")
+        calls["run"] = (args, kwargs)
+        return quantum_events
 
-    monkeypatch.setattr("subprocess.run", _fake_run)
+    monkeypatch.setattr(analyze_module.qsharp, "init", _fake_init)
+    monkeypatch.setattr(analyze_module.qsharp, "run", _fake_run)
+    monkeypatch.setattr("subprocess.run", lambda *args, **kwargs: _Completed())
 
     analyzer = QAERiskAnalyzer(problem_dir=str(problem_dir), show_plots=False)
     payload = analyzer.run_quantum_estimation(skip_build=False)
 
+    assert calls["init"] == {"project_root": str(qsharp_dir)}
+    assert calls["run"] == (
+        ("Main.RunQAERiskAnalysis()",),
+        {"shots": 1, "save_events": True},
+    )
     assert payload is not None
     metrics = payload["metrics"]
     params = payload["instance"]["parameters"]
@@ -74,10 +93,75 @@ Monte Carlo (10000 samples): 0,18977381200856933 ± 0,0039212206299098435
     assert abs(metrics["quantum_estimate"] - 0.18333333333333332) < 1e-12
     assert abs(metrics["quantum_std_error"] - 0.035322587464470735) < 1e-12
     assert abs(metrics["analytic_probability"] - 0.18977381200856933) < 1e-12
-    assert metrics["logical_qubits"] == 7
+    assert metrics["logical_qubits"] == 11
     assert metrics["t_count"] == 2880
 
     assert payload["histogram_counts"] == {0: 98, 32: 22}
 
     saved = json.loads((estimates_dir / "quantum_estimate.json").read_text(encoding="utf-8"))
     assert saved["estimator_target"] == "TailRisk > 2.5"
+
+
+def test_main_exits_without_generating_outputs_when_qsharp_fails(
+    monkeypatch,
+    tmp_path: Path,
+    capsys,
+):
+    (tmp_path / "qsharp").mkdir()
+    (tmp_path / "python").mkdir()
+    original_analyzer = QAERiskAnalyzer
+    monkeypatch.setattr(
+        analyze_module,
+        "QAERiskAnalyzer",
+        lambda **kwargs: original_analyzer(problem_dir=str(tmp_path), **kwargs),
+    )
+    monkeypatch.setattr("subprocess.run", lambda *args, **kwargs: _Completed())
+    monkeypatch.setattr(analyze_module.qsharp, "init", lambda **kwargs: None)
+
+    def _fail_run(*args, **kwargs):
+        raise RuntimeError("simulator failed")
+
+    monkeypatch.setattr(analyze_module.qsharp, "run", _fail_run)
+    args = Namespace(
+        show_plots=False,
+        build_timeout_seconds=180,
+        run_timeout_seconds=180,
+        instance_file=str(tmp_path / "missing.yaml"),
+        loss_qubits=None,
+        threshold=None,
+        mean=None,
+        std_dev=None,
+        precision_bits=None,
+        repetitions=None,
+        run_sanity_check=None,
+        ensemble_runs=1,
+        skip_build=False,
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        analyze_module.main(args)
+
+    assert "Failed to run Q# estimation: simulator failed" in capsys.readouterr().err
+    assert exc_info.value.code != 0
+    assert not (tmp_path / "plots" / "analysis_report.md").exists()
+    assert not list((tmp_path / "estimates").glob("quantum*.json"))
+
+
+def test_legacy_execution_flags_still_parse(monkeypatch):
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "analyze.py",
+            "--skip-build",
+            "--build-timeout-seconds",
+            "12",
+            "--run-timeout-seconds",
+            "34",
+        ],
+    )
+
+    args = analyze_module.parse_args()
+
+    assert args.skip_build is True
+    assert args.build_timeout_seconds == 12
+    assert args.run_timeout_seconds == 34

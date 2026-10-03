@@ -64,8 +64,8 @@ jobs:
         run: python tooling/run_all_qsharp.py
       - name: Validate JSON schemas
         run: python tooling/ci_validate_schema.py
-      - name: Run pytest baseline tests
-        run: pytest test_baselines.py --tb=short -q
+      - name: Run pytest baseline and QAE risk tests
+        run: pytest test_baselines.py problems/archived/03_qae_risk/python/test_analyze_parser.py --tb=short -q
       - name: Enforce maturity contract
         run: python tooling/reporting/stage_kpis.py --policy tooling/reporting/maturity-policy.json --enforce
       - name: QAOA estimator smoke

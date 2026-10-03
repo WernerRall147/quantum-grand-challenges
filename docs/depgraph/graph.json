@@ -6,7 +6,7 @@
     "python": 248,
     "qsharp": 55,
     "ts": 15,
-    "edges": 245,
+    "edges": 246,
     "roots": 303,
     "reachable": 342
   },
@@ -342,6 +342,10 @@
     [
       ".github/workflows/ci-cd.yml",
       "agents/evaluations/score_narrative.py"
+    ],
+    [
+      ".github/workflows/ci-cd.yml",
+      "problems/archived/03_qae_risk/python/test_analyze_parser.py"
     ],
     [
       ".github/workflows/ci-cd.yml",

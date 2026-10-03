@@ -123,6 +123,17 @@ DENY = [
     # Sixth review round: push settings overridden on the command line.
     "git -c remote.origin.push=refs/heads/main push origin",
     "git -c push.default=matching push",
+    # Seventh review round: grouped commands, reachable code, wildcard refspecs.
+    "(cd docs && rm -rf paper)",
+    "{ cd docs; rm -rf paper; }",
+    "Remove-Item (Resolve-Path docs/paper)",
+    "rm agents/classifier/cost_model.py",
+    "git push origin 'refs/heads/*:refs/heads/*'",
+    # The human gates in AGENTS.md: a person merges, and merges trigger deploys.
+    "gh pr merge 278 --merge",
+    "gh api -X PUT repos/WernerRall147/quantum-grand-challenges/pulls/278/merge",
+    "gh workflow run deploy-evaluator-api.yml",
+    'gh workflow run "Deploy Website"',
 ]
 
 ALLOW = [
@@ -161,6 +172,10 @@ ALLOW = [
     # Fourth review round: mentioning a Python deletion API is not deleting.
     "git commit -m \"Document os.remove('docs/paper/file.md') behavior\"",
     'grep -rn "shutil.rmtree(" tooling',
+    "gh pr view 278",
+    "gh pr checks 278",
+    "gh run list --workflow deploy-evaluator-api.yml",
+    "gh workflow run copilot-setup-steps.yml",
 ]
 
 
@@ -224,6 +239,8 @@ def test_a_bare_push_is_judged_by_the_repositorys_push_settings(repo_on_main: Pa
     assert run("pre-tool", payload, cwd=repo_on_main, env=env) is None
     subprocess.run([*git, "config", "remote.origin.push", "refs/heads/main:refs/heads/main"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))
+    subprocess.run([*git, "config", "remote.origin.push", "refs/heads/*:refs/heads/*"], check=True, env=env)
+    assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), "a glob that matches main"
     subprocess.run([*git, "config", "--unset", "remote.origin.push"], check=True, env=env)
     subprocess.run([*git, "config", "push.default", "matching"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))

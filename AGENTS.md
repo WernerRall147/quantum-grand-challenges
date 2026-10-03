@@ -84,14 +84,16 @@ Measured on a developer laptop; CI runners have been somewhat faster.
    `HardwareKernel.qs`, anything a Makefile, workflow, Dockerfile, pytest or npm script runs,
    `docs/paper/`, PDFs, `CITATION.cff`, problem instances, and `problems/archived/`. The full list
    is in `docs/initiatives/repo-cleanup.md`; consult `docs/depgraph/cleanup-candidates.json` first.
-   `.github/hooks/agent-gates.json` denies deleting them, reading the entry points from
-   `docs/depgraph/entry-points.json`.
+   `.github/hooks/agent-gates.json` denies deleting them, reading the entry points, and the code
+   they reach, from `docs/depgraph/`.
 6. **Leave other people's work alone.** Stage only the files you changed. Never push to `main`
    (it changes only through reviewed pull requests) and never force-push. On a developer's
    machine never run `git clean -f`, `git reset --hard` or a whole-tree checkout or restore.
    `.github/hooks/agent-gates.json` denies these.
 7. **Deploys follow merges, not agents.** Merging to `main` deploys the website and, for files the
-   image ships, the API. Do not run deploy workflows from an agent session. Never commit secrets.
+   image ships, the API. Do not run deploy workflows from an agent session, and do not merge pull
+   requests: a person does. The hook denies `gh pr merge` and dispatching a deploy workflow.
+   Never commit secrets.
 8. **Style.** Plain language, no em dashes, comments only where code needs explaining.
 
 ## Definition of done

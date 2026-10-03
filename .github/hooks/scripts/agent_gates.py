@@ -144,10 +144,13 @@ def segments(command: str) -> list[str]:
 
 
 def tokens(segment: str) -> list[str]:
+    """Words of a segment, with subshell and group punctuation removed: `(cd docs` is `cd docs`."""
     try:
-        return shlex.split(segment, posix=True)
+        words = shlex.split(segment, posix=True)
     except ValueError:
-        return segment.split()
+        words = segment.split()
+    stripped = [word.lstrip("({").rstrip(")}") if word not in ("{}", "()") else word for word in words]
+    return [word for word in stripped if word]
 
 
 def command_verb(toks: list[str]) -> str:
@@ -220,7 +223,7 @@ def substitutions(segment: str) -> list[str]:
 
 
 def normalise(path: str) -> str:
-    path = path.strip().strip("'\"").replace("\\", "/")
+    path = path.strip().strip("'\"").lstrip("({").rstrip(")};").replace("\\", "/")
     while path.startswith("./"):
         path = path[2:]
     return path
@@ -236,18 +239,26 @@ def is_artifact(token: str) -> bool:
 
 
 def map_entry_points(repo: Path) -> set[str]:
-    """Entry points on the danger list, as the dependency map records them."""
-    found = {"agents/api/main.py"}  # the API's routes; build_graph.py roots it specially
+    """Code the danger list protects, as the dependency map records it: every entry point, and
+    everything reachable from one, since deleting reachable code breaks what runs it."""
+    roots = {"agents/api/main.py"}  # the API's routes; build_graph.py roots it specially
     try:
         surfaces = json.loads((repo / "docs" / "depgraph" / "entry-points.json").read_text(encoding="utf-8"))
         graph = json.loads((repo / "docs" / "depgraph" / "graph.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
-        return found
+        return roots
     for files in surfaces.values():
-        found.update(files)
-    runners = {f for key in ("workflows", "makefiles", "dockerfile") for f in surfaces.get(key, [])}
-    found.update(dst for src, dst in graph.get("edges", []) if src in runners)
-    return found
+        roots.update(files)
+    following: dict[str, list[str]] = {}
+    for src, dst in graph.get("edges", []):
+        following.setdefault(src, []).append(dst)
+    reachable, stack = set(roots), list(roots)
+    while stack:
+        for nxt in following.get(stack.pop(), []):
+            if nxt not in reachable:
+                reachable.add(nxt)
+                stack.append(nxt)
+    return reachable
 
 
 class Protected:
@@ -360,6 +371,12 @@ def push_target(ref: str, branch: str) -> str:
     return branch if target in ("HEAD", "@") else target
 
 
+def pushes_main(ref: str, branch: str) -> bool:
+    """Whether a refspec updates main, including through a glob such as refs/heads/*:refs/heads/*."""
+    target = push_target(ref, branch)
+    return any(fnmatch.fnmatchcase(name, target) for name in ("main", "master"))
+
+
 def push_problem(args: list[str], cwd: str, config: dict[str, str] | None = None) -> str | None:
     options = [a for a in args if a.startswith("-")]
     positionals = [a for i, a in enumerate(args)
@@ -387,14 +404,13 @@ def push_problem(args: list[str], cwd: str, config: dict[str, str] | None = None
         # A bare push sends what the repository's push settings say, which can include main.
         remote = repo_option or (positionals[0] if positionals and not has_repo else "origin")
         configured = git_config(cwd, f"remote.{remote}.push")
-        if any(push_target(ref, branch) in ("main", "master") for ref in configured) \
+        if any(pushes_main(ref, branch) for ref in configured) \
                 or "matching" in git_config(cwd, "push.default") \
                 or "true" in git_config(cwd, f"remote.{remote}.mirror"):
             return ("this repository's push settings would send main; push an explicit branch, "
                     "for example `git push origin HEAD:<branch>`")
     for ref in refspecs or ["HEAD"]:
-        target = push_target(ref, branch)
-        if target in ("main", "master"):
+        if pushes_main(ref, branch):
             return "main only changes through a reviewed pull request; push a branch and open a PR"
     return None
 
@@ -455,6 +471,25 @@ def deny_reason(command: str, cwd: str | Path | None, protects: Protected | None
             continue
         if any(protects(t, here) for t in deletion_targets(segment, toks)):
             return DANGER
+        reason = github_problem(toks)
+        if reason:
+            return reason
+    return None
+
+
+DEPLOY_WORKFLOW = re.compile(r"deploy", re.I)
+
+
+def github_problem(toks: list[str]) -> str | None:
+    """The human gates: a person merges, and merges (not agents) trigger deploys."""
+    if "gh" not in verbs(toks) and "gh.exe" not in verbs(toks):
+        return None
+    words = [t for t in toks if not t.startswith("-")]
+    joined = " ".join(words)
+    if re.search(r"\bpr merge\b", joined) or any(re.search(r"pulls/\d+/merge", t) for t in toks):
+        return "a person merges pull requests here; leave it ready for review instead"
+    if re.search(r"\bworkflow run\b", joined) and any(DEPLOY_WORKFLOW.search(t) for t in words):
+        return "deploys follow merges to main, not agent sessions (AGENTS.md, rule 7)"
     return None
 
 

@@ -106,6 +106,8 @@ ARTIFACT_EXAMPLES = (
 )
 DANGER = "danger list (docs/initiatives/repo-cleanup.md): deleting this needs an explicit human OK"
 DELETE_VERBS = {"rm", "rmdir", "del", "erase", "rd", "remove-item", "ri", "unlink", "shred"}
+# Moving a protected path out of place breaks what runs or cites it as surely as deleting it.
+MOVE_VERBS = {"mv", "move", "move-item", "mi"}
 WRAPPERS = {"sudo", "xargs", "env", "command", "nohup", "time", "nice", "exec", "timeout"}
 SHELLS = {"bash", "sh", "zsh", "dash", "ksh", "fish"}
 POWERSHELLS = {"pwsh", "pwsh.exe", "powershell", "powershell.exe"}
@@ -220,9 +222,17 @@ def deletion_targets(segment: str, toks: list[str]) -> list[str]:
     names = verbs(toks)
     if names & DELETE_VERBS or ("find" in names and ("-delete" in toks or "rm" in toks)):
         return toks[1:] + segment.split()[1:]
+    if names & MOVE_VERBS:
+        return move_sources(toks)
     if any(PYTHON.fullmatch(name) for name in names) and PY_DELETE.search(segment):
         return PATH_LIKE.findall(segment)
     return []
+
+
+def move_sources(args: list[str]) -> list[str]:
+    """The paths a move takes away: every operand but the destination (the last)."""
+    operands = [a for a in args[1:] if not a.startswith("-")]
+    return operands[:-1]
 
 
 def substitutions(segment: str) -> list[str]:
@@ -375,8 +385,11 @@ def current_branch(cwd: str) -> str:
 
 
 def in_cloud_agent() -> bool:
-    # Set in the cloud agent's sandbox (hooks reference, "Cloud agent execution environment").
-    return bool(os.environ.get("COPILOT_AGENT_PROMPT") or os.environ.get("GITHUB_COPILOT_API_TOKEN"))
+    # The cloud sandbox sets the job's prompt and a git token for it (hooks reference, "Cloud
+    # agent execution environment"). GITHUB_COPILOT_API_TOKEN alone is not enough: developers
+    # export it locally to authenticate Copilot, and treating them as the sandbox would switch
+    # off the protections for their own uncommitted work.
+    return bool(os.environ.get("COPILOT_AGENT_PROMPT") and os.environ.get("GITHUB_COPILOT_GIT_TOKEN"))
 
 
 def push_target(ref: str, branch: str) -> str:
@@ -493,6 +506,8 @@ def deny_reason(command: str, cwd: str | Path | None, protects: Protected | None
             sub, args, workdir, config = call
             where = here if workdir is None else next_cwd(["cd", workdir], here)
             if sub == "rm" and any(protects(a, where) for a in args + segment.split()[2:]):
+                return DANGER
+            if sub == "mv" and any(protects(a, where) for a in move_sources(["mv", *args])):
                 return DANGER
             reason = git_problem(sub, args, str(where or protects.repo()), config)
             if reason:
@@ -632,9 +647,10 @@ def affects_test_claims(path: str) -> bool:
 
 
 def affects_typescript(path: str) -> bool:
-    """Whether a change can break the website's type-check."""
+    """Whether a change can break the website's type-check. Pages import JSON from
+    website/data/ (resolveJsonModule), so a data-shape change counts as much as a .tsx edit."""
     return path.startswith("website/") and (
-        Path(path).suffix in (".ts", ".tsx") or Path(path).name in ("tsconfig.json", "package.json"))
+        Path(path).suffix in (".ts", ".tsx", ".json") and Path(path).name != "package-lock.json")
 
 
 def git(repo: Path, *args: str) -> str:
@@ -835,11 +851,13 @@ def stop(payload: dict) -> dict | None:
         if problem:
             problems.append(problem)
     # The post-tool check parses Python, JSON, YAML and TOML, not TypeScript, and pull-request CI
-    # does not build the website, so type-check it here before a website change can merge.
+    # does not build the website, so type-check it here before a website change can merge. The
+    # website's tsconfig sets `incremental`, under which even --noEmit writes tsconfig.tsbuildinfo
+    # into the tree; a check must leave the tree as it found it.
     tsc = repo / "website" / "node_modules" / "typescript" / "bin" / "tsc"
     node = shutil.which("node")
     if any(affects_typescript(f) for f in files) and tsc.is_file() and node:
-        problem = run_check(repo, [node, str(tsc), "--noEmit", "-p", "website"],
+        problem = run_check(repo, [node, str(tsc), "--noEmit", "--incremental", "false", "-p", "website"],
                             "TypeScript (`npx tsc --noEmit -p website`)", 180)
         if problem:
             problems.append(problem)

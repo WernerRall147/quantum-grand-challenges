@@ -76,9 +76,10 @@ Measured on a developer laptop; CI runners have been somewhat faster.
 3. **Scientific claims need evidence.** A number traces to an artifact in this repository or to a
    primary source. Read today's date from the system, never guess it. See the
    [scientific-claims](.github/skills/scientific-claims/SKILL.md) skill.
-4. **Regenerate the dependency map** whenever the graph can change: adding, moving or removing a
-   `.py`, `.qs`, `.ts` or `.tsx` file, changing what one imports or runs, or changing a
-   `Makefile`, a workflow, the `Dockerfile`, `website/package.json`, a `qsharp.json` or
+4. **Regenerate the dependency map** whenever the graph can change: adding or removing any tracked
+   file (`graph.json` counts them all, Markdown included), moving a file, changing what a `.py`,
+   `.qs`, `.ts` or `.tsx` file imports or runs, or changing a `Makefile`, a workflow, the
+   `Dockerfile`, `website/package.json`, a `qsharp.json` or
    `tooling/depgraph/manual_entrypoints.txt`. Run `python tooling/depgraph/build_graph.py` (after
    `git add -N` on new files) and commit `docs/depgraph/`. The depgraph-drift workflow fails
    otherwise.

@@ -24,10 +24,14 @@ SCRIPT = REPO / ".github" / "hooks" / "scripts" / "agent_gates.py"
 CONFIG = REPO / ".github" / "hooks" / "agent-gates.json"
 
 
+# What the cloud agent's sandbox sets (hooks reference, "Cloud agent execution environment").
+CLOUD = {"COPILOT_AGENT_PROMPT": "Implement #1", "GITHUB_COPILOT_GIT_TOKEN": "token"}
+
+
 def local_env() -> dict:
     """The environment of a developer's machine: none of the cloud agent's variables."""
     env = dict(os.environ)
-    for name in ("COPILOT_AGENT_PROMPT", "GITHUB_COPILOT_API_TOKEN"):
+    for name in ("COPILOT_AGENT_PROMPT", "GITHUB_COPILOT_API_TOKEN", "GITHUB_COPILOT_GIT_TOKEN"):
         env.pop(name, None)
     return env
 
@@ -135,6 +139,11 @@ DENY = [
     "gh workflow run deploy-evaluator-api.yml",
     'gh workflow run "Deploy Website"',
     "gh api -X POST repos/WernerRall147/quantum-grand-challenges/actions/workflows/deploy-website.yml/dispatches -f ref=main",
+    # Fifteenth review round: moving a protected path out of place.
+    "mv docs/paper /tmp/paper",
+    "git mv docs/paper/methodology-paper.md docs/old.md",
+    "Move-Item problems/archived/03_qae_risk C:/tmp/x",
+    "mv tooling/ci_validate_qsharp.py tooling/old.py",
     # Ninth review round: the gates' own configuration and the dev container's setup.
     "rm .github/hooks/agent-gates.json",
     "rm -rf .github/hooks",
@@ -195,6 +204,8 @@ ALLOW = [
     "python -m pytest -q 2>&1",
     "rm build.log 2>&1",
     "echo done >&2",
+    "mv build.log logs/build.log",
+    "git mv tooling/_scratch.py tooling/_scratch2.py",
 ]
 
 
@@ -224,7 +235,7 @@ def test_only_shell_tools_are_judged():
                                      "git switch -f main"])
 def test_whole_tree_discards_are_denied_on_a_developer_machine_only(command):
     assert denied(run("pre-tool", shell(command), env=local_env()))
-    cloud = local_env() | {"COPILOT_AGENT_PROMPT": "Implement #1"}
+    cloud = local_env() | CLOUD
     assert run("pre-tool", shell(command), env=cloud) is None, (
         "the cloud sandbox holds no one else's work, and the agent may need to roll back"
     )
@@ -438,16 +449,56 @@ def test_a_website_typescript_error_sends_the_agent_back(tmp_path: Path):
     assert result and "TypeScript" in result["reason"] and "TS1109" in result["reason"]
 
 
+WEBSITE_TSC = REPO / "website" / "node_modules" / "typescript" / "bin" / "tsc"
+
+
+@pytest.mark.skipif(not WEBSITE_TSC.is_file() or not shutil.which("node"),
+                    reason="needs the website's TypeScript (npm ci in website/)")
+def test_the_typescript_check_leaves_the_tree_as_it_found_it(tmp_path: Path):
+    """The website's tsconfig sets incremental, under which even `tsc --noEmit` writes
+    tsconfig.tsbuildinfo. A file the check leaves behind changes the file count the dependency
+    map records, and an agent would commit it, so run the real compiler and look."""
+    git = ["git", "-C", str(tmp_path), "-c", "user.email=agent@example.com", "-c", "user.name=agent",
+           "-c", "commit.gpgsign=false"]
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    website = tmp_path / "website"
+    website.mkdir()
+    (website / "tsconfig.json").write_text(
+        '{"compilerOptions": {"incremental": true, "strict": true}, "include": ["app.ts"]}\n',
+        encoding="utf-8")
+    (website / "app.ts").write_text("export const x: number = 1;\n", encoding="utf-8")
+    (tmp_path / ".gitignore").write_text("node_modules/\n", encoding="utf-8")
+    subprocess.run([*git, "add", "."], check=True)
+    subprocess.run([*git, "commit", "-q", "-m", "a website"], check=True)
+    tsc = website / "node_modules" / "typescript" / "bin" / "tsc"
+    tsc.parent.mkdir(parents=True)
+    tsc.write_text(f"require({json.dumps(str(WEBSITE_TSC))});\n", encoding="utf-8")
+
+    assert run("stop", {"cwd": str(tmp_path)}, cwd=tmp_path) is None
+    assert not list(tmp_path.rglob("*.tsbuildinfo"))
+    status = subprocess.run([*git, "status", "--porcelain", "--untracked-files=all"],
+                            capture_output=True, text=True, check=True).stdout
+    assert status == ""
+
+
 @pytest.mark.parametrize("path, expected", [
     ("website/pages/index.tsx", True),
     ("website/lib/data.ts", True),
     ("website/tsconfig.json", True),
     ("website/package.json", True),
-    ("website/data/estimates.json", False),
+    ("website/data/estimates.json", True),
+    ("website/package-lock.json", False),
     ("tooling/app.ts", False),
 ])
 def test_which_changes_send_the_stop_gate_to_the_typescript_check(path, expected):
     assert _gates_module().affects_typescript(path) is expected
+
+
+def test_a_local_copilot_token_is_not_the_cloud_sandbox():
+    """Developers export GITHUB_COPILOT_API_TOKEN to authenticate Copilot locally; it must not
+    switch off the protections for their own uncommitted work."""
+    env = local_env() | {"GITHUB_COPILOT_API_TOKEN": "token"}
+    assert denied(run("pre-tool", shell("git reset --hard"), env=env))
 
 
 def test_stop_is_allowed_once_already_sent_back():
@@ -490,7 +541,7 @@ def test_in_the_cloud_every_new_file_counts(worktree: Path):
     """In the sandbox every untracked file is the agent's and will be committed."""
     _touch_code_without_changing_the_graph(worktree)
     (worktree / "docs" / "new-page.md").write_text("new\n", encoding="utf-8")
-    cloud = local_env() | {"COPILOT_AGENT_PROMPT": "Implement #1"}
+    cloud = local_env() | CLOUD
     result = run("stop", {"cwd": str(worktree)}, cwd=worktree, env=cloud)
     assert result and "docs/depgraph is stale" in result["reason"]
 

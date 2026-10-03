@@ -115,7 +115,8 @@ PY_DELETE = re.compile(r"rmtree\(|os\.remove\(|os\.unlink\(|\.unlink\(|os\.rmdir
 # mentions os.remove( deletes nothing.
 PYTHON = re.compile(r"(python[\d.]*|py|pypy3?)(\.exe)?")
 PATH_LIKE = re.compile(r"[\w./\\:-]+")
-GIT_GLOBAL_WITH_VALUE = {"-C", "-c", "--git-dir", "--work-tree", "--namespace", "--exec-path"}
+GIT_GLOBAL_WITH_VALUE = {"-C", "-c", "--config-env", "--git-dir", "--work-tree", "--namespace",
+                         "--exec-path"}
 SHORT_FORCE = re.compile(r"-[a-zA-Z]*f[a-zA-Z]*")
 
 
@@ -334,9 +335,11 @@ def git_call(toks: list[str]) -> tuple[str, list[str], str | None, dict[str, str
             while j < len(toks) and toks[j].startswith("-"):
                 if toks[j] == "-C" and j + 1 < len(toks):
                     workdir = toks[j + 1]
-                if toks[j] == "-c" and j + 1 < len(toks):
+                if toks[j] in ("-c", "--config-env") and j + 1 < len(toks):
                     key, _, value = toks[j + 1].partition("=")
                     config[key.lower()] = value
+                if toks[j].startswith("--config-env="):  # --config-env=<key>=<env var>
+                    config[toks[j][len("--config-env="):].partition("=")[0].lower()] = "$env"
                 j += 2 if toks[j] in GIT_GLOBAL_WITH_VALUE else 1
             return (toks[j], toks[j + 1:], workdir, config) if j < len(toks) else None
     return None
@@ -595,10 +598,19 @@ GRAPH_INPUTS = {"website/package.json", "tooling/depgraph/manual_entrypoints.txt
 
 
 def affects_graph(path: str) -> bool:
-    """Whether changing this file can change what tooling/depgraph/build_graph.py writes."""
+    """Whether changing this file can change what tooling/depgraph/build_graph.py writes, or
+    whether the committed graph itself changed (a hand edit is drift too)."""
     return (Path(path).suffix in CODE_SUFFIXES or path in GRAPH_INPUTS
             or Path(path).name in ("Makefile", "Dockerfile", "qsharp.json")
-            or path.startswith(".github/workflows/"))
+            or path.startswith((".github/workflows/", "docs/depgraph/")))
+
+
+def affects_test_claims(path: str) -> bool:
+    """Whether a change can make tooling/test_doc_claims.py's test-count checks fail: what
+    pytest collects, or which tests CI's pytest steps run."""
+    name = Path(path).name
+    return (name.startswith("test_") or name in ("conftest.py", "pytest.ini")
+            or path == ".github/workflows/ci-cd.yml")
 
 
 def git(repo: Path, *args: str) -> str:
@@ -763,8 +775,7 @@ def stop(payload: dict) -> dict | None:
                             "Q# compilation (`python tooling/ci_validate_qsharp.py`)", 120)
         if problem:
             problems.append(problem)
-    if any(Path(f).name.startswith("test_") or Path(f).name in ("conftest.py", "pytest.ini")
-           for f in files) and (repo / "tooling" / "test_doc_claims.py").is_file():
+    if any(affects_test_claims(f) for f in files) and (repo / "tooling" / "test_doc_claims.py").is_file():
         problem = run_check(repo, [sys.executable, "-m", "pytest", "tooling/test_doc_claims.py",
                                    "-q", "-p", "no:cacheprovider", "--no-header"],
                             "Documented test counts (`python -m pytest tooling/test_doc_claims.py -q`)", 150)

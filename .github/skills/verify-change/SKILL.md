@@ -22,7 +22,7 @@ test first, run it on the old code and watch it fail, then make it pass.
 | `website/**` | `cd website && npm ci && npm run build`, `python tooling/reporting/validate_website_data_schema.py`, `python -m pytest tooling/test_website_claims.py -q`, and the [browser-verify](../browser-verify/SKILL.md) skill |
 | `Dockerfile`, `.dockerignore`, `.github/workflows/deploy-evaluator-api.yml`, anything the API image copies | `python -m pytest agents/tests/test_container_contents.py -q` |
 | `.github/agents/**`, `.github/skills/**`, `.github/hooks/**`, `.github/workflows/**`, `.github/ISSUE_TEMPLATE/**`, `AGENTS.md`, `REVIEW.md` | `python -m pytest tooling/test_agent_harness.py tooling/test_agent_hooks.py -q` |
-| added, moved or removed a `.py`, `.qs`, `.ts` or `.tsx` file, a `Makefile`, a workflow, `Dockerfile` or `website/package.json` | `git add -N <new files>`, then `python tooling/depgraph/build_graph.py`, and commit `docs/depgraph/` |
+| added, moved or removed a `.py`, `.qs`, `.ts` or `.tsx` file; changed what one imports or runs; changed a `Makefile`, a workflow, `Dockerfile`, `website/package.json`, a `qsharp.json` or `tooling/depgraph/manual_entrypoints.txt` | `git add -N <new files>`, then `python tooling/depgraph/build_graph.py`, and commit `docs/depgraph/` |
 | added or removed a test | set the count in `docs/AzureFriday/deck-notes.md` to what `python -m pytest --collect-only -q` reports, then `python -m pytest tooling/test_doc_claims.py -q` |
 
 Finish with the whole suite for each area you touched, not only the file you edited.

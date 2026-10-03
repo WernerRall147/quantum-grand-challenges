@@ -139,6 +139,9 @@ DENY = [
     "rm .github/hooks/agent-gates.json",
     "rm -rf .github/hooks",
     "rm .devcontainer/setup.sh",
+    # Tenth review round: push settings overridden through an environment variable.
+    "TARGET=refs/heads/main:refs/heads/main git --config-env=remote.origin.push=TARGET push origin",
+    "git --config-env remote.origin.push=TARGET push origin",
 ]
 
 ALLOW = [
@@ -414,9 +417,23 @@ def _gates_module():
     ("Dockerfile", True),
     (".github/workflows/ci-cd.yml", True),
     ("agents/api/main.py", True),
+    ("docs/depgraph/graph.json", True),
     ("docs/agentic-delivery.md", False),
     ("website/data/estimates.json", False),
 ])
 def test_which_changes_send_the_stop_gate_to_the_dependency_map(path, expected):
     """A change the stop gate does not recognise skips the graph check, and drift merges."""
     assert _gates_module().affects_graph(path) is expected
+
+
+@pytest.mark.parametrize("path, expected", [
+    ("tooling/test_doc_claims.py", True),
+    ("agents/tests/conftest.py", True),
+    ("pytest.ini", True),
+    (".github/workflows/ci-cd.yml", True),
+    ("tooling/ci_validate_qsharp.py", False),
+    ("docs/agentic-delivery.md", False),
+])
+def test_which_changes_send_the_stop_gate_to_the_test_count_checks(path, expected):
+    """test_doc_claims.py reads what pytest collects and what ci-cd.yml runs."""
+    assert _gates_module().affects_test_claims(path) is expected

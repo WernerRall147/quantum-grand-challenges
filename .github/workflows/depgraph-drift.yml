@@ -4,22 +4,16 @@ name: Dependency Graph Drift Check
 # a Makefile, a workflow, the Dockerfile, or website/package.json was not followed
 # by regenerating the graph, this fails - so new files always land in the map.
 # Mapper is stdlib-only, so no pip install is needed.
+#
+# It runs on every pull request, not only those touching code: graph.json records how
+# many files are tracked, so a pull request that only adds a Markdown file (an agent,
+# a skill, an ADR) changes the graph too. With a code-only path filter such a pull
+# request would merge green and turn the push run on main red.
 
 on:
   push:
     branches: [main]
   pull_request:
-    paths:
-      - "**/*.py"
-      - "**/*.qs"
-      - "**/*.ts"
-      - "**/*.tsx"
-      - "**/Makefile"
-      - "Dockerfile"
-      - ".github/workflows/**"
-      - "website/package.json"
-      - "tooling/depgraph/build_graph.py"
-      - "docs/depgraph/**"
 
 permissions:
   contents: read

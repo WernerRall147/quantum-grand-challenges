@@ -1,16 +1,17 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1290,
-    "code_files": 315,
-    "python": 245,
+    "tracked": 1317,
+    "code_files": 318,
+    "python": 248,
     "qsharp": 55,
     "ts": 15,
-    "edges": 243,
-    "roots": 298,
-    "reachable": 337
+    "edges": 245,
+    "roots": 303,
+    "reachable": 342
   },
   "nodes": [
+    ".github/hooks/scripts/agent_gates.py",
     "agents/api/main.py",
     "agents/classifier/azure_pricing.py",
     "agents/classifier/cost_model.py",
@@ -269,6 +270,8 @@
     "tooling/submit_hardware_kernels.py",
     "tooling/submit_one_kernel.py",
     "tooling/test_advantage_claims.py",
+    "tooling/test_agent_harness.py",
+    "tooling/test_agent_hooks.py",
     "tooling/test_all_qsharp.py",
     "tooling/test_architecture_claims.py",
     "tooling/test_check_codegen_live.py",
@@ -395,6 +398,14 @@
     [
       ".github/workflows/codegen-live-check.yml",
       "tooling/check_codegen_live.py"
+    ],
+    [
+      ".github/workflows/copilot-setup-steps.yml",
+      "tooling/reporting/regenerate_paper_html.py"
+    ],
+    [
+      ".github/workflows/copilot-setup-steps.yml",
+      "tooling/test_agent_harness.py"
     ],
     [
       ".github/workflows/depgraph-drift.yml",

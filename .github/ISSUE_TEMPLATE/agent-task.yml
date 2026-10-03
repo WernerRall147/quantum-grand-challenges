@@ -1,0 +1,86 @@
+name: Agent task
+description: A task for a Copilot agent, or a person. The fields are the specification, so write acceptance criteria a check can confirm. Then assign the issue to Copilot and pick an agent.
+labels: ["agent-task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Write this for someone who has never seen the conversation that led to it. After creating the issue, assign it to Copilot and pick an agent: **Builder** for most work, **Planner** if the task is still vague. The playbook is `docs/agentic-delivery.md`.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - Feature
+        - Bug
+        - Scientific correction
+        - Maintenance
+        - Documentation
+        - Design decision (ADR)
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What should exist, or be true, when this is done? One or two sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: Who benefits, and how will we know it helped?
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: The agent stops when these hold. Make each one checkable by a command, a test or something you can see.
+      placeholder: |
+        - [ ] `python -m pytest tooling -q` passes, including a new test for ...
+        - [ ] The compare page shows ... for problem 03
+    validations:
+      required: true
+  - type: textarea
+    id: non-goals
+    attributes:
+      label: Non-goals
+      description: What this task must not grow into.
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Files or behaviour that must not change, and approaches to use or avoid.
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction (bugs)
+      description: Steps, the command and its output, or a link to the failing run.
+  - type: textarea
+    id: verification
+    attributes:
+      label: How a person will check it
+      description: What you will look at, on a phone or a laptop, to accept the pull request.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Q# kernels and problems
+        - Paper and docs
+        - Website
+        - Evaluator API and agents
+        - Knowledge base
+        - Tooling and CI
+        - Visualisation
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk
+      options:
+        - Low - docs, tests or isolated code
+        - Medium - shared code or published numbers
+        - High - production, scientific claims or deletion
+    validations:
+      required: true

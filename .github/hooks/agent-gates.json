@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "matcher": "bash|powershell|shell|execute|run_in_terminal",
+        "bash": "python3 .github/hooks/scripts/agent_gates.py pre-tool || true",
+        "powershell": "python .github/hooks/scripts/agent_gates.py pre-tool; exit 0",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ],
+    "postToolUse": [
+      {
+        "type": "command",
+        "matcher": "create|edit|str_replace|str_replace_editor|apply_patch|write|multiedit|create_file|replace_string_in_file|insert_edit_into_file",
+        "bash": "python3 .github/hooks/scripts/agent_gates.py post-tool || true",
+        "powershell": "python .github/hooks/scripts/agent_gates.py post-tool; exit 0",
+        "cwd": ".",
+        "timeoutSec": 15
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "python3 .github/hooks/scripts/agent_gates.py stop || true",
+        "powershell": "python .github/hooks/scripts/agent_gates.py stop; exit 0",
+        "cwd": ".",
+        "timeoutSec": 240
+      }
+    ]
+  }
+}

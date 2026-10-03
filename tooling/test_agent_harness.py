@@ -87,6 +87,19 @@ def install_lines(text: str) -> list[str]:
             if re.search(r"\bpip install numpy\b", line)]
 
 
+PIP_INSTALL = re.compile(r"^(?:run:\s*)?(?:python3? -m )?(pip install .+)$")
+
+
+def pip_installs(text: str) -> list[str]:
+    """Every pip install a workflow or script runs, in order, except pip upgrading itself."""
+    commands = []
+    for line in text.splitlines():
+        match = PIP_INSTALL.match(line.strip())
+        if match and match.group(1) != "pip install --upgrade pip":
+            commands.append(match.group(1))
+    return commands
+
+
 # --- the instruction files -------------------------------------------------------------
 
 
@@ -289,6 +302,10 @@ def test_agent_codespace_and_ci_install_the_same_packages():
     assert setup == ci, "the cloud agent would test against different packages from CI"
     assert devcontainer == ci, "a codespace would test against different packages from CI"
     assert documented == ci, "AGENTS.md quotes an install line CI does not use"
+    # Beyond CI's line, both install the same extras (the paper's HTML needs `markdown`).
+    assert pip_installs(SETUP_STEPS.read_text(encoding="utf-8")) == pip_installs(
+        (REPO / ".devcontainer" / "setup.sh").read_text(encoding="utf-8")), (
+        "the cloud agent and a codespace would install different packages")
 
 
 def test_agent_codespace_and_deploy_use_the_same_node():

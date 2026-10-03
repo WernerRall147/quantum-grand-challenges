@@ -31,10 +31,11 @@ demonstrates quantum advantage on available hardware, and nothing here may say o
 
 Python 3.11, the `qdk` package pinned to 1.31.0 (no .NET), Node 18 for the website. The cloud
 agent gets all of this from `.github/workflows/copilot-setup-steps.yml`, which installs exactly
-what CI installs:
+what CI installs. The `-r` adds the evaluator API's pinned packages, the versions the
+`Dockerfile` ships, so tests run against what production runs:
 
 ```bash
-pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0
+pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0 -r agents/api/requirements.txt
 cd website && npm ci
 ```
 
@@ -52,7 +53,7 @@ Measured on a developer laptop; CI runners have been somewhat faster.
 | Run every Q# entry point | `python tooling/run_all_qsharp.py` | ~1 min |
 | Compile or run one problem | `python -c "from qdk import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print(qsharp.run('Main.RunTwoSiteHubbardAnalysis()', 1))"` | seconds |
 | Evaluator tests | `python -m pytest agents/tests -q` | ~35 s |
-| Claim, kernel and visualisation guards | `python -m pytest tooling viz -q` | ~2.5 min |
+| Claim, kernel and visualisation guards | `python -m pytest tooling viz -q` | ~7 min (CI: ~1.5 min) |
 | Problem baselines | `python -m pytest test_baselines.py -q` | ~10 s |
 | Everything pytest collects | `python -m pytest -q` | several minutes |
 | Offline evaluator checks | `python agents/evaluations/run_eval.py --offline` and `python agents/evaluations/score_narrative.py --offline --strict` | < 1 s |
@@ -83,12 +84,12 @@ Measured on a developer laptop; CI runners have been somewhat faster.
    `tooling/depgraph/manual_entrypoints.txt`. Run `python tooling/depgraph/build_graph.py` (after
    `git add -N` on new files) and commit `docs/depgraph/`. The depgraph-drift workflow fails
    otherwise.
-5. **The danger list is never deleted without an explicit human OK:** Q# entry points and
+5. **The danger list is never deleted or moved without an explicit human OK:** Q# entry points and
    `HardwareKernel.qs`, anything a Makefile, workflow, Dockerfile, pytest or npm script runs,
    `docs/paper/`, PDFs, `CITATION.cff`, problem instances, and `problems/archived/`. The full list
    is in `docs/initiatives/repo-cleanup.md`; consult `docs/depgraph/cleanup-candidates.json` first.
-   `.github/hooks/agent-gates.json` denies deleting them, reading the entry points, and the code
-   they reach, from `docs/depgraph/`.
+   `.github/hooks/agent-gates.json` denies deleting them, moving them or moving something onto
+   them, reading the entry points, and the code they reach, from `docs/depgraph/`.
 6. **Leave other people's work alone.** Stage only the files you changed. Never push to `main`
    (it changes only through reviewed pull requests) and never force-push. On a developer's
    machine never run `git clean -f`, `git reset --hard` or a whole-tree checkout or restore.

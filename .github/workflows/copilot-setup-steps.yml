@@ -10,9 +10,11 @@ on:
   push:
     paths:
       - .github/workflows/copilot-setup-steps.yml
+      - agents/api/requirements.txt
   pull_request:
     paths:
       - .github/workflows/copilot-setup-steps.yml
+      - agents/api/requirements.txt
 
 permissions:
   contents: read
@@ -36,7 +38,7 @@ jobs:
           key: pip-copilot-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: pip-copilot-${{ runner.os }}-
       - name: Install Python dependencies (same as CI)
-        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0
+        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0 -r agents/api/requirements.txt
       - name: Install tools agents use that CI does not
         # markdown: tooling/reporting/regenerate_paper_html.py rebuilds the paper's HTML.
         run: pip install markdown
@@ -61,3 +63,13 @@ jobs:
             | python3 .github/hooks/scripts/agent_gates.py pre-tool > /tmp/decision.json
           grep -q '"deny"' /tmp/decision.json
           echo "agent-gates hook denies a force push"
+          # Start the evaluator API and call it, then stop it so its port is free for the agent.
+          python -m uvicorn agents.api.main:app --port 8765 > /tmp/api.log 2>&1 &
+          api_pid=$!
+          for attempt in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8765/ > /tmp/health.json; then break; fi
+            sleep 1
+          done
+          kill "$api_pid" 2>/dev/null || cat /tmp/api.log
+          if ! grep -q '"status":"ok"' /tmp/health.json; then cat /tmp/api.log; exit 1; fi
+          echo "evaluator API starts and answers"

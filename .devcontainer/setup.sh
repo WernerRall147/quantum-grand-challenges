@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 python -m pip install --upgrade pip
-pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0
+pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0 -r agents/api/requirements.txt
 pip install markdown
 (cd website && npm ci --no-audit --no-fund)
 

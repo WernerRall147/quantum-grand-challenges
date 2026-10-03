@@ -10,11 +10,13 @@ on:
     paths:
       - ".devcontainer/**"
       - ".github/workflows/devcontainer-check.yml"
+      - "agents/api/requirements.txt"
   push:
     branches: [main]
     paths:
       - ".devcontainer/**"
       - ".github/workflows/devcontainer-check.yml"
+      - "agents/api/requirements.txt"
   workflow_dispatch:
 
 permissions:
@@ -43,5 +45,15 @@ jobs:
             cd ..
             test -f website/out/index.html
             echo "website builds"
+            # Start the evaluator API and call it: a codespace must be able to run the project.
+            python -m uvicorn agents.api.main:app --port 8765 > /tmp/api.log 2>&1 &
+            api_pid=$!
+            for attempt in $(seq 1 30); do
+              if curl -sf http://127.0.0.1:8765/ > /tmp/health.json; then break; fi
+              sleep 1
+            done
+            kill "$api_pid" 2>/dev/null || cat /tmp/api.log
+            if ! grep -q '"status":"ok"' /tmp/health.json; then cat /tmp/api.log; exit 1; fi
+            echo "evaluator API starts and answers"
             gh --version > /tmp/gh.txt
             head -n 1 /tmp/gh.txt

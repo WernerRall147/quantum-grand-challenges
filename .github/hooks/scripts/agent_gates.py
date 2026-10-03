@@ -105,6 +105,8 @@ ARTIFACT_EXAMPLES = (
     ".github/hooks/agent-gates.json", ".devcontainer/setup.sh",
 )
 DANGER = "danger list (docs/initiatives/repo-cleanup.md): deleting this needs an explicit human OK"
+MOVE_DANGER = ("danger list (docs/initiatives/repo-cleanup.md): moving this, or moving something "
+               "onto it, needs an explicit human OK")
 DELETE_VERBS = {"rm", "rmdir", "del", "erase", "rd", "remove-item", "ri", "unlink", "shred"}
 # Moving a protected path out of place breaks what runs or cites it as surely as deleting it.
 MOVE_VERBS = {"mv", "move", "move-item", "mi"}
@@ -222,17 +224,29 @@ def deletion_targets(segment: str, toks: list[str]) -> list[str]:
     names = verbs(toks)
     if names & DELETE_VERBS or ("find" in names and ("-delete" in toks or "rm" in toks)):
         return toks[1:] + segment.split()[1:]
-    if names & MOVE_VERBS:
-        return move_sources(toks)
     if any(PYTHON.fullmatch(name) for name in names) and PY_DELETE.search(segment):
         return PATH_LIKE.findall(segment)
     return []
 
 
-def move_sources(args: list[str]) -> list[str]:
-    """The paths a move takes away: every operand but the destination (the last)."""
-    operands = [a for a in args[1:] if not a.startswith("-")]
-    return operands[:-1]
+OPTION_VALUE = re.compile(r"-{1,2}[A-Za-z][\w-]*[=:](.+)")
+
+
+def move_operands(words: list[str]) -> list[str]:
+    """Every path a move names. The sources leave their place; the destination is overwritten
+    or receives them.
+
+    Which operand is the destination depends on the syntax (`mv SRC DEST`, `mv -t DEST SRC`,
+    `mv --target-directory=DEST SRC`, `Move-Item -Destination DEST -Path SRC`), so check them
+    all rather than guess. Option values written `--name=value` or `-Name:value` count too.
+    """
+    operands = []
+    for word in words:
+        if not word.startswith("-"):
+            operands.append(word)
+        elif match := OPTION_VALUE.fullmatch(word):
+            operands.append(match.group(1))
+    return operands
 
 
 def substitutions(segment: str) -> list[str]:
@@ -507,14 +521,19 @@ def deny_reason(command: str, cwd: str | Path | None, protects: Protected | None
             where = here if workdir is None else next_cwd(["cd", workdir], here)
             if sub == "rm" and any(protects(a, where) for a in args + segment.split()[2:]):
                 return DANGER
-            if sub == "mv" and any(protects(a, where) for a in move_sources(["mv", *args])):
-                return DANGER
+            if sub == "mv" and any(protects(a, where) for a in move_operands(args + segment.split()[2:])):
+                return MOVE_DANGER
             reason = git_problem(sub, args, str(where or protects.repo()), config)
             if reason:
                 return reason
             continue
         if any(protects(t, here) for t in deletion_targets(segment, toks)):
             return DANGER
+        # Paths from both shlex and a plain split, as for deletions: POSIX shlex reads the
+        # backslashes in a Windows path as escapes.
+        if verbs(toks) & MOVE_VERBS and any(
+                protects(p, here) for p in move_operands(toks[1:] + segment.split()[1:])):
+            return MOVE_DANGER
         reason = github_problem(toks)
         if reason:
             return reason

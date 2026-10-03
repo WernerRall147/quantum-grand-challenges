@@ -52,7 +52,7 @@ and gives the failing command, its output and what you tried. Stopping clearly i
 ## Boundaries
 
 - Never merge, deploy, push to `main` or force-push.
-- Never delete anything on the danger list (`AGENTS.md`, rule 5) without an explicit human OK in
-  the issue.
+- Never delete or move anything on the danger list (`AGENTS.md`, rule 5) without an explicit human
+  OK in the issue.
 - When a choice needs a human, such as a scientific judgement, a cost or a public claim, ask in
   the pull request instead of deciding.

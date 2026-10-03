@@ -144,6 +144,15 @@ DENY = [
     "git mv docs/paper/methodology-paper.md docs/old.md",
     "Move-Item problems/archived/03_qae_risk C:/tmp/x",
     "mv tooling/ci_validate_qsharp.py tooling/old.py",
+    # Sixteenth: the destination is not always the last operand, a Windows path is not what
+    # shlex reads, and moving onto a protected file replaces it.
+    "mv -t /tmp docs/paper",
+    "mv --target-directory=/tmp docs/paper",
+    "Move-Item -Destination C:/tmp/x -Path problems/archived/03_qae_risk",
+    "Move-Item -Path:docs/paper -Destination:C:/tmp/x",
+    r"Move-Item docs\paper C:\tmp\paper",
+    "git mv -f notes.md docs/paper/methodology-paper.md",
+    "mv notes.md docs/paper/methodology-paper.md",
     # Ninth review round: the gates' own configuration and the dev container's setup.
     "rm .github/hooks/agent-gates.json",
     "rm -rf .github/hooks",
@@ -214,6 +223,11 @@ def test_denies(command):
     result = run("pre-tool", shell(command))
     assert denied(result), f"not denied: {command}"
     assert result["permissionDecisionReason"].startswith("agent-gates: ")
+
+
+def test_a_refused_move_says_it_was_the_move():
+    result = run("pre-tool", shell("mv -t /tmp docs/paper"))
+    assert denied(result) and "moving this" in result["permissionDecisionReason"]
 
 
 @pytest.mark.parametrize("command", ALLOW)

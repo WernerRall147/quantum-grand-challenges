@@ -28,7 +28,8 @@ jobs:
           key: pip-ci-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: pip-ci-${{ runner.os }}-
       - name: Install dependencies
-        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0
+        # -r adds the evaluator API's pins, the versions the Dockerfile ships: test what production runs.
+        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0 -r agents/api/requirements.txt
       - name: Validate workflow YAML
         # A workflow with broken YAML is still registered as "active"; GitHub
         # just shows the file path as its name and never runs it. That is how a

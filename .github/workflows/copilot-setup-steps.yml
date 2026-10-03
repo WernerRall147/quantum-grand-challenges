@@ -1,0 +1,59 @@
+name: Copilot Setup Steps
+
+# The environment Copilot cloud agent (and Copilot code review) works in. It installs exactly
+# what ci-cd.yml installs, so a check that passes for the agent passes in CI:
+# tooling/test_agent_harness.py fails if the two pip install lines drift apart.
+# It runs on its own when this file changes, and by hand from the Actions tab.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+permissions:
+  contents: read
+
+jobs:
+  # Copilot only picks up a job with exactly this name.
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-copilot-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: pip-copilot-${{ runner.os }}-
+      - name: Install Python dependencies (same as CI)
+        run: pip install numpy scipy matplotlib pandas pytest jsonschema pyyaml qdk==1.31.0 azure-identity openai azure-search-documents==11.6.0
+      - name: Install tools agents use that CI does not
+        # markdown: tooling/reporting/regenerate_paper_html.py rebuilds the paper's HTML.
+        run: pip install markdown
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - name: Install website dependencies
+        working-directory: website
+        run: npm ci --no-audit --no-fund
+      - name: Smoke-check the environment
+        # When a setup step fails, Copilot starts anyway in a half-built environment. So prove
+        # the pieces the agent relies on work, not only that they installed.
+        run: |
+          python -c "from qdk import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print('Q# compiles')"
+          python -m pytest --collect-only -q | tail -n 1
+          echo '{"toolName":"bash","toolArgs":"{\"command\":\"git push --force\"}"}' \
+            | python3 .github/hooks/scripts/agent_gates.py pre-tool | grep -q '"deny"'
+          echo "agent-gates hook denies a force push"

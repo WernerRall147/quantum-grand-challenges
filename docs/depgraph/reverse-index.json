@@ -451,6 +451,9 @@
   "tooling/reporting/recommend_platform_targets.py": [
     ".github/workflows/nightly.yml"
   ],
+  "tooling/reporting/regenerate_paper_html.py": [
+    ".github/workflows/copilot-setup-steps.yml"
+  ],
   "tooling/reporting/stage_kpis.py": [
     ".github/workflows/ci-cd.yml",
     ".github/workflows/nightly.yml"
@@ -464,6 +467,9 @@
   ],
   "tooling/submit_one_kernel.py": [
     "tooling/test_submit_one_kernel.py"
+  ],
+  "tooling/test_agent_harness.py": [
+    ".github/workflows/copilot-setup-steps.yml"
   ],
   "tooling/validate_algorithm_index.py": [
     "agents/tests/test_algorithm_index_validation.py"

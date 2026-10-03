@@ -157,6 +157,28 @@ def command_verb(toks: list[str]) -> str:
     return ""
 
 
+def verbs(toks: list[str]) -> set[str]:
+    """Programs a segment may run.
+
+    Past a wrapper such as `sudo -u root`, options take values this parser cannot tell from
+    the program name, so every token counts. That errs towards denying, which is the safe side.
+    """
+    if toks and Path(toks[0].replace("\\", "/")).name.lower() in WRAPPERS:
+        return {Path(t.replace("\\", "/")).name.lower() for t in toks}
+    return {command_verb(toks)}
+
+
+def next_cwd(toks: list[str], cwd: Path | None) -> Path | None:
+    """The directory after `cd`/`pushd`/`Set-Location`, or None when it cannot be known."""
+    args = [t for t in toks[1:] if not t.startswith("-")]
+    if not args or args[0] == "-" or args[0].startswith(("~", "$")):
+        return None
+    target = Path(normalise(args[0]))
+    if target.is_absolute():
+        return target
+    return cwd / target if cwd is not None else None
+
+
 def nested_commands(segment: str, toks: list[str]) -> list[str]:
     """Commands hidden inside this one: `bash -c '...'`, `pwsh -Command ...`, `eval`, $(...)."""
     inner = substitutions(segment)
@@ -177,8 +199,8 @@ def deletion_targets(segment: str, toks: list[str]) -> list[str]:
     Paths are taken both from shlex (quotes resolved) and from a plain whitespace split,
     because POSIX shlex reads the backslashes in a Windows path as escapes.
     """
-    verb = command_verb(toks)
-    if verb in DELETE_VERBS or (verb == "find" and ("-delete" in toks or "rm" in toks)):
+    names = verbs(toks)
+    if names & DELETE_VERBS or ("find" in names and ("-delete" in toks or "rm" in toks)):
         return toks[1:] + segment.split()[1:]
     if PY_DELETE.search(segment):
         return PATH_LIKE.findall(segment)
@@ -248,15 +270,27 @@ class Protected:
             self._repo = Path(top) if top else self.cwd
         return self._repo
 
-    def __call__(self, token: str) -> bool:
+    def files(self) -> set[str]:
+        if self._files is None:
+            self._files = map_entry_points(self.repo())
+        return self._files
+
+    def __call__(self, token: str, cwd: Path | None) -> bool:
+        """`cwd` is where the command runs; None when a `cd` made it unknowable."""
         if is_artifact(token):
             return True
         path = normalise(token)
         if not path or path.startswith("-") or "://" in path:
             return False
+        if cwd is None:
+            # Unknown directory (`cd -`, `cd $DIR`): match on the path's tail, erring on
+            # the side of asking a human.
+            tail = path.lstrip("/").rstrip("/")
+            return bool(tail) and any(f == tail or f.endswith("/" + tail) or f.startswith(tail + "/")
+                                      for f in self.files())
         try:
             candidate = Path(path)
-            absolute = candidate if candidate.is_absolute() else self.cwd / candidate
+            absolute = candidate if candidate.is_absolute() else cwd / candidate
             rel = Path(os.path.relpath(absolute, self.repo())).as_posix().rstrip("/")
         except ValueError:
             return False  # another drive on Windows
@@ -264,21 +298,21 @@ class Protected:
             return False
         if rel in ("", "."):
             return True  # the whole repository
-        if self._files is None:
-            self._files = map_entry_points(self.repo())
         if any(ch in rel for ch in "*?["):
-            return any(fnmatch.fnmatch(f, rel) for f in self._files)
-        return rel in self._files or any(f.startswith(rel + "/") for f in self._files)
+            return any(fnmatch.fnmatch(f, rel) for f in self.files())
+        return rel in self.files() or any(f.startswith(rel + "/") for f in self.files())
 
 
-def git_call(toks: list[str]) -> tuple[str, list[str]] | None:
-    """(subcommand, args) for a `git ...` invocation, skipping git's global options."""
+def git_call(toks: list[str]) -> tuple[str, list[str], str | None] | None:
+    """(subcommand, args, -C directory) for a `git ...` call, past git's global options."""
     for i, tok in enumerate(toks):
         if Path(tok).name.lower() in ("git", "git.exe"):
-            j = i + 1
+            j, workdir = i + 1, None
             while j < len(toks) and toks[j].startswith("-"):
+                if toks[j] == "-C" and j + 1 < len(toks):
+                    workdir = toks[j + 1]
                 j += 2 if toks[j] in GIT_GLOBAL_WITH_VALUE else 1
-            return (toks[j], toks[j + 1:]) if j < len(toks) else None
+            return (toks[j], toks[j + 1:], workdir) if j < len(toks) else None
     return None
 
 
@@ -331,35 +365,49 @@ def git_problem(sub: str, args: list[str], cwd: str) -> str | None:
             and "--staged" not in args:
         return ("this discards every uncommitted change in the tree, including the user's own; "
                 "restore the files you changed one by one")
+    if (sub == "checkout" and any(a in ("-f", "--force") for a in args)) \
+            or (sub == "switch" and any(a in ("-f", "--force", "--discard-changes") for a in args)):
+        return ("a forced checkout or switch discards every uncommitted change, including the "
+                "user's own; commit or restore your own files first")
     if sub == "stash" and args[:1] and args[0] in ("drop", "clear"):
         return "dropping a stash destroys work that may not be yours"
     return None
 
 
-def deny_reason(command: str, cwd: str, protects: Protected | None = None, depth: int = 0) -> str | None:
-    protects = protects or Protected(cwd)
+CD_VERBS = {"cd", "pushd", "chdir", "set-location", "sl"}
+
+
+def deny_reason(command: str, cwd: str | Path | None, protects: Protected | None = None,
+                depth: int = 0) -> str | None:
+    here = Path(cwd) if cwd is not None else None
+    protects = protects or Protected(str(here or os.getcwd()))
     if depth > 4:
         return None
     # Python code passed with -c contains `;` and quotes; check it whole before splitting.
-    if PY_DELETE.search(command) and any(protects(p) for p in PATH_LIKE.findall(command)):
+    if PY_DELETE.search(command) and any(protects(p, here) for p in PATH_LIKE.findall(command)):
         return DANGER
     for segment in segments(command):
         toks = tokens(segment)
         if not toks:
             continue
+        if command_verb(toks) in CD_VERBS:
+            here = next_cwd(toks, here)  # `cd tooling && rm x.py` deletes tooling/x.py
+            continue
         for inner in nested_commands(segment, toks):
-            reason = deny_reason(inner, cwd, protects, depth + 1)
+            reason = deny_reason(inner, here, protects, depth + 1)
             if reason:
                 return reason
         call = git_call(toks)
-        if call and command_verb(toks) in ("git", "git.exe"):
-            if call[0] == "rm" and any(protects(a) for a in call[1] + segment.split()[2:]):
+        if call and verbs(toks) & {"git", "git.exe"}:
+            sub, args, workdir = call
+            where = here if workdir is None else next_cwd(["cd", workdir], here)
+            if sub == "rm" and any(protects(a, where) for a in args + segment.split()[2:]):
                 return DANGER
-            reason = git_problem(call[0], call[1], cwd)
+            reason = git_problem(sub, args, str(where or protects.repo()))
             if reason:
                 return reason
             continue
-        if any(protects(t) for t in deletion_targets(segment, toks)):
+        if any(protects(t, here) for t in deletion_targets(segment, toks)):
             return DANGER
     return None
 

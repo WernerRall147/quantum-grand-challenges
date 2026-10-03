@@ -103,6 +103,13 @@ DENY = [
     "rm problems/reference_index.json",
     "rm -rf tooling",
     "rm -rf .",
+    # Second review round on #278: wrapper options, directory changes, git -C.
+    "sudo -u root rm docs/paper/methodology-paper.md",
+    "sudo -u root git push -f origin feature",
+    "cd tooling && rm ci_validate_qsharp.py",
+    "cd problems/01_hubbard/qsharp; rm src/Main.qs",
+    "git -C tooling rm ci_validate_qsharp.py",
+    "cd - && rm Dockerfile",
 ]
 
 ALLOW = [
@@ -133,6 +140,10 @@ ALLOW = [
     "rm -rf tooling/__pycache__",
     "rm docs/agentic-delivery-draft.md",
     "rm tooling/_scratch.py",
+    "cd tooling && rm _scratch.py",
+    "cd website && rm -rf out",
+    "sudo apt-get install -y jq",
+    "cd /tmp && rm -rf build",
 ]
 
 
@@ -157,7 +168,9 @@ def test_only_shell_tools_are_judged():
     assert run("pre-tool", payload) is None
 
 
-@pytest.mark.parametrize("command", ["git reset --hard", "git checkout -- .", "git restore .", "git stash drop"])
+@pytest.mark.parametrize("command", ["git reset --hard", "git checkout -- .", "git restore .", "git stash drop",
+                                     "git checkout -f main", "git switch --discard-changes main",
+                                     "git switch -f main"])
 def test_whole_tree_discards_are_denied_on_a_developer_machine_only(command):
     assert denied(run("pre-tool", shell(command), env=local_env()))
     cloud = local_env() | {"COPILOT_AGENT_PROMPT": "Implement #1"}

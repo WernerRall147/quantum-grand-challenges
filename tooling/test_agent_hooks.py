@@ -110,6 +110,9 @@ DENY = [
     "cd problems/01_hubbard/qsharp; rm src/Main.qs",
     "git -C tooling rm ci_validate_qsharp.py",
     "cd - && rm Dockerfile",
+    # Third review round: the remote given as an option.
+    "git push --repo=origin main",
+    "git push --repo origin main",
 ]
 
 ALLOW = [
@@ -144,6 +147,7 @@ ALLOW = [
     "cd website && rm -rf out",
     "sudo apt-get install -y jq",
     "cd /tmp && rm -rf build",
+    "git push --repo=origin feature",
 ]
 
 

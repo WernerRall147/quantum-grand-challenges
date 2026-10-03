@@ -332,7 +332,11 @@ def in_cloud_agent() -> bool:
 
 def push_problem(args: list[str], cwd: str) -> str | None:
     options = [a for a in args if a.startswith("-")]
-    refspecs = [a for a in args if not a.startswith("-")][1:]  # the first positional is the remote
+    positionals = [a for i, a in enumerate(args)
+                   if not a.startswith("-") and not (i and args[i - 1] == "--repo")]
+    # The first positional is the remote, unless --repo already named it.
+    refspecs = positionals if any(o == "--repo" or o.startswith("--repo=") for o in options) \
+        else positionals[1:]
     if any(o in ("--force", "-f") or o.startswith("--force-with-lease") or SHORT_FORCE.fullmatch(o)
            for o in options) or any(r.startswith("+") for r in refspecs):
         return "force-pushing rewrites published history; push a new commit instead"

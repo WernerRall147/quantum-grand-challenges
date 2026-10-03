@@ -117,6 +117,38 @@ def test_documented_test_count_is_current() -> None:
     )
 
 
+def _collected_ids(*targets: str) -> frozenset[str]:
+    # -qq, not -q: pytest.ini's addopts carry -v, and -v -q is the tree view, with no node ids.
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "--collect-only", "-qq", "--no-header", *targets],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    return frozenset(line.strip() for line in result.stdout.splitlines() if "::" in line)
+
+
+def _ci_pytest_targets() -> list[str]:
+    workflow = (REPO_ROOT / ".github" / "workflows" / "ci-cd.yml").read_text(encoding="utf-8")
+    targets = []
+    for match in re.finditer(r"^\s*run:\s*pytest\s+(.*)$", workflow, re.M):
+        targets += [word for word in match.group(1).split() if not word.startswith("-")]
+    return targets
+
+
+def test_ci_runs_every_collected_test() -> None:
+    """The deck notes say CI runs every test pytest collects, which makes "none failing" a
+    claim CI can back. pytest.ini's testpaths and CI's pytest steps are separate lists, so a
+    test added where only one of them looks would make the claim false without a sound."""
+    targets = _ci_pytest_targets()
+    assert targets, "found no `run: pytest ...` step in ci-cd.yml"
+    everything = _collected_ids()
+    assert len(everything) == _collected_count()
+    missing = sorted(everything - _collected_ids(*targets))
+    assert not missing, (
+        f"{len(missing)} collected tests are in no CI pytest step ({' '.join(targets)}), "
+        f"for example {missing[:5]}"
+    )
+
+
 @lru_cache(maxsize=1)
 def _stage_counts() -> tuple[tuple[str, int], ...]:
     records = json.loads(KPIS.read_text(encoding="utf-8"))["records"]

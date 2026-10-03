@@ -3,9 +3,11 @@
     ".github/workflows/azure-secret-hygiene.yml",
     ".github/workflows/ci-cd.yml",
     ".github/workflows/codegen-live-check.yml",
+    ".github/workflows/copilot-setup-steps.yml",
     ".github/workflows/depgraph-drift.yml",
     ".github/workflows/deploy-evaluator-api.yml",
     ".github/workflows/deploy-website.yml",
+    ".github/workflows/devcontainer-check.yml",
     ".github/workflows/nightly.yml",
     ".github/workflows/uptime-evaluator-api.yml"
   ],
@@ -82,6 +84,8 @@
     "problems/archived/20_space_mission_planning/python/test_baseline.py",
     "test_baselines.py",
     "tooling/test_advantage_claims.py",
+    "tooling/test_agent_harness.py",
+    "tooling/test_agent_hooks.py",
     "tooling/test_all_qsharp.py",
     "tooling/test_architecture_claims.py",
     "tooling/test_check_codegen_live.py",
@@ -171,6 +175,7 @@
     "problems/archived/20_space_mission_planning/qsharp/src/Main.qs"
   ],
   "manual": [
+    ".github/hooks/scripts/agent_gates.py",
     "knowledge/ingest/algorithm_zoo_parser.py",
     "knowledge/ingest/arxiv_ingester.py",
     "knowledge/ingest/mit_xpro_ingester.py",

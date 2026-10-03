@@ -55,3 +55,6 @@ tooling/eval_paper_classifier.py
 tooling/measure_corpus_decidability.py
 tooling/reconcile_algorithm_zoo.py
 tooling/validate_algorithm_index.py
+
+# === Agent hooks (run by the Copilot agent runtime from .github/hooks/agent-gates.json) ===
+.github/hooks/scripts/agent_gates.py

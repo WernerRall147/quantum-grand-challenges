@@ -1,0 +1,59 @@
+name: Dev Container Check
+
+# Codespaces and local dev containers build from .devcontainer/, and nothing else built it. Its
+# old setup script ran under `set -e` and installed an npm package that the npm feed available
+# here answered with 404, so setup stopped at that line and everything after it never ran. This
+# builds the container whenever it changes and runs the checks a session depends on inside it.
+
+on:
+  pull_request:
+    paths:
+      - ".devcontainer/**"
+      - ".github/workflows/devcontainer-check.yml"
+      - "agents/api/requirements.txt"
+  push:
+    branches: [main]
+    paths:
+      - ".devcontainer/**"
+      - ".github/workflows/devcontainer-check.yml"
+      - "agents/api/requirements.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  devcontainer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the dev container and run the checks inside it
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/wernerrall147/qgc-devcontainer
+          push: never
+          runCmd: |
+            set -e
+            python -c "from qdk import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print('Q# compiles')"
+            # No pipelines and no `a && b`: set -e ignores a failure on the left of either.
+            python -m pytest --collect-only -q > /tmp/collect.txt
+            tail -n 1 /tmp/collect.txt
+            node --version
+            cd website
+            npm run build
+            cd ..
+            test -f website/out/index.html
+            echo "website builds"
+            # Start the evaluator API and call it: a codespace must be able to run the project.
+            python -m uvicorn agents.api.main:app --port 8765 > /tmp/api.log 2>&1 &
+            api_pid=$!
+            for attempt in $(seq 1 30); do
+              if curl -sf http://127.0.0.1:8765/ > /tmp/health.json; then break; fi
+              sleep 1
+            done
+            kill "$api_pid" 2>/dev/null || cat /tmp/api.log
+            if ! grep -q '"status":"ok"' /tmp/health.json; then cat /tmp/api.log; exit 1; fi
+            echo "evaluator API starts and answers"
+            gh --version > /tmp/gh.txt
+            head -n 1 /tmp/gh.txt

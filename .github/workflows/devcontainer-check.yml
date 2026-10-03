@@ -1,0 +1,40 @@
+name: Dev Container Check
+
+# Codespaces and local dev containers build from .devcontainer/, and nothing else built it. Its
+# old setup script ran under `set -e` and installed an npm package that the npm feed available
+# here answered with 404, so setup stopped at that line and everything after it never ran. This
+# builds the container whenever it changes and runs the checks a session depends on inside it.
+
+on:
+  pull_request:
+    paths:
+      - ".devcontainer/**"
+      - ".github/workflows/devcontainer-check.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".devcontainer/**"
+      - ".github/workflows/devcontainer-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  devcontainer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the dev container and run the checks inside it
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/wernerrall147/qgc-devcontainer
+          push: never
+          runCmd: |
+            set -e
+            python -c "from qdk import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print('Q# compiles')"
+            python -m pytest --collect-only -q | tail -n 1
+            node --version
+            test -x website/node_modules/.bin/next && echo "website dependencies installed"
+            gh --version | head -n 1

@@ -140,6 +140,11 @@ def segments(command: str) -> list[str]:
             parts.append("".join(buf))
             buf = []
             i += 1
+        elif ch == "&" and not (i and command[i - 1] in "<>") and not command.startswith("&>", i):
+            # A lone & runs the command before it in the background and starts the next one;
+            # `2>&1`, `>&2` and `&>file` are redirections, not separators.
+            parts.append("".join(buf))
+            buf = []
         elif ch in ";|\n":
             parts.append("".join(buf))
             buf = []
@@ -356,7 +361,8 @@ def git_config(cwd: str, key: str, kind: str | None = None) -> list[str]:
         return []
 
 
-PUSH_SETTINGS = re.compile(r"remote\..+\.(push|mirror)|push\.default")
+PUSH_SETTINGS = re.compile(
+    r"remote\..+\.(push|mirror)|push\.default|remote\.pushdefault|branch\..+\.(pushremote|remote|merge)")
 
 
 def current_branch(cwd: str) -> str:
@@ -415,7 +421,12 @@ def push_problem(args: list[str], cwd: str, config: dict[str, str] | None = None
     branch = current_branch(cwd)
     if not refspecs:
         # A bare push sends what the repository's push settings say, which can include main.
-        remote = repo_option or (positionals[0] if positionals and not has_repo else "origin")
+        # Without a named remote git picks branch.<b>.pushRemote, then remote.pushDefault,
+        # then branch.<b>.remote, then origin.
+        named = repo_option or (positionals[0] if positionals and not has_repo else None)
+        remote = named or next((values[-1] for values in (
+            git_config(cwd, f"branch.{branch}.pushRemote"), git_config(cwd, "remote.pushDefault"),
+            git_config(cwd, f"branch.{branch}.remote")) if values), "origin")
         configured = git_config(cwd, f"remote.{remote}.push")
         mode = (git_config(cwd, "push.default") or ["simple"])[-1]
         upstream = git_config(cwd, f"branch.{branch}.merge") if mode in ("upstream", "tracking") else []
@@ -658,6 +669,26 @@ def changed_files(repo: Path) -> tuple[set[str], bool]:
     return files, False
 
 
+def adds_or_removes_files(repo: Path) -> bool:
+    """Whether this branch adds, removes or renames any file, whatever its type.
+
+    graph.json records how many files are tracked, so a new Markdown file changes the graph
+    as surely as a new module. Untracked files count only in the cloud sandbox, where they
+    are all the agent's; on a developer's machine they include notes that are never committed.
+    """
+    for entry in git(repo, "status", "--porcelain=v1", "-z", "--untracked-files=all").split("\0"):
+        if len(entry) > 3:
+            codes = entry[:2]
+            if any(c in "ADRC" for c in codes) or (codes == "??" and in_cloud_agent()):
+                return True
+    for ref in ("origin/HEAD", "origin/main", "origin/master"):
+        base = git(repo, "merge-base", "HEAD", ref).strip()
+        if base:
+            return any(line[:1] in "ADRC" for line in
+                       git(repo, "diff", "--name-status", base, "HEAD").split("\n") if line)
+    return False
+
+
 def untracked_for_graph(repo: Path) -> list[str]:
     """Untracked files that CI will see in the dependency graph once the agent commits.
 
@@ -775,7 +806,7 @@ def stop(payload: dict) -> dict | None:
         return not known or any(predicate(f) for f in files)
 
     problems: list[str] = python_syntax(repo, files)
-    if touched(affects_graph):
+    if touched(affects_graph) or adds_or_removes_files(repo):
         try:
             drift = depgraph_drift(repo)
         except Exception:

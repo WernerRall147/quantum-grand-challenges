@@ -145,6 +145,11 @@ DENY = [
     # Twelfth review round: the bare matching refspec.
     "git push origin :",
     "git push origin +:",
+    # Thirteenth review round: a lone & separates commands; remote selection overridden.
+    "echo ok & rm docs/paper/methodology-paper.md",
+    "rm docs/paper/methodology-paper.md 2>&1",
+    "git -c remote.pushDefault=other push",
+    "git -c branch.feature.pushRemote=other push",
 ]
 
 ALLOW = [
@@ -187,6 +192,9 @@ ALLOW = [
     "gh pr checks 278",
     "gh run list --workflow deploy-evaluator-api.yml",
     "gh workflow run copilot-setup-steps.yml",
+    "python -m pytest -q 2>&1",
+    "rm build.log 2>&1",
+    "echo done >&2",
 ]
 
 
@@ -269,6 +277,33 @@ def test_a_bare_push_is_judged_by_the_repositorys_push_settings(repo_on_main: Pa
     subprocess.run([*git, "config", "branch.feature.remote", "origin"], check=True, env=env)
     subprocess.run([*git, "config", "branch.feature.merge", "refs/heads/main"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))
+    # A bare `git push` names no remote; git picks branch.<b>.pushRemote first, not origin.
+    subprocess.run([*git, "config", "push.default", "simple"], check=True, env=env)
+    subprocess.run([*git, "config", "--unset", "branch.feature.merge"], check=True, env=env)
+    subprocess.run([*git, "remote", "add", "other", "https://example.invalid/other.git"], check=True, env=env)
+    subprocess.run([*git, "config", "remote.other.push", "refs/heads/main:refs/heads/main"], check=True, env=env)
+    bare = {"toolName": "bash", "toolArgs": json.dumps({"command": "git push"}), "cwd": str(repo_on_main)}
+    assert run("pre-tool", bare, cwd=repo_on_main, env=env) is None, "origin has no push settings"
+    subprocess.run([*git, "config", "branch.feature.pushRemote", "other"], check=True, env=env)
+    assert denied(run("pre-tool", bare, cwd=repo_on_main, env=env)), "pushRemote selects other"
+
+
+def test_adding_any_file_sends_the_stop_gate_to_the_dependency_map(tmp_path: Path):
+    """graph.json records how many files are tracked, so a new Markdown file changes it too."""
+    git = ["git", "-C", str(tmp_path), "-c", "user.email=agent@example.com", "-c", "user.name=agent",
+           "-c", "commit.gpgsign=false"]
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    (tmp_path / "README.md").write_text("x\n", encoding="utf-8")
+    subprocess.run([*git, "add", "README.md"], check=True)
+    subprocess.run([*git, "commit", "-q", "-m", "init"], check=True)
+    gates = _gates_module()
+    assert gates.adds_or_removes_files(tmp_path) is False
+    (tmp_path / "docs.md").write_text("new\n", encoding="utf-8")
+    subprocess.run([*git, "add", "-N", "docs.md"], check=True)
+    assert gates.adds_or_removes_files(tmp_path) is True
+    subprocess.run([*git, "rm", "-q", "--cached", "docs.md"], check=True)
+    (tmp_path / "README.md").unlink()
+    assert gates.adds_or_removes_files(tmp_path) is True
 
 
 @pytest.mark.parametrize("raw", ["", "not json", "[]", '{"toolName": 5}', '{"toolArgs": "{"}'])

@@ -289,8 +289,10 @@ class Protected:
             # Unknown directory (`cd -`, `cd $DIR`): match on the path's tail, erring on
             # the side of asking a human.
             tail = path.lstrip("/").rstrip("/")
-            return bool(tail) and any(f == tail or f.endswith("/" + tail) or f.startswith(tail + "/")
-                                      for f in self.files())
+            lowered = tail.lower()
+            return bool(tail) and (
+                any(f == tail or f.endswith("/" + tail) or f.startswith(tail + "/") for f in self.files())
+                or any(e.lower() == lowered or e.lower().endswith("/" + lowered) for e in ARTIFACT_EXAMPLES))
         try:
             candidate = Path(path)
             absolute = candidate if candidate.is_absolute() else cwd / candidate
@@ -301,6 +303,8 @@ class Protected:
             return False
         if rel in ("", "."):
             return True  # the whole repository
+        if is_artifact(rel):
+            return True  # `cd docs && rm -rf paper` deletes docs/paper
         if any(ch in rel for ch in "*?["):
             return any(fnmatch.fnmatch(f, rel) for f in self.files())
         return rel in self.files() or any(f.startswith(rel + "/") for f in self.files())

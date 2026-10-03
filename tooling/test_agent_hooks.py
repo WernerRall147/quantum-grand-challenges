@@ -114,6 +114,11 @@ DENY = [
     "git push --repo=origin main",
     "git push --repo origin main",
     'bash -c "python3 -c \\"import shutil; shutil.rmtree(\'docs/paper\')\\""',
+    # Fifth review round: artifacts named relative to a directory the command moved into.
+    "cd docs && rm -rf paper",
+    "cd website && rm -rf data",
+    "cd docs && rm -rf pa*",
+    "cd - && rm -rf paper",
 ]
 
 ALLOW = [

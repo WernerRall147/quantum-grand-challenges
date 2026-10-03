@@ -353,13 +353,29 @@ def changed_files(repo: Path) -> tuple[set[str], bool]:
     return files, False
 
 
+def untracked_for_graph(repo: Path) -> list[str]:
+    """Untracked files that CI will see in the dependency graph once the agent commits.
+
+    In the cloud sandbox every untracked file is the agent's and gets committed. On a
+    developer's machine untracked files include the developer's own notes, which are never
+    committed; counting them would report drift on every stop, because graph.json records
+    the number of tracked files. There, only untracked code counts.
+    """
+    files = [f for f in git(repo, "ls-files", "--others", "--exclude-standard").split("\n") if f]
+    if in_cloud_agent():
+        return files
+    return [f for f in files if Path(f).suffix in CODE_SUFFIXES
+            or Path(f).name in ("Makefile", "Dockerfile", "package.json")
+            or f.startswith(".github/workflows/")]
+
+
 def depgraph_drift(repo: Path) -> str | None:
     """Rebuild the dependency graph into a temp dir and compare it with docs/depgraph.
 
     The same computation as the depgraph-drift workflow, without touching the working
-    tree, and counting untracked files as tracked: CI sees them once they are committed,
-    and build_graph.py on its own would not, so a brand-new file would pass here and fail
-    there.
+    tree. Files the agent has not added yet are counted as tracked (see untracked_for_graph):
+    build_graph.py on its own would not see them, so a brand-new file would pass here and
+    fail in CI.
     """
     script = repo / "tooling" / "depgraph" / "build_graph.py"
     out_dir = repo / "docs" / "depgraph"
@@ -368,7 +384,7 @@ def depgraph_drift(repo: Path) -> str | None:
     spec = importlib.util.spec_from_file_location("_agent_gates_build_graph", script)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    untracked = [f for f in git(repo, "ls-files", "--others", "--exclude-standard").split("\n") if f]
+    untracked = untracked_for_graph(repo)
     tracked = module.git_tracked_files
     module.git_tracked_files = lambda: sorted(set(tracked()) | set(untracked))
     with tempfile.TemporaryDirectory() as tmp:
@@ -432,8 +448,10 @@ def run_check(repo: Path, argv: list[str], label: str, timeout: int) -> str | No
         return None
     if out.returncode == 0:
         return None
-    tail = [line for line in (out.stdout + out.stderr).splitlines() if line.strip()][-6:]
-    return f"{label} failed:\n    " + "\n    ".join(tail)
+    # stdout carries the failure summary; stderr is mostly warnings, so it is the fallback.
+    lines = [line for line in out.stdout.splitlines() if line.strip()] \
+        or [line for line in out.stderr.splitlines() if line.strip()]
+    return f"{label} failed:\n    " + "\n    ".join(lines[-6:])
 
 
 def stop(payload: dict) -> dict | None:

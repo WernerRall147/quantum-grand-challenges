@@ -247,3 +247,27 @@ def test_python_that_does_not_compile_sends_the_agent_back(worktree: Path):
     (worktree / "tooling" / "_gate_broken.py").write_text("def f(:\n", encoding="utf-8")
     result = run("stop", {"cwd": str(worktree)}, cwd=worktree)
     assert result and "tooling/_gate_broken.py does not compile" in result["reason"]
+
+
+def _touch_code_without_changing_the_graph(worktree: Path) -> None:
+    """A code change that leaves the graph as it is, so the gate runs its graph check."""
+    target = worktree / "tooling" / "ci_validate_qsharp.py"
+    target.write_text(target.read_text(encoding="utf-8") + "\n# touched\n", encoding="utf-8")
+
+
+def test_a_developers_own_untracked_notes_do_not_count_as_drift(worktree: Path):
+    """graph.json records how many files are tracked. A developer's untracked notes are never
+    committed, so counting them reported drift on every stop on a real machine."""
+    _touch_code_without_changing_the_graph(worktree)
+    (worktree / "my-notes.md").write_text("private\n", encoding="utf-8")
+    result = run("stop", {"cwd": str(worktree)}, cwd=worktree, env=local_env())
+    assert result is None, result
+
+
+def test_in_the_cloud_every_new_file_counts(worktree: Path):
+    """In the sandbox every untracked file is the agent's and will be committed."""
+    _touch_code_without_changing_the_graph(worktree)
+    (worktree / "docs" / "new-page.md").write_text("new\n", encoding="utf-8")
+    cloud = local_env() | {"COPILOT_AGENT_PROMPT": "Implement #1"}
+    result = run("stop", {"cwd": str(worktree)}, cwd=worktree, env=cloud)
+    assert result and "docs/depgraph is stale" in result["reason"]

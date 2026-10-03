@@ -532,8 +532,11 @@ def test_which_changes_send_the_stop_gate_to_the_dependency_map(path, expected):
     ("agents/tests/conftest.py", True),
     ("pytest.ini", True),
     (".github/workflows/ci-cd.yml", True),
+    ("docs/AzureFriday/deck-notes.md", True),
+    ("README.md", True),
+    ("docs/objective-kpis.json", True),
     ("tooling/ci_validate_qsharp.py", False),
-    ("docs/agentic-delivery.md", False),
+    ("website/data/estimates.json", False),
 ])
 def test_which_changes_send_the_stop_gate_to_the_test_count_checks(path, expected):
     """test_doc_claims.py reads what pytest collects and what ci-cd.yml runs."""

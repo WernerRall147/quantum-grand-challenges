@@ -622,11 +622,13 @@ def affects_graph(path: str) -> bool:
 
 
 def affects_test_claims(path: str) -> bool:
-    """Whether a change can make tooling/test_doc_claims.py's test-count checks fail: what
-    pytest collects, or which tests CI's pytest steps run."""
+    """Whether a change can make tooling/test_doc_claims.py fail: what pytest collects, which
+    tests CI's pytest steps run, or the claims themselves (counts in any Markdown file, the
+    stage records in docs/objective-kpis.json)."""
     name = Path(path).name
     return (name.startswith("test_") or name in ("conftest.py", "pytest.ini")
-            or path == ".github/workflows/ci-cd.yml")
+            or path in (".github/workflows/ci-cd.yml", "docs/objective-kpis.json")
+            or path.endswith(".md"))
 
 
 def affects_typescript(path: str) -> bool:
@@ -821,7 +823,12 @@ def stop(payload: dict) -> dict | None:
                             "Q# compilation (`python tooling/ci_validate_qsharp.py`)", 120)
         if problem:
             problems.append(problem)
-    if any(affects_test_claims(f) for f in files) and (repo / "tooling" / "test_doc_claims.py").is_file():
+    # A developer's own untracked notes are not the agent's change; checking claims on their
+    # account would cost every local stop the full claims run.
+    local_notes = set() if in_cloud_agent() else {
+        f for f in git(repo, "ls-files", "--others", "--exclude-standard").split("\n") if f}
+    if any(affects_test_claims(f) for f in files - local_notes) \
+            and (repo / "tooling" / "test_doc_claims.py").is_file():
         problem = run_check(repo, [sys.executable, "-m", "pytest", "tooling/test_doc_claims.py",
                                    "-q", "-p", "no:cacheprovider", "--no-header"],
                             "Documented test counts (`python -m pytest tooling/test_doc_claims.py -q`)", 150)

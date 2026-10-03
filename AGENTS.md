@@ -84,6 +84,8 @@ Measured on a developer laptop; CI runners have been somewhat faster.
    `HardwareKernel.qs`, anything a Makefile, workflow, Dockerfile, pytest or npm script runs,
    `docs/paper/`, PDFs, `CITATION.cff`, problem instances, and `problems/archived/`. The full list
    is in `docs/initiatives/repo-cleanup.md`; consult `docs/depgraph/cleanup-candidates.json` first.
+   `.github/hooks/agent-gates.json` denies deleting them, reading the entry points from
+   `docs/depgraph/entry-points.json`.
 6. **Leave other people's work alone.** Stage only the files you changed. Never push to `main`
    (it changes only through reviewed pull requests) and never force-push. On a developer's
    machine never run `git clean -f`, `git reset --hard` or a whole-tree checkout or restore.

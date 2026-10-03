@@ -79,6 +79,30 @@ DENY = [
     "find problems/archived -name '*.pyc' -delete",
     "rm problems/01_hubbard/qsharp/HardwareKernel.qs",
     "rm -rf problems/01_hubbard/instances",
+    # Hidden inside another command (Copilot code review on #278).
+    "bash -c 'rm docs/paper/methodology-paper.md'",
+    'sh -c "git push --force"',
+    "bash -lc 'cd x; git push origin main'",
+    'pwsh -Command "Remove-Item -Recurse docs/paper"',
+    r'cmd /c "rmdir /s /q docs\paper"',
+    'eval "git push -f"',
+    "echo $(rm -rf problems/archived)",
+    'echo "`git push --force`"',
+    "timeout 30 rm -rf docs/paper",
+    # Each entry-point category on the danger list, read from the dependency map.
+    "rm problems/01_hubbard/qsharp/src/Main.qs",
+    "rm agents/api/main.py",
+    "rm .github/workflows/ci-cd.yml",
+    "rm problems/01_hubbard/Makefile",
+    "rm Dockerfile",
+    "rm tooling/ci_validate_qsharp.py",
+    "git rm tooling/test_doc_claims.py",
+    "rm website/pages/404.tsx",
+    "rm tooling/verify_demo_prompts.py",
+    "rm problems/01_hubbard/estimates/classical_baseline.json",
+    "rm problems/reference_index.json",
+    "rm -rf tooling",
+    "rm -rf .",
 ]
 
 ALLOW = [
@@ -102,6 +126,13 @@ ALLOW = [
     "git stash",
     "git rm --cached tooling/scratch.py",
     "rm -f website/out/index.html",
+    "bash -c 'echo hello'",
+    "echo '$(rm -rf problems/archived)'",
+    'git commit -m "Fix; rm -rf problems/archived is denied now"',
+    'git commit -m "Deny \\`git push --force\\` in the hook"',
+    "rm -rf tooling/__pycache__",
+    "rm docs/agentic-delivery-draft.md",
+    "rm tooling/_scratch.py",
 ]
 
 
@@ -213,6 +244,15 @@ def test_other_tools_are_not_checked(tmp_path: Path):
     broken = tmp_path / "broken.py"
     broken.write_text("def f(:\n", encoding="utf-8")
     assert run("post-tool", edit_payload(broken, "view")) is None
+
+
+@pytest.mark.parametrize("tool", ["create", "edit", "str_replace", "str_replace_editor", "write",
+                                  "multiedit", "create_file", "replace_string_in_file",
+                                  "insert_edit_into_file"])
+def test_every_edit_tool_is_checked(tmp_path: Path, tool: str):
+    broken = tmp_path / "broken.py"
+    broken.write_text("def f(:\n", encoding="utf-8")
+    assert "broken.py" in run("post-tool", edit_payload(broken, tool))["additionalContext"]
 
 
 # --- stop ------------------------------------------------------------------------------

@@ -34,7 +34,11 @@ jobs:
           runCmd: |
             set -e
             python -c "from qdk import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print('Q# compiles')"
-            python -m pytest --collect-only -q | tail -n 1
+            # No pipelines and no `a && b`: set -e ignores a failure on the left of either.
+            python -m pytest --collect-only -q > /tmp/collect.txt
+            tail -n 1 /tmp/collect.txt
             node --version
-            test -x website/node_modules/.bin/next && echo "website dependencies installed"
-            gh --version | head -n 1
+            test -x website/node_modules/.bin/next
+            echo "website dependencies installed"
+            gh --version > /tmp/gh.txt
+            head -n 1 /tmp/gh.txt

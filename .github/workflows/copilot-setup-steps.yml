@@ -50,10 +50,14 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Smoke-check the environment
         # When a setup step fails, Copilot starts anyway in a half-built environment. So prove
-        # the pieces the agent relies on work, not only that they installed.
+        # the pieces the agent relies on work, not only that they installed. The default shell
+        # is `bash -e` without pipefail, so a failure on the left of a pipe would be masked:
+        # each check below fails on its own line.
         run: |
           python -c "from qdk import qsharp; qsharp.init(project_root='problems/01_hubbard/qsharp'); print('Q# compiles')"
-          python -m pytest --collect-only -q | tail -n 1
+          python -m pytest --collect-only -q > /tmp/collect.txt
+          tail -n 1 /tmp/collect.txt
           echo '{"toolName":"bash","toolArgs":"{\"command\":\"git push --force\"}"}' \
-            | python3 .github/hooks/scripts/agent_gates.py pre-tool | grep -q '"deny"'
+            | python3 .github/hooks/scripts/agent_gates.py pre-tool > /tmp/decision.json
+          grep -q '"deny"' /tmp/decision.json
           echo "agent-gates hook denies a force push"

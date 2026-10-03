@@ -86,7 +86,8 @@ Choose the model when you start the session. A starting policy:
 
 | Rule | Enforced by |
 |---|---|
-| No force pushes, no pushes to `main`, no `git clean -f`, no deleting danger-list paths, no whole-tree discards on a developer machine | `.github/hooks/agent-gates.json`, and branch protection on `main` |
+| No force pushes, no pushes to `main`, no `git clean -f`, no whole-tree discards on a developer machine | `.github/hooks/agent-gates.json`, and branch protection on `main` |
+| No deleting the danger list's entry points (as `docs/depgraph/entry-points.json` records them) or published artifacts, including through `bash -c`, `eval` or `$(...)` | `.github/hooks/agent-gates.json` |
 | An edited file still parses | the post-tool hook, immediately after the edit |
 | Dependency map, Python syntax, workflow YAML, Q# compilation, documented test counts | the stop hook, once per stop, then CI |
 | The agent's environment matches CI | `.github/workflows/copilot-setup-steps.yml`, checked by `tooling/test_agent_harness.py` |
@@ -95,6 +96,9 @@ Choose the model when you start the session. A starting policy:
 | The hooks deny and allow what they should | `tooling/test_agent_hooks.py` |
 | Independent review | Copilot code review with `REVIEW.md`, and CI |
 | Merging | a person; `main` requires a pull request with every conversation resolved |
+
+The hooks guard against accidents; they are not a sandbox, and a determined command can get round
+them. The boundary is branch protection, review and a person merging.
 
 ## Repository settings outside git
 

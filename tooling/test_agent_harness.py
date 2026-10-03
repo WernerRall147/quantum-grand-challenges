@@ -13,6 +13,7 @@ decide is tested by running them, in tooling/test_agent_hooks.py.
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import re
 import subprocess
@@ -251,6 +252,18 @@ def test_hook_script_is_not_a_cleanup_candidate():
         "the runtime calls the hook script, but nothing imports it; it needs a line in "
         "tooling/depgraph/manual_entrypoints.txt or a cleanup could delete it"
     )
+
+
+def test_hook_matchers_cover_every_tool_the_script_handles():
+    """A tool the matcher misses never reaches the script: no check, and no warning."""
+    spec = importlib.util.spec_from_file_location("agent_gates", HOOKS_DIR / "scripts" / "agent_gates.py")
+    gates = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gates)
+    hooks = json.loads((HOOKS_DIR / "agent-gates.json").read_text(encoding="utf-8"))["hooks"]
+    for event, names in (("preToolUse", gates.SHELL_TOOLS), ("postToolUse", gates.EDIT_TOOLS)):
+        matcher = re.compile(f"^(?:{hooks[event][0]['matcher']})$")
+        missed = sorted(name for name in names if not matcher.match(name))
+        assert not missed, f"{event} matcher skips {missed}"
 
 
 # --- the agent's environment matches CI -------------------------------------------------

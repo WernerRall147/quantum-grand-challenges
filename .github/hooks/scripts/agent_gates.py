@@ -35,8 +35,10 @@ from pathlib import Path
 # --- payload helpers -------------------------------------------------------------------
 
 SHELL_TOOLS = {"bash", "powershell", "shell", "execute", "run_in_terminal"}
+# The configured matchers in agent-gates.json must cover every name here;
+# tooling/test_agent_harness.py checks that they do.
 EDIT_TOOLS = {
-    "create", "edit", "str_replace_editor", "apply_patch", "write", "multiedit",
+    "create", "edit", "str_replace", "str_replace_editor", "apply_patch", "write", "multiedit",
     "create_file", "replace_string_in_file", "insert_edit_into_file",
 }
 
@@ -71,36 +73,71 @@ def shell_command(payload: dict) -> str | None:
 
 # --- pre-tool: the deny rules ----------------------------------------------------------
 
-# The danger list in docs/initiatives/repo-cleanup.md: published scientific artifacts,
-# Azure-submittable kernels, problem instances and the archived problems kept on purpose.
-PROTECTED = [re.compile(p, re.I) for p in (
+# The danger list in docs/initiatives/repo-cleanup.md has two halves. Its entry points
+# (workflows, Makefiles, the Dockerfile, pytest files, Next.js pages, Q# projects, manual
+# tools, the scripts those surfaces run, the API's routes) are already inventoried by the
+# dependency map, so they are read from docs/depgraph rather than listed twice. Its published
+# artifacts are patterns, below.
+ARTIFACTS = [re.compile(p, re.I) for p in (
     r"(^|/)problems/archived(/|$)",
+    r"(^|/)problems/[^/]+/(instances|estimates|circuits)(/|$)",
+    r"(^|/)problems/reference_index\.json$",
     r"(^|/)docs/paper(/|$)",
+    r"(^|/)docs/objective-kpis\.json$",
+    r"(^|/)website/data(/|$)",
     r"(^|/)knowledge/papers(/|$)",
     r"(^|/)citation\.cff$",
     r"\.pdf$",
     r"(^|/)hardwarekernel\.qs$",
-    r"(^|/)problems/[^/]+/instances(/|$)",
     r"(^|/)\.git(/|$)",
 )]
 # Paths a wildcard argument is tested against, so `rm -rf problems/*` is caught too.
-PROTECTED_EXAMPLES = (
+ARTIFACT_EXAMPLES = (
     "problems/archived", "problems/archived/03_qae_risk/README.md", "docs/paper",
     "docs/paper/methodology-paper.md", "knowledge/Papers", "CITATION.cff", "paper.pdf",
     "problems/01_hubbard/qsharp/HardwareKernel.qs", "problems/01_hubbard/instances/small.yaml",
-    ".git",
+    "problems/01_hubbard/estimates/classical_baseline.json", "website/data/x.json", ".git",
 )
+DANGER = "danger list (docs/initiatives/repo-cleanup.md): deleting this needs an explicit human OK"
 DELETE_VERBS = {"rm", "rmdir", "del", "erase", "rd", "remove-item", "ri", "unlink", "shred"}
-WRAPPERS = {"sudo", "xargs", "env", "command", "nohup", "time", "nice", "exec"}
+WRAPPERS = {"sudo", "xargs", "env", "command", "nohup", "time", "nice", "exec", "timeout"}
+SHELLS = {"bash", "sh", "zsh", "dash", "ksh", "fish"}
+POWERSHELLS = {"pwsh", "pwsh.exe", "powershell", "powershell.exe"}
+INLINE_FLAGS = {"-c", "-lc", "-ic", "-Command", "-command", "/c", "/C"}
+SUBSTITUTION = re.compile(r"\$\(([^()]*)\)|`([^`]*)`")
 PY_DELETE = re.compile(r"rmtree\(|os\.remove\(|os\.unlink\(|\.unlink\(|os\.rmdir\(")
 PATH_LIKE = re.compile(r"[\w./\\:-]+")
-SEGMENT_SPLIT = re.compile(r"&&|\|\||[;|\n]")
 GIT_GLOBAL_WITH_VALUE = {"-C", "-c", "--git-dir", "--work-tree", "--namespace", "--exec-path"}
 SHORT_FORCE = re.compile(r"-[a-zA-Z]*f[a-zA-Z]*")
 
 
 def segments(command: str) -> list[str]:
-    return [part.strip() for part in SEGMENT_SPLIT.split(command) if part.strip()]
+    """Split on ; && || | and newlines, but not inside quotes, so `bash -c 'a; b'` stays whole."""
+    parts, buf, quote, i = [], [], None, 0
+    while i < len(command):
+        ch = command[i]
+        if quote:
+            buf.append(ch)
+            if ch == quote:
+                quote = None
+            elif ch == "\\" and quote == '"' and i + 1 < len(command):
+                buf.append(command[i + 1])
+                i += 1
+        elif ch in "'\"":
+            quote = ch
+            buf.append(ch)
+        elif command.startswith(("&&", "||"), i):
+            parts.append("".join(buf))
+            buf = []
+            i += 1
+        elif ch in ";|\n":
+            parts.append("".join(buf))
+            buf = []
+        else:
+            buf.append(ch)
+        i += 1
+    parts.append("".join(buf))
+    return [part.strip() for part in parts if part.strip()]
 
 
 def tokens(segment: str) -> list[str]:
@@ -111,12 +148,27 @@ def tokens(segment: str) -> list[str]:
 
 
 def command_verb(toks: list[str]) -> str:
-    """The program a segment runs, past `sudo`, `xargs -0`, `VAR=value` and the like."""
+    """The program a segment runs, past `sudo`, `timeout 30`, `VAR=value` and the like."""
     for tok in toks:
-        if tok in WRAPPERS or tok.startswith("-") or re.fullmatch(r"[A-Za-z_]\w*=.*", tok):
+        if tok in WRAPPERS or tok.startswith("-") or re.fullmatch(r"[A-Za-z_]\w*=.*", tok) \
+                or re.fullmatch(r"\d+[smhd]?", tok):
             continue
         return Path(tok.replace("\\", "/")).name.lower()
     return ""
+
+
+def nested_commands(segment: str, toks: list[str]) -> list[str]:
+    """Commands hidden inside this one: `bash -c '...'`, `pwsh -Command ...`, `eval`, $(...)."""
+    inner = substitutions(segment)
+    verb = command_verb(toks)
+    if verb == "eval":
+        inner.append(" ".join(toks[1:]))
+    elif verb in SHELLS or verb in POWERSHELLS or verb in ("cmd", "cmd.exe"):
+        for i, tok in enumerate(toks[:-1]):
+            if tok in INLINE_FLAGS:
+                inner.append(toks[i + 1] if verb in SHELLS else " ".join(toks[i + 1:]))
+                break
+    return [command for command in inner if command.strip()]
 
 
 def deletion_targets(segment: str, toks: list[str]) -> list[str]:
@@ -133,6 +185,15 @@ def deletion_targets(segment: str, toks: list[str]) -> list[str]:
     return []
 
 
+def substitutions(segment: str) -> list[str]:
+    """Commands in $(...) and backticks, which the shell runs before the command itself.
+
+    Like bash: nothing inside single quotes is expanded, and an escaped backtick is a literal.
+    """
+    text = re.sub(r"'[^']*'", "''", segment).replace("\\`", "")
+    return [a or b for a, b in SUBSTITUTION.findall(text)]
+
+
 def normalise(path: str) -> str:
     path = path.strip().strip("'\"").replace("\\", "/")
     while path.startswith("./"):
@@ -140,13 +201,74 @@ def normalise(path: str) -> str:
     return path
 
 
-def is_protected(token: str) -> bool:
+def is_artifact(token: str) -> bool:
     path = normalise(token)
     if not path or path.startswith("-"):
         return False
     if any(ch in path for ch in "*?["):
-        return any(fnmatch.fnmatch(example.lower(), path.lower()) for example in PROTECTED_EXAMPLES)
-    return any(pattern.search(path) for pattern in PROTECTED)
+        return any(fnmatch.fnmatch(example.lower(), path.lower()) for example in ARTIFACT_EXAMPLES)
+    return any(pattern.search(path) for pattern in ARTIFACTS)
+
+
+def map_entry_points(repo: Path) -> set[str]:
+    """Entry points on the danger list, as the dependency map records them."""
+    found = {"agents/api/main.py"}  # the API's routes; build_graph.py roots it specially
+    try:
+        surfaces = json.loads((repo / "docs" / "depgraph" / "entry-points.json").read_text(encoding="utf-8"))
+        graph = json.loads((repo / "docs" / "depgraph" / "graph.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return found
+    for files in surfaces.values():
+        found.update(files)
+    runners = {f for key in ("workflows", "makefiles", "dockerfile") for f in surfaces.get(key, [])}
+    found.update(dst for src, dst in graph.get("edges", []) if src in runners)
+    return found
+
+
+class Protected:
+    """Whether deleting a path needs a human: published artifacts and the map's entry points.
+
+    The map is read only when a command actually deletes something, so ordinary commands
+    pay nothing for it.
+    """
+
+    def __init__(self, cwd: str):
+        self.cwd = Path(cwd)
+        self._repo: Path | None = None
+        self._files: set[str] | None = None
+
+    def repo(self) -> Path:
+        if self._repo is None:
+            top = ""
+            try:
+                top = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=self.cwd,
+                                     capture_output=True, text=True, timeout=5).stdout.strip()
+            except Exception:
+                pass
+            self._repo = Path(top) if top else self.cwd
+        return self._repo
+
+    def __call__(self, token: str) -> bool:
+        if is_artifact(token):
+            return True
+        path = normalise(token)
+        if not path or path.startswith("-") or "://" in path:
+            return False
+        try:
+            candidate = Path(path)
+            absolute = candidate if candidate.is_absolute() else self.cwd / candidate
+            rel = Path(os.path.relpath(absolute, self.repo())).as_posix().rstrip("/")
+        except ValueError:
+            return False  # another drive on Windows
+        if rel.startswith(".."):
+            return False
+        if rel in ("", "."):
+            return True  # the whole repository
+        if self._files is None:
+            self._files = map_entry_points(self.repo())
+        if any(ch in rel for ch in "*?["):
+            return any(fnmatch.fnmatch(f, rel) for f in self._files)
+        return rel in self._files or any(f.startswith(rel + "/") for f in self._files)
 
 
 def git_call(toks: list[str]) -> tuple[str, list[str]] | None:
@@ -200,8 +322,6 @@ def git_problem(sub: str, args: list[str], cwd: str) -> str | None:
     if sub == "clean" and any(a == "--force" or SHORT_FORCE.fullmatch(a) for a in args):
         return ("git clean -f deletes untracked files, which on a developer's machine include "
                 "their own uncommitted work; delete the specific files you created")
-    if sub == "rm" and any(is_protected(a) for a in args):
-        return "danger list (docs/initiatives/repo-cleanup.md): deleting this needs an explicit human OK"
     if in_cloud_agent():
         return None  # the sandbox holds no one else's uncommitted work
     if sub == "reset" and "--hard" in args:
@@ -216,24 +336,31 @@ def git_problem(sub: str, args: list[str], cwd: str) -> str | None:
     return None
 
 
-def deny_reason(command: str, cwd: str) -> str | None:
-    # Python code passed with -c can contain `;`, which splits it across segments, so the
-    # whole command is checked for in-process deletion before splitting.
-    if PY_DELETE.search(command) and any(is_protected(p) for p in PATH_LIKE.findall(command)):
-        return "danger list (docs/initiatives/repo-cleanup.md): deleting this needs an explicit human OK"
+def deny_reason(command: str, cwd: str, protects: Protected | None = None, depth: int = 0) -> str | None:
+    protects = protects or Protected(cwd)
+    if depth > 4:
+        return None
+    # Python code passed with -c contains `;` and quotes; check it whole before splitting.
+    if PY_DELETE.search(command) and any(protects(p) for p in PATH_LIKE.findall(command)):
+        return DANGER
     for segment in segments(command):
         toks = tokens(segment)
         if not toks:
             continue
+        for inner in nested_commands(segment, toks):
+            reason = deny_reason(inner, cwd, protects, depth + 1)
+            if reason:
+                return reason
         call = git_call(toks)
         if call and command_verb(toks) in ("git", "git.exe"):
-            reason = git_problem(call[0], call[1] + segment.split()[2:], cwd) \
-                if call[0] == "rm" else git_problem(call[0], call[1], cwd)
+            if call[0] == "rm" and any(protects(a) for a in call[1] + segment.split()[2:]):
+                return DANGER
+            reason = git_problem(call[0], call[1], cwd)
             if reason:
                 return reason
             continue
-        if any(is_protected(t) for t in deletion_targets(segment, toks)):
-            return "danger list (docs/initiatives/repo-cleanup.md): deleting this needs an explicit human OK"
+        if any(protects(t) for t in deletion_targets(segment, toks)):
+            return DANGER
     return None
 
 

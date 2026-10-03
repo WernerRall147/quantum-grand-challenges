@@ -252,6 +252,10 @@ def test_a_bare_push_is_judged_by_the_repositorys_push_settings(repo_on_main: Pa
     subprocess.run([*git, "config", "remote.origin.push", "+refs/heads/feature:refs/heads/feature"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), "a stored force refspec"
     subprocess.run([*git, "config", "--unset", "remote.origin.push"], check=True, env=env)
+    for truthy in ("yes", "On", "1"):  # git's boolean coercion, not only the literal "true"
+        subprocess.run([*git, "config", "remote.origin.mirror", truthy], check=True, env=env)
+        assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), f"mirror={truthy}"
+    subprocess.run([*git, "config", "--unset", "remote.origin.mirror"], check=True, env=env)
     subprocess.run([*git, "config", "push.default", "matching"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))
     # A feature branch whose upstream is main, pushed in upstream mode, updates main.
@@ -341,12 +345,35 @@ def test_every_edit_tool_is_checked(tmp_path: Path, tool: str):
 
 @pytest.fixture
 def worktree(tmp_path: Path):
-    """A clean checkout of HEAD to break things in, leaving the real working tree alone."""
+    """A clean checkout of HEAD to break things in, leaving the real working tree alone.
+
+    CI's shallow checkout has no origin/main, which would send the gate to its
+    whole-repository fallback on every test here; a temporary ref keeps these tests about the
+    change they make. Locally the real ref exists and is left alone.
+    """
     path = tmp_path / "wt"
+    made_ref = subprocess.run(["git", "rev-parse", "--verify", "-q", "refs/remotes/origin/main"],
+                              cwd=REPO, capture_output=True).returncode != 0
+    if made_ref:
+        subprocess.run(["git", "update-ref", "refs/remotes/origin/main", "HEAD"], cwd=REPO, check=True)
     subprocess.run(["git", "worktree", "add", "-q", "--detach", str(path), "HEAD"], cwd=REPO,
                    check=True, capture_output=True)
     yield path
     subprocess.run(["git", "worktree", "remove", "--force", str(path)], cwd=REPO, capture_output=True)
+    if made_ref:
+        subprocess.run(["git", "update-ref", "-d", "refs/remotes/origin/main"], cwd=REPO, capture_output=True)
+
+
+def test_without_a_base_branch_every_tracked_file_is_checked(tmp_path: Path):
+    """No origin to compare with: committed changes must still be checked, not skipped."""
+    git = ["git", "-C", str(tmp_path), "-c", "user.email=agent@example.com", "-c", "user.name=agent",
+           "-c", "commit.gpgsign=false"]
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    (tmp_path / "broken.py").write_text("def f(:\n", encoding="utf-8")
+    subprocess.run([*git, "add", "broken.py"], check=True)
+    subprocess.run([*git, "commit", "-q", "-m", "committed and clean"], check=True)
+    result = run("stop", {"cwd": str(tmp_path)}, cwd=tmp_path)
+    assert result and "broken.py does not compile" in result["reason"]
 
 
 def test_stop_is_allowed_once_already_sent_back():

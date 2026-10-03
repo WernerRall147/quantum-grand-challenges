@@ -345,10 +345,11 @@ def git_call(toks: list[str]) -> tuple[str, list[str], str | None, dict[str, str
     return None
 
 
-def git_config(cwd: str, key: str) -> list[str]:
+def git_config(cwd: str, key: str, kind: str | None = None) -> list[str]:
+    """Values of a git setting; with kind="bool", git's own coercion (yes/on/1 -> true)."""
     try:
-        out = subprocess.run(["git", "config", "--get-all", key], cwd=cwd,
-                             capture_output=True, text=True, timeout=5)
+        argv = ["git", "config", *(["--type", kind] if kind else []), "--get-all", key]
+        out = subprocess.run(argv, cwd=cwd, capture_output=True, text=True, timeout=5)
         return [line.strip() for line in out.stdout.splitlines() if line.strip()]
     except Exception:
         return []
@@ -419,7 +420,7 @@ def push_problem(args: list[str], cwd: str, config: dict[str, str] | None = None
                     "without it")
         if any(pushes_main(ref, branch) for ref in configured + upstream) \
                 or mode == "matching" \
-                or "true" in git_config(cwd, f"remote.{remote}.mirror"):
+                or "true" in git_config(cwd, f"remote.{remote}.mirror", "bool"):
             return ("this repository's push settings would send main; push an explicit branch, "
                     "for example `git push origin HEAD:<branch>`")
     for ref in refspecs or ["HEAD"]:
@@ -622,7 +623,8 @@ def changed_files(repo: Path) -> tuple[set[str], bool]:
     """Files changed on this branch: uncommitted, plus committed since the default branch.
 
     The flag is False when the committed part could not be worked out (no remote default
-    branch to compare with), so the caller runs the whole-repository checks anyway.
+    branch to compare with). Then every tracked file counts as changed, so every check runs
+    over the whole repository.
     """
     files: set[str] = set()
     entries = git(repo, "status", "--porcelain=v1", "-z", "--untracked-files=all").split("\0")
@@ -640,6 +642,9 @@ def changed_files(repo: Path) -> tuple[set[str], bool]:
             files.update(git(repo, "diff", "--name-only", base, "HEAD").split("\n"))
             files.discard("")
             return files, True
+    # No default branch to compare with: treat every tracked file as changed, so each check
+    # runs over the whole repository rather than not at all.
+    files.update(f for f in git(repo, "ls-files").split("\n") if f)
     return files, False
 
 

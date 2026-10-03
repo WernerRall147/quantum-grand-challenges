@@ -38,7 +38,10 @@ jobs:
             python -m pytest --collect-only -q > /tmp/collect.txt
             tail -n 1 /tmp/collect.txt
             node --version
-            test -x website/node_modules/.bin/next
-            echo "website dependencies installed"
+            cd website
+            npm run build
+            cd ..
+            test -f website/out/index.html
+            echo "website builds"
             gh --version > /tmp/gh.txt
             head -n 1 /tmp/gh.txt

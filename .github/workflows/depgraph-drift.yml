@@ -19,6 +19,8 @@ on:
       - ".github/workflows/**"
       - "website/package.json"
       - "tooling/depgraph/build_graph.py"
+      - "tooling/depgraph/manual_entrypoints.txt"
+      - "**/qsharp.json"
       - "docs/depgraph/**"
 
 permissions:

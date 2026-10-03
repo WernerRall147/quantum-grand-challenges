@@ -310,17 +310,32 @@ class Protected:
         return rel in self.files() or any(f.startswith(rel + "/") for f in self.files())
 
 
-def git_call(toks: list[str]) -> tuple[str, list[str], str | None] | None:
-    """(subcommand, args, -C directory) for a `git ...` call, past git's global options."""
+def git_call(toks: list[str]) -> tuple[str, list[str], str | None, dict[str, str]] | None:
+    """(subcommand, args, -C directory, -c settings) for a `git ...` call."""
     for i, tok in enumerate(toks):
         if Path(tok).name.lower() in ("git", "git.exe"):
-            j, workdir = i + 1, None
+            j, workdir, config = i + 1, None, {}
             while j < len(toks) and toks[j].startswith("-"):
                 if toks[j] == "-C" and j + 1 < len(toks):
                     workdir = toks[j + 1]
+                if toks[j] == "-c" and j + 1 < len(toks):
+                    key, _, value = toks[j + 1].partition("=")
+                    config[key.lower()] = value
                 j += 2 if toks[j] in GIT_GLOBAL_WITH_VALUE else 1
-            return (toks[j], toks[j + 1:], workdir) if j < len(toks) else None
+            return (toks[j], toks[j + 1:], workdir, config) if j < len(toks) else None
     return None
+
+
+def git_config(cwd: str, key: str) -> list[str]:
+    try:
+        out = subprocess.run(["git", "config", "--get-all", key], cwd=cwd,
+                             capture_output=True, text=True, timeout=5)
+        return [line.strip() for line in out.stdout.splitlines() if line.strip()]
+    except Exception:
+        return []
+
+
+PUSH_SETTINGS = re.compile(r"remote\..+\.(push|mirror)|push\.default")
 
 
 def current_branch(cwd: str) -> str:
@@ -337,33 +352,56 @@ def in_cloud_agent() -> bool:
     return bool(os.environ.get("COPILOT_AGENT_PROMPT") or os.environ.get("GITHUB_COPILOT_API_TOKEN"))
 
 
-def push_problem(args: list[str], cwd: str) -> str | None:
+def push_target(ref: str, branch: str) -> str:
+    target = ref.split(":")[-1] if ":" in ref else ref
+    target = target.lstrip("+")
+    if target.startswith("refs/heads/"):
+        target = target[len("refs/heads/"):]
+    return branch if target in ("HEAD", "@") else target
+
+
+def push_problem(args: list[str], cwd: str, config: dict[str, str] | None = None) -> str | None:
     options = [a for a in args if a.startswith("-")]
     positionals = [a for i, a in enumerate(args)
                    if not a.startswith("-") and not (i and args[i - 1] == "--repo")]
+    repo_option = None
+    for i, a in enumerate(args):
+        if a.startswith("--repo="):
+            repo_option = a.partition("=")[2]
+        elif a == "--repo" and i + 1 < len(args):
+            repo_option = args[i + 1]
     # The first positional is the remote, unless --repo already named it.
-    refspecs = positionals if any(o == "--repo" or o.startswith("--repo=") for o in options) \
-        else positionals[1:]
+    has_repo = any(o == "--repo" or o.startswith("--repo=") for o in options)
+    refspecs = positionals if has_repo else positionals[1:]
     if any(o in ("--force", "-f") or o.startswith("--force-with-lease") or SHORT_FORCE.fullmatch(o)
            for o in options) or any(r.startswith("+") for r in refspecs):
         return "force-pushing rewrites published history; push a new commit instead"
     if any(o in ("--all", "--mirror") for o in options):
         return "--all and --mirror push every branch, including main"
+    overrides = sorted(key for key in (config or {}) if PUSH_SETTINGS.fullmatch(key))
+    if overrides:
+        return (f"`git -c {', '.join(overrides)}` changes what a push sends and can push main; "
+                "push an explicit branch without overriding push settings")
     branch = current_branch(cwd)
+    if not refspecs:
+        # A bare push sends what the repository's push settings say, which can include main.
+        remote = repo_option or (positionals[0] if positionals and not has_repo else "origin")
+        configured = git_config(cwd, f"remote.{remote}.push")
+        if any(push_target(ref, branch) in ("main", "master") for ref in configured) \
+                or "matching" in git_config(cwd, "push.default") \
+                or "true" in git_config(cwd, f"remote.{remote}.mirror"):
+            return ("this repository's push settings would send main; push an explicit branch, "
+                    "for example `git push origin HEAD:<branch>`")
     for ref in refspecs or ["HEAD"]:
-        target = ref.split(":")[-1] if ":" in ref else ref
-        if target.startswith("refs/heads/"):
-            target = target[len("refs/heads/"):]
-        if target in ("HEAD", "@"):
-            target = branch
+        target = push_target(ref, branch)
         if target in ("main", "master"):
             return "main only changes through a reviewed pull request; push a branch and open a PR"
     return None
 
 
-def git_problem(sub: str, args: list[str], cwd: str) -> str | None:
+def git_problem(sub: str, args: list[str], cwd: str, config: dict[str, str] | None = None) -> str | None:
     if sub == "push":
-        return push_problem(args, cwd)
+        return push_problem(args, cwd, config)
     if sub == "clean" and any(a == "--force" or SHORT_FORCE.fullmatch(a) for a in args):
         return ("git clean -f deletes untracked files, which on a developer's machine include "
                 "their own uncommitted work; delete the specific files you created")
@@ -407,11 +445,11 @@ def deny_reason(command: str, cwd: str | Path | None, protects: Protected | None
                 return reason
         call = git_call(toks)
         if call and verbs(toks) & {"git", "git.exe"}:
-            sub, args, workdir = call
+            sub, args, workdir, config = call
             where = here if workdir is None else next_cwd(["cd", workdir], here)
             if sub == "rm" and any(protects(a, where) for a in args + segment.split()[2:]):
                 return DANGER
-            reason = git_problem(sub, args, str(where or protects.repo()))
+            reason = git_problem(sub, args, str(where or protects.repo()), config)
             if reason:
                 return reason
             continue
@@ -504,6 +542,17 @@ def post_tool(payload: dict) -> dict | None:
 # --- stop: the checks CI would fail on ---------------------------------------------------
 
 CODE_SUFFIXES = {".py", ".qs", ".ts", ".tsx"}
+# Files besides code whose change changes the dependency graph. qsharp.json marks a Q# project
+# root, so adding or deleting one changes what the graph treats as reachable.
+GRAPH_INPUTS = {"website/package.json", "tooling/depgraph/manual_entrypoints.txt",
+                "tooling/depgraph/build_graph.py"}
+
+
+def affects_graph(path: str) -> bool:
+    """Whether changing this file can change what tooling/depgraph/build_graph.py writes."""
+    return (Path(path).suffix in CODE_SUFFIXES or path in GRAPH_INPUTS
+            or Path(path).name in ("Makefile", "Dockerfile", "qsharp.json")
+            or path.startswith(".github/workflows/"))
 
 
 def git(repo: Path, *args: str) -> str:
@@ -548,7 +597,7 @@ def untracked_for_graph(repo: Path) -> list[str]:
     if in_cloud_agent():
         return files
     return [f for f in files if Path(f).suffix in CODE_SUFFIXES
-            or Path(f).name in ("Makefile", "Dockerfile", "package.json")
+            or Path(f).name in ("Makefile", "Dockerfile", "package.json", "qsharp.json")
             or f.startswith(".github/workflows/")]
 
 
@@ -569,7 +618,10 @@ def depgraph_drift(repo: Path) -> str | None:
     spec.loader.exec_module(module)
     untracked = untracked_for_graph(repo)
     tracked = module.git_tracked_files
-    module.git_tracked_files = lambda: sorted(set(tracked()) | set(untracked))
+    # A deleted file the agent has not staged yet is still in the index but will not be in CI's
+    # checkout, and build_graph.py would fail reading it.
+    module.git_tracked_files = lambda: sorted(
+        {f for f in tracked() if (repo / f).exists()} | set(untracked))
     with tempfile.TemporaryDirectory() as tmp:
         module.OUT_DIR = Path(tmp)
         stdout = sys.stdout
@@ -650,8 +702,7 @@ def stop(payload: dict) -> dict | None:
         return not known or any(predicate(f) for f in files)
 
     problems: list[str] = python_syntax(repo, files)
-    if touched(lambda f: Path(f).suffix in CODE_SUFFIXES or Path(f).name in ("Makefile", "Dockerfile")
-               or f.startswith(".github/workflows/") or f == "website/package.json"):
+    if touched(affects_graph):
         try:
             drift = depgraph_drift(repo)
         except Exception:

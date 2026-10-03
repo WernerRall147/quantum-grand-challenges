@@ -9,6 +9,7 @@ blocks `git push` on a feature branch would be switched off within a day.
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import os
 import shutil
@@ -119,6 +120,9 @@ DENY = [
     "cd website && rm -rf data",
     "cd docs && rm -rf pa*",
     "cd - && rm -rf paper",
+    # Sixth review round: push settings overridden on the command line.
+    "git -c remote.origin.push=refs/heads/main push origin",
+    "git -c push.default=matching push",
 ]
 
 ALLOW = [
@@ -205,6 +209,24 @@ def test_a_bare_push_is_judged_by_the_current_branch(repo_on_main: Path):
     assert denied(run("pre-tool", payload, cwd=repo_on_main))
     subprocess.run(["git", "checkout", "-q", "-b", "feature"], cwd=repo_on_main, check=True)
     assert run("pre-tool", payload, cwd=repo_on_main) is None
+
+
+def test_a_bare_push_is_judged_by_the_repositorys_push_settings(repo_on_main: Path, tmp_path: Path):
+    """`git config remote.origin.push refs/heads/main` once, and every later `git push origin`
+    sends main without naming it."""
+    empty = tmp_path / "empty.gitconfig"
+    empty.write_text("", encoding="utf-8")
+    env = local_env() | {"GIT_CONFIG_GLOBAL": str(empty), "GIT_CONFIG_NOSYSTEM": "1"}
+    git = ["git", "-C", str(repo_on_main)]
+    subprocess.run([*git, "checkout", "-q", "-b", "feature"], check=True, env=env)
+    subprocess.run([*git, "remote", "add", "origin", "https://example.invalid/r.git"], check=True, env=env)
+    payload = {"toolName": "bash", "toolArgs": json.dumps({"command": "git push origin"}), "cwd": str(repo_on_main)}
+    assert run("pre-tool", payload, cwd=repo_on_main, env=env) is None
+    subprocess.run([*git, "config", "remote.origin.push", "refs/heads/main:refs/heads/main"], check=True, env=env)
+    assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))
+    subprocess.run([*git, "config", "--unset", "remote.origin.push"], check=True, env=env)
+    subprocess.run([*git, "config", "push.default", "matching"], check=True, env=env)
+    assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))
 
 
 @pytest.mark.parametrize("raw", ["", "not json", "[]", '{"toolName": 5}', '{"toolArgs": "{"}'])
@@ -337,3 +359,34 @@ def test_in_the_cloud_every_new_file_counts(worktree: Path):
     cloud = local_env() | {"COPILOT_AGENT_PROMPT": "Implement #1"}
     result = run("stop", {"cwd": str(worktree)}, cwd=worktree, env=cloud)
     assert result and "docs/depgraph is stale" in result["reason"]
+
+
+def test_deleting_a_qsharp_project_file_is_dependency_map_drift(worktree: Path):
+    """qsharp.json marks a Q# project root, so deleting one changes what the graph reaches."""
+    (worktree / "problems" / "01_hubbard" / "qsharp" / "qsharp.json").unlink()
+    result = run("stop", {"cwd": str(worktree)}, cwd=worktree)
+    assert result and "docs/depgraph is stale" in result["reason"]
+
+
+def _gates_module():
+    spec = importlib.util.spec_from_file_location("agent_gates", SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+@pytest.mark.parametrize("path, expected", [
+    ("problems/01_hubbard/qsharp/qsharp.json", True),
+    ("tooling/depgraph/manual_entrypoints.txt", True),
+    ("tooling/depgraph/build_graph.py", True),
+    ("website/package.json", True),
+    ("problems/01_hubbard/Makefile", True),
+    ("Dockerfile", True),
+    (".github/workflows/ci-cd.yml", True),
+    ("agents/api/main.py", True),
+    ("docs/agentic-delivery.md", False),
+    ("website/data/estimates.json", False),
+])
+def test_which_changes_send_the_stop_gate_to_the_dependency_map(path, expected):
+    """A change the stop gate does not recognise skips the graph check, and drift merges."""
+    assert _gates_module().affects_graph(path) is expected

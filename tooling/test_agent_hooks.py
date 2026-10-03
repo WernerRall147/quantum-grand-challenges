@@ -134,6 +134,7 @@ DENY = [
     "gh api -X PUT repos/WernerRall147/quantum-grand-challenges/pulls/278/merge",
     "gh workflow run deploy-evaluator-api.yml",
     'gh workflow run "Deploy Website"',
+    "gh api -X POST repos/WernerRall147/quantum-grand-challenges/actions/workflows/deploy-website.yml/dispatches -f ref=main",
 ]
 
 ALLOW = [
@@ -243,6 +244,12 @@ def test_a_bare_push_is_judged_by_the_repositorys_push_settings(repo_on_main: Pa
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), "a glob that matches main"
     subprocess.run([*git, "config", "--unset", "remote.origin.push"], check=True, env=env)
     subprocess.run([*git, "config", "push.default", "matching"], check=True, env=env)
+    assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))
+    # A feature branch whose upstream is main, pushed in upstream mode, updates main.
+    subprocess.run([*git, "config", "push.default", "upstream"], check=True, env=env)
+    assert run("pre-tool", payload, cwd=repo_on_main, env=env) is None, "no upstream set yet"
+    subprocess.run([*git, "config", "branch.feature.remote", "origin"], check=True, env=env)
+    subprocess.run([*git, "config", "branch.feature.merge", "refs/heads/main"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env))
 
 

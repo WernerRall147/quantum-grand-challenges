@@ -404,8 +404,10 @@ def push_problem(args: list[str], cwd: str, config: dict[str, str] | None = None
         # A bare push sends what the repository's push settings say, which can include main.
         remote = repo_option or (positionals[0] if positionals and not has_repo else "origin")
         configured = git_config(cwd, f"remote.{remote}.push")
-        if any(pushes_main(ref, branch) for ref in configured) \
-                or "matching" in git_config(cwd, "push.default") \
+        mode = (git_config(cwd, "push.default") or ["simple"])[-1]
+        upstream = git_config(cwd, f"branch.{branch}.merge") if mode in ("upstream", "tracking") else []
+        if any(pushes_main(ref, branch) for ref in configured + upstream) \
+                or mode == "matching" \
                 or "true" in git_config(cwd, f"remote.{remote}.mirror"):
             return ("this repository's push settings would send main; push an explicit branch, "
                     "for example `git push origin HEAD:<branch>`")
@@ -488,7 +490,8 @@ def github_problem(toks: list[str]) -> str | None:
     joined = " ".join(words)
     if re.search(r"\bpr merge\b", joined) or any(re.search(r"pulls/\d+/merge", t) for t in toks):
         return "a person merges pull requests here; leave it ready for review instead"
-    if re.search(r"\bworkflow run\b", joined) and any(DEPLOY_WORKFLOW.search(t) for t in words):
+    dispatches = any(re.search(r"actions/workflows/[^/]*deploy[^/]*/dispatches", t, re.I) for t in toks)
+    if dispatches or (re.search(r"\bworkflow run\b", joined) and any(DEPLOY_WORKFLOW.search(t) for t in words)):
         return "deploys follow merges to main, not agent sessions (AGENTS.md, rule 7)"
     return None
 

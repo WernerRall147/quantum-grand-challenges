@@ -27,6 +27,7 @@ import json
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -381,7 +382,10 @@ def push_target(ref: str, branch: str) -> str:
 
 
 def pushes_main(ref: str, branch: str) -> bool:
-    """Whether a refspec updates main, including through a glob such as refs/heads/*:refs/heads/*."""
+    """Whether a refspec updates main, including through a glob such as refs/heads/*:refs/heads/*,
+    or the bare `:`, which pushes every branch whose name matches on the remote."""
+    if ref.lstrip("+") == ":":
+        return True
     target = push_target(ref, branch)
     return any(fnmatch.fnmatchcase(name, target) for name in ("main", "master"))
 
@@ -614,6 +618,12 @@ def affects_test_claims(path: str) -> bool:
             or path == ".github/workflows/ci-cd.yml")
 
 
+def affects_typescript(path: str) -> bool:
+    """Whether a change can break the website's type-check."""
+    return path.startswith("website/") and (
+        Path(path).suffix in (".ts", ".tsx") or Path(path).name in ("tsconfig.json", "package.json"))
+
+
 def git(repo: Path, *args: str) -> str:
     out = subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True, timeout=30)
     return out.stdout if out.returncode == 0 else ""
@@ -784,6 +794,15 @@ def stop(payload: dict) -> dict | None:
         problem = run_check(repo, [sys.executable, "-m", "pytest", "tooling/test_doc_claims.py",
                                    "-q", "-p", "no:cacheprovider", "--no-header"],
                             "Documented test counts (`python -m pytest tooling/test_doc_claims.py -q`)", 150)
+        if problem:
+            problems.append(problem)
+    # The post-tool check parses Python, JSON, YAML and TOML, not TypeScript, and pull-request CI
+    # does not build the website, so type-check it here before a website change can merge.
+    tsc = repo / "website" / "node_modules" / "typescript" / "bin" / "tsc"
+    node = shutil.which("node")
+    if any(affects_typescript(f) for f in files) and tsc.is_file() and node:
+        problem = run_check(repo, [node, str(tsc), "--noEmit", "-p", "website"],
+                            "TypeScript (`npx tsc --noEmit -p website`)", 180)
         if problem:
             problems.append(problem)
     if not problems:

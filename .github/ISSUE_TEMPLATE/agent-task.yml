@@ -36,8 +36,9 @@ body:
     attributes:
       label: Acceptance criteria
       description: The agent stops when these hold. Make each one checkable by a command, a test or something you can see.
-      value: |
-        - [ ] 
+      placeholder: |
+        - [ ] `python -m pytest tooling -q` passes, including a new test for ...
+        - [ ] The compare page shows ... for problem 03
     validations:
       required: true
   - type: textarea

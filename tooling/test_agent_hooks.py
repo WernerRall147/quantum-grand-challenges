@@ -142,6 +142,9 @@ DENY = [
     # Tenth review round: push settings overridden through an environment variable.
     "TARGET=refs/heads/main:refs/heads/main git --config-env=remote.origin.push=TARGET push origin",
     "git --config-env remote.origin.push=TARGET push origin",
+    # Twelfth review round: the bare matching refspec.
+    "git push origin :",
+    "git push origin +:",
 ]
 
 ALLOW = [
@@ -251,6 +254,8 @@ def test_a_bare_push_is_judged_by_the_repositorys_push_settings(repo_on_main: Pa
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), "a glob that matches main"
     subprocess.run([*git, "config", "remote.origin.push", "+refs/heads/feature:refs/heads/feature"], check=True, env=env)
     assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), "a stored force refspec"
+    subprocess.run([*git, "config", "remote.origin.push", ":"], check=True, env=env)
+    assert denied(run("pre-tool", payload, cwd=repo_on_main, env=env)), "the matching refspec"
     subprocess.run([*git, "config", "--unset", "remote.origin.push"], check=True, env=env)
     for truthy in ("yes", "On", "1"):  # git's boolean coercion, not only the literal "true"
         subprocess.run([*git, "config", "remote.origin.mirror", truthy], check=True, env=env)
@@ -374,6 +379,40 @@ def test_without_a_base_branch_every_tracked_file_is_checked(tmp_path: Path):
     subprocess.run([*git, "commit", "-q", "-m", "committed and clean"], check=True)
     result = run("stop", {"cwd": str(tmp_path)}, cwd=tmp_path)
     assert result and "broken.py does not compile" in result["reason"]
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="needs node")
+def test_a_website_typescript_error_sends_the_agent_back(tmp_path: Path):
+    """Pull-request CI does not build the website, so the stop gate type-checks it.
+
+    A stand-in tsc that reports an error proves the wiring: the gate runs the project's own
+    TypeScript compiler on a website change and reports what it says.
+    """
+    git = ["git", "-C", str(tmp_path), "-c", "user.email=agent@example.com", "-c", "user.name=agent",
+           "-c", "commit.gpgsign=false"]
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    (tmp_path / "website").mkdir()
+    (tmp_path / "website" / "app.ts").write_text("export const x: number = ;\n", encoding="utf-8")
+    subprocess.run([*git, "add", "website/app.ts"], check=True)
+    subprocess.run([*git, "commit", "-q", "-m", "add app.ts"], check=True)
+    tsc = tmp_path / "website" / "node_modules" / "typescript" / "bin" / "tsc"
+    tsc.parent.mkdir(parents=True)
+    tsc.write_text("console.log(\"app.ts(1,26): error TS1109: Expression expected.\"); process.exit(2);\n",
+                   encoding="utf-8")
+    result = run("stop", {"cwd": str(tmp_path)}, cwd=tmp_path)
+    assert result and "TypeScript" in result["reason"] and "TS1109" in result["reason"]
+
+
+@pytest.mark.parametrize("path, expected", [
+    ("website/pages/index.tsx", True),
+    ("website/lib/data.ts", True),
+    ("website/tsconfig.json", True),
+    ("website/package.json", True),
+    ("website/data/estimates.json", False),
+    ("tooling/app.ts", False),
+])
+def test_which_changes_send_the_stop_gate_to_the_typescript_check(path, expected):
+    assert _gates_module().affects_typescript(path) is expected
 
 
 def test_stop_is_allowed_once_already_sent_back():

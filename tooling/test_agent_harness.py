@@ -320,6 +320,13 @@ def test_agent_task_form_asks_for_a_checkable_specification():
     assert len(ids) == len(set(ids)), "duplicate field ids"
     required = {item["id"] for item in fields if item.get("validations", {}).get("required")}
     assert {"objective", "acceptance", "risk"} <= required
+    prefilled = [item["id"] for item in fields
+                 if item["id"] in required and item["type"] in ("textarea", "input")
+                 and item.get("attributes", {}).get("value")]
+    assert not prefilled, (
+        f"required fields {prefilled} have a pre-filled value, so GitHub accepts them untouched; "
+        "use placeholder instead"
+    )
     for item in fields:
         if item["type"] == "dropdown":
             assert item["attributes"]["options"]

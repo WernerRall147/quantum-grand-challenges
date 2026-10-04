@@ -11,7 +11,10 @@ import re
 import statistics
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+try:
+    import seaborn as sns
+except ImportError:
+    sns = None
 import pandas as pd
 from pathlib import Path
 from typing import Dict, Any, List, Optional
@@ -19,6 +22,7 @@ from datetime import datetime
 import subprocess
 import sys
 import yaml
+from qdk import qsharp
 
 
 DEFAULT_QAE_PARAMS: Dict[str, Any] = {
@@ -142,59 +146,32 @@ class QAERiskAnalyzer:
             return None
             
         try:
-            if not skip_build:
-                subprocess.run(
-                    runtime_config_command,
-                    cwd=runtime_config_script.parent,
-                    check=True,
-                    capture_output=True,
-                    text=True,
-                    timeout=self.build_timeout_seconds,
-                )
-                print("Building Q# project...")
-                build_result = subprocess.run(
-                    ["dotnet", "build", "--configuration", "Release"],
-                    cwd=qsharp_dir,
-                    check=True,
-                    capture_output=True,
-                    text=True,
-                    timeout=self.build_timeout_seconds,
-                )
-
-                if build_result.stdout:
-                    print(build_result.stdout.strip())
-                if build_result.stderr:
-                    print(build_result.stderr.strip(), file=sys.stderr)
-            else:
-                subprocess.run(
-                    runtime_config_command,
-                    cwd=runtime_config_script.parent,
-                    check=True,
-                    capture_output=True,
-                    text=True,
-                    timeout=self.build_timeout_seconds,
-                )
-                print("Skipping build; reusing previous Q# compilation artifacts.")
-            
-            print("Running quantum estimation...")
-            # Build is already handled above; always run without rebuilding to reduce noise.
-            run_command = ["dotnet", "run", "--configuration", "Release", "--no-build"]
-
-            run_result = subprocess.run(
-                run_command,
-                cwd=qsharp_dir,
+            subprocess.run(
+                runtime_config_command,
+                cwd=runtime_config_script.parent,
                 check=True,
                 capture_output=True,
                 text=True,
-                timeout=self.run_timeout_seconds,
+                timeout=self.build_timeout_seconds,
             )
-            
-            raw_stdout = run_result.stdout
+            if skip_build:
+                print("Skipping separate build step; qdk compiles the project on demand.")
+
+            print("Running quantum estimation with qdk...")
+            qsharp.init(project_root=str(qsharp_dir))
+            run_events = qsharp.run(
+                "Main.RunQAERiskAnalysis()",
+                shots=1,
+                save_events=True,
+            )
+            raw_stdout = "\n".join(
+                message
+                for shot in run_events
+                for message in shot.get("messages", [])
+            )
             stdout_clean = raw_stdout.replace("Â±", "±").replace("Â", "").strip()
             if stdout_clean:
                 print(stdout_clean)
-            if run_result.stderr:
-                print(run_result.stderr.strip(), file=sys.stderr)
 
             histogram_counts: Dict[int, int] = {}
             histogram_denominator: Optional[int] = None
@@ -343,20 +320,12 @@ class QAERiskAnalyzer:
 
             return None
             
-        except subprocess.CalledProcessError as e:
-            print(f"Failed to run Q# estimation: {e}")
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
+            print(f"Failed to prepare Q# runtime configuration: {e}", file=sys.stderr)
             self.latest_quantum_result = None
             return None
-        except subprocess.TimeoutExpired as e:
-            command_text = " ".join(e.cmd) if isinstance(e.cmd, list) else str(e.cmd)
-            print(
-                f"Q# subprocess timed out after {e.timeout} seconds: {command_text}. "
-                "Retry with lower ensemble size or higher timeout flags."
-            )
-            self.latest_quantum_result = None
-            return None
-        except FileNotFoundError:
-            print("dotnet not found. Please install .NET SDK.")
+        except Exception as e:
+            print(f"Failed to run Q# estimation: {e}", file=sys.stderr)
             self.latest_quantum_result = None
             return None
 
@@ -899,16 +868,21 @@ def parse_args() -> argparse.Namespace:
         help="Number of quantum estimation runs to perform for aggregation (default: 1)",
     )
     parser.add_argument(
+        "--skip-build",
+        action="store_true",
+        help="Accepted for compatibility; qdk compiles the project on demand, so this has no effect",
+    )
+    parser.add_argument(
         "--build-timeout-seconds",
         type=int,
         default=180,
-        help="Timeout in seconds for runtime-config/build subprocesses (default: 180)",
+        help="Timeout for writing the runtime config (seconds); does not limit Q# compilation (default: 180)",
     )
     parser.add_argument(
         "--run-timeout-seconds",
         type=int,
         default=180,
-        help="Timeout in seconds for each dotnet run subprocess (default: 180)",
+        help="Accepted for compatibility; in-process QDK execution is not limited by this timeout (default: 180)",
     )
     return parser.parse_args()
 
@@ -1001,11 +975,16 @@ def main(args: argparse.Namespace):
         quantum_result = analyzer.run_quantum_ensemble(ensemble_runs, qae_params=qae_params)
         if quantum_result is None:
             print("Quantum ensemble execution failed or was skipped. See logs above.")
+            raise SystemExit(1)
     else:
         print("\n📊 Running quantum estimation...")
-        quantum_result = analyzer.run_quantum_estimation(qae_params=qae_params)
+        quantum_result = analyzer.run_quantum_estimation(
+            skip_build=args.skip_build,
+            qae_params=qae_params,
+        )
         if quantum_result is None:
             print("Quantum estimation failed or was skipped. See logs above.")
+            raise SystemExit(1)
     
     # Load any existing results
     print("\n📁 Loading estimation results...")
@@ -1051,7 +1030,8 @@ def main(args: argparse.Namespace):
 if __name__ == "__main__":
     # Set plotting style
     plt.style.use('seaborn-v0_8')
-    sns.set_palette("husl")
+    if sns is not None:
+        sns.set_palette("husl")
 
     args = parse_args()
     main(args)

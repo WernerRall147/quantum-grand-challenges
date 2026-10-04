@@ -195,6 +195,9 @@
   "problems/archived/03_qae_risk/python/stage_d_variance_and_overhead.py": [
     "problems/archived/03_qae_risk/Makefile"
   ],
+  "problems/archived/03_qae_risk/python/test_analyze_parser.py": [
+    ".github/workflows/ci-cd.yml"
+  ],
   "problems/archived/03_qae_risk/python/update_calibration_history.py": [
     "problems/archived/03_qae_risk/Makefile",
     "problems/archived/03_qae_risk/python/test_update_calibration_history.py"

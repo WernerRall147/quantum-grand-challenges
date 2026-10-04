@@ -120,6 +120,15 @@ PY_DELETE = re.compile(r"rmtree\(|os\.remove\(|os\.unlink\(|\.unlink\(|os\.rmdir
 # mentions os.remove( deletes nothing.
 PYTHON = re.compile(r"(python[\d.]*|py|pypy3?)(\.exe)?")
 PATH_LIKE = re.compile(r"[\w./\\:-]+")
+PYTHON_HEREDOC = re.compile(
+    r"(?ims)^[ \t]*(?:python[\d.]*|py|pypy3?)(?:\.exe)?[ \t]+(?:-[ \t]+)?"
+    r"<<-?[ \t]*(?P<quote>['\"]?)(?P<delimiter>[A-Za-z0-9_]+)(?P=quote)[ \t]*\r?\n"
+    r"(?P<body>.*?)(?:^[ \t]*(?P=delimiter)[ \t]*(?:\r?$|\n))"
+)
+POWERSHELL_PYTHON_HERE_STRING = re.compile(
+    r"(?ims)^[ \t]*@(?P<quote>['\"])\r?\n(?P<body>.*?)"
+    r"^[ \t]*(?P=quote)@[ \t]*\|[ \t]*(?:python[\d.]*|py|pypy3?)(?:\.exe)?[ \t]+-[ \t]*(?:$|\r?$)"
+)
 GIT_GLOBAL_WITH_VALUE = {"-C", "-c", "--config-env", "--git-dir", "--work-tree", "--namespace",
                          "--exec-path"}
 SHORT_FORCE = re.compile(r"-[a-zA-Z]*f[a-zA-Z]*")
@@ -157,6 +166,11 @@ def segments(command: str) -> list[str]:
         i += 1
     parts.append("".join(buf))
     return [part.strip() for part in parts if part.strip()]
+
+
+def interpreter_stdin_scripts(command: str) -> list[str]:
+    return [match.group("body") for pattern in (PYTHON_HEREDOC, POWERSHELL_PYTHON_HERE_STRING)
+            for match in pattern.finditer(command)]
 
 
 def tokens(segment: str) -> list[str]:
@@ -504,6 +518,9 @@ def deny_reason(command: str, cwd: str | Path | None, protects: Protected | None
     protects = protects or Protected(str(here or os.getcwd()))
     if depth > 4:
         return None
+    for script in interpreter_stdin_scripts(command):
+        if PY_DELETE.search(script) and any(protects(path, here) for path in PATH_LIKE.findall(script)):
+            return DANGER
     for segment in segments(command):
         toks = tokens(segment)
         if not toks:
@@ -869,17 +886,22 @@ def stop(payload: dict) -> dict | None:
                             "Documented test counts (`python -m pytest tooling/test_doc_claims.py -q`)", 150)
         if problem:
             problems.append(problem)
-    # The post-tool check parses Python, JSON, YAML and TOML, not TypeScript, and pull-request CI
-    # does not build the website, so type-check it here before a website change can merge. The
+    # The post-tool check parses Python, JSON, YAML and TOML, not TypeScript, so type-check website
+    # changes here too. The pull-request CI check is the independent backstop. The
     # website's tsconfig sets `incremental`, under which even --noEmit writes tsconfig.tsbuildinfo
     # into the tree; a check must leave the tree as it found it.
     tsc = repo / "website" / "node_modules" / "typescript" / "bin" / "tsc"
     node = shutil.which("node")
-    if any(affects_typescript(f) for f in files) and tsc.is_file() and node:
-        problem = run_check(repo, [node, str(tsc), "--noEmit", "--incremental", "false", "-p", "website"],
-                            "TypeScript (`npx tsc --noEmit -p website`)", 180)
-        if problem:
-            problems.append(problem)
+    if any(affects_typescript(f) for f in files):
+        if not tsc.is_file() or not node:
+            problems.append("TypeScript could not run because Node.js or website/node_modules/typescript is "
+                            "missing. Run `cd website && npm ci`, or say in the pull request that the "
+                            "website was not type-checked.")
+        else:
+            problem = run_check(repo, [node, str(tsc), "--noEmit", "--incremental", "false", "-p", "website"],
+                                "TypeScript (`npx tsc --noEmit -p website`)", 180)
+            if problem:
+                problems.append(problem)
     if not problems:
         return None
     return {

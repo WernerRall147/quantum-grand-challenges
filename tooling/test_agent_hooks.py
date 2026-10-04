@@ -85,6 +85,7 @@ DENY = [
     "python3 - <<-PY\nimport os\nos.remove('docs/paper/methodology-paper.md')\nPY",
     "python <<'PY'\nimport os\nos.remove('docs/paper/methodology-paper.md')\nPY",
     "@'\nimport os\nos.remove('docs/paper/methodology-paper.md')\n'@ | python -",
+    "bash <<'EOF'\nrm -rf docs/paper\nEOF",
     "rm -rf .git",
     "cd tmp && rm -rf problems/*",
     "find problems/archived -name '*.pyc' -delete",

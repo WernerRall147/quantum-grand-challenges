@@ -109,9 +109,9 @@ Measured on a developer laptop; CI runners have been somewhat faster.
 - The diff contains nothing unrelated, and every claim you added is backed.
 
 When the agent stops, `.github/hooks/agent-gates.json` runs the cheap checks CI would fail on
-(dependency map, Python syntax, workflow YAML, Q# compilation, documented test counts, and the
-website's TypeScript, which pull-request CI does not build) and sends the agent back once if one
-fails.
+(dependency map, Python syntax, workflow YAML, Q# compilation, documented test counts and the
+website's TypeScript) and sends the agent back once if one fails. Pull-request CI also type-checks
+the website after installing its dependencies.
 
 ## How work flows
 

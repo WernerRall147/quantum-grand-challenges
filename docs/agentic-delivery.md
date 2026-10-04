@@ -90,7 +90,7 @@ Choose the model when you start the session. A starting policy:
 | No deleting or moving the danger list's entry points, the code they reach (as `docs/depgraph/` records both) or published artifacts, including through `bash -c`, `eval`, `$(...)`, subshells and `cd` | `.github/hooks/agent-gates.json` |
 | No merging pull requests and no dispatching deploy workflows from an agent session | `.github/hooks/agent-gates.json` |
 | An edited Python, JSON, YAML or TOML file still parses | the post-tool hook, immediately after the edit |
-| Dependency map, Python syntax, workflow YAML, Q# compilation, documented test counts, the website's TypeScript | the stop hook, once per stop, then CI |
+| Dependency map, Python syntax, workflow YAML, Q# compilation, documented test counts, the website's TypeScript | the stop hook, once per stop; pull-request CI type-checks the website with `cd website && npm ci && npx tsc --noEmit -p .` |
 | The agent's environment matches CI (production's API pins included), and the evaluator API starts and answers in it | `.github/workflows/copilot-setup-steps.yml`, checked by `tooling/test_agent_harness.py` |
 | A codespace builds and can run the project: the website builds, the evaluator API starts and answers | `.github/workflows/devcontainer-check.yml`, on every change to `.devcontainer/` or `agents/api/requirements.txt` |
 | Agent, skill, hook and form files are well formed; their links and paths resolve | `tooling/test_agent_harness.py` |

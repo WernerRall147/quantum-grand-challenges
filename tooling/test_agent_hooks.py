@@ -79,6 +79,12 @@ DENY = [
     "git rm CITATION.cff",
     r"Remove-Item -Recurse -Force problems\archived\03_qae_risk",
     "python -c \"import shutil; shutil.rmtree('docs/paper')\"",
+    "python - <<'PY'\nimport os\nos.remove('docs/paper/methodology-paper.md')\nPY",
+    "python3 - <<PY\nimport os\nos.remove('docs/paper/methodology-paper.md')\nPY",
+    "python - <<-\"PY\"\nimport os\nos.remove('docs/paper/methodology-paper.md')\nPY",
+    "python3 - <<-PY\nimport os\nos.remove('docs/paper/methodology-paper.md')\nPY",
+    "python <<'PY'\nimport os\nos.remove('docs/paper/methodology-paper.md')\nPY",
+    "@'\nimport os\nos.remove('docs/paper/methodology-paper.md')\n'@ | python -",
     "rm -rf .git",
     "cd tmp && rm -rf problems/*",
     "find problems/archived -name '*.pyc' -delete",
@@ -214,6 +220,8 @@ ALLOW = [
     "rm build.log 2>&1",
     "echo done >&2",
     "mv build.log logs/build.log",
+    "cat > notes.py <<'EOF'\nos.remove('docs/paper/x.md')\nEOF",
+    "git commit -F - <<'EOF'\nos.remove('docs/paper/x.md')\nEOF",
     "git mv tooling/_scratch.py tooling/_scratch2.py",
 ]
 
@@ -461,6 +469,21 @@ def test_a_website_typescript_error_sends_the_agent_back(tmp_path: Path):
                    encoding="utf-8")
     result = run("stop", {"cwd": str(tmp_path)}, cwd=tmp_path)
     assert result and "TypeScript" in result["reason"] and "TS1109" in result["reason"]
+
+
+def test_website_typescript_change_without_compiler_sends_the_agent_back(tmp_path: Path):
+    git = ["git", "-C", str(tmp_path), "-c", "user.email=agent@example.com", "-c", "user.name=agent",
+           "-c", "commit.gpgsign=false"]
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    (tmp_path / "website").mkdir()
+    (tmp_path / "website" / "app.ts").write_text("export const x: number = 1;\n", encoding="utf-8")
+    subprocess.run([*git, "add", "website/app.ts"], check=True)
+    subprocess.run([*git, "commit", "-q", "-m", "add app.ts"], check=True)
+
+    result = run("stop", {"cwd": str(tmp_path)}, cwd=tmp_path)
+    assert result and result["decision"] == "block"
+    assert "cd website && npm ci" in result["reason"]
+    assert "website was not type-checked" in result["reason"]
 
 
 WEBSITE_TSC = REPO / "website" / "node_modules" / "typescript" / "bin" / "tsc"

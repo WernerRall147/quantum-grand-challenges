@@ -27,6 +27,7 @@ from knowledge.search.kb_client import QuantumKnowledgeBase
 from agents.orchestrator.instructions import SYSTEM_PROMPT
 from agents.orchestrator.citations import partition_references
 from agents.observability.trace import span
+from agents.classifier.paper_classifier import classify_paper
 
 # Config
 OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
@@ -206,8 +207,20 @@ class QuantumEvaluator:
             "verdict, and do not let them displace canonical citations.",
         ]
         for paper in papers:
+            classification = classify_paper(
+                str(paper.get("title") or ""),
+                str(paper.get("abstract") or ""),
+            )
+            if classification.conflict:
+                details = f"conflicting phrases: {', '.join(classification.evidence)}"
+            elif classification.evidence:
+                details = f"matched phrases: {', '.join(classification.evidence)}"
+            else:
+                details = "no classifiable claim found"
             lines.append(
-                f"- {paper['title']} (arXiv:{paper['arxiv_id']}, {paper['published']})"
+                f"- {paper['title']} (arXiv:{paper['arxiv_id']}, {paper['published']}): "
+                f"paper-stated speedup claim: {classification.speedup_class} "
+                f"({details}; not independently verified)."
             )
         lines.append("")
         return "\n".join(lines)

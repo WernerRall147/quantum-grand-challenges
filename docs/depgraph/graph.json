@@ -6,7 +6,7 @@
     "python": 248,
     "qsharp": 55,
     "ts": 15,
-    "edges": 246,
+    "edges": 248,
     "roots": 303,
     "reachable": 342
   },
@@ -565,6 +565,10 @@
     ],
     [
       "agents/orchestrator/evaluate.py",
+      "agents/classifier/paper_classifier.py"
+    ],
+    [
+      "agents/orchestrator/evaluate.py",
       "agents/classifier/platform_router.py"
     ],
     [
@@ -654,6 +658,10 @@
     [
       "agents/tests/test_evaluator_smoke.py",
       "agents/classifier/platform_router.py"
+    ],
+    [
+      "agents/tests/test_evaluator_smoke.py",
+      "agents/evaluations/score_narrative.py"
     ],
     [
       "agents/tests/test_evaluator_smoke.py",

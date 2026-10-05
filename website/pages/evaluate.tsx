@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import MermaidDiagram from '../components/MermaidDiagram';
@@ -10,6 +10,23 @@ import {
   GENERATE_TIMEOUT_MS,
   requestEvaluation,
 } from '../lib/evaluatorRequest';
+
+type VoiceRecognitionEvent = Event & {
+  results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }>;
+};
+
+type VoiceRecognition = {
+  lang: string;
+  interimResults: boolean;
+  onresult: ((event: VoiceRecognitionEvent) => void) | null;
+  onerror: ((event: Event & { error: string }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+  abort: () => void;
+};
+
+type VoiceRecognitionConstructor = new () => VoiceRecognition;
 
 interface TroyerFilters {
   F1_proven_speedup?: boolean;
@@ -189,9 +206,14 @@ const FILTER_LABELS: Record<string, string> = {
 export default function EvaluatePage() {
   const [problem, setProblem] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceError, setVoiceError] = useState('');
   const [generateCode, setGenerateCode] = useState(false);
   const [result, setResult] = useState<EvaluationResult | null>(null);
   const [failure, setFailure] = useState<EvaluatorRequestError | null>(null);
+  const voiceRecognition = useRef<VoiceRecognition | null>(null);
+
+  useEffect(() => () => voiceRecognition.current?.abort(), []);
 
   // Hand the cost figures to /costs, which owns their presentation.
   useEffect(() => {
@@ -258,6 +280,57 @@ export default function EvaluatePage() {
     }
   };
 
+  const handleVoiceInput = () => {
+    if (isListening) {
+      voiceRecognition.current?.stop();
+      return;
+    }
+
+    setVoiceError('');
+    const speechWindow = window as Window & {
+      SpeechRecognition?: VoiceRecognitionConstructor;
+      webkitSpeechRecognition?: VoiceRecognitionConstructor;
+    };
+    const SpeechRecognition = speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setVoiceError('Voice input is not supported by this browser. You can still type your problem.');
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .filter((voiceResult) => voiceResult.isFinal)
+        .map((voiceResult) => voiceResult[0].transcript)
+        .join(' ')
+        .trim();
+      if (transcript) setProblem(transcript);
+    };
+    recognition.onerror = (event) => {
+      if (event.error === 'aborted') return;
+      setVoiceError(event.error === 'not-allowed' || event.error === 'service-not-allowed'
+        ? 'Microphone access was denied. Allow microphone access or type your problem.'
+        : event.error === 'no-speech'
+          ? 'No speech was detected. Try again or type your problem.'
+          : 'Speech recognition failed. Try again or type your problem.');
+    };
+    recognition.onend = () => {
+      voiceRecognition.current = null;
+      setIsListening(false);
+    };
+    voiceRecognition.current = recognition;
+    setIsListening(true);
+    try {
+      recognition.start();
+    } catch {
+      voiceRecognition.current = null;
+      setIsListening(false);
+      setVoiceError('Speech recognition could not start. Try again or type your problem.');
+    }
+  };
+
   const verdictColor = (v: string) => {
     if (v === 'QUANTUM_ADVANTAGE') return { bg: '#dcfce7', fg: '#166534', icon: '✅' };
     if (v === 'HPC_PREFERRED') return { bg: '#dbeafe', fg: '#1e40af', icon: '💻' };
@@ -314,6 +387,9 @@ export default function EvaluatePage() {
             onFocus={(e) => { e.currentTarget.style.borderColor = '#667eea'; }}
             onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}
           />
+          <p style={{ color: '#6b7280', fontSize: '0.85rem', margin: '0.5rem 0' }}>
+            Voice recognition may send audio to your browser&apos;s speech service. Only the editable transcript is sent to the evaluator.
+          </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.75rem' }}>
             <button
               onClick={handleEvaluate}
@@ -332,11 +408,28 @@ export default function EvaluatePage() {
                 </span>
               ) : 'Evaluate Problem'}
             </button>
+            <button
+              type="button"
+              onClick={handleVoiceInput}
+              disabled={loading}
+              aria-pressed={isListening}
+              style={{
+                padding: '0.75rem 1rem', fontSize: '1rem',
+                background: isListening ? '#dc2626' : '#f3f4f6',
+                color: isListening ? 'white' : '#374151',
+                border: '1px solid #d1d5db', borderRadius: '8px', cursor: loading ? 'not-allowed' : 'pointer',
+                fontWeight: 600,
+              }}
+            >
+              {isListening ? '■ Stop listening' : '🎙️ Speak problem'}
+            </button>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem', color: '#374151', cursor: 'pointer' }}>
               <input type="checkbox" checked={generateCode} onChange={(e) => setGenerateCode(e.target.checked)} />
               Generate code (Q# for Quantum, Bicep for HPC/AI)
             </label>
           </div>
+          {isListening && <p role="status" style={{ color: '#b91c1c', fontSize: '0.9rem' }}>Listening... Speak your problem, then stop listening to review the transcript.</p>}
+          {voiceError && <p role="alert" style={{ color: '#b91c1c', fontSize: '0.9rem' }}>{voiceError}</p>}
         </div>
 
         {/* Example problems */}

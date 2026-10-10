@@ -11,23 +11,6 @@ import {
   requestEvaluation,
 } from '../lib/evaluatorRequest';
 
-type VoiceRecognitionEvent = Event & {
-  results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }>;
-};
-
-type VoiceRecognition = {
-  lang: string;
-  interimResults: boolean;
-  onresult: ((event: VoiceRecognitionEvent) => void) | null;
-  onerror: ((event: Event & { error: string }) => void) | null;
-  onend: (() => void) | null;
-  start: () => void;
-  stop: () => void;
-  abort: () => void;
-};
-
-type VoiceRecognitionConstructor = new () => VoiceRecognition;
-
 const getVoiceErrorMessage = (error: string) => {
   switch (error) {
     case 'not-allowed':
@@ -307,11 +290,7 @@ export default function EvaluatePage() {
     }
 
     setVoiceError('');
-    const speechWindow = window as Window & {
-      SpeechRecognition?: VoiceRecognitionConstructor;
-      webkitSpeechRecognition?: VoiceRecognitionConstructor;
-    };
-    const SpeechRecognition = speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setVoiceError('Voice input is not supported by this browser. You can still type your problem.');
       return;

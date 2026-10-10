@@ -28,6 +28,18 @@ type VoiceRecognition = {
 
 type VoiceRecognitionConstructor = new () => VoiceRecognition;
 
+const getVoiceErrorMessage = (error: string) => {
+  switch (error) {
+    case 'not-allowed':
+    case 'service-not-allowed':
+      return 'Microphone access was denied. Allow microphone access or type your problem.';
+    case 'no-speech':
+      return 'No speech was detected. Try again or type your problem.';
+    default:
+      return 'Speech recognition failed. Try again or type your problem.';
+  }
+};
+
 interface TroyerFilters {
   F1_proven_speedup?: boolean;
   F2_io_survives?: boolean;
@@ -213,7 +225,15 @@ export default function EvaluatePage() {
   const [failure, setFailure] = useState<EvaluatorRequestError | null>(null);
   const voiceRecognition = useRef<VoiceRecognition | null>(null);
 
-  useEffect(() => () => voiceRecognition.current?.abort(), []);
+  useEffect(() => () => {
+    const recognition = voiceRecognition.current;
+    if (!recognition) return;
+    voiceRecognition.current = null;
+    recognition.onresult = null;
+    recognition.onerror = null;
+    recognition.onend = null;
+    recognition.abort();
+  }, []);
 
   // Hand the cost figures to /costs, which owns their presentation.
   useEffect(() => {
@@ -310,11 +330,7 @@ export default function EvaluatePage() {
     };
     recognition.onerror = (event) => {
       if (event.error === 'aborted') return;
-      setVoiceError(event.error === 'not-allowed' || event.error === 'service-not-allowed'
-        ? 'Microphone access was denied. Allow microphone access or type your problem.'
-        : event.error === 'no-speech'
-          ? 'No speech was detected. Try again or type your problem.'
-          : 'Speech recognition failed. Try again or type your problem.');
+      setVoiceError(getVoiceErrorMessage(event.error));
     };
     recognition.onend = () => {
       voiceRecognition.current = null;
@@ -413,6 +429,7 @@ export default function EvaluatePage() {
               onClick={handleVoiceInput}
               disabled={loading}
               aria-pressed={isListening}
+              aria-label={isListening ? 'Stop listening' : 'Speak problem'}
               style={{
                 padding: '0.75rem 1rem', fontSize: '1rem',
                 background: isListening ? '#dc2626' : '#f3f4f6',
@@ -421,7 +438,11 @@ export default function EvaluatePage() {
                 fontWeight: 600,
               }}
             >
-              {isListening ? '■ Stop listening' : '🎙️ Speak problem'}
+              {isListening ? (
+                <><span aria-hidden="true">■</span> Stop listening</>
+              ) : (
+                <><span aria-hidden="true">🎙️</span> Speak problem</>
+              )}
             </button>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem', color: '#374151', cursor: 'pointer' }}>
               <input type="checkbox" checked={generateCode} onChange={(e) => setGenerateCode(e.target.checked)} />

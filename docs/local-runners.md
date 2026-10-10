@@ -22,6 +22,12 @@ nightly Azure jobs use the separate `DEPLOY_RUNNER`; pass `-Deploy` to
 The variables hold `["self-hosted","linux","x64","local-fallback"]`. Unset
 variables select `ubuntu-latest`. Switching does not dispatch workflows.
 
+These are GitHub Actions **repository configuration variables**, not secrets
+(Settings > Secrets and variables > Actions > Variables). The script sets valid
+JSON automatically. When editing manually, use a JSON array of labels as shown
+above, or a quoted JSON string such as `"ubuntu-latest"`; bare `ubuntu-latest`
+is not valid JSON and will fail workflow evaluation.
+
 This repository is public. All fork pull requests remain on hosted runners,
 including fork PRs from collaborators. Only trusted same-repository branches
 should execute locally. Do not remove the fork guard or enable local execution

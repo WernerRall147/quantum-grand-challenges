@@ -208,14 +208,16 @@ export default function EvaluatePage() {
   const [failure, setFailure] = useState<EvaluatorRequestError | null>(null);
   const voiceRecognition = useRef<VoiceRecognition | null>(null);
 
-  useEffect(() => () => {
-    const recognition = voiceRecognition.current;
-    if (!recognition) return;
-    voiceRecognition.current = null;
-    recognition.onresult = null;
-    recognition.onerror = null;
-    recognition.onend = null;
-    recognition.abort();
+  useEffect(() => {
+    return () => {
+      const recognition = voiceRecognition.current;
+      if (!recognition) return;
+      voiceRecognition.current = null;
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      recognition.abort();
+    };
   }, []);
 
   // Hand the cost figures to /costs, which owns their presentation.
@@ -250,6 +252,7 @@ export default function EvaluatePage() {
     setLoading(true);
     setResult(null);
     setFailure(null);
+    setVoiceError('');
 
     try {
       // Live API backend on Azure Container Apps
@@ -293,8 +296,9 @@ export default function EvaluatePage() {
   };
 
   const handleVoiceInput = () => {
-    if (isListening) {
-      voiceRecognition.current?.stop();
+    const activeRecognition = voiceRecognition.current;
+    if (activeRecognition) {
+      activeRecognition.stop();
       return;
     }
 

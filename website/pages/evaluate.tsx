@@ -11,7 +11,7 @@ import {
   requestEvaluation,
 } from '../lib/evaluatorRequest';
 
-const getVoiceErrorMessage = (error: string) => {
+const getVoiceErrorMessage = (error: VoiceRecognitionError) => {
   switch (error) {
     case 'not-allowed':
     case 'service-not-allowed':
@@ -238,6 +238,15 @@ export default function EvaluatePage() {
 
   const handleEvaluate = async () => {
     if (!problem.trim()) return;
+    const recognition = voiceRecognition.current;
+    if (recognition) {
+      voiceRecognition.current = null;
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      recognition.abort();
+    }
+    setIsListening(false);
     setLoading(true);
     setResult(null);
     setFailure(null);

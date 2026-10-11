@@ -12,8 +12,18 @@ interface VoiceRecognitionEvent extends Event {
   results: VoiceRecognitionResultList;
 }
 
+type VoiceRecognitionError =
+  | 'aborted'
+  | 'audio-capture'
+  | 'bad-grammar'
+  | 'language-not-supported'
+  | 'network'
+  | 'no-speech'
+  | 'not-allowed'
+  | 'service-not-allowed';
+
 interface VoiceRecognitionErrorEvent extends Event {
-  error: string;
+  error: VoiceRecognitionError;
 }
 
 interface VoiceRecognition {

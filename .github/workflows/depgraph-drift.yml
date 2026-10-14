@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   depgraph:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.CI_RUNNER || '"ubuntu-latest"') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

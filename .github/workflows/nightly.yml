@@ -16,7 +16,7 @@ env:
 jobs:
   # Full resource estimation sweep
   estimation-sweep:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.CI_RUNNER || '"ubuntu-latest"') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -46,7 +46,7 @@ jobs:
 
   # KPI + platform recommendations refresh
   refresh-reports:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.CI_RUNNER || '"ubuntu-latest"') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -103,7 +103,7 @@ jobs:
 
   # Runnable/correctness audit (with Q#)
   runnable-correctness:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.CI_RUNNER || '"ubuntu-latest"') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -144,7 +144,7 @@ jobs:
   # cron (0 6 * * *). The job runs inside Azure and authenticates with its managed
   # identity. This job only exists so the ingestion can be kicked off manually.
   arxiv-ingestion:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.DEPLOY_RUNNER || '"ubuntu-latest"') }}
     if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Azure login (service principal)
@@ -184,7 +184,7 @@ jobs:
   # index held 48 documents against 47 in the file, an orphan left by an id-scheme
   # change, and it had been taking an evidence slot for months unnoticed.
   algorithm-index-drift:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.DEPLOY_RUNNER || '"ubuntu-latest"') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -216,7 +216,7 @@ jobs:
     # the Zoo itself changing upstream, so re-fetch it here and reconcile against the live
     # source. A newly published algorithm arrives with no disposition and fails the run,
     # which is the only thing that stops it waiting for someone to remember.
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.CI_RUNNER || '"ubuntu-latest"') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -235,5 +235,4 @@ jobs:
       - name: Show what changed upstream
         if: failure()
         run: git --no-pager diff --stat knowledge/data/zoo_references.json
-
 

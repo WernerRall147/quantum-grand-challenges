@@ -14,6 +14,7 @@
     "agents/tests/test_cost_model.py"
   ],
   "agents/classifier/paper_classifier.py": [
+    "agents/orchestrator/evaluate.py",
     "agents/tests/test_corpus_decidability.py",
     "agents/tests/test_paper_classifier.py",
     "tooling/eval_paper_classifier.py",
@@ -68,7 +69,8 @@
     "agents/tests/test_verdict_evaluator.py"
   ],
   "agents/evaluations/score_narrative.py": [
-    ".github/workflows/ci-cd.yml"
+    ".github/workflows/ci-cd.yml",
+    "agents/tests/test_evaluator_smoke.py"
   ],
   "agents/evaluations/verdict_evaluator.py": [
     "agents/evaluations/run_foundry_eval.py",

@@ -18,6 +18,7 @@ validation. Each check is an assertion against the JSON the model returned.
               quietly change one? It did not compute them, it was given them
               twice in the prompt, so a changed value is a fabrication.
   references  Did it produce the two concrete sources the prompt demands?
+  alternatives Did it name both HPC and AI/ML alternatives?
   honesty     If it recommends VQE or QAOA, did it carry the warning the prompt
               requires about there being at most a quadratic advantage?
   qec_codes   If it recommends QUANTUM, did it name the error-correction codes?
@@ -95,6 +96,7 @@ THRESHOLDS = {
     "enums": 1.00,
     "filters": 1.00,
     "references": 0.90,
+    "alternatives": 1.00,
     "citations": 1.00,
     "honesty": 1.00,
     "qec_codes": 0.90,
@@ -183,6 +185,16 @@ def check_references(_record: dict, a: dict) -> tuple[str, str]:
     return FAIL, f"{len(grounded)} of {len(refs)} references are checkable (need 2)"
 
 
+def check_alternatives(_record: dict, a: dict) -> tuple[str, str]:
+    missing = [
+        field for field in ("hpc_alternative", "ai_alternative")
+        if not isinstance(a.get(field), str) or not a[field].strip()
+    ]
+    if missing:
+        return FAIL, "missing non-empty " + " and ".join(missing)
+    return PASS, ""
+
+
 def check_honesty(_record: dict, a: dict) -> tuple[str, str]:
     algorithm = str(a.get("recommended_algorithm", "")).upper()
     if not any(m in algorithm for m in WEAK_ALGORITHM_MARKERS):
@@ -225,6 +237,7 @@ CHECKS = [
     ("enums", check_enums),
     ("filters", check_filters),
     ("references", check_references),
+    ("alternatives", check_alternatives),
     ("citations", check_citations_resolve),
     ("honesty", check_honesty),
     ("qec_codes", check_qec_codes),

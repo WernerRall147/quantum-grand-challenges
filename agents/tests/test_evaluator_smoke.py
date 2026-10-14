@@ -852,10 +852,43 @@ class TestRecentPapersStayOutOfTheVerdict:
 
         block = QuantumEvaluator._recent_work_block(
             [{"title": "Quantum-Informed Portfolio Selection",
-              "arxiv_id": "2607.00001", "published": "2026-07-01"}]
+              "arxiv_id": "2607.00001", "published": "2026-07-01",
+              "abstract": "We find an exponential speedup over classical methods."}]
         )
         assert "NOT evidence" in block
         assert "Quantum-Informed Portfolio Selection" in block
+        assert "paper-stated speedup claim: STRONG" in block
+        assert "not independently verified" in block.lower()
+
+    def test_block_marks_conflicting_paper_claims_indeterminate(self):
+        from agents.orchestrator.evaluate import QuantumEvaluator
+
+        block = QuantumEvaluator._recent_work_block(
+            [{"title": "Quantum speedups", "arxiv_id": "2607.00002",
+              "published": "2026-07-01",
+              "abstract": "We show an exponential speedup and a quadratic speedup."}]
+        )
+        assert "paper-stated speedup claim: INDETERMINATE" in block
+        assert "conflicting" in block.lower()
+
+    def test_prompt_requires_sourced_workload_matched_platform_comparison(self):
+        from agents.orchestrator.instructions import SYSTEM_PROMPT
+
+        prompt = SYSTEM_PROMPT.lower()
+        assert "same workload" in prompt
+        assert all(platform in prompt for platform in ("hpc", "ai/ml", "quantum"))
+        assert "insufficient" in prompt
+
+    def test_narrative_checker_requires_both_classical_alternatives(self):
+        from agents.evaluations.score_narrative import check_alternatives
+
+        assessment = {
+            "hpc_alternative": "Use MPI on a CPU cluster.",
+            "ai_alternative": "Use a transformer model.",
+        }
+        assert check_alternatives({}, assessment)[0] == "pass"
+        assessment["ai_alternative"] = ""
+        assert check_alternatives({}, assessment)[0] == "fail"
 
     def test_router_signature_cannot_accept_papers(self):
         """route_platform owns the verdict and takes no paper argument.
@@ -913,4 +946,3 @@ class TestAlgorithmIndexDriftDetection:
         docs = [{"id": "a", "name": "Shor's Algorithm"}]
         problems = self._drift(["Shor's Algorithm"], 1, docs, 1000)
         assert any("page size" in p for p in problems), problems
-

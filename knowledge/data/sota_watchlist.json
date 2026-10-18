@@ -1,0 +1,124 @@
+{
+  "description": "Topics for the weekly state-of-the-art watch (tooling/sota_watch.py, run by .github/workflows/sota-watch.yml; issue #292). Each topic has an arXiv API search query (syntax: https://info.arxiv.org/help/api/user-manual.html) and names what in this repository a new paper on it could change, so a person knows which claim to re-check. The watch lists candidates in one issue titled 'SOTA watch' and never edits anything. Papers already in knowledge/data/frontier_results.json are not listed again. A path marked planned does not exist yet; tooling/test_sota_watch.py fails once it does, so the mark comes off.",
+  "topics": [
+    {
+      "id": "magic-state-factories",
+      "title": "Magic state cultivation and factories",
+      "query": "abs:\"magic state cultivation\" OR abs:\"magic state distillation\" OR abs:\"magic state factory\" OR abs:\"magic state injection\" OR abs:\"magic state preparation\" OR abs:\"T factory\" OR abs:\"T state\" OR abs:\"CCZ factory\" OR abs:\"CCZ state\"",
+      "bears_on": [
+        {
+          "path": "docs/paper/methodology-paper.md",
+          "where": "Section 7.5, lesson 3",
+          "check": "the share of physical qubits the estimates give to T factories, which comes from a distillation factory model"
+        },
+        {
+          "path": "tooling/estimator_config.py",
+          "where": "make_isa_query",
+          "check": "the magic-state factory model the resource estimates are built with"
+        },
+        {
+          "zoo": "Quantum Error Correction (Surface Code)",
+          "check": "what its notes say fault-tolerant computation needs"
+        }
+      ]
+    },
+    {
+      "id": "rsa-ecdlp-estimates",
+      "title": "RSA and ECDLP resource estimates",
+      "query": "(abs:RSA OR abs:ECDLP OR abs:\"elliptic curve\" OR abs:\"discrete logarithm\" OR abs:\"integer factoring\" OR abs:\"integer factorization\" OR abs:\"Shor's algorithm\") AND (abs:qubit OR abs:Toffoli OR abs:\"resource estimate\")",
+      "bears_on": [
+        {
+          "zoo": "Shor's Algorithm",
+          "check": "the logical-qubit figure for RSA-2048 in its notes"
+        },
+        {
+          "zoo": "Discrete Logarithm",
+          "check": "what its notes say about breaking elliptic-curve cryptography"
+        },
+        {
+          "path": "problems/09_factorization/README.md",
+          "where": "Stage D target",
+          "check": "the RSA-2048 scaling extrapolation"
+        }
+      ]
+    },
+    {
+      "id": "decoded-quantum-interferometry",
+      "title": "Decoded quantum interferometry",
+      "query": "abs:\"decoded quantum interferometry\" OR (abs:DQI AND cat:quant-ph)",
+      "bears_on": [
+        {
+          "zoo": "Decoded Quantum Interferometry (DQI)",
+          "check": "the speedup its notes describe and the reference behind it"
+        }
+      ]
+    },
+    {
+      "id": "femoco-iron-sulfur",
+      "title": "FeMoco and iron-sulfur cluster resource estimates",
+      "query": "(abs:FeMoco OR abs:\"FeMo-co\" OR abs:nitrogenase OR abs:\"iron-sulfur\" OR abs:Fe2S2 OR abs:Fe4S4) AND (abs:qubit OR abs:\"quantum computer\" OR abs:\"quantum computing\" OR abs:\"quantum algorithm\" OR abs:\"fault-tolerant\")",
+      "bears_on": [
+        {
+          "path": "problems/02_catalysis/README.md",
+          "where": "Stage D target",
+          "check": "the fairness review against the best-known classical baseline"
+        },
+        {
+          "path": "agents/classifier/platform_router.py",
+          "where": "CLASS_2_MARKERS",
+          "check": "the markers that classify FeMoco and iron-sulfur clusters as targets for quantum computation"
+        }
+      ]
+    },
+    {
+      "id": "lattice-gauge-estimates",
+      "title": "Lattice gauge theory resource estimates",
+      "query": "(abs:\"lattice gauge\" OR abs:\"gauge theory\" OR abs:\"lattice QCD\") AND (abs:qubit OR abs:\"quantum computer\" OR abs:\"quantum simulation\")",
+      "bears_on": [
+        {
+          "path": "problems/19_quantum_chromodynamics/README.md",
+          "where": "Stage D target",
+          "check": "the residual risks for real-time dynamics"
+        },
+        {
+          "zoo": "Lattice Gauge Theory (Real-Time)",
+          "check": "the utility case its notes make"
+        }
+      ]
+    },
+    {
+      "id": "llm-guided-discovery",
+      "title": "LLM- or evaluator-guided circuit discovery",
+      "query": "(abs:\"large language model\" OR abs:LLM OR abs:AlphaEvolve OR abs:OpenEvolve OR abs:FunSearch) AND (abs:\"quantum circuit\" OR abs:\"quantum algorithm\" OR abs:\"quantum computation\" OR abs:\"quantum program\")",
+      "bears_on": [
+        {
+          "path": "docs/paper/methodology-paper.md",
+          "where": "Sections 3 to 5",
+          "check": "how the framework validates and costs a circuit before it reports a result"
+        },
+        {
+          "path": "agents/code_generator/generate.py",
+          "where": "generate_with_estimate",
+          "check": "the language-model Q# generator and the checks each attempt passes"
+        }
+      ]
+    },
+    {
+      "id": "lean-formal-verification",
+      "title": "Formal verification of quantum algorithms in Lean",
+      "query": "(abs:Lean OR abs:Lean4 OR abs:Mathlib OR abs:\"proof assistant\" OR abs:\"formally verified\" OR abs:\"formal verification\") AND cat:quant-ph",
+      "bears_on": [
+        {
+          "path": "formal/",
+          "planned": "#294",
+          "check": "Lean 4 proofs of the mathematics this repository relies on"
+        },
+        {
+          "path": "problems/16_error_correction/python/classical_baseline.py",
+          "where": "repetition_logical_error",
+          "check": "the repetition-code failure formula #294 proposes to prove first"
+        }
+      ]
+    }
+  ]
+}

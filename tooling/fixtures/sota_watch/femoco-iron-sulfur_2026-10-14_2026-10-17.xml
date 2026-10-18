@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/zN8cBlFr6lJhnJlqqIDn7QXKnIE</id>
+  <title>arXiv Query: search_query=( (abs:FeMoco OR abs:"FeMo-co" OR abs:nitrogenase OR abs:"iron-sulfur" OR abs:Fe2S2 OR abs:Fe4S4) AND (abs:qubit OR abs:"quantum computer" OR abs:"quantum computing" OR abs:"quantum algorithm" OR abs:"fault-tolerant") ) AND submittedDate:"202610140000 TO 202610172359"&amp;id_list=&amp;start=0&amp;max_results=50</title>
+  <updated>2026-10-18T18:31:09Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=((abs:FeMoco+OR+(abs:%22FeMo-co%22+OR+(abs:nitrogenase+OR+(abs:%22iron-sulfur%22+OR+(abs:Fe2S2+OR+abs:Fe4S4)))))+AND+(abs:qubit+OR+(abs:%22quantum+computer%22+OR+(abs:%22quantum+computing%22+OR+(abs:%22quantum+algorithm%22+OR+abs:%22fault-tolerant%22)))))+AND+submittedDate:%22202610140000+TO+202610172359%22&amp;start=0&amp;max_results=50&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>50</opensearch:itemsPerPage>
+  <opensearch:totalResults>0</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+</feed>

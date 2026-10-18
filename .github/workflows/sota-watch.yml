@@ -1,0 +1,47 @@
+name: SOTA Watch
+
+# Lists new arXiv papers on the topics this repository's numbers depend on, for a person to
+# triage (#292). tooling/sota_watch.py queries arXiv for each topic in
+# knowledge/data/sota_watchlist.json, drops papers already in the frontier-results register
+# (knowledge/data/frontier_results.json), and writes the rest into the one open issue titled
+# "SOTA watch" and labelled reporting, creating it when there is none. It never edits a number.
+#
+# Weekly, because arXiv rate-limits: the script sends one request per topic, one at a time and
+# spaced as the daily arXiv ingester spaces them. Wednesday 05:41 UTC comes after arXiv's
+# Tuesday 20:00 US Eastern announcement, and the script's ten-day window overlaps the previous
+# run's by three days to absorb arXiv's announcement lag. The run fails when every query fails.
+# No secret beyond GITHUB_TOKEN. GitHub may delay or skip scheduled runs; workflow_dispatch runs
+# it on demand.
+
+on:
+  schedule:
+    - cron: "41 5 * * 3"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: sota-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.CI_RUNNER || '"ubuntu-latest"') }}
+    # If arXiv hangs, each topic can take about nine minutes to fail through every timeout and
+    # retry the ingester makes. 75 minutes is sized for seven topics, so the script can report
+    # the failure itself; raise it when the watchlist grows.
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Query arXiv and update the SOTA watch issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: python tooling/sota_watch.py

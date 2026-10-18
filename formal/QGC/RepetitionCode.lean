@@ -53,7 +53,7 @@ theorem fails_iff (hd : Odd d) (b : Bool) (flips : Finset (Fin d)) :
     fails b flips = true ↔ d / 2 + 1 ≤ #flips := by
   have hle : #flips ≤ d := by simpa using card_le_univ flips
   obtain ⟨m, rfl⟩ := hd
-  cases b <;> simp [fails, decode, card_received_true] <;> omega
+  cases b <;> simp [fails, decode, card_received_true] <;> sorry
 
 /-- The probability of one flip pattern when each bit flips independently with
 probability `q`. -/

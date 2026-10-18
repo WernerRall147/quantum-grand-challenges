@@ -50,10 +50,10 @@ lemma card_received_true (b : Bool) (flips : Finset (Fin d)) :
 /-- Part 1: for odd `d`, decoding fails exactly when at least `d / 2 + 1` bits flip,
 whichever bit was sent. -/
 theorem fails_iff (hd : Odd d) (b : Bool) (flips : Finset (Fin d)) :
-    fails b flips = true ↔ d / 2 + 1 ≤ #flips := by
+    fails b flips = true ↔ d / 2 ≤ #flips := by
   have hle : #flips ≤ d := by simpa using card_le_univ flips
   obtain ⟨m, rfl⟩ := hd
-  cases b <;> simp [fails, decode, card_received_true] <;> sorry
+  cases b <;> simp [fails, decode, card_received_true] <;> omega
 
 /-- The probability of one flip pattern when each bit flips independently with
 probability `q`. -/

@@ -77,8 +77,9 @@ the published estimates use, on every gate-based profile. It writes
 
 `tooling/test_estimate_provenance.py` holds the projection to the baseline's provenance,
 requires every problem with infeasible results recorded rather than dropped, fails when its
-baseline columns stop matching `circuits/estimate.json`, and fails when the table is not what
-the JSON renders to. Each guard was watched failing before it was trusted.
+baseline columns stop matching `circuits/estimate.json`, fails when the table is not what
+the JSON renders to, and estimates one cell of each kind again to catch a number that was
+typed rather than measured. Each guard was watched failing before it was trusted.
 
 ## You own
 

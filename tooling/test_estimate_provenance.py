@@ -302,6 +302,9 @@ def test_cultivation_scenario_baseline_is_the_published_estimate(problem, path):
     toffolis = data["problems"].get(problem, {}).get("toffoliCount")
     if toffolis != (published.get("cczCount") or 0):
         differences.append(f"toffoliCount {toffolis!r} in the scenario, cczCount {published.get('cczCount')!r} published")
+    expression = data["problems"].get(problem, {}).get("entryExpr")
+    if expression != published.get("entryExpr"):
+        differences.append(f"entryExpr {expression!r} in the scenario, {published.get('entryExpr')!r} published")
     assert not differences, (
         f"{problem}: the cultivation scenario's baseline no longer matches circuits/estimate.json: "
         + "; ".join(differences)
@@ -322,6 +325,41 @@ def test_cultivation_scenario_table_is_generated_from_its_data():
         "docs/estimates/cultivation-scenario.md is not what its JSON renders to:\n"
         + "\n".join(diff[:20])
         + f"\n{REGENERATE_SCENARIO}"
+    )
+
+
+# The checks above would pass a number someone typed in, so one cell of each kind the page
+# reports is estimated again. Physical qubits, runtime and feasibility are exact: where
+# configurations tie, only the recorded error fields can differ between runs.
+RE_ESTIMATED_CELLS = (
+    ("07_drug_discovery", "qubit_gate_ns_e3", "gsj24_5_15"),  # feasible, published profile
+    ("01_hubbard", "qubit_gate_ns_e3", "gsj24_5_15"),  # infeasible within the error budget
+    ("01_hubbard", "qubit_gate_ns_e4", "gsj24_5_15"),  # a 1e-4 profile, served from the 5e-4 table
+    ("13_climate_modeling", "qubit_gate_ns_e3", "gsj24_3_15+ccx"),  # feasible only with GSJ24CCXFactory
+)
+
+
+@pytest.mark.parametrize(
+    "problem,profile,factory", RE_ESTIMATED_CELLS, ids=["-".join(cell) for cell in RE_ESTIMATED_CELLS]
+)
+def test_cultivation_scenario_cells_are_what_the_estimator_returns(problem, profile, factory):
+    from qdk import qsharp
+
+    generator = _generator()
+    published = dict(ESTIMATES)[problem]
+    qsharp.init(project_root=str(published.parent.parent / "qsharp"))
+    expression = json.loads(published.read_text(encoding="utf-8-sig"))["entryExpr"]
+    table = generator.estimate_table(expression, profile, generator.DEFAULT_QEC_SCHEME, factory=factory)
+    if len(table):
+        entry = generator.select_entry(table)
+        measured = {"feasible": True, "physicalQubits": entry.qubits, "runtime": entry.runtime}
+    else:
+        measured = {"feasible": False}
+
+    recorded = _scenario()["problems"][problem]["profiles"][profile][factory]
+    assert {key: recorded.get(key) for key in measured} == measured, (
+        f"{problem} {profile} {factory}: the scenario records {recorded}, the estimator returns "
+        f"{measured}. {REGENERATE_SCENARIO}"
     )
 
 

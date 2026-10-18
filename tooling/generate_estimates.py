@@ -113,6 +113,10 @@ EXPERIMENT_REFERENCE = {
         "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/"
         "magic-state-cultivation-quantum-computing/"
     ),
+    "announcementQuote": (
+        "we still need to demonstrate magic state cultivation at a larger scale to make it "
+        "realistic for practical quantum computing"
+    ),
 }
 
 
@@ -401,19 +405,22 @@ def render_cultivation_markdown(data: dict) -> str:
         "cultivation-scenario.json. Do not edit by hand: tooling/test_estimate_provenance.py fails",
         "when this file and the JSON disagree. -->",
         "",
-        "**Every number on this page is a projection, not a published estimate.** It is what the",
-        f"QRE v3 estimator in qdk {qdk} returns when the round-based distillation factory behind the",
-        "published estimates is replaced by its model of magic state cultivation, `GSJ24Factory`. The",
-        "published estimates are each problem's `circuits/estimate.json`. This scenario does not",
-        f"change them, and its baseline columns for `{baseline_model}` are those estimates.",
+        "**Every cultivation number on this page is a projection, not a published estimate.** It is",
+        f"what the QRE v3 estimator in qdk {qdk} returns when the round-based distillation factory",
+        "behind the published estimates is replaced by its model of magic state cultivation,",
+        "`GSJ24Factory`. The published estimates are each problem's `circuits/estimate.json`. This",
+        f"scenario does not change them, and its baseline columns for `{baseline_model}` are those",
+        "estimates.",
         "",
         f"The cultivation model is {_join(model['authors'])}, \"{model['title']}\",",
         f"[arXiv:{model['arxiv']}]({model['url']}), which qdk implements from the authors' simulation",
         f"data ([Zenodo]({model['simulationData']})). On hardware, Rosenfeld et al.",
         f"([arXiv:{experiment['arxiv']}]({experiment['url']})) report: \"{experiment['quote']}\"",
-        "That is the fidelity of a post-selected T state, grafted from a distance-3 color code into a",
-        f"distance-5 surface code ([Google]({experiment['announcement']})), not of logical gates.",
-        "Nothing here shows cultivation working at the scale these programs need.",
+        "That is the post-selected fidelity of a T state in a distance-3 color code, not of logical",
+        "gates; grafting a cultivated state into a distance-5 surface code is a separate step in the",
+        f"same paper. Google writes that \"{experiment['announcementQuote']}\"",
+        f"([announcement]({experiment['announcement']})), and nothing here shows cultivation working",
+        "at the scale these programs need.",
         "",
         "## How it was produced",
         "",
@@ -450,7 +457,8 @@ def render_cultivation_markdown(data: dict) -> str:
         lines += [
             f"- \"physical {names}\" marks results where the estimator took its {names} states",
             "  straight from the profile's physical gate instead of a factory: the program needs so",
-            "  few that their error fits the budget, so no factory was used.",
+            "  few that their error fits the budget. No factory is used; qdk still counts one factory",
+            "  qubit for them, hence a T-factory fraction near zero.",
         ]
 
     lines += [

@@ -1,7 +1,8 @@
 # ADR-0002: Machine-check the mathematics the code relies on with Lean 4 and Mathlib
 
 Date: 2026-10-18
-Status: Proposed. Accepted when merged.
+Status: Proposed
+Acceptance criteria: merge
 Deciders: Werner Rall (repository owner)
 
 ## Context

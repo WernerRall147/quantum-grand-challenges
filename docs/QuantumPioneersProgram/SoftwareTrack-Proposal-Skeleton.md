@@ -126,7 +126,7 @@ thresholds the hardened pipeline would estimate honestly (from
 | Drug discovery | > 50 orbitals to exceed classical FCI |
 | Materials discovery | correlated band-gap regime where DFT fails |
 | Nuclear physics | A > 20 nucleons |
-| Factorization (Shor) | RSA-2048 ~ 4,000 logical qubits |
+| Factorization (Shor) | RSA-2048 in under a week on under a million noisy qubits at a 0.1% gate error rate (Gidney 2025, arXiv:2505.15917v1) |
 
 The contrast - trivially-simulable toy instances now vs. the logical-qubit scale real
 utility demands - is precisely the estimation gap Aims 1-2 close, specialized for

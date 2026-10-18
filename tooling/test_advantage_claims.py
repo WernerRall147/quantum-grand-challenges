@@ -2,12 +2,15 @@
 
 Each entry names the claim, what is actually true, and the source. The scan covers the
 surfaces a reader sees: website data, archive notes, Stage D evidence, the agents'
-reference index and prompts, the README and the paper.
+reference index and prompts, the README, the paper, and the talk notes and proposal that
+quote numbers from them.
 
-The knowledge-base index (knowledge/data/algorithm_zoo_index.json) is deliberately not
-scanned. It still carries the old QAOA wording and the old RSA-2048 logical-qubit count,
-but it mirrors a deployed Azure AI Search index that tooling/check_algorithm_index_drift.py
-compares against, so it changes only together with a re-ingestion.
+The knowledge-base index (knowledge/data/algorithm_zoo_index.json) mirrors a deployed
+Azure AI Search index that tooling/check_algorithm_index_drift.py compares against, so it
+changes only together with a re-ingestion, and it is scanned claim by claim. Its old
+RSA-2048 logical-qubit count was corrected on 2026-10-18 (#297) and is scanned for. It
+still carries the old QAOA wording, which is exempt until that entry is corrected: its
+speedup_class "quadratic_at_most" is router vocabulary, so changing it changes routing.
 """
 
 from __future__ import annotations
@@ -34,6 +37,9 @@ SURFACES = (
     "docs/architecture.md",
     "docs/paper/methodology-paper.md",
     "README.md",
+    "docs/AzureFriday/deck-notes.md",
+    "docs/AzureFriday/script.md",
+    "docs/QuantumPioneersProgram/SoftwareTrack-Proposal-Skeleton.md",
     "website/pages/**/*.tsx",
     "website/components/*.tsx",
     "problems/**/qsharp/src/*.qs",
@@ -102,8 +108,9 @@ RETRACTED = [
     ),
     pytest.param(
         r"4,?000 logical qubits",
-        "RSA-2048 needs about 1,400 logical qubits (Gidney 2025, arXiv:2505.15917) or about "
-        "3n = 6,200 (Gidney and Ekera 2019, arXiv:1905.09749); 4,000 matches neither.",
+        "RSA-2048 takes about 1,400 logical qubits in Gidney's 2025 construction "
+        "(arXiv:2505.15917v1, Table 5) and 3n + 0.002 n lg n, about 6,200, in Gidney and "
+        "Ekerå's (arXiv:1905.09749v3); 4,000 matches neither.",
         id="rsa-2048-logical-qubits",
     ),
     pytest.param(
@@ -169,6 +176,8 @@ def test_the_scan_reaches_the_published_surfaces():
         "problems/archived/10_post_quantum_cryptography/ARCHIVED.md",
         "problems/archived/10_post_quantum_cryptography/estimates/advantage_claim_contract.json",
         "docs/paper/methodology-paper.md",
+        "docs/AzureFriday/deck-notes.md",
+        "docs/QuantumPioneersProgram/SoftwareTrack-Proposal-Skeleton.md",
     ):
         assert required in found, f"{required} is no longer scanned"
     assert len(found) > 50
@@ -185,6 +194,45 @@ def test_retracted_claim_is_not_republished(pattern: str, truth: str):
                 start = max(0, match.start() - 60)
                 hits.append(f"{path.relative_to(ROOT).as_posix()}:{line_no}: ...{line[start:match.end() + 60]}...")
     assert not hits, f"Retracted claim published again. What is true: {truth}\n" + "\n".join(hits)
+
+
+KNOWLEDGE_BASE = ROOT / "knowledge" / "data" / "algorithm_zoo_index.json"
+
+# Retracted claims the knowledge base still carries, and why each is not yet corrected there.
+KNOWLEDGE_BASE_PENDING = {
+    "qaoa-at-most-quadratic": "QAOA's speedup_class 'quadratic_at_most' is router vocabulary",
+    "qaoa-classically-simulable": "the QAOA entry is corrected as a whole, with its speedup_class",
+}
+
+
+def _knowledge_base_hits(claim_ids) -> list[str]:
+    text = _read(KNOWLEDGE_BASE)
+    hits = []
+    for param in RETRACTED:
+        if param.id not in claim_ids:
+            continue
+        pattern, _ = param.values
+        for match in re.finditer(pattern, text, re.IGNORECASE):
+            hits.append(f"{param.id}: ...{text[max(0, match.start() - 60):match.end() + 60]}...")
+    return hits
+
+
+def test_retracted_claims_are_not_in_the_knowledge_base():
+    scanned = {param.id for param in RETRACTED} - set(KNOWLEDGE_BASE_PENDING)
+    hits = _knowledge_base_hits(scanned)
+    assert not hits, (
+        f"{KNOWLEDGE_BASE.relative_to(ROOT).as_posix()} carries a retracted claim. Correct the entry, "
+        "then re-seed the deployed index from it:\n" + "\n".join(hits)
+    )
+
+
+@pytest.mark.parametrize("claim_id", sorted(KNOWLEDGE_BASE_PENDING))
+def test_each_knowledge_base_exemption_is_still_needed(claim_id: str):
+    assert claim_id in {param.id for param in RETRACTED}, f"{claim_id} names no retracted claim"
+    assert _knowledge_base_hits({claim_id}), (
+        f"The knowledge base no longer carries {claim_id}; remove it from KNOWLEDGE_BASE_PENDING "
+        "so the scan covers it."
+    )
 
 
 def test_every_qpe_ground_state_entry_states_the_overlap_condition():

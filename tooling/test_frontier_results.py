@@ -11,6 +11,11 @@ numbers and verdicts. These tests hold its shape in place, so every claim names 
 conditions, one kind of evidence and what it does not establish. They also check what
 a schema cannot: that arXiv identifiers carry a version, that no source was read in
 the future, and that the problems and zoo entries it points at exist.
+
+The algorithm zoo is held to the register too. Its Shor entry said "Needs ~4000
+logical qubits for RSA-2048" with no source, a figure that matches neither published
+estimate, and the evaluator serves the zoo (#297). So a resource count in the zoo must
+cite, in the same sentence, a dated and versioned source that the register holds.
 """
 
 from __future__ import annotations
@@ -34,6 +39,14 @@ ZOO = DATA / "algorithm_zoo_index.json"
 ARXIV_ID = re.compile(r"^\d{4}\.\d{4,5}v\d+$")
 ARXIV_ABS = re.compile(r"^https://arxiv\.org/abs/(?P<id>\S+)$")
 PROBLEM_DIR = re.compile(r"^\d{2}_[a-z0-9_]+$")
+
+# A sentence in the zoo that mentions one of these and a digit states a resource count.
+RESOURCE_WORDS = re.compile(r"\b(?:qubits?|toffolis?|t gates?|t-counts?|ccz)\b", re.IGNORECASE)
+# The one citation form the zoo uses for a count: "(Gidney 2025, arXiv:2505.15917v1)".
+DATED_CITATION = re.compile(r"\b(?P<year>(?:19|20)\d{2}), arXiv:(?P<arxiv>\d{4}\.\d{4,5}v\d+)")
+# A full stop or semicolon followed by a capital ends a sentence; "et al. (" does not.
+SENTENCE_BREAK = re.compile(r"(?<=[.;!?])\s+(?=[A-Z])")
+ZOO_PROSE_FIELDS = ("notes", "quantum_complexity", "classical_best")
 
 
 def _load(path: Path):
@@ -215,6 +228,68 @@ def test_a_broken_register_is_reported(breakage):
     register = copy.deepcopy(_load(REGISTER))
     break_it(register)
     found = _check(register)
+    assert any(expected in violation for violation in found), (
+        f"{breakage}: expected a violation containing {expected!r}, got {found}"
+    )
+
+
+def unsourced_zoo_counts(zoo, register) -> list[str]:
+    """Every zoo sentence that states a resource count without a dated source the register holds."""
+    years = {
+        entry["identifiers"]["arxiv"]: entry["citation"]["year"]
+        for entry in register["entries"]
+        if "arxiv" in entry["identifiers"]
+    }
+    found = []
+    for algorithm in zoo["algorithms"]:
+        for field in ZOO_PROSE_FIELDS:
+            for sentence in SENTENCE_BREAK.split(str(algorithm.get(field, ""))):
+                if not (RESOURCE_WORDS.search(sentence) and re.search(r"[0-9]", sentence)):
+                    continue
+                where = f"{algorithm['name']} ({field}): {sentence!r}"
+                citations = list(DATED_CITATION.finditer(sentence))
+                if not citations:
+                    found.append(
+                        f"{where} states a resource count without a dated citation "
+                        "such as '(Gidney 2025, arXiv:2505.15917v1)'"
+                    )
+                for cite in citations:
+                    year = years.get(cite["arxiv"])
+                    if year is None:
+                        found.append(f"{where} cites arXiv:{cite['arxiv']}, which has no entry in {REGISTER.name}")
+                    elif int(cite["year"]) != year:
+                        found.append(f"{where} dates arXiv:{cite['arxiv']} {cite['year']}, but the register says {year}")
+    return found
+
+
+def test_every_resource_count_in_the_zoo_cites_a_registered_source():
+    assert unsourced_zoo_counts(_load(ZOO), _load(REGISTER)) == []
+
+
+# Each zoo rule is shown to fire on a copy of the zoo with one entry's notes replaced. The
+# first case is the Shor note as it was published until 2026-10-18.
+ZOO_BREAKAGES = {
+    "the published RSA-2048 count, with no source": (
+        "The canonical example. Breaks RSA. Needs ~4000 logical qubits for RSA-2048.",
+        "without a dated citation",
+    ),
+    "a source the register does not hold": (
+        "About 1,400 logical qubits for RSA-2048 (Gidney 2025, arXiv:2505.99999v1).",
+        "which has no entry",
+    ),
+    "a year that disagrees with the register": (
+        "About 1,400 logical qubits for RSA-2048 (Gidney 2019, arXiv:2505.15917v1).",
+        "but the register says 2025",
+    ),
+}
+
+
+@pytest.mark.parametrize("breakage", sorted(ZOO_BREAKAGES))
+def test_an_unsourced_zoo_count_is_reported(breakage):
+    notes, expected = ZOO_BREAKAGES[breakage]
+    zoo = copy.deepcopy(_load(ZOO))
+    _first(zoo["algorithms"], lambda algorithm: algorithm["name"] == "Shor's Algorithm", "Shor entry")["notes"] = notes
+    found = unsourced_zoo_counts(zoo, _load(REGISTER))
     assert any(expected in violation for violation in found), (
         f"{breakage}: expected a violation containing {expected!r}, got {found}"
     )

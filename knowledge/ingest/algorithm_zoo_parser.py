@@ -24,7 +24,7 @@ ALGORITHM_DATABASE = [
         "oracle_polynomial": True,
         "naturally_quantum": False,
         "troyer_verdict": "QUANTUM_ADVANTAGE",
-        "notes": "The canonical example. Breaks RSA. Needs ~4000 logical qubits for RSA-2048.",
+        "notes": "The canonical example. Breaks RSA. Logical-qubit counts for RSA-2048 depend on the construction: 3n + 0.002 n lg n, about 6,200, in the abstract circuit model (Gidney and Ekerå 2021, arXiv:1905.09749v3), or about 1,400 with 6.5 billion expected Toffoli gates (Gidney 2025, arXiv:2505.15917v1, Table 5). The second runs in under a week on fewer than a million noisy qubits at a 0.1% uniform gate error rate, on a square grid with nearest-neighbour connections, a 1 microsecond surface code cycle and a 10 microsecond reaction time (Gidney 2025, arXiv:2505.15917v1). Estimates, not hardware runs.",
         "reference": "arXiv:quant-ph/9508027",
     },
     {

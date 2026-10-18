@@ -13,7 +13,7 @@
       "oracle_polynomial": true,
       "naturally_quantum": false,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "The canonical example. Breaks RSA. Needs ~4000 logical qubits for RSA-2048.",
+      "notes": "The canonical example. Breaks RSA. Logical-qubit counts for RSA-2048 depend on the construction: 3n + 0.002 n lg n, about 6,200, in the abstract circuit model (Gidney and Ekerå 2021, arXiv:1905.09749v3), or about 1,400 with 6.5 billion expected Toffoli gates (Gidney 2025, arXiv:2505.15917v1, Table 5). The second runs in under a week on fewer than a million noisy qubits at a 0.1% uniform gate error rate, on a square grid with nearest-neighbour connections, a 1 microsecond surface code cycle and a 10 microsecond reaction time (Gidney 2025, arXiv:2505.15917v1). Estimates, not hardware runs.",
       "reference": "arXiv:quant-ph/9508027"
     },
     {
@@ -169,7 +169,7 @@
       "oracle_polynomial": true,
       "naturally_quantum": false,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "Breaks Diffie-Hellman and ECDSA. Same core technique as Shor (hidden subgroup over Z).",
+      "notes": "Breaks Diffie-Hellman and ECDSA. Same core technique as Shor (hidden subgroup over Z). For 256-bit elliptic curve discrete logarithms, Babbush et al. (2026, arXiv:2603.28846v2) report Shor circuits with fewer than 1,200 logical qubits and fewer than 90 million Toffoli gates, or fewer than 1,450 and fewer than 70 million, validated by a zero-knowledge proof with the circuits withheld. On superconducting hardware with a 1e-3 physical error rate and planar connectivity they estimate minutes of runtime on fewer than half a million physical qubits (Babbush et al. 2026, arXiv:2603.28846v2). One point addition on a 256-bit curve, a subroutine with a failure budget rather than an attack, takes 4.0 million Toffolis and 935 qubits (Gu et al. 2026, arXiv:2610.22367v1). None of these is a hardware run.",
       "reference": "arXiv:quant-ph/9508027"
     },
     {
@@ -481,8 +481,8 @@
       "oracle_polynomial": true,
       "naturally_quantum": false,
       "troyer_verdict": "QUANTUM_ADVANTAGE",
-      "notes": "Jordan et al. (Nature 2025). Reduces optimization to decoding via QFT. Apparent exponential speedup for polynomial regression over finite fields.",
-      "reference": "arXiv:2408.08292"
+      "notes": "Jordan et al. (2025, arXiv:2408.08292v5; Nature 646, 831-836). Reduces optimization to decoding via the quantum Fourier transform. For approximating optimal polynomial fits over finite fields (OPI), a superpolynomial speedup over known classical algorithms. Khattar et al. (2025, arXiv:2510.10967v1) estimate about 5.72 million Toffoli gates for OPI instances that need more than 10^23 classical trials. Gu et al. (2026, arXiv:2610.22367v1) report a reversible Reed-Solomon decoder, the bottleneck, at 4.4e5 Toffolis and 1,837 qubits against 5.1e6 and 1,938 for Khattar et al.'s decoder on the same instance. Classical MCMC sampling reached DQI's expected approximation ratios on OPI instances beyond 150 effective qubits, with runtime growing about as 1.1^n, which its authors say does not refute the speedup (Gil-Fuster et al. 2026, arXiv:2607.28120v1). None of these is a hardware run.",
+      "reference": "arXiv:2408.08292v5"
     },
     {
       "name": "Linear Differential Equations (Quantum)",

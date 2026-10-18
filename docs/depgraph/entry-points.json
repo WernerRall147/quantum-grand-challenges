@@ -111,6 +111,7 @@
     "tooling/test_swap_test_kernel.py",
     "tooling/test_uptime_cadence_claims.py",
     "tooling/test_verify_demo_prompts_codegen.py",
+    "tooling/test_verify_reversible.py",
     "tooling/test_viz_publication.py",
     "tooling/test_website_claims.py",
     "tooling/test_website_run_history.py",

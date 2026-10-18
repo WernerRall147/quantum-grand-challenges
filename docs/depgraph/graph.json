@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1318,
-    "code_files": 318,
-    "python": 248,
+    "tracked": 1320,
+    "code_files": 320,
+    "python": 250,
     "qsharp": 55,
     "ts": 15,
-    "edges": 248,
-    "roots": 303,
-    "reachable": 342
+    "edges": 250,
+    "roots": 304,
+    "reachable": 344
   },
   "nodes": [
     ".github/hooks/scripts/agent_gates.py",
@@ -297,6 +297,7 @@
     "tooling/test_swap_test_kernel.py",
     "tooling/test_uptime_cadence_claims.py",
     "tooling/test_verify_demo_prompts_codegen.py",
+    "tooling/test_verify_reversible.py",
     "tooling/test_viz_publication.py",
     "tooling/test_website_claims.py",
     "tooling/test_website_run_history.py",
@@ -305,6 +306,7 @@
     "tooling/vendor_qdk_samples.py",
     "tooling/vendor_qdk_stdlib_index.py",
     "tooling/verify_demo_prompts.py",
+    "tooling/verify_reversible.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py",
     "viz/__init__.py",
@@ -1182,6 +1184,14 @@
     [
       "tooling/test_verify_demo_prompts_codegen.py",
       "tooling/verify_demo_prompts.py"
+    ],
+    [
+      "tooling/test_verify_reversible.py",
+      "tooling/test_shor_kernel.py"
+    ],
+    [
+      "tooling/test_verify_reversible.py",
+      "tooling/verify_reversible.py"
     ],
     [
       "tooling/validate_algorithm_index.py",

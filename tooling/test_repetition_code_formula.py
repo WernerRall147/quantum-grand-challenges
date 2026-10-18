@@ -75,11 +75,21 @@ def test_the_instances_use_odd_distances():
 @pytest.mark.parametrize("d", DISTANCES)
 def test_the_baseline_matches_exhaustive_enumeration_at_one_round(d, p, sent):
     published = _baseline().repetition_logical_error(d, p, rounds=1, bias=1.0)
-    assert math.isclose(published, enumerated_failure_probability(d, p, sent), rel_tol=1e-9)
+    assert math.isclose(
+        published,
+        enumerated_failure_probability(d, p, sent),
+        rel_tol=1e-9,
+        abs_tol=1e-15,
+    )
 
 
 def test_an_off_by_one_threshold_disagrees_with_the_enumeration():
     """The comparison above has teeth: summing from d // 2 instead of d // 2 + 1 fails it."""
     d, q = 5, 0.1
     wrong = sum(math.comb(d, k) * q**k * (1 - q) ** (d - k) for k in range(d // 2, d + 1))
-    assert not math.isclose(wrong, enumerated_failure_probability(d, q, 0), rel_tol=1e-9)
+    assert not math.isclose(
+        wrong,
+        enumerated_failure_probability(d, q, 0),
+        rel_tol=1e-9,
+        abs_tol=1e-15,
+    )

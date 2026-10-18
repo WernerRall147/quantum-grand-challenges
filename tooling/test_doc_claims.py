@@ -187,3 +187,37 @@ def test_documented_stage_counts_are_current() -> None:
         f"Update the document, or mark the line {NOT_A_CLAIM} if it states the wrong "
         f"number deliberately."
     )
+
+
+PAPER = REPO_ROOT / "docs" / "paper" / "methodology-paper.md"
+
+# A share of physical qubits held by T factories, such as "71-74% of their physical qubits
+# to T factories".
+_FACTORY_SHARE = re.compile(r"[0-9]+(?:\.[0-9]+)?(?:\s*[-\u2013]\s*[0-9]+(?:\.[0-9]+)?)?\s*%[^.]*?\bT[- ]factor", re.I)
+# The factory models qdk.qre offers for the surface code: round-based distillation, and
+# magic state cultivation (GSJ24Factory).
+_FACTORY_MODEL = re.compile(r"round-based|cultivation", re.I)
+
+
+def _unnamed_factory_shares(text: str) -> list[str]:
+    return [
+        line
+        for line in text.splitlines()
+        if HISTORICAL not in line and _FACTORY_SHARE.search(line) and not _FACTORY_MODEL.search(line)
+    ]
+
+
+def test_paper_names_the_factory_model_behind_each_t_factory_share() -> None:
+    """A T-factory share is a property of the factory model, not of the kernel.
+
+    Lesson 3 of the paper gave 71-74% for the QAOA kernels and 90-94% for the QPE estimates
+    without saying they came from QRE v3's round-based factory (#297). Gidney attributes part
+    of his RSA-2048 qubit reduction to giving distillation less space by using magic state
+    cultivation (arXiv:2505.15917v1), so the share depends on that choice and travels with it.
+    """
+    assert _unnamed_factory_shares("so the kernels devote 71-74% of their physical qubits to T factories.")
+    unnamed = _unnamed_factory_shares(PAPER.read_text(encoding="utf-8"))
+    assert not unnamed, (
+        "these paragraphs of the paper give a T-factory share without naming the factory "
+        "model (round-based or cultivation): " + " | ".join(line[:160] for line in unnamed)
+    )

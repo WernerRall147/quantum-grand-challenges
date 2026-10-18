@@ -84,6 +84,12 @@
 > what they were described as computing or were mislabelled, although every one of them compiled
 > and passed CI.
 
+> **Revision, 2026-10-18.** Lesson 3 of Section 7.5 gave the share of physical qubits held by
+> T factories without naming the factory model behind it. It now says the shares come from QRE
+> v3's round-based distillation factory, the only one these estimates use, and that magic state
+> cultivation [25, 26] is not modelled; a cultivation scenario is tracked in #296. References
+> [25] to [27] are new. No estimate changed.
+
 ## Authors
 
 Werner Rall
@@ -362,7 +368,7 @@ GW was not run: the guarantee column is 0.878 × OPT, computed from the brute-fo
 
 2. **Encoding bugs persist through validation**: A Lorentzian PDF masquerading as a log-normal distribution in the QAE implementation survived multiple development cycles because the circuit compiled and produced numbers in a plausible range. Only systematic comparison against the classical baseline revealed the error.
 
-3. **Mock estimates previously created false confidence**: Uniform mock resource estimates across all problems suggested comparable resource requirements. Real Quantum Resource Estimator profiles now reveal a range of about 430×: from 1,746 physical qubits (QEC repetition code) to 754,715 (QPE on the materials-discovery model). Explicit T-gate counts are small (QAE: 15, HHL: 28 and 40, Shor: 9), but that does not mean the kernels avoid magic-state distillation. Every arbitrary-angle rotation must be synthesized from T states and every Toffoli consumes a CCZ state, so the rotation-only QAOA kernels devote 71-74% of their physical qubits to T factories, the rotation-dominated QPE estimates 90-94%, and the QAE kernel's cost is set by its 3,713 rotations and 10,687 Toffolis rather than its 15 T gates.
+3. **Mock estimates previously created false confidence**: Uniform mock resource estimates across all problems suggested comparable resource requirements. Real Quantum Resource Estimator profiles now reveal a range of about 430×: from 1,746 physical qubits (QEC repetition code) to 754,715 (QPE on the materials-discovery model). Explicit T-gate counts are small (QAE: 15, HHL: 28 and 40, Shor: 9), but that does not mean the kernels avoid magic-state distillation. Every arbitrary-angle rotation must be synthesized from T states and every Toffoli consumes a CCZ state, so with QRE v3's round-based distillation factory, the only factory these estimates use (`make_isa_query` in `tooling/estimator_config.py` composes the surface code with `RoundBasedFactory`), the rotation-only QAOA kernels devote 71-74% of their physical qubits to T factories, the rotation-dominated QPE estimates 90-94%, and the QAE kernel's cost is set by its 3,713 rotations and 10,687 Toffolis rather than its 15 T gates. These shares belong to that factory model. Magic state cultivation, which grows a T state inside a surface-code patch and was proposed and simulated by Gidney, Shutty and Jones [25], is not modelled. It has since been run on a superconducting processor, reaching a magic-state fidelity of 0.9999(1) while keeping 8% of attempts [26], and Gidney attributes part of the qubit reduction in his RSA-2048 estimate to "allocating less space to magic state distillation by using magic state cultivation" [27]. A cultivation scenario beside the round-based estimates is tracked in #296.
 
 4. **Process discipline has value even without quantum advantage**: The standardized structure, automated checks, and maturity gates caught real bugs and prevented inflated claims  which is the framework's actual contribution.
 
@@ -466,6 +472,12 @@ All code, data, and tooling are available at https://github.com/WernerRall147/qu
 [23] A. W. Harrow, A. Hassidim, and S. Lloyd, "Quantum algorithm for linear systems of equations," Physical Review Letters 103, 150502, 2009 (arXiv:0811.3171).
 
 [24] Y. Liu, S. Arunachalam, and K. Temme, "A rigorous and robust quantum speed-up in supervised machine learning," Nature Physics 17, 1013-1017, 2021 (arXiv:2010.02174).
+
+[25] C. Gidney, N. Shutty, and C. Jones, "Magic state cultivation: growing T states as cheap as CNOT gates," arXiv:2409.17595v1, 2024.
+
+[26] E. Rosenfeld, C. Gidney, G. Roberts, et al., "Magic state cultivation on a superconducting quantum processor," arXiv:2512.13908v1, 2025.
+
+[27] C. Gidney, "How to factor 2048 bit RSA integers with less than a million noisy qubits," arXiv:2505.15917v1, 2025.
 
 ## Appendix A: Problem Registry
 

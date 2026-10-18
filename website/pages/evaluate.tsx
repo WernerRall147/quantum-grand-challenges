@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import MermaidDiagram from '../components/MermaidDiagram';
@@ -207,18 +207,21 @@ export default function EvaluatePage() {
   const [result, setResult] = useState<EvaluationResult | null>(null);
   const [failure, setFailure] = useState<EvaluatorRequestError | null>(null);
   const voiceRecognition = useRef<VoiceRecognition | null>(null);
+  const stopVoiceRecognition = useCallback(({ abort = false }: { abort?: boolean } = {}) => {
+    const recognition = voiceRecognition.current;
+    if (!recognition) return;
+    voiceRecognition.current = null;
+    recognition.onresult = null;
+    recognition.onerror = null;
+    recognition.onend = null;
+    if (abort) recognition.abort();
+  }, []);
 
   useEffect(() => {
     return () => {
-      const recognition = voiceRecognition.current;
-      if (!recognition) return;
-      voiceRecognition.current = null;
-      recognition.onresult = null;
-      recognition.onerror = null;
-      recognition.onend = null;
-      recognition.abort();
+      stopVoiceRecognition({ abort: true });
     };
-  }, []);
+  }, [stopVoiceRecognition]);
 
   // Hand the cost figures to /costs, which owns their presentation.
   useEffect(() => {
@@ -240,14 +243,7 @@ export default function EvaluatePage() {
 
   const handleEvaluate = async () => {
     if (!problem.trim()) return;
-    const recognition = voiceRecognition.current;
-    if (recognition) {
-      voiceRecognition.current = null;
-      recognition.onresult = null;
-      recognition.onerror = null;
-      recognition.onend = null;
-      recognition.abort();
-    }
+    stopVoiceRecognition({ abort: true });
     setIsListening(false);
     setLoading(true);
     setResult(null);

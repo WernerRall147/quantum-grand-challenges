@@ -93,6 +93,7 @@
     "tooling/test_doc_claims.py",
     "tooling/test_estimate_provenance.py",
     "tooling/test_exciton_walk.py",
+    "tooling/test_frontier_results.py",
     "tooling/test_grover_run_evidence.py",
     "tooling/test_hardware_kernels_compile.py",
     "tooling/test_hft_kernel.py",

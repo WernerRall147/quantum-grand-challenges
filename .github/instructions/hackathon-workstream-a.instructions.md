@@ -66,6 +66,20 @@ ignore.
 Archived problems keep their historical store: they are a record of downgraded work, and
 CI still regenerates `05_qaoa_maxcut` with `--mock`.
 
+## A projection beside the baseline (#296)
+
+`python tooling/generate_estimates.py --scenario cultivation` estimates every problem again
+with QRE v3's model of magic state cultivation, `GSJ24Factory`, beside the round-based factory
+the published estimates use, on every gate-based profile. It writes
+`docs/estimates/cultivation-scenario.json` and a table generated from it, and nothing under
+`problems/` or `website/`: it is a labelled projection, not a second estimate store.
+`make_isa_query` takes the factory by name, and its default stays `round_based`.
+
+`tooling/test_estimate_provenance.py` holds the projection to the baseline's provenance,
+requires every problem with infeasible results recorded rather than dropped, fails when its
+baseline columns stop matching `circuits/estimate.json`, and fails when the table is not what
+the JSON renders to. Each guard was watched failing before it was trusted.
+
 ## You own
 
 `tooling/estimator/`, `tooling/azure/`, `problems/*/estimates/`
@@ -79,6 +93,7 @@ to cross a seam, say so in the pull request rather than crossing it quietly.
 
 ```
 python tooling/generate_estimates.py        # the measurement, all 20 problems
+python tooling/generate_estimates.py --scenario cultivation  # the labelled projection in docs/estimates/
 python tooling/estimator/generate_summary.py  # the derived markdown summaries
 ```
 

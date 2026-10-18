@@ -12,8 +12,11 @@ generation time is the other half, and it is not needed to catch this defect cla
 
 from __future__ import annotations
 
+import difflib
 import json
 import re
+import sys
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -175,6 +178,150 @@ def test_active_problems_keep_only_one_estimate_store(problem_dir):
         "fabricated constant went unnoticed beside real numbers for six months. "
         "tooling/estimator/run_estimation.py refuses to write here without "
         "--allow-retired-store."
+    )
+
+
+# ---------------------------------------------------------------------------
+# The magic state cultivation scenario is a projection published beside the estimates,
+# not a second store of them (issue #296). It answers "how much of the T-factory overhead
+# is the round-based factory?", so it must say what produced it, cover every problem with
+# the infeasible results recorded, keep its baseline columns equal to the published
+# numbers, and keep its generated table in step with its data. A projection that drifted
+# from the estimates it sits beside would mislead exactly the reader it was written for.
+# ---------------------------------------------------------------------------
+
+SCENARIO_PATH = REPO_ROOT / "docs" / "estimates" / "cultivation-scenario.json"
+SCENARIO_TABLE_PATH = SCENARIO_PATH.with_suffix(".md")
+REGENERATE_SCENARIO = "Regenerate with `python tooling/generate_estimates.py --scenario cultivation`."
+
+
+def _scenario() -> dict:
+    assert SCENARIO_PATH.exists(), f"docs/estimates/cultivation-scenario.json is missing. {REGENERATE_SCENARIO}"
+    return json.loads(SCENARIO_PATH.read_text(encoding="utf-8"))
+
+
+def _generator():
+    """tooling/generate_estimates.py, imported only by the checks that need qdk."""
+    tooling = str(REPO_ROOT / "tooling")
+    if tooling not in sys.path:
+        sys.path.insert(0, tooling)
+    import generate_estimates
+
+    return generate_estimates
+
+
+def test_cultivation_scenario_carries_real_provenance():
+    """The same provenance as the baseline: qdk version, estimator version, commit, time."""
+    build = _scenario().get("build", {})
+    qdk_version = str(build.get("qdkVersion", ""))
+    estimator_version = str(build.get("estimatorVersion", ""))
+    commit = str(build.get("commit", ""))
+    date_utc = str(build.get("dateUtc", ""))
+
+    assert qdk_version and qdk_version not in ("mock", "unknown"), (
+        f"cultivation scenario: build.qdkVersion is {qdk_version!r}. A projection that cannot "
+        f"name the estimator that produced it is not evidence. {REGENERATE_SCENARIO}"
+    )
+    assert estimator_version.startswith(f"qdk-{qdk_version}/"), (
+        f"cultivation scenario: build.estimatorVersion is {estimator_version!r}, which does not "
+        f"name qdk {qdk_version}. {REGENERATE_SCENARIO}"
+    )
+    assert re.fullmatch(r"[0-9a-f]{40}", commit), (
+        f"cultivation scenario: build.commit is {commit!r}, not a commit hash. {REGENERATE_SCENARIO}"
+    )
+    try:
+        generated = datetime.fromisoformat(date_utc)
+    except ValueError:
+        generated = None
+    assert generated is not None and generated.tzinfo is not None, (
+        f"cultivation scenario: build.dateUtc is {date_utc!r}, not a UTC timestamp. {REGENERATE_SCENARIO}"
+    )
+
+
+def test_cultivation_scenario_covers_every_problem_and_records_infeasible_results():
+    data = _scenario()
+    generator = _generator()
+    assert data.get("status") == "projection", (
+        f"cultivation scenario: status is {data.get('status')!r}. It must be labelled a projection."
+    )
+
+    estimated = {problem for problem, _ in ESTIMATES}
+    covered = set(data.get("problems", {}))
+    assert covered == estimated, (
+        f"cultivation scenario covers {len(covered)} problems, the published estimates "
+        f"{len(estimated)}. Missing: {sorted(estimated - covered)}; extra: "
+        f"{sorted(covered - estimated)}. {REGENERATE_SCENARIO}"
+    )
+
+    profiles = [model.name for model in generator.QUBIT_MODELS]
+    gaps = []
+    for problem, record in sorted(data["problems"].items()):
+        factories = generator.SCENARIO_FACTORIES
+        if record.get("toffoliCount"):
+            factories += tuple(generator.CCX_VARIANTS.values())
+        for profile in profiles:
+            cells = record.get("profiles", {}).get(profile, {})
+            for factory in factories:
+                cell = cells.get(factory)
+                if cell is None:
+                    gaps.append(f"{problem} {profile} {factory}: missing")
+                elif cell.get("feasible") is False:
+                    if not cell.get("reason"):
+                        gaps.append(f"{problem} {profile} {factory}: infeasible with no reason")
+                elif not all(
+                    isinstance(cell.get(key), int) and cell[key] > 0
+                    for key in ("physicalQubits", "runtime")
+                ):
+                    gaps.append(f"{problem} {profile} {factory}: no physical qubits or runtime")
+    assert not gaps, (
+        "cultivation scenario has combinations that are neither measured nor recorded as "
+        "infeasible: " + "; ".join(gaps[:10]) + f". {REGENERATE_SCENARIO}"
+    )
+
+
+@pytest.mark.parametrize("problem,path", ESTIMATES, ids=[p for p, _ in ESTIMATES])
+def test_cultivation_scenario_baseline_is_the_published_estimate(problem, path):
+    """Its baseline columns are the published numbers, not a stale copy of them."""
+    data = _scenario()
+    published = json.loads(path.read_text(encoding="utf-8-sig"))
+    baseline = data["baseline"]
+    assert (published.get("qubitModel"), published.get("qecScheme")) == (
+        baseline["qubitModel"],
+        baseline["qecScheme"],
+    ), f"{problem}: the published estimate and the scenario's baseline use different profiles"
+
+    cell = data["problems"].get(problem, {}).get("profiles", {}).get(baseline["qubitModel"], {})
+    cell = cell.get(baseline["factory"], {})
+    differences = [
+        f"{key} {cell.get(key)!r} in the scenario, {published.get(key)!r} published"
+        for key in ("physicalQubits", "runtime", "tFactoryFraction", "codeDistance")
+        if cell.get(key) != published.get(key)
+    ]
+    # The Toffoli check runs only where the scenario found Toffoli gates, so a trace that
+    # failed to count them would skip it silently.
+    toffolis = data["problems"].get(problem, {}).get("toffoliCount")
+    if toffolis != (published.get("cczCount") or 0):
+        differences.append(f"toffoliCount {toffolis!r} in the scenario, cczCount {published.get('cczCount')!r} published")
+    assert not differences, (
+        f"{problem}: the cultivation scenario's baseline no longer matches circuits/estimate.json: "
+        + "; ".join(differences)
+        + f". The projection is stale beside the numbers it is compared with. {REGENERATE_SCENARIO}"
+    )
+
+
+def test_cultivation_scenario_table_is_generated_from_its_data():
+    """The markdown is rendered from the JSON. A hand edit, or a stale copy, fails here."""
+    expected = _generator().render_cultivation_markdown(_scenario())
+    actual = SCENARIO_TABLE_PATH.read_text(encoding="utf-8")
+    diff = list(
+        difflib.unified_diff(
+            expected.splitlines(), actual.splitlines(), "rendered from the JSON", "committed", lineterm="", n=0
+        )
+    )
+    assert not diff, (
+        "docs/estimates/cultivation-scenario.md is not what its JSON renders to:\n"
+        + "\n".join(diff[:20])
+        + f"\n{REGENERATE_SCENARIO}"
     )
 
 

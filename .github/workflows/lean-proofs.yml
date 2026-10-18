@@ -20,7 +20,7 @@ permissions:
 jobs:
   build:
     name: Build and audit formal/
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # A cold run measured 138 s. Without Mathlib's prebuilt files, Lake would build Mathlib
     # from source for hours; fail instead.
     timeout-minutes: 20

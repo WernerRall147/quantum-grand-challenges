@@ -49,14 +49,12 @@ in the cloud", installed into Python's Scripts folder.
 
 ## Options considered
 
-All CI numbers were measured on GitHub-hosted `ubuntu-latest` runners on 2026-10-18, in
-[run 39153868024](https://github.com/WernerRall147/quantum-grand-challenges/actions/runs/39153868024)
-on the throwaway branch `spike/lean-ci-measure`. Attempt 1 started with empty caches
-("cold"). [Attempt 2](https://github.com/WernerRall147/quantum-grand-challenges/actions/runs/39153868024/attempts/2)
-restored the caches attempt 1 saved ("warm"). Each variant checks the same statement where it
-can: majority decoding of a distance-3 repetition code fails exactly when at least two of the
-three bits flip. The Lean with Mathlib variant is the `formal/` pilot of #294, unchanged. Times
-are whole seconds as the runner's clock reported them, and wall time includes runner setup.
+All CI numbers below were measured on GitHub-hosted `ubuntu-latest` runners on 2026-10-18.
+The first measurement pass started with empty caches ("cold"), and the second reused the caches
+saved by the first pass ("warm"). Each variant checks the same statement where it can: majority
+decoding of a distance-3 repetition code fails exactly when at least two of the three bits
+flip. The Lean with Mathlib variant is the `formal/` pilot of #294, unchanged. Times are whole
+seconds as the runner's clock reported them, and wall time includes runner setup.
 
 | Option | Setup, cold | Download and disk | Check | Job wall time, cold / warm |
 |---|---|---|---|---|

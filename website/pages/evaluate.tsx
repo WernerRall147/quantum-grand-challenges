@@ -296,6 +296,8 @@ export default function EvaluatePage() {
   };
 
   const handleVoiceInput = () => {
+    if (typeof window === 'undefined') return;
+
     const activeRecognition = voiceRecognition.current;
     if (activeRecognition) {
       voiceRecognition.current = null;

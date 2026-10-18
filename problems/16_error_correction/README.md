@@ -35,6 +35,10 @@ python -c "import qsharp; qsharp.init(project_root='qsharp'); print('Build OK')"
  python tooling/run_all_qsharp.py  # runs via qsharp Python package
 ```
 
+## What the Baseline Computes
+
+`python/classical_baseline.py` flips each of the `code_distance` data bits independently with probability p in each of `measurement_rounds` rounds, applies no correction between rounds, and takes one majority vote at the end, with perfect measurements. It folds the rounds into `effective_p = 1 - (1 - p)^rounds`, the probability that a bit flips at least once. Two flips on one bit cancel, so the probability that a bit ends up flipped is (1 - (1 - 2p)^rounds)/2, which is smaller when there is more than one round. The logical errors in `estimates/classical_baseline.json` and `plots/` are therefore exact for instances with one round and upper bounds, within 2% of the exact value of the same model, for instances with more; the suppression factors are correspondingly lower bounds. `python/test_baseline.py` checks both against the exact model. `pseudo_threshold` is the smallest swept physical error rate at which the logical error is at or below it, not the crossing point the name usually means. A `bias` other than 1.0 applies a heuristic weighting, not a noise model. The model has no syndrome extraction and no measurement errors, so it does not describe a repetition-code memory experiment.
+
 ## Next Quantum Milestones
 
 1. **Stabilizer Simulation** – Implement syndrome extraction cycles for repetition or surface codes.

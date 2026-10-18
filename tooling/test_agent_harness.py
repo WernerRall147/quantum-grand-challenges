@@ -308,12 +308,18 @@ def test_agent_codespace_and_ci_install_the_same_packages():
         "the cloud agent and a codespace would install different packages")
 
 
-def test_agent_codespace_and_deploy_use_the_same_node():
-    deploy = re.search(r"node-version:\s*'?(\d+)", (WORKFLOWS / "deploy-website.yml").read_text(encoding="utf-8"))
-    setup = re.search(r"node-version:\s*'?(\d+)", SETUP_STEPS.read_text(encoding="utf-8"))
+def test_agent_codespace_ci_and_deploy_use_the_same_supported_node():
+    versions = {}
+    for workflow in (WORKFLOWS / "deploy-website.yml", WORKFLOWS / "ci-cd.yml", SETUP_STEPS):
+        pins = re.findall(r"node-version:\s*'?(\d+)", workflow.read_text(encoding="utf-8"))
+        assert len(pins) == 1, f"{workflow.name} should pin Node once, found {pins}"
+        versions[workflow.name] = int(pins[0])
     container = json.loads((REPO / ".devcontainer" / "devcontainer.json").read_text(encoding="utf-8"))
-    node = container["features"]["ghcr.io/devcontainers/features/node:1"]["version"]
-    assert deploy and setup and deploy.group(1) == setup.group(1) == str(node)
+    versions["devcontainer.json"] = int(container["features"]["ghcr.io/devcontainers/features/node:1"]["version"])
+    assert len(set(versions.values())) == 1, versions
+    # Copilot code review starts its runtime with the Node the setup steps leave on PATH. The
+    # runtime is an ES module that Node 18 cannot load, so every review crashed while the pin was 18.
+    assert versions[SETUP_STEPS.name] >= 22, versions
 
 
 @pytest.mark.parametrize("path", sorted(WORKFLOWS.glob("*.y*ml")), ids=lambda p: p.name)

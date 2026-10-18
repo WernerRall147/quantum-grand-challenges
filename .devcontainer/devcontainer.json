@@ -2,7 +2,7 @@
   "name": "Quantum Grand Challenges",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": { "version": "18" },
+    "ghcr.io/devcontainers/features/node:1": { "version": "24" },
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/devcontainers/features/azure-cli:1": {}
   },

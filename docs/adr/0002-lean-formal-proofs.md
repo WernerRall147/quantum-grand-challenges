@@ -102,8 +102,8 @@ the pilot takes about 25 s.
 
 Option 3. Proofs live in `formal/`, a Lake project that pins Lean in `lean-toolchain`
 (`leanprover/lean4:v4.35.0`) and Mathlib in `lake-manifest.json` (tag `v4.35.0`, commit
-`56a005855ea17e0b0958f73ec801ae140b0a1679`). It is built by its own workflow,
-`.github/workflows/lean-proofs.yml`, which:
+`56a005855ea17e0b0958f73ec801ae140b0a1679`). It is built by its own workflow, `lean-proofs`,
+which the pilot (#294) adds and which:
 
 - runs on pull requests and pushes to `main` that touch `formal/` or the workflow, and on demand;
 - installs elan 4.2.4 from its GitHub release after checking the archive's SHA-256 against the
@@ -121,8 +121,9 @@ Option 3. Proofs live in `formal/`, a Lake project that pins Lean in `lean-toolc
 What a proof certifies here is a mathematical statement about the definitions in its file. It
 does not certify that Python or Q# code implements those definitions, and it says nothing about
 physical or resource-model assumptions. So every theorem that backs a claim comes with a test
-that checks the code against the theorem's definitions; for the pilot that is
-`tooling/test_repetition_code_formula.py`, which enumerates every flip pattern.
+that checks the code against the theorem's definitions. For the pilot that is a test, added in
+#294, that runs problem 16's function and compares it with the definitions by enumerating every
+flip pattern.
 
 Tooling never relies on whatever `lean` is on PATH. It calls elan's binaries by path, and
 `formal/README.md` tells contributors to check that `lean --version` reports Lean 4.

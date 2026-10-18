@@ -1,0 +1,403 @@
+{
+  "$schema": "./frontier_results.schema.json",
+  "description": "Results from the literature that bear on this repository's numbers and verdicts, each read from its primary source. A person adds entries; nothing here is ingested automatically. Every claim names the setting it holds in, one kind of evidence and what it does not establish, so the qualifiers travel with the number. Schema: frontier_results.schema.json. Guard: tooling/test_frontier_results.py. Evidence values: .github/skills/scientific-claims/SKILL.md.",
+  "entries": [
+    {
+      "id": "gu-2026-llm-discovered-circuits",
+      "citation": {
+        "authors": ["Andi Gu", "Alek H. Kemeny", "Susanne F. Yelin", "Mikhail D. Lukin"],
+        "title": "Discovering state-of-the-art quantum circuits with large language models",
+        "year": 2026
+      },
+      "identifiers": {"arxiv": "2610.22367v1"},
+      "source_url": "https://arxiv.org/abs/2610.22367v1",
+      "see_also": [
+        {
+          "url": "https://github.com/andigu/uncompute",
+          "note": "The authors' repository: task definitions, circuits, evaluator, certified counts in each task's results.jsonl, and the Lean 4 proofs. Apache-2.0. Its README repeats the paper's Table I."
+        },
+        {
+          "url": "https://www.anthropic.com/research/designing-efficient-quantum-circuits",
+          "note": "Anthropic's summary of the same work. Secondary: cite the paper."
+        }
+      ],
+      "read_on": "2026-10-18",
+      "kind": "preprint",
+      "related_problems": ["02_catalysis", "09_factorization", "19_quantum_chromodynamics", "04_linear_solvers", "12_quantum_optimization"],
+      "related_zoo_entries": ["Decoded Quantum Interferometry (DQI)", "Discrete Logarithm", "HHL Algorithm", "Lattice Gauge Theory (Real-Time)"],
+      "claims": [
+        {
+          "statement": "In seven of the eight tasks, the discovered circuits significantly reduce both Toffoli and qubit counts relative to the state of the art.",
+          "quoted": true,
+          "location": "Abstract; per-task counts in Table 1, repeated in the uncompute README",
+          "conditions": [
+            "Each task is one subroutine of a fault-tolerant algorithm, specified as a reversible action on computational-basis states",
+            "Logical counts: T is the Toffoli count, with Toffoli and CCZ counted equally, and Q is the peak number of logical qubits",
+            "The kickmix circuit model of Babbush et al. (arXiv:2603.28846): classical reversible gates, X-basis measurement-based uncomputation and diagonal phase gates",
+            "Circuits are ranked by the TQ-cost, T x Q, which the authors chose for a uniform comparison and say depends on hardware in practice",
+            "G_TQ is the baseline TQ-cost divided by the discovered TQ-cost; where a baseline has free parameters they are chosen to minimise its TQ-cost",
+            "Candidates were proposed by Claude Mythos 5 inside OpenEvolve and scored by an evaluator the model could not see into"
+          ],
+          "evidence": "logical-count-certified-by-code",
+          "does_not_establish": [
+            "Execution on quantum hardware",
+            "End-to-end algorithm costs: each task is one subroutine",
+            "Quantum advantage for any problem in this repository"
+          ],
+          "numbers": [
+            {
+              "quantity": "G_TQ, task dqi-reed-solomon (reversible Reed-Solomon syndrome decoder for DQI; paper SI I.1)",
+              "relation": "~",
+              "value": 12,
+              "unit": "ratio of TQ-costs",
+              "qualifiers": [
+                "Baseline T = 5.1e6, Q = 1,938; discovered T = 4.4e5, Q = 1,837 (rounded as in the paper)",
+                "The baseline is the extended-Euclidean decoder of Khattar et al. (arXiv:2510.10967), on their primary instance: 70 syndromes, at most 35 errors"
+              ]
+            },
+            {
+              "quantity": "G_TQ, task hhl-angle (paper SI III.1)",
+              "relation": "~",
+              "value": 32,
+              "unit": "ratio of TQ-costs",
+              "qualifiers": ["Baseline T = 1.6e4, Q = 300; discovered T = 1,348, Q = 115 (rounded as in the paper)", "A subroutine of HHL, not HHL"]
+            },
+            {
+              "quantity": "G_TQ, task coulomb-potential (paper SI III.2)",
+              "relation": "~",
+              "value": 9.9,
+              "unit": "ratio of TQ-costs",
+              "qualifiers": ["Baseline T = 6,355, Q = 252; discovered T = 1,140, Q = 142"]
+            },
+            {
+              "quantity": "G_TQ, task gaussian (paper SI III.3)",
+              "relation": "~",
+              "value": 39,
+              "unit": "ratio of TQ-costs",
+              "qualifiers": ["Baseline T = 2.4e4, Q = 362; discovered T = 1,583, Q = 139 (rounded as in the paper)"]
+            },
+            {
+              "quantity": "G_TQ, task chemistry-fe2s2 (paper SI IV)",
+              "relation": "~",
+              "value": 4.1,
+              "unit": "ratio of TQ-costs",
+              "qualifiers": ["Baseline T = 5.5e4, Q = 139; discovered T = 1.5e4, Q = 126 (rounded as in the paper)", "An Fe2S2 cluster, not FeMoco"]
+            },
+            {
+              "quantity": "G_TQ, task lattice-gauge-plaquette (paper SI V)",
+              "relation": "~",
+              "value": 7.7,
+              "unit": "ratio of TQ-costs",
+              "qualifiers": ["Baseline T = 1.3e6, Q = 1,927; discovered T = 1.7e5, Q = 1,859 (rounded as in the paper)", "One plaquette subroutine, not a lattice gauge simulation"]
+            }
+          ]
+        },
+        {
+          "statement": "A complete benchmark circuit built on this inversion (SI II) uses 4.0 million Toffolis and 935 qubits.",
+          "quoted": true,
+          "location": "Section 'Reversible modular inversion'; SI II",
+          "conditions": [
+            "Elliptic-curve point addition built on a new reversible architecture for prime-field modular inversion using divsteps. Most branch decisions are recovered from the arithmetic state instead of being stored, and a tunable cutoff decides which are decoded and which are stored",
+            "Uses a failure budget: a 60-qubit history stack that overflows with probability 2.4e-6 per inversion, and 533 scheduled divsteps with termination tested only from step 499, so inputs that stop outside that window fail",
+            "Logical counts in the kickmix circuit model"
+          ],
+          "evidence": "logical-count-certified-by-code",
+          "does_not_establish": [
+            "The cost of a full elliptic-curve discrete logarithm computation",
+            "Execution on quantum hardware"
+          ],
+          "numbers": [
+            {
+              "quantity": "Toffoli count of the point-addition benchmark circuit",
+              "relation": "~",
+              "value": 4.0e6,
+              "unit": "Toffoli gates",
+              "qualifiers": ["One benchmark circuit with a failure budget, not a full attack"]
+            },
+            {
+              "quantity": "Qubits used by the point-addition benchmark circuit",
+              "relation": "=",
+              "value": 935,
+              "unit": "logical qubits",
+              "qualifiers": ["One benchmark circuit with a failure budget, not a full attack"]
+            }
+          ]
+        },
+        {
+          "statement": "Correctness is checked by sampling: if all k independent tests pass, then with confidence 1 - δ the probability ε of a defective computational-basis trajectory satisfies ε <= 1 - δ^(1/k), approximately ln(1/δ)/k, and the state fidelity is at least (1 - 2ε)^2.",
+          "quoted": false,
+          "location": "Methods, 'Validation and statistical guarantees', Eqs. 18-20",
+          "conditions": [
+            "ε is measured under the stated input distribution and uniformly sampled measurement records, not over every input",
+            "The candidate must be fixed before the test draw; the uncompute README says the test inputs come from a hash of the emitted circuit, so any change draws new tests",
+            "Each test checks the output, the unchanged inputs, that every ancilla returns to zero and the exact phase"
+          ],
+          "evidence": "sampled-verification",
+          "does_not_establish": [
+            "Correctness on inputs outside the test distribution",
+            "Exhaustive correctness when the input domain is large"
+          ]
+        },
+        {
+          "statement": "lean/divsteps proves the step bound and the branch-recovery rule that the modinv-point-add divstep circuit relies on. lean/dqi proves the decoder-error bound that the DQI tasks rely on.",
+          "quoted": true,
+          "location": "uncompute README, 'Lean proofs'",
+          "conditions": [
+            "Lean 4",
+            "The proofs are of mathematical statements the circuits rely on; the evaluator, not Lean, checks that each circuit implements them"
+          ],
+          "evidence": "formally-proved",
+          "does_not_establish": [
+            "That the circuits are correct",
+            "Any resource count"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rosenfeld-2025-cultivation-experiment",
+      "citation": {
+        "authors": ["Emma Rosenfeld", "Craig Gidney", "Gabrielle Roberts"],
+        "et_al": true,
+        "title": "Magic state cultivation on a superconducting quantum processor",
+        "year": 2025,
+        "venue": "Science"
+      },
+      "identifiers": {"arxiv": "2512.13908v1", "doi": "10.1126/science.aee7961"},
+      "source_url": "https://arxiv.org/abs/2512.13908v1",
+      "see_also": [
+        {
+          "url": "https://doi.org/10.1126/science.aee7961",
+          "note": "The published version in Science. This entry was read from the arXiv v1 abstract and the Google post, not from the Science article."
+        },
+        {
+          "url": "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/",
+          "note": "Google's announcement. It names the Willow processor and describes grafting from a distance-3 color code to a distance-5 surface code."
+        }
+      ],
+      "read_on": "2026-10-18",
+      "kind": "peer-reviewed",
+      "related_problems": ["16_error_correction"],
+      "related_zoo_entries": ["Quantum Error Correction (Surface Code)"],
+      "claims": [
+        {
+          "statement": "Cultivation reduces the error by a factor of 40, with a state fidelity of 0.9999(1) (retaining 8% of attempts).",
+          "quoted": true,
+          "location": "arXiv v1 abstract",
+          "conditions": [
+            "The fidelity is that of the cultivated T (magic) state, bounded with a fault-tolerant measurement protocol the authors developed",
+            "Post-selected: 8% of attempts are kept",
+            "The factor of 40 is relative to states that were not cultivated",
+            "A superconducting processor (Willow, per the Google post), with code-switching into a surface code: from a distance-3 color code to a distance-5 surface code, per the post"
+          ],
+          "evidence": "hardware-measured",
+          "does_not_establish": [
+            "A 99.99% fidelity for logical operations in general: the figure is for prepared T states",
+            "Cultivation at the distances and rates an algorithm needs; the Google post says 'we still need to demonstrate magic state cultivation at a larger scale'",
+            "Quantum advantage"
+          ],
+          "numbers": [
+            {
+              "quantity": "T-state fidelity after cultivation",
+              "relation": "=",
+              "value": 0.9999,
+              "uncertainty": 0.0001,
+              "unit": "fidelity",
+              "qualifiers": ["Post-selected, retaining 8% of attempts", "The fidelity of a prepared magic state, not of a logical gate"]
+            },
+            {
+              "quantity": "Error reduction from cultivation",
+              "relation": "~",
+              "value": 40,
+              "unit": "ratio",
+              "qualifiers": ["Relative to states that were not cultivated", "Post-selected, retaining 8% of attempts"]
+            },
+            {
+              "quantity": "Fraction of cultivation attempts retained",
+              "relation": "~",
+              "value": 0.08,
+              "unit": "fraction",
+              "qualifiers": ["The post-selection rate behind the fidelity and the error reduction"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gidney-2024-cultivation",
+      "citation": {
+        "authors": ["Craig Gidney", "Noah Shutty", "Cody Jones"],
+        "title": "Magic state cultivation: growing T states as cheap as CNOT gates",
+        "year": 2024
+      },
+      "identifiers": {"arxiv": "2409.17595v1"},
+      "source_url": "https://arxiv.org/abs/2409.17595v1",
+      "see_also": [
+        {
+          "url": "https://doi.org/10.5281/zenodo.13777072",
+          "note": "The authors' simulation data. qdk 1.31.0's qdk.qre.models.factories.GSJ24Factory is built on it, for physical error rates 5e-4, 1e-3 and 2e-3. That class's docstring cites this paper under another title and with a wrong initial for the second author; cite the arXiv record."
+        }
+      ],
+      "read_on": "2026-10-18",
+      "kind": "preprint",
+      "related_problems": ["16_error_correction"],
+      "related_zoo_entries": ["Quantum Error Correction (Surface Code)"],
+      "claims": [
+        {
+          "statement": "Compared to prior work, cultivation uses an order of magnitude fewer qubit-rounds to reach logical error rates as low as 2·10^-9 when subjected to 10^-3 uniform depolarizing circuit noise. Halving the circuit noise to 5·10^-4 improves the achievable logical error rate to 4·10^-11.",
+          "quoted": true,
+          "location": "Abstract",
+          "conditions": [
+            "Uniform depolarizing circuit noise",
+            "Infidelity estimated from injection to idling at distance 15, with state vector simulation, stabilizer simulation, error enumeration and Monte Carlo sampling"
+          ],
+          "evidence": "numerical-simulation",
+          "does_not_establish": [
+            "Performance on hardware; arXiv:2512.13908 is a small-scale experiment",
+            "That distillation is never needed; the abstract says only that it 'may never be needed in practice'"
+          ],
+          "numbers": [
+            {
+              "quantity": "Lowest logical error rate reached",
+              "relation": "~",
+              "value": 2e-9,
+              "unit": "logical error rate",
+              "qualifiers": ["At 1e-3 uniform depolarizing circuit noise", "Simulation"]
+            },
+            {
+              "quantity": "Lowest logical error rate reached",
+              "relation": "~",
+              "value": 4e-11,
+              "unit": "logical error rate",
+              "qualifiers": ["At 5e-4 uniform depolarizing circuit noise", "Simulation"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "khattar-2025-dqi-opi",
+      "citation": {
+        "authors": ["Tanuj Khattar", "Noah Shutty", "Craig Gidney", "Adam Zalcman", "Noureldin Yosri", "Dmitri Maslov", "Ryan Babbush", "Stephen P. Jordan"],
+        "title": "Verifiable Quantum Advantage via Optimized DQI Circuits",
+        "year": 2025
+      },
+      "identifiers": {"arxiv": "2510.10967v1"},
+      "source_url": "https://arxiv.org/abs/2510.10967v1",
+      "read_on": "2026-10-18",
+      "kind": "preprint",
+      "related_problems": ["12_quantum_optimization"],
+      "related_zoo_entries": ["Decoded Quantum Interferometry (DQI)"],
+      "claims": [
+        {
+          "statement": "Our resource estimates show that classically intractable OPI instances (requiring >10^23 classical trials) can be solved with approximately 5.72 million Toffoli gates.",
+          "quoted": true,
+          "location": "Abstract",
+          "conditions": [
+            "Optimal Polynomial Intersection over binary extension fields GF(2^b)",
+            "Instances the authors identify as resilient to the classical attacks they assess",
+            "Logical Toffoli count; the reversible Reed-Solomon decoder, built on the extended Euclidean algorithm, is the bottleneck"
+          ],
+          "evidence": "analytical-estimate",
+          "does_not_establish": [
+            "Execution on quantum hardware",
+            "That no faster classical algorithm exists for these instances",
+            "A demonstrated quantum advantage: the title's 'verifiable quantum advantage' describes a candidate"
+          ],
+          "numbers": [
+            {
+              "quantity": "Toffoli count to solve the OPI instances",
+              "relation": "~",
+              "value": 5.72e6,
+              "unit": "Toffoli gates",
+              "qualifiers": ["For OPI instances requiring more than 1e23 classical trials", "Gu et al. (arXiv:2610.22367) report a decoder with a 12x lower TQ-cost than this construction's"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "babbush-2026-ecdlp-256",
+      "citation": {
+        "authors": ["Ryan Babbush", "Adam Zalcman", "Craig Gidney", "Michael Broughton", "Tanuj Khattar", "Hartmut Neven", "Thiago Bergamaschi", "Justin Drake", "Dan Boneh"],
+        "title": "Securing Elliptic Curve Cryptocurrencies against Quantum Vulnerabilities: Resource Estimates and Mitigations",
+        "year": 2026
+      },
+      "identifiers": {"arxiv": "2603.28846v2"},
+      "source_url": "https://arxiv.org/abs/2603.28846v2",
+      "read_on": "2026-10-18",
+      "kind": "preprint",
+      "related_problems": ["09_factorization", "10_post_quantum_cryptography"],
+      "related_zoo_entries": ["Discrete Logarithm", "Shor's Algorithm"],
+      "claims": [
+        {
+          "statement": "We demonstrate that Shor's algorithm for this problem can execute with either <1200 logical qubits and <90 million Toffoli gates or <1450 logical qubits and <70 million Toffoli gates.",
+          "quoted": true,
+          "location": "Abstract",
+          "conditions": [
+            "The 256-bit elliptic curve discrete logarithm problem",
+            "Validated with a zero-knowledge proof; the circuits themselves are not disclosed"
+          ],
+          "evidence": "zero-knowledge-proof",
+          "does_not_establish": [
+            "Execution on quantum hardware",
+            "The construction itself, which is withheld"
+          ],
+          "numbers": [
+            {"quantity": "Logical qubits, first configuration", "relation": "<", "value": 1200, "unit": "logical qubits", "qualifiers": ["Paired with fewer than 90 million Toffoli gates", "256-bit ECDLP"]},
+            {"quantity": "Toffoli gates, first configuration", "relation": "<", "value": 9.0e7, "unit": "Toffoli gates", "qualifiers": ["Paired with fewer than 1200 logical qubits", "256-bit ECDLP"]},
+            {"quantity": "Logical qubits, second configuration", "relation": "<", "value": 1450, "unit": "logical qubits", "qualifiers": ["Paired with fewer than 70 million Toffoli gates", "256-bit ECDLP"]},
+            {"quantity": "Toffoli gates, second configuration", "relation": "<", "value": 7.0e7, "unit": "Toffoli gates", "qualifiers": ["Paired with fewer than 1450 logical qubits", "256-bit ECDLP"]}
+          ]
+        },
+        {
+          "statement": "On superconducting architectures with 1e-3 physical error rates and planar connectivity, those circuits can execute in minutes using fewer than half a million physical qubits.",
+          "quoted": true,
+          "location": "Abstract",
+          "conditions": ["Superconducting architecture", "Physical error rate 1e-3", "Planar connectivity"],
+          "evidence": "analytical-estimate",
+          "does_not_establish": ["Execution on quantum hardware"],
+          "numbers": [
+            {"quantity": "Physical qubits", "relation": "<", "value": 5.0e5, "unit": "physical qubits", "qualifiers": ["Superconducting, 1e-3 physical error rate, planar connectivity", "256-bit ECDLP"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gidney-2025-rsa-2048",
+      "citation": {
+        "authors": ["Craig Gidney"],
+        "title": "How to factor 2048 bit RSA integers with less than a million noisy qubits",
+        "year": 2025
+      },
+      "identifiers": {"arxiv": "2505.15917v1"},
+      "source_url": "https://arxiv.org/abs/2505.15917v1",
+      "read_on": "2026-10-18",
+      "kind": "preprint",
+      "related_problems": ["09_factorization", "10_post_quantum_cryptography"],
+      "related_zoo_entries": ["Shor's Algorithm"],
+      "claims": [
+        {
+          "statement": "I estimate that a 2048 bit RSA integer could be factored in less than a week by a quantum computer with less than a million noisy qubits.",
+          "quoted": true,
+          "location": "Abstract",
+          "conditions": [
+            "A square grid of qubits with nearest-neighbour connections",
+            "A uniform gate error rate of 0.1%",
+            "A surface code cycle time of 1 microsecond and a control system reaction time of 10 microseconds",
+            "The reduction comes mainly from approximate residue arithmetic, yoked surface codes for idle logical qubits, and allocating less space to magic state distillation by using magic state cultivation"
+          ],
+          "evidence": "analytical-estimate",
+          "does_not_establish": [
+            "Execution on quantum hardware",
+            "A logical-qubit count: the abstract gives none, so read the body before quoting one"
+          ],
+          "numbers": [
+            {"quantity": "Physical qubits to factor RSA-2048", "relation": "<", "value": 1.0e6, "unit": "physical qubits", "qualifiers": ["0.1% uniform gate error, 1 microsecond cycle, 10 microsecond reaction time, square grid"]},
+            {"quantity": "Runtime to factor RSA-2048", "relation": "<", "value": 7, "unit": "days", "qualifiers": ["Under the same assumptions"]}
+          ]
+        }
+      ]
+    }
+  ]
+}

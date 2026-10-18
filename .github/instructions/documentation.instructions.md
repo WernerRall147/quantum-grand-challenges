@@ -43,6 +43,7 @@ One file owns each fact; everything else links to it.
 | What was submitted to the producers | `docs/AzureFriday/storyboard.md` section 0 |
 | Operational runbook, failure modes | `docs/AzureFriday/README.md` |
 | Maturity stage distribution | `docs/objective-kpis.json` |
+| Results from the literature that bear on this repository, with their conditions | `knowledge/data/frontier_results.json` |
 
 ## Prefer a check to a correction
 

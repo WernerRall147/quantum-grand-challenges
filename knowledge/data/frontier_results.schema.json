@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/WernerRall147/quantum-grand-challenges/blob/main/knowledge/data/frontier_results.schema.json",
+  "title": "Frontier results register",
+  "description": "Results from the literature that bear on this repository's numbers and verdicts. Every claim carries its conditions, one kind of evidence and what it does not establish. tooling/test_frontier_results.py checks the register against this schema and checks the cross-references a schema cannot. The evidence values are defined in .github/skills/scientific-claims/SKILL.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["description", "entries"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "description": {"$ref": "#/definitions/text"},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/entry"}
+    }
+  },
+  "definitions": {
+    "text": {"type": "string", "minLength": 1},
+    "textList": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/text"}
+    },
+    "httpsUrl": {"type": "string", "pattern": "^https://\\S+$"},
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "citation",
+        "identifiers",
+        "source_url",
+        "read_on",
+        "kind",
+        "related_problems",
+        "related_zoo_entries",
+        "claims"
+      ],
+      "properties": {
+        "id": {
+          "description": "Stable key: first author, year and topic, lower case with hyphens.",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "citation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["authors", "title", "year"],
+          "properties": {
+            "authors": {"$ref": "#/definitions/textList"},
+            "et_al": {
+              "description": "True when the author list is truncated.",
+              "type": "boolean"
+            },
+            "title": {"$ref": "#/definitions/text"},
+            "year": {"type": "integer", "minimum": 1900, "maximum": 2100},
+            "venue": {"$ref": "#/definitions/text"}
+          }
+        },
+        "identifiers": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "arxiv": {
+              "description": "With the version that was read, such as 2610.22367v1. The test rejects an unversioned identifier.",
+              "type": "string"
+            },
+            "doi": {"type": "string", "pattern": "^10\\.\\d{4,9}/\\S+$"}
+          }
+        },
+        "source_url": {
+          "description": "The page that was read. For arXiv, the versioned abstract page.",
+          "$ref": "#/definitions/httpsUrl"
+        },
+        "see_also": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["url", "note"],
+            "properties": {
+              "url": {"$ref": "#/definitions/httpsUrl"},
+              "note": {"$ref": "#/definitions/text"}
+            }
+          }
+        },
+        "read_on": {
+          "description": "The date the source was read, YYYY-MM-DD.",
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "kind": {"enum": ["preprint", "peer-reviewed", "code-release", "blog"]},
+        "related_problems": {
+          "description": "Problem directory names under problems/ or problems/archived/.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "related_zoo_entries": {
+          "description": "Names in knowledge/data/algorithm_zoo_index.json.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "claims": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/definitions/claim"}
+        }
+      },
+      "if": {
+        "required": ["kind"],
+        "properties": {"kind": {"const": "peer-reviewed"}}
+      },
+      "then": {
+        "properties": {"identifiers": {"required": ["doi"]}}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "quoted", "location", "conditions", "evidence", "does_not_establish"],
+      "properties": {
+        "statement": {"$ref": "#/definitions/text"},
+        "quoted": {
+          "description": "True when statement is the source's own words. Mathematical notation may be rendered as plain text.",
+          "type": "boolean"
+        },
+        "location": {
+          "description": "Where in the source the statement is: abstract, a section, an equation, a table.",
+          "$ref": "#/definitions/text"
+        },
+        "conditions": {
+          "description": "The setting the claim holds in: instance, error model, cost model, post-selection, simulator or hardware.",
+          "$ref": "#/definitions/textList"
+        },
+        "evidence": {
+          "description": "One kind of evidence per claim. Split a result supported in two ways into two claims.",
+          "enum": [
+            "hardware-measured",
+            "numerical-simulation",
+            "analytical-estimate",
+            "logical-count-certified-by-code",
+            "sampled-verification",
+            "formally-proved",
+            "zero-knowledge-proof"
+          ]
+        },
+        "does_not_establish": {"$ref": "#/definitions/textList"},
+        "numbers": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/number"}
+        }
+      }
+    },
+    "number": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quantity", "relation", "value", "unit", "qualifiers"],
+      "properties": {
+        "quantity": {"$ref": "#/definitions/text"},
+        "relation": {
+          "description": "How the value relates to the quantity: '~' for approximately, '<' for an upper bound, and so on.",
+          "enum": ["=", "~", "<", "<=", ">", ">="]
+        },
+        "value": {"type": "number"},
+        "uncertainty": {
+          "description": "The stated uncertainty, in the unit of value, as written in the source.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "unit": {"$ref": "#/definitions/text"},
+        "qualifiers": {
+          "description": "What must travel with the number when it is quoted.",
+          "$ref": "#/definitions/textList"
+        }
+      }
+    }
+  }
+}

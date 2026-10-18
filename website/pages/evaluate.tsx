@@ -298,7 +298,13 @@ export default function EvaluatePage() {
   const handleVoiceInput = () => {
     const activeRecognition = voiceRecognition.current;
     if (activeRecognition) {
-      activeRecognition.stop();
+      voiceRecognition.current = null;
+      setIsListening(false);
+      try {
+        activeRecognition.stop();
+      } catch {
+        // onend remains the final cleanup path when stop succeeds.
+      }
       return;
     }
 

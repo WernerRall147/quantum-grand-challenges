@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1319,
-    "code_files": 319,
-    "python": 248,
+    "tracked": 1322,
+    "code_files": 320,
+    "python": 249,
     "qsharp": 55,
     "ts": 16,
     "edges": 248,
-    "roots": 303,
-    "reachable": 342
+    "roots": 304,
+    "reachable": 343
   },
   "nodes": [
     ".github/hooks/scripts/agent_gates.py",
@@ -279,6 +279,7 @@
     "tooling/test_doc_claims.py",
     "tooling/test_estimate_provenance.py",
     "tooling/test_exciton_walk.py",
+    "tooling/test_frontier_results.py",
     "tooling/test_grover_run_evidence.py",
     "tooling/test_hardware_kernels_compile.py",
     "tooling/test_hft_kernel.py",

@@ -21,6 +21,7 @@ demonstrates quantum advantage on available hardware, and nothing here may say o
 | `agents/` | The evaluator: FastAPI app (`agents/api/main.py`), orchestrator, classifier, code generator, evaluations, tests |
 | `knowledge/` | Knowledge-base client, ingesters and data the evaluator reads |
 | `tooling/` | Q# runners, estimators, reporting, the dependency map, and the guard tests (`tooling/test_*.py`) |
+| `formal/` | Lean 4 proofs of mathematical statements the code relies on, built by `.github/workflows/lean-proofs.yml`; see `formal/README.md` and ADR 0002 |
 | `website/` | Next.js static export, deployed by `.github/workflows/deploy-website.yml` |
 | `viz/` | Blender visualisation pipeline |
 | `libs/` | Vendored QDK samples and standard-library index used by code generation |

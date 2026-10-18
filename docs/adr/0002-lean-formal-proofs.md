@@ -17,7 +17,7 @@ a specification.
 Reading problem 16's baseline for #290 showed what that misses. `repetition_logical_error` in
 `problems/16_error_correction/python/classical_baseline.py` uses
 `effective_p = 1 - (1 - p) ** rounds`, the probability of at least one flip in `rounds` rounds.
-Flips on one bit cancel in pairs, so the probability of a net flip is (1 - (1 - 2p)^r)/2. The two
+Flips on one bit cancel in pairs, so the probability of a net flip is (1 - (1 - 2p)^rounds)/2. The two
 agree at one round and differ by p² at two. The tests passed because nothing in them said what
 the formula was meant to compute.
 

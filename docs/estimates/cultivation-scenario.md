@@ -4,23 +4,26 @@
 cultivation-scenario.json. Do not edit by hand: tooling/test_estimate_provenance.py fails
 when this file and the JSON disagree. -->
 
-**Every number on this page is a projection, not a published estimate.** It is what the
-QRE v3 estimator in qdk 1.31.0 returns when the round-based distillation factory behind the
-published estimates is replaced by its model of magic state cultivation, `GSJ24Factory`. The
-published estimates are each problem's `circuits/estimate.json`. This scenario does not
-change them, and its baseline columns for `qubit_gate_ns_e3` are those estimates.
+**Every cultivation number on this page is a projection, not a published estimate.** It is
+what the QRE v3 estimator in qdk 1.31.0 returns when the round-based distillation factory
+behind the published estimates is replaced by its model of magic state cultivation,
+`GSJ24Factory`. The published estimates are each problem's `circuits/estimate.json`. This
+scenario does not change them, and its baseline columns for `qubit_gate_ns_e3` are those
+estimates.
 
 The cultivation model is Craig Gidney, Noah Shutty and Cody Jones, "Magic state cultivation: growing T states as cheap as CNOT gates",
 [arXiv:2409.17595v1](https://arxiv.org/abs/2409.17595v1), which qdk implements from the authors' simulation
 data ([Zenodo](https://doi.org/10.5281/zenodo.13777072)). On hardware, Rosenfeld et al.
 ([arXiv:2512.13908v1](https://arxiv.org/abs/2512.13908v1)) report: "Cultivation reduces the error by a factor of 40, with a state fidelity of 0.9999(1) (retaining 8% of attempts)."
-That is the fidelity of a post-selected T state, grafted from a distance-3 color code into a
-distance-5 surface code ([Google](https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/)), not of logical gates.
-Nothing here shows cultivation working at the scale these programs need.
+That is the post-selected fidelity of a T state in a distance-3 color code, not of logical
+gates; grafting a cultivated state into a distance-5 surface code is a separate step in the
+same paper. Google writes that "we still need to demonstrate magic state cultivation at a larger scale to make it realistic for practical quantum computing"
+([announcement](https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/)), and nothing here shows cultivation working
+at the scale these programs need.
 
 ## How it was produced
 
-- Generated 2026-10-18T18:44:02.256104+00:00 from commit `15f4cf104f98ccc8a9d37f984a8c150fbde7d358` with qdk 1.31.0, estimator
+- Generated 2026-10-18T19:35:22.900714+00:00 from commit `38c4c6229c539390a7f1f517c68a7bcfc655e48d` with qdk 1.31.0, estimator
   version `qdk-1.31.0/surface_code+round_based|gsj24_3_15|gsj24_5_15`.
 - Each of the 20 programs is estimated from the entry expression of its published
   estimate, on every gate-based qubit profile in `tooling/estimator_config.py`. The
@@ -38,7 +41,8 @@ Nothing here shows cultivation working at the scale these programs need.
   give the ratio to the baseline on the same profile.
 - "physical T" marks results where the estimator took its T states
   straight from the profile's physical gate instead of a factory: the program needs so
-  few that their error fits the budget, so no factory was used.
+  few that their error fits the budget. No factory is used; qdk still counts one factory
+  qubit for them, hence a T-factory fraction near zero.
 
 ## What the estimator does at each profile
 

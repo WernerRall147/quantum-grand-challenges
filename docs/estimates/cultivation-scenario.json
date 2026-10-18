@@ -3,10 +3,10 @@
   "status": "projection",
   "statement": "A projection, not a published estimate. QRE v3's model of magic state cultivation (GSJ24Factory) replaces the round-based factory the published estimates use, with the same programs, trace transform, error budget and selection rule, on every gate-based qubit profile. The published estimates are each problem's circuits/estimate.json, and this scenario does not change them.",
   "build": {
-    "commit": "15f4cf104f98ccc8a9d37f984a8c150fbde7d358",
+    "commit": "38c4c6229c539390a7f1f517c68a7bcfc655e48d",
     "qdkVersion": "1.31.0",
     "estimatorVersion": "qdk-1.31.0/surface_code+round_based|gsj24_3_15|gsj24_5_15",
-    "dateUtc": "2026-10-18T18:44:02.256104+00:00"
+    "dateUtc": "2026-10-18T19:35:22.900714+00:00"
   },
   "baseline": {
     "factory": "round_based",
@@ -40,7 +40,8 @@
     "title": "Magic state cultivation on a superconducting quantum processor",
     "url": "https://arxiv.org/abs/2512.13908v1",
     "quote": "Cultivation reduces the error by a factor of 40, with a state fidelity of 0.9999(1) (retaining 8% of attempts).",
-    "announcement": "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/"
+    "announcement": "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/",
+    "announcementQuote": "we still need to demonstrate magic state cultivation at a larger scale to make it realistic for practical quantum computing"
   },
   "factories": {
     "round_based": {
@@ -1454,7 +1455,7 @@
             "tFactoryFraction": 0.528,
             "logicalQubits": 12,
             "codeDistance": 5,
-            "error": 0.000943207180363376,
+            "error": 0.0009174242202601568,
             "paretoPoints": 1,
             "magicStates": {
               "T": {
@@ -1462,14 +1463,14 @@
                 "physical": false,
                 "factoryCopies": 1,
                 "states": 60,
-                "errorRate": 8.243994277120638e-07
+                "errorRate": 3.9483871833384884e-07
               },
               "CCX": {
                 "source": "GSJ24CCXFactory",
                 "physical": false,
                 "factoryCopies": 1,
                 "states": 2,
-                "errorRate": 0.00021600467780002677
+                "errorRate": 0.00021600001902976365
               }
             }
           },

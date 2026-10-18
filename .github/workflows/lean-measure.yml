@@ -1,0 +1,94 @@
+name: Lean measurement spike (ADR 0002)
+
+# Throwaway. Measures the options in ADR 0002 (#293) on GitHub-hosted runners; never merged.
+on:
+  push:
+    branches: [spike/lean-ci-measure]
+
+permissions:
+  contents: read
+
+jobs:
+  lean:
+    name: lean-${{ matrix.variant }}
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [core, mathlib]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: spike/lean-${{ matrix.variant }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore cache
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.elan/toolchains
+            spike/lean-${{ matrix.variant }}/.lake
+          key: lean-spike-${{ matrix.variant }}-${{ hashFiles(format('spike/lean-{0}/lean-toolchain', matrix.variant), format('spike/lean-{0}/lake-manifest.json', matrix.variant)) }}
+
+      - name: Report cache state
+        run: echo "cache_hit=${{ steps.cache.outputs.cache-hit == 'true' }}" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Install elan 4.2.4, checksum-pinned
+        run: |
+          s=$(date +%s)
+          curl -sSfL -o /tmp/elan.tar.gz https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz
+          echo "42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/elan.tar.gz -C /tmp
+          /tmp/elan-init -y --default-toolchain none --no-modify-path
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          echo "elan_install_seconds=$(( $(date +%s) - s ))" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Toolchain
+        run: |
+          s=$(date +%s)
+          lean --version
+          echo "toolchain_seconds=$(( $(date +%s) - s ))" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "elan_dir_size=$(du -sh ~/.elan | cut -f1)" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Mathlib cache
+        if: matrix.variant == 'mathlib'
+        run: |
+          s=$(date +%s)
+          lake exe cache get
+          echo "cache_get_seconds=$(( $(date +%s) - s ))" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "lake_dir_size=$(du -sh .lake | cut -f1)" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Build
+        run: |
+          s=$(date +%s)
+          lake build
+          echo "build_seconds=$(( $(date +%s) - s ))" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Save cache
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan/toolchains
+            spike/lean-${{ matrix.variant }}/.lake
+          key: ${{ steps.cache.outputs.cache-primary-key }}
+
+  z3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install z3-solver
+        run: |
+          s=$(date +%s)
+          pip install z3-solver==5.1.0.0
+          echo "pip_install_seconds=$(( $(date +%s) - s ))" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "z3_package_size=$(du -sh "$(python -c 'import os, z3; print(os.path.dirname(z3.__file__))')" | cut -f1)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Check
+        run: |
+          s=$(date +%s)
+          python spike/z3/check.py
+          echo "check_seconds=$(( $(date +%s) - s ))" | tee -a "$GITHUB_STEP_SUMMARY"

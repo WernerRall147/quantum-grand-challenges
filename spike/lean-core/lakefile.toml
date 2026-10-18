@@ -1,0 +1,5 @@
+name = "spike"
+defaultTargets = ["Spike"]
+
+[[lean_lib]]
+name = "Spike"

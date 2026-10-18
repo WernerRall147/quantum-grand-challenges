@@ -1,0 +1,5655 @@
+{
+  "scenario": "magic state cultivation",
+  "status": "projection",
+  "statement": "A projection, not a published estimate. QRE v3's model of magic state cultivation (GSJ24Factory) replaces the round-based factory the published estimates use, with the same programs, trace transform, error budget and selection rule, on every gate-based qubit profile. The published estimates are each problem's circuits/estimate.json, and this scenario does not change them.",
+  "build": {
+    "commit": "15f4cf104f98ccc8a9d37f984a8c150fbde7d358",
+    "qdkVersion": "1.31.0",
+    "estimatorVersion": "qdk-1.31.0/surface_code+round_based|gsj24_3_15|gsj24_5_15",
+    "dateUtc": "2026-10-18T18:44:02.256104+00:00"
+  },
+  "baseline": {
+    "factory": "round_based",
+    "publishedAs": "problems/<id>/circuits/estimate.json",
+    "qubitModel": "qubit_gate_ns_e3",
+    "qecScheme": "surface_code"
+  },
+  "maxError": 0.001,
+  "qecScheme": "surface_code",
+  "selection": "min-qubits",
+  "ties": "Where several configurations tie on physical qubits and runtime, which one the estimator reports can change between runs, so a combination's recorded error and magic-state error rates can change on regeneration. Its physical qubits and runtime cannot.",
+  "traceQuery": "qdk.qre default (PSSPC * LatticeSurgery)",
+  "cultivationModel": {
+    "arxiv": "2409.17595v1",
+    "title": "Magic state cultivation: growing T states as cheap as CNOT gates",
+    "authors": [
+      "Craig Gidney",
+      "Noah Shutty",
+      "Cody Jones"
+    ],
+    "url": "https://arxiv.org/abs/2409.17595v1",
+    "simulationData": "https://doi.org/10.5281/zenodo.13777072"
+  },
+  "cultivationSimulatedErrorRates": [
+    0.0005,
+    0.001,
+    0.002
+  ],
+  "experiment": {
+    "arxiv": "2512.13908v1",
+    "title": "Magic state cultivation on a superconducting quantum processor",
+    "url": "https://arxiv.org/abs/2512.13908v1",
+    "quote": "Cultivation reduces the error by a factor of 40, with a state fidelity of 0.9999(1) (retaining 8% of attempts).",
+    "announcement": "https://blog.google/innovation-and-ai/models-and-research/quantum-computing/magic-state-cultivation-quantum-computing/"
+  },
+  "factories": {
+    "round_based": {
+      "isaQuery": "SurfaceCode.q() * RoundBasedFactory.q()"
+    },
+    "gsj24_3_15": {
+      "isaQuery": "SurfaceCode.q() * GSJ24Factory.q(distance=(3, 15))"
+    },
+    "gsj24_5_15": {
+      "isaQuery": "SurfaceCode.q() * GSJ24Factory.q(distance=(5, 15))"
+    },
+    "gsj24_3_15+ccx": {
+      "isaQuery": "SurfaceCode.q() * GSJ24Factory.q(distance=(3, 15)) * GSJ24CCXFactory.q(source=SurfaceCode.q() * GSJ24Factory.q(distance=(3, 15)))"
+    },
+    "gsj24_5_15+ccx": {
+      "isaQuery": "SurfaceCode.q() * GSJ24Factory.q(distance=(5, 15)) * GSJ24CCXFactory.q(source=SurfaceCode.q() * GSJ24Factory.q(distance=(5, 15)))"
+    }
+  },
+  "profiles": {
+    "qubit_gate_ns_e3": {
+      "label": "Superconducting (ns, 1e-3)",
+      "physicalErrorRate": 0.001,
+      "gateTimeNs": 50,
+      "measurementTimeNs": 100,
+      "cultivation": {
+        "gsj24_3_15": {
+          "simulatedErrorRate": 0.001,
+          "tStatesOffered": 8,
+          "lowestTStateError": 2.652826930675648e-06
+        },
+        "gsj24_5_15": {
+          "simulatedErrorRate": 0.001,
+          "tStatesOffered": 17,
+          "lowestTStateError": 7.885200415876903e-10
+        }
+      }
+    },
+    "qubit_gate_ns_e4": {
+      "label": "Superconducting (ns, 1e-4)",
+      "physicalErrorRate": 0.0001,
+      "gateTimeNs": 50,
+      "measurementTimeNs": 100,
+      "cultivation": {
+        "gsj24_3_15": {
+          "simulatedErrorRate": 0.0005,
+          "tStatesOffered": 4,
+          "lowestTStateError": 2.9973593146121454e-07
+        },
+        "gsj24_5_15": {
+          "simulatedErrorRate": 0.0005,
+          "tStatesOffered": 8,
+          "lowestTStateError": 4.325222592210133e-11
+        }
+      }
+    },
+    "qubit_gate_us_e3": {
+      "label": "Trapped Ion (\u03bcs, 1e-3)",
+      "physicalErrorRate": 0.001,
+      "gateTimeNs": 100000,
+      "measurementTimeNs": 100000,
+      "cultivation": {
+        "gsj24_3_15": {
+          "simulatedErrorRate": 0.001,
+          "tStatesOffered": 8,
+          "lowestTStateError": 2.652826930675648e-06
+        },
+        "gsj24_5_15": {
+          "simulatedErrorRate": 0.001,
+          "tStatesOffered": 17,
+          "lowestTStateError": 7.885200415876903e-10
+        }
+      }
+    },
+    "qubit_gate_us_e4": {
+      "label": "Trapped Ion (\u03bcs, 1e-4)",
+      "physicalErrorRate": 0.0001,
+      "gateTimeNs": 100000,
+      "measurementTimeNs": 100000,
+      "cultivation": {
+        "gsj24_3_15": {
+          "simulatedErrorRate": 0.0005,
+          "tStatesOffered": 4,
+          "lowestTStateError": 2.9973593146121454e-07
+        },
+        "gsj24_5_15": {
+          "simulatedErrorRate": 0.0005,
+          "tStatesOffered": 8,
+          "lowestTStateError": 4.325222592210133e-11
+        }
+      }
+    }
+  },
+  "problems": {
+    "01_hubbard": {
+      "entryExpr": "Main.HubbardQPE(1.0, 4.0, 10, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 594980,
+            "runtime": 10745603750,
+            "tFactoryFraction": 0.916,
+            "logicalQubits": 40,
+            "codeDistance": 25,
+            "error": 0.0007958863022236452,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 17,
+                "states": 1638987,
+                "errorRate": 3.5969265347362586e-10
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 52120,
+            "runtime": 5326980750,
+            "tFactoryFraction": 0.741,
+            "logicalQubits": 40,
+            "codeDistance": 13,
+            "error": 0.0008502550919404713,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 12,
+                "states": 1557039,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 7829,
+            "runtime": 3687909750,
+            "tFactoryFraction": 0.177,
+            "logicalQubits": 40,
+            "codeDistance": 9,
+            "error": 0.000996123323781847,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 1557039,
+                "errorRate": 5.976200770910425e-11
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 594980,
+            "runtime": 18421035000000,
+            "tFactoryFraction": 0.916,
+            "logicalQubits": 40,
+            "codeDistance": 25,
+            "error": 0.0007958863022236452,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 17,
+                "states": 1638987,
+                "errorRate": 3.5969265347362586e-10
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 52120,
+            "runtime": 9131967000000,
+            "tFactoryFraction": 0.741,
+            "logicalQubits": 40,
+            "codeDistance": 13,
+            "error": 0.0008502550919404713,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 12,
+                "states": 1557039,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 7829,
+            "runtime": 6322131000000,
+            "tFactoryFraction": 0.177,
+            "logicalQubits": 40,
+            "codeDistance": 9,
+            "error": 0.000996123323781847,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 1557039,
+                "errorRate": 5.976200770910425e-11
+              }
+            }
+          }
+        }
+      }
+    },
+    "02_catalysis": {
+      "entryExpr": "Main.MolecularQPE(10, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 423055,
+            "runtime": 10602348750,
+            "tFactoryFraction": 0.897,
+            "logicalQubits": 35,
+            "codeDistance": 25,
+            "error": 0.0008883689533078826,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 13,
+                "states": 1311627,
+                "errorRate": 5.51392653473626e-10
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 43995,
+            "runtime": 5252488150,
+            "tFactoryFraction": 0.732,
+            "logicalQubits": 35,
+            "codeDistance": 13,
+            "error": 0.0006804293670047215,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 1246047,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6561,
+            "runtime": 3636337950,
+            "tFactoryFraction": 0.141,
+            "logicalQubits": 35,
+            "codeDistance": 9,
+            "error": 0.0009990485037206598,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1246047,
+                "errorRate": 2.1473703555519034e-10
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 423055,
+            "runtime": 18175455000000,
+            "tFactoryFraction": 0.897,
+            "logicalQubits": 35,
+            "codeDistance": 25,
+            "error": 0.0008883689533078826,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 13,
+                "states": 1311627,
+                "errorRate": 5.51392653473626e-10
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 43995,
+            "runtime": 9004265400000,
+            "tFactoryFraction": 0.732,
+            "logicalQubits": 35,
+            "codeDistance": 13,
+            "error": 0.0006804293670047215,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 1246047,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6561,
+            "runtime": 6543163800000,
+            "tFactoryFraction": 0.141,
+            "logicalQubits": 35,
+            "codeDistance": 9,
+            "error": 0.0009471052890379251,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1311627,
+                "errorRate": 4.992706545478968e-10
+              }
+            }
+          }
+        }
+      }
+    },
+    "03_qae_risk": {
+      "entryExpr": "Main.QAEKernel()",
+      "toffoliCount": 10687,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 369400,
+            "runtime": 843053750,
+            "tFactoryFraction": 0.865,
+            "logicalQubits": 40,
+            "codeDistance": 25,
+            "error": 0.0007339099840116503,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 12,
+                "states": 105884,
+                "errorRate": 2.468392653473627e-09
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 24932,
+            "runtime": 594470450,
+            "tFactoryFraction": 0.074,
+            "logicalQubits": 40,
+            "codeDistance": 17,
+            "error": 0.0008972729582748374,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 109597,
+                "errorRate": 5.927193917808693e-09
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 24932,
+            "runtime": 594470450,
+            "tFactoryFraction": 0.074,
+            "logicalQubits": 40,
+            "codeDistance": 17,
+            "error": 0.0008972729582748374,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 109597,
+                "errorRate": 5.927193917808693e-09
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 29000,
+            "runtime": 438387950,
+            "tFactoryFraction": 0.535,
+            "logicalQubits": 40,
+            "codeDistance": 13,
+            "error": 0.0007017751505992489,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 105884,
+                "errorRate": 2.165e-09
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 7366,
+            "runtime": 303499350,
+            "tFactoryFraction": 0.126,
+            "logicalQubits": 40,
+            "codeDistance": 9,
+            "error": 0.0005966306248303048,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 105884,
+                "errorRate": 1.0628008992770944e-09
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 7366,
+            "runtime": 303499350,
+            "tFactoryFraction": 0.126,
+            "logicalQubits": 40,
+            "codeDistance": 9,
+            "error": 0.0005966306248303048,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 105884,
+                "errorRate": 1.0628008992770944e-09
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 369400,
+            "runtime": 1445235000000,
+            "tFactoryFraction": 0.865,
+            "logicalQubits": 40,
+            "codeDistance": 25,
+            "error": 0.0007339099840116503,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 12,
+                "states": 105884,
+                "errorRate": 2.468392653473627e-09
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 25395,
+            "runtime": 982759800000,
+            "tFactoryFraction": 0.091,
+            "logicalQubits": 40,
+            "codeDistance": 17,
+            "error": 0.0008743088404551293,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 5,
+                "states": 105884,
+                "errorRate": 2.7025320732488425e-09
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 25395,
+            "runtime": 982759800000,
+            "tFactoryFraction": 0.091,
+            "logicalQubits": 40,
+            "codeDistance": 17,
+            "error": 0.0008743088404551293,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 5,
+                "states": 105884,
+                "errorRate": 2.7025320732488425e-09
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 29000,
+            "runtime": 751522200000,
+            "tFactoryFraction": 0.535,
+            "logicalQubits": 40,
+            "codeDistance": 13,
+            "error": 0.0007017751505992489,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 105884,
+                "errorRate": 2.165e-09
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 7366,
+            "runtime": 520284600000,
+            "tFactoryFraction": 0.126,
+            "logicalQubits": 40,
+            "codeDistance": 9,
+            "error": 0.0005966306248303048,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 105884,
+                "errorRate": 1.0628008992770944e-09
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 7366,
+            "runtime": 520284600000,
+            "tFactoryFraction": 0.126,
+            "logicalQubits": 40,
+            "codeDistance": 9,
+            "error": 0.0005966306248303048,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 105884,
+                "errorRate": 1.0628008992770944e-09
+              }
+            }
+          }
+        }
+      }
+    },
+    "04_linear_solvers": {
+      "entryExpr": "Main.HHLSolve2x2([[4.0, -1.0], [-1.0, 3.0]], [15.0, 10.0], 3)",
+      "toffoliCount": 56,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 86567,
+            "runtime": 16922500,
+            "tFactoryFraction": 0.668,
+            "logicalQubits": 23,
+            "codeDistance": 25,
+            "error": 0.0006849919346592048,
+            "paretoPoints": 7,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 1962,
+                "errorRate": 2.4800000000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 8677,
+            "runtime": 8799700,
+            "tFactoryFraction": 0.107,
+            "logicalQubits": 23,
+            "codeDistance": 13,
+            "error": 0.0009162894623064734,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1962,
+                "errorRate": 2.978734256336741e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 8677,
+            "runtime": 8799700,
+            "tFactoryFraction": 0.107,
+            "logicalQubits": 23,
+            "codeDistance": 13,
+            "error": 0.0009162894623064734,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1962,
+                "errorRate": 2.978734256336741e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11423,
+            "runtime": 7445900,
+            "tFactoryFraction": 0.515,
+            "logicalQubits": 23,
+            "codeDistance": 11,
+            "error": 0.0006163918056732048,
+            "paretoPoints": 4,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 1962,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2685,
+            "runtime": 4738300,
+            "tFactoryFraction": 0.169,
+            "logicalQubits": 23,
+            "codeDistance": 7,
+            "error": 0.0009864339665842162,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 1962,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3157,
+            "runtime": 4473700,
+            "tFactoryFraction": 0.293,
+            "logicalQubits": 23,
+            "codeDistance": 7,
+            "error": 0.0008054020554070911,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1848,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2685,
+            "runtime": 4738300,
+            "tFactoryFraction": 0.169,
+            "logicalQubits": 23,
+            "codeDistance": 7,
+            "error": 0.0009864339665842162,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 1962,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3157,
+            "runtime": 4473700,
+            "tFactoryFraction": 0.293,
+            "logicalQubits": 23,
+            "codeDistance": 7,
+            "error": 0.0008054020554070911,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1848,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 86567,
+            "runtime": 29010000000,
+            "tFactoryFraction": 0.668,
+            "logicalQubits": 23,
+            "codeDistance": 25,
+            "error": 0.0006849919346592048,
+            "paretoPoints": 7,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 1962,
+                "errorRate": 2.4800000000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 8677,
+            "runtime": 15085200000,
+            "tFactoryFraction": 0.107,
+            "logicalQubits": 23,
+            "codeDistance": 13,
+            "error": 0.0009162894623064734,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1962,
+                "errorRate": 2.978734256336741e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 8677,
+            "runtime": 15085200000,
+            "tFactoryFraction": 0.107,
+            "logicalQubits": 23,
+            "codeDistance": 13,
+            "error": 0.0009162894623064734,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1962,
+                "errorRate": 2.978734256336741e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11423,
+            "runtime": 12764400000,
+            "tFactoryFraction": 0.515,
+            "logicalQubits": 23,
+            "codeDistance": 11,
+            "error": 0.0006163918056732048,
+            "paretoPoints": 4,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 1962,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2685,
+            "runtime": 8122800000,
+            "tFactoryFraction": 0.169,
+            "logicalQubits": 23,
+            "codeDistance": 7,
+            "error": 0.0009864339665842162,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 1962,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3157,
+            "runtime": 7669200000,
+            "tFactoryFraction": 0.293,
+            "logicalQubits": 23,
+            "codeDistance": 7,
+            "error": 0.0008054020554070911,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1848,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2685,
+            "runtime": 8122800000,
+            "tFactoryFraction": 0.169,
+            "logicalQubits": 23,
+            "codeDistance": 7,
+            "error": 0.0009864339665842162,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 1962,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3157,
+            "runtime": 7669200000,
+            "tFactoryFraction": 0.293,
+            "logicalQubits": 23,
+            "codeDistance": 7,
+            "error": 0.0008054020554070911,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 1848,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "05_qaoa_maxcut": {
+      "entryExpr": "Main.EvaluateQaoa([[0.0, 1.0, 1.0], [1.0, 0.0, 1.0], [1.0, 1.0, 0.0]], [0.3141592653589793], [2.827433388230814], 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 53628,
+            "runtime": 498750,
+            "tFactoryFraction": 0.721,
+            "logicalQubits": 12,
+            "codeDistance": 25,
+            "error": 0.0006840406329727184,
+            "paretoPoints": 10,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 72,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2386,
+            "runtime": 192150,
+            "tFactoryFraction": 0.19,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0008932488073513715,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 78,
+                "errorRate": 6.805514929263812e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 179550,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009922872327170517,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 10732,
+            "runtime": 219450,
+            "tFactoryFraction": 0.731,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0005434991714407184,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 72,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1496,
+            "runtime": 99750,
+            "tFactoryFraction": 0.607,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.000608037389715987,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1977,
+            "runtime": 99750,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0005509807738694041,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 53628,
+            "runtime": 855000000,
+            "tFactoryFraction": 0.721,
+            "logicalQubits": 12,
+            "codeDistance": 25,
+            "error": 0.0006840406329727184,
+            "paretoPoints": 10,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 72,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2840,
+            "runtime": 307800000,
+            "tFactoryFraction": 0.32,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.000975098009731481,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 3.3574635945939254e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 307800000,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009922872327170517,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 10732,
+            "runtime": 376200000,
+            "tFactoryFraction": 0.731,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0005434991714407184,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 72,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1496,
+            "runtime": 171000000,
+            "tFactoryFraction": 0.607,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.000608037389715987,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1977,
+            "runtime": 171000000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0005509807738694041,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "06_high_frequency_trading": {
+      "entryExpr": "Main.EstimateLossProbability([0.5, 0.35, 0.1, 0.05], 2, 1)",
+      "toffoliCount": 2,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 51324,
+            "runtime": 547400,
+            "tFactoryFraction": 0.753,
+            "logicalQubits": 12,
+            "codeDistance": 23,
+            "error": 0.00020105272856146906,
+            "paretoPoints": 12,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 78,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2386,
+            "runtime": 189000,
+            "tFactoryFraction": 0.19,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009381288158710861,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 68,
+                "errorRate": 4.14698465838952e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 189000,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009006756496860246,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 68,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2386,
+            "runtime": 189000,
+            "tFactoryFraction": 0.19,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009381288158710861,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 68,
+                "errorRate": 4.14698465838952e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 189000,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0007027952504282967,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 68,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 9752,
+            "runtime": 231000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0004546202607005986,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 68,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1496,
+            "runtime": 105000,
+            "tFactoryFraction": 0.607,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0005177930201850189,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 68,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1977,
+            "runtime": 105000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0004639062163299128,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 68,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1246,
+            "runtime": 105000,
+            "tFactoryFraction": 0.528,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.000943207180363376,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 60,
+                "errorRate": 8.243994277120638e-07
+              },
+              "CCX": {
+                "source": "GSJ24CCXFactory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 2,
+                "errorRate": 0.00021600467780002677
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1718,
+            "runtime": 133000,
+            "tFactoryFraction": 0.658,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00046426892227119924,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 80,
+                "errorRate": 3.194642984285564e-08
+              },
+              "CCX": {
+                "source": "GSJ24CCXFactory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 2,
+                "errorRate": 0.00021600000002857606
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 51324,
+            "runtime": 938400000,
+            "tFactoryFraction": 0.753,
+            "logicalQubits": 12,
+            "codeDistance": 23,
+            "error": 0.00020105272856146906,
+            "paretoPoints": 12,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 78,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2386,
+            "runtime": 345600000,
+            "tFactoryFraction": 0.19,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0008462181255602535,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 73,
+                "errorRate": 6.805514929263812e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 324000000,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009006756496860246,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 68,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2386,
+            "runtime": 345600000,
+            "tFactoryFraction": 0.19,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0008462181255602535,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 73,
+                "errorRate": 6.805514929263812e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 324000000,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009006756496860246,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 68,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 9752,
+            "runtime": 396000000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0004546202607005986,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 68,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1496,
+            "runtime": 180000000,
+            "tFactoryFraction": 0.607,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0005177930201850189,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 68,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1977,
+            "runtime": 180000000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0004639062163299128,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 68,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1496,
+            "runtime": 180000000,
+            "tFactoryFraction": 0.607,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0005177930201850189,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 68,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1977,
+            "runtime": 180000000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0004639062163299128,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 68,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "07_drug_discovery": {
+      "entryExpr": "Main.BindingQPE(10, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 423055,
+            "runtime": 5052433750,
+            "tFactoryFraction": 0.897,
+            "logicalQubits": 35,
+            "codeDistance": 25,
+            "error": 0.0006497992879234337,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 13,
+                "states": 624063,
+                "errorRate": 5.51392653473626e-10
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 28939,
+            "runtime": 3839849650,
+            "tFactoryFraction": 0.128,
+            "logicalQubits": 35,
+            "codeDistance": 19,
+            "error": 0.0009581330399837727,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 624063,
+                "errorRate": 9.484121471230475e-10
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 43995,
+            "runtime": 2627265550,
+            "tFactoryFraction": 0.732,
+            "logicalQubits": 35,
+            "codeDistance": 13,
+            "error": 0.00034077571503422235,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 624063,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6561,
+            "runtime": 1818876150,
+            "tFactoryFraction": 0.141,
+            "logicalQubits": 35,
+            "codeDistance": 9,
+            "error": 0.0006778404527028464,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 624063,
+                "errorRate": 4.992706545478968e-10
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 423055,
+            "runtime": 8661315000000,
+            "tFactoryFraction": 0.897,
+            "logicalQubits": 35,
+            "codeDistance": 25,
+            "error": 0.0006497992879234337,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 13,
+                "states": 624063,
+                "errorRate": 5.51392653473626e-10
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 29402,
+            "runtime": 6582599400000,
+            "tFactoryFraction": 0.142,
+            "logicalQubits": 35,
+            "codeDistance": 19,
+            "error": 0.0009581330399837727,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 9,
+                "states": 624063,
+                "errorRate": 9.484121471230475e-10
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 43995,
+            "runtime": 4503883800000,
+            "tFactoryFraction": 0.732,
+            "logicalQubits": 35,
+            "codeDistance": 13,
+            "error": 0.00034077571503422235,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 624063,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6561,
+            "runtime": 3118073400000,
+            "tFactoryFraction": 0.141,
+            "logicalQubits": 35,
+            "codeDistance": 9,
+            "error": 0.0006778404527028464,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 624063,
+                "errorRate": 4.992706545478968e-10
+              }
+            }
+          }
+        }
+      }
+    },
+    "08_protein_folding": {
+      "entryExpr": "Main.EvaluateFoldingQaoa([[0.0,-1.2,-0.3,0.0],[-1.2,0.0,-0.8,-0.5],[-0.3,-0.8,0.0,-1.0],[0.0,-0.5,-1.0,0.0]], 0.47123889803846897, 1.119192382841364, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 60935,
+            "runtime": 732550,
+            "tFactoryFraction": 0.74,
+            "logicalQubits": 15,
+            "codeDistance": 23,
+            "error": 0.00046753300525319134,
+            "paretoPoints": 8,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 117,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3323,
+            "runtime": 286650,
+            "tFactoryFraction": 0.273,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0009718723873917323,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 117,
+                "errorRate": 2.9755933597311195e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3804,
+            "runtime": 286650,
+            "tFactoryFraction": 0.365,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0007040130052640837,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 117,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11455,
+            "runtime": 327250,
+            "tFactoryFraction": 0.684,
+            "logicalQubits": 15,
+            "codeDistance": 11,
+            "error": 0.0008152487646310775,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 108,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1643,
+            "runtime": 148750,
+            "tFactoryFraction": 0.553,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0009195260845739804,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 108,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2124,
+            "runtime": 148750,
+            "tFactoryFraction": 0.654,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0008339411608041059,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 108,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 60935,
+            "runtime": 1255800000,
+            "tFactoryFraction": 0.74,
+            "logicalQubits": 15,
+            "codeDistance": 23,
+            "error": 0.00046753300525319134,
+            "paretoPoints": 8,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 117,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3323,
+            "runtime": 491400000,
+            "tFactoryFraction": 0.273,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0009718723873917323,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 117,
+                "errorRate": 2.9755933597311195e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3804,
+            "runtime": 523800000,
+            "tFactoryFraction": 0.365,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0009475504204902276,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 126,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11455,
+            "runtime": 561000000,
+            "tFactoryFraction": 0.684,
+            "logicalQubits": 15,
+            "codeDistance": 11,
+            "error": 0.0008152487646310775,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 108,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1643,
+            "runtime": 255000000,
+            "tFactoryFraction": 0.553,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0009195260845739804,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 108,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2124,
+            "runtime": 255000000,
+            "tFactoryFraction": 0.654,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0008339411608041059,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 108,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "09_factorization": {
+      "entryExpr": "Main.ShorPeriodFinding(7, 4)",
+      "toffoliCount": 5,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 60665,
+            "runtime": 1036350,
+            "tFactoryFraction": 0.637,
+            "logicalQubits": 25,
+            "codeDistance": 21,
+            "error": 0.0005303190218031913,
+            "paretoPoints": 7,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 146,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 6479,
+            "runtime": 542850,
+            "tFactoryFraction": 0.07,
+            "logicalQubits": 25,
+            "codeDistance": 11,
+            "error": 0.0009254377244280614,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 146,
+                "errorRate": 4.14698465838952e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6951,
+            "runtime": 512050,
+            "tFactoryFraction": 0.133,
+            "logicalQubits": 25,
+            "codeDistance": 11,
+            "error": 0.0009859999259677634,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 137,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 6479,
+            "runtime": 542850,
+            "tFactoryFraction": 0.07,
+            "logicalQubits": 25,
+            "codeDistance": 11,
+            "error": 0.0009254377244280614,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 146,
+                "errorRate": 4.14698465838952e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 6951,
+            "runtime": 512050,
+            "tFactoryFraction": 0.133,
+            "logicalQubits": 25,
+            "codeDistance": 11,
+            "error": 0.0009859999259677634,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 137,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11865,
+            "runtime": 418950,
+            "tFactoryFraction": 0.661,
+            "logicalQubits": 25,
+            "codeDistance": 9,
+            "error": 0.0008214367163810775,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 137,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1679,
+            "runtime": 246750,
+            "tFactoryFraction": 0.27,
+            "logicalQubits": 25,
+            "codeDistance": 5,
+            "error": 0.00044034028074915266,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 146,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2151,
+            "runtime": 232750,
+            "tFactoryFraction": 0.43,
+            "logicalQubits": 25,
+            "codeDistance": 5,
+            "error": 0.0008963676072695487,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 137,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1679,
+            "runtime": 246750,
+            "tFactoryFraction": 0.27,
+            "logicalQubits": 25,
+            "codeDistance": 5,
+            "error": 0.00044034028074915266,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 146,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2151,
+            "runtime": 232750,
+            "tFactoryFraction": 0.43,
+            "logicalQubits": 25,
+            "codeDistance": 5,
+            "error": 0.0008963676072695487,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 137,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 60665,
+            "runtime": 1776600000,
+            "tFactoryFraction": 0.637,
+            "logicalQubits": 25,
+            "codeDistance": 21,
+            "error": 0.0005303190218031913,
+            "paretoPoints": 7,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 146,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 6479,
+            "runtime": 930600000,
+            "tFactoryFraction": 0.07,
+            "logicalQubits": 25,
+            "codeDistance": 11,
+            "error": 0.0009254377244280614,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 146,
+                "errorRate": 4.14698465838952e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6951,
+            "runtime": 877800000,
+            "tFactoryFraction": 0.133,
+            "logicalQubits": 25,
+            "codeDistance": 11,
+            "error": 0.0009859999259677634,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 137,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 6479,
+            "runtime": 930600000,
+            "tFactoryFraction": 0.07,
+            "logicalQubits": 25,
+            "codeDistance": 11,
+            "error": 0.0009254377244280614,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 146,
+                "errorRate": 4.14698465838952e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 6951,
+            "runtime": 877800000,
+            "tFactoryFraction": 0.133,
+            "logicalQubits": 25,
+            "codeDistance": 11,
+            "error": 0.0009859999259677634,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 137,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11865,
+            "runtime": 718200000,
+            "tFactoryFraction": 0.661,
+            "logicalQubits": 25,
+            "codeDistance": 9,
+            "error": 0.0008214367163810775,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 137,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2133,
+            "runtime": 399000000,
+            "tFactoryFraction": 0.426,
+            "logicalQubits": 25,
+            "codeDistance": 5,
+            "error": 0.0009460838507928148,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 137,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2614,
+            "runtime": 399000000,
+            "tFactoryFraction": 0.531,
+            "logicalQubits": 25,
+            "codeDistance": 5,
+            "error": 0.0008963676072695487,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 137,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2133,
+            "runtime": 399000000,
+            "tFactoryFraction": 0.426,
+            "logicalQubits": 25,
+            "codeDistance": 5,
+            "error": 0.0009460838507928148,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 137,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2614,
+            "runtime": 399000000,
+            "tFactoryFraction": 0.531,
+            "logicalQubits": 25,
+            "codeDistance": 5,
+            "error": 0.0008963676072695487,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 137,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "10_post_quantum_cryptography": {
+      "entryExpr": "Main.GroverKeySearch(3, 5, 1)",
+      "toffoliCount": 2,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 26092,
+            "runtime": 66150,
+            "tFactoryFraction": 0.595,
+            "logicalQubits": 12,
+            "codeDistance": 21,
+            "error": 0.0001706800324,
+            "paretoPoints": 4,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 8,
+                "errorRate": 2.1335e-05
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1618,
+            "runtime": 22050,
+            "tFactoryFraction": 0.281,
+            "logicalQubits": 12,
+            "codeDistance": 7,
+            "error": 0.0008380393004346046,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 6.425491255432556e-05
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2553,
+            "runtime": 22050,
+            "tFactoryFraction": 0.544,
+            "logicalQubits": 12,
+            "codeDistance": 7,
+            "error": 0.0003527696224218149,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 8,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1618,
+            "runtime": 22050,
+            "tFactoryFraction": 0.281,
+            "logicalQubits": 12,
+            "codeDistance": 7,
+            "error": 0.0008380393004346046,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 6.425491255432556e-05
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2553,
+            "runtime": 22050,
+            "tFactoryFraction": 0.544,
+            "logicalQubits": 12,
+            "codeDistance": 7,
+            "error": 0.0003527696224218149,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 8,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 15750,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 15750,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 15750,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 15750,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 15750,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 26092,
+            "runtime": 113400000,
+            "tFactoryFraction": 0.595,
+            "logicalQubits": 12,
+            "codeDistance": 21,
+            "error": 0.0001706800324,
+            "paretoPoints": 4,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 8,
+                "errorRate": 2.1335e-05
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1618,
+            "runtime": 37800000,
+            "tFactoryFraction": 0.281,
+            "logicalQubits": 12,
+            "codeDistance": 7,
+            "error": 0.0008380393004346046,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 6.425491255432556e-05
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2553,
+            "runtime": 37800000,
+            "tFactoryFraction": 0.544,
+            "logicalQubits": 12,
+            "codeDistance": 7,
+            "error": 0.0003527696224218149,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 8,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1618,
+            "runtime": 37800000,
+            "tFactoryFraction": 0.281,
+            "logicalQubits": 12,
+            "codeDistance": 7,
+            "error": 0.0008380393004346046,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 6.425491255432556e-05
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2553,
+            "runtime": 37800000,
+            "tFactoryFraction": 0.544,
+            "logicalQubits": 12,
+            "codeDistance": 7,
+            "error": 0.0003527696224218149,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 8,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 27000000,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 27000000,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 27000000,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 27000000,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 589,
+            "runtime": 27000000,
+            "tFactoryFraction": 0.002,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00080324,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GateBased",
+                "physical": true,
+                "factoryCopies": 1,
+                "states": 8,
+                "errorRate": 0.0001
+              }
+            }
+          }
+        }
+      }
+    },
+    "11_quantum_machine_learning": {
+      "entryExpr": "Main.SwapTest([1.0, 0.5, 0.3, 0.2], [0.8, 0.2, 0.6, 0.1], 1)",
+      "toffoliCount": 2,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 86882,
+            "runtime": 603750,
+            "tFactoryFraction": 0.741,
+            "logicalQubits": 18,
+            "codeDistance": 25,
+            "error": 0.0005368010751739903,
+            "paretoPoints": 11,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 138,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3806,
+            "runtime": 229950,
+            "tFactoryFraction": 0.239,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0009554700201628391,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 148,
+                "errorRate": 3.3574635945939254e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 4750,
+            "runtime": 229950,
+            "tFactoryFraction": 0.39,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0009908034229665122,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 148,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3806,
+            "runtime": 229950,
+            "tFactoryFraction": 0.239,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0009554700201628391,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 148,
+                "errorRate": 3.3574635945939254e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 4750,
+            "runtime": 229950,
+            "tFactoryFraction": 0.39,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0009908034229665122,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 148,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 15866,
+            "runtime": 295750,
+            "tFactoryFraction": 0.618,
+            "logicalQubits": 18,
+            "codeDistance": 13,
+            "error": 0.0009075361985521973,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 128,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1790,
+            "runtime": 113750,
+            "tFactoryFraction": 0.507,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009659070741479299,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 128,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2734,
+            "runtime": 113750,
+            "tFactoryFraction": 0.677,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009194568612210828,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 128,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1790,
+            "runtime": 113750,
+            "tFactoryFraction": 0.507,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009659070741479299,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 128,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2734,
+            "runtime": 113750,
+            "tFactoryFraction": 0.677,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009194568612210828,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 128,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 86882,
+            "runtime": 1035000000,
+            "tFactoryFraction": 0.741,
+            "logicalQubits": 18,
+            "codeDistance": 25,
+            "error": 0.0005368010751739903,
+            "paretoPoints": 11,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 138,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 4260,
+            "runtime": 372600000,
+            "tFactoryFraction": 0.32,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.00097672118788123,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 138,
+                "errorRate": 2.652826930675648e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 5213,
+            "runtime": 372600000,
+            "tFactoryFraction": 0.444,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.000705326247965966,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 5,
+                "states": 138,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 4260,
+            "runtime": 372600000,
+            "tFactoryFraction": 0.32,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.00097672118788123,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 138,
+                "errorRate": 2.652826930675648e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 5213,
+            "runtime": 372600000,
+            "tFactoryFraction": 0.444,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.000705326247965966,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 5,
+                "states": 138,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 15866,
+            "runtime": 507000000,
+            "tFactoryFraction": 0.618,
+            "logicalQubits": 18,
+            "codeDistance": 13,
+            "error": 0.0009075361985521973,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 128,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2244,
+            "runtime": 195000000,
+            "tFactoryFraction": 0.607,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009659070741479299,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 128,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3197,
+            "runtime": 195000000,
+            "tFactoryFraction": 0.724,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009194568612210828,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 5,
+                "states": 128,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1994,
+            "runtime": 207000000,
+            "tFactoryFraction": 0.558,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0008144723526506122,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 130,
+                "errorRate": 8.243994277120638e-07
+              },
+              "CCX": {
+                "source": "GSJ24CCXFactory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 2,
+                "errorRate": 0.00021600467780002677
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3197,
+            "runtime": 195000000,
+            "tFactoryFraction": 0.724,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009194568612210828,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 5,
+                "states": 128,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "12_quantum_optimization": {
+      "entryExpr": "Main.EvaluateQaoa([[0.0,1.0,0.5,0.2],[1.0,0.0,1.2,0.8],[0.5,1.2,0.0,0.6],[0.2,0.8,0.6,0.0]], 0.3141592653589793, 1.2566370614359172, 1, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 63815,
+            "runtime": 805000,
+            "tFactoryFraction": 0.706,
+            "logicalQubits": 15,
+            "codeDistance": 25,
+            "error": 0.0005194810755879903,
+            "paretoPoints": 9,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 130,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3323,
+            "runtime": 289800,
+            "tFactoryFraction": 0.273,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0009968985724358246,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 130,
+                "errorRate": 2.652826930675648e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3804,
+            "runtime": 289800,
+            "tFactoryFraction": 0.365,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0007412366725156486,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 130,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 12435,
+            "runtime": 331100,
+            "tFactoryFraction": 0.709,
+            "logicalQubits": 15,
+            "codeDistance": 11,
+            "error": 0.0009058319569011972,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 9,
+                "states": 120,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1643,
+            "runtime": 150500,
+            "tFactoryFraction": 0.553,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0009663483644012591,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 120,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2124,
+            "runtime": 150500,
+            "tFactoryFraction": 0.654,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0009228012897823399,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 120,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 63815,
+            "runtime": 1380000000,
+            "tFactoryFraction": 0.706,
+            "logicalQubits": 15,
+            "codeDistance": 25,
+            "error": 0.0005194810755879903,
+            "paretoPoints": 9,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 130,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3323,
+            "runtime": 496800000,
+            "tFactoryFraction": 0.273,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0009968985724358246,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 130,
+                "errorRate": 2.652826930675648e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 4267,
+            "runtime": 496800000,
+            "tFactoryFraction": 0.434,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0007412366725156486,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 130,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 12435,
+            "runtime": 567600000,
+            "tFactoryFraction": 0.709,
+            "logicalQubits": 15,
+            "codeDistance": 11,
+            "error": 0.0009058319569011972,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 9,
+                "states": 120,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1643,
+            "runtime": 258000000,
+            "tFactoryFraction": 0.553,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0009663483644012591,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 120,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2124,
+            "runtime": 258000000,
+            "tFactoryFraction": 0.654,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0009228012897823399,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 120,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "13_climate_modeling": {
+      "entryExpr": "Main.RunHHLClimate(3, 1)",
+      "toffoliCount": 28,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 58903,
+            "runtime": 2910600,
+            "tFactoryFraction": 0.656,
+            "logicalQubits": 23,
+            "codeDistance": 21,
+            "error": 0.0009905204670932887,
+            "paretoPoints": 7,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 404,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6469,
+            "runtime": 1455300,
+            "tFactoryFraction": 0.143,
+            "logicalQubits": 23,
+            "codeDistance": 11,
+            "error": 0.0009541479440841984,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 386,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 11097,
+            "runtime": 1801800,
+            "tFactoryFraction": 0.302,
+            "logicalQubits": 23,
+            "codeDistance": 13,
+            "error": 0.0009815240943798712,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 292,
+                "errorRate": 2.652826930675648e-06
+              },
+              "CCX": {
+                "source": "GSJ24CCXFactory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 28,
+                "errorRate": 2.2756034260461936e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 6469,
+            "runtime": 1455300,
+            "tFactoryFraction": 0.143,
+            "logicalQubits": 23,
+            "codeDistance": 11,
+            "error": 0.0009541479440841984,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 386,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11543,
+            "runtime": 1190700,
+            "tFactoryFraction": 0.679,
+            "logicalQubits": 23,
+            "codeDistance": 9,
+            "error": 0.0005107135206063826,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 386,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1581,
+            "runtime": 693000,
+            "tFactoryFraction": 0.287,
+            "logicalQubits": 23,
+            "codeDistance": 5,
+            "error": 0.0007221551034889623,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 404,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2053,
+            "runtime": 661500,
+            "tFactoryFraction": 0.451,
+            "logicalQubits": 23,
+            "codeDistance": 5,
+            "error": 0.0007016072505257249,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 386,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1581,
+            "runtime": 693000,
+            "tFactoryFraction": 0.287,
+            "logicalQubits": 23,
+            "codeDistance": 5,
+            "error": 0.0007221551034889623,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 404,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2053,
+            "runtime": 661500,
+            "tFactoryFraction": 0.451,
+            "logicalQubits": 23,
+            "codeDistance": 5,
+            "error": 0.0007016072505257249,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 386,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 58903,
+            "runtime": 4989600000,
+            "tFactoryFraction": 0.656,
+            "logicalQubits": 23,
+            "codeDistance": 21,
+            "error": 0.0009905204670932887,
+            "paretoPoints": 7,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 404,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6469,
+            "runtime": 2494800000,
+            "tFactoryFraction": 0.143,
+            "logicalQubits": 23,
+            "codeDistance": 11,
+            "error": 0.0009541479440841984,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 386,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 11097,
+            "runtime": 3088800000,
+            "tFactoryFraction": 0.302,
+            "logicalQubits": 23,
+            "codeDistance": 13,
+            "error": 0.0009815240943798712,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 292,
+                "errorRate": 2.652826930675648e-06
+              },
+              "CCX": {
+                "source": "GSJ24CCXFactory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 28,
+                "errorRate": 2.2756034260461936e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 6469,
+            "runtime": 2494800000,
+            "tFactoryFraction": 0.143,
+            "logicalQubits": 23,
+            "codeDistance": 11,
+            "error": 0.0009541479440841984,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 386,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11543,
+            "runtime": 2041200000,
+            "tFactoryFraction": 0.679,
+            "logicalQubits": 23,
+            "codeDistance": 9,
+            "error": 0.0005107135206063826,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 386,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2035,
+            "runtime": 1134000000,
+            "tFactoryFraction": 0.446,
+            "logicalQubits": 23,
+            "codeDistance": 5,
+            "error": 0.0008416836738832483,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 386,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2516,
+            "runtime": 1134000000,
+            "tFactoryFraction": 0.552,
+            "logicalQubits": 23,
+            "codeDistance": 5,
+            "error": 0.0007016072505257249,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 386,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2035,
+            "runtime": 1134000000,
+            "tFactoryFraction": 0.446,
+            "logicalQubits": 23,
+            "codeDistance": 5,
+            "error": 0.0008416836738832483,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 386,
+                "errorRate": 3.9483871833384884e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2516,
+            "runtime": 1134000000,
+            "tFactoryFraction": 0.552,
+            "logicalQubits": 23,
+            "codeDistance": 5,
+            "error": 0.0007016072505257249,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 386,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "14_materials_discovery": {
+      "entryExpr": "Main.BandGapQPE(1.0, -0.5, 0.8, 0.3, 10, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 754715,
+            "runtime": 27219762500,
+            "tFactoryFraction": 0.942,
+            "logicalQubits": 35,
+            "codeDistance": 25,
+            "error": 0.00048367635523658575,
+            "paretoPoints": 4,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 15,
+                "states": 3277974,
+                "errorRate": 2.1639895946963134e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 43995,
+            "runtime": 14154276500,
+            "tFactoryFraction": 0.732,
+            "logicalQubits": 35,
+            "codeDistance": 13,
+            "error": 0.0005969973017247353,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 3277974,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6561,
+            "runtime": 9799114500,
+            "tFactoryFraction": 0.141,
+            "logicalQubits": 35,
+            "codeDistance": 9,
+            "error": 0.0009349501592679785,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 3277974,
+                "errorRate": 5.976200770910425e-11
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 754715,
+            "runtime": 46662450000000,
+            "tFactoryFraction": 0.942,
+            "logicalQubits": 35,
+            "codeDistance": 25,
+            "error": 0.00048367635523658575,
+            "paretoPoints": 4,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 15,
+                "states": 3277974,
+                "errorRate": 2.1639895946963134e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 43995,
+            "runtime": 24264474000000,
+            "tFactoryFraction": 0.732,
+            "logicalQubits": 35,
+            "codeDistance": 13,
+            "error": 0.0005969973017247353,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 3277974,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 7024,
+            "runtime": 16798482000000,
+            "tFactoryFraction": 0.198,
+            "logicalQubits": 35,
+            "codeDistance": 9,
+            "error": 0.0009349501592679785,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 3277974,
+                "errorRate": 5.976200770910425e-11
+              }
+            }
+          }
+        }
+      }
+    },
+    "15_database_search": {
+      "entryExpr": "Main.GroverSearch([7], 4, 3)",
+      "toffoliCount": 18,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 61122,
+            "runtime": 507500,
+            "tFactoryFraction": 0.632,
+            "logicalQubits": 18,
+            "codeDistance": 25,
+            "error": 0.00015588000313200004,
+            "paretoPoints": 8,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 72,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3352,
+            "runtime": 182700,
+            "tFactoryFraction": 0.135,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0008031970749069945,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 72,
+                "errorRate": 6.805514929263812e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 4287,
+            "runtime": 182700,
+            "tFactoryFraction": 0.324,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0005721266017963333,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3352,
+            "runtime": 182700,
+            "tFactoryFraction": 0.135,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0008031970749069945,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 72,
+                "errorRate": 6.805514929263812e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 4287,
+            "runtime": 182700,
+            "tFactoryFraction": 0.324,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0005721266017963333,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11718,
+            "runtime": 182700,
+            "tFactoryFraction": 0.753,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 1.5341652000000005e-05,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 9,
+                "states": 72,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1790,
+            "runtime": 101500,
+            "tFactoryFraction": 0.507,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009619441250368622,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 1.292533506995642e-05
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2271,
+            "runtime": 101500,
+            "tFactoryFraction": 0.612,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 3.362014294868561e-05,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1790,
+            "runtime": 101500,
+            "tFactoryFraction": 0.507,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009619441250368622,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 1.292533506995642e-05
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2271,
+            "runtime": 101500,
+            "tFactoryFraction": 0.612,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 3.362014294868561e-05,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 61122,
+            "runtime": 870000000,
+            "tFactoryFraction": 0.632,
+            "logicalQubits": 18,
+            "codeDistance": 25,
+            "error": 0.00015588000313200004,
+            "paretoPoints": 8,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 6,
+                "states": 72,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3806,
+            "runtime": 313200000,
+            "tFactoryFraction": 0.239,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0008031970749069945,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 6.805514929263812e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 4287,
+            "runtime": 313200000,
+            "tFactoryFraction": 0.324,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0005721266017963333,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3806,
+            "runtime": 313200000,
+            "tFactoryFraction": 0.239,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0008031970749069945,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 6.805514929263812e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 4287,
+            "runtime": 313200000,
+            "tFactoryFraction": 0.324,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 0.0005721266017963333,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 11718,
+            "runtime": 313200000,
+            "tFactoryFraction": 0.753,
+            "logicalQubits": 18,
+            "codeDistance": 9,
+            "error": 1.5341652000000005e-05,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 9,
+                "states": 72,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1790,
+            "runtime": 174000000,
+            "tFactoryFraction": 0.507,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009619441250368622,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 1.292533506995642e-05
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2271,
+            "runtime": 174000000,
+            "tFactoryFraction": 0.612,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 3.362014294868561e-05,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1790,
+            "runtime": 174000000,
+            "tFactoryFraction": 0.507,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 0.0009619441250368622,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 72,
+                "errorRate": 1.292533506995642e-05
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 2271,
+            "runtime": 174000000,
+            "tFactoryFraction": 0.612,
+            "logicalQubits": 18,
+            "codeDistance": 5,
+            "error": 3.362014294868561e-05,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 72,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "16_error_correction": {
+      "entryExpr": "Main.RunRepetitionCodeCycle(false, 0)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 1746,
+            "runtime": 7350,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 7,
+            "error": 0.00016200000000000003,
+            "paretoPoints": 1,
+            "magicStates": {}
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1746,
+            "runtime": 7350,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 7,
+            "error": 0.00016200000000000003,
+            "paretoPoints": 1,
+            "magicStates": {}
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1746,
+            "runtime": 7350,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 7,
+            "error": 0.00016200000000000003,
+            "paretoPoints": 1,
+            "magicStates": {}
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 306,
+            "runtime": 3150,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 3,
+            "error": 0.00016199999999999998,
+            "paretoPoints": 1,
+            "magicStates": {}
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 306,
+            "runtime": 3150,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 3,
+            "error": 0.00016199999999999998,
+            "paretoPoints": 1,
+            "magicStates": {}
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 306,
+            "runtime": 3150,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 3,
+            "error": 0.00016199999999999998,
+            "paretoPoints": 1,
+            "magicStates": {}
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 1746,
+            "runtime": 12600000,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 7,
+            "error": 0.00016200000000000003,
+            "paretoPoints": 1,
+            "magicStates": {}
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1746,
+            "runtime": 12600000,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 7,
+            "error": 0.00016200000000000003,
+            "paretoPoints": 1,
+            "magicStates": {}
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1746,
+            "runtime": 12600000,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 7,
+            "error": 0.00016200000000000003,
+            "paretoPoints": 1,
+            "magicStates": {}
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 306,
+            "runtime": 5400000,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 3,
+            "error": 0.00016199999999999998,
+            "paretoPoints": 1,
+            "magicStates": {}
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 306,
+            "runtime": 5400000,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 3,
+            "error": 0.00016199999999999998,
+            "paretoPoints": 1,
+            "magicStates": {}
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 306,
+            "runtime": 5400000,
+            "tFactoryFraction": null,
+            "logicalQubits": 18,
+            "codeDistance": 3,
+            "error": 0.00016199999999999998,
+            "paretoPoints": 1,
+            "magicStates": {}
+          }
+        }
+      }
+    },
+    "17_nuclear_physics": {
+      "entryExpr": "Main.NuclearQPE(10, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 666995,
+            "runtime": 21200628750,
+            "tFactoryFraction": 0.934,
+            "logicalQubits": 35,
+            "codeDistance": 25,
+            "error": 0.0008892012725387968,
+            "paretoPoints": 4,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 14,
+                "states": 2621067,
+                "errorRate": 2.133398959469632e-10
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 43995,
+            "runtime": 11024326950,
+            "tFactoryFraction": 0.732,
+            "logicalQubits": 35,
+            "codeDistance": 13,
+            "error": 0.0004773602167982779,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 2621067,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 6561,
+            "runtime": 7632226350,
+            "tFactoryFraction": 0.141,
+            "logicalQubits": 35,
+            "codeDistance": 9,
+            "error": 0.0007408164752038567,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 2621067,
+                "errorRate": 5.976200770910425e-11
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 666995,
+            "runtime": 36343935000000,
+            "tFactoryFraction": 0.934,
+            "logicalQubits": 35,
+            "codeDistance": 25,
+            "error": 0.0008892012725387968,
+            "paretoPoints": 4,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 14,
+                "states": 2621067,
+                "errorRate": 2.133398959469632e-10
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 43995,
+            "runtime": 18898846200000,
+            "tFactoryFraction": 0.732,
+            "logicalQubits": 35,
+            "codeDistance": 13,
+            "error": 0.0004773602167982779,
+            "paretoPoints": 3,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 10,
+                "states": 2621067,
+                "errorRate": 5.6300000000000015e-11
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": false,
+            "reason": "empty Pareto frontier at maxError 0.001"
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 7024,
+            "runtime": 13083816600000,
+            "tFactoryFraction": 0.198,
+            "logicalQubits": 35,
+            "codeDistance": 9,
+            "error": 0.0007408164752038567,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 2621067,
+                "errorRate": 5.976200770910425e-11
+              }
+            }
+          }
+        }
+      }
+    },
+    "18_photovoltaics": {
+      "entryExpr": "Main.RunExcitonWalk(10, 0.5, 1)",
+      "toffoliCount": 20,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 47188,
+            "runtime": 1767500,
+            "tFactoryFraction": 0.682,
+            "logicalQubits": 12,
+            "codeDistance": 25,
+            "error": 0.0006926810787199904,
+            "paretoPoints": 10,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 5,
+                "states": 210,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3346,
+            "runtime": 777700,
+            "tFactoryFraction": 0.136,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0009356256769915255,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 210,
+                "errorRate": 2.9755933597311195e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 636300,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009950230904027602,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 210,
+                "errorRate": 1.4186675692747566e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3346,
+            "runtime": 777700,
+            "tFactoryFraction": 0.136,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0009356256769915255,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 210,
+                "errorRate": 2.9755933597311195e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 636300,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009950230904027602,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 210,
+                "errorRate": 1.4186675692747566e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 9752,
+            "runtime": 739200,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0009228747873211972,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 200,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1042,
+            "runtime": 353500,
+            "tFactoryFraction": 0.436,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00048387495126752376,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 210,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1514,
+            "runtime": 336000,
+            "tFactoryFraction": 0.612,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0009557770041697684,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 200,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1042,
+            "runtime": 353500,
+            "tFactoryFraction": 0.436,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00048387495126752376,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 210,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1514,
+            "runtime": 336000,
+            "tFactoryFraction": 0.612,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0009557770041697684,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 200,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 47188,
+            "runtime": 3030000000,
+            "tFactoryFraction": 0.682,
+            "logicalQubits": 12,
+            "codeDistance": 25,
+            "error": 0.0006926810787199904,
+            "paretoPoints": 10,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 5,
+                "states": 210,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 3346,
+            "runtime": 1333200000,
+            "tFactoryFraction": 0.136,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0009356256769915255,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 210,
+                "errorRate": 2.9755933597311195e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 1144800000,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009785287330466672,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 220,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3346,
+            "runtime": 1333200000,
+            "tFactoryFraction": 0.136,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0009356256769915255,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 210,
+                "errorRate": 2.9755933597311195e-06
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 3321,
+            "runtime": 1144800000,
+            "tFactoryFraction": 0.418,
+            "logicalQubits": 12,
+            "codeDistance": 9,
+            "error": 0.0009785287330466672,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 220,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 9752,
+            "runtime": 1267200000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 11,
+            "error": 0.0009228747873211972,
+            "paretoPoints": 5,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 200,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1496,
+            "runtime": 606000000,
+            "tFactoryFraction": 0.607,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00048387495126752376,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 210,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1977,
+            "runtime": 576000000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0009557770041697684,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 200,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          },
+          "gsj24_3_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1496,
+            "runtime": 606000000,
+            "tFactoryFraction": 0.607,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.00048387495126752376,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 210,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15+ccx": {
+            "feasible": true,
+            "physicalQubits": 1977,
+            "runtime": 576000000,
+            "tFactoryFraction": 0.703,
+            "logicalQubits": 12,
+            "codeDistance": 5,
+            "error": 0.0009557770041697684,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 200,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "19_quantum_chromodynamics": {
+      "entryExpr": "Main.SimulateLatticeGauge(2, 1.0, 0.5, 3, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 54593,
+            "runtime": 716450,
+            "tFactoryFraction": 0.826,
+            "logicalQubits": 9,
+            "codeDistance": 23,
+            "error": 0.0004675329883331913,
+            "paretoPoints": 9,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 117,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2357,
+            "runtime": 280350,
+            "tFactoryFraction": 0.385,
+            "logicalQubits": 9,
+            "codeDistance": 9,
+            "error": 0.0009397251693347653,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 117,
+                "errorRate": 4.14698465838952e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2838,
+            "runtime": 280350,
+            "tFactoryFraction": 0.489,
+            "logicalQubits": 9,
+            "codeDistance": 9,
+            "error": 0.000875283692222233,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 117,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 9893,
+            "runtime": 377650,
+            "tFactoryFraction": 0.693,
+            "logicalQubits": 9,
+            "codeDistance": 13,
+            "error": 0.0008152487266051776,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 108,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1327,
+            "runtime": 203350,
+            "tFactoryFraction": 0.342,
+            "logicalQubits": 9,
+            "codeDistance": 7,
+            "error": 0.0008815001845739804,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 108,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1799,
+            "runtime": 203350,
+            "tFactoryFraction": 0.515,
+            "logicalQubits": 9,
+            "codeDistance": 7,
+            "error": 0.0007959152608041059,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 108,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 54593,
+            "runtime": 1228200000,
+            "tFactoryFraction": 0.826,
+            "logicalQubits": 9,
+            "codeDistance": 23,
+            "error": 0.0004675329883331913,
+            "paretoPoints": 9,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 117,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 2357,
+            "runtime": 480600000,
+            "tFactoryFraction": 0.385,
+            "logicalQubits": 9,
+            "codeDistance": 9,
+            "error": 0.0009397251693347653,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 117,
+                "errorRate": 4.14698465838952e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2838,
+            "runtime": 480600000,
+            "tFactoryFraction": 0.489,
+            "logicalQubits": 9,
+            "codeDistance": 9,
+            "error": 0.000875283692222233,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 3,
+                "states": 117,
+                "errorRate": 3.596202802726852e-06
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 9893,
+            "runtime": 647400000,
+            "tFactoryFraction": 0.693,
+            "logicalQubits": 9,
+            "codeDistance": 13,
+            "error": 0.0008152487266051776,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 7,
+                "states": 108,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1327,
+            "runtime": 348600000,
+            "tFactoryFraction": 0.342,
+            "logicalQubits": 9,
+            "codeDistance": 7,
+            "error": 0.0008815001845739804,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 1,
+                "states": 108,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 1799,
+            "runtime": 348600000,
+            "tFactoryFraction": 0.515,
+            "logicalQubits": 9,
+            "codeDistance": 7,
+            "error": 0.0007959152608041059,
+            "paretoPoints": 2,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 108,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    },
+    "20_space_mission_planning": {
+      "entryExpr": "Main.EvaluateQaoaMission([[2.5,1.8],[1.2,0.8],[3.1,2.4],[1.5,1.0]], 0.667588438887831, 1.3940817400304706, 1, 1)",
+      "toffoliCount": 0,
+      "profiles": {
+        "qubit_gate_ns_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 70255,
+            "runtime": 953750,
+            "tFactoryFraction": 0.733,
+            "logicalQubits": 15,
+            "codeDistance": 25,
+            "error": 0.0007272735049321866,
+            "paretoPoints": 10,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 182,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 4523,
+            "runtime": 419650,
+            "tFactoryFraction": 0.201,
+            "logicalQubits": 15,
+            "codeDistance": 11,
+            "error": 0.0009933518742432808,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 182,
+                "errorRate": 3.3574635945939254e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 4267,
+            "runtime": 343350,
+            "tFactoryFraction": 0.434,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0009486313415219079,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 182,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_ns_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 13875,
+            "runtime": 495950,
+            "tFactoryFraction": 0.636,
+            "logicalQubits": 15,
+            "codeDistance": 13,
+            "error": 0.0003720158705176865,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 9,
+                "states": 182,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1643,
+            "runtime": 190750,
+            "tFactoryFraction": 0.553,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0005323341958707821,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 182,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2587,
+            "runtime": 190750,
+            "tFactoryFraction": 0.716,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0003881077502585862,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 182,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e3": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 70255,
+            "runtime": 1635000000,
+            "tFactoryFraction": 0.733,
+            "logicalQubits": 15,
+            "codeDistance": 25,
+            "error": 0.0007272735049321866,
+            "paretoPoints": 10,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 8,
+                "states": 182,
+                "errorRate": 2.1650000000000004e-06
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 4523,
+            "runtime": 719400000,
+            "tFactoryFraction": 0.201,
+            "logicalQubits": 15,
+            "codeDistance": 11,
+            "error": 0.0009933518742432808,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 182,
+                "errorRate": 3.3574635945939254e-06
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 4267,
+            "runtime": 588600000,
+            "tFactoryFraction": 0.434,
+            "logicalQubits": 15,
+            "codeDistance": 9,
+            "error": 0.0009486313415219079,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 182,
+                "errorRate": 6.861969312896777e-07
+              }
+            }
+          }
+        },
+        "qubit_gate_us_e4": {
+          "round_based": {
+            "feasible": true,
+            "physicalQubits": 13875,
+            "runtime": 850200000,
+            "tFactoryFraction": 0.636,
+            "logicalQubits": 15,
+            "codeDistance": 13,
+            "error": 0.0003720158705176865,
+            "paretoPoints": 6,
+            "magicStates": {
+              "T": {
+                "source": "RoundBasedFactory",
+                "physical": false,
+                "factoryCopies": 9,
+                "states": 182,
+                "errorRate": 2.1303500000000005e-07
+              }
+            }
+          },
+          "gsj24_3_15": {
+            "feasible": true,
+            "physicalQubits": 1643,
+            "runtime": 327000000,
+            "tFactoryFraction": 0.553,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0005323341958707821,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 2,
+                "states": 182,
+                "errorRate": 8.243994277120638e-07
+              }
+            }
+          },
+          "gsj24_5_15": {
+            "feasible": true,
+            "physicalQubits": 2587,
+            "runtime": 327000000,
+            "tFactoryFraction": 0.716,
+            "logicalQubits": 15,
+            "codeDistance": 5,
+            "error": 0.0003881077502585862,
+            "paretoPoints": 1,
+            "magicStates": {
+              "T": {
+                "source": "GSJ24Factory",
+                "physical": false,
+                "factoryCopies": 4,
+                "states": 182,
+                "errorRate": 3.194642984285564e-08
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

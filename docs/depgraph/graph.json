@@ -1,12 +1,12 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1318,
+    "tracked": 1320,
     "code_files": 318,
     "python": 248,
     "qsharp": 55,
     "ts": 15,
-    "edges": 248,
+    "edges": 249,
     "roots": 303,
     "reachable": 342
   },
@@ -1150,6 +1150,10 @@
     [
       "tooling/show_trace.py",
       "agents/observability/trace.py"
+    ],
+    [
+      "tooling/test_estimate_provenance.py",
+      "tooling/generate_estimates.py"
     ],
     [
       "tooling/test_logical_counts.py",

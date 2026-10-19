@@ -210,11 +210,19 @@ export default function EvaluatePage() {
   const stopVoiceRecognition = useCallback(({ abort = false }: { abort?: boolean } = {}) => {
     const recognition = voiceRecognition.current;
     if (!recognition) return;
-    voiceRecognition.current = null;
-    recognition.onresult = null;
-    recognition.onerror = null;
-    recognition.onend = null;
-    if (abort) recognition.abort();
+    try {
+      if (abort) {
+        recognition.abort();
+      } else {
+        recognition.stop();
+      }
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      voiceRecognition.current = null;
+    } catch {
+      // Leave the active recognition session attached if shutdown fails.
+    }
   }, []);
 
   useEffect(() => {

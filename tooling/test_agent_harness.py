@@ -311,9 +311,17 @@ def test_agent_codespace_and_ci_install_the_same_packages():
 def test_agent_codespace_ci_and_deploy_use_the_same_supported_node():
     versions = {}
     for workflow in (WORKFLOWS / "deploy-website.yml", WORKFLOWS / "ci-cd.yml", SETUP_STEPS):
-        pins = re.findall(r"node-version:\s*'?(\d+)", workflow.read_text(encoding="utf-8"))
+        doc = load_yaml(workflow)
+        pins = [
+            step.get("with", {}).get("node-version")
+            for job in doc.get("jobs", {}).values()
+            for step in job.get("steps", [])
+            if step.get("uses", "").startswith("actions/setup-node@")
+        ]
         assert len(pins) == 1, f"{workflow.name} should pin Node once, found {pins}"
-        versions[workflow.name] = int(pins[0])
+        match = re.fullmatch(r"v?(\d+)(?:\.(?:\d+|x)){0,2}", str(pins[0]).strip())
+        assert match, f"{workflow.name} must use a numeric Node version, found {pins[0]!r}"
+        versions[workflow.name] = int(match.group(1))
     container = json.loads((REPO / ".devcontainer" / "devcontainer.json").read_text(encoding="utf-8"))
     versions["devcontainer.json"] = int(container["features"]["ghcr.io/devcontainers/features/node:1"]["version"])
     assert len(set(versions.values())) == 1, versions

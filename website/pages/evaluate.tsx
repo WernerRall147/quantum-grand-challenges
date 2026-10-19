@@ -304,12 +304,20 @@ export default function EvaluatePage() {
 
     const activeRecognition = voiceRecognition.current;
     if (activeRecognition) {
-      voiceRecognition.current = null;
       setIsListening(false);
       try {
         activeRecognition.stop();
       } catch {
-        // onend remains the final cleanup path when stop succeeds.
+        try {
+          activeRecognition.abort();
+        } catch {
+          activeRecognition.onresult = null;
+          activeRecognition.onerror = null;
+          activeRecognition.onend = null;
+          if (voiceRecognition.current === activeRecognition) {
+            voiceRecognition.current = null;
+          }
+        }
       }
       return;
     }

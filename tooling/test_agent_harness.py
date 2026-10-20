@@ -308,6 +308,13 @@ def test_agent_codespace_and_ci_install_the_same_packages():
         "the cloud agent and a codespace would install different packages")
 
 
+def node_major(pin, where: str) -> int:
+    """The major version of a Node pin such as 24, '24', 'v24.1.0' or '24.x'."""
+    match = re.fullmatch(r"v?(\d+)(?:\.(?:\d+|x)){0,2}", str(pin).strip())
+    assert match, f"{where} must pin a numeric Node version, found {pin!r}"
+    return int(match.group(1))
+
+
 def test_agent_codespace_ci_and_deploy_use_the_same_supported_node():
     versions = {}
     for workflow in (WORKFLOWS / "deploy-website.yml", WORKFLOWS / "ci-cd.yml", SETUP_STEPS):
@@ -318,15 +325,19 @@ def test_agent_codespace_ci_and_deploy_use_the_same_supported_node():
             for step in job.get("steps", [])
             if step.get("uses", "").startswith("actions/setup-node@")
         ]
-        assert len(pins) == 1, f"{workflow.name} should pin Node once, found {pins}"
-        match = re.fullmatch(r"v?(\d+)(?:\.(?:\d+|x)){0,2}", str(pins[0]).strip())
-        assert match, f"{workflow.name} must use a numeric Node version, found {pins[0]!r}"
-        versions[workflow.name] = int(match.group(1))
+        assert pins, f"{workflow.name} no longer sets up Node"
+        # A step without node-version is not skipped: it would leave the runner's Node on PATH.
+        majors = {node_major(pin, workflow.name) for pin in pins}
+        assert len(majors) == 1, f"{workflow.name} sets up different Node versions: {pins}"
+        versions[workflow.name] = majors.pop()
     container = json.loads((REPO / ".devcontainer" / "devcontainer.json").read_text(encoding="utf-8"))
-    versions["devcontainer.json"] = int(container["features"]["ghcr.io/devcontainers/features/node:1"]["version"])
+    versions["devcontainer.json"] = node_major(
+        container["features"]["ghcr.io/devcontainers/features/node:1"]["version"], "devcontainer.json")
     assert len(set(versions.values())) == 1, versions
     # Copilot code review starts its runtime with the Node the setup steps leave on PATH. The
-    # runtime is an ES module that Node 18 cannot load, so every review crashed while the pin was 18.
+    # runtime is a .js file in ES module syntax with no "type": "module" marker. Node 18 parses
+    # it as CommonJS and fails ("Cannot use import statement outside a module"). Node 22.7 made
+    # module syntax detection the default, which runs it as an ES module. This reads majors only.
     assert versions[SETUP_STEPS.name] >= 22, versions
 
 

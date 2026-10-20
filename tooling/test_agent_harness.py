@@ -337,8 +337,9 @@ def test_agent_codespace_ci_and_deploy_use_the_same_supported_node():
     # Copilot code review starts its runtime with the Node the setup steps leave on PATH. The
     # runtime is a .js file in ES module syntax with no "type": "module" marker. Node 18 parses
     # it as CommonJS and fails ("Cannot use import statement outside a module"). Node 22.7 made
-    # module syntax detection the default, which runs it as an ES module. This reads majors only.
-    assert versions[SETUP_STEPS.name] >= 22, versions
+    # module syntax detection the default, which runs it as an ES module. This reads majors
+    # only, so it requires 24, where every release has detection on.
+    assert versions[SETUP_STEPS.name] >= 24, versions
 
 
 @pytest.mark.parametrize("path", sorted(WORKFLOWS.glob("*.y*ml")), ids=lambda p: p.name)

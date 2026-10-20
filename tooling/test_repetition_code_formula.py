@@ -52,9 +52,9 @@ def _decode(received: tuple[int, ...]) -> int:
     return 1 if 2 * sum(received) > len(received) else 0
 
 
-# Enumeration costs 2^d. At d = 15 every rate and sent bit together took 0.69 s on a laptop,
-# and each step of 2 in d multiplies that by 4, so a larger instance fails here at once
-# instead of stalling CI.
+# Enumeration costs 2^d. At d = 15 every rate and sent bit together take under a second on a
+# laptop, and each step of 2 in d multiplies that by 4, so a larger instance fails here at
+# once instead of stalling CI.
 MAX_ENUMERATED_DISTANCE = 15
 
 

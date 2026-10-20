@@ -31,7 +31,9 @@ PROBLEM = REPO_ROOT / "problems" / "16_error_correction"
 @functools.cache
 def _baseline():
     name = "qec_classical_baseline"
-    spec = importlib.util.spec_from_file_location(name, PROBLEM / "python" / "classical_baseline.py")
+    path = PROBLEM / "python" / "classical_baseline.py"
+    spec = importlib.util.spec_from_file_location(name, path)
+    assert spec is not None and spec.loader is not None, f"cannot load {path}"
     module = importlib.util.module_from_spec(spec)
     sys.modules[name] = module  # @dataclass resolves its class's module through sys.modules
     spec.loader.exec_module(module)
@@ -50,14 +52,23 @@ def _decode(received: tuple[int, ...]) -> int:
     return 1 if 2 * sum(received) > len(received) else 0
 
 
+# Enumeration costs 2^d. At d = 15 every rate and sent bit together took 0.69 s on a laptop,
+# and each step of 2 in d multiplies that by 4, so a larger instance fails here at once
+# instead of stalling CI.
+MAX_ENUMERATED_DISTANCE = 15
+
+
 def enumerated_failure_probability(d: int, q: float, sent: int) -> float:
     """`failureProb` in RepetitionCode.lean, by enumerating all 2^d flip patterns."""
-    total = 0.0
+    assert d <= MAX_ENUMERATED_DISTANCE, (
+        f"d = {d} means enumerating 2^{d} flip patterns; raise MAX_ENUMERATED_DISTANCE "
+        "knowingly, or check larger distances some other way")
+    terms = []
     for flips in itertools.product((0, 1), repeat=d):
         if _decode(tuple(sent ^ flip for flip in flips)) != sent:
             k = sum(flips)
-            total += q**k * (1 - q) ** (d - k)
-    return total
+            terms.append(q**k * (1 - q) ** (d - k))
+    return math.fsum(terms)
 
 
 DISTANCES = _instance_distances()

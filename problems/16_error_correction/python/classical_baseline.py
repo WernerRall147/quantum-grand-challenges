@@ -11,6 +11,28 @@ from typing import Dict, List, Optional
 import yaml
 
 
+# Published with the results so the qualifiers travel with the numbers (#297).
+MODEL_NOTES = {
+    "noise": (
+        "Each of the code_distance data bits flips independently with probability physical_error "
+        "in each of measurement_rounds rounds. There is no correction between rounds, one majority "
+        "vote at the end, and no measurement error."
+    ),
+    "logical_error": (
+        "Exact when measurement_rounds is 1 and an upper bound when it is larger. The rounds are "
+        "folded into effective_p = 1 - (1 - p)^rounds, the probability of at least one flip, but two "
+        "flips on one bit cancel, so the probability that a bit ends up flipped is "
+        "(1 - (1 - 2p)^rounds) / 2."
+    ),
+    "suppression": "physical_error / logical_error, so a lower bound wherever logical_error is an upper bound.",
+    "pseudo_threshold": (
+        "The smallest swept physical_error at which logical_error is at or below it, not the "
+        "crossing point the name usually means."
+    ),
+    "bias": "A value other than 1.0 applies a heuristic weighting, not a noise model.",
+}
+
+
 @dataclass(frozen=True)
 class QecInstance:
     instance_id: str
@@ -44,6 +66,15 @@ def load_instances(instances_dir: Path) -> List[QecInstance]:
 
 
 def repetition_logical_error(distance: int, physical_error: float, rounds: int, bias: float) -> float:
+    """Probability that one majority vote over ``distance`` bits decodes wrongly.
+
+    Each bit flips independently with probability ``physical_error`` in each round, with no
+    correction until the vote. ``effective_p`` is the probability of at least one flip. Two
+    flips on one bit cancel, so the probability that a bit ends up flipped is
+    (1 - (1 - 2p)^rounds) / 2: equal for one round, smaller for more. The result is therefore
+    exact for one round and an upper bound otherwise (#297). ``bias`` other than 1.0 applies a
+    heuristic weighting, not a noise model.
+    """
     effective_p = 1.0 - (1.0 - physical_error) ** rounds
     threshold = distance // 2 + 1
     failure_prob = 0.0
@@ -111,6 +142,7 @@ def main() -> None:
     payload = {
         "problem_id": "16_error_correction",
         "model": "repetition_code_analytical",
+        "model_notes": MODEL_NOTES,
         "results": payload_results,
     }
 

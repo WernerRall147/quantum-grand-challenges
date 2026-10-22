@@ -23,6 +23,11 @@ elsewhere. Write every claim as if a referee will check it, because one will.
   repeating the number.
 - **State the conditions:** instance size, error model, shot count, intervals, simulator versus
   hardware.
+- **Qualifiers travel with the number.** A fidelity without its post-selection rate, or a gate
+  count without its cost model, is a different and stronger claim. Coverage of arXiv:2512.13908
+  turned "a state fidelity of 0.9999(1) (retaining 8% of attempts)", for a prepared T state, into
+  "99.99% logical fidelity". When you quote a number, carry every qualifier the source attaches
+  to it.
 
 ## Guards that already exist
 
@@ -34,6 +39,7 @@ elsewhere. Write every claim as if a referee will check it, because one will.
 | `tooling/test_architecture_claims.py` | The file tree in `docs/architecture.md` names real files |
 | `tooling/test_website_claims.py` | Rendering and data claims in the website source |
 | `tooling/test_script_claims.py` | The recording script's headline numbers against the code |
+| `tooling/test_frontier_results.py` | The frontier-results register: every claim has conditions, one kind of evidence and its limits; arXiv identifiers are versioned; named problems and zoo entries exist |
 
 When you correct a claim that could recur, extend the matching guard and watch it fail on the old
 wording before you change the text. Past counts written as history end their line with
@@ -45,6 +51,27 @@ wording before you change the text. Past counts written as history end their lin
   page, not recall. Note the version.
 - Quote or paraphrase what the source says, for the same setting: problem size, error model,
   assumptions. A number that is not in the source is not a citation.
+
+## Results from the literature
+
+A published result that bears on this repository's numbers or verdicts goes in
+`knowledge/data/frontier_results.json`, which owns such facts. A person adds each entry after
+reading the source; nothing is ingested into it automatically. Each claim names its location in
+the source, its conditions, what it does not establish, and one kind of evidence. If a result is
+supported in two ways, write two claims.
+
+| Evidence | Meaning |
+|---|---|
+| `hardware-measured` | Measured on a physical device. Give the device, post-selection and the stated uncertainty. |
+| `numerical-simulation` | A classical simulation of a model, such as Monte Carlo, state vector or stabilizer. Give the noise model. |
+| `analytical-estimate` | A resource or performance estimate from formulas or a cost model, not run. |
+| `logical-count-certified-by-code` | Exact logical gate and qubit counts from released code that a reader can re-run. |
+| `sampled-verification` | Correctness from random tests with a stated statistical guarantee, which holds for the test distribution only. |
+| `formally-proved` | A mathematical statement checked by a proof assistant. It does not show that code implements the statement. |
+| `zero-knowledge-proof` | Validated by a zero-knowledge proof, with the construction withheld. |
+
+Library docstrings are not sources. qdk 1.31.0's `GSJ24Factory` docstring cites arXiv:2409.17595
+under a title the arXiv record does not have.
 
 ## Dates
 

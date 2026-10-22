@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/1nqYOdneyw8tcC8d3ZUyRvNDh4U</id>
+  <title>arXiv Query: search_query=( (abs:"large language model" OR abs:LLM OR abs:AlphaEvolve OR abs:OpenEvolve OR abs:FunSearch) AND (abs:"quantum circuit" OR abs:"quantum algorithm" OR abs:"quantum computation" OR abs:"quantum program") ) AND submittedDate:"202610120000 TO 202610132359"&amp;id_list=&amp;start=0&amp;max_results=50</title>
+  <updated>2026-10-18T18:30:28Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=((abs:%22large+language+model%22+OR+(abs:LLM+OR+(abs:AlphaEvolve+OR+(abs:OpenEvolve+OR+abs:FunSearch))))+AND+(abs:%22quantum+circuit%22+OR+(abs:%22quantum+algorithm%22+OR+(abs:%22quantum+computation%22+OR+abs:%22quantum+program%22))))+AND+submittedDate:%22202610120000+TO+202610132359%22&amp;start=0&amp;max_results=50&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>50</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2610.17708v1</id>
+    <title>QEDIA: Quantum Program Verification in Lean</title>
+    <updated>2026-10-13T04:36:21Z</updated>
+    <link href="https://arxiv.org/abs/2610.17708v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2610.17708v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>Practical quantum programs interleave quantum and classical computation: classical data shape the quantum operations that are performed, and measurement outcomes shape the classical computation that follows. Formal verification of such programs in a proof assistant requires mechanizing a program logic that handles this interplay consistently at every level, from the mathematics of quantum mechanics, through program syntax and semantics, to specifications and proof rules. Such mechanizations, along with the program proofs built on them, typically require substantial manual effort.
+  We present QEDIA, a framework for verifying quantum programs with classical variables in Lean 4. At its foundation is an open library that formalizes the quantum Hoare logic QHL+ across all these levels and proves the logic sound for both partial and total correctness. We construct the library and the program proofs, under human supervision, using an LLM-based prover agent, whose general-purpose core we extend for quantum program verification. We illustrate QEDIA with verified programs including the quantum Fourier transform, phase estimation, repeat-until-success circuits, and Hamiltonian simulation.</summary>
+    <category term="quant-ph" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.PL" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2026-10-13T04:36:21Z</published>
+    <arxiv:primary_category term="quant-ph"/>
+    <author>
+      <name> Yuanjie</name>
+      <arxiv:affiliation>Collin</arxiv:affiliation>
+    </author>
+    <author>
+      <name> Ren</name>
+    </author>
+    <author>
+      <name>Zhicheng Zhang</name>
+    </author>
+    <author>
+      <name>Junyi Liu</name>
+    </author>
+    <author>
+      <name>Jinzheng Li</name>
+    </author>
+    <author>
+      <name>Yidi Qi</name>
+    </author>
+    <author>
+      <name>Mingsheng Ying</name>
+    </author>
+  </entry>
+</feed>

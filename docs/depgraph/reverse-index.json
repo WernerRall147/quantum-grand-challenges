@@ -107,6 +107,10 @@
   "agents/tests/test_container_contents.py": [
     ".github/workflows/deploy-evaluator-api.yml"
   ],
+  "knowledge/ingest/arxiv_ingester.py": [
+    "tooling/sota_watch.py",
+    "tooling/test_sota_watch.py"
+  ],
   "knowledge/search/kb_client.py": [
     "agents/evaluations/run_eval.py",
     "agents/evaluations/run_foundry_eval.py",
@@ -469,6 +473,9 @@
   ],
   "tooling/run_all_qsharp.py": [
     ".github/workflows/ci-cd.yml"
+  ],
+  "tooling/sota_watch.py": [
+    ".github/workflows/sota-watch.yml"
   ],
   "tooling/submit_one_kernel.py": [
     "tooling/test_submit_one_kernel.py"

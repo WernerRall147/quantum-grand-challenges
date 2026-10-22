@@ -1,0 +1,56 @@
+name: Lean proofs
+
+# Builds formal/ and fails on an unfinished proof, a warning, or a theorem that rests on an
+# axiom beyond Lean's standard three. Decision and measurements: docs/adr/0002-lean-formal-proofs.md.
+on:
+  pull_request:
+    paths:
+      - 'formal/**'
+      - '.github/workflows/lean-proofs.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'formal/**'
+      - '.github/workflows/lean-proofs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and audit formal/
+    runs-on: ubuntu-24.04
+    # A cold run measured 138 s. Without Mathlib's prebuilt files, Lake would build Mathlib
+    # from source for hours; fail instead.
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: formal
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reject tactics and declarations that skip the kernel's check
+        run: |
+          if grep -rnwE --include='*.lean' --exclude-dir=.lake 'sorry|admit|native_decide' . \
+            || grep -rnE --include='*.lean' --exclude-dir=.lake '^[[:space:]]*((private|protected|public|noncomputable|unsafe)[[:space:]]+)*axiom[[:space:]]' .; then
+            echo "::error::formal/ must not use sorry, admit, native_decide or axiom"
+            exit 1
+          fi
+
+      - name: Install elan 4.2.4, checksum-pinned
+        run: |
+          curl -sSfL -o /tmp/elan.tar.gz https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz
+          echo "42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/elan.tar.gz -C /tmp
+          /tmp/elan-init -y --default-toolchain none --no-modify-path
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Show the toolchain
+        run: lean --version
+
+      - name: Fetch Mathlib's prebuilt files
+        run: lake exe cache get
+
+      - name: Build every proof and the axiom audit, failing on any warning
+        run: lake build --wfail

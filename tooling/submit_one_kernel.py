@@ -89,9 +89,9 @@ def compile_kernel(kernel_path: Path, target_id: str):
         raise SystemExit("FAIL: no @EntryPoint in the kernel")
     entry = match.group(1)
 
-    # Most kernels branch on mid-circuit measurements, which needs Adaptive_RI. The
-    # local simulator and Quantinuum accept it, as in run_simulator_matrix.py; the
-    # other cloud targets take Base.
+    # Every kernel is written for Adaptive_RI, and 16_error_correction branches on a
+    # mid-circuit measurement, which Base rejects. The local simulator and Quantinuum
+    # accept Adaptive_RI, as in run_simulator_matrix.py; the other cloud targets take Base.
     profile = (
         qsharp.TargetProfile.Adaptive_RI if target_id == "local" or "quantinuum" in target_id
         else qsharp.TargetProfile.Base

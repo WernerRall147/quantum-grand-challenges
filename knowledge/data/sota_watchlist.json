@@ -110,13 +110,12 @@
       "bears_on": [
         {
           "path": "formal/",
-          "planned": "#294",
           "check": "Lean 4 proofs of the mathematics this repository relies on"
         },
         {
           "path": "problems/16_error_correction/python/classical_baseline.py",
           "where": "repetition_logical_error",
-          "check": "the repetition-code failure formula #294 proposes to prove first"
+          "check": "the repetition-code failure formula, proved for odd distances in formal/QGC/RepetitionCode.lean"
         }
       ]
     }

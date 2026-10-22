@@ -432,7 +432,8 @@
     "tooling/test_qae_kernel.py"
   ],
   "tooling/generate_estimates.py": [
-    ".github/workflows/nightly.yml"
+    ".github/workflows/nightly.yml",
+    "tooling/test_estimate_provenance.py"
   ],
   "tooling/ingest_zoo_references.py": [
     ".github/workflows/nightly.yml"

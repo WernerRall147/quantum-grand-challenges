@@ -1,12 +1,12 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1344,
+    "tracked": 1346,
     "code_files": 324,
     "python": 254,
     "qsharp": 55,
     "ts": 15,
-    "edges": 253,
+    "edges": 254,
     "roots": 310,
     "reachable": 350
   },
@@ -1164,6 +1164,10 @@
     [
       "tooling/sota_watch.py",
       "knowledge/ingest/arxiv_ingester.py"
+    ],
+    [
+      "tooling/test_estimate_provenance.py",
+      "tooling/generate_estimates.py"
     ],
     [
       "tooling/test_logical_counts.py",

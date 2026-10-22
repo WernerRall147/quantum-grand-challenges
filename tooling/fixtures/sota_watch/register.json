@@ -1,0 +1,8 @@
+{
+  "description": "Fixture for tooling/test_sota_watch.py, in the shape of knowledge/data/frontier_results.json (#291) and trimmed to the fields the watch reads. The second entry holds a later version than the recorded feed, and the third has no arXiv identifier.",
+  "entries": [
+    {"id": "gu-2026-llm-discovered-circuits", "identifiers": {"arxiv": "2610.22367v1"}},
+    {"id": "fixture-later-version", "identifiers": {"arxiv": "arXiv:2610.17286v2"}},
+    {"id": "fixture-doi-only", "identifiers": {"doi": "10.1126/science.aee7961"}}
+  ]
+}

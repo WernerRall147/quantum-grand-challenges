@@ -10,7 +10,7 @@ the repository's instructions), and the history behind two of the rules.
 
 - Q# runs through the `qdk` Python package, pinned to 1.31.0 and imported as
   `from qdk import qsharp`. There is no .NET toolchain.
-- Python 3.11, and Node 18 for `website/`. The install line is the one in
+- Python 3.11, and Node 24 for `website/`. The install line is the one in
   `.github/workflows/ci-cd.yml`, repeated in `AGENTS.md`.
 - Compile every Q# project: `python tooling/ci_validate_qsharp.py`. Main test suites:
   `python -m pytest agents/tests -q` and `python -m pytest tooling viz -q`.

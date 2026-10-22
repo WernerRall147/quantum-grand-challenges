@@ -29,7 +29,7 @@ demonstrates quantum advantage on available hardware, and nothing here may say o
 
 ## Environment
 
-Python 3.11, the `qdk` package pinned to 1.31.0 (no .NET), Node 18 for the website. The cloud
+Python 3.11, the `qdk` package pinned to 1.31.0 (no .NET), Node 24 for the website. The cloud
 agent gets all of this from `.github/workflows/copilot-setup-steps.yml`, which installs exactly
 what CI installs. The `-r` adds the evaluator API's pinned packages, the versions the
 `Dockerfile` ships, so tests run against what production runs:

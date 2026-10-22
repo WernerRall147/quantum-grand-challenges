@@ -114,6 +114,14 @@ RETRACTED = [
         id="rsa-2048-logical-qubits",
     ),
     pytest.param(
+        r"grows a T state inside a surface[- ]code patch",
+        "Cultivation prepares and checks the T state in a small color code, then grafts it into a "
+        "larger surface code; the whole process fits inside a surface-code patch (arXiv:2409.17595v1, "
+        "abstract and Section 2.1). On hardware the state was cultivated in a distance-3 color code "
+        "and grafted into a distance-5 surface code as a separate step (arXiv:2512.13908v1).",
+        id="cultivation-is-not-grown-in-the-surface-code",
+    ),
+    pytest.param(
         r"largest device today",
         "The width shown is the device the cost was priced on (56 qubits for Quantinuum H2); "
         "Rigetti (108) and Pasqal (100) in the same price list are larger.",

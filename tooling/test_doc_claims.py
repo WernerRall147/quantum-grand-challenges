@@ -221,3 +221,63 @@ def test_paper_names_the_factory_model_behind_each_t_factory_share() -> None:
         "these paragraphs of the paper give a T-factory share without naming the factory "
         "model (round-based or cultivation): " + " | ".join(line[:160] for line in unnamed)
     )
+
+
+SCENARIO = REPO_ROOT / "docs" / "estimates" / "cultivation-scenario.json"
+TROYER = REPO_ROOT / "website" / "data" / "troyerAssessment.json"
+_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six"}
+
+
+def test_paper_quotes_the_cultivation_projection_as_generated() -> None:
+    """Lesson 3 of the paper quotes the labelled cultivation projection (#304) on the profile
+    and error budget of the published estimates. Every number it gives is recomputed here
+    from the generated JSON, so a regenerated projection with other results fails this test
+    until the paper says what the projection now says."""
+    data = json.loads(SCENARIO.read_text(encoding="utf-8"))
+    profile, larger = "qubit_gate_ns_e3", "gsj24_5_15"
+    factories = ("gsj24_3_15", larger)
+    algorithms = {
+        p["id"]: p["algorithm"]
+        for category in json.loads(TROYER.read_text(encoding="utf-8"))["categories"].values()
+        for p in category["problems"]
+    }
+
+    def cells(name: str) -> dict:
+        return data["problems"][name]["profiles"][profile]
+
+    def share(name: str, factory: str) -> int:
+        return round(100 * cells(name)[factory]["physicalQubits"] / cells(name)["round_based"]["physicalQubits"])
+
+    qaoa = sorted(n for n, a in algorithms.items() if "QAOA" in a)
+    qpe = sorted(n for n, a in algorithms.items() if "QPE" in a)
+    assert all(cells(n)[f]["feasible"] for n in qaoa for f in factories)
+    ratios = [share(n, f) for n in qaoa for f in factories]
+    held = [round(100 * cells(n)[f]["tFactoryFraction"]) for n in qaoa for f in factories]
+    qae = "03_qae_risk"
+    assert not cells(qae)["gsj24_3_15"]["feasible"] and cells(qae)[larger]["feasible"]
+    unfit = [n for n in qpe if not any(cells(n)[f]["feasible"] for f in factories)]
+    fit = [n for n in qpe if n not in unfit]
+    assert len(fit) == 1 and not cells(fit[0])["gsj24_3_15"]["feasible"], fit
+    lowest = data["profiles"][profile]["cultivation"][larger]["lowestTStateError"]
+    t_states = [cells(n)["round_based"]["magicStates"]["T"]["states"] for n in unfit]
+
+    paragraph = next(
+        p for p in PAPER.read_text(encoding="utf-8").split("\n\n")
+        if "Mock estimates previously created false confidence" in p
+    )
+    expected = [
+        f"the QAOA kernels then take {min(ratios)}-{max(ratios)}% of their round-based physical qubits",
+        f"with cultivation factories holding {min(held)}-{max(held)}% of them",
+        f"QAE takes {share(qae, larger)}%, but only at the larger of the model's two cultivation distances",
+        f"{_WORDS[len(unfit)].capitalize()} of the {_WORDS[len(qpe)]} QPE estimates do not fit the error budget",
+        f"at this physical error rate, {lowest:.1e}, at most about "
+        f"{data['maxError'] / lowest / 1e6:.2f} million T states fit",
+        f"their round-based estimates use {min(t_states) / 1e6:.1f} to {max(t_states) / 1e6:.1f} million",
+        f"The {('first', 'second', 'third', 'fourth', 'fifth')[len(qpe) - 1]}, "
+        f"{fit[0].split('_', 1)[1].replace('_', ' ')}, takes {share(fit[0], larger)}% at the larger distance",
+    ]
+    missing = [phrase for phrase in expected if phrase not in paragraph]
+    assert not missing, (
+        "lesson 3 of the paper does not quote docs/estimates/cultivation-scenario.json as it now "
+        "stands; it should contain: " + " | ".join(missing)
+    )

@@ -82,6 +82,23 @@ def test_local_target_finds_the_marked_state_without_azure():
     assert "the marked state was found" in result.stdout
 
 
+def test_local_target_runs_a_kernel_that_branches_on_measurements():
+    """QECKernel picks its correction from measured syndromes, which needs Adaptive_RI.
+
+    Under the Base profile `local` fails to compile it, so it only worked for kernels
+    that never branch, like Grover's.
+    """
+    result = subprocess.run(
+        [sys.executable, str(REPO / "tooling" / "submit_one_kernel.py"), "16_error_correction", "local",
+         "--shots", "50"],
+        capture_output=True, text=True, timeout=300,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    rows = re.findall(r"^(\[[01]\])\s+(\d+)\s", result.stdout, re.MULTILINE)
+    assert rows and {outcome for outcome, _ in rows} <= {"[0]", "[1]"}, result.stdout
+    assert sum(int(n) for _, n in rows) == 50, "every shot reached the simulator\n" + result.stdout
+
+
 MY_WORKSPACE = "/subscriptions/0000/resourceGroups/mine/providers/Microsoft.Quantum/Workspaces/mine"
 
 

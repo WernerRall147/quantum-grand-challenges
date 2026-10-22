@@ -52,7 +52,8 @@
               "unit": "ratio of TQ-costs",
               "qualifiers": [
                 "Baseline T = 5.1e6, Q = 1,938; discovered T = 4.4e5, Q = 1,837 (rounded as in the paper)",
-                "The baseline is the extended-Euclidean decoder of Khattar et al. (arXiv:2510.10967), on their primary instance: 70 syndromes, at most 35 errors"
+                "The baseline is the extended-Euclidean decoder of Khattar et al. (arXiv:2510.10967), on their primary instance: 70 syndromes, at most 35 errors",
+                "Checked by sampling: the task allows up to 100 failures in 100,000 tests on inputs from the DQI input distribution, the discovered circuit had 7 wrong signs, and the allowance bounds the failure probability under that distribution at 2.434e-3 with 97.5% confidence, not for every input (uncompute, tasks/dqi-reed-solomon/README.md, 'Certified results' and section 6)"
               ]
             },
             {

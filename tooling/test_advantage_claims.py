@@ -243,3 +243,71 @@ def test_every_qpe_ground_state_entry_states_the_overlap_condition():
         assert "overlap" in entry["speedup"], (
             f"{entry['id']} claims '{entry['speedup']}' without the initial-state overlap it depends on"
         )
+
+
+# Estimates that hold only under their stated conditions. Wherever one is published, its
+# conditions must be in the same passage, so that a reader cannot take the number without them.
+QUALIFIED_SURFACES = SURFACES + (
+    "knowledge/data/algorithm_zoo_index.json",
+    "knowledge/ingest/algorithm_zoo_parser.py",
+    "tooling/expand_algorithm_zoo.py",
+)
+
+QUALIFIED = [
+    pytest.param(
+        (r"RSA", r"under a week"),
+        (r"square grid", r"0\.1%", r"\b1 (?:microsecond|µs)", r"\b10 (?:microsecond|µs)"),
+        "Gidney's estimate (arXiv:2505.15917v1, abstract) assumes a square grid of qubits with "
+        "nearest-neighbour connections, a uniform 0.1% gate error rate, a 1 microsecond surface "
+        "code cycle and a 10 microsecond control system reaction time.",
+        id="rsa-2048-under-a-week",
+    ),
+    pytest.param(
+        (r"4\.4e5 Toffolis",),
+        (r"GF\(2\^12\)", r"35 symbol errors", r"kickmix", r"100,000", r"97\.5%"),
+        "Gu et al.'s decoder counts are logical counts in the kickmix circuit model, on Khattar et "
+        "al.'s instance of 70 syndrome symbols over GF(2^12) with at most 35 symbol errors, for a "
+        "circuit allowed 100 failures in 100,000 sampled tests. The allowance bounds its failure "
+        "probability under the DQI input distribution at 2.434e-3 with 97.5% confidence "
+        "(github.com/andigu/uncompute, tasks/dqi-reed-solomon/README.md, section 6).",
+        id="dqi-decoder-comparison",
+    ),
+]
+
+
+def _strings(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for item in value.values():
+            yield from _strings(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _strings(item)
+
+
+def _passages(path: Path) -> list[str]:
+    """What a reader takes as one statement: a JSON string, a Markdown paragraph, or a line."""
+    raw = path.read_text(encoding="utf-8-sig")
+    if path.suffix == ".json":
+        return list(_strings(json.loads(raw)))
+    if path.suffix == ".md":
+        return re.split(r"\n\s*\n", raw)
+    return raw.splitlines()
+
+
+@pytest.mark.parametrize("claim, conditions, truth", QUALIFIED)
+def test_a_conditional_estimate_is_published_with_its_conditions(claim, conditions, truth):
+    files: set[Path] = set()
+    for pattern in QUALIFIED_SURFACES:
+        files.update(p for p in ROOT.glob(pattern) if p.is_file())
+    published, bare = 0, []
+    for path in sorted(files):
+        for passage in _passages(path):
+            if all(re.search(part, passage, re.IGNORECASE) for part in claim):
+                published += 1
+                missing = [c for c in conditions if not re.search(c, passage, re.IGNORECASE)]
+                if missing:
+                    bare.append(f"{path.relative_to(ROOT).as_posix()}: lacks {missing}: {passage[:160]}...")
+    assert published, f"{claim} is published nowhere now; remove this entry so the scan stays meaningful"
+    assert not bare, f"Published without its conditions. What is true: {truth}\n" + "\n".join(bare)

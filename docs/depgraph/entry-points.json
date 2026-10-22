@@ -8,6 +8,7 @@
     ".github/workflows/deploy-evaluator-api.yml",
     ".github/workflows/deploy-website.yml",
     ".github/workflows/devcontainer-check.yml",
+    ".github/workflows/lean-proofs.yml",
     ".github/workflows/nightly.yml",
     ".github/workflows/uptime-evaluator-api.yml"
   ],
@@ -93,6 +94,7 @@
     "tooling/test_doc_claims.py",
     "tooling/test_estimate_provenance.py",
     "tooling/test_exciton_walk.py",
+    "tooling/test_frontier_results.py",
     "tooling/test_grover_run_evidence.py",
     "tooling/test_hardware_kernels_compile.py",
     "tooling/test_hft_kernel.py",
@@ -104,6 +106,7 @@
     "tooling/test_qdk_samples_provenance.py",
     "tooling/test_qpe_kernels.py",
     "tooling/test_qsharp_validation.py",
+    "tooling/test_repetition_code_formula.py",
     "tooling/test_script_claims.py",
     "tooling/test_shor_kernel.py",
     "tooling/test_stage_evidence.py",

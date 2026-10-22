@@ -5,7 +5,9 @@ target values, for every base test_shor_kernel.py covers, so each result is exha
 negative cases are small Q# sources of their own, written into temporary projects, and each is
 one way a reversible operation goes wrong: a wire moved, an ancilla left dirty (one the
 harness passes in and one the operation allocates itself), a control disturbed, and an output
-left in superposition. Problem 09's files are read, never changed.
+left in superposition. Two more pin what a pass does not show: a candidate wrong by less than the
+simulator's numerical tolerance passes every input, and one written against a seed known in
+advance passes a sampled check with a bound it breaks. Problem 09's files are read, never changed.
 """
 
 from __future__ import annotations
@@ -21,7 +23,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "tooling"))
 
 from test_shor_kernel import COPRIME, PROJECT  # noqa: E402
-from verify_reversible import Registers, default_seed, epsilon_bound, verify_reversible  # noqa: E402
+from verify_reversible import Registers, _sampled_inputs, default_seed, epsilon_bound, verify_reversible  # noqa: E402
 
 # test_shor_kernel.py's convention: target[0] holds the most significant bit.
 MULTIPLIER = Registers(inputs={"control": 1, "target": 4}, outputs={"target": 4}, big_endian=True)
@@ -85,6 +87,17 @@ operation Copy(x : Qubit[], y : Qubit[]) : Unit {
 }
 """
 
+# Copies x into y, then turns y's lowest bit by 2e-5 radians: wrong, but by a probability of
+# 1e-10, below the simulator's release tolerance.
+COPY_WITH_TINY_ROTATION = """
+operation Copy(x : Qubit[], y : Qubit[]) : Unit {
+    for i in 0..Length(x) - 1 {
+        CNOT(x[i], y[i]);
+    }
+    Ry(2e-5, y[0]);
+}
+"""
+
 
 def times_a_mod_15(a: int, x: int) -> int:
     """What ControlledMultiplyMod15 is documented to do to a 4-bit value x.
@@ -112,13 +125,16 @@ def project(tmp_path: Path, source: str) -> Path:
 
 @pytest.mark.parametrize(
     "prepare, raises",
-    [("X(q[0]);", True), ("H(q[0]);", True), ("H(q[0]); CNOT(q[0], q[1]);", True), ("X(q[0]); X(q[0]);", False)],
-    ids=["one", "plus", "bell-pair", "zero-again"],
+    [("X(q[0]);", True), ("H(q[0]);", True), ("H(q[0]); CNOT(q[0], q[1]);", True), ("X(q[0]); X(q[0]);", False),
+     ("Ry(1e-4, q[0]);", True), ("Ry(2e-5, q[0]);", False)],
+    ids=["one", "plus", "bell-pair", "zero-again", "above-tolerance", "below-tolerance"],
 )
 def test_the_simulator_raises_when_a_qubit_is_released_dirty(prepare, raises):
     """verify_reversible's every check rests on this, so it is pinned here rather than assumed.
 
-    Twenty runs each, because a check that measured would let |+> through half the time.
+    Twenty runs each, because a check that measured would let |+> through half the time. The
+    last two cases pin the release check's numerical tolerance: a probability of 2.5e-9 of
+    reading 1 (Ry(1e-4)) raises, and one of 1e-10 (Ry(2e-5)) does not.
     """
     qsharp.init()
     raised = 0
@@ -199,6 +215,35 @@ def test_an_output_left_in_superposition_fails(tmp_path):
     assert (result.failed, result.failures[0].inputs) == (1, {"x": 3})
 
 
+def test_a_candidate_within_the_simulators_tolerance_passes_every_input(tmp_path):
+    """So an exhaustive pass is exact only for operations that keep basis states basis states,
+    and the report must say so."""
+    result = verify_reversible(
+        project(tmp_path, COPY_WITH_TINY_ROTATION), "Main.Copy(x, y)", COPY_REGISTERS,
+        lambda v: {"y": v["x"]}, k=8, delta=1e-3,
+    )
+    assert (result.passed, result.exhaustive, result.epsilon_bound) == (True, True, 0.0)
+    assert "numerical tolerance" in result.outcome()
+
+
+def test_a_candidate_written_against_a_known_seed_passes_with_a_bound_it_breaks(tmp_path):
+    """Eq. 20 needs inputs drawn independently of the candidate. With the seed known in advance,
+    a candidate can be right on exactly the inputs it will be tested on, as the review of #302
+    showed, so the report must say when its bound holds."""
+    registers = Registers(inputs={"x": 5}, outputs={"y": 5})
+    drawn = {inputs["x"] for inputs in _sampled_inputs(registers, 20, 0)}
+    flips = "".join(f"    ApplyControlledOnInt({x}, X, x, y[0]);\n" for x in range(32) if x not in drawn)
+    root = project(tmp_path, "operation Copy(x : Qubit[], y : Qubit[]) : Unit {\n"
+                             "    for i in 0..Length(x) - 1 {\n        CNOT(x[i], y[i]);\n    }\n"
+                             f"{flips}}}\n")
+    copy = lambda v: {"y": v["x"]}  # noqa: E731
+    replay = verify_reversible(root, "Main.Copy(x, y)", registers, copy, k=20, delta=1e-3, seed=0)
+    every = verify_reversible(root, "Main.Copy(x, y)", registers, copy, k=32, delta=1e-3)
+    assert replay.passed and not replay.exhaustive
+    assert every.exhaustive and every.failed / 32 > replay.epsilon_bound, (every.failed, replay.epsilon_bound)
+    assert "drawn at random after the candidate was fixed" in replay.outcome()
+
+
 def test_the_default_seed_changes_when_the_qsharp_source_changes(tmp_path):
     root = project(tmp_path, COPY)
     main = root / "src" / "Main.qs"
@@ -239,6 +284,9 @@ def test_it_is_exhaustive_when_there_are_at_most_k_inputs(tmp_path):
     assert (sampled.passed, sampled.exhaustive, sampled.k, sampled.domain_size) == (True, False, 31, 32)
     assert sampled.epsilon_bound == epsilon_bound(31, 1e-3)
     assert "arXiv:2610.22367v1" in sampled.outcome() and "Eq. 20" in sampled.outcome()
+    # The default seed is a public function of the sources, so the bound comes with its condition.
+    assert "which anyone can compute" in sampled.outcome()
+    assert "numerical tolerance" in every.outcome() and "numerical tolerance" in sampled.outcome()
 
 
 def test_the_bound_is_eq_20():

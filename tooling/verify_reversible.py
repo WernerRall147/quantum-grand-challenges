@@ -8,18 +8,24 @@ guarantee Gu, Kemeny, Yelin and Lukin give for sampled tests (arXiv:2610.22367v1
 if all k independent tests pass, then with confidence 1 - delta the failure probability
 epsilon under the test distribution satisfies epsilon <= 1 - delta^(1/k), approximately
 ln(1/delta)/k. Here the test distribution is uniform over every value of the input
-registers, drawn with replacement. When there are at most k such values, every one is
-checked and the result is exhaustive: exact, not statistical.
+registers, drawn with replacement, and the bound needs the draw to be independent of the
+candidate (see "When the bound holds", below). When there are at most k such values, every
+one is checked and the result is exhaustive rather than statistical.
 
 How one input is checked. The harness allocates the registers, sets the input value, applies
 the operation, then applies X wherever the expected final state has a 1. A correct operation
 now leaves every qubit in |0>. The qdk 1.31.0 simulator raises `ReleasedQubitNotZero` when a
-qubit is released in any other state, and it does not sample: a qubit left in |+> raises every
-time (tooling/test_verify_reversible.py holds both facts in place). So a wrong output, a
-changed input, a dirty ancilla, a superposition, and an ancilla the operation allocates itself
-and leaves dirty, all fail. Each input runs in its own simulator, through `qsharp.run`. Any
-runtime error counts as a failure on that input; the input is then run once more with every
-register measured, to report what came out.
+qubit is released away from |0>, and it does not sample: a qubit left in |+> raises every
+time. It has a numerical tolerance, though: a qubit with a probability of 2.5e-9 of reading 1
+(after Ry(1e-4)) raises every time, and one with 1e-10 (after Ry(2e-5)) never does
+(tooling/test_verify_reversible.py holds these facts in place). So a wrong output, a changed
+input, a dirty ancilla, a superposition, and an ancilla the operation allocates itself and
+leaves dirty, all fail, unless the error is that small. For an operation that only permutes
+basis states, as X, CNOT, SWAP and Toffoli gates and their controlled forms do, each check is
+exact. An operation with rotations can be wrong by less than the tolerance and pass, even on
+every input. Each input runs in its own simulator, through `qsharp.run`. Any runtime error
+counts as a failure on that input; the input is then run once more with every register
+measured, to report what came out.
 
 What it does not check: phases. The paper's evaluator also compares the phase with the
 target, and its bound on the distance between the candidate's and the target's states (Eq. 19)
@@ -30,8 +36,15 @@ every `.qs` file under its `src/`, and the generated harness, which contains the
 register layout. Changing any of them draws new tests, as Gu et al.'s evaluator draws its test
 inputs from a hash of the emitted circuit (github.com/andigu/uncompute, README). Line endings
 are normalised so that a Windows checkout and CI draw the same tests. The seed is printed so a
-failure can be reproduced by passing it back. The bound is for one draw of k tests: drawing
-again with new seeds until one passes voids it.
+failure can be reproduced by passing it back.
+
+When the bound holds. Eq. 20 is for one draw of k tests that is independent of the candidate.
+The default seed is a function of the candidate's own sources that anyone can compute, so it
+gives that independence only if the candidate was not revised, or chosen among variants, with
+its draw known: a candidate made to pass its own draw can be wrong on every input outside it.
+Drawing again with new seeds until one passes voids the bound in the same way. A given seed
+reproduces a run; it is fresh evidence only if it was drawn at random after the candidate was
+fixed, for example with `secrets.randbits(64)`. The report says which case applies.
 """
 
 from __future__ import annotations
@@ -49,6 +62,7 @@ from typing import Callable, Iterator, Mapping, Sequence
 from qdk import qsharp
 
 CITATION = 'Gu, Kemeny, Yelin, Lukin, arXiv:2610.22367v1, Methods, "Validation and statistical guarantees", Eq. 20'
+SEED_FROM_SOURCES = "SHA-256 of the Q# sources"
 
 _NAMESPACE = "VerifyReversible"
 _IDENTIFIER = re.compile(r"[A-Za-z][A-Za-z0-9_]*")
@@ -147,7 +161,10 @@ class Verification:
 
     k: inputs checked. When exhaustive, every value of the input registers, so the domain size.
     epsilon_bound: 1 - delta^(1/k) if every sampled test passed, 0.0 if every input passed an
-        exhaustive check, None if any test failed, when no bound holds.
+        exhaustive check, None if any test failed, when no bound holds. The sampled bound holds
+        only if the inputs were independent of the candidate, and 0.0 means that no input failed
+        a check, which is exact only for an operation that permutes basis states (see the module
+        docstring). `outcome()` states both conditions.
     failures: the first few failures, each with its input and what came out.
     """
 
@@ -179,13 +196,25 @@ class Verification:
             if self.failed > len(self.failures):
                 lines.append(f"    ... and {self.failed - len(self.failures)} more")
             return "\n".join(lines)
+        exactness = ("Each check is exact for an operation that only permutes basis states, as X, CNOT, "
+                     "SWAP and Toffoli gates do; otherwise a final state within the simulator's numerical "
+                     "tolerance of the expected one also passes. Phases are not checked.")
         if self.exhaustive:
-            return (f"  passed ({scope}). Exact for these basis-state checks, not statistical; "
-                    f"phases are not checked.")
-        return (f"  passed ({scope}). For a candidate fixed before the test draw, with confidence "
-                f"1 - delta = {1 - self.delta:g}, the failure probability under this test distribution "
-                f"is at most 1 - delta^(1/k) = {self.epsilon_bound:.4g} (ln(1/delta)/k = "
-                f"{math.log(1 / self.delta) / self.k:.4g}); {CITATION}. Phases are not checked.")
+            return f"  passed ({scope}). Not statistical: every input was checked. {exactness}"
+        return (f"  passed ({scope}). If these inputs are independent of the candidate, then with "
+                f"confidence 1 - delta = {1 - self.delta:g}, its failure probability under this test "
+                f"distribution is at most 1 - delta^(1/k) = {self.epsilon_bound:.4g} (ln(1/delta)/k = "
+                f"{math.log(1 / self.delta) / self.k:.4g}); {CITATION}. {self.independence()} {exactness}")
+
+    def independence(self) -> str:
+        """Whether the sampled inputs can be independent of the candidate, as the bound needs."""
+        if self.seed_source == SEED_FROM_SOURCES:
+            return ("The inputs come from a seed hashed from the candidate's own sources, which anyone "
+                    "can compute, so they are independent of it only if it was not revised or chosen "
+                    "with its draw known.")
+        return ("The seed was given, so the inputs are independent of the candidate only if the seed "
+                "was drawn at random after the candidate was fixed; a replay of an earlier run's seed "
+                "reproduces that run and adds no evidence.")
 
     def report(self) -> str:
         return f"{self.header()}\n{self.outcome()}"
@@ -268,7 +297,9 @@ def verify_reversible(
     reference: maps the input register values to the output register values, one entry per
         output register.
     k, delta: the number of tests, and one minus the confidence of the bound.
-    seed: draws the inputs; by default `default_seed`. Printed either way.
+    seed: draws the inputs; by default `default_seed`. Printed either way. A given seed
+        reproduces a run, and is fresh evidence only if drawn at random after the candidate was
+        fixed.
     """
     if not isinstance(k, int) or k < 1:
         raise ValueError(f"k must be a positive integer, not {k!r}")
@@ -276,7 +307,7 @@ def verify_reversible(
         raise ValueError(f"delta must lie strictly between 0 and 1, not {delta!r}")
     seed_source = "given"
     if seed is None:
-        seed, seed_source = default_seed(project_root, operation, registers), "SHA-256 of the Q# sources"
+        seed, seed_source = default_seed(project_root, operation, registers), SEED_FROM_SOURCES
     print(f"verify_reversible: {operation}: seed {seed} ({seed_source})", flush=True)
 
     qsharp.init(project_root=str(project_root))

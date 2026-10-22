@@ -46,8 +46,11 @@ Compare with an exact answer, not with the kernel's own previous output.
 - For an operation that maps basis states to basis states, such as modular arithmetic, use
   `tooling/verify_reversible.py`. It checks outputs, unchanged inputs and clean ancillas against
   a Python reference: on every input when there are at most k of them, otherwise on k inputs
-  drawn with a seed hashed from the Q# source, and it states what a pass guarantees. It does
-  not check phases. `tooling/test_verify_reversible.py` applies it to problem 09's multiplier.
+  drawn with a seed hashed from the Q# source, and it states what a pass guarantees. Its bound
+  holds only if the candidate was not revised with its draw known, and each check is exact only
+  for an operation that permutes basis states, because the simulator's release check has a
+  numerical tolerance. It does not check phases. `tooling/test_verify_reversible.py` applies it
+  to problem 09's multiplier.
 - Existing kernel tests: `tooling/test_qae_kernel.py`, `tooling/test_hhl_kernel.py`,
   `tooling/test_qaoa_kernels.py`, `tooling/test_qpe_kernels.py`, `tooling/test_shor_kernel.py`,
   `tooling/test_hft_kernel.py`, `tooling/test_swap_test_kernel.py`,

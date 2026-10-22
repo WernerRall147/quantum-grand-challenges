@@ -53,7 +53,10 @@ Compare with an exact answer, not with the kernel's own previous output.
 ## After the kernel changes
 
 1. Resource estimates: `python tooling/generate_estimates.py` rewrites each problem's
-   `circuits/estimate.json` and `website/data/paretoFrontiers.json`.
+   `circuits/estimate.json` and `website/data/paretoFrontiers.json`. If an estimate changed, also
+   run `python tooling/generate_estimates.py --scenario cultivation`: the cultivation projection in
+   `docs/estimates/` shows the published numbers as its baseline, and
+   `tooling/test_estimate_provenance.py` fails until the two agree.
 2. Circuit diagrams: `python tooling/trace_circuits.py` re-renders `circuits/circuit.txt` from
    each `HardwareKernel.qs`.
 3. Maturity contract: `python tooling/reporting/stage_kpis.py --policy tooling/reporting/maturity-policy.json --enforce`.

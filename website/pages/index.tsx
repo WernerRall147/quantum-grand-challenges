@@ -56,7 +56,7 @@ export default function Home({ demoRuns, demoEstimate }: HomeProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>{`
           @media (max-width: 900px) {
-            .qgc-layout { grid-template-columns: 1fr !important; }
+            .qgc-layout { grid-template-columns: minmax(0, 1fr) !important; }
             .qgc-sidebar { position: static !important; order: -1; }
           }
           @keyframes orbit1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -140,7 +140,7 @@ export default function Home({ demoRuns, demoEstimate }: HomeProps) {
         </header>
 
         {/* Featured */}
-        <section aria-label="Featured" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        <section aria-label="Featured" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: '1rem', marginBottom: '2rem' }}>
           <a href={AZURE_FRIDAY_URL} target="_blank" rel="noopener noreferrer" style={{
             display: 'flex', alignItems: 'center', gap: '1.25rem', padding: '1.25rem 1.5rem', borderRadius: '12px',
             background: '#0f172a', color: 'white', textDecoration: 'none',
@@ -184,7 +184,7 @@ export default function Home({ demoRuns, demoEstimate }: HomeProps) {
           <p style={{ color: '#64748b', margin: '0.25rem 0 1rem', fontSize: '0.95rem' }}>
             Every problem is evaluated against Dr. Matthias Troyer&apos;s utility-scale filters. Only problems that pass <strong>all six</strong> are classified as active candidates for quantum advantage.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))', gap: '0.75rem' }}>
             {[
               { id: 'F1', q: 'Proven speedup?', kill: 'VQE/QAOA fail' },
               { id: 'F2', q: 'I/O survives?', kill: 'O(N) loading erases gain' },
@@ -248,7 +248,7 @@ export default function Home({ demoRuns, demoEstimate }: HomeProps) {
               {q ? `${active.length} matching` : `${active.length} pass all Troyer filters`}
             </span>
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px, 100%), 1fr))', gap: '1rem', marginTop: '1rem' }}>
             {active.map((p) => (
               <ProblemCard key={p.title} {...p} />
             ))}
@@ -274,7 +274,7 @@ export default function Home({ demoRuns, demoEstimate }: HomeProps) {
             </span>
           </button>
           {(showArchived || !!q) && (
-            <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '0.75rem' }}>
+            <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px, 100%), 1fr))', gap: '0.75rem' }}>
               {archived.map((p) => (
                 <div key={p.title} style={{ padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '8px', background: '#fafafa' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -290,7 +290,7 @@ export default function Home({ demoRuns, demoEstimate }: HomeProps) {
 
         {/* Key Numbers */}
         <section style={{ marginTop: '2.5rem', padding: '1.5rem 2rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '12px', color: 'white' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(150px, 100%), 1fr))', gap: '1.5rem', textAlign: 'center' }}>
             {[
               { val: '9', label: 'Active problems' },
               { val: '120+', label: 'Azure Quantum runs' },
@@ -307,7 +307,7 @@ export default function Home({ demoRuns, demoEstimate }: HomeProps) {
         </section>
 
         {/* Research */}
-        <section style={{ marginTop: '2.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+        <section style={{ marginTop: '2.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '1.5rem' }}>
           <div style={{ padding: '1.5rem', border: '1px solid #d1fae5', borderRadius: '10px', background: '#f0fdf4' }}>
             <h3 style={{ marginTop: 0, color: '#166534' }}>Methodology Paper</h3>
             <p style={{ color: '#374151', fontSize: '0.9rem' }}>
@@ -336,7 +336,7 @@ export default function Home({ demoRuns, demoEstimate }: HomeProps) {
             the one marked item, <code>{MARKED}</code>. The answer is known before you start, so you can tell whether a
             run worked.
           </p>
-          <ol role="list" style={{ listStyle: 'none', padding: 0, margin: '1rem 0 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+          <ol role="list" style={{ listStyle: 'none', padding: 0, margin: '1rem 0 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '1rem' }}>
             <Step n={1} title="Ask the evaluator">
               <p style={{ margin: '0 0 0.5rem' }}>Paste the demo question into the evaluator:</p>
               <blockquote style={{ margin: '0 0 0.5rem', padding: '0.6rem 0.9rem', background: '#f5f3ff', borderLeft: '3px solid #764ba2', borderRadius: '4px', color: '#1a1a2e' }}>

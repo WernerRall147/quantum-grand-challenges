@@ -308,12 +308,38 @@ def test_agent_codespace_and_ci_install_the_same_packages():
         "the cloud agent and a codespace would install different packages")
 
 
-def test_agent_codespace_and_deploy_use_the_same_node():
-    deploy = re.search(r"node-version:\s*'?(\d+)", (WORKFLOWS / "deploy-website.yml").read_text(encoding="utf-8"))
-    setup = re.search(r"node-version:\s*'?(\d+)", SETUP_STEPS.read_text(encoding="utf-8"))
+def node_major(pin, where: str) -> int:
+    """The major version of a Node pin such as 24, '24', 'v24.1.0' or '24.x'."""
+    match = re.fullmatch(r"v?(\d+)(?:\.(?:\d+|x)){0,2}", str(pin).strip())
+    assert match, f"{where} must pin a numeric Node version, found {pin!r}"
+    return int(match.group(1))
+
+
+def test_agent_codespace_ci_and_deploy_use_the_same_supported_node():
+    versions = {}
+    for workflow in (WORKFLOWS / "deploy-website.yml", WORKFLOWS / "ci-cd.yml", SETUP_STEPS):
+        doc = load_yaml(workflow)
+        pins = [
+            step.get("with", {}).get("node-version")
+            for job in doc.get("jobs", {}).values()
+            for step in job.get("steps", [])
+            if step.get("uses", "").startswith("actions/setup-node@")
+        ]
+        assert pins, f"{workflow.name} no longer sets up Node"
+        # A step without node-version is not skipped: it would leave the runner's Node on PATH.
+        majors = {node_major(pin, workflow.name) for pin in pins}
+        assert len(majors) == 1, f"{workflow.name} sets up different Node versions: {pins}"
+        versions[workflow.name] = majors.pop()
     container = json.loads((REPO / ".devcontainer" / "devcontainer.json").read_text(encoding="utf-8"))
-    node = container["features"]["ghcr.io/devcontainers/features/node:1"]["version"]
-    assert deploy and setup and deploy.group(1) == setup.group(1) == str(node)
+    versions["devcontainer.json"] = node_major(
+        container["features"]["ghcr.io/devcontainers/features/node:1"]["version"], "devcontainer.json")
+    assert len(set(versions.values())) == 1, versions
+    # Copilot code review starts its runtime with the Node the setup steps leave on PATH. The
+    # runtime is a .js file in ES module syntax with no "type": "module" marker. Node 18 parses
+    # it as CommonJS and fails ("Cannot use import statement outside a module"). Node 22.7 made
+    # module syntax detection the default, which runs it as an ES module. This reads majors
+    # only, so it requires 24, where every release has detection on.
+    assert versions[SETUP_STEPS.name] >= 24, versions
 
 
 @pytest.mark.parametrize("path", sorted(WORKFLOWS.glob("*.y*ml")), ids=lambda p: p.name)

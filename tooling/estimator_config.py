@@ -11,6 +11,8 @@ What lives here:
     placeholder for kernels that take an iteration / shot count).
   - QUBIT_MODELS: the qubit profiles × QEC schemes used for the multimodel
     Pareto sweep, expressed as explicit QRE v3 physical parameters.
+  - FACTORIES: the magic-state factories a QEC code can be composed with. The
+    published estimates use DEFAULT_FACTORY; the others feed labelled scenarios.
   - make_architecture / make_isa_query: build the typed ``qdk.qre`` inputs.
   - estimate_summary: run one estimation and reduce the Pareto frontier to the
     single representative point used by downstream consumers.
@@ -34,12 +36,20 @@ from qdk.qre import (
     Architecture,
     EstimationTable,
     EstimationTableEntry,
+    ISAQuery,
     estimate,
     instruction_name,
 )
 from qdk.qre.application import QSharpApplication
 from qdk.qre.interop import trace_from_entry_expr
-from qdk.qre.models import GateBased, Majorana, RoundBasedFactory, SurfaceCode
+from qdk.qre.models import (
+    GSJ24CCXFactory,
+    GSJ24Factory,
+    GateBased,
+    Majorana,
+    RoundBasedFactory,
+    SurfaceCode,
+)
 from qdk.qre.property_keys import (
     LOGICAL_COMPUTE_QUBITS,
     LOGICAL_MEMORY_QUBITS,
@@ -291,14 +301,55 @@ def make_architecture(qubit_name: str) -> Architecture:
         raise KeyError(f"unknown qubit model {qubit_name!r}") from None
 
 
-def make_isa_query(qec_name: str):
+# ---------------------------------------------------------------------------
+# Magic-state factories
+# ---------------------------------------------------------------------------
+# Every published estimate uses round-based 15-to-1 distillation. The GSJ24 entries are
+# QRE v3's model of magic state cultivation (Gidney, Shutty and Jones, "Magic state
+# cultivation: growing T states as cheap as CNOT gates", arXiv:2409.17595v1), with the
+# (color code, surface code) distances the model supports. They feed only the labelled
+# projection in docs/estimates/cultivation-scenario.json and never the baseline.
+
+DEFAULT_FACTORY = "round_based"
+
+
+def _cultivation(distance: tuple[int, int]) -> Callable[[ISAQuery], ISAQuery]:
+    return lambda code: code * GSJ24Factory.q(distance=distance)
+
+
+def _cultivation_with_ccx(distance: tuple[int, int]) -> Callable[[ISAQuery], ISAQuery]:
+    # GSJ24CCXFactory turns eight T states into one CCX state by lattice surgery, so its
+    # source is the code together with the T factory. The estimator's default trace query
+    # then chooses, per configuration, between consuming CCX states and decomposing each
+    # Toffoli into T states.
+    return lambda code: (
+        code
+        * GSJ24Factory.q(distance=distance)
+        * GSJ24CCXFactory.q(source=code * GSJ24Factory.q(distance=distance))
+    )
+
+
+FACTORIES: dict[str, Callable[[ISAQuery], ISAQuery]] = {
+    "round_based": lambda code: code * RoundBasedFactory.q(),
+    "gsj24_3_15": _cultivation((3, 15)),
+    "gsj24_5_15": _cultivation((5, 15)),
+    "gsj24_3_15+ccx": _cultivation_with_ccx((3, 15)),
+    "gsj24_5_15+ccx": _cultivation_with_ccx((5, 15)),
+}
+
+
+def make_isa_query(qec_name: str, factory: str = DEFAULT_FACTORY) -> ISAQuery:
     """Compose the QEC code with a magic-state factory into an ISA query."""
 
     try:
         code = QEC_TRANSFORMS[qec_name]
     except KeyError:
         raise KeyError(f"unknown QEC scheme {qec_name!r}") from None
-    return code.q() * RoundBasedFactory.q()
+    try:
+        compose = FACTORIES[factory]
+    except KeyError:
+        raise KeyError(f"unknown magic-state factory {factory!r}") from None
+    return compose(code.q())
 
 
 def select_entry(table: EstimationTable) -> EstimationTableEntry:
@@ -323,24 +374,41 @@ def frontier_points(table: EstimationTable) -> list[dict[str, Any]]:
     ]
 
 
-def estimate_summary(
+def estimate_table(
     entry_expr: str,
     qubit_name: str,
     qec_name: str,
     max_error: float = DEFAULT_MAX_ERROR,
-) -> dict[str, Any]:
-    """Estimate one (problem, qubit model, QEC) combination.
+    factory: str = DEFAULT_FACTORY,
+) -> EstimationTable:
+    """The whole Pareto frontier for one combination. Empty when nothing is feasible.
 
     Requires ``qsharp.init(project_root=...)`` to have been called for the
     problem whose expression is being estimated.
     """
 
-    table = estimate(
+    return estimate(
         QSharpApplication(entry_expr),
         make_architecture(qubit_name),
-        isa_query=make_isa_query(qec_name),
+        isa_query=make_isa_query(qec_name, factory),
         max_error=max_error,
     )
+
+
+def estimate_summary(
+    entry_expr: str,
+    qubit_name: str,
+    qec_name: str,
+    max_error: float = DEFAULT_MAX_ERROR,
+    factory: str = DEFAULT_FACTORY,
+) -> dict[str, Any]:
+    """Estimate one (problem, qubit model, QEC, factory) combination.
+
+    Requires ``qsharp.init(project_root=...)`` to have been called for the
+    problem whose expression is being estimated.
+    """
+
+    table = estimate_table(entry_expr, qubit_name, qec_name, max_error, factory)
     return extract_summary(select_entry(table), table=table, entry_expr=entry_expr)
 
 

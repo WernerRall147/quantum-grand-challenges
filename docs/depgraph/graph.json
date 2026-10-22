@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1317,
-    "code_files": 319,
-    "python": 249,
+    "tracked": 1341,
+    "code_files": 324,
+    "python": 254,
     "qsharp": 55,
     "ts": 15,
-    "edges": 250,
-    "roots": 304,
-    "reachable": 343
+    "edges": 256,
+    "roots": 310,
+    "reachable": 350
   },
   "nodes": [
     ".github/hooks/scripts/agent_gates.py",
@@ -266,6 +266,7 @@
     "tooling/run_paper_analyses.py",
     "tooling/run_simulator_matrix.py",
     "tooling/show_trace.py",
+    "tooling/sota_watch.py",
     "tooling/submit_all_syntax_check.py",
     "tooling/submit_hardware_kernels.py",
     "tooling/submit_one_kernel.py",
@@ -291,13 +292,16 @@
     "tooling/test_qdk_samples_provenance.py",
     "tooling/test_qpe_kernels.py",
     "tooling/test_qsharp_validation.py",
+    "tooling/test_repetition_code_formula.py",
     "tooling/test_script_claims.py",
     "tooling/test_shor_kernel.py",
+    "tooling/test_sota_watch.py",
     "tooling/test_stage_evidence.py",
     "tooling/test_submit_one_kernel.py",
     "tooling/test_swap_test_kernel.py",
     "tooling/test_uptime_cadence_claims.py",
     "tooling/test_verify_demo_prompts_codegen.py",
+    "tooling/test_verify_reversible.py",
     "tooling/test_viz_publication.py",
     "tooling/test_website_claims.py",
     "tooling/test_website_run_history.py",
@@ -306,6 +310,7 @@
     "tooling/vendor_qdk_samples.py",
     "tooling/vendor_qdk_stdlib_index.py",
     "tooling/verify_demo_prompts.py",
+    "tooling/verify_reversible.py",
     "tooling/visualization/generate_comparison_plots.py",
     "tooling/write_circuit_diagrams.py",
     "viz/__init__.py",
@@ -463,6 +468,10 @@
     [
       ".github/workflows/nightly.yml",
       "tooling/reporting/validate_website_data_schema.py"
+    ],
+    [
+      ".github/workflows/sota-watch.yml",
+      "tooling/sota_watch.py"
     ],
     [
       "Dockerfile",
@@ -1153,6 +1162,14 @@
       "agents/observability/trace.py"
     ],
     [
+      "tooling/sota_watch.py",
+      "knowledge/ingest/arxiv_ingester.py"
+    ],
+    [
+      "tooling/test_estimate_provenance.py",
+      "tooling/generate_estimates.py"
+    ],
+    [
       "tooling/test_logical_counts.py",
       "tooling/estimator_config.py"
     ],
@@ -1173,6 +1190,10 @@
       "tooling/estimator_config.py"
     ],
     [
+      "tooling/test_sota_watch.py",
+      "knowledge/ingest/arxiv_ingester.py"
+    ],
+    [
       "tooling/test_stage_evidence.py",
       "tooling/evidence_hashes.py"
     ],
@@ -1183,6 +1204,14 @@
     [
       "tooling/test_verify_demo_prompts_codegen.py",
       "tooling/verify_demo_prompts.py"
+    ],
+    [
+      "tooling/test_verify_reversible.py",
+      "tooling/test_shor_kernel.py"
+    ],
+    [
+      "tooling/test_verify_reversible.py",
+      "tooling/verify_reversible.py"
     ],
     [
       "tooling/validate_algorithm_index.py",

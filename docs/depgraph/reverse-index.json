@@ -107,6 +107,10 @@
   "agents/tests/test_container_contents.py": [
     ".github/workflows/deploy-evaluator-api.yml"
   ],
+  "knowledge/ingest/arxiv_ingester.py": [
+    "tooling/sota_watch.py",
+    "tooling/test_sota_watch.py"
+  ],
   "knowledge/search/kb_client.py": [
     "agents/evaluations/run_eval.py",
     "agents/evaluations/run_foundry_eval.py",
@@ -428,7 +432,8 @@
     "tooling/test_qae_kernel.py"
   ],
   "tooling/generate_estimates.py": [
-    ".github/workflows/nightly.yml"
+    ".github/workflows/nightly.yml",
+    "tooling/test_estimate_provenance.py"
   ],
   "tooling/ingest_zoo_references.py": [
     ".github/workflows/nightly.yml"
@@ -470,17 +475,26 @@
   "tooling/run_all_qsharp.py": [
     ".github/workflows/ci-cd.yml"
   ],
+  "tooling/sota_watch.py": [
+    ".github/workflows/sota-watch.yml"
+  ],
   "tooling/submit_one_kernel.py": [
     "tooling/test_submit_one_kernel.py"
   ],
   "tooling/test_agent_harness.py": [
     ".github/workflows/copilot-setup-steps.yml"
   ],
+  "tooling/test_shor_kernel.py": [
+    "tooling/test_verify_reversible.py"
+  ],
   "tooling/validate_algorithm_index.py": [
     "agents/tests/test_algorithm_index_validation.py"
   ],
   "tooling/verify_demo_prompts.py": [
     "tooling/test_verify_demo_prompts_codegen.py"
+  ],
+  "tooling/verify_reversible.py": [
+    "tooling/test_verify_reversible.py"
   ],
   "viz/__init__.py": [
     "viz/test_interactive.py",

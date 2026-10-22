@@ -41,7 +41,7 @@ make run          # Run on the local sparse-state simulator
 make estimate     # Resource estimation
 ```
 
-GitHub Codespaces works too: click **Open in Codespaces** for Python 3.11 and Node 18 preinstalled.
+GitHub Codespaces works too: click **Open in Codespaces** for Python 3.11 and Node 24 preinstalled.
 
 ### CLI evaluator
 

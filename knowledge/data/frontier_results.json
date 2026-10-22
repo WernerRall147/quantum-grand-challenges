@@ -52,7 +52,8 @@
               "unit": "ratio of TQ-costs",
               "qualifiers": [
                 "Baseline T = 5.1e6, Q = 1,938; discovered T = 4.4e5, Q = 1,837 (rounded as in the paper)",
-                "The baseline is the extended-Euclidean decoder of Khattar et al. (arXiv:2510.10967), on their primary instance: 70 syndromes, at most 35 errors"
+                "The baseline is the extended-Euclidean decoder of Khattar et al. (arXiv:2510.10967), on their primary instance: 70 syndromes, at most 35 errors",
+                "Checked by sampling: the task allows up to 100 failures in 100,000 tests on inputs from the DQI input distribution, the discovered circuit had 7 wrong signs, and the allowance bounds the failure probability under that distribution at 2.434e-3 with 97.5% confidence, not for every input (uncompute, tasks/dqi-reed-solomon/README.md, 'Certified results' and section 6)"
               ]
             },
             {
@@ -395,6 +396,165 @@
           "numbers": [
             {"quantity": "Physical qubits to factor RSA-2048", "relation": "<", "value": 1.0e6, "unit": "physical qubits", "qualifiers": ["0.1% uniform gate error, 1 microsecond cycle, 10 microsecond reaction time, square grid"]},
             {"quantity": "Runtime to factor RSA-2048", "relation": "<", "value": 7, "unit": "days", "qualifiers": ["Under the same assumptions"]}
+          ]
+        },
+        {
+          "statement": "For 2048-bit RSA integers, Table 5 gives 6.5e9 expected Toffoli gates per factoring and 1,399 logical qubits.",
+          "quoted": false,
+          "location": "Section 3.1, Table 5, n = 2048 row; Section 3.2 for the peak and layout counts",
+          "conditions": [
+            "Logical costs of the paper's variant of the Chevignard-Fouque-Schrottenloher algorithm, which uses approximate residue arithmetic, with the Table 5 parameters for n = 2048 (s = 8, l = 21, f = 33, m = 1280)",
+            "The Toffoli column counts expected Toffolis per factoring, not per shot; the expected number of shots is 9.2",
+            "Section 3.2 counts 1,409 logical qubits active at the peak, during loop4, and 1,537 including idle hot patches, which the layout keeps below 1,600"
+          ],
+          "evidence": "analytical-estimate",
+          "does_not_establish": [
+            "Execution on quantum hardware",
+            "The fewest logical qubits RSA-2048 can take: Section 1 notes that the CFS algorithm uses only (0.5 + epsilon)n, at roughly 1000x more Toffolis"
+          ],
+          "numbers": [
+            {"quantity": "Logical qubits to factor RSA-2048", "relation": "~", "value": 1399, "unit": "logical qubits", "qualifiers": ["Table 5; Section 3.2 counts 1,409 at the peak and 1,537 including idle hot patches", "Approximate residue arithmetic"]},
+            {"quantity": "Toffoli gates to factor RSA-2048", "relation": "~", "value": 6.5e9, "unit": "Toffoli gates", "qualifiers": ["Expected per factoring, not per shot", "Table 5"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gidney-ekera-2021-rsa-2048",
+      "citation": {
+        "authors": ["Craig Gidney", "Martin Ekerå"],
+        "title": "How to factor 2048 bit RSA integers in 8 hours using 20 million noisy qubits",
+        "year": 2021,
+        "venue": "Quantum"
+      },
+      "identifiers": {"arxiv": "1905.09749v3", "doi": "10.22331/q-2021-04-15-433"},
+      "source_url": "https://arxiv.org/abs/1905.09749v3",
+      "see_also": [
+        {
+          "url": "https://doi.org/10.22331/q-2021-04-15-433",
+          "note": "Quantum 5, 433 (2021), the journal reference on the arXiv record. This entry was read from the arXiv v3 abstract and Sections 2.8 and 2.14, not from the journal page. Version 1 dates from May 2019, so the work is also cited as Gidney and Ekerå 2019."
+        }
+      ],
+      "read_on": "2026-10-18",
+      "kind": "peer-reviewed",
+      "related_problems": ["09_factorization", "10_post_quantum_cryptography"],
+      "related_zoo_entries": ["Shor's Algorithm"],
+      "claims": [
+        {
+          "statement": "In the abstract circuit model (which ignores overheads from distillation, routing, and error correction) our construction uses 3n + 0.002 n lg n logical qubits, 0.3 n^3 + 0.0005 n^3 lg n Toffolis, and 500 n^2 + n^2 lg n measurement depth to factor n-bit RSA integers.",
+          "quoted": true,
+          "location": "Abstract; derived in Section 2.8",
+          "conditions": [
+            "The abstract circuit model: no overheads from distillation, routing or error correction",
+            "Section 2.8 calls the formulae approximate upper bounds, with the exponent length set to 1.5n"
+          ],
+          "evidence": "analytical-estimate",
+          "does_not_establish": [
+            "Execution on quantum hardware",
+            "The fewest logical qubits RSA-2048 can take: arXiv:2505.15917v1 uses about 1,400"
+          ],
+          "numbers": [
+            {
+              "quantity": "Logical qubits to factor RSA-2048",
+              "relation": "~",
+              "value": 6189,
+              "unit": "logical qubits",
+              "qualifiers": [
+                "3n + 0.002 n lg n evaluated at n = 2048, lg n = 11; the abstract prints the formula, not this number",
+                "Abstract circuit model"
+              ]
+            }
+          ]
+        },
+        {
+          "statement": "A 2048-bit RSA integer can be factored in about 8 hours using about 20 million noisy qubits.",
+          "quoted": false,
+          "location": "Title; assumptions in the abstract; Section 2.14",
+          "conditions": [
+            "A planar grid of qubits with nearest-neighbor connectivity, a characteristic physical gate error rate of 1e-3, a surface code cycle time of 1 microsecond and a reaction time of 10 microseconds",
+            "The title's figures come from the ancillary estimate_costs.py; Section 2.14's hand calculation, which rounds up, gives about 23 million qubits"
+          ],
+          "evidence": "analytical-estimate",
+          "does_not_establish": ["Execution on quantum hardware"],
+          "numbers": [
+            {"quantity": "Physical qubits to factor RSA-2048", "relation": "~", "value": 2.0e7, "unit": "physical qubits", "qualifiers": ["1e-3 gate error, 1 microsecond cycle, 10 microsecond reaction time, planar nearest-neighbour grid"]},
+            {"quantity": "Runtime to factor RSA-2048", "relation": "~", "value": 8, "unit": "hours", "qualifiers": ["Under the same assumptions"]}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jordan-2025-dqi",
+      "citation": {
+        "authors": ["Stephen P. Jordan", "Noah Shutty", "Mary Wootters", "Adam Zalcman", "Alexander Schmidhuber", "Robbie King", "Sergei V. Isakov", "Tanuj Khattar", "Ryan Babbush"],
+        "title": "Optimization by Decoded Quantum Interferometry",
+        "year": 2025,
+        "venue": "Nature"
+      },
+      "identifiers": {"arxiv": "2408.08292v5", "doi": "10.1038/s41586-025-09527-5"},
+      "source_url": "https://arxiv.org/abs/2408.08292v5",
+      "see_also": [
+        {
+          "url": "https://doi.org/10.1038/s41586-025-09527-5",
+          "note": "Nature 646, 831-836 (2025), the journal reference on the arXiv record; Crossref gives the same title, authors and pages. This entry was read from the arXiv v5 abstract, not from the Nature article."
+        },
+        {
+          "url": "https://arxiv.org/abs/2408.08292v1",
+          "note": "Version 1 (2024) said DQI realizes 'an apparent exponential quantum speedup' for this problem, the wording the zoo used until 2026-10-18. Version 5 says 'a superpolynomial speedup over known classical algorithms'."
+        }
+      ],
+      "read_on": "2026-10-18",
+      "kind": "peer-reviewed",
+      "related_problems": ["12_quantum_optimization"],
+      "related_zoo_entries": ["Decoded Quantum Interferometry (DQI)"],
+      "claims": [
+        {
+          "statement": "For approximating optimal polynomial fits over finite fields, DQI achieves a superpolynomial speedup over known classical algorithms.",
+          "quoted": true,
+          "location": "Abstract, arXiv v5",
+          "conditions": [
+            "Optimal Polynomial Intersection (OPI), whose decoding problem is for Reed-Solomon codes and can be solved efficiently",
+            "The comparison is with known classical algorithms"
+          ],
+          "evidence": "analytical-estimate",
+          "does_not_establish": [
+            "That no efficient classical algorithm exists for OPI",
+            "A speedup without that algebraic structure: on the paper's max-XORSAT instance a tailored classical solver outperforms DQI",
+            "Execution on quantum hardware"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gil-fuster-2026-dqi-mcmc",
+      "citation": {
+        "authors": ["Elies Gil-Fuster", "Matan Ninio", "Lennart Bittel", "Yishai Shimoni", "Jens Eisert", "Stefan Woerner", "Almudena Carrera Vázquez"],
+        "title": "Approximate sampling from decoded quantum interferometry via Markov chain Monte Carlo methods",
+        "year": 2026
+      },
+      "identifiers": {"arxiv": "2607.28120v1"},
+      "source_url": "https://arxiv.org/abs/2607.28120v1",
+      "read_on": "2026-10-18",
+      "kind": "preprint",
+      "related_problems": ["12_quantum_optimization"],
+      "related_zoo_entries": ["Decoded Quantum Interferometry (DQI)"],
+      "claims": [
+        {
+          "statement": "In OPI, in the regime where a super-polynomial advantage is claimed for DQI, we observe an empirical runtime for MCMC that scales approximately as 1.1^n, indicating exponential growth with a comparatively small base. Our findings do not refute existing quantum advantage claims but provide new empirical evidence that classical sampling algorithms can closely match DQI's optimization performance.",
+          "quoted": true,
+          "location": "Abstract",
+          "conditions": [
+            "Classical Markov chain Monte Carlo, chiefly block-Gibbs sampling, from the ideal DQI output distribution, whose probabilities can be computed efficiently",
+            "OPI instances beyond 150 effective qubits, and max-XORSAT beyond 1000",
+            "The runtime scaling is fitted to the sizes run; n is the problem size as the paper defines it, which this entry did not check beyond the abstract"
+          ],
+          "evidence": "numerical-simulation",
+          "does_not_establish": [
+            "A polynomial-time classical algorithm for OPI",
+            "That DQI's claimed superpolynomial speedup is false; the authors say their findings do not refute it"
+          ],
+          "numbers": [
+            {"quantity": "Base of the exponential fitted to MCMC runtime on OPI", "relation": "~", "value": 1.1, "unit": "base of an exponential in n", "qualifiers": ["In the regime where a superpolynomial advantage is claimed for DQI", "Empirical, from instances beyond 150 effective qubits"]}
           ]
         }
       ]

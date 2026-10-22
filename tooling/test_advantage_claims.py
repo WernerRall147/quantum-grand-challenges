@@ -2,12 +2,15 @@
 
 Each entry names the claim, what is actually true, and the source. The scan covers the
 surfaces a reader sees: website data, archive notes, Stage D evidence, the agents'
-reference index and prompts, the README and the paper.
+reference index and prompts, the README, the paper, and the talk notes and proposal that
+quote numbers from them.
 
-The knowledge-base index (knowledge/data/algorithm_zoo_index.json) is deliberately not
-scanned. It still carries the old QAOA wording and the old RSA-2048 logical-qubit count,
-but it mirrors a deployed Azure AI Search index that tooling/check_algorithm_index_drift.py
-compares against, so it changes only together with a re-ingestion.
+The knowledge-base index (knowledge/data/algorithm_zoo_index.json) mirrors a deployed
+Azure AI Search index that tooling/check_algorithm_index_drift.py compares against, so it
+changes only together with a re-ingestion, and it is scanned claim by claim. Its old
+RSA-2048 logical-qubit count was corrected on 2026-10-18 (#297) and is scanned for. It
+still carries the old QAOA wording, which is exempt until that entry is corrected: its
+speedup_class "quadratic_at_most" is router vocabulary, so changing it changes routing.
 """
 
 from __future__ import annotations
@@ -34,6 +37,9 @@ SURFACES = (
     "docs/architecture.md",
     "docs/paper/methodology-paper.md",
     "README.md",
+    "docs/AzureFriday/deck-notes.md",
+    "docs/AzureFriday/script.md",
+    "docs/QuantumPioneersProgram/SoftwareTrack-Proposal-Skeleton.md",
     "website/pages/**/*.tsx",
     "website/components/*.tsx",
     "problems/**/qsharp/src/*.qs",
@@ -102,9 +108,18 @@ RETRACTED = [
     ),
     pytest.param(
         r"4,?000 logical qubits",
-        "RSA-2048 needs about 1,400 logical qubits (Gidney 2025, arXiv:2505.15917) or about "
-        "3n = 6,200 (Gidney and Ekera 2019, arXiv:1905.09749); 4,000 matches neither.",
+        "RSA-2048 takes about 1,400 logical qubits in Gidney's 2025 construction "
+        "(arXiv:2505.15917v1, Table 5) and 3n + 0.002 n lg n, about 6,200, in Gidney and "
+        "Ekerå's (arXiv:1905.09749v3); 4,000 matches neither.",
         id="rsa-2048-logical-qubits",
+    ),
+    pytest.param(
+        r"grows a T state inside a surface[- ]code patch",
+        "Cultivation prepares and checks the T state in a small color code, then grafts it into a "
+        "larger surface code; the whole process fits inside a surface-code patch (arXiv:2409.17595v1, "
+        "abstract and Section 2.1). On hardware the state was cultivated in a distance-3 color code "
+        "and grafted into a distance-5 surface code as a separate step (arXiv:2512.13908v1).",
+        id="cultivation-is-not-grown-in-the-surface-code",
     ),
     pytest.param(
         r"largest device today",
@@ -169,6 +184,8 @@ def test_the_scan_reaches_the_published_surfaces():
         "problems/archived/10_post_quantum_cryptography/ARCHIVED.md",
         "problems/archived/10_post_quantum_cryptography/estimates/advantage_claim_contract.json",
         "docs/paper/methodology-paper.md",
+        "docs/AzureFriday/deck-notes.md",
+        "docs/QuantumPioneersProgram/SoftwareTrack-Proposal-Skeleton.md",
     ):
         assert required in found, f"{required} is no longer scanned"
     assert len(found) > 50
@@ -187,6 +204,45 @@ def test_retracted_claim_is_not_republished(pattern: str, truth: str):
     assert not hits, f"Retracted claim published again. What is true: {truth}\n" + "\n".join(hits)
 
 
+KNOWLEDGE_BASE = ROOT / "knowledge" / "data" / "algorithm_zoo_index.json"
+
+# Retracted claims the knowledge base still carries, and why each is not yet corrected there.
+KNOWLEDGE_BASE_PENDING = {
+    "qaoa-at-most-quadratic": "QAOA's speedup_class 'quadratic_at_most' is router vocabulary",
+    "qaoa-classically-simulable": "the QAOA entry is corrected as a whole, with its speedup_class",
+}
+
+
+def _knowledge_base_hits(claim_ids) -> list[str]:
+    text = _read(KNOWLEDGE_BASE)
+    hits = []
+    for param in RETRACTED:
+        if param.id not in claim_ids:
+            continue
+        pattern, _ = param.values
+        for match in re.finditer(pattern, text, re.IGNORECASE):
+            hits.append(f"{param.id}: ...{text[max(0, match.start() - 60):match.end() + 60]}...")
+    return hits
+
+
+def test_retracted_claims_are_not_in_the_knowledge_base():
+    scanned = {param.id for param in RETRACTED} - set(KNOWLEDGE_BASE_PENDING)
+    hits = _knowledge_base_hits(scanned)
+    assert not hits, (
+        f"{KNOWLEDGE_BASE.relative_to(ROOT).as_posix()} carries a retracted claim. Correct the entry, "
+        "then re-seed the deployed index from it:\n" + "\n".join(hits)
+    )
+
+
+@pytest.mark.parametrize("claim_id", sorted(KNOWLEDGE_BASE_PENDING))
+def test_each_knowledge_base_exemption_is_still_needed(claim_id: str):
+    assert claim_id in {param.id for param in RETRACTED}, f"{claim_id} names no retracted claim"
+    assert _knowledge_base_hits({claim_id}), (
+        f"The knowledge base no longer carries {claim_id}; remove it from KNOWLEDGE_BASE_PENDING "
+        "so the scan covers it."
+    )
+
+
 def test_every_qpe_ground_state_entry_states_the_overlap_condition():
     data = json.loads((ROOT / "website" / "data" / "troyerAssessment.json").read_text(encoding="utf-8"))
     qpe = [p for p in data["categories"]["simulation_native"]["problems"] if "QPE" in p["algorithm"]]
@@ -195,3 +251,71 @@ def test_every_qpe_ground_state_entry_states_the_overlap_condition():
         assert "overlap" in entry["speedup"], (
             f"{entry['id']} claims '{entry['speedup']}' without the initial-state overlap it depends on"
         )
+
+
+# Estimates that hold only under their stated conditions. Wherever one is published, its
+# conditions must be in the same passage, so that a reader cannot take the number without them.
+QUALIFIED_SURFACES = SURFACES + (
+    "knowledge/data/algorithm_zoo_index.json",
+    "knowledge/ingest/algorithm_zoo_parser.py",
+    "tooling/expand_algorithm_zoo.py",
+)
+
+QUALIFIED = [
+    pytest.param(
+        (r"RSA", r"under a week"),
+        (r"square grid", r"0\.1%", r"\b1 (?:microsecond|µs)", r"\b10 (?:microsecond|µs)"),
+        "Gidney's estimate (arXiv:2505.15917v1, abstract) assumes a square grid of qubits with "
+        "nearest-neighbour connections, a uniform 0.1% gate error rate, a 1 microsecond surface "
+        "code cycle and a 10 microsecond control system reaction time.",
+        id="rsa-2048-under-a-week",
+    ),
+    pytest.param(
+        (r"4\.4e5 Toffolis",),
+        (r"GF\(2\^12\)", r"35 symbol errors", r"kickmix", r"100,000", r"97\.5%"),
+        "Gu et al.'s decoder counts are logical counts in the kickmix circuit model, on Khattar et "
+        "al.'s instance of 70 syndrome symbols over GF(2^12) with at most 35 symbol errors, for a "
+        "circuit allowed 100 failures in 100,000 sampled tests. The allowance bounds its failure "
+        "probability under the DQI input distribution at 2.434e-3 with 97.5% confidence "
+        "(github.com/andigu/uncompute, tasks/dqi-reed-solomon/README.md, section 6).",
+        id="dqi-decoder-comparison",
+    ),
+]
+
+
+def _strings(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for item in value.values():
+            yield from _strings(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _strings(item)
+
+
+def _passages(path: Path) -> list[str]:
+    """What a reader takes as one statement: a JSON string, a Markdown paragraph, or a line."""
+    raw = path.read_text(encoding="utf-8-sig")
+    if path.suffix == ".json":
+        return list(_strings(json.loads(raw)))
+    if path.suffix == ".md":
+        return re.split(r"\n\s*\n", raw)
+    return raw.splitlines()
+
+
+@pytest.mark.parametrize("claim, conditions, truth", QUALIFIED)
+def test_a_conditional_estimate_is_published_with_its_conditions(claim, conditions, truth):
+    files: set[Path] = set()
+    for pattern in QUALIFIED_SURFACES:
+        files.update(p for p in ROOT.glob(pattern) if p.is_file())
+    published, bare = 0, []
+    for path in sorted(files):
+        for passage in _passages(path):
+            if all(re.search(part, passage, re.IGNORECASE) for part in claim):
+                published += 1
+                missing = [c for c in conditions if not re.search(c, passage, re.IGNORECASE)]
+                if missing:
+                    bare.append(f"{path.relative_to(ROOT).as_posix()}: lacks {missing}: {passage[:160]}...")
+    assert published, f"{claim} is published nowhere now; remove this entry so the scan stays meaningful"
+    assert not bare, f"Published without its conditions. What is true: {truth}\n" + "\n".join(bare)

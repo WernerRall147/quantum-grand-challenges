@@ -43,6 +43,14 @@ Compare with an exact answer, not with the kernel's own previous output.
   an independent NumPy construction of the same circuit.
 - For sampled outputs, compare the empirical distribution with the exact one using a tolerance
   justified by the shot count, as in `tooling/test_qaoa_kernels.py`.
+- For an operation that maps basis states to basis states, such as modular arithmetic, use
+  `tooling/verify_reversible.py`. It checks outputs, unchanged inputs and clean ancillas against
+  a Python reference: on every input when there are at most k of them, otherwise on k inputs
+  drawn with a seed hashed from the Q# source, and it states what a pass guarantees. Its bound
+  holds only if the candidate was not revised with its draw known, and each check is exact only
+  for an operation that permutes basis states, because the simulator's release check has a
+  numerical tolerance. It does not check phases. `tooling/test_verify_reversible.py` applies it
+  to problem 09's multiplier.
 - Existing kernel tests: `tooling/test_qae_kernel.py`, `tooling/test_hhl_kernel.py`,
   `tooling/test_qaoa_kernels.py`, `tooling/test_qpe_kernels.py`, `tooling/test_shor_kernel.py`,
   `tooling/test_hft_kernel.py`, `tooling/test_swap_test_kernel.py`,
@@ -53,7 +61,10 @@ Compare with an exact answer, not with the kernel's own previous output.
 ## After the kernel changes
 
 1. Resource estimates: `python tooling/generate_estimates.py` rewrites each problem's
-   `circuits/estimate.json` and `website/data/paretoFrontiers.json`.
+   `circuits/estimate.json` and `website/data/paretoFrontiers.json`. If an estimate changed, also
+   run `python tooling/generate_estimates.py --scenario cultivation`: the cultivation projection in
+   `docs/estimates/` shows the published numbers as its baseline, and
+   `tooling/test_estimate_provenance.py` fails until the two agree.
 2. Circuit diagrams: `python tooling/trace_circuits.py` re-renders `circuits/circuit.txt` from
    each `HardwareKernel.qs`.
 3. Maturity contract: `python tooling/reporting/stage_kpis.py --policy tooling/reporting/maturity-policy.json --enforce`.

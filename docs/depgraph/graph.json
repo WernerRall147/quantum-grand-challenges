@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1334,
-    "code_files": 320,
-    "python": 250,
+    "tracked": 1344,
+    "code_files": 322,
+    "python": 252,
     "qsharp": 55,
     "ts": 15,
-    "edges": 249,
-    "roots": 306,
-    "reachable": 345
+    "edges": 252,
+    "roots": 309,
+    "reachable": 348
   },
   "nodes": [
     ".github/hooks/scripts/agent_gates.py",
@@ -266,6 +266,7 @@
     "tooling/run_paper_analyses.py",
     "tooling/run_simulator_matrix.py",
     "tooling/show_trace.py",
+    "tooling/sota_watch.py",
     "tooling/submit_all_syntax_check.py",
     "tooling/submit_hardware_kernels.py",
     "tooling/submit_one_kernel.py",
@@ -294,6 +295,7 @@
     "tooling/test_repetition_code_formula.py",
     "tooling/test_script_claims.py",
     "tooling/test_shor_kernel.py",
+    "tooling/test_sota_watch.py",
     "tooling/test_stage_evidence.py",
     "tooling/test_submit_one_kernel.py",
     "tooling/test_swap_test_kernel.py",
@@ -464,6 +466,10 @@
     [
       ".github/workflows/nightly.yml",
       "tooling/reporting/validate_website_data_schema.py"
+    ],
+    [
+      ".github/workflows/sota-watch.yml",
+      "tooling/sota_watch.py"
     ],
     [
       "Dockerfile",
@@ -1154,6 +1160,10 @@
       "agents/observability/trace.py"
     ],
     [
+      "tooling/sota_watch.py",
+      "knowledge/ingest/arxiv_ingester.py"
+    ],
+    [
       "tooling/test_estimate_provenance.py",
       "tooling/generate_estimates.py"
     ],
@@ -1176,6 +1186,10 @@
     [
       "tooling/test_shor_kernel.py",
       "tooling/estimator_config.py"
+    ],
+    [
+      "tooling/test_sota_watch.py",
+      "knowledge/ingest/arxiv_ingester.py"
     ],
     [
       "tooling/test_stage_evidence.py",

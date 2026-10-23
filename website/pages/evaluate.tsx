@@ -326,8 +326,17 @@ export default function EvaluatePage() {
         setIsFinishing(false);
       };
       setIsFinishing(true);
-      // A recogniser that never reports its end must not leave the text locked.
-      finishTimer.current = window.setTimeout(release, 5000);
+      // A recogniser that never reports its end must not leave the text locked. Abort it, so it
+      // cannot deliver a transcript later, and say so, so the user checks the text or retries.
+      finishTimer.current = window.setTimeout(() => {
+        try {
+          activeRecognition.abort();
+        } catch {
+          // Released below either way.
+        }
+        release();
+        setVoiceError('The transcript did not arrive in time. Check the text, or speak again.');
+      }, 5000);
       try {
         activeRecognition.stop();
       } catch {

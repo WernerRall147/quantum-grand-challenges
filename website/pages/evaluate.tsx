@@ -202,12 +202,21 @@ export default function EvaluatePage() {
   const [problem, setProblem] = useState('');
   const [loading, setLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(false);
   const [voiceError, setVoiceError] = useState('');
   const [generateCode, setGenerateCode] = useState(false);
   const [result, setResult] = useState<EvaluationResult | null>(null);
   const [failure, setFailure] = useState<EvaluatorRequestError | null>(null);
   const voiceRecognition = useRef<VoiceRecognition | null>(null);
+  const finishTimer = useRef<number | null>(null);
+  const clearFinishTimer = useCallback(() => {
+    if (finishTimer.current !== null) {
+      window.clearTimeout(finishTimer.current);
+      finishTimer.current = null;
+    }
+  }, []);
   const stopVoiceRecognition = useCallback(({ abort = false }: { abort?: boolean } = {}) => {
+    clearFinishTimer();
     const recognition = voiceRecognition.current;
     if (!recognition) return;
     try {
@@ -223,7 +232,7 @@ export default function EvaluatePage() {
     } catch {
       // Leave the active recognition session attached if shutdown fails.
     }
-  }, []);
+  }, [clearFinishTimer]);
 
   useEffect(() => {
     return () => {
@@ -253,6 +262,7 @@ export default function EvaluatePage() {
     if (!problem.trim()) return;
     stopVoiceRecognition({ abort: true });
     setIsListening(false);
+    setIsFinishing(false);
     setLoading(true);
     setResult(null);
     setFailure(null);
@@ -304,19 +314,29 @@ export default function EvaluatePage() {
 
     const activeRecognition = voiceRecognition.current;
     if (activeRecognition) {
-      setIsListening(false);
+      // The final transcript can arrive after stop(). Until the recogniser ends, the text is
+      // read-only, so the transcript cannot overwrite what the user types meanwhile.
+      const release = () => {
+        clearFinishTimer();
+        activeRecognition.onresult = null;
+        activeRecognition.onerror = null;
+        activeRecognition.onend = null;
+        if (voiceRecognition.current === activeRecognition) {
+          voiceRecognition.current = null;
+        }
+        setIsListening(false);
+        setIsFinishing(false);
+      };
+      setIsFinishing(true);
+      // A recogniser that never reports its end must not leave the text locked.
+      finishTimer.current = window.setTimeout(release, 5000);
       try {
         activeRecognition.stop();
       } catch {
         try {
           activeRecognition.abort();
         } catch {
-          activeRecognition.onresult = null;
-          activeRecognition.onerror = null;
-          activeRecognition.onend = null;
-          if (voiceRecognition.current === activeRecognition) {
-            voiceRecognition.current = null;
-          }
+          release();
         }
       }
       return;
@@ -345,8 +365,10 @@ export default function EvaluatePage() {
       setVoiceError(getVoiceErrorMessage(event.error));
     };
     recognition.onend = () => {
+      clearFinishTimer();
       voiceRecognition.current = null;
       setIsListening(false);
+      setIsFinishing(false);
     };
     voiceRecognition.current = recognition;
     setIsListening(true);
@@ -405,6 +427,8 @@ export default function EvaluatePage() {
           <textarea
             value={problem}
             onChange={(e) => setProblem(e.target.value)}
+            readOnly={isFinishing}
+            aria-busy={isFinishing}
             placeholder="Describe your quantum computing problem..."
             rows={4}
             style={{
@@ -418,10 +442,10 @@ export default function EvaluatePage() {
           <p style={{ color: '#6b7280', fontSize: '0.85rem', margin: '0.5rem 0' }}>
             Voice recognition may send audio to your browser&apos;s speech service. Only the editable transcript is sent to the evaluator.
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.75rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem', marginTop: '0.75rem' }}>
             <button
               onClick={handleEvaluate}
-              disabled={loading || !problem.trim()}
+              disabled={loading || isFinishing || !problem.trim()}
               style={{
                 padding: '0.75rem 2rem', fontSize: '1rem',
                 background: loading ? '#9ca3af' : '#667eea', color: 'white',
@@ -439,18 +463,20 @@ export default function EvaluatePage() {
             <button
               type="button"
               onClick={handleVoiceInput}
-              disabled={loading}
+              disabled={loading || isFinishing}
               aria-pressed={isListening}
-              aria-label={isListening ? 'Stop listening' : 'Speak problem'}
+              aria-label={isFinishing ? 'Finishing transcript' : isListening ? 'Stop listening' : 'Speak problem'}
               style={{
                 padding: '0.75rem 1rem', fontSize: '1rem',
-                background: isListening ? '#dc2626' : '#f3f4f6',
-                color: isListening ? 'white' : '#374151',
-                border: '1px solid #d1d5db', borderRadius: '8px', cursor: loading ? 'not-allowed' : 'pointer',
+                background: isFinishing ? '#e5e7eb' : isListening ? '#dc2626' : '#f3f4f6',
+                color: isListening && !isFinishing ? 'white' : '#374151',
+                border: '1px solid #d1d5db', borderRadius: '8px', cursor: loading || isFinishing ? 'not-allowed' : 'pointer',
                 fontWeight: 600,
               }}
             >
-              {isListening ? (
+              {isFinishing ? (
+                'Finishing...'
+              ) : isListening ? (
                 <><span aria-hidden="true">■</span> Stop listening</>
               ) : (
                 <><span aria-hidden="true">🎙️</span> Speak problem</>
@@ -461,7 +487,13 @@ export default function EvaluatePage() {
               Generate code (Q# for Quantum, Bicep for HPC/AI)
             </label>
           </div>
-          {isListening && <p role="status" style={{ color: '#b91c1c', fontSize: '0.9rem' }}>Listening... Speak your problem, then stop listening to review the transcript.</p>}
+          {isListening && (
+            <p role="status" style={{ color: '#b91c1c', fontSize: '0.9rem' }}>
+              {isFinishing
+                ? 'Finishing the transcript...'
+                : 'Listening... Speak your problem, then stop listening to review the transcript.'}
+            </p>
+          )}
           {voiceError && <p role="alert" style={{ color: '#b91c1c', fontSize: '0.9rem' }}>{voiceError}</p>}
         </div>
 
@@ -473,9 +505,10 @@ export default function EvaluatePage() {
               <button
                 key={i}
                 onClick={() => setProblem(ex)}
+                disabled={isFinishing}
                 style={{
                   padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: '#f3f4f6',
-                  border: '1px solid #e5e7eb', borderRadius: '6px', cursor: 'pointer',
+                  border: '1px solid #e5e7eb', borderRadius: '6px', cursor: isFinishing ? 'not-allowed' : 'pointer',
                   color: '#374151', maxWidth: '300px', textAlign: 'left',
                 }}
               >

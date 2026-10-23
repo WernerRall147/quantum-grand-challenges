@@ -31,7 +31,7 @@ git clone https://github.com/WernerRall147/quantum-grand-challenges.git
 cd quantum-grand-challenges
 
 # Modern QDK: Q# runs through Python, no .NET needed
-pip install qdk numpy scipy matplotlib pandas
+pip install "qdk==1.31.0" numpy scipy matplotlib pandas pyyaml
 
 cd problems/01_hubbard
 make classical    # Classical baseline

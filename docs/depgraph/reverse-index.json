@@ -529,6 +529,7 @@
     "website/pages/problems/[problem].tsx"
   ],
   "website/data/emulatorResults.json": [
+    "website/pages/index.tsx",
     "website/pages/problems/[problem].tsx"
   ],
   "website/data/multiModelEstimates.json": [
@@ -550,6 +551,7 @@
   ],
   "website/data/resourceEstimates.json": [
     "website/pages/compare.tsx",
+    "website/pages/index.tsx",
     "website/pages/problems/[problem].tsx"
   ],
   "website/data/stageDEvidence.json": [

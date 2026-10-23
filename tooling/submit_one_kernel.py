@@ -11,6 +11,18 @@ that the marked state actually dominates.
 
     python tooling/submit_one_kernel.py 15_database_search quantinuum.sim.h2-1e --shots 100 --expect "0, 1, 1, 1"
 
+LOCALLY. The target `local` runs the same kernel on the QDK's local simulator and
+prints the same table, with no Azure account. It is the baseline a cloud run is
+read against.
+
+    python tooling/submit_one_kernel.py 15_database_search local --expect "0, 1, 1, 1"
+
+YOUR OWN WORKSPACE. Pass its resource ID, from the workspace's Overview page in the
+portal; `az login` supplies the credential and the SDK looks up the region.
+`rigetti.sim.qvm` is a free target and accepts this kernel.
+
+    python tooling/submit_one_kernel.py 15_database_search rigetti.sim.qvm --expect "0, 1, 1, 1" --resource-id <id>
+
 WHICH WORKSPACE. Defaults to `qgc-af-demo` in `qgc-af-demo-rg`, because the
 original `Quantum-Grand-Challenges` workspace cannot accept jobs. It stages
 payloads in a service-managed storage account inside a Microsoft-managed resource
@@ -77,8 +89,11 @@ def compile_kernel(kernel_path: Path, target_id: str):
         raise SystemExit("FAIL: no @EntryPoint in the kernel")
     entry = match.group(1)
 
+    # Every kernel is written for Adaptive_RI, and 16_error_correction branches on a
+    # mid-circuit measurement, which Base rejects. The local simulator and Quantinuum
+    # accept Adaptive_RI, as in run_simulator_matrix.py; the other cloud targets take Base.
     profile = (
-        qsharp.TargetProfile.Adaptive_RI if "quantinuum" in target_id
+        qsharp.TargetProfile.Adaptive_RI if target_id == "local" or "quantinuum" in target_id
         else qsharp.TargetProfile.Base
     )
     qsharp.init(target_profile=profile)
@@ -86,14 +101,72 @@ def compile_kernel(kernel_path: Path, target_id: str):
     return entry, qsharp.compile(f"{entry}()")
 
 
+def run_locally(entry: str, shots: int) -> Counter:
+    """Run the compiled kernel on the local simulator, keyed the way Azure displays outcomes."""
+    from qdk import qsharp
+
+    return Counter(
+        "[" + ", ".join("1" if str(bit) == "One" else "0" for bit in shot) + "]"
+        for shot in qsharp.run(f"{entry}()", shots=shots)
+    )
+
+
+def run_on_azure(qir, args) -> Counter | None:
+    """Submit to Azure Quantum; returns None when asked not to wait."""
+    from azure.identity import AzureCliCredential
+    from qdk.azure import Workspace
+
+    # The project's workspace sits in a tenant `az login` may not default to. Yours
+    # uses whichever subscription `az login` selected.
+    if args.resource_id:
+        credential, rid, location = AzureCliCredential(), args.resource_id, args.location
+    else:
+        credential = AzureCliCredential(tenant_id=TENANT_ID)
+        rid = resource_id(args.resource_group, args.workspace)
+        location = args.location or "eastus"
+    workspace = Workspace(resource_id=rid, location=location, credential=credential)
+    target = workspace.get_targets(args.target_id)
+    # get_targets returns a list, not a target, when the name matches nothing.
+    if not target or isinstance(target, list):
+        offered = ", ".join(sorted(t.name for t in workspace.get_targets())) or "no targets"
+        raise SystemExit(
+            f"FAIL: {args.target_id} is not in this workspace, which offers: {offered}. "
+            "Add its provider under Providers in the portal."
+        )
+
+    job = target.submit(qir, f"qgc-{args.problem_id}", shots=args.shots)
+    job_id = job.details.id if hasattr(job, "details") else str(job)
+    print(f"job id : {job_id}")
+
+    if args.no_wait:
+        print("submitted; not waiting.")
+        return None
+
+    print("waiting for results...", flush=True)
+    results = job.get_results(timeout_secs=args.timeout)
+
+    # A job can reach Succeeded and still be useless as a demo prop, so assert on
+    # the histogram rather than on the status.
+    if isinstance(results, dict):
+        # The v2 results format arrives as each outcome's share of the shots.
+        scale = args.shots if abs(sum(float(v) for v in results.values()) - 1) < 1e-6 else 1
+        return Counter({str(k): round(float(v) * scale) for k, v in results.items()})
+    return Counter(str(r) for r in results)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("problem_id")
-    parser.add_argument("target_id", nargs="?", default="quantinuum.sim.h2-1e")
+    parser.add_argument("target_id", nargs="?", default="quantinuum.sim.h2-1e",
+                        help="an Azure Quantum target id, or 'local' for the local simulator")
     parser.add_argument("--shots", type=int, default=100)
     parser.add_argument("--resource-group", default=DEFAULT_RESOURCE_GROUP)
     parser.add_argument("--workspace", default=DEFAULT_WORKSPACE)
+    parser.add_argument("--resource-id",
+                        help="your workspace's resource ID; replaces --resource-group/--workspace")
+    parser.add_argument("--location",
+                        help="the workspace's region; with --resource-id the SDK looks it up if omitted")
     parser.add_argument("--timeout", type=int, default=1800,
                         help="seconds to wait for the job; the SDK default of 300 is often "
                              "shorter than the h2-1e queue")
@@ -104,40 +177,21 @@ def main() -> int:
     args = parser.parse_args()
 
     kernel = find_kernel(args.problem_id)
+    local = args.target_id == "local"
     print(f"kernel : {kernel.relative_to(REPO)}")
     print(f"target : {args.target_id}  ({args.shots} shots)")
-    print(f"space  : {args.workspace} in {args.resource_group}")
+    if not local:
+        print(f"space  : {args.resource_id or f'{args.workspace} in {args.resource_group}'}")
 
     entry, qir = compile_kernel(kernel, args.target_id)
     print(f"entry  : {entry}()  - compiled to QIR")
 
-    from azure.identity import AzureCliCredential
-    from qdk.azure import Workspace
-
-    credential = AzureCliCredential(tenant_id=TENANT_ID)
-    workspace = Workspace(
-        resource_id=resource_id(args.resource_group, args.workspace),
-        location="eastus", credential=credential,
-    )
-    target = workspace.get_targets(args.target_id)
-
-    job = target.submit(qir, f"qgc-{args.problem_id}", shots=args.shots)
-    job_id = job.details.id if hasattr(job, "details") else str(job)
-    print(f"job id : {job_id}")
-
-    if args.no_wait:
-        print("submitted; not waiting.")
-        return 0
-
-    print("waiting for results...", flush=True)
-    results = job.get_results(timeout_secs=args.timeout)
-
-    # A job can reach Succeeded and still be useless as a demo prop, so assert on
-    # the histogram rather than on the status.
-    if isinstance(results, dict):
-        counts = Counter({str(k): v for k, v in results.items()})
+    if local:
+        counts = run_locally(entry, args.shots)
     else:
-        counts = Counter(str(r) for r in results)
+        counts = run_on_azure(qir, args)
+        if counts is None:
+            return 0
 
     total = sum(counts.values()) or 1
     print(f"\n{'OUTCOME':<12}{'COUNT':>8}{'SHARE':>9}")

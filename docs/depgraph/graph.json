@@ -1,12 +1,12 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1347,
+    "tracked": 1342,
     "code_files": 325,
     "python": 254,
     "qsharp": 55,
     "ts": 16,
-    "edges": 254,
+    "edges": 256,
     "roots": 310,
     "reachable": 350
   },
@@ -1308,7 +1308,15 @@
     ],
     [
       "website/pages/index.tsx",
+      "website/data/emulatorResults.json"
+    ],
+    [
+      "website/pages/index.tsx",
       "website/data/projectStatus.ts"
+    ],
+    [
+      "website/pages/index.tsx",
+      "website/data/resourceEstimates.json"
     ],
     [
       "website/pages/problems/[problem].tsx",

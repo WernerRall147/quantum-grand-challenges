@@ -259,10 +259,8 @@ export default function EvaluatePage() {
   }, [result]);
 
   const handleEvaluate = async () => {
-    if (!problem.trim()) return;
-    stopVoiceRecognition({ abort: true });
-    setIsListening(false);
-    setIsFinishing(false);
+    // Only after a voice session has ended, so the final transcript is what gets evaluated.
+    if (!problem.trim() || voiceRecognition.current) return;
     setLoading(true);
     setResult(null);
     setFailure(null);
@@ -314,8 +312,8 @@ export default function EvaluatePage() {
 
     const activeRecognition = voiceRecognition.current;
     if (activeRecognition) {
-      // The final transcript can arrive after stop(). Until the recogniser ends, the text is
-      // read-only, so the transcript cannot overwrite what the user types meanwhile.
+      // The final transcript can arrive after stop(). The session stays open, and the text
+      // read-only, until the recogniser ends, so the transcript cannot overwrite anything.
       const release = () => {
         clearFinishTimer();
         activeRecognition.onresult = null;
@@ -427,8 +425,8 @@ export default function EvaluatePage() {
           <textarea
             value={problem}
             onChange={(e) => setProblem(e.target.value)}
-            readOnly={isFinishing}
-            aria-busy={isFinishing}
+            readOnly={isListening}
+            aria-busy={isListening}
             placeholder="Describe your quantum computing problem..."
             rows={4}
             style={{
@@ -445,7 +443,7 @@ export default function EvaluatePage() {
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem', marginTop: '0.75rem' }}>
             <button
               onClick={handleEvaluate}
-              disabled={loading || isFinishing || !problem.trim()}
+              disabled={loading || isListening || !problem.trim()}
               style={{
                 padding: '0.75rem 2rem', fontSize: '1rem',
                 background: loading ? '#9ca3af' : '#667eea', color: 'white',
@@ -505,10 +503,10 @@ export default function EvaluatePage() {
               <button
                 key={i}
                 onClick={() => setProblem(ex)}
-                disabled={isFinishing}
+                disabled={isListening}
                 style={{
                   padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: '#f3f4f6',
-                  border: '1px solid #e5e7eb', borderRadius: '6px', cursor: isFinishing ? 'not-allowed' : 'pointer',
+                  border: '1px solid #e5e7eb', borderRadius: '6px', cursor: isListening ? 'not-allowed' : 'pointer',
                   color: '#374151', maxWidth: '300px', textAlign: 'left',
                 }}
               >

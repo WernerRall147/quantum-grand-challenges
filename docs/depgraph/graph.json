@@ -1,11 +1,11 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1341,
-    "code_files": 324,
+    "tracked": 1342,
+    "code_files": 325,
     "python": 254,
     "qsharp": 55,
-    "ts": 15,
+    "ts": 16,
     "edges": 256,
     "roots": 310,
     "reachable": 350
@@ -323,6 +323,7 @@
     "website/components/CostReference.tsx",
     "website/components/MermaidDiagram.tsx",
     "website/data/projectStatus.ts",
+    "website/global.d.ts",
     "website/lib/clarity.ts",
     "website/lib/evaluatorRequest.ts",
     "website/next-env.d.ts",

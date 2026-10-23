@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import MermaidDiagram from '../components/MermaidDiagram';
@@ -10,6 +10,18 @@ import {
   GENERATE_TIMEOUT_MS,
   requestEvaluation,
 } from '../lib/evaluatorRequest';
+
+const getVoiceErrorMessage = (error: VoiceRecognitionError) => {
+  switch (error) {
+    case 'not-allowed':
+    case 'service-not-allowed':
+      return 'Microphone access was denied. Allow microphone access or type your problem.';
+    case 'no-speech':
+      return 'No speech was detected. Try again or type your problem.';
+    default:
+      return 'Speech recognition failed. Try again or type your problem.';
+  }
+};
 
 interface TroyerFilters {
   F1_proven_speedup?: boolean;
@@ -189,9 +201,44 @@ const FILTER_LABELS: Record<string, string> = {
 export default function EvaluatePage() {
   const [problem, setProblem] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(false);
+  const [voiceError, setVoiceError] = useState('');
   const [generateCode, setGenerateCode] = useState(false);
   const [result, setResult] = useState<EvaluationResult | null>(null);
   const [failure, setFailure] = useState<EvaluatorRequestError | null>(null);
+  const voiceRecognition = useRef<VoiceRecognition | null>(null);
+  const finishTimer = useRef<number | null>(null);
+  const clearFinishTimer = useCallback(() => {
+    if (finishTimer.current !== null) {
+      window.clearTimeout(finishTimer.current);
+      finishTimer.current = null;
+    }
+  }, []);
+  const stopVoiceRecognition = useCallback(({ abort = false }: { abort?: boolean } = {}) => {
+    clearFinishTimer();
+    const recognition = voiceRecognition.current;
+    if (!recognition) return;
+    try {
+      if (abort) {
+        recognition.abort();
+      } else {
+        recognition.stop();
+      }
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      voiceRecognition.current = null;
+    } catch {
+      // Leave the active recognition session attached if shutdown fails.
+    }
+  }, [clearFinishTimer]);
+
+  useEffect(() => {
+    return () => {
+      stopVoiceRecognition({ abort: true });
+    };
+  }, [stopVoiceRecognition]);
 
   // Hand the cost figures to /costs, which owns their presentation.
   useEffect(() => {
@@ -212,10 +259,12 @@ export default function EvaluatePage() {
   }, [result]);
 
   const handleEvaluate = async () => {
-    if (!problem.trim()) return;
+    // Only after a voice session has ended, so the final transcript is what gets evaluated.
+    if (!problem.trim() || voiceRecognition.current) return;
     setLoading(true);
     setResult(null);
     setFailure(null);
+    setVoiceError('');
 
     try {
       // Live API backend on Azure Container Apps
@@ -255,6 +304,87 @@ export default function EvaluatePage() {
       tagEvaluation(demo);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleVoiceInput = () => {
+    if (typeof window === 'undefined') return;
+
+    const activeRecognition = voiceRecognition.current;
+    if (activeRecognition) {
+      // The final transcript can arrive after stop(). The session stays open, and the text
+      // read-only, until the recogniser ends, so the transcript cannot overwrite anything.
+      const release = () => {
+        clearFinishTimer();
+        activeRecognition.onresult = null;
+        activeRecognition.onerror = null;
+        activeRecognition.onend = null;
+        if (voiceRecognition.current === activeRecognition) {
+          voiceRecognition.current = null;
+        }
+        setIsListening(false);
+        setIsFinishing(false);
+      };
+      setIsFinishing(true);
+      // A recogniser that never reports its end must not leave the text locked. Abort it, so it
+      // cannot deliver a transcript later, and say so, so the user checks the text or retries.
+      finishTimer.current = window.setTimeout(() => {
+        try {
+          activeRecognition.abort();
+        } catch {
+          // Released below either way.
+        }
+        release();
+        setVoiceError('The transcript did not arrive in time. Check the text, or speak again.');
+      }, 5000);
+      try {
+        activeRecognition.stop();
+      } catch {
+        try {
+          activeRecognition.abort();
+        } catch {
+          release();
+        }
+      }
+      return;
+    }
+
+    setVoiceError('');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setVoiceError('Voice input is not supported by this browser. You can still type your problem.');
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .filter((voiceResult) => voiceResult.isFinal)
+        .map((voiceResult) => voiceResult[0].transcript)
+        .join(' ')
+        .trim();
+      if (transcript) setProblem(transcript);
+    };
+    recognition.onerror = (event) => {
+      if (event.error === 'aborted') return;
+      setVoiceError(getVoiceErrorMessage(event.error));
+    };
+    recognition.onend = () => {
+      clearFinishTimer();
+      voiceRecognition.current = null;
+      setIsListening(false);
+      setIsFinishing(false);
+    };
+    voiceRecognition.current = recognition;
+    setIsListening(true);
+    try {
+      recognition.start();
+    } catch {
+      voiceRecognition.current = null;
+      setIsListening(false);
+      setVoiceError('Speech recognition could not start. Try again or type your problem.');
     }
   };
 
@@ -304,6 +434,8 @@ export default function EvaluatePage() {
           <textarea
             value={problem}
             onChange={(e) => setProblem(e.target.value)}
+            readOnly={isListening}
+            aria-busy={isListening}
             placeholder="Describe your quantum computing problem..."
             rows={4}
             style={{
@@ -314,10 +446,13 @@ export default function EvaluatePage() {
             onFocus={(e) => { e.currentTarget.style.borderColor = '#667eea'; }}
             onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; }}
           />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.75rem' }}>
+          <p style={{ color: '#6b7280', fontSize: '0.85rem', margin: '0.5rem 0' }}>
+            Voice recognition may send audio to your browser&apos;s speech service. Only the editable transcript is sent to the evaluator.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem', marginTop: '0.75rem' }}>
             <button
               onClick={handleEvaluate}
-              disabled={loading || !problem.trim()}
+              disabled={loading || isListening || !problem.trim()}
               style={{
                 padding: '0.75rem 2rem', fontSize: '1rem',
                 background: loading ? '#9ca3af' : '#667eea', color: 'white',
@@ -332,11 +467,41 @@ export default function EvaluatePage() {
                 </span>
               ) : 'Evaluate Problem'}
             </button>
+            <button
+              type="button"
+              onClick={handleVoiceInput}
+              disabled={loading || isFinishing}
+              aria-pressed={isListening}
+              aria-label={isFinishing ? 'Finishing transcript' : isListening ? 'Stop listening' : 'Speak problem'}
+              style={{
+                padding: '0.75rem 1rem', fontSize: '1rem',
+                background: isFinishing ? '#e5e7eb' : isListening ? '#dc2626' : '#f3f4f6',
+                color: isListening && !isFinishing ? 'white' : '#374151',
+                border: '1px solid #d1d5db', borderRadius: '8px', cursor: loading || isFinishing ? 'not-allowed' : 'pointer',
+                fontWeight: 600,
+              }}
+            >
+              {isFinishing ? (
+                'Finishing...'
+              ) : isListening ? (
+                <><span aria-hidden="true">■</span> Stop listening</>
+              ) : (
+                <><span aria-hidden="true">🎙️</span> Speak problem</>
+              )}
+            </button>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem', color: '#374151', cursor: 'pointer' }}>
               <input type="checkbox" checked={generateCode} onChange={(e) => setGenerateCode(e.target.checked)} />
               Generate code (Q# for Quantum, Bicep for HPC/AI)
             </label>
           </div>
+          {isListening && (
+            <p role="status" style={{ color: '#b91c1c', fontSize: '0.9rem' }}>
+              {isFinishing
+                ? 'Finishing the transcript...'
+                : 'Listening... Speak your problem, then stop listening to review the transcript.'}
+            </p>
+          )}
+          {voiceError && <p role="alert" style={{ color: '#b91c1c', fontSize: '0.9rem' }}>{voiceError}</p>}
         </div>
 
         {/* Example problems */}
@@ -347,9 +512,10 @@ export default function EvaluatePage() {
               <button
                 key={i}
                 onClick={() => setProblem(ex)}
+                disabled={isListening}
                 style={{
                   padding: '0.4rem 0.8rem', fontSize: '0.8rem', background: '#f3f4f6',
-                  border: '1px solid #e5e7eb', borderRadius: '6px', cursor: 'pointer',
+                  border: '1px solid #e5e7eb', borderRadius: '6px', cursor: isListening ? 'not-allowed' : 'pointer',
                   color: '#374151', maxWidth: '300px', textAlign: 'left',
                 }}
               >

@@ -1,10 +1,40 @@
+import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { problemHighlights } from '../data/projectStatus';
+import emulatorResults from '../data/emulatorResults.json';
+import resourceEstimates from '../data/resourceEstimates.json';
 
-export default function Home() {
+const AZURE_FRIDAY_URL = 'https://www.youtube.com/watch?v=Aaa4DZNDDzw';
+const REPO_URL = 'https://github.com/WernerRall147/quantum-grand-challenges';
+
+// The walkthrough runs problems/archived/15_database_search/qsharp/HardwareKernel.qs:
+// Grover over 4 qubits, 3 iterations, one marked item.
+const DEMO_PROBLEM = '15_database_search';
+const MARKED = '[0, 1, 1, 1]';
+const SEARCH_SPACE = 16;
+const ITERATIONS = 3;
+const IDEAL_SHARE = Math.sin((2 * ITERATIONS + 1) * Math.asin(Math.sqrt(1 / SEARCH_SPACE))) ** 2;
+
+const TARGET_NAMES: Record<string, string> = {
+  'rigetti.sim.qvm': 'Rigetti QVM, the free simulator in step 3',
+  'quantinuum.sim.h2-1e': 'Quantinuum H2 emulator, with a realistic noise model',
+};
+
+interface StoredRun {
+  target: string;
+  marked: number;
+  shots: number;
+}
+
+interface HomeProps {
+  demoRuns: StoredRun[];
+  demoEstimate: { logical: number; physical: number } | null;
+}
+
+export default function Home({ demoRuns, demoEstimate }: HomeProps) {
   const basePath = process.env.NODE_ENV === 'production' ? '/quantum-grand-challenges' : '';
   const withBasePath = (path: string) => `${basePath}${path}`;
   const [showArchived, setShowArchived] = useState(false);
@@ -24,10 +54,9 @@ export default function Home() {
         <title>Quantum Grand Challenges</title>
         <meta name="description" content="Systematic exploration of the world's most challenging scientific problems using quantum computing, AI and HPC" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href={withBasePath('/favicon.ico')} />
         <style>{`
           @media (max-width: 900px) {
-            .qgc-layout { grid-template-columns: 1fr !important; }
+            .qgc-layout { grid-template-columns: minmax(0, 1fr) !important; }
             .qgc-sidebar { position: static !important; order: -1; }
           }
           @keyframes orbit1 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -110,6 +139,41 @@ export default function Home() {
           </div>
         </header>
 
+        {/* Featured */}
+        <section aria-label="Featured" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+          <a href={AZURE_FRIDAY_URL} target="_blank" rel="noopener noreferrer" style={{
+            display: 'flex', alignItems: 'center', gap: '1.25rem', padding: '1.25rem 1.5rem', borderRadius: '12px',
+            background: '#0f172a', color: 'white', textDecoration: 'none',
+          }}>
+            <span aria-hidden="true" style={{
+              flex: '0 0 auto', width: 64, height: 64, borderRadius: '50%', background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', paddingLeft: 4,
+              boxShadow: '0 4px 15px rgba(102,126,234,0.4)',
+            }}>
+              &#9654;
+            </span>
+            <span>
+              <span style={{ display: 'block', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a5b4fc' }}>Azure Friday</span>
+              <span style={{ display: 'block', fontSize: '1.15rem', fontWeight: 700, margin: '0.15rem 0' }}>Watch the evaluator on Azure Friday</span>
+              <span style={{ display: 'block', fontSize: '0.85rem', color: '#cbd5e1' }}>
+                &ldquo;Quantum Advantage&rdquo;, on the Microsoft Azure Developers YouTube channel &rarr;
+              </span>
+            </span>
+          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', padding: '1rem 1.5rem', borderRadius: '12px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+            <Image
+              src={withBasePath('/images/hackathon-2026-top10.png')}
+              alt="Microsoft Hackathon 2026 badge: Top 10% Projects, Ambient Agent Challenge"
+              width={88} height={88} style={{ flex: '0 0 auto' }} unoptimized
+            />
+            <div>
+              <div style={{ fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#64748b' }}>Microsoft Global Hackathon 2026</div>
+              <div style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0.15rem 0' }}>Top 10% of judged projects</div>
+              <div style={{ fontSize: '0.85rem', color: '#475569' }}>The Quantum Advantage Evaluator, recognised in the Ambient Agent Challenge.</div>
+            </div>
+          </div>
+        </section>
+
         {/* Two-column layout: content + sidebar */}
         <div className="qgc-layout" style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '2.5rem', alignItems: 'start' }}>
         <main>
@@ -120,7 +184,7 @@ export default function Home() {
           <p style={{ color: '#64748b', margin: '0.25rem 0 1rem', fontSize: '0.95rem' }}>
             Every problem is evaluated against Dr. Matthias Troyer&apos;s utility-scale filters. Only problems that pass <strong>all six</strong> are classified as active candidates for quantum advantage.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))', gap: '0.75rem' }}>
             {[
               { id: 'F1', q: 'Proven speedup?', kill: 'VQE/QAOA fail' },
               { id: 'F2', q: 'I/O survives?', kill: 'O(N) loading erases gain' },
@@ -184,7 +248,7 @@ export default function Home() {
               {q ? `${active.length} matching` : `${active.length} pass all Troyer filters`}
             </span>
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px, 100%), 1fr))', gap: '1rem', marginTop: '1rem' }}>
             {active.map((p) => (
               <ProblemCard key={p.title} {...p} />
             ))}
@@ -210,7 +274,7 @@ export default function Home() {
             </span>
           </button>
           {(showArchived || !!q) && (
-            <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '0.75rem' }}>
+            <div style={{ marginTop: '1rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px, 100%), 1fr))', gap: '0.75rem' }}>
               {archived.map((p) => (
                 <div key={p.title} style={{ padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '8px', background: '#fafafa' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -226,7 +290,7 @@ export default function Home() {
 
         {/* Key Numbers */}
         <section style={{ marginTop: '2.5rem', padding: '1.5rem 2rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: '12px', color: 'white' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem', textAlign: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(150px, 100%), 1fr))', gap: '1.5rem', textAlign: 'center' }}>
             {[
               { val: '9', label: 'Active problems' },
               { val: '120+', label: 'Azure Quantum runs' },
@@ -243,7 +307,7 @@ export default function Home() {
         </section>
 
         {/* Research */}
-        <section style={{ marginTop: '2.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+        <section style={{ marginTop: '2.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '1.5rem' }}>
           <div style={{ padding: '1.5rem', border: '1px solid #d1fae5', borderRadius: '10px', background: '#f0fdf4' }}>
             <h3 style={{ marginTop: 0, color: '#166534' }}>Methodology Paper</h3>
             <p style={{ color: '#374151', fontSize: '0.9rem' }}>
@@ -264,44 +328,116 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Quick Start */}
-        <section style={{ marginTop: '2.5rem' }}>
-          <h2 style={{ fontSize: '1.4rem' }}>Quick Start</h2>
-          <p style={{ color: '#475569', fontSize: '0.95rem', margin: '0.25rem 0 0' }}>
-            Problems run offline with nothing but Python. Evaluating a problem queries a
-            knowledge-base index, so it needs either access to ours or{' '}
-            <a href="https://github.com/WernerRall147/quantum-grand-challenges#self-host-the-evaluator" style={{ color: '#667eea' }}>
-              your own Azure AI Search and OpenAI resources
-            </a>.
+        {/* Try it end to end */}
+        <section id="try-it" style={{ marginTop: '2.5rem' }}>
+          <h2 style={{ fontSize: '1.4rem', marginBottom: '0.25rem' }}>Try it end to end</h2>
+          <p style={{ color: '#475569', fontSize: '0.95rem', margin: '0.25rem 0 0', lineHeight: 1.6 }}>
+            The Azure Friday demo in four steps you can run yourself: Grover&apos;s search over {SEARCH_SPACE} items for
+            the one marked item, <code>{MARKED}</code>. The answer is known before you start, so you can tell whether a
+            run worked.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
-            <CommandBlock title="Setup" commands={[
-              'git clone https://github.com/WernerRall147/quantum-grand-challenges.git',
-              'cd quantum-grand-challenges',
-              'pip install qdk numpy scipy matplotlib',
-            ]} />
-            <CommandBlock title="Run a Problem" commands={[
-              'cd problems/01_hubbard',
-              'make classical   # baseline',
-              'make build       # Q# compilation',
-              'make run         # execute',
-            ]} />
-            <CommandBlock title="Evaluate" commands={[
-              'pip install azure-identity azure-search-documents openai',
-              'az login',
-              'python agents/orchestrator/evaluate.py \\',
-              '  "Simulate ground state of a 50-atom catalyst"',
-            ]} />
-            <CommandBlock title="Run the App Yourself" commands={[
-              'export SEARCH_ENDPOINT="https://<your>.search.windows.net"',
-              'export AZURE_OPENAI_ENDPOINT="https://<your>.openai.azure.com/"',
-              'python knowledge/seed_knowledge_base.py',
-              '',
-              'uvicorn agents.api.main:app --reload --port 8000',
-              'docker run --rm -p 8000:8000 qgc-eval-api:local',
-              'cd website && npm install && npm run dev',
-            ]} />
-          </div>
+          <ol role="list" style={{ listStyle: 'none', padding: 0, margin: '1rem 0 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '1rem' }}>
+            <Step n={1} title="Ask the evaluator">
+              <p style={{ margin: '0 0 0.5rem' }}>Paste the demo question into the evaluator:</p>
+              <blockquote style={{ margin: '0 0 0.5rem', padding: '0.6rem 0.9rem', background: '#f5f3ff', borderLeft: '3px solid #764ba2', borderRadius: '4px', color: '#1a1a2e' }}>
+                Search an unsorted database of 10 million records for a matching entry
+              </blockquote>
+              <p style={{ margin: '0 0 0.75rem' }}>
+                It answers <code>HPC_PREFERRED</code>: the best quantum algorithm for the job offers only a polynomial
+                speedup.
+              </p>
+              <Link href="/evaluate/" style={{ color: '#5b21b6', fontWeight: 600, textDecoration: 'none' }}>Open the evaluator &rarr;</Link>
+            </Step>
+            <Step n={2} title="Run it on your laptop">
+              <CommandBlock commands={[
+                `git clone ${REPO_URL}.git`,
+                'cd quantum-grand-challenges',
+                'pip install "qdk[azure]==1.31.0"',
+                `python tooling/submit_one_kernel.py ${DEMO_PROBLEM} local --expect "0, 1, 1, 1"`,
+              ]} />
+              <p style={{ margin: '0.75rem 0 0' }}>
+                Python 3.11 and no Azure account. It runs the kernel on the local simulator and prints how often each
+                outcome came up in 100 shots.
+              </p>
+            </Step>
+            <Step n={3} title="Run it on your Azure Quantum workspace">
+              <p style={{ margin: '0 0 0.75rem' }}>
+                <a href="https://learn.microsoft.com/azure/quantum/how-to-create-workspace" style={{ color: '#5b21b6' }}>Create a workspace</a>{' '}
+                with Quick create, which adds the Rigetti provider, and copy the Resource ID from its Overview page.
+              </p>
+              <CommandBlock commands={[
+                'az login',
+                `python tooling/submit_one_kernel.py ${DEMO_PROBLEM} rigetti.sim.qvm --expect "0, 1, 1, 1" --resource-id "<your workspace resource ID>"`,
+              ]} />
+              <p style={{ margin: '0.75rem 0 0' }}>
+                <code>rigetti.sim.qvm</code> is a{' '}
+                <a href="https://learn.microsoft.com/azure/quantum/pricing#rigetti" style={{ color: '#5b21b6' }}>free target</a>;
+                the workspace&apos;s storage account is billed as usual. With several subscriptions, run{' '}
+                <code>az account set --subscription &lt;id&gt;</code> first.
+              </p>
+            </Step>
+            <Step n={4} title="Read the result" wide>
+              <table style={{ borderCollapse: 'collapse', width: '100%', maxWidth: '640px', fontSize: '0.9rem' }}>
+                <caption style={{ textAlign: 'left', color: '#64748b', paddingBottom: '0.4rem' }}>
+                  How often the marked item <code>{MARKED}</code> comes up
+                </caption>
+                <thead>
+                  <tr style={{ borderBottom: '2px solid #e2e8f0', textAlign: 'left' }}>
+                    <th scope="col" style={{ padding: '0.4rem 0.75rem 0.4rem 0' }}>Run</th>
+                    <th scope="col" style={{ padding: '0.4rem 0' }}>Marked item</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
+                    <td style={{ padding: '0.4rem 0.75rem 0.4rem 0' }}>Random guessing</td>
+                    <td>1 in {SEARCH_SPACE} ({Math.round(100 / SEARCH_SPACE)}%)</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
+                    <td style={{ padding: '0.4rem 0.75rem 0.4rem 0' }}>Ideal, sin&sup2;({2 * ITERATIONS + 1} &middot; arcsin(1/{Math.sqrt(SEARCH_SPACE)}))</td>
+                    <td>{(IDEAL_SHARE * 100).toFixed(1)}%</td>
+                  </tr>
+                  {demoRuns.map((run) => (
+                    <tr key={run.target} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '0.4rem 0.75rem 0.4rem 0' }}>{TARGET_NAMES[run.target] ?? run.target}, stored run</td>
+                      <td>{run.marked} of {run.shots} shots</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p style={{ margin: '0.9rem 0 0' }}>
+                Your run should look like these: the marked item far ahead of the other {SEARCH_SPACE - 1} outcomes, and
+                close to the ideal on a simulator. The noisy emulator falls well short of the ideal on a circuit of four
+                qubits, which is why fault tolerance is not optional
+                {demoEstimate && (
+                  <>
+                    : a fault-tolerant version of this search is estimated at {demoEstimate.logical} logical and{' '}
+                    {demoEstimate.physical.toLocaleString('en-US')} physical qubits
+                  </>
+                )}
+                .
+              </p>
+              <p style={{ margin: '0.6rem 0 0' }}>
+                Even a perfect run is no case for quantum. Grover&apos;s speedup is quadratic, so this problem is archived
+                as HPC-preferred: the algorithm working is not the same as it being worth it.
+              </p>
+              <p style={{ margin: '0.6rem 0 0' }}>
+                <a href={`${REPO_URL}/blob/main/problems/archived/${DEMO_PROBLEM}/azure_runs/2026-09-02-grover-h2-1e/README.md`} style={{ color: '#5b21b6', fontWeight: 600, textDecoration: 'none' }}>
+                  Every shot of a later H2 emulator run, explained &rarr;
+                </a>
+                <span aria-hidden="true" style={{ color: '#cbd5e1', margin: '0 0.6rem' }}>|</span>
+                <Link href={`/problems/${DEMO_PROBLEM}/`} style={{ color: '#5b21b6', fontWeight: 600, textDecoration: 'none' }}>
+                  Problem page &rarr;
+                </Link>
+              </p>
+            </Step>
+          </ol>
+          <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '1rem 0 0' }}>
+            More ways in:{' '}
+            <a href={`${REPO_URL}#run-a-problem`} style={{ color: '#667eea' }}>run any of the 20 problems</a>,{' '}
+            <a href={`${REPO_URL}#cli-evaluator`} style={{ color: '#667eea' }}>evaluate from the command line</a>, or{' '}
+            <a href={`${REPO_URL}#self-host-the-evaluator`} style={{ color: '#667eea' }}>self-host the evaluator</a> on
+            your own Azure AI Search and OpenAI resources.
+          </p>
         </section>
         </main>
 
@@ -392,6 +528,10 @@ export default function Home() {
           <a href="https://github.com/WernerRall147/quantum-grand-challenges" style={{ color: '#667eea', textDecoration: 'none' }}>
             View on GitHub &rarr;
           </a>
+          <span aria-hidden="true" style={{ margin: '0 0.75rem' }}>&middot;</span>
+          <a href={AZURE_FRIDAY_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#667eea', textDecoration: 'none' }}>
+            Watch on Azure Friday &rarr;
+          </a>
         </footer>
       </div>
     </>
@@ -426,11 +566,48 @@ function ProblemCard({ title, status, description, href }: { title: string; stat
   );
 }
 
-function CommandBlock({ title, commands }: { title: string; commands: string[] }) {
+function Step({ n, title, wide, children }: { n: number; title: string; wide?: boolean; children: ReactNode }) {
   return (
-    <div style={{ background: '#0f172a', color: '#e2e8f0', borderRadius: '8px', padding: '1.25rem', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' }}>
-      <h3 style={{ marginTop: 0, marginBottom: '0.75rem', fontSize: '1rem', color: '#38bdf8' }}>{title}</h3>
-      <code style={{ whiteSpace: 'pre-wrap', fontSize: '0.85rem', lineHeight: 1.6 }}>{commands.join('\n')}</code>
-    </div>
+    <li style={{
+      padding: '1.25rem', border: '1px solid #e2e8f0', borderRadius: '10px', background: 'white',
+      gridColumn: wide ? '1 / -1' : undefined, fontSize: '0.9rem', color: '#475569', lineHeight: 1.6, minWidth: 0,
+    }}>
+      <h3 style={{ margin: '0 0 0.75rem', fontSize: '1.05rem', color: '#1a1a2e', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+        <span aria-hidden="true" style={{
+          flex: '0 0 auto', width: 26, height: 26, borderRadius: '50%', background: 'linear-gradient(135deg, #667eea, #764ba2)',
+          color: 'white', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          {n}
+        </span>
+        {title}
+      </h3>
+      {children}
+    </li>
   );
 }
+
+function CommandBlock({ commands }: { commands: string[] }) {
+  return (
+    <pre style={{ margin: 0, background: '#0f172a', color: '#e2e8f0', borderRadius: '8px', padding: '1rem', fontSize: '0.8rem', lineHeight: 1.6, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
+      <code style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' }}>{commands.join('\n')}</code>
+    </pre>
+  );
+}
+
+// Read at build time, so the walkthrough cannot quote numbers its data no longer holds.
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  type Histogram = { target: string; shots: number; histogram: { outcome: string; count: number }[] };
+  const stored = emulatorResults as unknown as Record<string, Record<string, Histogram>>;
+  const demoRuns = ['rigetti_qvm', 'quantinuum_h2_1e'].flatMap((source) => {
+    const run = stored[source]?.[DEMO_PROBLEM];
+    const hit = run?.histogram.find((h) => h.outcome === MARKED);
+    return run && hit ? [{ target: run.target, marked: hit.count, shots: run.shots }] : [];
+  });
+
+  const estimate = (resourceEstimates as Record<string, { logicalQubits?: number; physicalQubits?: number }>)[DEMO_PROBLEM];
+  const demoEstimate = estimate?.logicalQubits && estimate?.physicalQubits
+    ? { logical: estimate.logicalQubits, physical: estimate.physicalQubits }
+    : null;
+
+  return { props: { demoRuns, demoEstimate } };
+};

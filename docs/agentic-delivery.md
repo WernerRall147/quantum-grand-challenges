@@ -104,8 +104,10 @@ them. The boundary is branch protection, review and a person merging.
 ## Repository settings outside git
 
 - **Copilot cloud agent** is enabled for the repository.
-- **Ruleset "Copilot code review"** asks Copilot to review every pull request into `main`, and to
-  re-review new pushes. Drafts are not reviewed until they are marked ready.
+- **Ruleset "Copilot code review"** asks Copilot to review every pull request into `main` once,
+  when it is opened or marked ready. It does not re-review new pushes, because every review
+  spends Copilot credits; to have the latest commit reviewed, request Copilot again from the
+  pull request's Reviewers menu. Drafts are not reviewed until they are marked ready.
 - **Workflow approval** for agents' pull requests stays on (GitHub's default). Turn it off only
   once no workflow can be changed by an untrusted pull request to reach secrets.
 - **Label `agent-task`** is applied by the issue form.

@@ -47,6 +47,21 @@ jobs:
   # KPI + platform recommendations refresh
   refresh-reports:
     runs-on: ${{ fromJSON((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"') || vars.CI_RUNNER || '"ubuntu-latest"') }}
+    env:
+      # The files this job writes and may propose. Everything else it touches, such as the
+      # classical baselines and plots the verification-matrix check regenerates, stays out of
+      # the pull request.
+      REPORT_FILES: |
+        docs/objective-kpis.md
+        docs/objective-kpis.json
+        viz/interactive/evidence.js
+        docs/platform-target-recommendations.md
+        docs/platform-target-recommendations-hardware-first.md
+        docs/platform-target-recommendations-simulator-first.md
+        tooling/reporting/platform_target_recommendations.json
+        tooling/reporting/azure_run_history_metrics_audit.json
+        tooling/azure/run_history.json
+        website/data/azureRunHistory.json
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -68,17 +83,26 @@ jobs:
             --out-md docs/objective-kpis.md \
             --out-json docs/objective-kpis.json
 
+      - name: Regenerate the viewer data that records the KPI file's hash
+        # viz/interactive/evidence.js embeds the SHA-256 of docs/objective-kpis.json, so a
+        # refreshed KPI file without it fails the viewer's delivered-data test.
+        run: python -m viz.build interactive
+
       - name: Audit Azure run-history metrics
         run: python tooling/reporting/audit_azure_run_history_metrics.py --min-resolved-coverage 0.85 --enforce-threshold
 
       - name: Generate platform recommendations
+        # The tracked JSON is the balanced run, like docs/platform-target-recommendations.md.
+        # The other two preferences publish Markdown only, so their JSON goes to a scratch path.
         run: |
           python tooling/reporting/recommend_platform_targets.py --preference balanced
           python tooling/reporting/recommend_platform_targets.py \
             --preference hardware-first \
+            --out-json "$RUNNER_TEMP/platform-target-recommendations-hardware-first.json" \
             --out-md docs/platform-target-recommendations-hardware-first.md
           python tooling/reporting/recommend_platform_targets.py \
             --preference simulator-first \
+            --out-json "$RUNNER_TEMP/platform-target-recommendations-simulator-first.json" \
             --out-md docs/platform-target-recommendations-simulator-first.md
 
       - name: Validate website data + matrix freshness
@@ -86,15 +110,29 @@ jobs:
           python tooling/reporting/validate_website_data_schema.py
           python tooling/reporting/check_verification_matrix_freshness.py || echo "::warning::Verification matrix stale (archived-problem make targets can drift in CI)"
 
+      - name: Drop reports whose only change is a timestamp
+        # Each report records when it was written, so without this every run would update the
+        # pull request even when nothing else changed. `-I` needs git 2.30 or later; an older
+        # git fails the diff, which keeps the file.
+        run: |
+          for f in $REPORT_FILES; do
+            if git ls-files --error-unmatch -- "$f" > /dev/null 2>&1 \
+              && git diff --quiet -I '^Generated: ' -I '^ *"(generated_utc|updated_utc|metrics_checked_utc)": ' -- "$f"; then
+              git checkout -- "$f"
+            fi
+          done
+          git status --short
+
       - name: Create PR for report updates
         id: create-pr
         continue-on-error: true
         uses: peter-evans/create-pull-request@v7
         with:
           branch: chore/nightly-reports
+          add-paths: ${{ env.REPORT_FILES }}
           commit-message: "chore(nightly): refresh KPIs + platform recommendations"
           title: "chore(nightly): refresh reports"
-          body: "Automated nightly refresh of KPI dashboard and platform recommendations."
+          body: "Automated nightly refresh of the KPI dashboard, the viewer data that pins it, and the platform recommendations. It contains only the files listed in REPORT_FILES in .github/workflows/nightly.yml, and only those that changed beyond a timestamp."
           labels: documentation,reporting
 
       - name: Warn if PR creation was not permitted

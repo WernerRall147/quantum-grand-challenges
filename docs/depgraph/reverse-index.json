@@ -501,6 +501,7 @@
     "viz/test_pipeline.py"
   ],
   "viz/build.py": [
+    ".github/workflows/nightly.yml",
     "viz/test_interactive.py",
     "viz/test_pipeline.py"
   ],

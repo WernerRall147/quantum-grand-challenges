@@ -24,7 +24,7 @@
       "num_ligand_atoms": 8,
       "num_protein_atoms": 6,
       "lj_energy": 9477.83497251825,
-      "coulomb_energy": -0.20974282358372834,
+      "coulomb_energy": -0.2097428235837284,
       "total_energy": 9477.625229694668,
       "contact_pairs": 48,
       "options": {

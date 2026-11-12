@@ -6,8 +6,8 @@
     "python": 254,
     "qsharp": 55,
     "ts": 16,
-    "edges": 256,
-    "roots": 310,
+    "edges": 257,
+    "roots": 311,
     "reachable": 350
   },
   "nodes": [
@@ -469,6 +469,10 @@
     [
       ".github/workflows/nightly.yml",
       "tooling/reporting/validate_website_data_schema.py"
+    ],
+    [
+      ".github/workflows/nightly.yml",
+      "viz/build.py"
     ],
     [
       ".github/workflows/sota-watch.yml",

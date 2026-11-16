@@ -18,7 +18,10 @@ The reference functions below are loaded by name, from this file, in the evaluat
 
 from __future__ import annotations
 
+import hashlib
 import json
+import os
+import py_compile
 import sys
 import threading
 import time
@@ -272,3 +275,38 @@ def test_a_check_leaves_the_callers_qsharp_interpreter_alone(tmp_path):
     result = evaluate(project(tmp_path, COPY), spec("copy-3", "Main.Copy(x, y)", COPY_3, copy))
     assert result.accepted, result.reason
     assert qsharp.eval("Marker()") == 42
+
+
+def test_the_reference_that_runs_is_the_text_read_and_logged(tmp_path):
+    """A check reads its reference once; that text is what runs and what the attempt log hashes.
+    Loaded from the file in the worker instead, a stale .pyc could run, because an edit of the same
+    length within the same second passes the cache's timestamp check, and so could an edit made
+    after the attempt was logged."""
+    right = "def reference(values):\n    return {'y': values['x'] ^ 0}\n"
+    wrong = right.replace("^ 0", "^ 1")
+    path = tmp_path / "reference.py"
+    path.write_text(wrong, encoding="utf-8")
+    stamp = path.stat()
+    py_compile.compile(str(path), invalidation_mode=py_compile.PycInvalidationMode.TIMESTAMP)
+    path.write_text(right, encoding="utf-8")
+    os.utime(path, ns=(stamp.st_atime_ns, stamp.st_mtime_ns))
+    task = Spec(task="copy-3", operation="Main.Copy(x, y)", registers=COPY_3, reference=path)
+    root = project(tmp_path / "candidate", COPY)
+    looped = evaluate(root, task)
+    assert looped.accepted, looped.reason
+
+    log = tmp_path / "attempts.jsonl"
+
+    def edit_once_logged() -> None:
+        deadline = time.monotonic() + 30
+        while not log.exists() and time.monotonic() < deadline:
+            time.sleep(0.01)
+        path.write_text(wrong, encoding="utf-8")
+
+    editor = threading.Thread(target=edit_once_logged)
+    editor.start()
+    held_out = certify(root, task, log)
+    editor.join()
+    assert held_out.accepted, held_out.reason
+    attempt = json.loads(log.read_text(encoding="utf-8").splitlines()[0])
+    assert attempt["reference_sha256"] == hashlib.sha256(right.encode("utf-8")).hexdigest()

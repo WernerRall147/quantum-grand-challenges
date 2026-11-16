@@ -39,7 +39,8 @@ and a candidate revised with its draw known can pass tests it would otherwise fa
 there ranks candidates and is never recorded.
 
 `certify` is the held-out check. Before any test runs, it appends the candidate's hash to an
-attempts log with a seed drawn by `secrets.randbits(64)`. It then tests every input when there
+attempts log with a seed drawn by `secrets.randbits(64)` and the SHA-256 of the reference, read
+once: that text is the reference that runs. It then tests every input when there
 are at most `exhaustive_limit` or `held_out_k` of them, and otherwise `held_out_k` inputs drawn
 from that seed.
 A candidate gets one attempt: `certify` refuses a second for a hash already in the log, whatever
@@ -55,7 +56,6 @@ from __future__ import annotations
 
 import hashlib
 import importlib.metadata
-import importlib.util
 import json
 import os
 import re
@@ -64,6 +64,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import types
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -202,15 +203,17 @@ def evaluate(project_root: str | Path, spec: Spec, *, timeout: float = 600.0) ->
         banned = _banned(snapshot)
         if banned:
             return Evaluation("loop", spec.task, candidate, False, banned)
-        return _run(scratch, snapshot, spec, "loop", candidate, spec.loop_k, None, timeout)
+        reference = spec.reference.read_text(encoding="utf-8")
+        return _run(scratch, snapshot, spec, reference, "loop", candidate, spec.loop_k, None, timeout)
 
 
 def certify(project_root: str | Path, spec: Spec, log: str | Path, *, timeout: float = 3600.0) -> Evaluation:
     """The held-out check, once per candidate and task, recorded in the attempts log `log`.
 
     Raises AttemptRefused, and appends nothing, if the log already holds an attempt on this
-    candidate for this task. Otherwise appends the attempt, with its seed, before any test runs,
-    and the result when the check ends, whether the candidate passed, failed or was stopped.
+    candidate for this task. Otherwise appends the attempt, with its seed and the SHA-256 of the
+    reference, before any test runs, and the result when the check ends, whether the candidate
+    passed, failed or was stopped. The reference is read once, and that text is what runs.
     """
     log = Path(log)
     with tempfile.TemporaryDirectory(prefix="kernel-opt-", ignore_cleanup_errors=True) as scratch:
@@ -226,18 +229,19 @@ def certify(project_root: str | Path, spec: Spec, log: str | Path, *, timeout: f
         exhaustive = spec.domain_size <= max(spec.exhaustive_limit, spec.held_out_k)
         k = spec.domain_size if exhaustive else spec.held_out_k
         seed = None if exhaustive else secrets.randbits(64)
+        reference = spec.reference.read_text(encoding="utf-8")
         _append(log, {
             "event": "attempt", "task": spec.task, "candidate": candidate, "operation": spec.operation,
             "registers": _registers(spec.registers), "reference": _shown(spec.reference),
             "reference_function": spec.reference_function,
-            "reference_sha256": hashlib.sha256(spec.reference.read_text(encoding="utf-8").encode("utf-8")).hexdigest(),
+            "reference_sha256": hashlib.sha256(reference.encode("utf-8")).hexdigest(),
             "method": "exhaustive" if exhaustive else "sampled", "k": k, "domain_size": spec.domain_size,
             "delta": spec.delta, "seed": seed, "seed_source": None if exhaustive else HELD_OUT_SEED_SOURCE,
             "at": _now(),
         })
         banned = _banned(snapshot)
         result = (Evaluation("held-out", spec.task, candidate, False, banned) if banned
-                  else _run(scratch, snapshot, spec, "held-out", candidate, k, seed, timeout))
+                  else _run(scratch, snapshot, spec, reference, "held-out", candidate, k, seed, timeout))
         _append(log, {
             "event": "result", "task": spec.task, "candidate": candidate, "accepted": result.accepted,
             "reason": result.reason, "gates": result.gates, "toffoli": result.toffoli, "qubits": result.qubits,
@@ -269,12 +273,12 @@ def _banned(project: Path) -> str | None:
     return None
 
 
-def _run(scratch: Path, snapshot: Path, spec: Spec, mode: str, candidate: str, k: int, seed: int | None,
-         timeout: float) -> Evaluation:
+def _run(scratch: Path, snapshot: Path, spec: Spec, reference: str, mode: str, candidate: str, k: int,
+         seed: int | None, timeout: float) -> Evaluation:
     request = {
         "project": str(snapshot), "operation": spec.operation, "registers": _registers(spec.registers),
-        "reference": str(spec.reference), "reference_function": spec.reference_function,
-        "k": k, "delta": spec.delta, "seed": seed,
+        "reference": str(spec.reference), "reference_source": reference,
+        "reference_function": spec.reference_function, "k": k, "delta": spec.delta, "seed": seed,
     }
     request_path, result_path = scratch / "request.json", scratch / "result.json"
     request_path.write_text(json.dumps(request), encoding="utf-8")
@@ -369,7 +373,7 @@ def _check(request: Mapping[str, Any]) -> dict[str, Any]:
         return {**found, "reason": f"its trace counts {_listing(unexpected)}, which X and SWAP gates do not "
                                    f"make, so the circuit and the trace disagree"}
     found["toffoli"], found["qubits"] = counted[TOFFOLI], trace.total_qubits
-    reference = _load_reference(request["reference"], request["reference_function"])
+    reference = _load_reference(request["reference"], request["reference_source"], request["reference_function"])
     try:
         verification = verify_reversible(request["project"], request["operation"], registers, reference,
                                          k=request["k"], delta=request["delta"], seed=request["seed"])
@@ -440,11 +444,13 @@ def _describe(error: Exception) -> str:
     return f"{head} ({'; '.join(details)})" if details else head
 
 
-def _load_reference(path: str, function: str) -> Callable[[Mapping[str, int]], Mapping[str, int]]:
-    module_spec = importlib.util.spec_from_file_location("kernel_opt_reference", path)
-    module = importlib.util.module_from_spec(module_spec)
-    sys.modules[module_spec.name] = module
-    module_spec.loader.exec_module(module)
+def _load_reference(path: str, source: str, function: str) -> Callable[[Mapping[str, int]], Mapping[str, int]]:
+    """The reference function, compiled from the text the parent read: not from the file, which
+    may have changed since, and not from a cached .pyc, whose check is only a timestamp and size."""
+    module = types.ModuleType("kernel_opt_reference")
+    module.__file__ = path
+    sys.modules[module.__name__] = module
+    exec(compile(source, path, "exec"), module.__dict__)
     return getattr(module, function)
 
 

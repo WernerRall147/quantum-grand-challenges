@@ -438,6 +438,9 @@
   "tooling/ingest_zoo_references.py": [
     ".github/workflows/nightly.yml"
   ],
+  "tooling/kernel_opt/evaluate.py": [
+    "tooling/test_kernel_opt_evaluate.py"
+  ],
   "tooling/measure_corpus_decidability.py": [
     "agents/tests/test_corpus_decidability.py"
   ],
@@ -487,6 +490,9 @@
   "tooling/test_shor_kernel.py": [
     "tooling/test_verify_reversible.py"
   ],
+  "tooling/test_verify_reversible.py": [
+    "tooling/test_kernel_opt_evaluate.py"
+  ],
   "tooling/validate_algorithm_index.py": [
     "agents/tests/test_algorithm_index_validation.py"
   ],
@@ -494,6 +500,8 @@
     "tooling/test_verify_demo_prompts_codegen.py"
   ],
   "tooling/verify_reversible.py": [
+    "tooling/kernel_opt/evaluate.py",
+    "tooling/test_kernel_opt_evaluate.py",
     "tooling/test_verify_reversible.py"
   ],
   "viz/__init__.py": [

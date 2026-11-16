@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1342,
-    "code_files": 325,
-    "python": 254,
+    "tracked": 1344,
+    "code_files": 327,
+    "python": 256,
     "qsharp": 55,
     "ts": 16,
-    "edges": 257,
-    "roots": 311,
-    "reachable": 350
+    "edges": 261,
+    "roots": 312,
+    "reachable": 352
   },
   "nodes": [
     ".github/hooks/scripts/agent_gates.py",
@@ -245,6 +245,7 @@
     "tooling/generate_multimodel_estimates.py",
     "tooling/generate_stage_d_evidence.py",
     "tooling/ingest_zoo_references.py",
+    "tooling/kernel_opt/evaluate.py",
     "tooling/measure_corpus_decidability.py",
     "tooling/provision_foundry_agent.py",
     "tooling/reconcile_algorithm_zoo.py",
@@ -286,6 +287,7 @@
     "tooling/test_hft_kernel.py",
     "tooling/test_hhl_kernel.py",
     "tooling/test_ising_chain_kernel.py",
+    "tooling/test_kernel_opt_evaluate.py",
     "tooling/test_logical_counts.py",
     "tooling/test_qae_kernel.py",
     "tooling/test_qaoa_kernels.py",
@@ -1135,6 +1137,10 @@
       "tooling/estimator_config.py"
     ],
     [
+      "tooling/kernel_opt/evaluate.py",
+      "tooling/verify_reversible.py"
+    ],
+    [
       "tooling/measure_corpus_decidability.py",
       "agents/classifier/paper_classifier.py"
     ],
@@ -1173,6 +1179,18 @@
     [
       "tooling/test_estimate_provenance.py",
       "tooling/generate_estimates.py"
+    ],
+    [
+      "tooling/test_kernel_opt_evaluate.py",
+      "tooling/kernel_opt/evaluate.py"
+    ],
+    [
+      "tooling/test_kernel_opt_evaluate.py",
+      "tooling/test_verify_reversible.py"
+    ],
+    [
+      "tooling/test_kernel_opt_evaluate.py",
+      "tooling/verify_reversible.py"
     ],
     [
       "tooling/test_logical_counts.py",

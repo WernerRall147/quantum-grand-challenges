@@ -101,6 +101,7 @@
     "tooling/test_hft_kernel.py",
     "tooling/test_hhl_kernel.py",
     "tooling/test_ising_chain_kernel.py",
+    "tooling/test_kernel_opt_evaluate.py",
     "tooling/test_logical_counts.py",
     "tooling/test_qae_kernel.py",
     "tooling/test_qaoa_kernels.py",

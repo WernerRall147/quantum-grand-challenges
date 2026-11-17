@@ -253,8 +253,8 @@ def test_every_qpe_ground_state_entry_states_the_overlap_condition():
         )
 
 
-# Estimates that hold only under their stated conditions. Wherever one is published, its
-# conditions must be in the same passage, so that a reader cannot take the number without them.
+# Estimates and deadlines that hold only under their stated conditions. Wherever one is published,
+# its conditions must be in the same passage, so that a reader cannot take the number without them.
 QUALIFIED_SURFACES = SURFACES + (
     "knowledge/data/algorithm_zoo_index.json",
     "knowledge/ingest/algorithm_zoo_parser.py",
@@ -279,6 +279,15 @@ QUALIFIED = [
         "probability under the DQI input distribution at 2.434e-3 with 97.5% confidence "
         "(github.com/andigu/uncompute, tasks/dqi-reed-solomon/README.md, section 6).",
         id="dqi-decoder-comparison",
+    ),
+    pytest.param(
+        (r"14412|M-26-15", r"\b203[01]\b"),
+        (r"high value", r"high impact", r"national security systems"),
+        "Executive Order 14412 (2026-06-22, section 4(b)) sets 31 December 2030 for PQC key "
+        "establishment and 31 December 2031 for PQC signatures only for high value assets and "
+        "high impact systems, and excludes national security systems, which follow CNSSP 15 "
+        "(OMB M-26-15, section 1; NSA CNSA 2.0 FAQ ver. 2.2, October 2026).",
+        id="us-federal-pqc-deadlines",
     ),
 ]
 

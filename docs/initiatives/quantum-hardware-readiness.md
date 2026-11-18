@@ -53,9 +53,9 @@ workspace](https://learn.microsoft.com/azure/quantum/how-to-create-workspace#ass
 ### Replace shape-based readiness with behavior-based evidence
 
 [`assess_problem_readiness.py`](../../tooling/azure/assess_problem_readiness.py) currently looks
-only under `problems/<id>`. Archived problems disappear from the report even when all of their
-artifacts exist. It also calls a problem ready when its directories and an estimate-like evidence
-file are present.
+only under `problems/<id>`. Archived IDs remain in the report, but their directory, evidence, and
+readiness fields are false because the assessor never resolves `problems/archived/<id>`. It also
+calls a problem ready when its directories and an estimate-like evidence file are present.
 
 Replace the single `shared_workflow_ready` flag with independent states:
 
@@ -320,7 +320,9 @@ Add a compatibility lane that is explicitly separate from the pinned production 
 
 1. Add Quantum data-plane role assignments and an access preflight.
 2. Fix active and archived problem discovery in readiness and simulator paths.
-3. Introduce behavior-based readiness states and regressions that fail on missing archived paths.
+3. Introduce behavior-based readiness states. The archived-path regression must assert the resolved
+   directory, evidence, and readiness values, not only the presence of each problem ID in the
+   report.
 4. Add the problem and execution contracts and derive the duplicated registries.
 5. Replace the stale VQE driver with a QDK-native, shot-budgeted objective.
 6. Wire `libs/common` into a pilot Q# project and move one duplicated primitive after exact tests.

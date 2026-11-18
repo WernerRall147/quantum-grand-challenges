@@ -45,15 +45,30 @@ def _normalise(name: str) -> str:
 
 
 _SEARCH_STOP_WORDS = {
-    "a", "an", "and", "bit", "find", "for", "in", "integer", "of", "on",
-    "problem", "the", "to", "using", "with",
+    "a", "an", "and", "bit", "break", "find", "finding", "for", "in", "integer",
+    "large", "of", "on", "problem", "the", "to", "using", "with",
 }
+_LOCAL_QUERY_ALIASES = (
+    (
+        re.compile(r"\b(?:rsa|semiprime|prime factors?|integer factoring)\b"),
+        {"shor", "rsa", "factoring"},
+    ),
+)
+
+
+def _local_query_terms(query: str) -> set[str]:
+    normalized = query.lower()
+    terms = set(re.findall(r"[a-z0-9]+", normalized)) - _SEARCH_STOP_WORDS
+    for pattern, aliases in _LOCAL_QUERY_ALIASES:
+        if pattern.search(normalized):
+            terms.update(aliases)
+    return terms
 
 
 def _local_algorithm_matches(query: str, top: int) -> List[Dict[str, Any]]:
     """Rank the committed algorithm records without an Azure dependency."""
     data = json.loads(ALGORITHM_ZOO_PATH.read_text(encoding="utf-8"))
-    terms = set(re.findall(r"[a-z0-9]+", query.lower())) - _SEARCH_STOP_WORDS
+    terms = _local_query_terms(query)
     ranked = []
 
     for algorithm in data.get("algorithms", []):

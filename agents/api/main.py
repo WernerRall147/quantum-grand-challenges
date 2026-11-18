@@ -140,6 +140,15 @@ def get_bicepgen():
     return _bicepgen
 
 
+def _public_trace_payload():
+    """Keep span status visible without publishing exception details."""
+    trace = trace_payload()
+    for span_entry in trace.get("spans") or []:
+        if span_entry.get("error"):
+            span_entry["error"] = "details redacted"
+    return trace
+
+
 @app.get("/")
 def health():
     # The exporter's own status is reported rather than assumed. An exporter that
@@ -241,7 +250,7 @@ def evaluate(request: EvaluateRequest):
                         {"error": "Architecture and pricing generation failed"},
                     )
 
-            result["trace"] = trace_payload()
+            result["trace"] = _public_trace_payload()
 
         return EvaluateResponse(**{k: result.get(k, EvaluateResponse.model_fields[k].default)
                                    for k in EvaluateResponse.model_fields})

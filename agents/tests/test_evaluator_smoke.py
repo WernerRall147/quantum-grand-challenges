@@ -394,6 +394,80 @@ class TestAPIRequestGuardrails:
         assert response.status_code == 500
         assert response.json() == {"detail": public_detail}
 
+    @pytest.mark.parametrize(
+        ("verdict", "platform", "factory_name", "service_method", "span_name"),
+        [
+            (
+                "QUANTUM_ADVANTAGE",
+                "QUANTUM",
+                "get_codegen",
+                "generate_with_estimate",
+                "9. generate Q# + resource estimate",
+            ),
+            (
+                "HPC_PREFERRED",
+                "HPC",
+                "get_bicepgen",
+                "generate_with_validation",
+                "9. generate Bicep workspace",
+            ),
+        ],
+    )
+    def test_caught_generation_errors_are_redacted_from_the_entire_response(
+        self,
+        monkeypatch,
+        verdict,
+        platform,
+        factory_name,
+        service_method,
+        span_name,
+    ):
+        from fastapi.testclient import TestClient
+
+        import agents.api.main as api
+
+        result = {
+            "verdict": verdict,
+            "confidence": 0.5,
+            "advantage_class": "none",
+            "recommended_algorithm": "QPE",
+            "recommended_platform": platform,
+            "troyer_filters": {},
+            "red_flags": [],
+            "hpc_alternative": "",
+            "explanation": "test",
+            "similar_problems": [],
+            "references": [],
+        }
+
+        class Evaluator:
+            def evaluate(self, _problem):
+                return dict(result)
+
+        def fail(*_args, **_kwargs):
+            raise RuntimeError("secret subscription and endpoint detail")
+
+        generator = type("BrokenGenerator", (), {})()
+        setattr(generator, service_method, fail)
+        monkeypatch.setattr(api, "get_evaluator", lambda: Evaluator())
+        monkeypatch.setattr(api, factory_name, lambda: generator)
+
+        response = TestClient(api.app).post(
+            "/api/evaluate",
+            json={"problem": "test", "generate_code": True},
+        )
+
+        assert response.status_code == 200
+        serialized = json.dumps(response.json())
+        assert "secret subscription and endpoint detail" not in serialized
+        failed_span = next(
+            entry
+            for entry in response.json()["trace"]["spans"]
+            if entry["name"] == span_name
+        )
+        assert failed_span["status"] == "error"
+        assert failed_span["error"] == "details redacted"
+
 
 # --- Troyer assessment data tests ---
 

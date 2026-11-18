@@ -6,7 +6,7 @@
     "python": 257,
     "qsharp": 55,
     "ts": 16,
-    "edges": 272,
+    "edges": 273,
     "roots": 313,
     "reachable": 353
   },
@@ -712,6 +712,10 @@
     [
       "agents/tests/test_evaluator_smoke.py",
       "agents/orchestrator/output_schema.py"
+    ],
+    [
+      "agents/tests/test_kb_endpoints.py",
+      "agents/classifier/platform_router.py"
     ],
     [
       "agents/tests/test_paper_classifier.py",

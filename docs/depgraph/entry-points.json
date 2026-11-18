@@ -325,6 +325,7 @@
     "tooling/azure/azure_env.py",
     "tooling/azure/bootstrap_problem_env_examples.py",
     "tooling/azure/check_secret_hygiene.py",
+    "tooling/azure/cli_runner.py",
     "tooling/azure/collect_job.py",
     "tooling/azure/prepare_problem_manifest.py",
     "tooling/azure/smoke_problem.py",

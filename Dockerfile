@@ -26,6 +26,7 @@ COPY problems/reference_index.json /app/problems/reference_index.json
 # this the import raises, /api/evaluate swallows it into an empty qsharp_code, and the site
 # renders nothing at all - a broken feature that looks like an absent one.
 COPY tooling/estimator_config.py /app/tooling/estimator_config.py
+COPY tooling/azure/cli_runner.py /app/tooling/azure/cli_runner.py
 
 # The exemplars generate.py feeds the model, one per algorithm in REFERENCE_IMPLEMENTATIONS.
 # Missing files degrade silently to an empty snippet rather than failing, so the generator

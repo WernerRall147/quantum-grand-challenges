@@ -8,18 +8,17 @@ import subprocess
 from pathlib import Path
 
 from azure_env import AzureEnvError, load_azure_env
+from cli_runner import run_az
 
 
 def _run_az(args: list[str], timeout: int) -> dict:
-    cmdline = subprocess.list2cmdline(["az", *args])
-    result = subprocess.run(cmdline, shell=True, capture_output=True, text=True, check=True, timeout=timeout)
+    result = run_az(args, timeout, check=True)
     payload = json.loads(result.stdout) if result.stdout.strip() else {}
     return payload if isinstance(payload, dict) else {}
 
 
 def _run_az_check(args: list[str], timeout: int) -> None:
-    cmdline = subprocess.list2cmdline(["az", *args])
-    subprocess.run(cmdline, shell=True, capture_output=True, text=True, check=True, timeout=timeout)
+    run_az(args, timeout, check=True)
 
 
 def main() -> None:

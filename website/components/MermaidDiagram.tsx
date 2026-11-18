@@ -10,7 +10,7 @@ export default function MermaidDiagram({ chart, theme = 'dark' }: { chart: strin
     (async () => {
       try {
         const mermaid = (await import('mermaid')).default;
-        mermaid.initialize({ startOnLoad: false, theme, securityLevel: 'loose' });
+        mermaid.initialize({ startOnLoad: false, theme, securityLevel: 'strict' });
         const id = 'mmd-' + Math.random().toString(36).slice(2);
         const { svg } = await mermaid.render(id, chart);
         if (!cancelled && ref.current) ref.current.innerHTML = svg;

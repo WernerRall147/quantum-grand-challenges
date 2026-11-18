@@ -11,6 +11,7 @@ docs/initiatives/architecture-pricing.md: Increment 2 lets the Foundry agent
 enrich the diagram from Azure Architecture Center via the Microsoft Learn MCP.
 """
 
+import html
 from typing import Any, Dict, Optional
 
 from agents.classifier import azure_pricing
@@ -37,15 +38,21 @@ def _hardware(target: Optional[str]):
     return rec.get("name", "Quantinuum H2-1"), int(rec.get("qubits", 56))
 
 
+def _mermaid_label(value: Any, fallback: str) -> str:
+    text = " ".join(str(value or fallback).split())
+    return html.escape(text, quote=True)
+
+
 def _quantum_mermaid(algorithm: str, hw_name: str, hw_qubits: int) -> str:
-    algo = algorithm or "QPE"
+    algo = _mermaid_label(algorithm, "QPE")
+    hardware = _mermaid_label(hw_name, "Quantinuum H2-1")
     return "\n".join(
         [
             "flowchart LR",
             '    user["Researcher / client"] --> api["Azure Container App<br/>Evaluator API"]',
             f'    api --> orch["Classical orchestrator<br/>{algo} driver (Python + QDK)"]',
             '    orch --> aqw["Azure Quantum workspace"]',
-            f'    aqw --> hw["{hw_name}<br/>{hw_qubits} qubits (QPU)"]',
+            f'    aqw --> hw["{hardware}<br/>{hw_qubits} qubits (QPU)"]',
             '    orch --> est["Azure Quantum<br/>Resource Estimator"]',
             '    aqw --> store["Azure Storage<br/>job results"]',
             '    api --> kv["Key Vault<br/>secrets"]',
@@ -55,12 +62,13 @@ def _quantum_mermaid(algorithm: str, hw_name: str, hw_qubits: int) -> str:
 
 
 def _hpc_mermaid(sku_label: str) -> str:
+    sku = _mermaid_label(sku_label, "HBv4 / ND A100 v4 nodes")
     return "\n".join(
         [
             "flowchart LR",
             '    user["Researcher / client"] --> cc["Azure CycleCloud"]',
             '    cc --> sched["Slurm scheduler"]',
-            f'    sched --> nodes["{sku_label}<br/>MPI / GPU cluster"]',
+            f'    sched --> nodes["{sku}<br/>MPI / GPU cluster"]',
             '    nodes --> lustre["Azure Managed Lustre<br/>scratch"]',
             '    nodes --> blob["Blob Storage<br/>datasets + results"]',
             '    cc --> mon["Azure Monitor"]',
@@ -69,11 +77,12 @@ def _hpc_mermaid(sku_label: str) -> str:
 
 
 def _aiml_mermaid(sku_label: str) -> str:
+    sku = _mermaid_label(sku_label, "NC A100 v4 GPU compute")
     return "\n".join(
         [
             "flowchart LR",
             '    user["Researcher / client"] --> foundry["Azure AI Foundry<br/>project"]',
-            f'    foundry --> compute["{sku_label}<br/>training / inference compute"]',
+            f'    foundry --> compute["{sku}<br/>training / inference compute"]',
             '    compute --> pipe["ML pipeline<br/>(PyTorch / fine-tune)"]',
             '    foundry --> data["Azure Data Lake<br/>training data"]',
             '    foundry --> reg["Model registry"]',

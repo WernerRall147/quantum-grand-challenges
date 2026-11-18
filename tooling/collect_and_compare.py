@@ -7,15 +7,26 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
-HISTORY_PATH = Path(__file__).resolve().parent.parent / "website" / "data" / "azureRunHistory.json"
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from tooling.azure.cli_runner import run_az  # noqa: E402
+
+PROBLEMS_DIR = ROOT / "problems"
+HISTORY_PATH = ROOT / "website" / "data" / "azureRunHistory.json"
 
 
 def collect_emulator_results():
     """Collect all H2-1E emulator results."""
-    proc = subprocess.run(
-        'az quantum job list --query "[?status==\'Succeeded\' && target==\'quantinuum.sim.h2-1e\'].{name:name, id:id}" -o json',
-        capture_output=True, text=True, shell=True, timeout=30
+    proc = run_az(
+        [
+            "quantum", "job", "list",
+            "--query",
+            "[?status=='Succeeded' && target=='quantinuum.sim.h2-1e'].{name:name, id:id}",
+            "-o", "json",
+        ],
+        30,
+        check=True,
     )
     jobs = json.loads(proc.stdout)
     seen = {}
@@ -24,7 +35,11 @@ def collect_emulator_results():
 
     results = {}
     for name, jid in sorted(seen.items()):
-        p = subprocess.run(f"az quantum job output --job-id {jid} -o json", capture_output=True, text=True, shell=True, timeout=30)
+        p = run_az(
+            ["quantum", "job", "output", "--job-id", jid, "-o", "json"],
+            30,
+            check=False,
+        )
         if p.returncode != 0:
             print(f"  {name}: ERROR fetching output")
             continue

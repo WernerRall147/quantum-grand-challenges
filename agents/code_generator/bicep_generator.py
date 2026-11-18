@@ -30,6 +30,9 @@ from azure.identity import DefaultAzureCredential
 from openai import AzureOpenAI
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(ROOT))
+
+from tooling.azure.cli_runner import run_az  # noqa: E402
 
 OPENAI_ENDPOINT = os.environ.get("QGC_OPENAI_ENDPOINT", "https://qgc-openai.openai.azure.com/")
 CHAT_DEPLOYMENT = os.environ.get("QGC_CHAT_DEPLOYMENT", "gpt-54-mini")
@@ -397,9 +400,10 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
             bicep_path.write_text(code, encoding="utf-8")
 
             try:
-                result = subprocess.run(
-                    ["az", "bicep", "build", "--file", str(bicep_path), "--outfile", str(json_path)],
-                    capture_output=True, text=True, timeout=60,
+                result = run_az(
+                    ["bicep", "build", "--file", str(bicep_path), "--outfile", str(json_path)],
+                    60,
+                    check=False,
                 )
             except (subprocess.TimeoutExpired, FileNotFoundError) as e:
                 return {"validated": False, "error": str(e)[:200]}

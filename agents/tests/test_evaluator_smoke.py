@@ -328,6 +328,73 @@ class TestAPIResponseModel:
         assert len(resp.error_correction_codes) == 2
 
 
+@pytest.mark.skipif(not _HAS_FASTAPI, reason="FastAPI not installed (API deployment dependency)")
+class TestAPIRequestGuardrails:
+    def test_problem_text_is_bounded_on_every_generation_request(self):
+        from pydantic import ValidationError
+
+        from agents.api.main import BicepRequest, CodeRequest, EvaluateRequest
+
+        for request_type, extra in (
+            (EvaluateRequest, {}),
+            (CodeRequest, {}),
+            (BicepRequest, {}),
+        ):
+            with pytest.raises(ValidationError):
+                request_type(problem="x" * 5001, **extra)
+
+    @pytest.mark.parametrize(
+        ("url", "payload", "factory_name", "service_method", "public_detail"),
+        [
+            (
+                "/api/evaluate",
+                {"problem": "test"},
+                "get_evaluator",
+                "evaluate",
+                "Evaluation failed",
+            ),
+            (
+                "/api/generate-code",
+                {"problem": "test"},
+                "get_codegen",
+                "generate_with_estimate",
+                "Code generation failed",
+            ),
+            (
+                "/api/generate-bicep",
+                {"problem": "test", "platform": "AI_ML"},
+                "get_bicepgen",
+                "generate_with_validation",
+                "Bicep generation failed",
+            ),
+        ],
+    )
+    def test_500_responses_hide_internal_exception_details(
+        self,
+        monkeypatch,
+        url,
+        payload,
+        factory_name,
+        service_method,
+        public_detail,
+    ):
+        from fastapi.testclient import TestClient
+
+        import agents.api.main as api
+
+        def fail(*_args, **_kwargs):
+            raise RuntimeError("secret subscription and endpoint detail")
+
+        service = type("BrokenService", (), {})()
+        setattr(service, service_method, fail)
+        monkeypatch.setattr(api, factory_name, lambda: service)
+
+        response = TestClient(api.app).post(url, json=payload)
+
+        assert response.status_code == 500
+        assert response.json() == {"detail": public_detail}
+
+
 # --- Troyer assessment data tests ---
 
 class TestTroyerAssessmentData:

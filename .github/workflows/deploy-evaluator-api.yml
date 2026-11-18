@@ -45,6 +45,7 @@ on:
       - "knowledge/**"
       - "problems/reference_index.json"
       - "tooling/estimator_config.py"
+      - "tooling/azure/cli_runner.py"
       - "problems/19_quantum_chromodynamics/qsharp/src/Main.qs"
       - "problems/18_photovoltaics/qsharp/src/Main.qs"
       - "problems/16_error_correction/qsharp/src/Main.qs"
@@ -70,17 +71,28 @@ jobs:
 
       - name: Resolve image tag and names
         id: tag
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          COMMIT_SHA: ${{ github.sha }}
+          ACR_NAME: ${{ vars.ACR_NAME || 'qgcregistry' }}
+          IMAGE_NAME: ${{ vars.ACR_IMAGE_NAME || 'qgc-evaluator' }}
+          APP_NAME: ${{ vars.CONTAINER_APP_NAME || 'qgc-eval-api' }}
+          APP_RG: ${{ vars.CONTAINER_APP_RG || 'qgc-evaluator' }}
         run: |
-          if [ -n "${{ github.event.inputs.tag }}" ]; then
-            TAG="${{ github.event.inputs.tag }}"
+          if [ -n "$INPUT_TAG" ]; then
+            TAG="$INPUT_TAG"
           else
-            TAG="v$(date -u +%Y%m%d)-$(echo ${{ github.sha }} | cut -c1-7)"
+            TAG="v$(date -u +%Y%m%d)-${COMMIT_SHA:0:7}"
           fi
-          echo "image_tag=${TAG}" >> $GITHUB_OUTPUT
-          echo "acr_name=${{ vars.ACR_NAME || 'qgcregistry' }}" >> $GITHUB_OUTPUT
-          echo "image_name=${{ vars.ACR_IMAGE_NAME || 'qgc-evaluator' }}" >> $GITHUB_OUTPUT
-          echo "app_name=${{ vars.CONTAINER_APP_NAME || 'qgc-eval-api' }}" >> $GITHUB_OUTPUT
-          echo "app_rg=${{ vars.CONTAINER_APP_RG || 'qgc-evaluator' }}" >> $GITHUB_OUTPUT
+          if [[ ! "$TAG" =~ ^[A-Za-z0-9_][A-Za-z0-9._-]{0,127}$ ]]; then
+            echo "::error::Invalid image tag; use up to 128 letters, numbers, dots, underscores, or dashes."
+            exit 1
+          fi
+          printf 'image_tag=%s\n' "$TAG" >> "$GITHUB_OUTPUT"
+          printf 'acr_name=%s\n' "$ACR_NAME" >> "$GITHUB_OUTPUT"
+          printf 'image_name=%s\n' "$IMAGE_NAME" >> "$GITHUB_OUTPUT"
+          printf 'app_name=%s\n' "$APP_NAME" >> "$GITHUB_OUTPUT"
+          printf 'app_rg=%s\n' "$APP_RG" >> "$GITHUB_OUTPUT"
 
       - name: Azure login (service principal)
         uses: azure/login@v2

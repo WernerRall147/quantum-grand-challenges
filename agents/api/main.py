@@ -8,13 +8,14 @@ Usage:
 """
 
 import json
+import logging
 import os
 import sys
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 # Add project root to path
 ROOT = Path(__file__).resolve().parent.parent.parent
@@ -26,6 +27,11 @@ from agents.observability.trace import (  # noqa: E402  must follow sys.path set
     start_trace,
     trace_payload,
 )
+
+logger = logging.getLogger(__name__)
+MAX_PROBLEM_CHARS = 5000
+MAX_ALGORITHM_CHARS = 100
+MAX_PLATFORM_CHARS = 20
 
 app = FastAPI(
     title="Quantum Advantage Evaluator API",
@@ -49,7 +55,7 @@ app.add_middleware(
 
 
 class EvaluateRequest(BaseModel):
-    problem: str
+    problem: str = Field(max_length=MAX_PROBLEM_CHARS)
     generate_code: bool = False
 
 
@@ -94,13 +100,14 @@ class EvaluateResponse(BaseModel):
 
 
 class CodeRequest(BaseModel):
-    problem: str
-    algorithm: str = "QPE"
+    problem: str = Field(max_length=MAX_PROBLEM_CHARS)
+    algorithm: str = Field(default="QPE", max_length=MAX_ALGORITHM_CHARS)
 
 
 class BicepRequest(BaseModel):
-    problem: str
-    platform: str = "AI_ML"  # HPC | AI_ML | QUANTUM
+    problem: str = Field(max_length=MAX_PROBLEM_CHARS)
+    # HPC | AI_ML | QUANTUM
+    platform: str = Field(default="AI_ML", max_length=MAX_PLATFORM_CHARS)
 
 
 # Lazy-load the evaluator to avoid import overhead on cold start
@@ -150,9 +157,6 @@ def evaluate(request: EvaluateRequest):
     if not request.problem.strip():
         raise HTTPException(status_code=400, detail="Problem description is required")
 
-    if len(request.problem) > 5000:
-        raise HTTPException(status_code=400, detail="Problem description too long (max 5000 chars)")
-
     try:
         with start_trace("POST /api/evaluate") as tr:
             evaluator = get_evaluator()
@@ -174,9 +178,10 @@ def evaluate(request: EvaluateRequest):
                             estimation = code_out.get("estimation", {})
                             result["estimation"] = estimation
                             result["resource_estimate_pareto"] = estimation.get("pareto_table", [])
-                    except Exception as e:  # noqa: BLE001
+                    except Exception:  # noqa: BLE001
+                        logger.exception("Q# generation failed")
                         result["qsharp_code"] = ""
-                        result["estimation"] = {"error": str(e)[:200]}
+                        result["estimation"] = {"error": "Q# generation failed"}
                         result["resource_estimate_pareto"] = []
                 # Non-quantum verdicts → generate Bicep workspace template
                 elif platform in ("HPC", "AI_ML"):
@@ -194,9 +199,10 @@ def evaluate(request: EvaluateRequest):
                                 chars=len(result["bicep_template"]),
                                 valid=bool((result["bicep_validation"] or {}).get("valid")),
                             )
-                    except Exception as e:  # noqa: BLE001
+                    except Exception:  # noqa: BLE001
+                        logger.exception("Bicep generation failed")
                         result["bicep_template"] = ""
-                        result["bicep_validation"] = {"error": str(e)[:200]}
+                        result["bicep_validation"] = {"error": "Bicep generation failed"}
 
                 # Final steps after code-gen: draw the solution architecture and
                 # guesstimate the run cost. Gated on confidence ("high probability").
@@ -226,20 +232,22 @@ def evaluate(request: EvaluateRequest):
                                 estimation=estimation,
                                 quantum_target=q_target,
                             )
-                except Exception as e:  # noqa: BLE001
+                except Exception:  # noqa: BLE001
+                    logger.exception("Architecture and pricing generation failed")
                     result.setdefault("architecture", {})
                     result.setdefault("architecture_diagram", "")
-                    result.setdefault("solution_pricing", {"error": str(e)[:200]})
+                    result.setdefault(
+                        "solution_pricing",
+                        {"error": "Architecture and pricing generation failed"},
+                    )
 
             result["trace"] = trace_payload()
 
         return EvaluateResponse(**{k: result.get(k, EvaluateResponse.model_fields[k].default)
                                    for k in EvaluateResponse.model_fields})
-    except Exception as e:
-        import traceback, sys
-        traceback.print_exc(file=sys.stderr)
-        sys.stderr.flush()
-        raise HTTPException(status_code=500, detail=f"Evaluation failed: {type(e).__name__}: {str(e)[:400]}")
+    except Exception as exc:
+        logger.exception("Evaluation failed")
+        raise HTTPException(status_code=500, detail="Evaluation failed") from exc
 
 
 @app.post("/api/generate-code")
@@ -250,8 +258,9 @@ def generate_code(request: CodeRequest):
     try:
         codegen = get_codegen()
         return codegen.generate_with_estimate(request.problem.strip(), request.algorithm)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Code generation failed: {str(e)[:200]}")
+    except Exception as exc:
+        logger.exception("Code generation failed")
+        raise HTTPException(status_code=500, detail="Code generation failed") from exc
 
 
 @app.post("/api/generate-bicep")
@@ -269,8 +278,9 @@ def generate_bicep(request: BicepRequest):
     try:
         bicepgen = get_bicepgen()
         return bicepgen.generate_with_validation(request.problem.strip(), platform=platform)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Bicep generation failed: {str(e)[:200]}")
+    except Exception as exc:
+        logger.exception("Bicep generation failed")
+        raise HTTPException(status_code=500, detail="Bicep generation failed") from exc
 
 
 @app.get("/api/algorithms")
@@ -280,8 +290,9 @@ def list_algorithms():
         evaluator = get_evaluator()
         algos = evaluator.kb.search_algorithms("quantum algorithm", top=20)
         return {"algorithms": algos}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)[:200])
+    except Exception as exc:
+        logger.exception("Algorithm lookup failed")
+        raise HTTPException(status_code=500, detail="Algorithm lookup failed") from exc
 
 
 @app.get("/api/reference-problems")
@@ -292,5 +303,6 @@ def list_reference_problems():
         active = evaluator.kb.get_reference_problems("active")
         archived = evaluator.kb.get_reference_problems("archived")
         return {"active": active, "archived": archived}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)[:200])
+    except Exception as exc:
+        logger.exception("Reference problem lookup failed")
+        raise HTTPException(status_code=500, detail="Reference problem lookup failed") from exc

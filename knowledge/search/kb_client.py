@@ -44,6 +44,57 @@ def _normalise(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", stripped).strip("_")
 
 
+_SEARCH_STOP_WORDS = {
+    "a", "an", "and", "bit", "find", "for", "in", "integer", "of", "on",
+    "problem", "the", "to", "using", "with",
+}
+
+
+def _local_algorithm_matches(query: str, top: int) -> List[Dict[str, Any]]:
+    """Rank the committed algorithm records without an Azure dependency."""
+    data = json.loads(ALGORITHM_ZOO_PATH.read_text(encoding="utf-8"))
+    terms = set(re.findall(r"[a-z0-9]+", query.lower())) - _SEARCH_STOP_WORDS
+    ranked = []
+
+    for algorithm in data.get("algorithms", []):
+        name_terms = set(re.findall(r"[a-z0-9]+", str(algorithm.get("name") or "").lower()))
+        context_terms = set(
+            re.findall(
+                r"[a-z0-9]+",
+                " ".join(
+                    str(algorithm.get(field) or "")
+                    for field in ("category", "notes", "quantum_complexity", "classical_best")
+                ).lower(),
+            )
+        )
+        score = 4 * len(terms & name_terms) + len(terms & context_terms)
+        if score <= 0:
+            continue
+
+        ranked.append(
+            (
+                score,
+                str(algorithm.get("name") or ""),
+                {
+                    "name": algorithm.get("name"),
+                    "category": algorithm.get("category"),
+                    "speedup_class": algorithm.get("speedup_class"),
+                    "troyer_verdict": algorithm.get("troyer_verdict"),
+                    "io_bottleneck": algorithm.get("io_bottleneck"),
+                    "naturally_quantum": algorithm.get("naturally_quantum"),
+                    "content": " ".join(
+                        str(algorithm.get(field) or "")
+                        for field in ("category", "notes", "reference")
+                    ),
+                    "score": score,
+                },
+            )
+        )
+
+    ranked.sort(key=lambda item: (-item[0], item[1]))
+    return [item[2] for item in ranked[:top]]
+
+
 @lru_cache(maxsize=1)
 def _algorithms_by_name() -> Dict[str, Dict[str, Any]]:
     data = json.loads(ALGORITHM_ZOO_PATH.read_text(encoding="utf-8"))
@@ -86,8 +137,8 @@ class QuantumKnowledgeBase:
             )
         except Exception as exc:
             logger.warning(
-                "AI Search client could not be created, algorithm search will return "
-                "nothing: %s: %s", type(exc).__name__, str(exc)[:200]
+                "AI Search client could not be created, algorithm search will use "
+                "committed data: %s: %s", type(exc).__name__, str(exc)[:200]
             )
 
     def _get_openai_client(self):
@@ -110,13 +161,17 @@ class QuantumKnowledgeBase:
     def search_algorithms(self, query: str, top: int = 5) -> List[Dict[str, Any]]:
         """Hybrid search over the algorithm zoo (keyword + vector).
 
-        Falls back to keyword-only search if the vector query fails, and warns when
-        it does. The fallback is measurably worse: for "factor a 2048-bit RSA integer"
-        it ranks Nonlinear Differential Equations above Shor's Algorithm, so a silent
-        downgrade would corrupt verdicts with no visible symptom.
+        Falls back to keyword-only search if the vector query fails, then to the
+        committed algorithm index if AI Search is unavailable. The keyword fallback
+        is measurably worse: for "factor a 2048-bit RSA integer" it ranks Nonlinear
+        Differential Equations above Shor's Algorithm, so degraded search is logged.
         """
         if not self.search_client:
-            return []
+            self.last_search_mode = "local-fallback"
+            logger.warning(
+                "AI Search client is unavailable; ranking committed algorithm data locally"
+            )
+            return _local_algorithm_matches(query, top)
 
         select = [
             "name", "category", "speedup_class", "content",
@@ -126,11 +181,19 @@ class QuantumKnowledgeBase:
         try:
             embedding = self._embed(query)
             from azure.search.documents.models import VectorizedQuery
-            results = self.search_client.search(
-                search_text=query,
-                vector_queries=[VectorizedQuery(vector=embedding, k_nearest_neighbors=top, fields="embedding")],
-                top=top,
-                select=select,
+            results = list(
+                self.search_client.search(
+                    search_text=query,
+                    vector_queries=[
+                        VectorizedQuery(
+                            vector=embedding,
+                            k_nearest_neighbors=top,
+                            fields="embedding",
+                        )
+                    ],
+                    top=top,
+                    select=select,
+                )
             )
             self.last_search_mode = "hybrid"
         except Exception as exc:
@@ -140,11 +203,30 @@ class QuantumKnowledgeBase:
                 "which is significantly less accurate: %s: %s",
                 type(exc).__name__, str(exc)[:200],
             )
-            results = self.search_client.search(
-                search_text=query,
-                top=top,
-                select=select,
+            try:
+                results = list(
+                    self.search_client.search(
+                        search_text=query,
+                        top=top,
+                        select=select,
+                    )
+                )
+            except Exception as search_exc:
+                self.last_search_mode = "local-fallback"
+                logger.warning(
+                    "Azure AI Search is unavailable; ranking committed algorithm data "
+                    "locally: %s: %s",
+                    type(search_exc).__name__,
+                    str(search_exc)[:200],
+                )
+                return _local_algorithm_matches(query, top)
+
+        if not results:
+            self.last_search_mode = "local-fallback"
+            logger.warning(
+                "Azure AI Search returned no algorithm matches; ranking committed data locally"
             )
+            return _local_algorithm_matches(query, top)
 
         return [
             {

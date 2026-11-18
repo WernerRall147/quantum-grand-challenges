@@ -83,6 +83,21 @@ class TestEndpointsAreOverridable:
         )
 
 
+class TestCommittedKnowledgeFallback:
+    def test_algorithm_search_uses_the_committed_index_without_azure_search(self):
+        kb_module = importlib.import_module(MODULE)
+        kb = kb_module.QuantumKnowledgeBase.__new__(kb_module.QuantumKnowledgeBase)
+        kb.search_client = None
+        kb._papers_search_client = None
+        kb.last_search_mode = "uninitialised"
+
+        matches = kb.search_algorithms("factor a 2048-bit RSA integer", top=3)
+
+        assert matches
+        assert matches[0]["name"] == "Shor's Algorithm"
+        assert kb.last_search_mode == "local-fallback"
+
+
 class TestSeederIsSelfHostable:
     """Populating the index is the other half of running this yourself.
 

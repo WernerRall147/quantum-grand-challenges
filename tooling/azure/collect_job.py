@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from azure_env import AzureEnvError, load_azure_env
+from cli_runner import run_az
 from website_run_history import write_website_history
 
 ALLOWED = {"running", "succeeded", "failed", "cancelled"}
@@ -39,8 +40,7 @@ def _normalize(raw: str) -> str:
 
 
 def _run_az(args: list[str], timeout: int) -> subprocess.CompletedProcess[str]:
-    cmdline = subprocess.list2cmdline(["az", *args])
-    return subprocess.run(cmdline, shell=True, capture_output=True, text=True, check=True, timeout=timeout)
+    return run_az(args, timeout, check=True)
 
 
 def _safe_float(value: Any) -> Optional[float]:

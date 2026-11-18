@@ -352,6 +352,20 @@ def test_workflow_is_one_github_will_run(path: Path):
     assert doc.get("jobs"), "no jobs"
 
 
+def test_deploy_tag_reaches_the_shell_only_through_environment_variables():
+    source = (WORKFLOWS / "deploy-evaluator-api.yml").read_text(encoding="utf-8")
+    workflow = load_yaml(WORKFLOWS / "deploy-evaluator-api.yml")
+    step = next(
+        step
+        for step in workflow["jobs"]["build-and-deploy"]["steps"]
+        if step.get("id") == "tag"
+    )
+
+    assert "github.event.inputs.tag" in str(step.get("env", {}))
+    assert "${{" not in step["run"]
+    assert 'if [[ ! "$TAG" =~ ' in source
+
+
 # --- the issue form --------------------------------------------------------------------
 
 

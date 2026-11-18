@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from azure_env import AzureEnvError, load_azure_env
+from cli_runner import run_az
 
 
 def utc_now() -> str:
@@ -46,8 +47,7 @@ def _cmd_to_string(cmd: list[str]) -> str:
 
 
 def _run_az(args: list[str], timeout: int) -> subprocess.CompletedProcess[str]:
-    cmdline = subprocess.list2cmdline(["az", *args])
-    return subprocess.run(cmdline, shell=True, capture_output=True, text=True, check=True, timeout=timeout)
+    return run_az(args, timeout, check=True)
 
 
 def main() -> None:

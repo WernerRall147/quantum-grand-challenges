@@ -31,6 +31,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 ESTIMATES = REPO_ROOT / "website" / "data" / "resourceEstimates.json"
 PROJECT_STATUS = REPO_ROOT / "website" / "data" / "projectStatus.ts"
 COMPARE_PAGE = REPO_ROOT / "website" / "pages" / "compare.tsx"
+MERMAID_COMPONENT = REPO_ROOT / "website" / "components" / "MermaidDiagram.tsx"
 
 # "132k physical qubits, 18 logical"
 _QUBIT_CLAIM = re.compile(r"([\d.]+)k physical qubits,\s*(\d+) logical")
@@ -159,3 +160,10 @@ def test_key_observations_are_computed_not_typed():
     prose = re.sub(r"\{[^{}]*\}", "", block)
     typed = re.findall(r"\d[\d.,]*\s?(?:k|M|x|×)\b|\(\d+\)", prose)
     assert not typed, f"Key Observations hardcodes {typed}; compute them from resourceEstimates.json"
+
+
+def test_mermaid_uses_strict_security_for_api_generated_diagrams():
+    source = MERMAID_COMPONENT.read_text(encoding="utf-8")
+
+    assert "securityLevel: 'strict'" in source
+    assert "securityLevel: 'loose'" not in source

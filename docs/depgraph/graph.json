@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1344,
-    "code_files": 327,
-    "python": 256,
+    "tracked": 1345,
+    "code_files": 328,
+    "python": 257,
     "qsharp": 55,
     "ts": 16,
-    "edges": 261,
-    "roots": 312,
-    "reachable": 352
+    "edges": 273,
+    "roots": 313,
+    "reachable": 353
   },
   "nodes": [
     ".github/hooks/scripts/agent_gates.py",
@@ -213,6 +213,7 @@
     "tooling/azure/azure_env.py",
     "tooling/azure/bootstrap_problem_env_examples.py",
     "tooling/azure/check_secret_hygiene.py",
+    "tooling/azure/cli_runner.py",
     "tooling/azure/collect_job.py",
     "tooling/azure/prepare_problem_manifest.py",
     "tooling/azure/smoke_problem.py",
@@ -430,6 +431,10 @@
     ],
     [
       ".github/workflows/deploy-evaluator-api.yml",
+      "tooling/azure/cli_runner.py"
+    ],
+    [
+      ".github/workflows/deploy-evaluator-api.yml",
       "tooling/estimator_config.py"
     ],
     [
@@ -486,6 +491,10 @@
     ],
     [
       "Dockerfile",
+      "tooling/azure/cli_runner.py"
+    ],
+    [
+      "Dockerfile",
       "tooling/estimator_config.py"
     ],
     [
@@ -521,6 +530,10 @@
       "agents/classifier/azure_pricing.py"
     ],
     [
+      "agents/code_generator/bicep_generator.py",
+      "tooling/azure/cli_runner.py"
+    ],
+    [
       "agents/code_generator/generate.py",
       "agents/code_generator/compiler_hints.py"
     ],
@@ -535,6 +548,10 @@
     [
       "agents/evaluations/run_codegen_eval.py",
       "agents/code_generator/generate.py"
+    ],
+    [
+      "agents/evaluations/run_codegen_eval.py",
+      "tooling/azure/cli_runner.py"
     ],
     [
       "agents/evaluations/run_eval.py",
@@ -611,6 +628,10 @@
     [
       "agents/tests/test_bicep_generator.py",
       "agents/api/main.py"
+    ],
+    [
+      "agents/tests/test_bicep_generator.py",
+      "agents/code_generator/architecture.py"
     ],
     [
       "agents/tests/test_bicep_generator.py",
@@ -691,6 +712,10 @@
     [
       "agents/tests/test_evaluator_smoke.py",
       "agents/orchestrator/output_schema.py"
+    ],
+    [
+      "agents/tests/test_kb_endpoints.py",
+      "agents/classifier/platform_router.py"
     ],
     [
       "agents/tests/test_paper_classifier.py",
@@ -1090,6 +1115,10 @@
     ],
     [
       "tooling/azure/collect_job.py",
+      "tooling/azure/cli_runner.py"
+    ],
+    [
+      "tooling/azure/collect_job.py",
       "tooling/azure/website_run_history.py"
     ],
     [
@@ -1097,8 +1126,16 @@
       "tooling/azure/azure_env.py"
     ],
     [
+      "tooling/azure/submit_job_auto.py",
+      "tooling/azure/cli_runner.py"
+    ],
+    [
       "tooling/azure/validate_azure_cli.py",
       "tooling/azure/azure_env.py"
+    ],
+    [
+      "tooling/azure/validate_azure_cli.py",
+      "tooling/azure/cli_runner.py"
     ],
     [
       "tooling/azure/validate_azure_env.py",
@@ -1109,8 +1146,16 @@
       "tooling/discover_problems.py"
     ],
     [
+      "tooling/collect_and_compare.py",
+      "tooling/azure/cli_runner.py"
+    ],
+    [
       "tooling/eval_paper_classifier.py",
       "agents/classifier/paper_classifier.py"
+    ],
+    [
+      "tooling/fetch_azure_job.py",
+      "tooling/azure/cli_runner.py"
     ],
     [
       "tooling/generate_calibration_ensemble.py",
@@ -1235,6 +1280,10 @@
     [
       "tooling/test_verify_reversible.py",
       "tooling/verify_reversible.py"
+    ],
+    [
+      "tooling/test_website_run_history.py",
+      "tooling/azure/cli_runner.py"
     ],
     [
       "tooling/validate_algorithm_index.py",

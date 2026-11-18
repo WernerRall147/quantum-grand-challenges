@@ -26,12 +26,14 @@
     "agents/evaluations/score_narrative.py",
     "agents/orchestrator/evaluate.py",
     "agents/tests/test_evaluator_smoke.py",
+    "agents/tests/test_kb_endpoints.py",
     "agents/tests/test_verdict_evaluator.py",
     "tooling/reporting/check_homepage_stats.py",
     "tooling/validate_algorithm_index.py"
   ],
   "agents/code_generator/architecture.py": [
-    "agents/api/main.py"
+    "agents/api/main.py",
+    "agents/tests/test_bicep_generator.py"
   ],
   "agents/code_generator/bicep_generator.py": [
     "agents/api/main.py",
@@ -379,6 +381,18 @@
   ],
   "tooling/azure/check_secret_hygiene.py": [
     ".github/workflows/azure-secret-hygiene.yml"
+  ],
+  "tooling/azure/cli_runner.py": [
+    ".github/workflows/deploy-evaluator-api.yml",
+    "Dockerfile",
+    "agents/code_generator/bicep_generator.py",
+    "agents/evaluations/run_codegen_eval.py",
+    "tooling/azure/collect_job.py",
+    "tooling/azure/submit_job_auto.py",
+    "tooling/azure/validate_azure_cli.py",
+    "tooling/collect_and_compare.py",
+    "tooling/fetch_azure_job.py",
+    "tooling/test_website_run_history.py"
   ],
   "tooling/azure/website_run_history.py": [
     "tooling/azure/collect_job.py"

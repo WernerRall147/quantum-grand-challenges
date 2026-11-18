@@ -16,6 +16,8 @@ knowledge/Microsoft/**
 
 # generate.py imports estimator_config from /app/tooling
 !tooling/estimator_config.py
+# Bicep validation uses the same argument-isolated Azure CLI launcher as local tooling.
+!tooling/azure/cli_runner.py
 
 # Exemplars generate.py feeds the model, one per REFERENCE_IMPLEMENTATIONS entry outside
 # agents/ (the QPE and Shor exemplars are under agents/code_generator/exemplars/)

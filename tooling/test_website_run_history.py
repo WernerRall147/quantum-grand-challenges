@@ -14,6 +14,8 @@ from __future__ import annotations
 
 import importlib
 import json
+import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -155,3 +157,53 @@ def test_recollecting_a_known_job_updates_it_without_deleting_history(collect_jo
     lost = before - set(after)
     assert not lost, f"re-collecting one job deleted {len(lost)} of {len(before)} website runs"
     assert after[_key(known)]["runtime_seconds"] == 9.5
+
+
+@pytest.mark.parametrize("module_name", ["collect_job", "submit_job_auto", "validate_azure_cli"])
+def test_azure_cli_wrappers_pass_argument_lists(monkeypatch, module_name: str) -> None:
+    monkeypatch.syspath_prepend(str(AZURE_DIR))
+    module = importlib.import_module(module_name)
+    seen = {}
+
+    def fake_run(args, timeout, **kwargs):
+        seen["args"] = args
+        seen["timeout"] = timeout
+        seen["kwargs"] = kwargs
+        return subprocess.CompletedProcess(args, 0, stdout="{}", stderr="")
+
+    monkeypatch.setattr(module, "run_az", fake_run)
+
+    module._run_az(["account", "show"], 30)
+
+    assert seen == {
+        "args": ["account", "show"],
+        "timeout": 30,
+        "kwargs": {"check": True},
+    }
+
+
+@pytest.mark.skipif(
+    os.name != "nt" or shutil.which("az") is None,
+    reason="Windows Azure CLI MSI smoke test",
+)
+def test_windows_azure_cli_runner_is_safe_and_executable(tmp_path: Path) -> None:
+    from tooling.azure.cli_runner import resolve_azure_cli_command, run_az
+
+    command = resolve_azure_cli_command(["version"])
+    az_path = Path(shutil.which("az") or "")
+    if az_path.suffix.lower() in {".cmd", ".bat"}:
+        assert command[0].lower().endswith("python.exe")
+        assert command[1:4] == ["-IBm", "azure.cli", "version"]
+    else:
+        assert command == [str(az_path), "version"]
+
+    version = run_az(["version", "--output", "json"], 30, check=True)
+    assert "azure-cli" in json.loads(version.stdout)
+
+    marker = tmp_path / "shell-injection-ran.txt"
+    run_az(
+        ["version", "--output", f"json&whoami>{marker}"],
+        30,
+        check=False,
+    )
+    assert not marker.exists()

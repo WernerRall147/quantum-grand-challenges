@@ -8,6 +8,7 @@ AZURE_OPENAI_ENDPOINT the whole time and no code read either.
 """
 
 import importlib
+import json
 import sys
 from pathlib import Path
 
@@ -81,6 +82,51 @@ class TestEndpointsAreOverridable:
         assert not literal_assignments, (
             f"endpoint pinned to one tenant: {literal_assignments}"
         )
+
+
+class TestCommittedKnowledgeFallback:
+    def test_algorithm_search_uses_the_committed_index_without_azure_search(self):
+        kb_module = importlib.import_module(MODULE)
+        kb = kb_module.QuantumKnowledgeBase.__new__(kb_module.QuantumKnowledgeBase)
+        kb.search_client = None
+        kb._papers_search_client = None
+        kb.last_search_mode = "uninitialised"
+
+        matches = kb.search_algorithms("factor a 2048-bit RSA integer", top=3)
+
+        assert matches
+        assert matches[0]["name"] == "Shor's Algorithm"
+        assert kb.last_search_mode == "local-fallback"
+
+    def test_local_fallback_preserves_labelled_router_cases(self):
+        from agents.classifier.platform_router import route_platform
+
+        kb_module = importlib.import_module(MODULE)
+        kb = kb_module.QuantumKnowledgeBase.__new__(kb_module.QuantumKnowledgeBase)
+        kb.search_client = None
+        kb._papers_search_client = None
+        kb.last_search_mode = "uninitialised"
+        cases = json.loads(
+            (ROOT / "agents" / "evaluations" / "cases.json").read_text(encoding="utf-8")
+        )["cases"]
+
+        failed = []
+        for case in cases:
+            expected = case.get("expect_platform")
+            if not expected:
+                continue
+            matches = kb.search_algorithms(case["problem"], top=3)
+            routing = route_platform(
+                case["problem"],
+                matches,
+                matches[0]["score"] if matches else 0,
+            )
+            if routing["platform"] not in expected.split("|"):
+                failed.append(
+                    (case["id"], routing["platform"], matches[0]["name"] if matches else None)
+                )
+
+        assert failed == []
 
 
 class TestSeederIsSelfHostable:

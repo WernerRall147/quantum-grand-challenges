@@ -15,6 +15,7 @@ from agents.code_generator.bicep_generator import (
     AI_ML_REFERENCE,
     QUANTUM_REFERENCE,
 )
+from agents.code_generator.architecture import build_architecture
 
 
 class TestReferenceTemplates:
@@ -127,6 +128,18 @@ class TestBicepValidation:
         assert "validated" in result
         if not result["validated"]:
             assert "skipped" in result or "error" in result
+
+
+class TestArchitectureDiagrams:
+    def test_model_generated_labels_cannot_inject_mermaid_directives(self):
+        architecture = build_architecture(
+            platform="QUANTUM",
+            algorithm='QPE"]\n    click api "javascript:alert(1)',
+        )
+        diagram = architecture["mermaid"]
+
+        assert "\n    click api" not in diagram
+        assert "&quot;" in diagram
 
 
 class TestEmptyOutputIsNotSuccess:

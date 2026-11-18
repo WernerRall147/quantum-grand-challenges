@@ -24,12 +24,14 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
 import sys
 import urllib.request
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO))
+
+from tooling.azure.cli_runner import run_az  # noqa: E402
 
 DEFAULT_RESOURCE_GROUP = "qgc-af-demo-rg"
 DEFAULT_WORKSPACE = "qgc-af-demo"
@@ -43,10 +45,11 @@ def strip_sas(url: str) -> str:
 
 
 def az_job_show(job_id: str, resource_group: str, workspace: str) -> dict:
-    result = subprocess.run(
-        ["az", "quantum", "job", "show", "-g", resource_group, "-w", workspace,
+    result = run_az(
+        ["quantum", "job", "show", "-g", resource_group, "-w", workspace,
          "-j", job_id, "-o", "json", "--only-show-errors"],
-        capture_output=True, text=True, shell=True,
+        120,
+        check=False,
     )
     if result.returncode != 0:
         raise SystemExit(f"FAIL: az quantum job show returned {result.returncode}\n{result.stderr[:400]}")

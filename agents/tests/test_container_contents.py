@@ -136,6 +136,10 @@ class TestTheImageHasWhatTheApiNeeds:
             "generation raises and the API returns an empty string instead of code."
         )
 
+    def test_azure_cli_runner_is_copied(self):
+        """Bicep validation shares the shell-free CLI launcher used by tooling."""
+        assert reaches_the_image("tooling/azure/cli_runner.py")
+
     def test_every_reference_implementation_is_copied(self):
         from agents.code_generator.generate import REFERENCE_IMPLEMENTATIONS
 

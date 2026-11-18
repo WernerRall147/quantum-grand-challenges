@@ -24,7 +24,6 @@ import argparse
 import json
 import re
 import statistics
-import subprocess
 import sys
 import tempfile
 import time
@@ -36,6 +35,8 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "tooling"))
+
+from tooling.azure.cli_runner import run_az
 
 CASES_PATH = HERE / "codegen_cases.json"
 RESULTS_PATH = HERE / "codegen_eval_results.json"
@@ -56,10 +57,11 @@ class SubscriptionCliCredential:
 
         if self._token and self._token.expires_on - time.time() > 300:
             return self._token
-        out = subprocess.run(
-            ["az", "account", "get-access-token", "--subscription", self.subscription,
+        out = run_az(
+            ["account", "get-access-token", "--subscription", self.subscription,
              "--resource", scopes[0].removesuffix("/.default"), "-o", "json"],
-            capture_output=True, text=True, shell=sys.platform == "win32", timeout=90, check=True,
+            90,
+            check=True,
         )
         data = json.loads(out.stdout)
         self._token = AccessToken(data["accessToken"], int(data["expires_on"]))

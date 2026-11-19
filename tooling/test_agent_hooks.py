@@ -432,7 +432,43 @@ def worktree(tmp_path: Path):
         subprocess.run(["git", "update-ref", "refs/remotes/origin/main", "HEAD"], cwd=REPO, check=True)
     subprocess.run(["git", "worktree", "add", "-q", "--detach", str(path), "HEAD"], cwd=REPO,
                    check=True, capture_output=True)
+    linked_dependencies = None
+    source_dependencies = REPO / "website" / "node_modules"
+    if source_dependencies.is_dir() and shutil.which("node"):
+        linked_dependencies = path / "website" / "node_modules"
+        if os.name == "nt":
+            try:
+                linked_dependencies.symlink_to(
+                    source_dependencies, target_is_directory=True
+                )
+            except OSError:
+                subprocess.run(
+                    [
+                        "cmd.exe",
+                        "/d",
+                        "/c",
+                        "mklink",
+                        "/J",
+                        str(linked_dependencies),
+                        str(source_dependencies),
+                    ],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                )
+        else:
+            linked_dependencies.symlink_to(
+                source_dependencies, target_is_directory=True
+            )
     yield path
+    if linked_dependencies:
+        if os.name == "nt" and not linked_dependencies.is_symlink():
+            subprocess.run(
+                ["cmd.exe", "/d", "/c", "rmdir", str(linked_dependencies)],
+                capture_output=True,
+            )
+        else:
+            linked_dependencies.unlink(missing_ok=True)
     subprocess.run(["git", "worktree", "remove", "--force", str(path)], cwd=REPO, capture_output=True)
     if made_ref:
         subprocess.run(["git", "update-ref", "-d", "refs/remotes/origin/main"], cwd=REPO, capture_output=True)

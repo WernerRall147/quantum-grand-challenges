@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0",
-  "generated_utc": "2026-09-25T19:50:15.184367Z",
+  "schema_version": "2.0",
+  "generated_utc": "2026-11-19T12:29:23.371326Z",
   "targets": {
     "quantinuum.sim.h2-1sc": {
       "profile": "Adaptive_RI",
@@ -32,12 +32,525 @@
   },
   "records": [
     {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:11Z",
+      "problem_id": "01_hubbard",
+      "entry_point": "HubbardQPEKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/01_hubbard/qsharp/HardwareKernel.qs": "74ed90ef2aec2d5f098bb392e28bf7187496941280587b953efd329f7997f90a"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "570ee80c521acb1977adb7b7db7ce01c69898c72e0d6b6a2925112bbec3bd413",
+      "qir_sha256": "570ee80c521acb1977adb7b7db7ce01c69898c72e0d6b6a2925112bbec3bd413",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, Zero]": 131,
+          "[One, Zero]": 41,
+          "[One, One]": 18,
+          "[Zero, One]": 10
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:12Z",
+      "problem_id": "02_catalysis",
+      "entry_point": "CatalysisQPEKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/02_catalysis/qsharp/HardwareKernel.qs": "1967b1ef19b8e0011566534c960ab7de0d342bcc3ee05ea9cca7c6819f68844e"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "abefe03f9934899342477c5991928ee3aeaea18851336d0d3fa2def78c31ce00",
+      "qir_sha256": "abefe03f9934899342477c5991928ee3aeaea18851336d0d3fa2def78c31ce00",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[One, Zero]": 183,
+          "[Zero, Zero]": 7,
+          "[One, One]": 6,
+          "[Zero, One]": 4
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:12Z",
+      "problem_id": "03_qae_risk",
+      "entry_point": "QAEKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/03_qae_risk/qsharp/HardwareKernel.qs": "213368f71277e0a0714b49b11f2900adab034f2191cbc9c9a8b8f3f67e51b9d3"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "3bc88bbaa58bf8bac4a1d40e22ece9a7c7cc11cb2f7a3f90d6292c78e405e491",
+      "qir_sha256": "3bc88bbaa58bf8bac4a1d40e22ece9a7c7cc11cb2f7a3f90d6292c78e405e491",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[One, One]": 69,
+          "[Zero, One]": 66,
+          "[Zero, Zero]": 51,
+          "[One, Zero]": 14
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:13Z",
+      "problem_id": "04_linear_solvers",
+      "entry_point": "HHLKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/04_linear_solvers/qsharp/HardwareKernel.qs": "6e1a64e6577cf2454398be530e10ae14099a9b0550e3ad7b440f2f5cf7622b12"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "2ef0288a9adfbd84314447dac0abd4e58e688025363b57d0946a3fc72403323e",
+      "qir_sha256": "2ef0288a9adfbd84314447dac0abd4e58e688025363b57d0946a3fc72403323e",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, Zero]": 111,
+          "[Zero, One]": 54,
+          "[One, One]": 20,
+          "[One, Zero]": 15
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:13Z",
+      "problem_id": "05_qaoa_maxcut",
+      "entry_point": "QaoaMaxCutKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/05_qaoa_maxcut/qsharp/HardwareKernel.qs": "ed59f708ada42687738d762cdef32881fc1ffc25c875bfeb817ac12df0798cf2"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "44cccbf3c2c532337c864a323aa22343cf72e36bb50a5eb16d0b8643f80a46cb",
+      "qir_sha256": "44cccbf3c2c532337c864a323aa22343cf72e36bb50a5eb16d0b8643f80a46cb",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 6,
+        "counts": {
+          "[One, Zero, Zero]": 39,
+          "[Zero, One, One]": 36,
+          "[One, Zero, One]": 35,
+          "[Zero, Zero, One]": 31,
+          "[Zero, One, Zero]": 31,
+          "[One, One, Zero]": 28
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:14Z",
+      "problem_id": "06_high_frequency_trading",
+      "entry_point": "HFTKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/06_high_frequency_trading/qsharp/HardwareKernel.qs": "4d50ac24a3ff4abe9ed6a26318e0b63dc71feb464a1063fffde28295ecf29cb6"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "a551902699c6a9a14ba1ab0f2fa6b0b57bdfb6847597383d6cc015e8a8b198bb",
+      "qir_sha256": "a551902699c6a9a14ba1ab0f2fa6b0b57bdfb6847597383d6cc015e8a8b198bb",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 2,
+        "counts": {
+          "[One]": 164,
+          "[Zero]": 36
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:14Z",
+      "problem_id": "07_drug_discovery",
+      "entry_point": "DrugBindingQPEKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/07_drug_discovery/qsharp/HardwareKernel.qs": "f2cbc1f0ba1f244ddef4cf2df40ecb863192c05560a13d68979874bd33dacc96"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "f1cb9380f7df3b7b957376ebee139b0e0f7826f705d080609e82eb803ece7f80",
+      "qir_sha256": "f1cb9380f7df3b7b957376ebee139b0e0f7826f705d080609e82eb803ece7f80",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[One, Zero]": 191,
+          "[Zero, One]": 3,
+          "[Zero, Zero]": 3,
+          "[One, One]": 3
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:15Z",
+      "problem_id": "08_protein_folding",
+      "entry_point": "FoldingQaoaKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/08_protein_folding/qsharp/HardwareKernel.qs": "1a3e01ad01e75eb8fd3685e3606b604cd934830c64c6975b7b5c38a0e646137e"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "b18313131719c1ec8ebdf2715b7cc423eecdd0656edcdd25c607963eec9ba992",
+      "qir_sha256": "b18313131719c1ec8ebdf2715b7cc423eecdd0656edcdd25c607963eec9ba992",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 10,
+        "counts": {
+          "[Zero, Zero, Zero, Zero]": 63,
+          "[One, One, One, One]": 58,
+          "[Zero, Zero, One, One]": 33,
+          "[One, One, Zero, Zero]": 17,
+          "[Zero, One, One, One]": 12,
+          "[One, Zero, Zero, Zero]": 6,
+          "[One, One, One, Zero]": 5,
+          "[Zero, Zero, Zero, One]": 3,
+          "[Zero, One, One, Zero]": 2,
+          "[Zero, One, Zero, One]": 1
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:16Z",
+      "problem_id": "09_factorization",
+      "entry_point": "ShorKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/09_factorization/qsharp/HardwareKernel.qs": "004cab5499e4edfe086a05b4f6a0036958bb9a6eda60e695cb987dce12f4313b"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "da789e06f3f204966f5fe0f38496f6eb7c1c2c555894a23261629ca6b0112fba",
+      "qir_sha256": "da789e06f3f204966f5fe0f38496f6eb7c1c2c555894a23261629ca6b0112fba",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, Zero, One, Zero]": 65,
+          "[Zero, Zero, One, One]": 55,
+          "[Zero, Zero, Zero, One]": 41,
+          "[Zero, Zero, Zero, Zero]": 39
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:16Z",
+      "problem_id": "10_post_quantum_cryptography",
+      "entry_point": "GroverKeyKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/10_post_quantum_cryptography/qsharp/HardwareKernel.qs": "b769862ecb01be31dc426698d002b9f73452044e2dbd1b5b3d1085a7e474defc"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "d85163eb1214445c255724fa559611c2d248383a191be07a0e4bb6da5f7807ca",
+      "qir_sha256": "d85163eb1214445c255724fa559611c2d248383a191be07a0e4bb6da5f7807ca",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 8,
+        "counts": {
+          "[One, Zero, One]": 156,
+          "[Zero, One, Zero]": 11,
+          "[Zero, Zero, One]": 8,
+          "[Zero, One, One]": 8,
+          "[One, One, Zero]": 6,
+          "[One, One, One]": 5,
+          "[One, Zero, Zero]": 3,
+          "[Zero, Zero, Zero]": 3
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:17Z",
+      "problem_id": "11_quantum_machine_learning",
+      "entry_point": "SwapTestKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/11_quantum_machine_learning/qsharp/HardwareKernel.qs": "5695de76f7ca681cd3a54f7c798b6c871a81daaf31c51e54e20943c2eb57a9b0"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "ce84ef4b358f9a914c6c71b62037b9c5d776eb27beb543a2d949978980dfb503",
+      "qir_sha256": "ce84ef4b358f9a914c6c71b62037b9c5d776eb27beb543a2d949978980dfb503",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 2,
+        "counts": {
+          "[Zero]": 186,
+          "[One]": 14
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:17Z",
+      "problem_id": "12_quantum_optimization",
+      "entry_point": "SchedulingQaoaKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/12_quantum_optimization/qsharp/HardwareKernel.qs": "a19b99f88ea4b73047e738bd39effcb185a421a56c3c2a2b8e972a72957e99f0"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "530020ed3780e2d24afd38f64ede19b2b0a2682eb1e30450cbae0185e83c1a1c",
+      "qir_sha256": "530020ed3780e2d24afd38f64ede19b2b0a2682eb1e30450cbae0185e83c1a1c",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 15,
+        "counts": {
+          "[Zero, One, One, Zero]": 30,
+          "[Zero, Zero, One, One]": 27,
+          "[Zero, One, Zero, One]": 25,
+          "[One, Zero, Zero, One]": 20,
+          "[One, Zero, One, One]": 18,
+          "[One, Zero, One, Zero]": 16,
+          "[Zero, One, Zero, Zero]": 15,
+          "[One, One, Zero, Zero]": 15,
+          "[Zero, Zero, One, Zero]": 14,
+          "[One, One, Zero, One]": 9,
+          "[One, One, One, Zero]": 3,
+          "[Zero, Zero, Zero, One]": 3,
+          "[One, Zero, Zero, Zero]": 2,
+          "[Zero, One, One, One]": 2,
+          "[One, One, One, One]": 1
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:18Z",
+      "problem_id": "13_climate_modeling",
+      "entry_point": "ClimateHHLKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/13_climate_modeling/qsharp/HardwareKernel.qs": "2d0b339266544a47eae330bc9ae384c05db39eab041585af5e670e2a1dd82875"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "feded5b33b0a5c55739080ff18237e87ae7bd4f71a1028618ec073994aeef439",
+      "qir_sha256": "feded5b33b0a5c55739080ff18237e87ae7bd4f71a1028618ec073994aeef439",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[One, Zero]": 85,
+          "[Zero, One]": 49,
+          "[Zero, Zero]": 46,
+          "[One, One]": 20
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:19Z",
+      "problem_id": "14_materials_discovery",
+      "entry_point": "MaterialsQPEKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/14_materials_discovery/qsharp/HardwareKernel.qs": "4979b15639a9e2b970ab16811f470f236be22703d5aa5d25d5ed01274fa36d96"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "7f0b5d95d7bb95a4d06accea4783adf9cccbfd52c2357c7e8d844ff26ff4b79b",
+      "qir_sha256": "7f0b5d95d7bb95a4d06accea4783adf9cccbfd52c2357c7e8d844ff26ff4b79b",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[One, Zero]": 131,
+          "[Zero, Zero]": 35,
+          "[One, One]": 26,
+          "[Zero, One]": 8
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:19Z",
+      "problem_id": "15_database_search",
+      "entry_point": "GroverSearchKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/15_database_search/qsharp/HardwareKernel.qs": "0bd971754bb22955fbab093b1f3baf3e2339f9cbfbbee04b62caf919310cbbd6"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "1a51f3517ad565251ff50023fec000499202ba194494cfc83e116d75d78a0529",
+      "qir_sha256": "1a51f3517ad565251ff50023fec000499202ba194494cfc83e116d75d78a0529",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 4,
+        "counts": {
+          "[Zero, One, One, One]": 197,
+          "[One, Zero, One, Zero]": 1,
+          "[One, One, One, One]": 1,
+          "[Zero, Zero, Zero, Zero]": 1
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:20Z",
       "problem_id": "16_error_correction",
       "entry_point": "QECKernel",
-      "execution": "local-simulator",
+      "execution_mode": "local-simulator",
       "target_id": null,
-      "profile": "Adaptive_RI",
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
       "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/16_error_correction/qsharp/HardwareKernel.qs": "9227cc3cbb106ab77d85861f1f3674d1339e6c23be05ff05f059766b5bb9a074"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "c23f52413cdd2813c5cb91ff907f05015dd0daf8a6c54af1480bf654960824d1",
+      "qir_sha256": "c23f52413cdd2813c5cb91ff907f05015dd0daf8a6c54af1480bf654960824d1",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
       "histogram": {
         "shots": 200,
         "distinct_outcomes": 2,
@@ -48,155 +561,154 @@
       }
     },
     {
-      "problem_id": "19_quantum_chromodynamics",
-      "entry_point": "LatticeGaugeKernel",
-      "execution": "local-simulator",
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:21Z",
+      "problem_id": "17_nuclear_physics",
+      "entry_point": "NuclearQPEKernel",
+      "execution_mode": "local-simulator",
       "target_id": null,
-      "profile": "Adaptive_RI",
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
       "status": "succeeded",
-      "histogram": {
-        "shots": 200,
-        "distinct_outcomes": 14,
-        "counts": {
-          "[Zero, Zero, Zero, Zero]": 83,
-          "[One, Zero, Zero, Zero]": 28,
-          "[Zero, Zero, Zero, One]": 23,
-          "[Zero, Zero, One, One]": 18,
-          "[One, One, Zero, Zero]": 14,
-          "[One, Zero, Zero, One]": 11,
-          "[One, One, Zero, One]": 5,
-          "[One, One, One, One]": 5,
-          "[Zero, One, One, Zero]": 4,
-          "[Zero, Zero, One, Zero]": 3,
-          "[One, Zero, One, Zero]": 2,
-          "[One, Zero, One, One]": 2,
-          "[Zero, One, Zero, Zero]": 1,
-          "[Zero, One, One, One]": 1
-        }
-      }
-    },
-    {
-      "problem_id": "01_hubbard",
-      "entry_point": "HubbardQPEKernel",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/17_nuclear_physics/qsharp/HardwareKernel.qs": "c47849318c4b4864f2d74cbd3bbff94ed62db821ba658783910cd8b8ec44c14f"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "32d99d8f39ff18d152e110c1c7f7cc8bf160e2a4f38f164bd00536a709857eb0",
+      "qir_sha256": "32d99d8f39ff18d152e110c1c7f7cc8bf160e2a4f38f164bd00536a709857eb0",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
       "execution": "local-simulator",
-      "target_id": null,
       "profile": "Adaptive_RI",
-      "status": "succeeded",
       "histogram": {
         "shots": 200,
         "distinct_outcomes": 4,
         "counts": {
-          "[Zero, Zero]": 132,
-          "[One, Zero]": 37,
-          "[One, One]": 19,
+          "[One, Zero]": 124,
+          "[Zero, Zero]": 34,
+          "[One, One]": 30,
           "[Zero, One]": 12
         }
       }
     },
     {
-      "problem_id": "02_catalysis",
-      "entry_point": "CatalysisQPEKernel",
-      "execution": "local-simulator",
-      "target_id": null,
-      "profile": "Adaptive_RI",
-      "status": "succeeded",
-      "histogram": {
-        "shots": 200,
-        "distinct_outcomes": 4,
-        "counts": {
-          "[One, Zero]": 181,
-          "[Zero, Zero]": 9,
-          "[Zero, One]": 5,
-          "[One, One]": 5
-        }
-      }
-    },
-    {
-      "problem_id": "07_drug_discovery",
-      "entry_point": "DrugBindingQPEKernel",
-      "execution": "local-simulator",
-      "target_id": null,
-      "profile": "Adaptive_RI",
-      "status": "succeeded",
-      "histogram": {
-        "shots": 200,
-        "distinct_outcomes": 3,
-        "counts": {
-          "[One, Zero]": 196,
-          "[Zero, Zero]": 2,
-          "[Zero, One]": 2
-        }
-      }
-    },
-    {
-      "problem_id": "14_materials_discovery",
-      "entry_point": "MaterialsQPEKernel",
-      "execution": "local-simulator",
-      "target_id": null,
-      "profile": "Adaptive_RI",
-      "status": "succeeded",
-      "histogram": {
-        "shots": 200,
-        "distinct_outcomes": 4,
-        "counts": {
-          "[One, Zero]": 114,
-          "[Zero, Zero]": 46,
-          "[One, One]": 29,
-          "[Zero, One]": 11
-        }
-      }
-    },
-    {
-      "problem_id": "17_nuclear_physics",
-      "entry_point": "NuclearQPEKernel",
-      "execution": "local-simulator",
-      "target_id": null,
-      "profile": "Adaptive_RI",
-      "status": "succeeded",
-      "histogram": {
-        "shots": 200,
-        "distinct_outcomes": 4,
-        "counts": {
-          "[One, Zero]": 125,
-          "[One, One]": 35,
-          "[Zero, Zero]": 29,
-          "[Zero, One]": 11
-        }
-      }
-    },
-    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:21Z",
       "problem_id": "18_photovoltaics",
       "entry_point": "QuantumWalkKernel",
-      "execution": "local-simulator",
+      "execution_mode": "local-simulator",
       "target_id": null,
-      "profile": "Adaptive_RI",
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
       "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/18_photovoltaics/qsharp/HardwareKernel.qs": "2e7a39cd0217a341f1f3f45a4c3c6dc5f8afdb29ba324fad169c88c5d8f350ec"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "1ce6097bdfcd9d867da1fbdab295c26549ff5617f8d748eef39584bab0ff7d8a",
+      "qir_sha256": "1ce6097bdfcd9d867da1fbdab295c26549ff5617f8d748eef39584bab0ff7d8a",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
       "histogram": {
         "shots": 200,
         "distinct_outcomes": 4,
         "counts": {
-          "[One, Zero, Zero]": 123,
-          "[Zero, One, Zero]": 37,
-          "[Zero, Zero, Zero]": 26,
-          "[One, One, Zero]": 14
+          "[One, Zero, Zero]": 97,
+          "[Zero, Zero, Zero]": 42,
+          "[Zero, One, Zero]": 39,
+          "[One, One, Zero]": 22
         }
       }
     },
     {
-      "problem_id": "09_factorization",
-      "entry_point": "ShorKernel",
-      "execution": "local-simulator",
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:22Z",
+      "problem_id": "19_quantum_chromodynamics",
+      "entry_point": "LatticeGaugeKernel",
+      "execution_mode": "local-simulator",
       "target_id": null,
-      "profile": "Adaptive_RI",
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
       "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/19_quantum_chromodynamics/qsharp/HardwareKernel.qs": "a85ef54ccedcdaa712da3d6141b77cfb9446314434d7ad72519d040974c21a53"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "92def21680848c129b12509a63409b9d2f666cf544bbd0723fa5d2c99ce7f790",
+      "qir_sha256": "92def21680848c129b12509a63409b9d2f666cf544bbd0723fa5d2c99ce7f790",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
       "histogram": {
         "shots": 200,
-        "distinct_outcomes": 4,
+        "distinct_outcomes": 16,
         "counts": {
-          "[Zero, Zero, Zero, One]": 57,
-          "[Zero, Zero, One, One]": 55,
-          "[Zero, Zero, Zero, Zero]": 51,
-          "[Zero, Zero, One, Zero]": 37
+          "[Zero, Zero, Zero, Zero]": 94,
+          "[Zero, Zero, Zero, One]": 26,
+          "[One, Zero, Zero, Zero]": 19,
+          "[One, Zero, Zero, One]": 15,
+          "[One, One, Zero, Zero]": 12,
+          "[Zero, Zero, One, One]": 12,
+          "[Zero, One, One, Zero]": 6,
+          "[One, One, One, One]": 3,
+          "[Zero, Zero, One, Zero]": 3,
+          "[One, Zero, One, One]": 2,
+          "[Zero, One, Zero, One]": 2,
+          "[Zero, One, Zero, Zero]": 2,
+          "[One, Zero, One, Zero]": 1,
+          "[Zero, One, One, One]": 1,
+          "[One, One, Zero, One]": 1,
+          "[One, One, One, Zero]": 1
+        }
+      }
+    },
+    {
+      "schema_version": "1.0",
+      "recorded_utc": "2026-11-19T12:29:23Z",
+      "problem_id": "20_space_mission_planning",
+      "entry_point": "MissionQaoaKernel",
+      "execution_mode": "local-simulator",
+      "target_id": null,
+      "target_profile": "Adaptive_RI",
+      "shots": 200,
+      "status": "succeeded",
+      "qdk_version": "1.31.0",
+      "source_files": {
+        "problems/archived/20_space_mission_planning/qsharp/HardwareKernel.qs": "7e4bfe0998b9c09aab4018cf6228dba3d5e277c1bdc63f5d5f437acb7a9ba4b4"
+      },
+      "input_format": "qir.v1",
+      "input_sha256": "47e9188825cc162e6654aeab57ededb89f8f480d504b6eec4757853e0328481d",
+      "qir_sha256": "47e9188825cc162e6654aeab57ededb89f8f480d504b6eec4757853e0328481d",
+      "source_revision": "5bd47d799d3af62ca3ff076dda2ef5d2c4de198a",
+      "worktree_dirty": false,
+      "execution": "local-simulator",
+      "profile": "Adaptive_RI",
+      "histogram": {
+        "shots": 200,
+        "distinct_outcomes": 16,
+        "counts": {
+          "[Zero, One, One, Zero]": 23,
+          "[Zero, One, Zero, Zero]": 20,
+          "[One, Zero, Zero, Zero]": 19,
+          "[Zero, Zero, One, One]": 19,
+          "[One, One, Zero, Zero]": 18,
+          "[Zero, Zero, One, Zero]": 18,
+          "[One, Zero, One, Zero]": 17,
+          "[Zero, One, Zero, One]": 13,
+          "[Zero, Zero, Zero, One]": 11,
+          "[One, Zero, Zero, One]": 9,
+          "[One, One, One, Zero]": 9,
+          "[Zero, One, One, One]": 9,
+          "[One, One, Zero, One]": 6,
+          "[One, One, One, One]": 4,
+          "[One, Zero, One, One]": 3,
+          "[Zero, Zero, Zero, Zero]": 2
         }
       }
     }

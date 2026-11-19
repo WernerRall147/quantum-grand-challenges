@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any, Dict, Iterable
 
@@ -81,6 +82,57 @@ def validate_runnable_report(path: Path) -> None:
         )
 
 
+def validate_simulator_matrix(path: Path) -> None:
+    payload = load_json(path)
+    assert_required_keys(
+        payload,
+        ["schema_version", "generated_utc", "records"],
+        "simulatorMatrix",
+    )
+    if payload["schema_version"] != "2.0":
+        return
+
+    records = payload["records"]
+    if not isinstance(records, list):
+        raise ValueError("simulatorMatrix.records must be a list")
+    sha256 = re.compile(r"^[0-9a-f]{64}$")
+    for idx, row in enumerate(records):
+        if not isinstance(row, dict):
+            raise ValueError(f"simulatorMatrix.records[{idx}] must be an object")
+        assert_required_keys(
+            row,
+            [
+                "recorded_utc",
+                "problem_id",
+                "entry_point",
+                "execution",
+                "execution_mode",
+                "target_profile",
+                "status",
+                "shots",
+                "source_revision",
+                "worktree_dirty",
+                "source_files",
+                "input_format",
+                "input_sha256",
+                "qir_sha256",
+            ],
+            f"simulatorMatrix.records[{idx}]",
+        )
+        if row["input_sha256"] is not None and not sha256.fullmatch(
+            str(row["input_sha256"])
+        ):
+            raise ValueError(
+                f"simulatorMatrix.records[{idx}].input_sha256 is not a SHA-256"
+            )
+        if row["qir_sha256"] is not None and not sha256.fullmatch(
+            str(row["qir_sha256"])
+        ):
+            raise ValueError(
+                f"simulatorMatrix.records[{idx}].qir_sha256 is not a SHA-256"
+            )
+
+
 def validate_no_sensitive_fields(data_dir: Path) -> None:
     """Sweep every published JSON for infrastructure identifiers at any depth.
 
@@ -126,9 +178,11 @@ def main() -> None:
     data_dir = root / "website" / "data"
     azure_history = data_dir / "azureRunHistory.json"
     runnable_report = data_dir / "problemRunnableCorrectnessReport.json"
+    simulator_matrix = data_dir / "simulatorMatrix.json"
 
     validate_azure_history(azure_history)
     validate_runnable_report(runnable_report)
+    validate_simulator_matrix(simulator_matrix)
     validate_no_sensitive_fields(data_dir)
 
     print("Website data schema validation passed")

@@ -28,6 +28,26 @@ kernel, circuit, and estimate. Optimization is only partially organized:
 - Q# compilation against a target profile proves that QIR is accepted, but not that a provider
   emulator or physical device produced a useful result.
 
+## Implemented foundation
+
+The implementation associated with this roadmap now provides:
+
+- Quantum data-plane role assignments in the generated Bicep reference, with a required
+  contributor principal and optional read-only principals.
+- One active-or-archived problem resolver used by readiness, manifests, smoke orchestration,
+  simulator discovery, and one-kernel submission.
+- Readiness output that separates artifact, Base QIR, Adaptive_RI QIR, local, provider, emulator,
+  and hardware states.
+- A Base and Adaptive_RI compile matrix guarded in CI.
+- A QDK-native VQE driver with fixed Pauli-term QIR programs and explicit toy-Hamiltonian labels.
+- Source, input/QIR, target-profile, SDK, and worktree provenance for simulator and private
+  submission records.
+- [ADR 0003](../adr/0003-qir-first-quantum-execution.md), which fixes the QIR-first architecture
+  and evidence promotion rules.
+
+Shared Q# libraries, a generated instance schema, target-specific noise models, and multi-policy QRE
+selection remain follow-up implementation work rather than implied completed capabilities.
+
 ## P0: correctness and access
 
 ### Assign Azure Quantum data-plane roles

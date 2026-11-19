@@ -56,6 +56,8 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+from tooling.discover_problems import resolve_problem_dir  # noqa: E402
+
 SUBSCRIPTION_ID = "82cd08af-0dac-4fc5-8a3a-f2ab9e4679c3"
 TENANT_ID = "dc692f3e-104b-4247-b52c-23692694684a"
 
@@ -73,11 +75,15 @@ def resource_id(resource_group: str, workspace: str) -> str:
 
 
 def find_kernel(problem_id: str) -> Path:
-    for base in (REPO / "problems", REPO / "problems" / "archived"):
-        candidate = base / problem_id / "qsharp" / "HardwareKernel.qs"
-        if candidate.exists():
-            return candidate
-    raise SystemExit(f"FAIL: no HardwareKernel.qs for {problem_id} in problems/ or problems/archived/")
+    try:
+        candidate = (
+            resolve_problem_dir(problem_id, REPO) / "qsharp" / "HardwareKernel.qs"
+        )
+    except FileNotFoundError as exc:
+        raise SystemExit(f"FAIL: no HardwareKernel.qs for {problem_id}") from exc
+    if not candidate.exists():
+        raise SystemExit(f"FAIL: no HardwareKernel.qs for {problem_id}")
+    return candidate
 
 
 def compile_kernel(kernel_path: Path, target_id: str):

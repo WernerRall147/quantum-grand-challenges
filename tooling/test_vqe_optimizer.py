@@ -6,6 +6,7 @@ import importlib.util
 import math
 from pathlib import Path
 
+import numpy as np
 import pytest
 from qdk import qsharp
 
@@ -18,6 +19,50 @@ spec = importlib.util.spec_from_file_location("vqe_optimizer", VQE_PATH)
 assert spec and spec.loader
 vqe_optimizer = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(vqe_optimizer)
+
+X = np.array([[0, 1], [1, 0]], dtype=complex)
+Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
+Z = np.diag([1.0, -1.0]).astype(complex)
+I2 = np.eye(2, dtype=complex)
+CNOT = np.array(
+    [
+        [1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 0, 1],
+        [0, 0, 1, 0],
+    ],
+    dtype=complex,
+)
+
+
+def _ry(theta: float) -> np.ndarray:
+    cosine = math.cos(theta / 2.0)
+    sine = math.sin(theta / 2.0)
+    return np.array([[cosine, -sine], [sine, cosine]], dtype=complex)
+
+
+def _rz(theta: float) -> np.ndarray:
+    return np.diag(
+        [np.exp(-0.5j * theta), np.exp(0.5j * theta)]
+    ).astype(complex)
+
+
+def _exact_toy_expectations(params: tuple[float, float, float]) -> dict[str, float]:
+    state = np.array([0, 0, 1, 0], dtype=complex)
+    state = np.kron(_ry(params[0]), _ry(params[1])) @ state
+    state = CNOT @ state
+    state = np.kron(I2, _rz(params[2])) @ state
+    state = CNOT @ state
+    paulis = {
+        "XX": np.kron(X, X),
+        "YY": np.kron(Y, Y),
+        "ZI": np.kron(Z, I2),
+        "IZ": np.kron(I2, Z),
+    }
+    return {
+        name: float(np.real(state.conj() @ operator @ state))
+        for name, operator in paulis.items()
+    }
 
 
 @pytest.mark.parametrize("term", range(4))
@@ -41,6 +86,15 @@ def test_qdk_measurement_runner_returns_the_known_product_state_energy():
     )
 
     assert energy == pytest.approx(2.0, abs=1e-12)
+
+
+def test_qdk_term_measurements_match_independent_state_vector_expectations():
+    params = (0.5, 1.0, 0.3)
+    expected = _exact_toy_expectations(params)
+    observed = vqe_optimizer.run_qsharp_expectations(params, shots=4096)
+
+    for term in vqe_optimizer.PAULI_TERMS:
+        assert observed[term] == pytest.approx(expected[term], abs=0.06)
 
 
 def test_optimizer_consumes_qsharp_objective_values(monkeypatch):

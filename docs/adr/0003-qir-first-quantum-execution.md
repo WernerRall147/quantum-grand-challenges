@@ -1,7 +1,7 @@
 # ADR-0003: QIR-first quantum execution and evidence
 
-Date: 2026-11-19  
-Status: Proposed  
+Date: 2026-11-19
+Status: Proposed
 Deciders: Quantum Grand Challenges maintainers
 
 ## Context

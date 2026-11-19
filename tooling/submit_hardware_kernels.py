@@ -12,14 +12,16 @@ Azure job id for anything that really was submitted.
 """
 
 import json
-import os
 import re
 import sys
-import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-PROBLEMS_DIR = Path(__file__).resolve().parent.parent / "problems"
+if __package__:
+    from .discover_problems import discover_all_problems, resolve_problem_dir
+else:
+    from discover_problems import discover_all_problems, resolve_problem_dir
+
 HISTORY_PATH = Path(__file__).resolve().parent.parent / "website" / "data" / "azureRunHistory.json"
 
 
@@ -27,7 +29,12 @@ def submit_kernel(problem_id: str, target_id: str) -> dict:
     """Compile and submit a HardwareKernel.qs to Azure Quantum."""
     from qdk import qsharp
 
-    kernel_path = PROBLEMS_DIR / problem_id / "qsharp" / "HardwareKernel.qs"
+    try:
+        kernel_path = (
+            resolve_problem_dir(problem_id) / "qsharp" / "HardwareKernel.qs"
+        )
+    except FileNotFoundError:
+        return {"status": "skipped", "reason": "problem directory not found"}
     if not kernel_path.exists():
         return {"status": "skipped", "reason": "no HardwareKernel.qs"}
 
@@ -85,20 +92,21 @@ def main():
     problems = sys.argv[2:] if len(sys.argv) > 2 else None
 
     new_runs = []
-    for d in sorted(os.listdir(PROBLEMS_DIR)):
-        if not (PROBLEMS_DIR / d / "qsharp" / "HardwareKernel.qs").exists():
+    for problem_dir in discover_all_problems():
+        problem_id = problem_dir.name
+        if not (problem_dir / "qsharp" / "HardwareKernel.qs").exists():
             continue
-        if problems and d not in problems:
+        if problems and problem_id not in problems:
             continue
 
-        print(f"Submitting {d} to {target}...", end=" ", flush=True)
-        result = submit_kernel(d, target)
+        print(f"Submitting {problem_id} to {target}...", end=" ", flush=True)
+        result = submit_kernel(problem_id, target)
         print(result["status"])
 
         if result["status"] == "succeeded":
             new_runs.append({
                 "recorded_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-                "problem_id": d,
+                "problem_id": problem_id,
                 "instance_id": "small",
                 "depth": 1,
                 "target_id": target,

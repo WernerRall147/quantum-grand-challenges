@@ -373,6 +373,9 @@
   "tooling/azq/job_manager.py": [
     "problems/archived/03_qae_risk/Makefile"
   ],
+  "tooling/azure/assess_problem_readiness.py": [
+    "tooling/test_quantum_readiness.py"
+  ],
   "tooling/azure/azure_env.py": [
     "tooling/azure/collect_job.py",
     "tooling/azure/submit_job_auto.py",
@@ -413,11 +416,19 @@
     ".github/workflows/depgraph-drift.yml"
   ],
   "tooling/discover_problems.py": [
+    "tooling/azure/assess_problem_readiness.py",
+    "tooling/azure/prepare_problem_manifest.py",
+    "tooling/azure/smoke_problem.py",
+    "tooling/azure/submit_job_auto.py",
     "tooling/ci_validate_qsharp.py",
     "tooling/generate_estimates.py",
     "tooling/generate_multimodel_estimates.py",
     "tooling/run_all_qsharp.py",
     "tooling/run_noisy_simulation.py",
+    "tooling/run_simulator_matrix.py",
+    "tooling/submit_hardware_kernels.py",
+    "tooling/submit_one_kernel.py",
+    "tooling/test_quantum_readiness.py",
     "viz/data.py"
   ],
   "tooling/estimator/run_estimation.py": [
@@ -439,7 +450,9 @@
     "tooling/test_shor_kernel.py"
   ],
   "tooling/evidence_hashes.py": [
+    "tooling/azure/submit_job_auto.py",
     "tooling/generate_calibration_ensemble.py",
+    "tooling/quantum_provenance.py",
     "tooling/test_stage_evidence.py"
   ],
   "tooling/generate_calibration_ensemble.py": [
@@ -457,6 +470,11 @@
   ],
   "tooling/measure_corpus_decidability.py": [
     "agents/tests/test_corpus_decidability.py"
+  ],
+  "tooling/quantum_provenance.py": [
+    "tooling/azure/submit_job_auto.py",
+    "tooling/run_simulator_matrix.py",
+    "tooling/test_quantum_provenance.py"
   ],
   "tooling/reconcile_algorithm_zoo.py": [
     ".github/workflows/nightly.yml",
@@ -491,6 +509,9 @@
   ],
   "tooling/run_all_qsharp.py": [
     ".github/workflows/ci-cd.yml"
+  ],
+  "tooling/run_simulator_matrix.py": [
+    "tooling/test_quantum_readiness.py"
   ],
   "tooling/sota_watch.py": [
     ".github/workflows/sota-watch.yml"

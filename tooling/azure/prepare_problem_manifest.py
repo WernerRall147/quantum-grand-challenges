@@ -4,9 +4,16 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
+
+ROOT = Path(__file__).resolve().parents[2]
+if __package__ in (None, ""):
+    sys.path.insert(0, str(ROOT))
+
+from tooling.discover_problems import resolve_problem_dir  # noqa: E402
 
 
 def utc_now() -> str:
@@ -21,7 +28,7 @@ def _resolve(path_arg: str) -> Path:
 
 
 def _repo_root() -> Path:
-    return Path(__file__).resolve().parents[2]
+    return ROOT
 
 
 def _load_registry() -> Dict[str, Dict[str, str]]:
@@ -82,9 +89,10 @@ def main() -> None:
     if args.problem not in registry:
         raise SystemExit(f"Unknown problem id '{args.problem}'. Add it to tooling/azure/problem_registry.json.")
 
-    problem_dir = root / "problems" / args.problem
-    if not problem_dir.exists():
-        raise SystemExit(f"Problem directory not found: {problem_dir}")
+    try:
+        problem_dir = resolve_problem_dir(args.problem, root)
+    except FileNotFoundError as exc:
+        raise SystemExit(str(exc)) from exc
 
     if args.evidence_file:
         evidence_path = _resolve(args.evidence_file)

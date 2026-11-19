@@ -20,6 +20,16 @@ KERNELS = sorted(REPO_ROOT.glob("problems/*/qsharp/HardwareKernel.qs")) + sorted
     REPO_ROOT.glob("problems/archived/*/qsharp/HardwareKernel.qs")
 )
 ENTRY = re.compile(r"@EntryPoint\(\)\s*\n\s*operation\s+(\w+)")
+BASE_INCOMPATIBLE = {"16_error_correction"}
+
+
+def compile_kernel(kernel: Path, profile):
+    source = kernel.read_text(encoding="utf-8-sig")
+    entry = ENTRY.search(source)
+    assert entry, f"{kernel} has no @EntryPoint operation"
+    qsharp.init(target_profile=profile)
+    qsharp.eval(source)
+    return qsharp.compile(f"{entry.group(1)}()")
 
 
 def test_every_problem_has_a_kernel():
@@ -28,13 +38,27 @@ def test_every_problem_has_a_kernel():
 
 @pytest.mark.parametrize("kernel", KERNELS, ids=[k.parts[-3] for k in KERNELS])
 def test_the_kernel_compiles_to_adaptive_qir(kernel: Path):
-    source = kernel.read_text(encoding="utf-8-sig")
-    entry = ENTRY.search(source)
-    assert entry, f"{kernel} has no @EntryPoint operation"
-    qsharp.init(target_profile=qsharp.TargetProfile.Adaptive_RI)
-    qsharp.eval(source)
     try:
-        qir = qsharp.compile(f"{entry.group(1)}()")
+        qir = compile_kernel(kernel, qsharp.TargetProfile.Adaptive_RI)
     except BaseException as error:  # the compiler reports some failures as Rust panics
         pytest.fail(f"{kernel.parts[-3]}: {str(error).splitlines()[0]}")
+    assert "__quantum__qis__" in str(qir)
+
+
+@pytest.mark.parametrize("kernel", KERNELS, ids=[k.parts[-3] for k in KERNELS])
+def test_the_kernel_matches_its_base_profile_contract(kernel: Path):
+    problem_id = kernel.parts[-3]
+    if problem_id in BASE_INCOMPATIBLE:
+        try:
+            compile_kernel(kernel, qsharp.TargetProfile.Base)
+        except BaseException as error:
+            if isinstance(error, (KeyboardInterrupt, SystemExit)):
+                raise
+            return
+        pytest.fail(f"{problem_id} unexpectedly compiled under Base")
+
+    try:
+        qir = compile_kernel(kernel, qsharp.TargetProfile.Base)
+    except BaseException as error:
+        pytest.fail(f"{problem_id}: {str(error).splitlines()[0]}")
     assert "__quantum__qis__" in str(qir)

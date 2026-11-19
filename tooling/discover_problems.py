@@ -36,3 +36,21 @@ def discover_archived_problems() -> List[Path]:
         [d for d in ARCHIVED_DIR.iterdir() if _is_problem_dir(d)],
         key=lambda d: d.name,
     )
+
+
+def resolve_problem_dir(problem_id: str, repo_root: Path | None = None) -> Path:
+    """Resolve a problem ID from the active or archived tree."""
+    problems_dir = (repo_root / "problems") if repo_root else PROBLEMS_DIR
+    archived_dir = problems_dir / "archived"
+    matches = [
+        candidate
+        for candidate in (problems_dir / problem_id, archived_dir / problem_id)
+        if candidate.is_dir()
+    ]
+    if not matches:
+        raise FileNotFoundError(
+            f"problem '{problem_id}' was not found in problems/ or problems/archived/"
+        )
+    if len(matches) != 1:
+        raise RuntimeError(f"problem id '{problem_id}' is duplicated")
+    return matches[0]

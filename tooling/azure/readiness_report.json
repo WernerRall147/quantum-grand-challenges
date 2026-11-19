@@ -1,210 +1,797 @@
 {
-  "generated_utc": "2026-09-14T15:01:34Z",
+  "generated_utc": "2026-11-19T12:12:33Z",
   "summary": {
     "total_problems": 20,
-    "ready_now": 9,
-    "not_ready": 11
+    "artifact_sets_complete": 20,
+    "base_qir_compatible": 19,
+    "adaptive_qir_compatible": 20,
+    "qir_submission_compatible": 20,
+    "local_correctness_runs": 0,
+    "provider_syntax_runs": 0,
+    "provider_emulator_runs": 0,
+    "hardware_runs": 0
   },
   "problems": [
     {
       "problem_id": "01_hubbard",
       "problem_name": "Hubbard Model",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/01_hubbard",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/01_hubbard/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "02_catalysis",
       "problem_name": "Catalysis Simulation",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/02_catalysis",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/02_catalysis/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "03_qae_risk",
       "problem_name": "QAE Risk Analysis",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/03_qae_risk",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/03_qae_risk/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "04_linear_solvers",
       "problem_name": "Linear Solvers",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/04_linear_solvers",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/04_linear_solvers/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "05_qaoa_maxcut",
       "problem_name": "QAOA MaxCut",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/05_qaoa_maxcut",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/05_qaoa_maxcut/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "06_high_frequency_trading",
       "problem_name": "High-Frequency Trading",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/06_high_frequency_trading",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/06_high_frequency_trading/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "07_drug_discovery",
       "problem_name": "Drug Discovery",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/07_drug_discovery",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/07_drug_discovery/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "08_protein_folding",
       "problem_name": "Protein Folding",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/08_protein_folding",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/08_protein_folding/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "09_factorization",
       "problem_name": "Factorization",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/09_factorization",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/09_factorization/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "10_post_quantum_cryptography",
       "problem_name": "Post-Quantum Cryptography",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/10_post_quantum_cryptography",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/10_post_quantum_cryptography/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "11_quantum_machine_learning",
       "problem_name": "Quantum Machine Learning",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/11_quantum_machine_learning",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/11_quantum_machine_learning/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "12_quantum_optimization",
       "problem_name": "Quantum Optimization",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/12_quantum_optimization",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/12_quantum_optimization/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "13_climate_modeling",
       "problem_name": "Climate Modeling",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/13_climate_modeling",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/13_climate_modeling/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "14_materials_discovery",
       "problem_name": "Materials Discovery",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/14_materials_discovery",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/14_materials_discovery/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "15_database_search",
       "problem_name": "Database Search",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/15_database_search",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/15_database_search/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "16_error_correction",
       "problem_name": "Error Correction",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/16_error_correction",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/16_error_correction/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "incompatible",
+          "reason": "Qdk.Qsc.CapabilitiesCk.UseOfDynamicBool (https://aka.ms/qdk.qir#use-of-dynamic-bool)"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "17_nuclear_physics",
       "problem_name": "Nuclear Physics",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/17_nuclear_physics",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/17_nuclear_physics/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "18_photovoltaics",
       "problem_name": "Photovoltaics",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/18_photovoltaics",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/18_photovoltaics/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "19_quantum_chromodynamics",
       "problem_name": "Quantum Chromodynamics",
-      "problem_dir": true,
-      "qsharp_dir": true,
-      "estimates_dir": true,
-      "evidence_found": true,
+      "problem_path": "problems/19_quantum_chromodynamics",
+      "archived": false,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
       "sample_evidence_path": "problems/19_quantum_chromodynamics/circuits/estimate.json",
-      "shared_workflow_ready": true
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     },
     {
       "problem_id": "20_space_mission_planning",
       "problem_name": "Space Mission Planning",
-      "problem_dir": false,
-      "qsharp_dir": false,
-      "estimates_dir": false,
-      "evidence_found": false,
-      "sample_evidence_path": null,
-      "shared_workflow_ready": false
+      "problem_path": "problems/archived/20_space_mission_planning",
+      "archived": true,
+      "artifact_checks": {
+        "problem_dir": true,
+        "qsharp_project": true,
+        "hardware_kernel": true,
+        "instances": true,
+        "estimates_dir": true,
+        "evidence": true
+      },
+      "sample_evidence_path": "problems/archived/20_space_mission_planning/circuits/estimate.json",
+      "readiness": {
+        "artifacts": {
+          "status": "passed"
+        },
+        "base_qir": {
+          "status": "passed"
+        },
+        "adaptive_qir": {
+          "status": "passed"
+        },
+        "local_correctness": {
+          "status": "not_run"
+        },
+        "provider_syntax": {
+          "status": "not_run"
+        },
+        "provider_emulator": {
+          "status": "not_run"
+        },
+        "hardware": {
+          "status": "not_run"
+        }
+      },
+      "qir_submission_compatible": true
     }
   ]
 }

@@ -44,6 +44,15 @@ class TestReferenceTemplates:
         assert "ionq" in QUANTUM_REFERENCE
         assert "rigetti" in QUANTUM_REFERENCE
 
+    def test_quantum_requires_data_plane_contributor_and_optional_reader(self):
+        assert "@minLength(1)" in QUANTUM_REFERENCE
+        assert "param quantumDataContributorPrincipalIds array" in QUANTUM_REFERENCE
+        assert "param quantumDataReaderPrincipalIds array = []" in QUANTUM_REFERENCE
+        assert "c1410b24-3e69-4857-8f86-4d0a2e603250" in QUANTUM_REFERENCE
+        assert "27af9d98-85b7-4dad-bc1b-df53a7fc8877" in QUANTUM_REFERENCE
+        assert "quantumDataContributorAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01'" in QUANTUM_REFERENCE
+        assert "quantumDataReaderAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01'" in QUANTUM_REFERENCE
+
     def test_all_templates_use_modern_api_versions(self):
         """All API versions should be 2024+ for stable, 2025+ for preview.
 
@@ -58,8 +67,11 @@ class TestReferenceTemplates:
             assert len(resources) > 0, f"{platform} has no API versions"
             for provider_type, version in resources:
                 year = int(version.split("-")[0])
-                # Application Insights stable GA is 2020-02-02
-                if provider_type.startswith("Microsoft.Insights/"):
+                # Application Insights and role assignments use the current stable
+                # API versions documented for those resource types.
+                if provider_type.startswith(
+                    ("Microsoft.Insights/", "Microsoft.Authorization/roleAssignments")
+                ):
                     continue
                 assert year >= 2024, f"{platform} {provider_type} uses outdated API {version}"
 
@@ -120,6 +132,15 @@ class TestBicepGeneratorBasics:
 class TestBicepValidation:
     """Test the validation harness (gracefully skips when az CLI missing)."""
 
+    def test_quantum_reference_compiles_with_role_assignments(self):
+        result = BicepWorkspaceGenerator.__new__(
+            BicepWorkspaceGenerator
+        ).validate_bicep(QUANTUM_REFERENCE)
+
+        if result.get("skipped"):
+            pytest.skip(result["reason"])
+        assert result["validated"], result
+
     def test_validate_skips_without_az_cli(self):
         """If az CLI is not installed, validation should skip gracefully (not crash)."""
         gen = BicepWorkspaceGenerator.__new__(BicepWorkspaceGenerator)
@@ -176,6 +197,14 @@ class TestEmptyOutputIsNotSuccess:
         gen._deployment = lambda: "fake-deployment"
 
         assert gen.generate("any problem", platform="AI_ML") == "param location string = 'eastus'"
+
+    def test_quantum_customization_cannot_remove_data_plane_roles(self):
+        gen = BicepWorkspaceGenerator.__new__(BicepWorkspaceGenerator)
+        gen._client = lambda: _FakeClient(content="param location string = 'eastus'")
+        gen._deployment = lambda: "fake-deployment"
+
+        with pytest.raises(RuntimeError, match="data-plane access controls"):
+            gen.generate("any problem", platform="QUANTUM")
 
 
 class _FakeClient:

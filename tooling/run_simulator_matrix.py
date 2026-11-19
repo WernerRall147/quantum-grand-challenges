@@ -10,10 +10,12 @@ Two modes:
   (default) Compile per target profile and submit to Azure Quantum, then record
             the returned histograms alongside the real job id.
 
-Every record carries `execution` set to "local-simulator" or "azure-quantum" and,
-for Azure runs, the job id. A previous script printed "Submitting to <target>",
-executed locally, and wrote the target name into azureRunHistory.json with no job
-id, so local results were indistinguishable from hardware results after the fact.
+Every public record carries `execution` set to "local-simulator" or
+"azure-quantum" plus source, QIR, target, and SDK provenance. Azure job IDs stay in
+the gitignored `.azure/job-provenance.json` file. A previous script printed
+"Submitting to <target>", executed locally, and wrote the target name into
+azureRunHistory.json with no job ID, so local results were indistinguishable from
+hardware results after the fact.
 """
 
 import argparse
@@ -24,8 +26,14 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
+if __package__:
+    from .discover_problems import discover_all_problems
+    from .quantum_provenance import build_run_provenance
+else:
+    from discover_problems import discover_all_problems
+    from quantum_provenance import build_run_provenance
+
 REPO = Path(__file__).resolve().parent.parent
-PROBLEMS_DIR = REPO / "problems"
 MATRIX_PATH = REPO / "website" / "data" / "simulatorMatrix.json"
 
 # Job ids are sensitive per tooling/reporting/validate_website_data_schema.py and the
@@ -83,16 +91,14 @@ ENTRY_RE = re.compile(r"@EntryPoint\(\)\s*\n\s*operation\s+(\w+)")
 
 def discover_kernels():
     out = []
-    for d in sorted(PROBLEMS_DIR.iterdir()):
-        if not (d.is_dir() and d.name[:2].isdigit()):
-            continue
+    for d in discover_all_problems():
         kernel = d / "qsharp" / "HardwareKernel.qs"
         if not kernel.exists():
             continue
         code = kernel.read_text(encoding="utf-8")
         m = ENTRY_RE.search(code)
         if m:
-            out.append((d.name, m.group(1), code))
+            out.append((d.name, m.group(1), kernel, code))
     return out
 
 
@@ -108,7 +114,8 @@ def histogram(results, shots):
 def run_local(qsharp, entry_fn, code, shots):
     qsharp.init(target_profile=qsharp.TargetProfile.Adaptive_RI)
     qsharp.eval(code)
-    return histogram(qsharp.run(f"{entry_fn}()", shots=shots), shots)
+    qir = qsharp.compile(f"{entry_fn}()")
+    return histogram(qsharp.run(f"{entry_fn}()", shots=shots), shots), qir
 
 
 def compile_for(qsharp, entry_fn, code, profile_name):
@@ -139,12 +146,24 @@ def main():
     provenance = []
 
     if args.local:
-        for name, entry_fn, code in kernels:
+        for name, entry_fn, kernel_path, code in kernels:
             print(f"{name:<30} {entry_fn:<28}", end=" ", flush=True)
             try:
-                hist = run_local(qsharp, entry_fn, code, 200)
+                hist, qir = run_local(qsharp, entry_fn, code, 200)
                 print(f"ok  {hist['distinct_outcomes']} outcomes")
-                records.append({
+                record = build_run_provenance(
+                    repo_root=REPO,
+                    problem_id=name,
+                    entry_point=entry_fn,
+                    source_paths=[kernel_path],
+                    execution_mode="local-simulator",
+                    target_id=None,
+                    target_profile="Adaptive_RI",
+                    shots=200,
+                    status="succeeded",
+                    qir=qir,
+                )
+                records.append(record | {
                     "problem_id": name,
                     "entry_point": entry_fn,
                     "execution": "local-simulator",
@@ -157,12 +176,20 @@ def main():
                 if isinstance(e, (KeyboardInterrupt, SystemExit)):
                     raise
                 print(f"FAILED  {str(e).splitlines()[0][:60]}")
-                records.append({
-                    "problem_id": name,
-                    "entry_point": entry_fn,
+                record = build_run_provenance(
+                    repo_root=REPO,
+                    problem_id=name,
+                    entry_point=entry_fn,
+                    source_paths=[kernel_path],
+                    execution_mode="local-simulator",
+                    target_id=None,
+                    target_profile="Adaptive_RI",
+                    shots=200,
+                    status="failed",
+                )
+                records.append(record | {
                     "execution": "local-simulator",
-                    "target_id": None,
-                    "status": "failed",
+                    "profile": "Adaptive_RI",
                     "error": str(e).splitlines()[0][:200],
                 })
     else:
@@ -178,7 +205,7 @@ def main():
                   f"{', billed' if cfg['billed'] else ''}) ===")
             target = ws.get_targets(target_id)
 
-            for name, entry_fn, code in kernels:
+            for name, entry_fn, kernel_path, code in kernels:
                 print(f"  {name:<30}", end=" ", flush=True)
                 try:
                     qir = compile_for(qsharp, entry_fn, code, cfg["profile"])
@@ -186,9 +213,19 @@ def main():
                     if isinstance(e, (KeyboardInterrupt, SystemExit)):
                         raise
                     print(f"skipped (will not compile at {cfg['profile']})")
-                    records.append({
-                        "problem_id": name, "entry_point": entry_fn,
-                        "execution": "azure-quantum", "target_id": target_id,
+                    record = build_run_provenance(
+                        repo_root=REPO,
+                        problem_id=name,
+                        entry_point=entry_fn,
+                        source_paths=[kernel_path],
+                        execution_mode="azure-quantum",
+                        target_id=target_id,
+                        target_profile=cfg["profile"],
+                        shots=cfg["shots"],
+                        status="incompatible",
+                    )
+                    records.append(record | {
+                        "execution": "azure-quantum",
                         "profile": cfg["profile"], "status": "incompatible",
                         "reason": f"does not compile at {cfg['profile']}",
                     })
@@ -199,30 +236,47 @@ def main():
                     job.wait_until_completed(timeout_secs=900)
                     res = job.get_results()
                     print(f"ok  job={job.details.id[:8]}")
-                    provenance.append({
-                        "recorded_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-                        "problem_id": name,
-                        "target_id": target_id,
-                        "job_id": job.details.id,
-                    })
-                    records.append({
-                        "problem_id": name, "entry_point": entry_fn,
-                        "execution": "azure-quantum", "target_id": target_id,
+                    record = build_run_provenance(
+                        repo_root=REPO,
+                        problem_id=name,
+                        entry_point=entry_fn,
+                        source_paths=[kernel_path],
+                        execution_mode="azure-quantum",
+                        target_id=target_id,
+                        target_profile=cfg["profile"],
+                        shots=cfg["shots"],
+                        status="succeeded",
+                        qir=qir,
+                    )
+                    provenance.append(record | {"job_id": job.details.id})
+                    records.append(record | {
+                        "execution": "azure-quantum",
                         "profile": cfg["profile"], "status": "succeeded",
                         "shots": cfg["shots"],
                         "results": res,
                     })
                 except Exception as e:
                     print(f"FAILED  {str(e).splitlines()[0][:70]}")
-                    records.append({
-                        "problem_id": name, "entry_point": entry_fn,
-                        "execution": "azure-quantum", "target_id": target_id,
-                        "profile": cfg["profile"], "status": "failed",
+                    record = build_run_provenance(
+                        repo_root=REPO,
+                        problem_id=name,
+                        entry_point=entry_fn,
+                        source_paths=[kernel_path],
+                        execution_mode="azure-quantum",
+                        target_id=target_id,
+                        target_profile=cfg["profile"],
+                        shots=cfg["shots"],
+                        status="failed",
+                        qir=qir,
+                    )
+                    records.append(record | {
+                        "execution": "azure-quantum",
+                        "profile": cfg["profile"],
                         "error": str(e).splitlines()[0][:300],
                     })
 
     payload = {
-        "schema_version": "1.0",
+        "schema_version": "2.0",
         "generated_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "targets": TARGETS,
         "excluded_targets": EXCLUDED_TARGETS,

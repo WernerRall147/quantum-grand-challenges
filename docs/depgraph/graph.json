@@ -1,14 +1,14 @@
 {
   "repo_relative_root": ".",
   "counts": {
-    "tracked": 1346,
-    "code_files": 328,
-    "python": 257,
-    "qsharp": 55,
+    "tracked": 1353,
+    "code_files": 333,
+    "python": 261,
+    "qsharp": 56,
     "ts": 16,
-    "edges": 273,
-    "roots": 313,
-    "reachable": 353
+    "edges": 288,
+    "roots": 317,
+    "reachable": 358
   },
   "nodes": [
     ".github/hooks/scripts/agent_gates.py",
@@ -78,6 +78,7 @@
     "problems/01_hubbard/python/test_baseline.py",
     "problems/01_hubbard/python/vqe_optimizer.py",
     "problems/01_hubbard/qsharp/HardwareKernel.qs",
+    "problems/01_hubbard/qsharp/VqeHardwareKernel.qs",
     "problems/01_hubbard/qsharp/src/Main.qs",
     "problems/02_catalysis/python/analyze.py",
     "problems/02_catalysis/python/classical_baseline.py",
@@ -249,6 +250,7 @@
     "tooling/kernel_opt/evaluate.py",
     "tooling/measure_corpus_decidability.py",
     "tooling/provision_foundry_agent.py",
+    "tooling/quantum_provenance.py",
     "tooling/reconcile_algorithm_zoo.py",
     "tooling/reporting/audit_azure_run_history_metrics.py",
     "tooling/reporting/check_homepage_stats.py",
@@ -295,6 +297,8 @@
     "tooling/test_qdk_samples_provenance.py",
     "tooling/test_qpe_kernels.py",
     "tooling/test_qsharp_validation.py",
+    "tooling/test_quantum_provenance.py",
+    "tooling/test_quantum_readiness.py",
     "tooling/test_repetition_code_formula.py",
     "tooling/test_script_claims.py",
     "tooling/test_shor_kernel.py",
@@ -306,6 +310,7 @@
     "tooling/test_verify_demo_prompts_codegen.py",
     "tooling/test_verify_reversible.py",
     "tooling/test_viz_publication.py",
+    "tooling/test_vqe_optimizer.py",
     "tooling/test_website_claims.py",
     "tooling/test_website_run_history.py",
     "tooling/trace_circuits.py",
@@ -1110,6 +1115,10 @@
       "problems/archived/20_space_mission_planning/python/test_baseline.py"
     ],
     [
+      "tooling/azure/assess_problem_readiness.py",
+      "tooling/discover_problems.py"
+    ],
+    [
       "tooling/azure/collect_job.py",
       "tooling/azure/azure_env.py"
     ],
@@ -1122,12 +1131,32 @@
       "tooling/azure/website_run_history.py"
     ],
     [
+      "tooling/azure/prepare_problem_manifest.py",
+      "tooling/discover_problems.py"
+    ],
+    [
+      "tooling/azure/smoke_problem.py",
+      "tooling/discover_problems.py"
+    ],
+    [
       "tooling/azure/submit_job_auto.py",
       "tooling/azure/azure_env.py"
     ],
     [
       "tooling/azure/submit_job_auto.py",
       "tooling/azure/cli_runner.py"
+    ],
+    [
+      "tooling/azure/submit_job_auto.py",
+      "tooling/discover_problems.py"
+    ],
+    [
+      "tooling/azure/submit_job_auto.py",
+      "tooling/evidence_hashes.py"
+    ],
+    [
+      "tooling/azure/submit_job_auto.py",
+      "tooling/quantum_provenance.py"
     ],
     [
       "tooling/azure/validate_azure_cli.py",
@@ -1202,6 +1231,10 @@
       "agents/orchestrator/output_schema.py"
     ],
     [
+      "tooling/quantum_provenance.py",
+      "tooling/evidence_hashes.py"
+    ],
+    [
       "tooling/reporting/check_homepage_stats.py",
       "agents/classifier/platform_router.py"
     ],
@@ -1214,12 +1247,28 @@
       "tooling/discover_problems.py"
     ],
     [
+      "tooling/run_simulator_matrix.py",
+      "tooling/discover_problems.py"
+    ],
+    [
+      "tooling/run_simulator_matrix.py",
+      "tooling/quantum_provenance.py"
+    ],
+    [
       "tooling/show_trace.py",
       "agents/observability/trace.py"
     ],
     [
       "tooling/sota_watch.py",
       "knowledge/ingest/arxiv_ingester.py"
+    ],
+    [
+      "tooling/submit_hardware_kernels.py",
+      "tooling/discover_problems.py"
+    ],
+    [
+      "tooling/submit_one_kernel.py",
+      "tooling/discover_problems.py"
     ],
     [
       "tooling/test_estimate_provenance.py",
@@ -1252,6 +1301,22 @@
     [
       "tooling/test_qdk_samples_provenance.py",
       "agents/code_generator/generate.py"
+    ],
+    [
+      "tooling/test_quantum_provenance.py",
+      "tooling/quantum_provenance.py"
+    ],
+    [
+      "tooling/test_quantum_readiness.py",
+      "tooling/azure/assess_problem_readiness.py"
+    ],
+    [
+      "tooling/test_quantum_readiness.py",
+      "tooling/discover_problems.py"
+    ],
+    [
+      "tooling/test_quantum_readiness.py",
+      "tooling/run_simulator_matrix.py"
     ],
     [
       "tooling/test_shor_kernel.py",

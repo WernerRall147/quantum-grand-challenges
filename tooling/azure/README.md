@@ -1,6 +1,7 @@
 # Shared Azure Quantum Workflow (All Problems)
 
-This folder provides a single reusable Azure Quantum workflow for every problem under `problems/XX_*`.
+This folder provides a single reusable Azure Quantum workflow for active problems and archived
+problems under `problems/archived/`.
 
 ## Goal
 
@@ -13,7 +14,9 @@ Use one mechanism for:
 - status collection
 - smoke audit report generation
 
-Once a problem has a runnable quantum program and at least one evidence artifact, it can use this flow without creating problem-specific Azure scripts.
+Once a problem has a runnable quantum program and at least one evidence artifact, it can use this
+flow without creating problem-specific Azure scripts. Artifact completeness, local correctness,
+QIR compatibility, emulator evidence, and hardware evidence are tracked as separate states.
 
 ## Files
 
@@ -76,7 +79,14 @@ Generate an all-problem readiness snapshot:
 python tooling/azure/assess_problem_readiness.py
 ```
 
-This writes `tooling/azure/readiness_report.json` and reports how many registered problems are ready for the shared workflow.
+This writes `tooling/azure/readiness_report.json`. The report resolves active and archived paths,
+compiles each HardwareKernel for Base and Adaptive_RI, and keeps local, provider-syntax, emulator,
+and hardware evidence as separate `not_run`, `passed`, `failed`, or `incompatible` states. Use
+`--skip-qir` only for a cheap artifact-path inventory.
+
+Submission manifests include `provenance` with source-file hashes, the source revision, QDK version,
+input format, input hash, target profile, and QIR hash. Submitted job IDs remain in the gitignored
+manifest rather than published website data.
 
 ## Secret Hygiene Enforcement
 

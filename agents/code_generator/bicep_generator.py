@@ -186,6 +186,7 @@ output deploymentNote string = 'AI Foundry hub + project ready. Connect models i
 
 QUANTUM_REFERENCE = """// Azure Quantum workspace with Quantinuum + IonQ + Rigetti providers
 // Reference: https://learn.microsoft.com/azure/templates/microsoft.quantum/workspaces
+// Data roles: https://learn.microsoft.com/azure/quantum/how-to-create-workspace
 
 @description('Azure region for the Quantum workspace')
 @allowed([ 'eastus', 'westus', 'westeurope', 'northeurope' ])
@@ -196,6 +197,13 @@ param workspaceName string = 'qgc-quantum-${uniqueString(resourceGroup().id)}'
 
 @description('Storage account name (max 24 chars, lowercase)')
 param storageName string = 'qgcq${uniqueString(resourceGroup().id)}'
+
+@description('Entra object IDs that need to submit and read Quantum workspace jobs')
+@minLength(1)
+param quantumDataContributorPrincipalIds array
+
+@description('Entra object IDs that only need to read Quantum workspace jobs')
+param quantumDataReaderPrincipalIds array = []
 
 resource storage 'Microsoft.Storage/storageAccounts@2024-01-01' = {
   name: storageName
@@ -223,10 +231,43 @@ resource quantumWorkspace 'Microsoft.Quantum/workspaces@2025-12-15-preview' = {
   dependsOn: [ storage ]
 }
 
+var quantumWorkspaceDataContributorRoleId = subscriptionResourceId(
+  'Microsoft.Authorization/roleDefinitions',
+  'c1410b24-3e69-4857-8f86-4d0a2e603250'
+)
+var quantumWorkspaceDataReaderRoleId = subscriptionResourceId(
+  'Microsoft.Authorization/roleDefinitions',
+  '27af9d98-85b7-4dad-bc1b-df53a7fc8877'
+)
+
+resource quantumDataContributorAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
+  for principalId in quantumDataContributorPrincipalIds: {
+    name: guid(quantumWorkspace.id, principalId, quantumWorkspaceDataContributorRoleId)
+    scope: quantumWorkspace
+    properties: {
+      principalId: principalId
+      roleDefinitionId: quantumWorkspaceDataContributorRoleId
+    }
+  }
+]
+
+resource quantumDataReaderAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
+  for principalId in quantumDataReaderPrincipalIds: {
+    name: guid(quantumWorkspace.id, principalId, quantumWorkspaceDataReaderRoleId)
+    scope: quantumWorkspace
+    properties: {
+      principalId: principalId
+      roleDefinitionId: quantumWorkspaceDataReaderRoleId
+    }
+  }
+]
+
 output workspaceId string = quantumWorkspace.id
 output workspaceName string = quantumWorkspace.name
 output storageAccountId string = storage.id
-output deploymentNote string = 'Submit Q# jobs via: az quantum job submit --target-id <provider.target>'
+output quantumDataContributorRoleId string = quantumWorkspaceDataContributorRoleId
+output quantumDataReaderRoleId string = quantumWorkspaceDataReaderRoleId
+output deploymentNote string = 'Quantum data-plane roles are assigned. Submit Q# jobs with a principal from quantumDataContributorPrincipalIds.'
 """
 
 
@@ -261,11 +302,13 @@ REFERENCE_TEMPLATES: Dict[str, Dict[str, str]] = {
         "description": "Azure Quantum workspace with Quantinuum, IonQ, Rigetti, Microsoft providers",
         "deploy_commands": (
             "az group create --name <rg> --location eastus\n"
-            "az deployment group create --resource-group <rg> --template-file main.bicep"
+            "az deployment group create --resource-group <rg> --template-file main.bicep \\\n"
+            "  --parameters quantumDataContributorPrincipalIds='[\"<entra-object-id>\"]'"
         ),
         "post_deploy_note": (
-            "After deployment, submit Q# jobs via the qsharp Python package: "
-            "qsharp.azure.connect(resource_id=...) then qsharp.azure.submit(...)."
+            "Before submitting jobs, pass the submitting managed identity or service principal "
+            "object ID as quantumDataContributorPrincipalIds. Read-only principals can be passed "
+            "as quantumDataReaderPrincipalIds. Connect with qdk.azure and managed identity."
         ),
     },
 }
@@ -293,6 +336,8 @@ SCHEMA INTEGRITY (avoid linter errors):
 - Do NOT add unnecessary `dependsOn` entries when the reference is implicit through symbolic name use.
 - Do NOT declare parameters you don't reference in resources or outputs (causes no-unused-params warnings).
 - Do NOT redeclare resources from the reference; KEEP the reference structure and only customize names, SKUs, region, descriptions, and add genuinely missing resources.
+- For QUANTUM, preserve the contributor and reader principal parameters, built-in role IDs,
+  and both roleAssignments resources. Never replace data-plane roles with generic Contributor.
 
 OUTPUT: Return ONLY the Bicep source code. No markdown fences, no explanations. Just compilable Bicep starting with `// ` comment headers."""
 
@@ -327,6 +372,44 @@ class BicepWorkspaceGenerator:
     def get_reference(platform: str) -> Optional[Dict[str, str]]:
         """Return reference template metadata for a platform, or None."""
         return REFERENCE_TEMPLATES.get(platform.upper())
+
+    @staticmethod
+    def _require_platform_security_controls(code: str, platform: str) -> str:
+        if platform != "QUANTUM":
+            return code
+
+        required = {
+            "required contributor principal parameter": re.compile(
+                r"@minLength\(1\)\s*param\s+"
+                r"quantumDataContributorPrincipalIds\s+array"
+            ),
+            "reader principal parameter": re.compile(
+                r"param\s+quantumDataReaderPrincipalIds\s+array"
+            ),
+            "Quantum Workspace Data Contributor role": re.compile(
+                r"c1410b24-3e69-4857-8f86-4d0a2e603250"
+            ),
+            "Quantum Workspace Data Reader role": re.compile(
+                r"27af9d98-85b7-4dad-bc1b-df53a7fc8877"
+            ),
+            "contributor role assignment": re.compile(
+                r"resource\s+quantumDataContributorAssignments\s+"
+                r"'Microsoft\.Authorization/roleAssignments@2022-04-01'"
+            ),
+            "reader role assignment": re.compile(
+                r"resource\s+quantumDataReaderAssignments\s+"
+                r"'Microsoft\.Authorization/roleAssignments@2022-04-01'"
+            ),
+        }
+        missing = [
+            label for label, pattern in required.items() if not pattern.search(code)
+        ]
+        if missing:
+            raise RuntimeError(
+                "Quantum Bicep customization removed required data-plane access controls: "
+                + ", ".join(missing)
+            )
+        return code
 
     def generate(self, problem: str, platform: str = "AI_ML", customize: bool = True) -> str:
         """Generate a Bicep template for the given problem and platform.
@@ -371,7 +454,7 @@ Generate a customized Bicep template for this problem. Adjust SKUs based on work
                 f"model={getattr(resp, 'model', '?')}, "
                 f"max_completion_tokens={MAX_COMPLETION_TOKENS}, usage={usage})"
             )
-        return self._strip_fences(code)
+        return self._require_platform_security_controls(self._strip_fences(code), platform)
 
     def validate_bicep(self, code: str) -> Dict[str, Any]:
         """Run `az bicep build` to validate syntax. Skips if az CLI not installed.

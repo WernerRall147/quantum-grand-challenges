@@ -4,7 +4,14 @@ from __future__ import annotations
 
 import argparse
 import subprocess
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+if __package__ in (None, ""):
+    sys.path.insert(0, str(ROOT))
+
+from tooling.discover_problems import resolve_problem_dir  # noqa: E402
 
 
 def _resolve(path_arg: str) -> Path:
@@ -36,8 +43,16 @@ def main() -> None:
     parser.add_argument("--collect", action="store_true", default=False)
     args = parser.parse_args()
 
-    root = Path(__file__).resolve().parents[2]
-    manifest = root / "problems" / args.problem / "estimates" / f"azure_job_manifest_{args.instance}_d{args.depth}.json"
+    root = ROOT
+    try:
+        problem_dir = resolve_problem_dir(args.problem, root)
+    except FileNotFoundError as exc:
+        raise SystemExit(str(exc)) from exc
+    manifest = (
+        problem_dir
+        / "estimates"
+        / f"azure_job_manifest_{args.instance}_d{args.depth}.json"
+    )
 
     py = str(Path(__file__).resolve().parent)
     env_file = str(_resolve(args.env_file))

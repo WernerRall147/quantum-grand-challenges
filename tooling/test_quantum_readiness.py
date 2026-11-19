@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from tooling.azure.assess_problem_readiness import build_report
+from tooling.azure.assess_problem_readiness import _assess_problem, build_report
 from tooling.discover_problems import resolve_problem_dir
 from tooling.run_simulator_matrix import discover_kernels
 
@@ -86,3 +86,18 @@ def test_manifest_preparation_resolves_an_archived_problem(tmp_path: Path):
     assert manifest["evidence"]["primary_artifact"].startswith(
         "problems/archived/03_qae_risk/"
     )
+
+
+def test_missing_registered_problem_is_reported_instead_of_aborting():
+    row = _assess_problem(
+        ROOT,
+        {"id": "99_missing_problem", "name": "Missing problem"},
+        compile_profile=_compile_profile,
+    )
+
+    assert row["resolution_error"]
+    assert row["problem_path"] == "problems/99_missing_problem"
+    assert not any(row["artifact_checks"].values())
+    assert row["readiness"]["base_qir"]["status"] == "failed"
+    assert row["readiness"]["adaptive_qir"]["status"] == "failed"
+    assert row["qir_submission_compatible"] is False

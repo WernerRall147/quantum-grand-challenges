@@ -74,6 +74,9 @@ Adopt option 2.
 - The simulator matrix uses schema version 2.0 and binds records to source and QIR hashes.
 - Private Azure manifests and `.azure/` provenance may contain job identifiers. Published website
   records cannot.
+- A real submission declares the profile used to compile its exact QIR. The submitter records the
+  provider's expected profile separately and rejects a known mismatch instead of inferring the
+  compilation profile from the target name.
 - The generated Quantum workspace requires at least one Entra object ID with the Quantum Workspace
   Data Contributor role and accepts separate read-only principals.
 

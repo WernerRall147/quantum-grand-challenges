@@ -270,6 +270,42 @@ output quantumDataReaderRoleId string = quantumWorkspaceDataReaderRoleId
 output deploymentNote string = 'Quantum data-plane roles are assigned. Submit Q# jobs with a principal from quantumDataContributorPrincipalIds.'
 """
 
+QUANTUM_REQUIRED_ACCESS_BLOCKS = (
+    """@description('Entra object IDs that need to submit and read Quantum workspace jobs')
+@minLength(1)
+param quantumDataContributorPrincipalIds array""",
+    """@description('Entra object IDs that only need to read Quantum workspace jobs')
+param quantumDataReaderPrincipalIds array = []""",
+    """var quantumWorkspaceDataContributorRoleId = subscriptionResourceId(
+  'Microsoft.Authorization/roleDefinitions',
+  'c1410b24-3e69-4857-8f86-4d0a2e603250'
+)
+var quantumWorkspaceDataReaderRoleId = subscriptionResourceId(
+  'Microsoft.Authorization/roleDefinitions',
+  '27af9d98-85b7-4dad-bc1b-df53a7fc8877'
+)""",
+    """resource quantumDataContributorAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
+  for principalId in quantumDataContributorPrincipalIds: {
+    name: guid(quantumWorkspace.id, principalId, quantumWorkspaceDataContributorRoleId)
+    scope: quantumWorkspace
+    properties: {
+      principalId: principalId
+      roleDefinitionId: quantumWorkspaceDataContributorRoleId
+    }
+  }
+]""",
+    """resource quantumDataReaderAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
+  for principalId in quantumDataReaderPrincipalIds: {
+    name: guid(quantumWorkspace.id, principalId, quantumWorkspaceDataReaderRoleId)
+    scope: quantumWorkspace
+    properties: {
+      principalId: principalId
+      roleDefinitionId: quantumWorkspaceDataReaderRoleId
+    }
+  }
+]""",
+)
+
 
 REFERENCE_TEMPLATES: Dict[str, Dict[str, str]] = {
     "HPC": {
@@ -378,32 +414,27 @@ class BicepWorkspaceGenerator:
         if platform != "QUANTUM":
             return code
 
-        required = {
-            "required contributor principal parameter": re.compile(
-                r"@minLength\(1\)\s*param\s+"
-                r"quantumDataContributorPrincipalIds\s+array"
-            ),
-            "reader principal parameter": re.compile(
-                r"param\s+quantumDataReaderPrincipalIds\s+array"
-            ),
-            "Quantum Workspace Data Contributor role": re.compile(
-                r"c1410b24-3e69-4857-8f86-4d0a2e603250"
-            ),
-            "Quantum Workspace Data Reader role": re.compile(
-                r"27af9d98-85b7-4dad-bc1b-df53a7fc8877"
-            ),
-            "contributor role assignment": re.compile(
-                r"resource\s+quantumDataContributorAssignments\s+"
-                r"'Microsoft\.Authorization/roleAssignments@2022-04-01'"
-            ),
-            "reader role assignment": re.compile(
-                r"resource\s+quantumDataReaderAssignments\s+"
-                r"'Microsoft\.Authorization/roleAssignments@2022-04-01'"
-            ),
-        }
+        without_comments = re.sub(r"/\*.*?\*/", "", code, flags=re.DOTALL)
+        without_comments = re.sub(
+            r"(?m)^\s*//.*$", "", without_comments
+        )
+        compact = re.sub(r"\s+", " ", without_comments)
         missing = [
-            label for label, pattern in required.items() if not pattern.search(code)
+            f"access-control block {index}"
+            for index, block in enumerate(
+                QUANTUM_REQUIRED_ACCESS_BLOCKS, start=1
+            )
+            if re.sub(r"\s+", " ", block) not in compact
         ]
+        assignments = re.findall(
+            r"resource\s+\w+\s+'Microsoft\.Authorization/roleAssignments@"
+            r"\d{4}-\d{2}-\d{2}'",
+            without_comments,
+        )
+        if len(assignments) != 2:
+            missing.append(
+                f"exactly two Quantum role assignments (found {len(assignments)})"
+            )
         if missing:
             raise RuntimeError(
                 "Quantum Bicep customization removed required data-plane access controls: "

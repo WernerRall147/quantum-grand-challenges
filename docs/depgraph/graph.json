@@ -6,7 +6,7 @@
     "python": 261,
     "qsharp": 56,
     "ts": 16,
-    "edges": 288,
+    "edges": 287,
     "roots": 317,
     "reachable": 358
   },
@@ -1149,10 +1149,6 @@
     [
       "tooling/azure/submit_job_auto.py",
       "tooling/discover_problems.py"
-    ],
-    [
-      "tooling/azure/submit_job_auto.py",
-      "tooling/evidence_hashes.py"
     ],
     [
       "tooling/azure/submit_job_auto.py",

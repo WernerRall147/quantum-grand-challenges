@@ -10,9 +10,9 @@ from pathlib import Path
 from typing import Any, Iterable
 
 if __package__:
-    from .evidence_hashes import file_digest
+    from .evidence_hashes import file_digest, problem_source_files
 else:
-    from evidence_hashes import file_digest
+    from evidence_hashes import file_digest, problem_source_files
 
 PROVENANCE_SCHEMA_VERSION = "1.0"
 
@@ -31,7 +31,7 @@ def bytes_sha256(data: bytes | str) -> str:
 
 def qir_sha256(qir: Any) -> str:
     if isinstance(qir, Path):
-        return file_digest(qir)
+        return bytes_sha256(qir.read_bytes())
     return bytes_sha256(str(qir))
 
 
@@ -42,6 +42,13 @@ def source_file_hashes(paths: Iterable[Path], repo_root: Path) -> dict[str, str]
         relative = resolved.relative_to(repo_root.resolve()).as_posix()
         hashes[relative] = file_digest(resolved)
     return hashes
+
+
+def problem_submission_source_files(qsharp_dir: Path) -> list[Path]:
+    """Include project files and root-level standalone hardware adapters."""
+    return sorted(
+        set(problem_source_files(qsharp_dir)) | set(qsharp_dir.glob("*.qs"))
+    )
 
 
 def repository_state(repo_root: Path) -> dict[str, Any]:
@@ -90,6 +97,7 @@ def build_run_provenance(
     shots: int,
     status: str,
     input_format: str = "qir.v1",
+    expected_target_profile: str | None = None,
     qir: Any | None = None,
     job_id: str | None = None,
 ) -> dict[str, Any]:
@@ -107,6 +115,7 @@ def build_run_provenance(
         "execution_mode": execution_mode,
         "target_id": target_id,
         "target_profile": target_profile,
+        "expected_target_profile": expected_target_profile,
         "shots": shots,
         "status": status,
         "qdk_version": installed_qdk_version(),

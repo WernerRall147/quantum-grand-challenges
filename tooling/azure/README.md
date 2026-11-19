@@ -53,6 +53,7 @@ python tooling/azure/smoke_problem.py \
   --depth 1 \
   --env-file problems/03_qae_risk/.env.azure.local \
   --job-input-file <path/to/program.qir> \
+  --target-profile Adaptive_RI \
   --execute \
   --collect
 ```
@@ -85,8 +86,10 @@ and hardware evidence as separate `not_run`, `passed`, `failed`, or `incompatibl
 `--skip-qir` only for a cheap artifact-path inventory.
 
 Submission manifests include `provenance` with source-file hashes, the source revision, QDK version,
-input format, input hash, target profile, and QIR hash. Submitted job IDs remain in the gitignored
-manifest rather than published website data.
+input format, byte-for-byte input hash, expected provider profile, declared compilation profile,
+and QIR hash. `--target-profile` is required for `--execute`; the submitter rejects a declared
+profile that conflicts with the target's required profile. Submitted job IDs remain in the
+gitignored manifest rather than published website data.
 
 ## Secret Hygiene Enforcement
 

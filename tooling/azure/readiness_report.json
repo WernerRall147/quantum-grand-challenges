@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-19T12:12:33Z",
+  "generated_utc": "2026-11-19T13:01:26Z",
   "summary": {
     "total_problems": 20,
     "artifact_sets_complete": 20,
@@ -16,6 +16,7 @@
       "problem_id": "01_hubbard",
       "problem_name": "Hubbard Model",
       "problem_path": "problems/01_hubbard",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -55,6 +56,7 @@
       "problem_id": "02_catalysis",
       "problem_name": "Catalysis Simulation",
       "problem_path": "problems/02_catalysis",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -94,6 +96,7 @@
       "problem_id": "03_qae_risk",
       "problem_name": "QAE Risk Analysis",
       "problem_path": "problems/archived/03_qae_risk",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -133,6 +136,7 @@
       "problem_id": "04_linear_solvers",
       "problem_name": "Linear Solvers",
       "problem_path": "problems/archived/04_linear_solvers",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -172,6 +176,7 @@
       "problem_id": "05_qaoa_maxcut",
       "problem_name": "QAOA MaxCut",
       "problem_path": "problems/archived/05_qaoa_maxcut",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -211,6 +216,7 @@
       "problem_id": "06_high_frequency_trading",
       "problem_name": "High-Frequency Trading",
       "problem_path": "problems/archived/06_high_frequency_trading",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -250,6 +256,7 @@
       "problem_id": "07_drug_discovery",
       "problem_name": "Drug Discovery",
       "problem_path": "problems/07_drug_discovery",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -289,6 +296,7 @@
       "problem_id": "08_protein_folding",
       "problem_name": "Protein Folding",
       "problem_path": "problems/archived/08_protein_folding",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -328,6 +336,7 @@
       "problem_id": "09_factorization",
       "problem_name": "Factorization",
       "problem_path": "problems/09_factorization",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -367,6 +376,7 @@
       "problem_id": "10_post_quantum_cryptography",
       "problem_name": "Post-Quantum Cryptography",
       "problem_path": "problems/archived/10_post_quantum_cryptography",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -406,6 +416,7 @@
       "problem_id": "11_quantum_machine_learning",
       "problem_name": "Quantum Machine Learning",
       "problem_path": "problems/archived/11_quantum_machine_learning",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -445,6 +456,7 @@
       "problem_id": "12_quantum_optimization",
       "problem_name": "Quantum Optimization",
       "problem_path": "problems/archived/12_quantum_optimization",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -484,6 +496,7 @@
       "problem_id": "13_climate_modeling",
       "problem_name": "Climate Modeling",
       "problem_path": "problems/archived/13_climate_modeling",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -523,6 +536,7 @@
       "problem_id": "14_materials_discovery",
       "problem_name": "Materials Discovery",
       "problem_path": "problems/14_materials_discovery",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -562,6 +576,7 @@
       "problem_id": "15_database_search",
       "problem_name": "Database Search",
       "problem_path": "problems/archived/15_database_search",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,
@@ -601,6 +616,7 @@
       "problem_id": "16_error_correction",
       "problem_name": "Error Correction",
       "problem_path": "problems/16_error_correction",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -641,6 +657,7 @@
       "problem_id": "17_nuclear_physics",
       "problem_name": "Nuclear Physics",
       "problem_path": "problems/17_nuclear_physics",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -680,6 +697,7 @@
       "problem_id": "18_photovoltaics",
       "problem_name": "Photovoltaics",
       "problem_path": "problems/18_photovoltaics",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -719,6 +737,7 @@
       "problem_id": "19_quantum_chromodynamics",
       "problem_name": "Quantum Chromodynamics",
       "problem_path": "problems/19_quantum_chromodynamics",
+      "resolution_error": null,
       "archived": false,
       "artifact_checks": {
         "problem_dir": true,
@@ -758,6 +777,7 @@
       "problem_id": "20_space_mission_planning",
       "problem_name": "Space Mission Planning",
       "problem_path": "problems/archived/20_space_mission_planning",
+      "resolution_error": null,
       "archived": true,
       "artifact_checks": {
         "problem_dir": true,

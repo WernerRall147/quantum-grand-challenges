@@ -33,6 +33,11 @@ def main() -> None:
     parser.add_argument("--shots", type=int, default=256)
     parser.add_argument("--trials", type=int, default=1)
     parser.add_argument("--target-id", default="microsoft.estimator")
+    parser.add_argument(
+        "--target-profile",
+        choices=["Base", "Adaptive_RI", "Unrestricted"],
+        default=None,
+    )
     parser.add_argument("--env-file", required=True)
     parser.add_argument("--evidence-file", default=None)
     parser.add_argument("--job-input-file", default=None)
@@ -84,6 +89,8 @@ def main() -> None:
         submit_cmd.extend(["--job-input-file", str(_resolve(args.job_input_file))])
     if args.entry_point:
         submit_cmd.extend(["--entry-point", args.entry_point])
+    if args.target_profile:
+        submit_cmd.extend(["--target-profile", args.target_profile])
     if args.execute:
         submit_cmd.append("--execute")
 

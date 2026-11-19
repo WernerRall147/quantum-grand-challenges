@@ -18,9 +18,9 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from tooling.discover_problems import resolve_problem_dir  # noqa: E402
-from tooling.evidence_hashes import problem_source_files  # noqa: E402
 from tooling.quantum_provenance import (  # noqa: E402
     build_run_provenance,
+    problem_submission_source_files,
     target_profile_for_target,
 )
 
@@ -70,10 +70,11 @@ def _provenance(
     job_input: Path | None,
     input_format: str,
     status: str,
+    target_profile: str | None,
     job_id: str | None = None,
 ) -> dict[str, Any]:
     problem_dir = resolve_problem_dir(str(payload["problem_id"]), ROOT)
-    source_paths = problem_source_files(problem_dir / "qsharp")
+    source_paths = problem_submission_source_files(problem_dir / "qsharp")
     if not source_paths:
         raise SystemExit(f"No Q# source files found for {payload['problem_id']}")
     return build_run_provenance(
@@ -83,7 +84,8 @@ def _provenance(
         source_paths=source_paths,
         execution_mode="azure-quantum",
         target_id=target_id,
-        target_profile=target_profile_for_target(target_id),
+        target_profile=target_profile,
+        expected_target_profile=target_profile_for_target(target_id),
         shots=shots,
         status=status,
         input_format=input_format,
@@ -100,6 +102,12 @@ def main() -> None:
     parser.add_argument("--job-input-format", default="qir.v1")
     parser.add_argument("--job-output-format", default=None)
     parser.add_argument("--entry-point", default=None)
+    parser.add_argument(
+        "--target-profile",
+        choices=["Base", "Adaptive_RI", "Unrestricted"],
+        default=None,
+        help="The profile under which the submitted input was compiled.",
+    )
     parser.add_argument("--target-id", default=None)
     parser.add_argument("--job-name", default=None)
     parser.add_argument("--shots", type=int, default=None)
@@ -122,6 +130,21 @@ def main() -> None:
     submission = payload.setdefault("submission", {})
 
     target_id = args.target_id or azure_env.get("AZURE_QUANTUM_TARGET_ID") or str(backend.get("target_id") or "microsoft.estimator")
+    expected_target_profile = target_profile_for_target(target_id)
+    if (
+        args.target_profile
+        and expected_target_profile
+        and args.target_profile != expected_target_profile
+    ):
+        raise SystemExit(
+            f"Target {target_id} requires {expected_target_profile}, "
+            f"but --target-profile is {args.target_profile}"
+        )
+    if args.execute and not args.target_profile:
+        raise SystemExit(
+            "--target-profile is required with --execute so the submitted "
+            "QIR profile is recorded rather than inferred"
+        )
     job_name = args.job_name or str(backend.get("job_name") or f"{payload.get('problem_id', 'problem')}-{payload.get('instance_id', 'instance')}")
     shots = args.shots if args.shots and args.shots > 0 else _safe_int(execution.get("refined_shots"), 100)
 
@@ -133,6 +156,8 @@ def main() -> None:
     workspace["workspace_name"] = azure_env["AZURE_QUANTUM_WORKSPACE"]
     workspace["location"] = azure_env["AZURE_LOCATION"]
     entry_point = args.entry_point or str(backend.get("entry_point") or "qir-embedded")
+    backend["entry_point"] = entry_point
+    backend["target_profile"] = args.target_profile
 
     cmd = [
         "quantum", "job", "submit",
@@ -169,6 +194,7 @@ def main() -> None:
             job_input=job_input,
             input_format=args.job_input_format,
             status="not_submitted",
+            target_profile=args.target_profile,
         )
         manifest_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         print("Azure auto-submit dry run complete")
@@ -205,6 +231,7 @@ def main() -> None:
         job_input=job_input,
         input_format=args.job_input_format,
         status=submission["status"],
+        target_profile=args.target_profile,
         job_id=job_id,
     )
 

@@ -33,6 +33,9 @@
     "target_profile": {
       "enum": ["Base", "Adaptive_RI", "Unrestricted", null]
     },
+    "expected_target_profile": {
+      "enum": ["Base", "Adaptive_RI", "Unrestricted", null]
+    },
     "shots": { "type": "integer", "minimum": 1 },
     "status": {
       "enum": [

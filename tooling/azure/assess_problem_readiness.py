@@ -85,7 +85,12 @@ def _assess_problem(
     compile_profile: Callable[[Path, str], Dict[str, str]] | None,
 ) -> Dict[str, Any]:
     problem_id = row["id"]
-    problem_dir = resolve_problem_dir(problem_id, root)
+    resolution_error = None
+    try:
+        problem_dir = resolve_problem_dir(problem_id, root)
+    except FileNotFoundError as exc:
+        problem_dir = root / "problems" / problem_id
+        resolution_error = str(exc)
     qsharp_dir = problem_dir / "qsharp"
     estimates_dir = problem_dir / "estimates"
     kernel = qsharp_dir / "HardwareKernel.qs"
@@ -103,7 +108,15 @@ def _assess_problem(
     }
     artifacts_status = "passed" if all(artifact_checks.values()) else "failed"
 
-    if compile_profile is None:
+    if resolution_error:
+        profile_results = {
+            profile: {
+                "status": "not_run" if compile_profile is None else "failed",
+                "reason": resolution_error,
+            }
+            for profile in QIR_PROFILES
+        }
+    elif compile_profile is None:
         profile_results = {
             profile: {"status": "not_run"} for profile in QIR_PROFILES
         }
@@ -124,6 +137,7 @@ def _assess_problem(
         "problem_id": problem_id,
         "problem_name": row.get("name", problem_id),
         "problem_path": _portable(problem_dir, root),
+        "resolution_error": resolution_error,
         "archived": problem_dir.parent.name == "archived",
         "artifact_checks": artifact_checks,
         "sample_evidence_path": (

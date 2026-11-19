@@ -450,7 +450,6 @@
     "tooling/test_shor_kernel.py"
   ],
   "tooling/evidence_hashes.py": [
-    "tooling/azure/submit_job_auto.py",
     "tooling/generate_calibration_ensemble.py",
     "tooling/quantum_provenance.py",
     "tooling/test_stage_evidence.py"

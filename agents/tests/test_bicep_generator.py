@@ -206,6 +206,41 @@ class TestEmptyOutputIsNotSuccess:
         with pytest.raises(RuntimeError, match="data-plane access controls"):
             gen.generate("any problem", platform="QUANTUM")
 
+    @pytest.mark.parametrize(
+        "mutated",
+        [
+            QUANTUM_REFERENCE.replace(
+                "for principalId in quantumDataContributorPrincipalIds:",
+                "for principalId in []:",
+            ),
+            QUANTUM_REFERENCE.replace(
+                "roleDefinitionId: quantumWorkspaceDataContributorRoleId",
+                "roleDefinitionId: quantumWorkspaceDataReaderRoleId",
+            ),
+            QUANTUM_REFERENCE
+            + """
+resource genericRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(quantumWorkspace.id, 'generic')
+  scope: quantumWorkspace
+  properties: {
+    principalId: quantumDataContributorPrincipalIds[0]
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      'b24988ac-6180-42a0-ab88-20f7382dd24c'
+    )
+  }
+}
+""",
+        ],
+    )
+    def test_quantum_customization_cannot_mutate_effective_roles(self, mutated):
+        gen = BicepWorkspaceGenerator.__new__(BicepWorkspaceGenerator)
+        gen._client = lambda: _FakeClient(content=mutated)
+        gen._deployment = lambda: "fake-deployment"
+
+        with pytest.raises(RuntimeError, match="data-plane access controls"):
+            gen.generate("any problem", platform="QUANTUM")
+
 
 class _FakeClient:
     """Minimal stand-in for AzureOpenAI: only the one call the generator makes."""

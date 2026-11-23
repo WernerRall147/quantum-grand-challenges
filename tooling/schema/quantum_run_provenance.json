@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quantum run provenance",
+  "description": "Portable local-simulator and Azure Quantum run evidence. Job IDs are permitted only in private records.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "recorded_utc",
+    "problem_id",
+    "entry_point",
+    "execution_mode",
+    "target_id",
+    "target_profile",
+    "shots",
+    "status",
+    "qdk_version",
+    "source_revision",
+    "worktree_dirty",
+    "source_files",
+    "input_format",
+    "input_sha256",
+    "qir_sha256"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "recorded_utc": { "type": "string", "format": "date-time" },
+    "problem_id": { "type": "string", "minLength": 1 },
+    "entry_point": { "type": "string", "minLength": 1 },
+    "execution_mode": {
+      "enum": ["local-simulator", "azure-quantum", "local-noisy"]
+    },
+    "target_id": { "type": ["string", "null"] },
+    "target_profile": {
+      "enum": ["Base", "Adaptive_RI", "Unrestricted", null]
+    },
+    "expected_target_profile": {
+      "enum": ["Base", "Adaptive_RI", "Unrestricted", null]
+    },
+    "shots": { "type": "integer", "minimum": 1 },
+    "status": {
+      "enum": [
+        "not_submitted",
+        "succeeded",
+        "failed",
+        "incompatible",
+        "submitted",
+        "running"
+      ]
+    },
+    "qdk_version": { "type": "string", "minLength": 1 },
+    "source_revision": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "worktree_dirty": { "type": "boolean" },
+    "source_files": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "input_format": { "type": "string", "minLength": 1 },
+    "input_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "qir_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "job_id": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": true
+}
